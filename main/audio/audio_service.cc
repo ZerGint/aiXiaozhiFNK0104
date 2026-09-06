@@ -409,7 +409,7 @@ void AudioService::AudioOutputTask() {
             callbacks_.on_playback_progress(task->playback_id, task->media_position_ms);
         }
 
-        codec_->OutputData(task->pcm);
+        codec_->OutputData(task->GetPcmData(), task->GetPcmSize());
 
         /* Update the last output time */
         last_output_time_ = std::chrono::steady_clock::now();
@@ -696,12 +696,22 @@ void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music,
         if (queue_has_capacity && radio_has_capacity) {
             auto task = std::make_unique<AudioTask>();
             task->type = kAudioTaskTypeDecodeToPlaybackQueue;
-            task->pcm = std::move(pcm);
             task->is_music = is_music;
             task->is_radio = is_radio;
             task->duration_ms = duration_ms;
             if (is_radio) {
                 radio_buffered_duration_ms_ += duration_ms;
+                task->radio_pcm.assign(pcm.begin(), pcm.end());
+                const size_t q_size = audio_playback_queue_.size() + 1;
+                if (radio_buffered_duration_ms_ == duration_ms || q_size == 32) {
+                    const void* ptr = task->radio_pcm.data();
+                    const bool in_psram = esp_ptr_external_ram(ptr);
+                    ESP_LOGI(TAG, "[RADIO_PCM] ptr=%p size=%u bytes PSRAM=%s (queue=%zu)",
+                             ptr, static_cast<unsigned>(task->radio_pcm.size() * sizeof(int16_t)),
+                             in_psram ? "YES" : "NO", q_size);
+                }
+            } else {
+                task->pcm = std::move(pcm);
             }
             audio_playback_queue_.push_back(std::move(task));
             audio_queue_cv_.notify_all();

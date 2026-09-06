@@ -5,7 +5,7 @@ import sys
 port = 'COM13'
 baudrate = 115200
 duration = int(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].isdigit() else 300  # 300 seconds = 5 minutes
-output_file = 'log_5min.txt'
+output_file = next((arg for arg in sys.argv[2:] if not arg.startswith('--')), 'log_5min_2.txt')
 
 print(f"Connecting to {port} at {baudrate} baud...")
 try:

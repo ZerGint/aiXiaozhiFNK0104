@@ -7,11 +7,15 @@
 #include <condition_variable>
 #include <chrono>
 #include <mutex>
+#include <vector>
 
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/event_groups.h>
 #include <esp_timer.h>
+#include <esp_heap_caps.h>
+#include <esp_memory_utils.h>
+#include <esp_log.h>
 #include <model_path.h>
 #include "esp_audio_enc.h"
 #include "esp_opus_enc.h"
@@ -76,6 +80,32 @@
         .enable_vbr         = true,                                                                               \
     }
 
+template <typename T>
+struct PsramAllocator {
+    using value_type = T;
+    PsramAllocator() noexcept = default;
+    template <typename U> PsramAllocator(const PsramAllocator<U>&) noexcept {}
+
+    T* allocate(std::size_t n) {
+        T* p = static_cast<T*>(heap_caps_malloc(n * sizeof(T), MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+        if (!p) {
+            ESP_LOGE("PsramAllocator", "PSRAM allocation failed for %zu bytes! Falling back to default heap.", n * sizeof(T));
+            p = static_cast<T*>(heap_caps_malloc(n * sizeof(T), MALLOC_CAP_DEFAULT));
+        }
+        if (!p) {
+            ESP_LOGE("PsramAllocator", "Allocation failed completely for %zu bytes!", n * sizeof(T));
+            throw std::bad_alloc();
+        }
+        return p;
+    }
+
+    void deallocate(T* p, std::size_t) noexcept {
+        heap_caps_free(p);
+    }
+};
+
+using PsramVector = std::vector<int16_t, PsramAllocator<int16_t>>;
+
 struct AudioServiceCallbacks {
     std::function<void(void)> on_send_queue_available;
     std::function<void(const std::string&)> on_wake_word_detected;
@@ -96,12 +126,20 @@ enum AudioTaskType {
 struct AudioTask {
     AudioTaskType type;
     std::vector<int16_t> pcm;
+    PsramVector radio_pcm;
     bool is_music = false;
     bool is_radio = false;
     uint32_t duration_ms = 0;
     uint32_t timestamp = 0;
     uint32_t playback_id = 0;
     uint32_t media_position_ms = 0;
+
+    const int16_t* GetPcmData() const {
+        return is_radio ? radio_pcm.data() : pcm.data();
+    }
+    size_t GetPcmSize() const {
+        return is_radio ? radio_pcm.size() : pcm.size();
+    }
 };
 
 struct DebugStatistics {
