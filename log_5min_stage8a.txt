@@ -1,0 +1,682 @@
+I (30218) RAM: internal free=58699 min=27252 largest=23552 | psram free=7476080 min=7422936 largest=7471104
+I (34508) SystemInfo: free sram: 59027 minimal sram: 27252
+I (35218) RAM: internal free=59027 min=27252 largest=23552 | psram free=7476080 min=7422936 largest=7471104
+I (40218) RAM: internal free=58895 min=27252 largest=23552 | psram free=7476080 min=7422936 largest=7471104
+I (40848) Application: Wake word detected: Hey Kira (state: 3)
+I (40848) StateMachine: State: idle -> connecting
+I (41058) AfeAudioEngine: Encoded wake word into 33 packets in 214 ms
+I (41088) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (41088) wifi:Set ps type: 0, coexist: 0
+
+I (41498) MQTT: Session ID: a8040364
+I (41498) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (41498) wifi:Set ps type: 0, coexist: 0
+
+I (41498) Application: Wake word detected: Hey Kira
+I (41538) StateMachine: State: connecting -> listening
+I (41988) Application: >> Hey Kira
+I (42048) StateMachine: State: listening -> speaking
+I (43658) Application: << Привет! Как дела?
+I (45218) RAM: internal free=53351 min=27252 largest=18432 | psram free=7427016 min=7409252 largest=7340032
+I (45468) StateMachine: State: speaking -> listening
+I (50048) Application: >> Найди российские радиостанции с юмором.
+I (50078) StateMachine: State: listening -> speaking
+I (50218) RAM: internal free=52839 min=27252 largest=18432 | psram free=7433296 min=7409252 largest=7340032
+I (50838) Application: << Сейчас поищу российские радиостанции с юмором!
+I (54558) Application: << % radio.search_stations...
+I (54608) RadioBrowser: [RADIO_SEARCH] query="" countrycode="RU" language="" tag="humor" limit=5
+I (54858) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (55218) RAM: internal free=53259 min=27252 largest=18432 | psram free=7433296 min=7409252 largest=7340032
+I (55738) Application: << По тегу "humor"
+I (56768) Application: << ничего не нашлось. Попробую поискать по названию "Юмор FM".
+I (59508) SystemInfo: free sram: 52967 minimal sram: 27252
+I (60218) RAM: internal free=52835 min=27252 largest=18432 | psram free=7411652 min=7393708 largest=7340032
+I (62228) Application: << % radio.search_stations...
+I (62268) RadioBrowser: [RADIO_SEARCH] query="Юмор FM" countrycode="RU" language="" tag="" limit=5
+I (62698) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (63638) Application: << К сожалению,
+I (64618) Application: << российских радиостанций с юмором не нашлось. Может, попробуем радиостанции из других стран? Например,
+I (65218) RAM: internal free=52407 min=27252 largest=18432 | psram free=7395776 min=7377832 largest=7340032
+I (69548) SystemInfo: free sram: 51763 minimal sram: 27252
+I (70218) RAM: internal free=52435 min=27252 largest=18432 | psram free=7395776 min=7377832 largest=7340032
+I (71318) Application: << есть белорусские или польские варианты.
+I (74038) StateMachine: State: speaking -> listening
+I (75228) RAM: internal free=49383 min=27252 largest=18432 | psram free=7403852 min=7377832 largest=7340032
+I (77538) Application: >> Поищи все.
+I (77538) StateMachine: State: listening -> speaking
+I (78778) Application: << Сейчас поищу все российские радиостанции без фильтров!
+I (80218) RAM: internal free=50191 min=27252 largest=18432 | psram free=7395200 min=7377832 largest=7340032
+I (82848) Application: << % radio.search_stations...
+I (82868) RadioBrowser: [RADIO_SEARCH] query="" countrycode="RU" language="" tag="" limit=10
+E (83008) transport_base: tcp_read error, errno=Connection reset by peer
+E (83008) RadioBrowser: Request failed: url=http://de1.api.radio-browser.info/json/stations/search?limit=10&hidebroken=true&codec=MP3&order=clickcount&reverse=true&countrycode=RU err=ESP_ERR_HTTP_FETCH_HEADER status=-1 response_len=0
+I (83918) Application: << Поиск российских радиостанций сейчас не работает.
+I (85218) RAM: internal free=50507 min=27252 largest=18432 | psram free=7398084 min=7377832 largest=7340032
+I (86858) Application: << Может, попробуем радиостанции из другой страны? Например, белорусские или польские?
+I (87508) SystemInfo: free sram: 50643 minimal sram: 27252
+I (90218) RAM: internal free=48671 min=27252 largest=18432 | psram free=7398084 min=7377832 largest=7340032
+I (93468) StateMachine: State: speaking -> listening
+I (95218) RAM: internal free=50471 min=27252 largest=18432 | psram free=7403852 min=7377832 largest=7340032
+I (96278) Application: >> Ну давай белорусские.
+I (96318) StateMachine: State: listening -> speaking
+I (97008) Application: << Сейчас поищу белорусские радиостанции!
+I (99468) Application: << % radio.search_stations...
+I (99488) RadioBrowser: [RADIO_SEARCH] query="" countrycode="BY" language="" tag="" limit=10
+I (99788) RadioBrowser: Search request succeeded: status=200 response_len=11610
+I (100218) RAM: internal free=49439 min=10484 largest=18432 | psram free=7401032 min=7373884 largest=7340032
+I (101428) Application: << Отлично!
+I (102278) Application: << Нашла несколько белорусских радиостанций:
+
+1. Юмор FM (Минск) —
+I (105218) RAM: internal free=51323 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (105508) SystemInfo: free sram: 52371 minimal sram: 10484
+I (107928) Application: << комедия и топ-40
+2. Душевное радио Минск 105.
+I (110218) RAM: internal free=52227 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (114328) Application: << 7 FM
+3. Русское радио Минск 98.9 FM
+4. Радыё Relax — расслабляющая музыка
+5. Legendy FM — хиты
+6.
+I (115218) RAM: internal free=52151 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (115508) SystemInfo: free sram: 52295 minimal sram: 10484
+I (120228) RAM: internal free=52191 min=10484 largest=18432 | psram free=7379388 min=7352436 largest=7340032
+I (125218) RAM: internal free=52131 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (125508) SystemInfo: free sram: 52275 minimal sram: 10484
+I (128308) Application: << Авторадио Минск — классический рок
+7. Легенды FM — поп-хиты 70-90-х
+8. Радио ROKS — рок и шансон
+9.
+I (130218) RAM: internal free=52139 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (135218) RAM: internal free=52151 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (135508) SystemInfo: free sram: 52051 minimal sram: 10484
+I (140218) RAM: internal free=51907 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (140668) Application: << Легенды ФМ Минск 94.1 FM — ретро музыка
+10. Душевное радио (Минск)
+
+Хочешь включить какую-
+I (145218) RAM: internal free=50387 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (145518) SystemInfo: free sram: 51347 minimal sram: 10484
+W (147798) MQTT: Received audio packet with wrong sequence: 1436, expected: 1432
+W (147798) MQTT: [AUDIO_SEQ_GAP] time=147638 ms received=1436 expected=1432 delta=4 payload_len=216 dec_q=4 play_q=2
+W (147928) MQTT: Received audio packet with wrong sequence: 1438, expected: 1437
+W (147928) MQTT: [AUDIO_SEQ_GAP] time=147765 ms received=1438 expected=1437 delta=1 payload_len=206 dec_q=2 play_q=1
+I (150218) RAM: internal free=52207 min=10484 largest=18432 | psram free=7379388 min=7352436 largest=7340032
+I (152368) Application: << нибудь из них? Юмор FM как раз с юмором!
+W (152558) MQTT: Received audio packet with wrong sequence: 1514, expected: 1512
+W (152558) MQTT: [AUDIO_SEQ_GAP] time=152395 ms received=1514 expected=1512 delta=2 payload_len=209 dec_q=18 play_q=1
+I (155218) RAM: internal free=48747 min=10484 largest=18432 | psram free=7376504 min=7352436 largest=7340032
+I (155378) StateMachine: State: speaking -> listening
+I (159498) Application: >> Давай десятую.
+I (159528) StateMachine: State: listening -> speaking
+I (160058) Application: << Сейчас включу Душевное радио из Минска!
+I (160218) RAM: internal free=52267 min=10484 largest=18432 | psram free=7377016 min=7352436 largest=7340032
+I (162388) Application: << % radio.play_station...
+I (162408) Application: Abort speaking
+I (162408) MQTT: Closing audio channel, send_goodbye: 1
+I (162418) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (162418) wifi:Set ps type: 2, coexist: 0
+
+I (162418) StateMachine: State: speaking -> idle
+I (162418) RAM: [RADIO_START] internal free=52371 min=10484 largest=18432 | psram free=7377016 min=7352436 largest=7340032
+I (162428) AudioManager: Audio focus requested by source 3 (current 0)
+W (163498) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (164518) MQTT: Received goodbye message, session_id: a8040364
+I (164518) MQTT: Received goodbye message, session_id: a8040364
+I (164528) MQTT: Closing audio channel, send_goodbye: 0
+I (164528) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (164528) wifi:Set ps type: 2, coexist: 0
+
+I (164538) MQTT: Closing audio channel, send_goodbye: 0
+I (164538) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (164548) wifi:Set ps type: 2, coexist: 0
+
+I (165218) RAM: internal free=45123 min=10484 largest=18432 | psram free=7376072 min=7352436 largest=7340032
+I (168718) InternetRadio: Stream connected: status=200 content_type=unknown
+I (168718) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (168728) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (168728) InternetRadio: Received first stream data: bytes=2048
+I (168738) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (168748) RAM: [RADIO_PLAYING] internal free=38755 min=10484 largest=18432 | psram free=7306952 min=7306952 largest=7208960
+I (168768) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (168768) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (168948) AudioService: [RADIO_PCM] ptr=0x3c402888 size=1252 bytes PSRAM=YES (queue=32)
+I (169798) AudioService: [RADIO_PREBUFFER] buffering... current=858 ms target=2000 ms (queue=33)
+I (170218) RAM: internal free=42107 min=10484 largest=18432 | psram free=7268232 min=7265924 largest=7208960
+W (170678) InternetRadio: [RADIO_HTTP_GAP] read_time=1717 ms bytes=2048
+I (170798) AudioService: [RADIO_PREBUFFER] buffering... current=1378 ms target=2000 ms (queue=53)
+I (171508) SystemInfo: free sram: 39339 minimal sram: 10484
+I (171818) AudioService: [RADIO_PREBUFFER] buffering... current=1898 ms target=2000 ms (queue=73)
+I (172838) AudioService: [RADIO_PREBUFFER] buffering... current=1898 ms target=2000 ms (queue=73)
+W (173798) InternetRadio: [RADIO_HTTP_GAP] read_time=2881 ms bytes=2048
+I (173818) InternetRadio: [RADIO] buffer=1976 ms queue=76 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (173818) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=5051 ms
+I (174358) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=19 ms wait_in_q=5445 ms
+I (174888) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=4125 ms
+I (175218) RAM: internal free=40623 min=10484 largest=18432 | psram free=7237416 min=7208144 largest=7077888
+I (175408) AudioService: [RADIO_OUTPUT] queue=49 buffer=1274 ms pcm=26 ms write=29 ms wait_in_q=4528 ms
+I (175928) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=1995 ms
+I (176448) AudioService: [RADIO_OUTPUT] queue=9 buffer=234 ms pcm=26 ms write=19 ms wait_in_q=2009 ms
+W (176828) InternetRadio: [RADIO_HTTP_GAP] read_time=2169 ms bytes=2048
+I (176838) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (176838) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (177018) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+W (177838) InternetRadio: [RADIO_HTTP_GAP] read_time=786 ms bytes=2048
+I (177848) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (178058) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1228 ms
+I (178598) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1621 ms
+I (179128) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1237 ms
+I (179648) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=1636 ms
+W (180018) InternetRadio: [RADIO_HTTP_GAP] read_time=1948 ms bytes=2048
+I (180028) AudioService: [RADIO_PCM] ptr=0x3c3d5af0 size=1252 bytes PSRAM=YES (queue=1)
+I (180048) InternetRadio: [RADIO] buffer=104 ms queue=4 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (180138) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=81 ms
+I (180218) RAM: internal free=34103 min=10484 largest=18432 | psram free=7272344 min=7208144 largest=7208960
+I (180668) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=484 ms
+I (181518) SystemInfo: free sram: 44207 minimal sram: 10484
+W (181798) InternetRadio: [RADIO_HTTP_GAP] read_time=1557 ms bytes=2048
+I (181808) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (181808) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (181988) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (182818) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+W (183038) InternetRadio: [RADIO_HTTP_GAP] read_time=996 ms bytes=2048
+I (183248) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1442 ms
+I (183788) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=18 ms wait_in_q=1836 ms
+W (184308) InternetRadio: [RADIO_HTTP_GAP] read_time=1040 ms bytes=2048
+I (184318) AudioService: [RADIO_OUTPUT] queue=38 buffer=988 ms pcm=26 ms write=29 ms wait_in_q=1244 ms
+I (184838) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=28 ms wait_in_q=1643 ms
+W (185068) InternetRadio: [RADIO_HTTP_GAP] read_time=515 ms bytes=2048
+I (185098) InternetRadio: [RADIO] buffer=1300 ms queue=50 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (185218) RAM: internal free=33015 min=10484 largest=18432 | psram free=7224576 min=7208144 largest=7208960
+I (185358) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1003 ms
+I (185858) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1399 ms
+I (186378) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1261 ms
+I (186898) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=28 ms wait_in_q=1667 ms
+W (187068) InternetRadio: [RADIO_HTTP_GAP] read_time=1775 ms bytes=2048
+I (187238) AudioService: [RADIO_PCM] ptr=0x3c401f84 size=1252 bytes PSRAM=YES (queue=32)
+I (187248) AudioService: [RADIO_PCM] ptr=0x3c3dc384 size=1252 bytes PSRAM=YES (queue=32)
+I (187418) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=293 ms
+I (187538) AudioService: [RADIO_PCM] ptr=0x3c3f9d1c size=1252 bytes PSRAM=YES (queue=32)
+I (187918) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=688 ms
+I (188438) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=862 ms
+I (188928) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1256 ms
+I (189448) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=1460 ms
+I (189978) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=1868 ms
+I (190228) RAM: internal free=43691 min=10484 largest=18432 | psram free=7302900 min=7208144 largest=7208960
+W (190238) InternetRadio: [RADIO_HTTP_GAP] read_time=1898 ms bytes=2048
+I (190268) InternetRadio: [RADIO] buffer=208 ms queue=8 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (190438) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (190498) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=202 ms
+I (191018) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=29 ms wait_in_q=608 ms
+W (191188) InternetRadio: [RADIO_HTTP_GAP] read_time=718 ms bytes=2048
+I (191378) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (191528) SystemInfo: free sram: 41927 minimal sram: 10484
+I (191538) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=19 ms wait_in_q=294 ms
+I (191668) AudioService: [RADIO_PCM] ptr=0x3c3fa220 size=1252 bytes PSRAM=YES (queue=32)
+I (191678) AudioService: [RADIO_PCM] ptr=0x3c3fa724 size=1252 bytes PSRAM=YES (queue=32)
+I (192058) AudioService: [RADIO_OUTPUT] queue=52 buffer=1352 ms pcm=26 ms write=19 ms wait_in_q=703 ms
+I (192578) AudioService: [RADIO_OUTPUT] queue=32 buffer=832 ms pcm=26 ms write=19 ms wait_in_q=877 ms
+I (193108) AudioService: [RADIO_OUTPUT] queue=12 buffer=312 ms pcm=26 ms write=29 ms wait_in_q=1287 ms
+W (193308) InternetRadio: [RADIO_HTTP_GAP] read_time=1433 ms bytes=2048
+I (193508) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (193598) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=19 ms wait_in_q=235 ms
+I (193788) AudioService: [RADIO_PCM] ptr=0x3c3fbb34 size=1252 bytes PSRAM=YES (queue=32)
+I (194118) AudioService: [RADIO_OUTPUT] queue=52 buffer=1352 ms pcm=26 ms write=19 ms wait_in_q=637 ms
+W (194308) InternetRadio: [RADIO_HTTP_GAP] read_time=324 ms bytes=2048
+I (194648) AudioService: [RADIO_OUTPUT] queue=71 buffer=1846 ms pcm=26 ms write=28 ms wait_in_q=831 ms
+I (195168) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=29 ms wait_in_q=1237 ms
+I (195218) RAM: internal free=30967 min=10484 largest=18432 | psram free=7208144 min=7208144 largest=7077888
+I (195358) InternetRadio: [RADIO] buffer=2002 ms queue=77 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (195688) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1313 ms
+I (196178) AudioService: [RADIO_OUTPUT] queue=51 buffer=1326 ms pcm=26 ms write=19 ms wait_in_q=1703 ms
+W (196418) InternetRadio: [RADIO_HTTP_GAP] read_time=925 ms bytes=2048
+I (196708) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1862 ms
+I (197228) AudioService: [RADIO_OUTPUT] queue=50 buffer=1300 ms pcm=26 ms write=29 ms wait_in_q=2010 ms
+W (197438) InternetRadio: [RADIO_HTTP_GAP] read_time=792 ms bytes=2048
+I (197748) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1259 ms
+I (198248) AudioService: [RADIO_OUTPUT] queue=51 buffer=1326 ms pcm=26 ms write=29 ms wait_in_q=1645 ms
+W (198548) InternetRadio: [RADIO_HTTP_GAP] read_time=867 ms bytes=2048
+I (198768) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=1257 ms
+I (199288) AudioService: [RADIO_OUTPUT] queue=50 buffer=1300 ms pcm=26 ms write=29 ms wait_in_q=1647 ms
+W (199578) InternetRadio: [RADIO_HTTP_GAP] read_time=802 ms bytes=2048
+I (199808) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=1179 ms
+I (200218) RAM: internal free=41215 min=10484 largest=18432 | psram free=7241268 min=7208144 largest=7208960
+I (200308) AudioService: [RADIO_OUTPUT] queue=50 buffer=1300 ms pcm=26 ms write=28 ms wait_in_q=1567 ms
+I (200828) AudioService: [RADIO_OUTPUT] queue=30 buffer=780 ms pcm=26 ms write=29 ms wait_in_q=1172 ms
+I (201348) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=29 ms wait_in_q=1578 ms
+W (201408) InternetRadio: [RADIO_HTTP_GAP] read_time=1614 ms bytes=2048
+I (201438) InternetRadio: [RADIO] buffer=286 ms queue=11 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (201538) SystemInfo: free sram: 40591 minimal sram: 10484
+I (201628) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (201868) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=371 ms
+I (202368) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=28 ms wait_in_q=742 ms
+W (203518) InternetRadio: [RADIO_HTTP_GAP] read_time=1853 ms bytes=2048
+I (203518) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (203528) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (203708) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (204528) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (204628) InternetRadio: [RADIO_HTTP_GAP] read_time=877 ms bytes=2048
+I (204858) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1334 ms
+I (205218) RAM: internal free=40643 min=10484 largest=18432 | psram free=7228428 min=7208144 largest=7077888
+I (205398) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=1729 ms
+I (205928) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1253 ms
+I (206418) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=1647 ms
+W (206528) InternetRadio: [RADIO_HTTP_GAP] read_time=1663 ms bytes=2048
+I (206558) InternetRadio: [RADIO] buffer=390 ms queue=15 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (206668) AudioService: [RADIO_PCM] ptr=0x3c400b74 size=1252 bytes PSRAM=YES (queue=32)
+I (206938) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=19 ms wait_in_q=377 ms
+I (207468) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=779 ms
+W (207678) InternetRadio: [RADIO_HTTP_GAP] read_time=923 ms bytes=2048
+I (207858) AudioService: [RADIO_PCM] ptr=0x3c401f84 size=1252 bytes PSRAM=YES (queue=32)
+I (207868) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (207988) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=265 ms
+I (208508) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=665 ms
+W (208718) InternetRadio: [RADIO_HTTP_GAP] read_time=808 ms bytes=2048
+I (208898) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (208908) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (208998) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=244 ms
+I (209528) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=648 ms
+I (210218) RAM: internal free=44079 min=10484 largest=18432 | psram free=7310604 min=7208144 largest=7208960
+W (210678) InternetRadio: [RADIO_HTTP_GAP] read_time=1735 ms bytes=2048
+I (210688) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (210688) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (210868) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (211528) SystemInfo: free sram: 41655 minimal sram: 10484
+I (211748) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (212708) InternetRadio: [RADIO_HTTP_GAP] read_time=1796 ms bytes=2048
+I (212738) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (212748) AudioService: [RADIO_PREBUFFER] buffering... current=1170 ms target=2000 ms (queue=45)
+I (212938) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2251 ms
+I (213478) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=2647 ms
+I (214008) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1256 ms
+I (214528) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=1646 ms
+W (214828) InternetRadio: [RADIO_HTTP_GAP] read_time=1880 ms bytes=2048
+I (215038) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (215048) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=169 ms
+I (215218) RAM: internal free=42699 min=10484 largest=18432 | psram free=7273368 min=7208144 largest=7208960
+I (215548) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=563 ms
+W (215748) InternetRadio: [RADIO_HTTP_GAP] read_time=692 ms bytes=2048
+I (215918) AudioService: [RADIO_PCM] ptr=0x3c401f84 size=1252 bytes PSRAM=YES (queue=32)
+I (216068) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=272 ms
+I (216588) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=681 ms
+W (216778) InternetRadio: [RADIO_HTTP_GAP] read_time=809 ms bytes=2048
+I (216968) AudioService: [RADIO_PCM] ptr=0x3c401a80 size=1252 bytes PSRAM=YES (queue=32)
+I (217108) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=273 ms
+I (217608) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=665 ms
+W (217928) InternetRadio: [RADIO_HTTP_GAP] read_time=924 ms bytes=2048
+I (217958) InternetRadio: [RADIO] buffer=156 ms queue=6 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (218128) AudioService: [RADIO_OUTPUT] queue=28 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=144 ms
+I (218148) AudioService: [RADIO_PCM] ptr=0x3c402888 size=1252 bytes PSRAM=YES (queue=32)
+I (218158) AudioService: [RADIO_PCM] ptr=0x3c3dc98c size=1252 bytes PSRAM=YES (queue=32)
+I (218618) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=528 ms
+W (218958) InternetRadio: [RADIO_HTTP_GAP] read_time=797 ms bytes=2048
+I (219138) AudioService: [RADIO_OUTPUT] queue=26 buffer=676 ms pcm=26 ms write=19 ms wait_in_q=133 ms
+I (219188) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (219668) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=533 ms
+I (220228) RAM: internal free=44047 min=10484 largest=18432 | psram free=7310604 min=7208144 largest=7208960
+W (220858) InternetRadio: [RADIO_HTTP_GAP] read_time=1656 ms bytes=2048
+I (220858) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (220858) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (221038) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (221508) SystemInfo: free sram: 41871 minimal sram: 10484
+I (221868) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (222018) InternetRadio: [RADIO_HTTP_GAP] read_time=924 ms bytes=2048
+I (222238) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1380 ms
+I (222778) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1770 ms
+I (223308) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1249 ms
+I (223798) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=19 ms wait_in_q=1632 ms
+W (223988) InternetRadio: [RADIO_HTTP_GAP] read_time=1741 ms bytes=2048
+I (224018) InternetRadio: [RADIO] buffer=312 ms queue=12 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (224168) AudioService: [RADIO_PCM] ptr=0x3c401f84 size=1252 bytes PSRAM=YES (queue=32)
+I (224168) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (224318) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=290 ms
+I (224848) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=691 ms
+I (225218) RAM: internal free=43995 min=10484 largest=18432 | psram free=7309320 min=7208144 largest=7208960
+W (225998) InternetRadio: [RADIO_HTTP_GAP] read_time=1775 ms bytes=2048
+I (225998) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (225998) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (226198) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (227018) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (228028) InternetRadio: [RADIO_HTTP_GAP] read_time=1788 ms bytes=2048
+I (228028) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (228248) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2245 ms
+I (228788) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=18 ms wait_in_q=2629 ms
+W (229168) InternetRadio: [RADIO_HTTP_GAP] read_time=909 ms bytes=2048
+I (229188) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (229318) AudioService: [RADIO_OUTPUT] queue=62 buffer=1612 ms pcm=26 ms write=29 ms wait_in_q=1244 ms
+I (229808) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=1631 ms
+I (230218) RAM: internal free=41843 min=10484 largest=18432 | psram free=7257960 min=7208144 largest=7208960
+W (230288) InternetRadio: [RADIO_HTTP_GAP] read_time=894 ms bytes=2048
+I (230328) AudioService: [RADIO_OUTPUT] queue=43 buffer=1118 ms pcm=26 ms write=19 ms wait_in_q=1124 ms
+I (230858) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1529 ms
+W (231198) InternetRadio: [RADIO_HTTP_GAP] read_time=687 ms bytes=2048
+I (231378) AudioService: [RADIO_OUTPUT] queue=66 buffer=1716 ms pcm=26 ms write=29 ms wait_in_q=1039 ms
+I (231528) SystemInfo: free sram: 40167 minimal sram: 10484
+I (231868) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1427 ms
+I (232388) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=1155 ms
+I (232918) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=1557 ms
+W (233148) InternetRadio: [RADIO_HTTP_GAP] read_time=1719 ms bytes=2048
+I (233338) AudioService: [RADIO_PCM] ptr=0x3c3fb12c size=1252 bytes PSRAM=YES (queue=32)
+I (233408) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=230 ms
+I (233928) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=18 ms wait_in_q=630 ms
+W (235178) InternetRadio: [RADIO_HTTP_GAP] read_time=1817 ms bytes=2048
+I (235188) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (235188) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (235218) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (235218) RAM: internal free=37099 min=10484 largest=18432 | psram free=7304184 min=7208144 largest=7208960
+I (235378) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (236208) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (237228) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+W (237228) InternetRadio: [RADIO_HTTP_GAP] read_time=1803 ms bytes=2048
+I (237448) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2264 ms
+I (237988) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=2651 ms
+I (238518) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1243 ms
+I (239038) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=1645 ms
+I (240228) RAM: internal free=44259 min=10484 largest=18432 | psram free=7310604 min=7208144 largest=7208960
+W (240298) InternetRadio: [RADIO_HTTP_GAP] read_time=2838 ms bytes=2048
+I (240308) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (240308) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (240328) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (240488) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (241368) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+I (241528) SystemInfo: free sram: 42399 minimal sram: 10484
+W (242348) InternetRadio: [RADIO_HTTP_GAP] read_time=1816 ms bytes=2048
+I (242368) AudioService: [RADIO_PREBUFFER] buffering... current=1066 ms target=2000 ms (queue=41)
+I (242568) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2265 ms
+I (243108) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=2657 ms
+I (243638) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1239 ms
+I (244128) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=19 ms wait_in_q=1632 ms
+W (244398) InternetRadio: [RADIO_HTTP_GAP] read_time=1823 ms bytes=2048
+W (244538) InternetRadio: [RADIO_DEC_GAP] decode_time=40 ms decoded_bytes=4608
+I (244638) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (244648) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=19 ms wait_in_q=207 ms
+I (245178) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=581 ms
+I (245218) RAM: internal free=43823 min=10484 largest=18432 | psram free=7292628 min=7208144 largest=7208960
+W (247468) InternetRadio: [RADIO_HTTP_GAP] read_time=2811 ms bytes=2048
+I (247478) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (247478) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (247498) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (247668) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (248498) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (249518) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+W (249608) InternetRadio: [RADIO_HTTP_GAP] read_time=1890 ms bytes=2048
+I (249828) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2351 ms
+I (250218) RAM: internal free=30067 min=10484 largest=18432 | psram free=7208144 min=7208144 largest=7077888
+I (250368) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=19 ms wait_in_q=2736 ms
+I (250898) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=28 ms wait_in_q=1249 ms
+I (251418) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1652 ms
+I (251538) SystemInfo: free sram: 41107 minimal sram: 10484
+W (251628) InternetRadio: [RADIO_HTTP_GAP] read_time=806 ms bytes=2048
+I (251908) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=19 ms wait_in_q=1845 ms
+I (252438) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=2005 ms
+W (252668) InternetRadio: [RADIO_HTTP_GAP] read_time=808 ms bytes=2048
+I (252698) InternetRadio: [RADIO] buffer=1300 ms queue=50 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (252958) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1278 ms
+I (253448) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1671 ms
+W (253818) InternetRadio: [RADIO_HTTP_GAP] read_time=931 ms bytes=2048
+I (253968) AudioService: [RADIO_OUTPUT] queue=61 buffer=1586 ms pcm=26 ms write=19 ms wait_in_q=1266 ms
+I (254498) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1667 ms
+W (254648) InternetRadio: [RADIO_HTTP_GAP] read_time=600 ms bytes=2048
+I (254988) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=19 ms wait_in_q=1135 ms
+I (255218) RAM: internal free=40163 min=10484 largest=18432 | psram free=7224576 min=7208144 largest=7077888
+I (255508) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1537 ms
+W (255688) InternetRadio: [RADIO_HTTP_GAP] read_time=768 ms bytes=2048
+I (256028) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1344 ms
+I (256558) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=29 ms wait_in_q=1746 ms
+W (256798) InternetRadio: [RADIO_HTTP_GAP] read_time=862 ms bytes=2048
+I (257048) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1321 ms
+I (257568) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=19 ms wait_in_q=1727 ms
+I (258098) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=1241 ms
+I (258618) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=29 ms wait_in_q=1650 ms
+W (258738) InternetRadio: [RADIO_HTTP_GAP] read_time=1711 ms bytes=2048
+I (258768) InternetRadio: [RADIO] buffer=338 ms queue=13 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (258898) AudioService: [RADIO_PCM] ptr=0x3c401a80 size=1252 bytes PSRAM=YES (queue=32)
+I (258908) AudioService: [RADIO_PCM] ptr=0x3c3dc384 size=1252 bytes PSRAM=YES (queue=32)
+I (259138) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=29 ms wait_in_q=339 ms
+I (259658) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=29 ms wait_in_q=749 ms
+W (259918) InternetRadio: [RADIO_HTTP_GAP] read_time=955 ms bytes=2048
+I (260128) AudioService: [RADIO_PCM] ptr=0x3c402384 size=1252 bytes PSRAM=YES (queue=32)
+I (260178) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=19 ms wait_in_q=212 ms
+I (260228) RAM: internal free=42419 min=10484 largest=18432 | psram free=7269516 min=7208144 largest=7208960
+I (260698) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=19 ms wait_in_q=614 ms
+I (261528) SystemInfo: free sram: 44619 minimal sram: 10484
+W (262848) InternetRadio: [RADIO_HTTP_GAP] read_time=2709 ms bytes=2048
+I (262858) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (262858) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (263038) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (263918) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (263938) InternetRadio: [RADIO_HTTP_GAP] read_time=864 ms bytes=2048
+I (263968) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (264168) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1311 ms
+W (264488) InternetRadio: [RADIO_HTTP_GAP] read_time=319 ms bytes=2048
+W (264538) InternetRadio: [RADIO_DEC_GAP] decode_time=33 ms decoded_bytes=4608
+I (264708) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=19 ms wait_in_q=1711 ms
+I (265218) RAM: internal free=39495 min=10484 largest=18432 | psram free=7214304 min=7208144 largest=7077888
+I (265238) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1250 ms
+I (265758) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=29 ms wait_in_q=1654 ms
+I (266248) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=1691 ms
+I (266778) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=2004 ms
+W (266938) InternetRadio: [RADIO_HTTP_GAP] read_time=1806 ms bytes=2048
+I (267108) AudioService: [RADIO_PCM] ptr=0x3c401a80 size=1252 bytes PSRAM=YES (queue=32)
+I (267118) AudioService: [RADIO_PCM] ptr=0x3c401f84 size=1252 bytes PSRAM=YES (queue=32)
+I (267298) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=309 ms
+I (267788) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=694 ms
+W (268098) InternetRadio: [RADIO_HTTP_GAP] read_time=933 ms bytes=2048
+I (268308) AudioService: [RADIO_OUTPUT] queue=31 buffer=806 ms pcm=26 ms write=19 ms wait_in_q=165 ms
+I (268318) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (268838) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=569 ms
+W (269038) InternetRadio: [RADIO_HTTP_GAP] read_time=709 ms bytes=2048
+I (269068) InternetRadio: [RADIO] buffer=260 ms queue=10 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (269228) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (269358) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=262 ms
+I (269848) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=649 ms
+I (270218) RAM: internal free=44075 min=10484 largest=18432 | psram free=7308036 min=7208144 largest=7208960
+W (271028) InternetRadio: [RADIO_HTTP_GAP] read_time=1762 ms bytes=2048
+I (271038) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (271038) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (271218) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (271508) SystemInfo: free sram: 42387 minimal sram: 10484
+I (272098) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (273088) InternetRadio: [RADIO_HTTP_GAP] read_time=1827 ms bytes=2048
+I (273098) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (273308) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2274 ms
+I (273838) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=2656 ms
+W (274178) InternetRadio: [RADIO_HTTP_GAP] read_time=862 ms bytes=2048
+I (274208) InternetRadio: [RADIO] buffer=1196 ms queue=46 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (274358) AudioService: [RADIO_OUTPUT] queue=67 buffer=1742 ms pcm=26 ms write=29 ms wait_in_q=1229 ms
+I (274858) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=1614 ms
+I (275218) RAM: internal free=41519 min=10484 largest=18432 | psram free=7255392 min=7208144 largest=7077888
+I (275348) AudioService: [RADIO_OUTPUT] queue=37 buffer=962 ms pcm=26 ms write=19 ms wait_in_q=1142 ms
+W (275468) InternetRadio: [RADIO_HTTP_GAP] read_time=1061 ms bytes=2048
+I (275868) AudioService: [RADIO_OUTPUT] queue=57 buffer=1482 ms pcm=26 ms write=19 ms wait_in_q=1545 ms
+W (275968) InternetRadio: [RADIO_HTTP_GAP] read_time=254 ms bytes=2048
+I (276388) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=19 ms wait_in_q=890 ms
+I (276918) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=1277 ms
+I (277408) AudioService: [RADIO_OUTPUT] queue=37 buffer=962 ms pcm=26 ms write=18 ms wait_in_q=1415 ms
+I (277928) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=1813 ms
+W (278218) InternetRadio: [RADIO_HTTP_GAP] read_time=1874 ms bytes=2048
+I (278428) AudioService: [RADIO_PCM] ptr=0x3c402888 size=1252 bytes PSRAM=YES (queue=32)
+I (278428) AudioService: [RADIO_PCM] ptr=0x3c3d5af0 size=1252 bytes PSRAM=YES (queue=32)
+I (278458) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=189 ms
+I (278948) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=580 ms
+I (280218) RAM: internal free=44451 min=10484 largest=18432 | psram free=7310604 min=7208144 largest=7208960
+W (280288) InternetRadio: [RADIO_HTTP_GAP] read_time=1828 ms bytes=2048
+I (280288) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (280288) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (280318) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (280478) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+W (280538) InternetRadio: [RADIO_DEC_GAP] decode_time=41 ms decoded_bytes=4608
+I (281328) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+I (281508) SystemInfo: free sram: 42399 minimal sram: 10484
+I (282348) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (282378) InternetRadio: [RADIO_HTTP_GAP] read_time=1826 ms bytes=2048
+W (282538) InternetRadio: [RADIO_DEC_GAP] decode_time=34 ms decoded_bytes=4608
+I (282638) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2344 ms
+I (283178) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=2739 ms
+W (283448) InternetRadio: [RADIO_HTTP_GAP] read_time=806 ms bytes=2048
+I (283708) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=29 ms wait_in_q=1285 ms
+I (284198) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=1641 ms
+W (284378) InternetRadio: [RADIO_HTTP_GAP] read_time=688 ms bytes=2048
+I (284718) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=19 ms wait_in_q=1233 ms
+I (285218) RAM: internal free=40723 min=10484 largest=18432 | psram free=7237416 min=7208144 largest=7077888
+I (285248) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1619 ms
+W (285548) InternetRadio: [RADIO_HTTP_GAP] read_time=888 ms bytes=2048
+I (285578) InternetRadio: [RADIO] buffer=1222 ms queue=47 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (285768) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1340 ms
+I (286258) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1727 ms
+W (286468) InternetRadio: [RADIO_HTTP_GAP] read_time=695 ms bytes=2048
+I (286778) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1192 ms
+I (287308) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=29 ms wait_in_q=1599 ms
+I (287798) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1299 ms
+I (288318) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=19 ms wait_in_q=1700 ms
+W (288588) InternetRadio: [RADIO_HTTP_GAP] read_time=878 ms bytes=2048
+I (288838) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1921 ms
+I (289368) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=29 ms wait_in_q=2005 ms
+W (289468) InternetRadio: [RADIO_HTTP_GAP] read_time=651 ms bytes=2048
+I (289858) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=1226 ms
+I (290218) RAM: internal free=41003 min=10484 largest=18432 | psram free=7232280 min=7208144 largest=7077888
+I (290378) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=19 ms wait_in_q=1628 ms
+W (290688) InternetRadio: [RADIO_HTTP_GAP] read_time=917 ms bytes=2048
+I (290708) InternetRadio: [RADIO] buffer=1196 ms queue=46 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (290908) AudioService: [RADIO_OUTPUT] queue=72 buffer=1872 ms pcm=26 ms write=29 ms wait_in_q=1384 ms
+I (291398) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=19 ms wait_in_q=1745 ms
+I (291518) SystemInfo: free sram: 40835 minimal sram: 10484
+I (291918) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=19 ms wait_in_q=1192 ms
+I (292438) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=19 ms wait_in_q=1592 ms
+W (292548) InternetRadio: [RADIO_HTTP_GAP] read_time=1628 ms bytes=2048
+I (292708) AudioService: [RADIO_PCM] ptr=0x3c40157c size=1252 bytes PSRAM=YES (queue=32)
+I (292968) AudioService: [RADIO_OUTPUT] queue=33 buffer=858 ms pcm=26 ms write=29 ms wait_in_q=365 ms
+I (293488) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=29 ms wait_in_q=768 ms
+W (293668) InternetRadio: [RADIO_HTTP_GAP] read_time=899 ms bytes=2048
+I (293858) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (294008) AudioService: [RADIO_OUTPUT] queue=32 buffer=832 ms pcm=26 ms write=28 ms wait_in_q=276 ms
+I (294528) AudioService: [RADIO_OUTPUT] queue=12 buffer=312 ms pcm=26 ms write=19 ms wait_in_q=692 ms
+W (294588) InternetRadio: [RADIO_HTTP_GAP] read_time=701 ms bytes=2048
+I (294758) AudioService: [RADIO_PCM] ptr=0x3c401a80 size=1252 bytes PSRAM=YES (queue=32)
+I (295048) AudioService: [RADIO_OUTPUT] queue=32 buffer=832 ms pcm=26 ms write=19 ms wait_in_q=397 ms
+I (295218) RAM: internal free=42459 min=10484 largest=18432 | psram free=7277220 min=7208144 largest=7208960
+I (295568) AudioService: [RADIO_OUTPUT] queue=12 buffer=312 ms pcm=26 ms write=19 ms wait_in_q=800 ms
+W (296648) InternetRadio: [RADIO_HTTP_GAP] read_time=1828 ms bytes=2048
+I (296658) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (296658) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (296678) InternetRadio: [RADIO] buffer=104 ms queue=4 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (296838) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (297718) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (298688) InternetRadio: [RADIO_HTTP_GAP] read_time=1808 ms bytes=2048
+I (298718) AudioService: [RADIO_PREBUFFER] buffering... current=1170 ms target=2000 ms (queue=45)
+I (298908) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2254 ms
+I (299448) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=2648 ms
+W (299758) InternetRadio: [RADIO_HTTP_GAP] read_time=844 ms bytes=2048
+I (299978) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1245 ms
+I (300218) RAM: internal free=40283 min=10484 largest=18432 | psram free=7227144 min=7208144 largest=7077888
+I (300468) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1633 ms
+I (300988) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=1191 ms
+I (301518) SystemInfo: free sram: 43191 minimal sram: 10484
+I (301518) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=1593 ms
+W (301778) InternetRadio: [RADIO_HTTP_GAP] read_time=1795 ms bytes=2048
+I (301808) InternetRadio: [RADIO] buffer=208 ms queue=8 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (301978) AudioService: [RADIO_PCM] ptr=0x3c40298c size=1252 bytes PSRAM=YES (queue=32)
+I (301988) AudioService: [RADIO_PCM] ptr=0x3c3dc384 size=1252 bytes PSRAM=YES (queue=32)
+I (302038) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=210 ms
+I (302558) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=29 ms wait_in_q=611 ms
+W (303118) InternetRadio: [RADIO_HTTP_GAP] read_time=1122 ms bytes=2048
+I (303128) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (303128) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (303308) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+W (303948) InternetRadio: [RADIO_HTTP_GAP] read_time=587 ms bytes=2048
+I (304138) AudioService: [RADIO_PREBUFFER] buffering... current=1846 ms target=2000 ms (queue=71)
+I (304168) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=1042 ms
+I (304708) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=1429 ms
+I (305218) RAM: internal free=42019 min=10484 largest=18432 | psram free=7263096 min=7208144 largest=7077888
+I (305238) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1240 ms
+I (305728) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=1632 ms
+W (305878) InternetRadio: [RADIO_HTTP_GAP] read_time=1690 ms bytes=2048
+I (306028) AudioService: [RADIO_PCM] ptr=0x3c40157c size=1252 bytes PSRAM=YES (queue=32)
+I (306248) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=19 ms wait_in_q=337 ms
+I (306778) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+W (307198) InternetRadio: [RADIO_HTTP_GAP] read_time=1095 ms bytes=2048
+I (307208) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (307208) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (307238) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (307398) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+W (307748) InternetRadio: [RADIO_HTTP_GAP] read_time=310 ms bytes=2048
+I (307968) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=763 ms
+W (308318) InternetRadio: [RADIO_HTTP_GAP] read_time=346 ms bytes=2048
+I (308508) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=19 ms wait_in_q=1154 ms
+I (309038) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=29 ms wait_in_q=1248 ms
+I (309558) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=28 ms wait_in_q=1647 ms
+I (310078) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1697 ms
+W (310108) InternetRadio: [RADIO_HTTP_GAP] read_time=1139 ms bytes=2048
+I (310218) RAM: internal free=38163 min=10484 largest=18432 | psram free=7246404 min=7208144 largest=7077888
+I (310578) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=2010 ms
+W (310968) InternetRadio: [RADIO_HTTP_GAP] read_time=636 ms bytes=2048
+I (311098) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=944 ms
+I (311538) SystemInfo: free sram: 41339 minimal sram: 10484
+I (311588) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=1337 ms
+I (312108) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=1099 ms
+W (312158) InternetRadio: [RADIO_HTTP_GAP] read_time=957 ms bytes=2048
+I (312238) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (312638) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=29 ms wait_in_q=1501 ms
+W (313158) InternetRadio: [RADIO_HTTP_GAP] read_time=775 ms bytes=2048
+I (313158) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=945 ms
+W (313678) InternetRadio: [RADIO_HTTP_GAP] read_time=291 ms bytes=2048
+I (313678) AudioService: [RADIO_OUTPUT] queue=53 buffer=1378 ms pcm=26 ms write=29 ms wait_in_q=1350 ms
+I (314168) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=19 ms wait_in_q=962 ms
+I (314698) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=29 ms wait_in_q=1362 ms
+W (315068) InternetRadio: [RADIO_HTTP_GAP] read_time=993 ms bytes=2048
+I (315218) AudioService: [RADIO_OUTPUT] queue=59 buffer=1534 ms pcm=26 ms write=29 ms wait_in_q=1480 ms
+I (315218) RAM: internal free=33655 min=10484 largest=18432 | psram free=7233564 min=7208144 largest=7077888
+I (315738) AudioService: [RADIO_OUTPUT] queue=53 buffer=1378 ms pcm=26 ms write=29 ms wait_in_q=1879 ms
+I (316238) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=29 ms wait_in_q=1111 ms
+I (316728) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=1501 ms
+W (317188) InternetRadio: [RADIO_HTTP_GAP] read_time=1889 ms bytes=2048
+I (317198) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (317198) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (317258) InternetRadio: [RADIO] buffer=260 ms queue=10 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (317388) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+W (317788) InternetRadio: [RADIO_HTTP_GAP] read_time=350 ms bytes=2048
+I (318008) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=807 ms
+I (318528) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=1170 ms
+I (319048) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1221 ms
+W (319158) InternetRadio: [RADIO_HTTP_GAP] read_time=1146 ms bytes=2048
+I (319168) AudioService: [RADIO_PCM] ptr=0x3c3d5af0 size=1252 bytes PSRAM=YES (queue=32)
+I (319548) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=28 ms wait_in_q=1608 ms
+I (320068) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=868 ms
+I (320218) RAM: internal free=42791 min=10484 largest=18432 | psram free=7270800 min=7208144 largest=7208960
+W (320348) InternetRadio: [RADIO_HTTP_GAP] read_time=969 ms bytes=2048
+I (320398) AudioService: [RADIO_PCM] ptr=0x3c3fb12c size=1252 bytes PSRAM=YES (queue=32)
+I (320558) AudioService: [RADIO_OUTPUT] queue=52 buffer=1352 ms pcm=26 ms write=19 ms wait_in_q=1263 ms
+I (321078) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=19 ms wait_in_q=700 ms
+I (321508) SystemInfo: free sram: 41179 minimal sram: 10484
+I (321608) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=29 ms wait_in_q=1101 ms
+I (322098) AudioService: [RADIO_OUTPUT] queue=37 buffer=962 ms pcm=26 ms write=19 ms wait_in_q=1306 ms
+W (322258) InternetRadio: [RADIO_HTTP_GAP] read_time=1216 ms bytes=2048
+I (322268) AudioService: [RADIO_PCM] ptr=0x3c3dc384 size=1252 bytes PSRAM=YES (queue=32)
+I (322288) InternetRadio: [RADIO] buffer=884 ms queue=34 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (322618) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=1714 ms
+I (323148) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=845 ms
+W (323488) InternetRadio: [RADIO_HTTP_GAP] read_time=1004 ms bytes=2048
+I (323598) AudioService: [RADIO_PCM] ptr=0x3c401078 size=1252 bytes PSRAM=YES (queue=32)
+I (323668) AudioService: [RADIO_OUTPUT] queue=42 buffer=1092 ms pcm=26 ms write=29 ms wait_in_q=1246 ms
+I (324188) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=624 ms
+I (324708) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=28 ms wait_in_q=1025 ms
+I (325218) RAM: internal free=44487 min=10484 largest=18432 | psram free=7310604 min=7208144 largest=7208960
+W (325328) InternetRadio: [RADIO_HTTP_GAP] read_time=1579 ms bytes=2048
+I (325338) AudioService: [RADIO_PCM] ptr=0x3c3d7638 size=1252 bytes PSRAM=YES (queue=1)
+I (325338) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (325548) AudioService: [RADIO_PCM] ptr=0x3c402488 size=1252 bytes PSRAM=YES (queue=32)
+I (326378) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (327358) InternetRadio: [RADIO_HTTP_GAP] read_time=1764 ms bytes=2048
+I (327378) AudioService: [RADIO_PREBUFFER] buffering... current=1092 ms target=2000 ms (queue=42)
+I (327388) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (327588) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2247 ms
+I (328128) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=2645 ms
+W (328528) InternetRadio: [RADIO_HTTP_GAP] read_time=936 ms bytes=2048
+I (328658) AudioService: [RADIO_OUTPUT] queue=58 buffer=1508 ms pcm=26 ms write=29 ms wait_in_q=1247 ms
+W (329068) InternetRadio: [RADIO_HTTP_GAP] read_time=313 ms bytes=2048
+I (329178) AudioService: [RADIO_OUTPUT] queue=74 buffer=1924 ms pcm=26 ms write=29 ms wait_in_q=1652 ms
+I (329668) AudioService: [RADIO_OUTPUT] queue=75 buffer=1950 ms pcm=26 ms write=19 ms wait_in_q=1102 ms
+I (330198) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=29 ms wait_in_q=1507 ms
+I (330218) RAM: internal free=41499 min=10484 largest=18432 | psram free=7239984 min=7208144 largest=7077888
+W (330588) InternetRadio: [RADIO_HTTP_GAP] read_time=978 ms bytes=2048
+I (330718) AudioService: [RADIO_OUTPUT] queue=57 buffer=1482 ms pcm=26 ms write=29 ms wait_in_q=1599 ms

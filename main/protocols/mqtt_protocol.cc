@@ -304,6 +304,16 @@ bool MqttProtocol::OpenAudioChannel() {
             if (sequence != remote_sequence_ + 1) {
                 ESP_LOGW(TAG, "Received audio packet with wrong sequence: %lu, expected: %lu",
                          sequence, remote_sequence_ + 1);
+                if (remote_sequence_ > 0) {
+                    uint32_t expected = remote_sequence_ + 1;
+                    int32_t delta = static_cast<int32_t>(sequence) - static_cast<int32_t>(expected);
+                    uint32_t now_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000);
+                    size_t dec_q = Application::GetInstance().GetAudioService().GetDecodeQueueSize();
+                    size_t play_q = Application::GetInstance().GetAudioService().GetPlaybackQueueSize();
+                    ESP_LOGW(TAG, "[AUDIO_SEQ_GAP] time=%u ms received=%u expected=%u delta=%d payload_len=%u dec_q=%zu play_q=%zu",
+                             (unsigned)now_ms, (unsigned)sequence, (unsigned)expected, (int)delta,
+                             (unsigned)payload_len, dec_q, play_q);
+                }
             }
         }
 

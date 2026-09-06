@@ -1,0 +1,222 @@
+I (14111) MQTT: Connected to endpoint
+I (14111) Application: Activation done
+I (14111) SystemInfo: free sram: 96427 minimal sram: 39812
+I (14111) StateMachine: State: activating -> idle
+I (14121) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (14121) wifi:Set ps type: 2, coexist: 0
+
+I (14131) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (14131) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (14141) WakeWordCache: Allocated 64000 bytes in PSRAM
+I (14141) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (14151) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (14251) AFE: AFE Version: (1MIC_V251128)
+I (14251) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14261) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (14271) AFE: AFE Version: (1MIC_V251128)
+I (14271) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14281) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14281) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (14301) AudioCodec: Set output enable to true
+I (14301) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14311) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14311) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14321) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14351) Adev_Codec: Open codec device OK
+I (14351) AudioService: Resampling audio from 16000 to 24000
+I (14351) AudioCodec: Set input enable to true
+I (15231) RAM: internal free=58011 min=27252 largest=22528 | psram free=7466664 min=7466664 largest=7340032
+I (20221) RAM: internal free=60143 min=27252 largest=24576 | psram free=7476084 min=7429908 largest=7471104
+I (24531) SystemInfo: free sram: 60143 minimal sram: 27252
+I (25221) RAM: internal free=60011 min=27252 largest=24576 | psram free=7476084 min=7429908 largest=7471104
+I (30221) RAM: internal free=60011 min=27252 largest=24576 | psram free=7476084 min=7429908 largest=7471104
+I (34521) SystemInfo: free sram: 60143 minimal sram: 27252
+I (35221) RAM: internal free=60143 min=27252 largest=24576 | psram free=7476084 min=7429908 largest=7471104
+I (40221) RAM: internal free=60011 min=27252 largest=24576 | psram free=7476084 min=7429908 largest=7471104
+I (40641) Application: Wake word detected: Hey Kira (state: 3)
+I (40641) StateMachine: State: idle -> connecting
+I (40851) AfeAudioEngine: Encoded wake word into 33 packets in 206 ms
+I (40851) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (40861) wifi:Set ps type: 0, coexist: 0
+
+I (41711) MQTT: Session ID: e1881c24
+I (41721) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (41721) wifi:Set ps type: 0, coexist: 0
+
+I (41721) Application: Wake word detected: Hey Kira
+E (41751) EspUdp: Send failed: ret=-1, errno=12
+I (41751) StateMachine: State: connecting -> listening
+I (42221) Application: >> Hey Kira
+I (42271) StateMachine: State: listening -> speaking
+I (43471) Application: << Привет! Чем могу помочь?
+I (45221) RAM: internal free=54535 min=27252 largest=18432 | psram free=7424136 min=7409256 largest=7340032
+I (45691) StateMachine: State: speaking -> listening
+I (50221) RAM: internal free=50247 min=27252 largest=18432 | psram free=7435608 min=7409256 largest=7340032
+I (55221) RAM: internal free=52299 min=27252 largest=18432 | psram free=7432788 min=7409256 largest=7340032
+I (55511) SystemInfo: free sram: 52419 minimal sram: 27252
+I (57261) Application: >> Поищи радиостанции Юмор-ФМ.
+I (57291) StateMachine: State: listening -> speaking
+I (58111) Application: << Сейчас поищу радиостанции Юмор-ФМ!
+I (60221) RAM: internal free=54435 min=27252 largest=18432 | psram free=7427020 min=7409256 largest=7340032
+I (61011) Application: << % radio.search_stations...
+I (61391) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (62511) Application: << По запросу "Юмор-
+I (63641) Application: << ФМ" ничего не нашлось. Может,
+I (65221) RAM: internal free=53815 min=27252 largest=18432 | psram free=7408260 min=7392844 largest=7340032
+I (66511) SystemInfo: free sram: 54035 minimal sram: 27252
+I (66631) Application: << попробую поискать просто "Юмор FM"?
+I (69991) Application: << % radio.search_stations...
+I (70221) RAM: internal free=50611 min=27252 largest=18432 | psram free=7412812 min=7392844 largest=7340032
+I (70481) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (71841) Application: << Нашла радиостанцию Юмор FM из Беларуси (Минск)!
+I (75221) RAM: internal free=53715 min=27252 largest=18432 | psram free=7411144 min=7392844 largest=7340032
+I (75951) Application: << Хочешь включить её?
+I (76511) SystemInfo: free sram: 54031 minimal sram: 27252
+I (77671) StateMachine: State: speaking -> listening
+I (80221) RAM: internal free=53399 min=27252 largest=18432 | psram free=7416912 min=7392844 largest=7340032
+I (81781) Application: >> Из города Тула.
+I (81811) StateMachine: State: listening -> speaking
+I (82761) Application: << Сейчас поищу Юмор FM из Тулы!
+I (85231) RAM: internal free=52203 min=27252 largest=18432 | psram free=7411656 min=7392844 largest=7340032
+I (85641) Application: << % radio.search_stations...
+I (85921) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (86841) Application: << К сожалению,
+I (87791) Application: << не нашла Юмор FM из Тулы. Есть только радиостанция Юмор FM из Минска (
+I (90221) RAM: internal free=53435 min=27252 largest=18432 | psram free=7408772 min=7392844 largest=7340032
+I (91511) SystemInfo: free sram: 53563 minimal sram: 27252
+I (93181) Application: << Беларусь). Хочешь включить её?
+I (95221) RAM: internal free=53499 min=27252 largest=18432 | psram free=7408772 min=7392844 largest=7340032
+I (95941) StateMachine: State: speaking -> listening
+I (100221) RAM: internal free=53447 min=27252 largest=18432 | psram free=7416912 min=7392844 largest=7340032
+I (105221) RAM: internal free=51955 min=27252 largest=18432 | psram free=7419732 min=7392844 largest=7340032
+I (105511) SystemInfo: free sram: 53879 minimal sram: 27252
+I (108721) Application: >> Включи.
+I (108731) StateMachine: State: listening -> speaking
+I (109611) Application: << Включаю Юмор FM из Минска!
+I (110221) RAM: internal free=53627 min=27252 largest=18432 | psram free=7408772 min=7392844 largest=7340032
+I (111841) Application: << % radio.play_station...
+I (111861) Application: Abort speaking
+I (111861) MQTT: Closing audio channel, send_goodbye: 1
+I (111871) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (111871) wifi:Set ps type: 2, coexist: 0
+
+I (111871) StateMachine: State: speaking -> idle
+I (111871) RAM: [RADIO_START] internal free=50979 min=27252 largest=19456 | psram free=7411656 min=7392844 largest=7340032
+I (111881) AudioManager: Audio focus requested by source 3 (current 0)
+I (113191) MQTT: Received goodbye message, session_id: e1881c24
+I (113191) MQTT: Closing audio channel, send_goodbye: 0
+I (113191) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (113191) MQTT: Received goodbye message, session_id: e1881c24
+I (113201) wifi:Set ps type: 2, coexist: 0
+I (113201) InternetRadio: Stream connected: status=200 content_type=unknown
+
+I (113221) MQTT: Closing audio channel, send_goodbye: 0
+I (113211) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (113221) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (113231) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (113231) wifi:Set ps type: 2, coexist: 0
+
+I (113241) InternetRadio: Received first stream data: bytes=2048
+I (113251) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (113261) RAM: [RADIO_PLAYING] internal free=43939 min=27252 largest=18432 | psram free=7358948 min=7358948 largest=7340032
+I (115221) RAM: internal free=5447 min=1896 largest=1024 | psram free=7353104 min=7349252 largest=7340032
+I (118331) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (120221) RAM: internal free=28875 min=476 largest=6144 | psram free=7362728 min=7348744 largest=7340032
+I (121511) SystemInfo: free sram: 34411 minimal sram: 476
+I (123351) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (125221) RAM: internal free=6155 min=476 largest=1024 | psram free=7354836 min=7347072 largest=7340032
+I (128351) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (130221) RAM: internal free=4047 min=476 largest=960 | psram free=7355224 min=7347072 largest=7340032
+I (131521) SystemInfo: free sram: 3403 minimal sram: 476
+I (133381) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (135221) RAM: internal free=3831 min=288 largest=832 | psram free=7358688 min=7347072 largest=7340032
+I (138391) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (140221) RAM: internal free=3567 min=288 largest=576 | psram free=7355224 min=7347072 largest=7340032
+I (141511) SystemInfo: free sram: 27823 minimal sram: 288
+I (143921) InternetRadio: [RADIO] buffer=728 ms queue=28 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (145221) RAM: internal free=30327 min=288 largest=17408 | psram free=7362728 min=7347072 largest=7340032
+I (148961) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (150221) RAM: internal free=5011 min=288 largest=1088 | psram free=7353940 min=7347072 largest=7340032
+I (151531) SystemInfo: free sram: 6699 minimal sram: 288
+I (154151) InternetRadio: [RADIO] buffer=728 ms queue=28 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (155221) RAM: internal free=7163 min=288 largest=1280 | psram free=7353104 min=7347072 largest=7340032
+I (159251) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (160221) RAM: internal free=6499 min=288 largest=1280 | psram free=7352268 min=7347072 largest=7340032
+I (161531) SystemInfo: free sram: 19815 minimal sram: 288
+I (164261) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (165221) RAM: internal free=3883 min=288 largest=928 | psram free=7355224 min=7347072 largest=7340032
+I (169271) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (170221) RAM: internal free=3635 min=288 largest=576 | psram free=7351372 min=7347072 largest=7340032
+I (171531) SystemInfo: free sram: 6187 minimal sram: 288
+I (174271) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (175221) RAM: internal free=3555 min=288 largest=640 | psram free=7355224 min=7347072 largest=7340032
+I (179281) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (180221) RAM: internal free=3443 min=288 largest=576 | psram free=7355224 min=7347072 largest=7340032
+I (181531) SystemInfo: free sram: 5451 minimal sram: 288
+I (184291) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (185221) RAM: internal free=5503 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (189301) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (190221) RAM: internal free=4299 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (191511) SystemInfo: free sram: 5335 minimal sram: 288
+I (194401) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (195221) RAM: internal free=4107 min=288 largest=928 | psram free=7355672 min=7347072 largest=7340032
+I (199421) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (200221) RAM: internal free=5415 min=288 largest=1280 | psram free=7355672 min=7347072 largest=7340032
+I (201511) SystemInfo: free sram: 5771 minimal sram: 288
+I (204431) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (205221) RAM: internal free=5239 min=288 largest=1280 | psram free=7355672 min=7347072 largest=7340032
+I (209541) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (210231) RAM: internal free=4539 min=288 largest=1280 | psram free=7351760 min=7347072 largest=7340032
+I (211531) SystemInfo: free sram: 5607 minimal sram: 288
+I (214541) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (215221) RAM: internal free=6799 min=288 largest=1216 | psram free=7350924 min=7347072 largest=7340032
+I (219571) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (220221) RAM: internal free=5495 min=288 largest=1472 | psram free=7355672 min=7347072 largest=7340032
+I (221511) SystemInfo: free sram: 5591 minimal sram: 288
+I (224591) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (225221) RAM: internal free=4575 min=288 largest=736 | psram free=7353492 min=7347072 largest=7340032
+I (229691) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (230221) RAM: internal free=5895 min=288 largest=1280 | psram free=7353940 min=7347072 largest=7340032
+I (231531) SystemInfo: free sram: 6031 minimal sram: 288
+I (234711) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (235221) RAM: internal free=5939 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (239721) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (240221) RAM: internal free=3331 min=288 largest=544 | psram free=7354388 min=7347072 largest=7340032
+I (241531) SystemInfo: free sram: 6927 minimal sram: 288
+I (244821) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (245221) RAM: internal free=4039 min=288 largest=576 | psram free=7352208 min=7347072 largest=7340032
+I (249831) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (250221) RAM: internal free=4115 min=288 largest=832 | psram free=7353940 min=7347072 largest=7340032
+I (251511) SystemInfo: free sram: 8139 minimal sram: 288
+I (254841) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (255221) RAM: internal free=5627 min=288 largest=1280 | psram free=7348936 min=7347072 largest=7340032
+I (259961) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (260221) RAM: internal free=5427 min=288 largest=832 | psram free=7354388 min=7347072 largest=7340032
+I (261531) SystemInfo: free sram: 4883 minimal sram: 288
+I (265061) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (265221) RAM: internal free=5411 min=288 largest=1280 | psram free=7353940 min=7347072 largest=7340032
+I (270081) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (270221) RAM: internal free=5947 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (271511) SystemInfo: free sram: 4663 minimal sram: 288
+I (275181) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (275221) RAM: internal free=4759 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (280201) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (280221) RAM: internal free=4751 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (281531) SystemInfo: free sram: 6119 minimal sram: 288
+I (285201) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (285221) RAM: internal free=5875 min=288 largest=2560 | psram free=7351760 min=7347072 largest=7340032
+I (290211) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (290221) RAM: internal free=4627 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (291521) SystemInfo: free sram: 6119 minimal sram: 288
+I (295221) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (295221) RAM: internal free=5743 min=288 largest=1280 | psram free=7359264 min=7347072 largest=7340032
+I (300221) RAM: internal free=6119 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (300231) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (301511) SystemInfo: free sram: 4723 minimal sram: 288
+I (305221) RAM: internal free=4139 min=288 largest=768 | psram free=7355672 min=7347072 largest=7340032
+I (305331) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (310221) RAM: internal free=4743 min=288 largest=1280 | psram free=7355224 min=7347072 largest=7340032
+I (310351) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (311511) SystemInfo: free sram: 6071 minimal sram: 288

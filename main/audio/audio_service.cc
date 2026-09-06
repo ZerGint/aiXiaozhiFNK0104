@@ -350,6 +350,8 @@ void AudioService::AudioOutputTask() {
         }
         if (!has_radio && !output_in_flight_) {
             radio_started = false;
+            last_radio_write_end_us_ = 0;
+            last_radio_duration_ms_ = 0;
         }
 
         if (!radio_started && RADIO_PREBUFFER_MS > 0 &&
@@ -364,11 +366,19 @@ void AudioService::AudioOutputTask() {
                 if (radio_started) {
                     InternetRadioPlayer::GetInstance().RecordUnderrun();
                 }
+                static int64_t last_prebuffer_log_us = 0;
+                uint64_t now_prebuffer_us = esp_timer_get_time();
+                if (now_prebuffer_us - last_prebuffer_log_us >= 1000000) {
+                    last_prebuffer_log_us = now_prebuffer_us;
+                    ESP_LOGI(TAG, "[RADIO_PREBUFFER] buffering... current=%u ms target=%u ms (queue=%zu)",
+                             (unsigned)radio_duration_ms, (unsigned)RADIO_PREBUFFER_MS, audio_playback_queue_.size());
+                }
                 audio_queue_cv_.wait_for(lock, std::chrono::milliseconds(50));
                 continue;
             }
             if (has_radio) {
                 radio_started = true;
+                last_radio_write_end_us_ = 0;
             }
         }
         auto task = std::move(audio_playback_queue_.front());
@@ -409,7 +419,36 @@ void AudioService::AudioOutputTask() {
             callbacks_.on_playback_progress(task->playback_id, task->media_position_ms);
         }
 
-        codec_->OutputData(task->GetPcmData(), task->GetPcmSize());
+        if (task->is_radio) {
+            uint64_t now_us = esp_timer_get_time();
+            uint32_t now_ms = static_cast<uint32_t>(now_us / 1000);
+            uint32_t wait_in_q_ms = now_ms >= task->created_at_ms ? (now_ms - task->created_at_ms) : 0;
+            uint32_t gap_ms = last_radio_write_end_us_ > 0 ? static_cast<uint32_t>((now_us - last_radio_write_end_us_) / 1000) : 0;
+
+            if (gap_ms > last_radio_duration_ms_ + 15 && last_radio_write_end_us_ > 0) {
+                ESP_LOGW(TAG, "[RADIO_OUTPUT_GAP] gap=%u ms expected_duration=%u ms queue=%zu buffer=%u ms wait_in_q=%u ms",
+                         (unsigned)gap_ms, (unsigned)last_radio_duration_ms_,
+                         audio_playback_queue_.size(), (unsigned)radio_buffered_duration_ms_, (unsigned)wait_in_q_ms);
+            }
+
+            uint64_t write_start_us = esp_timer_get_time();
+            codec_->OutputData(task->GetPcmData(), task->GetPcmSize());
+            uint64_t write_end_us = esp_timer_get_time();
+
+            uint32_t write_dur_ms = static_cast<uint32_t>((write_end_us - write_start_us) / 1000);
+            last_radio_write_end_us_ = write_end_us;
+            last_radio_duration_ms_ = task->duration_ms;
+
+            static int64_t last_output_log_us = 0;
+            if (now_us - last_output_log_us >= 500000) {
+                last_output_log_us = now_us;
+                ESP_LOGI(TAG, "[RADIO_OUTPUT] queue=%zu buffer=%u ms pcm=%u ms write=%u ms wait_in_q=%u ms",
+                         audio_playback_queue_.size(), (unsigned)radio_buffered_duration_ms_,
+                         (unsigned)task->duration_ms, (unsigned)write_dur_ms, (unsigned)wait_in_q_ms);
+            }
+        } else {
+            codec_->OutputData(task->GetPcmData(), task->GetPcmSize());
+        }
 
         /* Update the last output time */
         last_output_time_ = std::chrono::steady_clock::now();
@@ -688,7 +727,7 @@ void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music,
             }
         }
         std::unique_lock<std::mutex> lock(audio_queue_mutex_);
-        const size_t max_queue_size = is_radio ? 32 : 4;
+        const size_t max_queue_size = is_radio ? 90 : 4;
         const bool queue_has_capacity = audio_playback_queue_.size() < max_queue_size;
         const bool radio_has_capacity =
             !is_radio || RADIO_PREBUFFER_MS == 0 ||
@@ -699,6 +738,7 @@ void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music,
             task->is_music = is_music;
             task->is_radio = is_radio;
             task->duration_ms = duration_ms;
+            task->created_at_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000);
             if (is_radio) {
                 radio_buffered_duration_ms_ += duration_ms;
                 task->radio_pcm.assign(pcm.begin(), pcm.end());

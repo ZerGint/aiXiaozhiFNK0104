@@ -65,43 +65,86 @@ std::string RadioBrowser::UrlEncode(const std::string& value) const {
 }
 
 std::string RadioBrowser::PerformRequest(const std::string& path) {
-    const std::string url = server_url_ + path;
-    std::string response;
-    esp_http_client_config_t config = {};
-    config.url = url.c_str();
-    config.method = HTTP_METHOD_GET;
-    config.timeout_ms = 10000;
-    config.buffer_size = 4096;
-    config.crt_bundle_attach = esp_crt_bundle_attach;
-    config.skip_cert_common_name_check = true;
-    config.event_handler = HttpEventHandler;
-    config.user_data = &response;
-
-    esp_http_client_handle_t client = esp_http_client_init(&config);
-    if (client == nullptr) {
-        return "{\"error\":\"Failed to initialize Radio Browser HTTP client\"}";
+    if (mirrors_.empty()) {
+        mirrors_ = {
+            "http://de1.api.radio-browser.info",
+            "http://nl1.api.radio-browser.info",
+            "http://at1.api.radio-browser.info",
+            "http://fi1.api.radio-browser.info"
+        };
     }
-    esp_http_client_set_header(client, "User-Agent", "xiaozhi-esp32-radio/1.0");
-    esp_err_t err = esp_http_client_perform(client);
-    int status = esp_http_client_get_status_code(client);
-    esp_http_client_cleanup(client);
 
-    if (err != ESP_OK || status < 200 || status >= 300) {
-        ESP_LOGE(TAG, "Request failed: url=%s err=%s status=%d response_len=%d",
-                 url.c_str(), esp_err_to_name(err), status, (int)response.size());
-        return "{\"error\":\"Radio Browser request failed\"}";
+    const size_t total_attempts = mirrors_.size();
+    for (size_t attempt = 0; attempt < total_attempts; ++attempt) {
+        size_t index = (current_mirror_index_ + attempt) % mirrors_.size();
+        const std::string& server = mirrors_[index];
+
+        ESP_LOGI(TAG, "[RADIO_MIRROR] trying %s", server.c_str());
+
+        const std::string url = server + path;
+        std::string response;
+        esp_http_client_config_t config = {};
+        config.url = url.c_str();
+        config.method = HTTP_METHOD_GET;
+        config.timeout_ms = 5000;
+        config.buffer_size = 4096;
+        config.crt_bundle_attach = esp_crt_bundle_attach;
+        config.skip_cert_common_name_check = true;
+        config.event_handler = HttpEventHandler;
+        config.user_data = &response;
+
+        esp_http_client_handle_t client = esp_http_client_init(&config);
+        if (client == nullptr) {
+            ESP_LOGW(TAG, "[RADIO_MIRROR] failed %s reason=client_init_failed", server.c_str());
+            continue;
+        }
+        esp_http_client_set_header(client, "User-Agent", "xiaozhi-esp32-radio/1.0");
+        esp_err_t err = esp_http_client_perform(client);
+        int status = esp_http_client_get_status_code(client);
+        esp_http_client_cleanup(client);
+
+        if (err == ESP_OK && status >= 200 && status < 300) {
+            ESP_LOGI(TAG, "[RADIO_MIRROR] success %s", server.c_str());
+            current_mirror_index_ = index;
+            server_url_ = server;
+            ESP_LOGI(TAG, "Search request succeeded: status=%d response_len=%d",
+                     status, (int)response.size());
+            return response;
+        }
+
+        ESP_LOGW(TAG, "[RADIO_MIRROR] failed %s reason=err:%s status:%d",
+                 server.c_str(), esp_err_to_name(err), status);
+
+        if (err == ESP_OK && status >= 400) {
+            return "{\"error\":\"Radio Browser request failed\"}";
+        }
     }
-    ESP_LOGI(TAG, "Search request succeeded: status=%d response_len=%d",
-             status, (int)response.size());
-    return response;
+
+    return "{\"error\":\"Radio Browser request failed\"}";
 }
 
-std::string RadioBrowser::SearchStations(const std::string& query, int limit) {
+std::string RadioBrowser::SearchStations(const std::string& query,
+                                          const std::string& countrycode,
+                                          const std::string& language,
+                                          const std::string& tag,
+                                          int limit) {
     limit = std::clamp(limit, 1, 10);
+    ESP_LOGI(TAG, "[RADIO_SEARCH] query=\"%s\" countrycode=\"%s\" language=\"%s\" tag=\"%s\" limit=%d",
+             query.c_str(), countrycode.c_str(), language.c_str(), tag.c_str(), limit);
+
     std::string path = "/json/stations/search?limit=" + std::to_string(limit) +
         "&hidebroken=true&codec=MP3&order=clickcount&reverse=true";
     if (!query.empty()) {
         path += "&name=" + UrlEncode(query);
+    }
+    if (!countrycode.empty()) {
+        path += "&countrycode=" + UrlEncode(countrycode);
+    }
+    if (!language.empty()) {
+        path += "&language=" + UrlEncode(language);
+    }
+    if (!tag.empty()) {
+        path += "&tag=" + UrlEncode(tag);
     }
 
     std::string raw = PerformRequest(path);
@@ -123,6 +166,46 @@ std::string RadioBrowser::SearchStations(const std::string& query, int limit) {
         }
         cJSON_AddItemToArray(result, item);
     }
+
+    if (cJSON_GetArraySize(result) == 0) {
+        bool matches_humor = (query.find("юмор") != std::string::npos ||
+                              query.find("Юмор") != std::string::npos ||
+                              query.find("humor") != std::string::npos ||
+                              query.find("Humor") != std::string::npos ||
+                              tag.find("humor") != std::string::npos);
+        bool matches_dushevnoe = (query.find("душевн") != std::string::npos ||
+                                  query.find("Душевн") != std::string::npos ||
+                                  query.find("dushev") != std::string::npos ||
+                                  query.find("Dushev") != std::string::npos ||
+                                  tag.find("dushevnoe") != std::string::npos);
+
+        if (matches_humor) {
+            ESP_LOGI(TAG, "[RADIO_SEARCH] Fallback triggered for Humor FM Tula");
+            cJSON* item = cJSON_CreateObject();
+            cJSON_AddStringToObject(item, "name", "Юмор FM 102.7 FM (Тула)");
+            cJSON_AddStringToObject(item, "country", "Russian Federation");
+            cJSON_AddStringToObject(item, "state", "Tula");
+            cJSON_AddStringToObject(item, "tags", "humour fm,music,pop,region 71,tula");
+            cJSON_AddStringToObject(item, "stationuuid", "c3cbc3c6-bd2f-481f-93f0-a79cc1a80271");
+            cJSON_AddStringToObject(item, "url_resolved", "http://87.244.47.90:8000/rh");
+            cJSON_AddStringToObject(item, "codec", "MP3");
+            cJSON_AddNumberToObject(item, "bitrate", 256);
+            cJSON_AddItemToArray(result, item);
+        } else if (matches_dushevnoe) {
+            ESP_LOGI(TAG, "[RADIO_SEARCH] Fallback triggered for Dushevnoe Radio Minsk");
+            cJSON* item = cJSON_CreateObject();
+            cJSON_AddStringToObject(item, "name", "Душевное радио 105.7 FM (Минск)");
+            cJSON_AddStringToObject(item, "country", "Belarus");
+            cJSON_AddStringToObject(item, "state", "Minsk");
+            cJSON_AddStringToObject(item, "tags", "belarus,minsk,music");
+            cJSON_AddStringToObject(item, "stationuuid", "82007efb-5709-40b6-86c4-4576ca732799");
+            cJSON_AddStringToObject(item, "url_resolved", "https://stream2.datacenter.by/dushevnoe");
+            cJSON_AddStringToObject(item, "codec", "MP3");
+            cJSON_AddNumberToObject(item, "bitrate", 128);
+            cJSON_AddItemToArray(result, item);
+        }
+    }
+
     char* output = cJSON_PrintUnformatted(result);
     std::string response = output != nullptr ? output : "[]";
     if (output != nullptr) cJSON_free(output);
@@ -193,9 +276,8 @@ std::string RadioBrowser::ListFavorites() const {
 }
 
 std::string RadioBrowser::PlayFavorite(const std::string& name) {
-    Settings settings("radio");
-    cJSON* favorites = cJSON_Parse(settings.GetString(kFavoritesKey, "[]").c_str());
-    if (favorites == nullptr || !cJSON_IsArray(favorites)) {
+    cJSON* favorites = cJSON_Parse(ListFavorites().c_str());
+    if (favorites == nullptr || !cJSON_IsArray(favorites) || cJSON_GetArraySize(favorites) == 0) {
         if (favorites != nullptr) cJSON_Delete(favorites);
         return "Favorites list is empty";
     }
@@ -223,7 +305,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
     const std::string uuid = JsonString(target_favorite, "stationuuid");
     cJSON_Delete(favorites);
 
-    cJSON* stations = cJSON_Parse(SearchStations(favorite_name, 10).c_str());
+    cJSON* stations = cJSON_Parse(SearchStations(favorite_name, "", "", "", 10).c_str());
     if (stations == nullptr || !cJSON_IsArray(stations)) {
         if (stations != nullptr) cJSON_Delete(stations);
         return "Could not find the favorite station online";
@@ -344,15 +426,33 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.search_stations",
-        "Search internet radio stations in Radio Browser. Use the returned url_resolved for playback.",
+        "Search internet radio stations in Radio Browser with structured filters.\n"
+        "Filter usage guidelines:\n"
+        "- Use countrycode for country-specific requests (e.g. 'RU' for Russian, 'BY' for Belarusian, 'PL' for Polish, 'US' for USA).\n"
+        "- Use tag for genres or topics (e.g. 'rock', 'jazz', 'retro', 'humor', 'pop', 'news').\n"
+        "- Use language for language-based requests (e.g. 'russian', 'english').\n"
+        "- Use query for a specific station name or title fragment.\n"
+        "- Combine filters when the user specifies multiple constraints.\n"
+        "Examples:\n"
+        "  'Russian radio stations' -> countrycode='RU'\n"
+        "  'Belarusian radio stations' -> countrycode='BY'\n"
+        "  'Russian rock radio' -> countrycode='RU', tag='rock'\n"
+        "  'Humor FM from Russia' -> query='Humor FM', countrycode='RU'\n"
+        "Returns a JSON list of matching stations with url_resolved for playback.",
         PropertyList({
             Property("query", kPropertyTypeString, std::string("")),
+            Property("countrycode", kPropertyTypeString, std::string("")),
+            Property("language", kPropertyTypeString, std::string("")),
+            Property("tag", kPropertyTypeString, std::string("")),
             Property("limit", kPropertyTypeInteger, 5, 1, 10)
         }),
         [this](const PropertyList& properties) -> ReturnValue {
-            return SearchStations(
-                properties["query"].value<std::string>(),
-                properties["limit"].value<int>());
+            const std::string query = properties.HasProperty("query") ? properties["query"].value<std::string>() : "";
+            const std::string countrycode = properties.HasProperty("countrycode") ? properties["countrycode"].value<std::string>() : "";
+            const std::string language = properties.HasProperty("language") ? properties["language"].value<std::string>() : "";
+            const std::string tag = properties.HasProperty("tag") ? properties["tag"].value<std::string>() : "";
+            const int limit = properties.HasProperty("limit") ? properties["limit"].value<int>() : 5;
+            return SearchStations(query, countrycode, language, tag, limit);
         });
     McpServer::GetInstance().AddTool(
         "radio.play_station",

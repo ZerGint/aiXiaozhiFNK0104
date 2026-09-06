@@ -1,0 +1,617 @@
+I (30218) RAM: internal free=58627 min=27252 largest=22528 | psram free=7476084 min=7422940 largest=7471104
+I (33518) SystemInfo: free sram: 58759 minimal sram: 27252
+I (35218) RAM: internal free=58399 min=27252 largest=22528 | psram free=7476084 min=7422940 largest=7471104
+I (37728) Application: Wake word detected: Hey Kira (state: 3)
+I (37728) StateMachine: State: idle -> connecting
+I (37948) AfeAudioEngine: Encoded wake word into 33 packets in 214 ms
+I (37948) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (37948) wifi:Set ps type: 0, coexist: 0
+
+I (38338) MQTT: Session ID: 306724ff
+I (38338) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (38338) wifi:Set ps type: 0, coexist: 0
+
+I (38338) Application: Wake word detected: Hey Kira
+I (38388) StateMachine: State: connecting -> listening
+I (38918) Application: >> Hey Kira
+I (38958) StateMachine: State: listening -> speaking
+I (40098) Application: << Привет! Чем могу помочь?
+I (40218) RAM: internal free=50887 min=27252 largest=18432 | psram free=7429840 min=7412076 largest=7340032
+I (42618) StateMachine: State: speaking -> listening
+I (45218) RAM: internal free=51051 min=27252 largest=18432 | psram free=7435608 min=7412076 largest=7340032
+I (47488) Application: >> найти российские радиостанции
+I (47508) StateMachine: State: listening -> speaking
+I (47978) Application: << % radio.search_stations...
+I (47988) RadioBrowser: [RADIO_SEARCH] query="" countrycode="RU" language="" tag="" limit=10
+I (47988) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (48288) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (48288) RadioBrowser: Search request succeeded: status=200 response_len=11464
+I (49818) Application: << Нашла несколько российских радиостанций! Вот что есть:
+I (50218) RAM: internal free=52695 min=10724 largest=16384 | psram free=7427020 min=7405640 largest=7340032
+I (53958) Application: << Europa Plus — танцевальная и поп-музыка
+ROCK FM — классический рок и поп-рок
+Ретро FM —
+I (55218) RAM: internal free=52607 min=10724 largest=16384 | psram free=7424136 min=7405640 largest=7340032
+I (56498) FreenoveFnk0104sBoard: TOUCH READ: raw_x=143, raw_y=224 => point.x=224, point.y=177 (top_bar=0)
+I (56548) Application: Abort speaking
+I (56858) StateMachine: State: speaking -> listening
+I (60218) RAM: internal free=53023 min=10724 largest=16384 | psram free=7432788 min=7405640 largest=7340032
+I (60678) Application: >> Найди юмор.
+I (60708) StateMachine: State: listening -> speaking
+I (61438) Application: << % radio.search_stations...
+I (61438) RadioBrowser: [RADIO_SEARCH] query="Юмор" countrycode="RU" language="" tag="" limit=5
+I (61448) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (61668) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (61668) RadioBrowser: Search request succeeded: status=200 response_len=3550
+I (63298) Application: << Нашла Юмор ФМ! Вот варианты:
+I (65218) RAM: internal free=52351 min=10724 largest=16384 | psram free=7424136 min=7405640 largest=7340032
+I (65698) Application: << Юмор ФМ Сыктывкар 99.9 FM
+Юмор ФМ Тула 102.7 FM
+I (70218) RAM: internal free=52563 min=10724 largest=16384 | psram free=7424136 min=7405640 largest=7340032
+I (70528) SystemInfo: free sram: 52695 minimal sram: 10724
+I (74658) Application: << Юмор ФМ Туапсе 93.6 FM
+
+Какую включить?
+I (75218) RAM: internal free=52719 min=10724 largest=16384 | psram free=7432788 min=7405640 largest=7340032
+W (77288) MQTT: Received audio packet with wrong sequence: 391, expected: 387
+W (77288) MQTT: [AUDIO_SEQ_GAP] time=77128 ms received=391 expected=387 delta=4 payload_len=217 dec_q=10 play_q=2
+W (77338) MQTT: Received audio packet with wrong sequence: 399, expected: 397
+W (77338) MQTT: [AUDIO_SEQ_GAP] time=77176 ms received=399 expected=397 delta=2 payload_len=217 dec_q=15 play_q=2
+W (77478) MQTT: Received audio packet with wrong sequence: 402, expected: 400
+W (77478) MQTT: [AUDIO_SEQ_GAP] time=77318 ms received=402 expected=400 delta=2 payload_len=203 dec_q=14 play_q=2
+I (80218) RAM: internal free=48819 min=10724 largest=16384 | psram free=7424136 min=7405640 largest=7340032
+I (80528) SystemInfo: free sram: 48659 minimal sram: 10724
+W (84078) MQTT: Received audio packet with wrong sequence: 468, expected: 465
+W (84078) MQTT: [AUDIO_SEQ_GAP] time=83920 ms received=468 expected=465 delta=3 payload_len=201 dec_q=5 play_q=0
+I (85008) StateMachine: State: speaking -> listening
+I (85218) RAM: internal free=51279 min=10724 largest=16384 | psram free=7432788 min=7405640 largest=7340032
+I (88298) Application: >> Тула.
+I (88298) StateMachine: State: listening -> speaking
+I (89518) Application: << % radio.play_station...
+I (89538) Application: Abort speaking
+I (89538) MQTT: Closing audio channel, send_goodbye: 1
+I (89548) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (89548) wifi:Set ps type: 2, coexist: 0
+
+I (89548) StateMachine: State: speaking -> idle
+I (89548) RAM: [RADIO_START] internal free=53851 min=10724 largest=16384 | psram free=7432788 min=7405640 largest=7340032
+I (89558) AudioManager: Audio focus requested by source 3 (current 0)
+I (90218) RAM: internal free=45415 min=10724 largest=11264 | psram free=7428688 min=7405640 largest=7340032
+I (91648) MQTT: Received goodbye message, session_id: 306724ff
+I (91648) MQTT: Closing audio channel, send_goodbye: 0
+I (91648) MQTT: Received goodbye message, session_id: 306724ff
+I (91648) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (91648) InternetRadio: Stream connected: status=200 content_type=unknown
+I (91658) wifi:Set ps type: 2, coexist: 0
+I (91658) ESP_ES_PARSER: The version of es_parser is v1.0.1
+
+I (91668) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (91668) MQTT: Closing audio channel, send_goodbye: 0
+I (91688) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (91688) wifi:Set ps type: 2, coexist: 0
+
+I (91738) InternetRadio: Received first stream data: bytes=2048
+I (91738) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (91738) RAM: [RADIO_PLAYING] internal free=39147 min=10724 largest=11264 | psram free=7378092 min=7378092 largest=7340032
+I (91758) AudioService: [RADIO_PCM] ptr=0x3c3dbf80 size=1152 bytes PSRAM=YES (queue=1)
+I (91758) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=2000 ms (queue=1)
+I (92238) AudioService: [RADIO_PCM] ptr=0x3c3f0738 size=1152 bytes PSRAM=YES (queue=32)
+W (92668) InternetRadio: [RADIO_HTTP_GAP] read_time=392 ms bytes=2048
+I (92818) AudioService: [RADIO_PREBUFFER] buffering... current=1008 ms target=2000 ms (queue=42)
+W (93698) InternetRadio: [RADIO_HTTP_GAP] read_time=1001 ms bytes=2048
+I (93848) AudioService: [RADIO_PREBUFFER] buffering... current=1128 ms target=2000 ms (queue=47)
+W (94718) InternetRadio: [RADIO_HTTP_GAP] read_time=989 ms bytes=2048
+I (94868) AudioService: [RADIO_PREBUFFER] buffering... current=1272 ms target=2000 ms (queue=53)
+I (95218) RAM: internal free=40291 min=10724 largest=11264 | psram free=7316824 min=7314516 largest=7208960
+W (95748) InternetRadio: [RADIO_HTTP_GAP] read_time=990 ms bytes=2048
+I (95888) AudioService: [RADIO_PREBUFFER] buffering... current=1392 ms target=2000 ms (queue=58)
+W (96768) InternetRadio: [RADIO_HTTP_GAP] read_time=991 ms bytes=2048
+I (96778) InternetRadio: [RADIO] buffer=1464 ms queue=61 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (96918) AudioService: [RADIO_PREBUFFER] buffering... current=1512 ms target=2000 ms (queue=63)
+W (97788) InternetRadio: [RADIO_HTTP_GAP] read_time=991 ms bytes=2048
+I (97938) AudioService: [RADIO_PREBUFFER] buffering... current=1656 ms target=2000 ms (queue=69)
+W (98828) InternetRadio: [RADIO_HTTP_GAP] read_time=1006 ms bytes=2048
+I (98978) AudioService: [RADIO_PREBUFFER] buffering... current=1776 ms target=2000 ms (queue=74)
+I (99508) SystemInfo: free sram: 39111 minimal sram: 10724
+W (99848) InternetRadio: [RADIO_HTTP_GAP] read_time=990 ms bytes=2048
+I (100008) AudioService: [RADIO_PREBUFFER] buffering... current=1968 ms target=2000 ms (queue=82)
+I (100228) RAM: internal free=38639 min=10724 largest=11264 | psram free=7283300 min=7280992 largest=7208960
+W (100858) InternetRadio: [RADIO_HTTP_GAP] read_time=968 ms bytes=2048
+I (100868) AudioService: [RADIO_OUTPUT] queue=83 buffer=1992 ms pcm=24 ms write=0 ms wait_in_q=9117 ms
+I (101398) AudioService: [RADIO_OUTPUT] queue=63 buffer=1512 ms pcm=24 ms write=19 ms wait_in_q=9281 ms
+W (101878) InternetRadio: [RADIO_HTTP_GAP] read_time=997 ms bytes=2048
+I (101898) InternetRadio: [RADIO] buffer=1056 ms queue=44 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (101928) AudioService: [RADIO_OUTPUT] queue=47 buffer=1128 ms pcm=24 ms write=29 ms wait_in_q=8180 ms
+I (102428) AudioService: [RADIO_OUTPUT] queue=26 buffer=624 ms pcm=24 ms write=19 ms wait_in_q=4597 ms
+W (102908) InternetRadio: [RADIO_HTTP_GAP] read_time=992 ms bytes=2048
+I (102938) AudioService: [RADIO_OUTPUT] queue=10 buffer=240 ms pcm=24 ms write=29 ms wait_in_q=1017 ms
+W (103928) InternetRadio: [RADIO_HTTP_GAP] read_time=997 ms bytes=2048
+I (103938) AudioService: [RADIO_PCM] ptr=0x3c3dbf80 size=1152 bytes PSRAM=YES (queue=1)
+I (103938) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=2000 ms (queue=1)
+W (104958) InternetRadio: [RADIO_HTTP_GAP] read_time=990 ms bytes=2048
+I (104968) AudioService: [RADIO_PREBUFFER] buffering... current=144 ms target=2000 ms (queue=6)
+I (105218) RAM: internal free=43227 min=10724 largest=11264 | psram free=7365376 min=7277524 largest=7340032
+W (105988) InternetRadio: [RADIO_HTTP_GAP] read_time=990 ms bytes=2048
+I (105988) AudioService: [RADIO_PREBUFFER] buffering... current=288 ms target=2000 ms (queue=12)
+W (106998) InternetRadio: [RADIO_HTTP_GAP] read_time=971 ms bytes=2048
+I (107008) AudioService: [RADIO_PREBUFFER] buffering... current=480 ms target=2000 ms (queue=20)
+I (107008) InternetRadio: [RADIO] buffer=504 ms queue=21 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (108028) InternetRadio: [RADIO_HTTP_GAP] read_time=988 ms bytes=2048
+I (108038) AudioService: [RADIO_PREBUFFER] buffering... current=600 ms target=2000 ms (queue=25)
+W (109058) InternetRadio: [RADIO_HTTP_GAP] read_time=1000 ms bytes=2048
+I (109058) AudioService: [RADIO_PREBUFFER] buffering... current=720 ms target=2000 ms (queue=30)
+I (109068) AudioService: [RADIO_PCM] ptr=0x3c3f0738 size=1152 bytes PSRAM=YES (queue=32)
+I (109518) SystemInfo: free sram: 41279 minimal sram: 10724
+W (110078) InternetRadio: [RADIO_HTTP_GAP] read_time=984 ms bytes=2048
+I (110078) AudioService: [RADIO_PREBUFFER] buffering... current=864 ms target=2000 ms (queue=36)
+W (110118) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (110218) RAM: internal free=46215 min=10724 largest=11264 | psram free=7359652 min=7277524 largest=7208960
+I (111138) AudioService: [RADIO_PREBUFFER] buffering... current=1008 ms target=2000 ms (queue=42)
+I (112128) InternetRadio: Stream connected: status=200 content_type=unknown
+I (112128) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (112128) InternetRadio: [RADIO] buffer=1008 ms queue=42 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (112158) AudioService: [RADIO_PREBUFFER] buffering... current=1008 ms target=2000 ms (queue=42)
+W (113148) InternetRadio: [RADIO_HTTP_GAP] read_time=1010 ms bytes=2048
+I (113148) InternetRadio: Received first stream data: bytes=2048
+I (113148) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (113158) RAM: [RADIO_PLAYING] internal free=37019 min=10724 largest=11264 | psram free=7329540 min=7277524 largest=7208960
+I (113168) AudioService: [RADIO_PREBUFFER] buffering... current=1032 ms target=2000 ms (queue=43)
+I (113668) AudioService: [RADIO_OUTPUT] queue=83 buffer=1992 ms pcm=24 ms write=0 ms wait_in_q=9726 ms
+I (114188) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=7126 ms
+I (114688) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=1478 ms
+I (115198) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=28 ms wait_in_q=1731 ms
+I (115218) RAM: internal free=30799 min=10724 largest=11264 | psram free=7278680 min=7277524 largest=7208960
+I (115698) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=1987 ms
+I (116228) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (116728) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (117178) InternetRadio: [RADIO] buffer=2016 ms queue=84 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (117258) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2010 ms
+I (117768) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (118268) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2019 ms
+I (118768) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2012 ms
+I (119298) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (119518) SystemInfo: free sram: 34851 minimal sram: 10724
+I (119808) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (120228) RAM: internal free=31523 min=10724 largest=11264 | psram free=7277524 min=7277524 largest=7208960
+I (120308) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2015 ms
+I (120838) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (121338) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (121848) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=2009 ms
+I (122218) InternetRadio: [RADIO] buffer=2016 ms queue=84 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (122348) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=20 ms wait_in_q=2008 ms
+I (122878) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=2009 ms
+I (123378) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2012 ms
+I (123908) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (124438) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=2000 ms
+I (124938) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2020 ms
+I (125218) RAM: internal free=34155 min=10724 largest=11264 | psram free=7277524 min=7277524 largest=7208960
+I (125468) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (125968) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2010 ms
+I (126498) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (127008) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=28 ms wait_in_q=2000 ms
+W (127488) InternetRadio: [RADIO_HTTP_GAP] read_time=395 ms bytes=2048
+I (127498) InternetRadio: [RADIO] buffer=1680 ms queue=70 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (127508) AudioService: [RADIO_OUTPUT] queue=70 buffer=1680 ms pcm=24 ms write=18 ms wait_in_q=2019 ms
+I (128038) AudioService: [RADIO_OUTPUT] queue=50 buffer=1200 ms pcm=24 ms write=29 ms wait_in_q=2002 ms
+W (128528) InternetRadio: [RADIO_HTTP_GAP] read_time=1007 ms bytes=2048
+I (128538) AudioService: [RADIO_OUTPUT] queue=30 buffer=720 ms pcm=24 ms write=19 ms wait_in_q=1987 ms
+I (128558) AudioService: [RADIO_PCM] ptr=0x3c3e88c8 size=1152 bytes PSRAM=YES (queue=32)
+I (129068) AudioService: [RADIO_OUTPUT] queue=45 buffer=1080 ms pcm=24 ms write=19 ms wait_in_q=2012 ms
+I (129528) SystemInfo: free sram: 41019 minimal sram: 10724
+W (129538) InternetRadio: [RADIO_HTTP_GAP] read_time=301 ms bytes=2048
+I (129598) AudioService: [RADIO_OUTPUT] queue=41 buffer=984 ms pcm=24 ms write=29 ms wait_in_q=832 ms
+I (130098) AudioService: [RADIO_OUTPUT] queue=26 buffer=624 ms pcm=24 ms write=19 ms wait_in_q=1027 ms
+I (130218) RAM: internal free=41947 min=10724 largest=11264 | psram free=7353816 min=7277524 largest=7208960
+W (130568) InternetRadio: [RADIO_HTTP_GAP] read_time=926 ms bytes=2048
+I (130628) AudioService: [RADIO_OUTPUT] queue=9 buffer=216 ms pcm=24 ms write=19 ms wait_in_q=991 ms
+W (131578) InternetRadio: [RADIO_HTTP_GAP] read_time=907 ms bytes=2048
+I (131588) AudioService: [RADIO_PCM] ptr=0x3c3dbf40 size=1152 bytes PSRAM=YES (queue=1)
+I (131588) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=2000 ms (queue=1)
+W (132608) InternetRadio: [RADIO_HTTP_GAP] read_time=641 ms bytes=2048
+I (132608) AudioService: [RADIO_PREBUFFER] buffering... current=720 ms target=2000 ms (queue=30)
+I (132618) AudioService: [RADIO_PCM] ptr=0x3c3f0738 size=1152 bytes PSRAM=YES (queue=32)
+I (132618) InternetRadio: [RADIO] buffer=768 ms queue=32 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (133518) AudioService: [RADIO_OUTPUT] queue=83 buffer=1992 ms pcm=24 ms write=0 ms wait_in_q=1930 ms
+I (134048) AudioService: [RADIO_OUTPUT] queue=72 buffer=1728 ms pcm=24 ms write=19 ms wait_in_q=2099 ms
+W (134078) InternetRadio: [RADIO_HTTP_GAP] read_time=325 ms bytes=2048
+I (134548) AudioService: [RADIO_OUTPUT] queue=56 buffer=1344 ms pcm=24 ms write=19 ms wait_in_q=1688 ms
+W (134658) InternetRadio: [RADIO_HTTP_GAP] read_time=547 ms bytes=2048
+I (135078) AudioService: [RADIO_OUTPUT] queue=45 buffer=1080 ms pcm=24 ms write=19 ms wait_in_q=1936 ms
+I (135218) RAM: internal free=40883 min=10724 largest=11264 | psram free=7331852 min=7277520 largest=7208960
+I (135608) AudioService: [RADIO_OUTPUT] queue=23 buffer=552 ms pcm=24 ms write=19 ms wait_in_q=1938 ms
+W (135678) InternetRadio: [RADIO_HTTP_GAP] read_time=916 ms bytes=2048
+I (136138) AudioService: [RADIO_OUTPUT] queue=6 buffer=144 ms pcm=24 ms write=29 ms wait_in_q=1349 ms
+W (136708) InternetRadio: [RADIO_HTTP_GAP] read_time=997 ms bytes=2048
+I (136708) AudioService: [RADIO_PCM] ptr=0x3c3dbf40 size=1152 bytes PSRAM=YES (queue=1)
+I (136708) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=2000 ms (queue=1)
+I (137718) AudioService: [RADIO_PREBUFFER] buffering... current=384 ms target=2000 ms (queue=16)
+W (137728) InternetRadio: [RADIO_HTTP_GAP] read_time=850 ms bytes=2048
+I (137738) InternetRadio: [RADIO] buffer=456 ms queue=19 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (138728) AudioService: [RADIO_PREBUFFER] buffering... current=648 ms target=2000 ms (queue=27)
+W (138748) InternetRadio: [RADIO_HTTP_GAP] read_time=916 ms bytes=2048
+I (138768) AudioService: [RADIO_PCM] ptr=0x3c3f0738 size=1152 bytes PSRAM=YES (queue=32)
+I (139448) AudioService: [RADIO_OUTPUT] queue=83 buffer=1992 ms pcm=24 ms write=0 ms wait_in_q=2735 ms
+I (139518) SystemInfo: free sram: 37483 minimal sram: 10724
+I (139968) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2134 ms
+I (140218) RAM: internal free=33603 min=10724 largest=11264 | psram free=7277520 min=7277520 largest=7208960
+I (140468) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=1513 ms
+I (140998) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=1745 ms
+I (141508) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1978 ms
+I (142008) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2018 ms
+I (142508) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2017 ms
+I (142738) InternetRadio: [RADIO] buffer=2016 ms queue=84 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (143018) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (143518) AudioService: [RADIO_OUTPUT] queue=83 buffer=1992 ms pcm=24 ms write=19 ms wait_in_q=2007 ms
+I (144028) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=2000 ms
+I (144528) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2010 ms
+I (145058) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (145218) RAM: internal free=30283 min=10724 largest=11264 | psram free=7277524 min=7277520 largest=7208960
+I (145558) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2002 ms
+I (146068) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=29 ms wait_in_q=1997 ms
+I (146568) AudioService: [RADIO_OUTPUT] queue=84 buffer=2016 ms pcm=24 ms write=19 ms wait_in_q=2019 ms
+I (147028) Application: Wake word detected: Hey Kira (state: 3)
+I (147028) RAM: [RADIO_STOP] internal free=32147 min=10724 largest=11264 | psram free=7278680 min=7277520 largest=7208960
+I (147058) AudioManager: Releasing audio focus from source 3
+I (147068) StateMachine: State: idle -> connecting
+I (147078) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (147078) wifi:Set ps type: 0, coexist: 0
+
+I (147278) AfeAudioEngine: Encoded wake word into 33 packets in 216 ms
+I (147448) MQTT: Session ID: f89b0099
+I (147448) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (147448) wifi:Set ps type: 0, coexist: 0
+
+I (147458) Application: Wake word detected: Hey Kira
+I (147498) StateMachine: State: connecting -> listening
+I (147878) Application: >> Hey Kira
+I (147898) StateMachine: State: listening -> speaking
+I (148318) Application: << Привет! Чем могу помочь?
+W (148348) MQTT: Received audio packet with wrong sequence: 3, expected: 2
+W (148348) MQTT: [AUDIO_SEQ_GAP] time=148182 ms received=3 expected=2 delta=1 payload_len=240 dec_q=0 play_q=0
+W (148348) MQTT: Received duplicate/old audio sequence: 2, last: 3
+I (150218) RAM: internal free=50363 min=10724 largest=14848 | psram free=7429904 min=7277520 largest=7340032
+I (150728) StateMachine: State: speaking -> listening
+I (155218) RAM: internal free=48099 min=10724 largest=12800 | psram free=7435608 min=7277520 largest=7340032
+I (160218) RAM: internal free=50395 min=10724 largest=14848 | psram free=7433300 min=7277520 largest=7340032
+I (160508) SystemInfo: free sram: 48471 minimal sram: 10724
+I (162858) Application: >> Включи душевное радио Минск.
+I (162888) StateMachine: State: listening -> speaking
+I (163618) Application: << Сейчас найду и включю душевное радио из Минска!
+I (165218) RAM: internal free=48027 min=10724 largest=12800 | psram free=7429840 min=7277520 largest=7340032
+I (166678) Application: << % radio.search_stations...
+I (166718) RadioBrowser: [RADIO_SEARCH] query="душевное" countrycode="BY" language="" tag="" limit=5
+I (166718) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (167018) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (167018) RadioBrowser: Search request succeeded: status=200 response_len=2450
+I (167978) Application: << % radio.play_station...
+I (167988) Application: Abort speaking
+I (167998) MQTT: Closing audio channel, send_goodbye: 1
+I (167998) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (167998) wifi:Set ps type: 2, coexist: 0
+
+I (167998) StateMachine: State: speaking -> idle
+I (168008) RAM: [RADIO_START] internal free=48959 min=10724 largest=11264 | psram free=7435608 min=7277520 largest=7340032
+I (168018) AudioManager: Audio focus requested by source 3 (current 0)
+W (169058) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (170088) MQTT: Received goodbye message, session_id: f89b0099
+I (170088) MQTT: Closing audio channel, send_goodbye: 0
+I (170088) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (170088) MQTT: Received goodbye message, session_id: f89b0099
+I (170088) wifi:Set ps type: 2, coexist: 0
+
+I (170098) MQTT: Closing audio channel, send_goodbye: 0
+I (170108) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (170118) wifi:Set ps type: 2, coexist: 0
+
+I (170218) RAM: internal free=44551 min=10724 largest=11264 | psram free=7419872 min=7277520 largest=7340032
+I (175208) InternetRadio: Stream connected: status=200 content_type=unknown
+I (175208) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (175208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (175218) InternetRadio: Received first stream data: bytes=2048
+I (175218) RAM: internal free=40783 min=10724 largest=11264 | psram free=7382896 min=7277520 largest=7340032
+I (175228) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (175248) RAM: [RADIO_PLAYING] internal free=38935 min=10724 largest=11264 | psram free=7356884 min=7277520 largest=7340032
+I (175258) AudioService: [RADIO_PCM] ptr=0x3c3ece08 size=1252 bytes PSRAM=YES (queue=1)
+I (175258) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (175438) AudioService: [RADIO_PCM] ptr=0x3c3f5f7c size=1252 bytes PSRAM=YES (queue=32)
+I (176298) AudioService: [RADIO_PREBUFFER] buffering... current=884 ms target=2000 ms (queue=34)
+I (177318) AudioService: [RADIO_PREBUFFER] buffering... current=884 ms target=2000 ms (queue=34)
+I (177508) SystemInfo: free sram: 37867 minimal sram: 10724
+W (178278) InternetRadio: [RADIO_HTTP_GAP] read_time=2823 ms bytes=2048
+I (178318) AudioService: [RADIO_PREBUFFER] buffering... current=1040 ms target=2000 ms (queue=40)
+I (179338) AudioService: [RADIO_PREBUFFER] buffering... current=1898 ms target=2000 ms (queue=73)
+I (180218) RAM: internal free=35679 min=10724 largest=11264 | psram free=7266804 min=7264496 largest=7208960
+I (180358) AudioService: [RADIO_PREBUFFER] buffering... current=1898 ms target=2000 ms (queue=73)
+W (181358) InternetRadio: [RADIO_HTTP_GAP] read_time=2851 ms bytes=2048
+I (181358) AudioService: [RADIO_PREBUFFER] buffering... current=1924 ms target=2000 ms (queue=74)
+I (181378) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=6120 ms
+I (181378) InternetRadio: [RADIO] buffer=1976 ms queue=76 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (181928) AudioService: [RADIO_OUTPUT] queue=77 buffer=2002 ms pcm=26 ms write=19 ms wait_in_q=6511 ms
+I (182458) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=4098 ms
+I (182978) AudioService: [RADIO_OUTPUT] queue=49 buffer=1274 ms pcm=26 ms write=29 ms wait_in_q=4502 ms
+W (183398) InternetRadio: [RADIO_HTTP_GAP] read_time=1173 ms bytes=2048
+I (183498) AudioService: [RADIO_OUTPUT] queue=45 buffer=1170 ms pcm=26 ms write=29 ms wait_in_q=1987 ms
+I (183998) AudioService: [RADIO_OUTPUT] queue=49 buffer=1274 ms pcm=26 ms write=29 ms wait_in_q=1997 ms
+I (184518) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=1023 ms
+I (185008) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=19 ms wait_in_q=1418 ms
+I (185218) RAM: internal free=40411 min=10724 largest=12800 | psram free=7357968 min=7258076 largest=7208960
+W (186468) InternetRadio: [RADIO_HTTP_GAP] read_time=2848 ms bytes=2048
+I (186478) AudioService: [RADIO_PCM] ptr=0x3c3e0c68 size=1252 bytes PSRAM=YES (queue=1)
+I (186478) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (186538) InternetRadio: [RADIO] buffer=130 ms queue=5 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (186688) AudioService: [RADIO_PCM] ptr=0x3c3f5b7c size=1252 bytes PSRAM=YES (queue=32)
+I (187098) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=620 ms
+I (187518) SystemInfo: free sram: 37047 minimal sram: 10724
+I (187648) AudioService: [RADIO_OUTPUT] queue=56 buffer=1456 ms pcm=26 ms write=19 ms wait_in_q=986 ms
+I (188178) AudioService: [RADIO_OUTPUT] queue=36 buffer=936 ms pcm=26 ms write=29 ms wait_in_q=1247 ms
+I (188698) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=1650 ms
+W (189548) InternetRadio: [RADIO_HTTP_GAP] read_time=2441 ms bytes=2048
+I (189558) AudioService: [RADIO_PCM] ptr=0x3c3e0c68 size=1252 bytes PSRAM=YES (queue=1)
+I (189558) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=2000 ms (queue=1)
+I (189738) AudioService: [RADIO_PCM] ptr=0x3c3f5b7c size=1252 bytes PSRAM=YES (queue=32)
+I (190228) RAM: internal free=37443 min=10724 largest=12800 | psram free=7310460 min=7258076 largest=7208960
+I (190618) AudioService: [RADIO_PREBUFFER] buffering... current=1014 ms target=2000 ms (queue=39)
+W (191588) InternetRadio: [RADIO_HTTP_GAP] read_time=1816 ms bytes=2048
+I (191618) AudioService: [RADIO_PREBUFFER] buffering... current=1118 ms target=2000 ms (queue=43)
+I (191618) InternetRadio: [RADIO] buffer=1144 ms queue=44 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (191808) AudioService: [RADIO_OUTPUT] queue=76 buffer=1976 ms pcm=26 ms write=0 ms wait_in_q=2256 ms
+I (192358) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=19 ms wait_in_q=2651 ms
+I (192888) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=29 ms wait_in_q=1238 ms
+I (193378) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=19 ms wait_in_q=1630 ms
+W (193638) InternetRadio: [RADIO_HTTP_GAP] read_time=1823 ms bytes=2048
+I (193828) AudioService: [RADIO_PCM] ptr=0x3c3f6080 size=1252 bytes PSRAM=YES (queue=32)
+I (193898) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=19 ms wait_in_q=211 ms
+I (194428) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=622 ms
+I (194528) Application: Wake word detected: Hey Kira (state: 3)
+I (194528) RAM: [RADIO_STOP] internal free=39867 min=10724 largest=12800 | psram free=7346412 min=7258076 largest=7208960
+I (195218) RAM: internal free=40639 min=10724 largest=12800 | psram free=7360536 min=7258076 largest=7340032
+W (196718) InternetRadio: [RADIO_HTTP_GAP] read_time=2854 ms bytes=2048
+I (196718) AudioManager: Releasing audio focus from source 3
+I (196728) StateMachine: State: idle -> connecting
+I (196938) AfeAudioEngine: Encoded wake word into 33 packets in 215 ms
+I (196958) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (196958) wifi:Set ps type: 0, coexist: 0
+
+I (197348) MQTT: Session ID: 721eac98
+I (197348) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (197348) wifi:Set ps type: 0, coexist: 0
+
+I (197348) Application: Wake word detected: Hey Kira
+I (197398) StateMachine: State: connecting -> listening
+I (197778) Application: >> Hey Kira
+I (197788) StateMachine: State: listening -> speaking
+I (198238) Application: << Привет!  Чем могу помочь?
+I (200218) RAM: internal free=48291 min=10724 largest=12800 | psram free=7427020 min=7258076 largest=7340032
+I (200288) StateMachine: State: speaking -> listening
+I (205198) Application: >> Или какое-нибудь польское радио на свой выбор с песнями.
+I (205218) StateMachine: State: listening -> speaking
+I (205218) RAM: internal free=46259 min=10724 largest=12800 | psram free=7432788 min=7258076 largest=7340032
+I (205748) Application: << Хорошо, поищу польское радио с музыкой!
+I (209118) Application: << % radio.search_stations...
+I (209128) RadioBrowser: [RADIO_SEARCH] query="" countrycode="PL" language="" tag="pop" limit=5
+I (209128) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (209368) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (209368) RadioBrowser: Search request succeeded: status=200 response_len=5662
+I (210218) RAM: internal free=47827 min=10724 largest=12800 | psram free=7432788 min=7258076 largest=7340032
+I (210708) Application: << Нашла несколько польских радиостанций с музыкой!
+I (213768) Application: << Включу ESKA из Варшавы —
+I (214518) SystemInfo: free sram: 48235 minimal sram: 10724
+I (215218) RAM: internal free=48231 min=10724 largest=12800 | psram free=7424136 min=7258076 largest=7340032
+I (215638) Application: << это популярная станция с танцевальной и поп-музыкой.
+I (219178) Application: << % radio.play_station...
+I (219188) Application: Abort speaking
+I (219198) MQTT: Closing audio channel, send_goodbye: 1
+I (219198) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (219198) wifi:Set ps type: 2, coexist: 0
+
+I (219198) StateMachine: State: speaking -> idle
+I (219208) RAM: [RADIO_START] internal free=45531 min=10724 largest=12800 | psram free=7427020 min=7258076 largest=7340032
+I (219218) AudioManager: Audio focus requested by source 3 (current 0)
+W (219328) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (220158) MQTT: Received goodbye message, session_id: 721eac98
+I (220158) MQTT: Closing audio channel, send_goodbye: 0
+I (220158) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (220168) wifi:Set ps type: 2, coexist: 0
+
+I (220168) MQTT: Received goodbye message, session_id: 721eac98
+I (220178) MQTT: Closing audio channel, send_goodbye: 0
+I (220178) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (220188) wifi:Set ps type: 2, coexist: 0
+
+I (220218) RAM: internal free=42731 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (221358) InternetRadio: Stream connected: status=302 content_type=unknown
+I (221358) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (221358) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+W (221368) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (221938) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (223428) InternetRadio: Stream connected: status=302 content_type=unknown
+I (223438) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (223438) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
+W (223448) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (224008) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (225198) InternetRadio: Stream connected: status=302 content_type=unknown
+I (225208) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (225208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=3 dec_err=0 status=PLAYING
+W (225218) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (225218) RAM: internal free=44563 min=10724 largest=12800 | psram free=7408204 min=7258076 largest=7340032
+W (225828) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (226838) InternetRadio: Stream connected: status=302 content_type=unknown
+I (226838) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (226838) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=4 dec_err=0 status=PLAYING
+W (226848) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (227398) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (228298) InternetRadio: Stream connected: status=302 content_type=unknown
+I (228298) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (228298) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=5 dec_err=0 status=PLAYING
+W (228308) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (228508) SystemInfo: free sram: 45251 minimal sram: 10724
+W (228888) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (230218) RAM: internal free=41519 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (230618) InternetRadio: Stream connected: status=302 content_type=unknown
+I (230618) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (230618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=6 dec_err=0 status=PLAYING
+W (230628) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (231188) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (232208) InternetRadio: Stream connected: status=302 content_type=unknown
+I (232208) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (232208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=7 dec_err=0 status=PLAYING
+W (232218) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (232778) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (233768) InternetRadio: Stream connected: status=302 content_type=unknown
+I (233768) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (233768) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=8 dec_err=0 status=PLAYING
+W (233778) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (234338) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (235218) RAM: internal free=41567 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (235738) InternetRadio: Stream connected: status=302 content_type=unknown
+I (235738) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (235738) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=9 dec_err=0 status=PLAYING
+W (235748) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (236288) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (237748) InternetRadio: Stream connected: status=302 content_type=unknown
+I (237748) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (237748) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=10 dec_err=0 status=PLAYING
+W (237758) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (238298) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (238518) SystemInfo: free sram: 40159 minimal sram: 10724
+I (239228) InternetRadio: Stream connected: status=302 content_type=unknown
+I (239228) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (239228) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=11 dec_err=0 status=PLAYING
+W (239238) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (239788) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (240218) RAM: internal free=44587 min=10724 largest=12800 | psram free=7417488 min=7258076 largest=7340032
+I (240738) InternetRadio: Stream connected: status=302 content_type=unknown
+I (240738) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (240738) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=12 dec_err=0 status=PLAYING
+W (240758) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (241318) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (242918) InternetRadio: Stream connected: status=302 content_type=unknown
+I (242918) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (242918) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=13 dec_err=0 status=PLAYING
+W (242928) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (243478) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (244918) InternetRadio: Stream connected: status=302 content_type=unknown
+I (244918) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (244918) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=14 dec_err=0 status=PLAYING
+W (244928) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (245218) RAM: internal free=44891 min=10724 largest=12800 | psram free=7408204 min=7258076 largest=7340032
+W (245468) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (246938) InternetRadio: Stream connected: status=302 content_type=unknown
+I (246938) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (246938) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=15 dec_err=0 status=PLAYING
+W (246948) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (247488) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (248518) SystemInfo: free sram: 41035 minimal sram: 10724
+I (248988) InternetRadio: Stream connected: status=302 content_type=unknown
+I (248988) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (248988) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=16 dec_err=0 status=PLAYING
+W (248998) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (249558) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (250218) RAM: internal free=44615 min=10724 largest=12800 | psram free=7416796 min=7258076 largest=7340032
+I (251038) InternetRadio: Stream connected: status=302 content_type=unknown
+I (251038) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (251038) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=17 dec_err=0 status=PLAYING
+W (251048) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (251578) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (253088) InternetRadio: Stream connected: status=302 content_type=unknown
+I (253088) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (253098) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=18 dec_err=0 status=PLAYING
+W (253108) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (253638) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (255128) InternetRadio: Stream connected: status=302 content_type=unknown
+I (255128) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (255128) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=19 dec_err=0 status=PLAYING
+W (255138) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (255218) RAM: internal free=45227 min=10724 largest=12800 | psram free=7408204 min=7258076 largest=7340032
+W (255688) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (257248) InternetRadio: Stream connected: status=302 content_type=unknown
+I (257248) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (257258) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=20 dec_err=0 status=PLAYING
+W (257268) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (257808) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (258518) SystemInfo: free sram: 44743 minimal sram: 10724
+I (259258) InternetRadio: Stream connected: status=302 content_type=unknown
+I (259258) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (259258) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=21 dec_err=0 status=PLAYING
+W (259268) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (259798) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (260218) RAM: internal free=44743 min=10724 largest=12800 | psram free=7416876 min=7258076 largest=7340032
+I (261298) InternetRadio: Stream connected: status=302 content_type=unknown
+I (261298) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (261298) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=22 dec_err=0 status=PLAYING
+W (261308) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (261858) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (263318) InternetRadio: Stream connected: status=302 content_type=unknown
+I (263318) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (263328) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=23 dec_err=0 status=PLAYING
+W (263328) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (263868) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (265218) RAM: internal free=41299 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (265288) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=231 => point.x=231, point.y=1 (top_bar=1)
+I (265338) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=231 => point.x=231, point.y=1 (top_bar=1)
+I (265368) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (265368) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (265378) InternetRadio: Stream connected: status=302 content_type=unknown
+I (265378) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (265388) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=24 dec_err=0 status=PLAYING
+W (265398) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (265958) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (267428) InternetRadio: Stream connected: status=302 content_type=unknown
+I (267428) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (267428) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=25 dec_err=0 status=PLAYING
+W (267448) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (267988) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (268538) SystemInfo: free sram: 44723 minimal sram: 10724
+I (269368) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=433 => point.x=433, point.y=49 (top_bar=1)
+I (269428) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=433 => point.x=433, point.y=49 (top_bar=1)
+I (269468) InternetRadio: Stream connected: status=302 content_type=unknown
+I (269468) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (269468) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=26 dec_err=0 status=PLAYING
+W (269478) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (269498) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+W (270008) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (270218) RAM: internal free=40031 min=10724 largest=12800 | psram free=7403140 min=7258076 largest=7340032
+I (271508) InternetRadio: Stream connected: status=302 content_type=unknown
+I (271508) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (271508) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=27 dec_err=0 status=PLAYING
+W (271518) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (272048) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (273568) InternetRadio: Stream connected: status=302 content_type=unknown
+I (273568) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (273568) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=28 dec_err=0 status=PLAYING
+W (273578) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (274118) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (275218) RAM: internal free=41231 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (275608) InternetRadio: Stream connected: status=302 content_type=unknown
+I (275618) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (275618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=29 dec_err=0 status=PLAYING
+W (275628) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (276168) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (277658) InternetRadio: Stream connected: status=302 content_type=unknown
+I (277658) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (277658) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=30 dec_err=0 status=PLAYING
+W (277668) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (278208) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (278508) SystemInfo: free sram: 42927 minimal sram: 10724
+I (279728) InternetRadio: Stream connected: status=302 content_type=unknown
+I (279738) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (279738) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=31 dec_err=0 status=PLAYING
+W (279748) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+I (280218) RAM: internal free=44895 min=10724 largest=12800 | psram free=7408204 min=7258076 largest=7340032
+W (280278) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (281758) InternetRadio: Stream connected: status=302 content_type=unknown
+I (281758) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (281758) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=32 dec_err=0 status=PLAYING
+W (281768) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (282298) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (283798) InternetRadio: Stream connected: status=302 content_type=unknown
+I (283798) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (283808) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=33 dec_err=0 status=PLAYING
+W (283808) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (284358) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (285218) RAM: internal free=41591 min=10724 largest=12800 | psram free=7423184 min=7258076 largest=7340032
+I (285858) InternetRadio: Stream connected: status=302 content_type=unknown
+I (285858) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (285858) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=34 dec_err=0 status=PLAYING
+W (285878) InternetRadio: [RADIO_HTTP_ERROR] read returned 0
+W (286408) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.

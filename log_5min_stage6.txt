@@ -1,0 +1,607 @@
+I (15218) RAM: internal free=54579 min=27252 largest=21504 | psram free=7446884 min=7433032 largest=7340032
+I (20218) RAM: internal free=60071 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (23508) SystemInfo: free sram: 60071 minimal sram: 27252
+I (25218) RAM: internal free=59939 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (30218) RAM: internal free=60071 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (33508) SystemInfo: free sram: 60071 minimal sram: 27252
+I (35218) RAM: internal free=59635 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (40218) RAM: internal free=60071 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (43508) SystemInfo: free sram: 60071 minimal sram: 27252
+I (45218) RAM: internal free=60071 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (50218) RAM: internal free=59743 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (53508) SystemInfo: free sram: 60071 minimal sram: 27252
+I (55218) RAM: internal free=59939 min=27252 largest=24576 | psram free=7476080 min=7433032 largest=7471104
+I (56658) Application: Wake word detected: Hey Kira (state: 3)
+I (56658) StateMachine: State: idle -> connecting
+I (56868) AfeAudioEngine: Encoded wake word into 33 packets in 211 ms
+I (56888) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (56888) wifi:Set ps type: 0, coexist: 0
+
+I (57258) MQTT: Session ID: c27bb344
+I (57258) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (57258) wifi:Set ps type: 0, coexist: 0
+
+I (57258) Application: Wake word detected: Hey Kira
+I (57308) StateMachine: State: connecting -> listening
+I (57658) Application: >> Hey Kira
+I (57708) StateMachine: State: listening -> speaking
+I (59068) Application: << Привет! Чем могу помочь?
+I (60218) RAM: internal free=54099 min=27252 largest=18432 | psram free=7427016 min=7409252 largest=7340032
+I (61418) StateMachine: State: speaking -> listening
+I (65218) RAM: internal free=54483 min=27252 largest=18432 | psram free=7432784 min=7409252 largest=7340032
+I (66068) Application: >> Включи радио юмор FM.
+I (66068) StateMachine: State: listening -> speaking
+I (66888) Application: << Сейчас включу Юмор FM!
+I (68688) Application: << % radio.play_favorite...
+I (69598) Application: << Похоже,
+I (70218) RAM: internal free=54251 min=27252 largest=18432 | psram free=7411652 min=7393888 largest=7340032
+I (70328) Application: << Юмор FM не найден в избранном.
+I (72788) Application: << Попробую найти её в радиобраузере!
+I (75218) RAM: internal free=54347 min=27252 largest=18432 | psram free=7411652 min=7393888 largest=7340032
+I (75368) Application: << % radio.search_stations...
+I (75668) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (75678) SystemInfo: free sram: 51923 minimal sram: 27252
+I (78388) Application: << % radio.play_station...
+I (78408) Application: Abort speaking
+I (78418) MQTT: Closing audio channel, send_goodbye: 1
+I (78418) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (78418) wifi:Set ps type: 2, coexist: 0
+
+I (78418) StateMachine: State: speaking -> idle
+I (78428) RAM: [RADIO_START] internal free=55247 min=27252 largest=18432 | psram free=7417420 min=7393888 largest=7340032
+I (78438) AudioManager: Audio focus requested by source 3 (current 0)
+I (80218) RAM: internal free=48191 min=27252 largest=18432 | psram free=7413320 min=7393888 largest=7340032
+I (80518) MQTT: Received goodbye message, session_id: c27bb344
+I (80518) MQTT: Closing audio channel, send_goodbye: 0
+I (80518) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (80518) MQTT: Received goodbye message, session_id: c27bb344
+I (80528) wifi:Set ps type: 2, coexist: 0
+
+I (80528) MQTT: Closing audio channel, send_goodbye: 0
+I (80538) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (80548) wifi:Set ps type: 2, coexist: 0
+
+E (80578) esp-tls: [sock=55] select() timeout
+E (80578) transport_base: Failed to open a new connection: 32774
+E (80578) HTTP_CLIENT: Connection failed, sock < 0
+W (80578) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+E (84598) esp-tls: [sock=55] select() timeout
+E (84598) transport_base: Failed to open a new connection: 32774
+E (84598) HTTP_CLIENT: Connection failed, sock < 0
+W (84598) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (85218) RAM: internal free=52555 min=27252 largest=18432 | psram free=7417420 min=7393888 largest=7340032
+I (87528) SystemInfo: free sram: 50171 minimal sram: 27252
+E (88618) esp-tls: [sock=55] select() timeout
+E (88618) transport_base: Failed to open a new connection: 32774
+E (88618) HTTP_CLIENT: Connection failed, sock < 0
+W (88618) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (89458) FreenoveFnk0104sBoard: TOUCH READ: raw_x=316, raw_y=230 => point.x=230, point.y=4 (top_bar=1)
+I (89498) FreenoveFnk0104sBoard: TOUCH READ: raw_x=316, raw_y=230 => point.x=230, point.y=4 (top_bar=1)
+I (89548) FreenoveFnk0104sBoard: TOUCH READ: raw_x=316, raw_y=230 => point.x=230, point.y=4 (top_bar=1)
+I (89588) FreenoveFnk0104sBoard: TOUCH READ: raw_x=316, raw_y=230 => point.x=230, point.y=4 (top_bar=1)
+I (89638) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (89638) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (90218) RAM: internal free=52311 min=27252 largest=18432 | psram free=7417420 min=7393888 largest=7340032
+I (90868) FreenoveFnk0104sBoard: TOUCH READ: raw_x=291, raw_y=437 => point.x=437, point.y=29 (top_bar=1)
+I (90938) FreenoveFnk0104sBoard: TOUCH READ: raw_x=291, raw_y=437 => point.x=437, point.y=29 (top_bar=1)
+I (90998) FreenoveFnk0104sBoard: TOUCH READ: raw_x=289, raw_y=437 => point.x=437, point.y=31 (top_bar=1)
+I (91058) FreenoveFnk0104sBoard: TOUCH READ: raw_x=288, raw_y=437 => point.x=437, point.y=32 (top_bar=1)
+I (91118) FreenoveFnk0104sBoard: TOUCH READ: raw_x=287, raw_y=437 => point.x=437, point.y=33 (top_bar=1)
+I (91158) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+E (92648) esp-tls: [sock=55] select() timeout
+E (92648) transport_base: Failed to open a new connection: 32774
+E (92648) HTTP_CLIENT: Connection failed, sock < 0
+W (92648) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (95218) RAM: internal free=49807 min=27252 largest=18432 | psram free=7413320 min=7393888 largest=7340032
+E (96678) esp-tls: [sock=55] select() timeout
+E (96678) transport_base: Failed to open a new connection: 32774
+E (96678) HTTP_CLIENT: Connection failed, sock < 0
+W (96678) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (97528) SystemInfo: free sram: 52679 minimal sram: 27252
+I (100218) RAM: internal free=49839 min=27252 largest=18432 | psram free=7413320 min=7393888 largest=7340032
+E (100708) esp-tls: [sock=55] select() timeout
+E (100708) transport_base: Failed to open a new connection: 32774
+E (100708) HTTP_CLIENT: Connection failed, sock < 0
+W (100708) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (100828) Application: Wake word detected: Hey Kira (state: 3)
+I (100828) RAM: [RADIO_STOP] internal free=52303 min=27252 largest=18432 | psram free=7417420 min=7393888 largest=7340032
+I (102718) AudioManager: Releasing audio focus from source 3
+I (102728) StateMachine: State: idle -> connecting
+I (102938) AfeAudioEngine: Encoded wake word into 33 packets in 210 ms
+I (102958) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (102958) wifi:Set ps type: 0, coexist: 0
+
+I (103338) MQTT: Session ID: 3e8698ac
+I (103338) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (103338) wifi:Set ps type: 0, coexist: 0
+
+I (103338) Application: Wake word detected: Hey Kira
+I (103388) StateMachine: State: connecting -> listening
+I (103768) Application: >> Hey Kira
+I (103818) StateMachine: State: listening -> speaking
+I (105018) Application: << Привет!
+I (105218) RAM: internal free=51683 min=27252 largest=18432 | psram free=7411140 min=7392840 largest=7340032
+I (105838) Application: << Как дела?
+I (106968) StateMachine: State: speaking -> listening
+I (110218) RAM: internal free=51675 min=27252 largest=18432 | psram free=7417420 min=7392840 largest=7340032
+I (111628) Application: >> Запусти еще раз радио Юмор ФМС.
+I (111628) StateMachine: State: listening -> speaking
+I (112208) Application: << Поняла!
+I (112808) Application: << Сейчас включу для тебя радио Юмор FM.
+I (115218) RAM: internal free=51451 min=27252 largest=18432 | psram free=7408768 min=7392840 largest=7340032
+I (115558) Application: << % radio.search_stations...
+I (115808) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (118028) Application: << % radio.play_station...
+I (118028) Application: Abort speaking
+I (118038) MQTT: Closing audio channel, send_goodbye: 1
+I (118038) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (118038) wifi:Set ps type: 2, coexist: 0
+
+I (118038) StateMachine: State: speaking -> idle
+I (118048) RAM: [RADIO_START] internal free=52551 min=27252 largest=18432 | psram free=7417420 min=7392840 largest=7340032
+I (118058) AudioManager: Audio focus requested by source 3 (current 0)
+E (120118) esp-tls: [sock=55] select() timeout
+E (120118) transport_base: Failed to open a new connection: 32774
+E (120118) HTTP_CLIENT: Connection failed, sock < 0
+W (120118) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (120148) MQTT: Received goodbye message, session_id: 3e8698ac
+I (120148) MQTT: Closing audio channel, send_goodbye: 0
+I (120148) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (120148) MQTT: Received goodbye message, session_id: 3e8698ac
+I (120148) wifi:Set ps type: 2, coexist: 0
+
+I (120158) MQTT: Closing audio channel, send_goodbye: 0
+I (120168) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (120178) wifi:Set ps type: 2, coexist: 0
+
+I (120218) RAM: internal free=50359 min=27252 largest=18432 | psram free=7417420 min=7392840 largest=7340032
+E (124138) esp-tls: [sock=55] select() timeout
+E (124138) transport_base: Failed to open a new connection: 32774
+E (124138) HTTP_CLIENT: Connection failed, sock < 0
+W (124138) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (125218) RAM: internal free=50343 min=27252 largest=18432 | psram free=7417420 min=7392840 largest=7340032
+I (127508) SystemInfo: free sram: 47975 minimal sram: 27252
+E (128158) esp-tls: [sock=55] select() timeout
+E (128158) transport_base: Failed to open a new connection: 32774
+E (128158) HTTP_CLIENT: Connection failed, sock < 0
+W (128158) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (129528) Application: Wake word detected: Hey Kira (state: 3)
+I (129528) RAM: [RADIO_STOP] internal free=50371 min=27252 largest=18432 | psram free=7417420 min=7392840 largest=7340032
+I (130168) AudioManager: Releasing audio focus from source 3
+I (130178) StateMachine: State: idle -> connecting
+I (130218) RAM: internal free=54019 min=27252 largest=21504 | psram free=7392840 min=7392840 largest=7340032
+I (130388) AfeAudioEngine: Encoded wake word into 33 packets in 213 ms
+I (130398) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (130398) wifi:Set ps type: 0, coexist: 0
+
+I (130778) MQTT: Session ID: b1398436
+I (130778) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (130778) wifi:Set ps type: 0, coexist: 0
+
+I (130778) Application: Wake word detected: Hey Kira
+I (130818) StateMachine: State: connecting -> listening
+I (131198) Application: >> Hey Kira
+I (131218) StateMachine: State: listening -> speaking
+I (132358) Application: << Привет!
+I (132928) Application: << Чем могу помочь?
+I (134548) StateMachine: State: speaking -> listening
+I (135218) RAM: internal free=47371 min=27252 largest=18432 | psram free=7419728 min=7392840 largest=7340032
+I (139878) Application: >> А поищи все радиостанции Юмор-ФМ.
+I (139878) StateMachine: State: listening -> speaking
+I (140218) RAM: internal free=49647 min=27252 largest=18432 | psram free=7416908 min=7392840 largest=7340032
+I (142248) Application: << % radio.search_stations...
+I (142438) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (143378) Application: << По запросу "
+I (144458) Application: << Юмор-ФМ" ничего не нашлось.
+I (145218) RAM: internal free=49055 min=27252 largest=18432 | psram free=7395264 min=7376964 largest=7340032
+I (146978) Application: << Попробовать поискать просто "Юмор FM"?
+I (149508) SystemInfo: free sram: 48875 minimal sram: 27252
+I (150098) StateMachine: State: speaking -> listening
+I (150218) RAM: internal free=47867 min=27252 largest=18432 | psram free=7401032 min=7376964 largest=7340032
+I (155218) RAM: internal free=47039 min=27252 largest=18432 | psram free=7401544 min=7376964 largest=7340032
+I (157778) Application: >> Да.
+I (157778) StateMachine: State: listening -> speaking
+I (158678) Application: << % radio.search_stations...
+I (158918) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (160068) Application: << Нашла одну радиостанцию Юмор FM —
+I (160218) RAM: internal free=48975 min=27252 largest=18432 | psram free=7395264 min=7376964 largest=7340032
+I (162528) Application: << это белорусская станция из Минска! Вещает на русском языке,
+I (165228) RAM: internal free=48283 min=27252 largest=18432 | psram free=7395264 min=7376964 largest=7340032
+I (166728) Application: << комедии и топ-40. Хочешь включить её?
+I (167528) SystemInfo: free sram: 48735 minimal sram: 27252
+I (170158) FreenoveFnk0104sBoard: TOUCH READ: raw_x=321, raw_y=321 => point.x=321, point.y=0 (top_bar=1)
+I (170198) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (170198) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (170218) RAM: internal free=48043 min=27252 largest=18432 | psram free=7392380 min=7376964 largest=7340032
+I (172728) StateMachine: State: speaking -> listening
+I (175228) RAM: internal free=48723 min=27252 largest=18432 | psram free=7401032 min=7376964 largest=7340032
+I (176098) Application: >> Включай.
+I (176098) StateMachine: State: listening -> speaking
+I (177308) Application: << % radio.play_station...
+I (177318) Application: Abort speaking
+I (177318) MQTT: Closing audio channel, send_goodbye: 1
+I (177318) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (177318) wifi:Set ps type: 2, coexist: 0
+
+I (177318) StateMachine: State: speaking -> idle
+I (177328) RAM: [RADIO_START] internal free=50207 min=27252 largest=18432 | psram free=7401032 min=7376964 largest=7340032
+I (177338) AudioManager: Audio focus requested by source 3 (current 0)
+I (177648) FreenoveFnk0104sBoard: TOUCH READ: raw_x=269, raw_y=432 => point.x=432, point.y=51 (top_bar=0)
+I (177728) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (178718) MQTT: Received goodbye message, session_id: b1398436
+I (178718) MQTT: Closing audio channel, send_goodbye: 0
+I (178718) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (178728) wifi:Set ps type: 2, coexist: 0
+
+I (178738) MQTT: Received goodbye message, session_id: b1398436
+I (178748) MQTT: Closing audio channel, send_goodbye: 0
+I (178748) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (178748) wifi:Set ps type: 2, coexist: 0
+
+E (179458) esp-tls: [sock=55] select() timeout
+E (179458) transport_base: Failed to open a new connection: 32774
+E (179458) HTTP_CLIENT: Connection failed, sock < 0
+W (179458) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (180218) RAM: internal free=47907 min=27252 largest=18432 | psram free=7401032 min=7376964 largest=7340032
+E (183478) esp-tls: [sock=55] select() timeout
+E (183478) transport_base: Failed to open a new connection: 32774
+E (183478) HTTP_CLIENT: Connection failed, sock < 0
+W (183478) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (185218) RAM: internal free=47915 min=27252 largest=18432 | psram free=7401032 min=7376964 largest=7340032
+I (185878) Application: Wake word detected: Hey Kira (state: 3)
+I (185878) RAM: [RADIO_STOP] internal free=45375 min=27252 largest=18432 | psram free=7396932 min=7376964 largest=7340032
+E (187498) esp-tls: [sock=55] select() timeout
+E (187498) transport_base: Failed to open a new connection: 32774
+E (187498) HTTP_CLIENT: Connection failed, sock < 0
+W (187498) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (188888) AudioManager: Releasing audio focus from source 3
+I (188888) StateMachine: State: idle -> connecting
+I (189098) AfeAudioEngine: Encoded wake word into 33 packets in 209 ms
+I (189108) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (189108) wifi:Set ps type: 0, coexist: 0
+
+I (189938) MQTT: Session ID: 03043841
+I (189938) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (189938) wifi:Set ps type: 0, coexist: 0
+
+I (189948) Application: Wake word detected: Hey Kira
+I (189988) StateMachine: State: connecting -> listening
+I (190218) RAM: internal free=43783 min=27252 largest=18432 | psram free=7401032 min=7376452 largest=7340032
+I (190398) Application: >> Hey Kira
+I (190398) StateMachine: State: listening -> speaking
+I (191028) Application: << Привет!  Чем могу помочь?
+I (193168) StateMachine: State: speaking -> listening
+I (195218) RAM: internal free=45011 min=27252 largest=18432 | psram free=7403852 min=7376452 largest=7340032
+I (197678) Application: >> Включи какую-нибудь другую белорусскую радиостанцию.
+I (197708) StateMachine: State: listening -> speaking
+I (198378) Application: << Хорошо,
+I (199518) Application: << давай поищу белорусские радиостанции!
+I (200218) RAM: internal free=44419 min=27252 largest=18432 | psram free=7392892 min=7376452 largest=7340032
+I (202038) Application: << % radio.search_stations...
+I (202368) RadioBrowser: Search request succeeded: status=200 response_len=5558
+I (204288) Application: << Нашла несколько белорусских станций!
+I (205218) RAM: internal free=46839 min=22872 largest=18432 | psram free=7392892 min=7376452 largest=7340032
+I (207118) Application: << Love Is Radio Belarus, MFM Belarus, Retro Belarus...
+W (207188) MQTT: Received audio packet with wrong sequence: 149, expected: 147
+W (207188) MQTT: [AUDIO_SEQ_GAP] time=207023 ms received=149 expected=147 delta=2 payload_len=182 dec_q=6 play_q=2
+I (207528) SystemInfo: free sram: 42615 minimal sram: 22872
+I (210218) RAM: internal free=45263 min=22872 largest=18432 | psram free=7392892 min=7376452 largest=7340032
+I (212148) Application: << Какую хочешь послушать?
+I (214128) StateMachine: State: speaking -> listening
+I (215218) RAM: internal free=46851 min=22872 largest=18432 | psram free=7401032 min=7376452 largest=7340032
+I (216978) Application: >> Давай ретро.
+I (216988) StateMachine: State: listening -> speaking
+I (219118) Application: << % radio.play_station...
+I (219128) Application: Abort speaking
+I (219138) MQTT: Closing audio channel, send_goodbye: 1
+I (219138) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (219138) wifi:Set ps type: 2, coexist: 0
+
+I (219138) StateMachine: State: speaking -> idle
+I (219148) RAM: [RADIO_START] internal free=48155 min=22872 largest=18432 | psram free=7401544 min=7376452 largest=7340032
+I (219158) AudioManager: Audio focus requested by source 3 (current 0)
+W (219468) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (220198) MQTT: Received goodbye message, session_id: 03043841
+I (220198) MQTT: Closing audio channel, send_goodbye: 0
+I (220198) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (220198) MQTT: Received goodbye message, session_id: 03043841
+I (220198) wifi:Set ps type: 2, coexist: 0
+
+I (220208) MQTT: Closing audio channel, send_goodbye: 0
+I (220218) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (220218) wifi:Set ps type: 2, coexist: 0
+
+I (220228) RAM: internal free=41123 min=22872 largest=18432 | psram free=7380224 min=7376452 largest=7340032
+I (223268) InternetRadio: Stream connected: status=200 content_type=unknown
+I (223268) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (223268) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (223328) InternetRadio: Received first stream data: bytes=2048
+I (223328) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (223338) RAM: [RADIO_PLAYING] internal free=35863 min=22872 largest=18432 | psram free=7341592 min=7341592 largest=7208960
+I (223338) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (223728) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=382 ms
+I (224268) AudioService: [RADIO_OUTPUT] queue=22 buffer=572 ms pcm=26 ms write=19 ms wait_in_q=613 ms
+I (224798) AudioService: [RADIO_OUTPUT] queue=2 buffer=52 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+I (225218) RAM: internal free=31411 min=22056 largest=18432 | psram free=7341592 min=7300764 largest=7208960
+W (225318) InternetRadio: [RADIO_HTTP_GAP] read_time=1237 ms bytes=2048
+I (225318) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (225678) AudioService: [RADIO_OUTPUT_GAP] gap=832 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=356 ms
+I (225678) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=356 ms
+I (226228) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=19 ms wait_in_q=618 ms
+W (226338) InternetRadio: [RADIO_HTTP_GAP] read_time=427 ms bytes=2048
+I (226758) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=29 ms wait_in_q=362 ms
+I (227248) AudioService: [RADIO_OUTPUT] queue=24 buffer=624 ms pcm=26 ms write=19 ms wait_in_q=610 ms
+W (227358) InternetRadio: [RADIO_HTTP_GAP] read_time=259 ms bytes=2048
+I (227768) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=757 ms
+I (228298) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=694 ms
+I (228328) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (228508) SystemInfo: free sram: 31711 minimal sram: 21476
+I (228818) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+W (229418) InternetRadio: [RADIO_HTTP_GAP] read_time=964 ms bytes=2048
+I (229428) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (229808) AudioService: [RADIO_OUTPUT_GAP] gap=581 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=384 ms
+I (229808) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=384 ms
+I (230218) RAM: internal free=32047 min=21476 largest=17408 | psram free=7300764 min=7300764 largest=7208960
+I (230358) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=617 ms
+I (230888) AudioService: [RADIO_OUTPUT] queue=20 buffer=520 ms pcm=26 ms write=29 ms wait_in_q=760 ms
+I (231408) AudioService: [RADIO_OUTPUT] queue=0 buffer=0 ms pcm=26 ms write=29 ms wait_in_q=698 ms
+W (231458) InternetRadio: [RADIO_HTTP_GAP] read_time=778 ms bytes=2048
+I (231468) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (231848) AudioService: [RADIO_OUTPUT_GAP] gap=441 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=378 ms
+I (231908) AudioService: [RADIO_OUTPUT] queue=26 buffer=676 ms pcm=26 ms write=29 ms wait_in_q=388 ms
+I (232428) AudioService: [RADIO_OUTPUT] queue=6 buffer=156 ms pcm=26 ms write=29 ms wait_in_q=610 ms
+W (232488) InternetRadio: [RADIO_HTTP_GAP] read_time=627 ms bytes=2048
+W (233518) InternetRadio: [RADIO_HTTP_GAP] read_time=974 ms bytes=2048
+I (233528) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (233538) InternetRadio: [RADIO] buffer=78 ms queue=3 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (234538) InternetRadio: [RADIO_HTTP_GAP] read_time=919 ms bytes=2048
+W (234778) AudioService: [RADIO_OUTPUT_GAP] gap=2009 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=1250 ms
+I (234778) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=1250 ms
+I (235218) RAM: internal free=32099 min=21476 largest=18432 | psram free=7300764 min=7300764 largest=7208960
+I (235308) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=603 ms
+I (235798) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=747 ms
+I (236328) AudioService: [RADIO_OUTPUT] queue=17 buffer=442 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (236578) InternetRadio: [RADIO_HTTP_GAP] read_time=580 ms bytes=2048
+I (236818) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=202 ms
+I (237338) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=438 ms
+I (237858) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=690 ms
+I (238388) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (238508) SystemInfo: free sram: 33555 minimal sram: 21476
+I (238538) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (238878) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=747 ms
+I (239398) AudioService: [RADIO_OUTPUT] queue=22 buffer=572 ms pcm=26 ms write=19 ms wait_in_q=753 ms
+W (239658) InternetRadio: [RADIO_HTTP_GAP] read_time=419 ms bytes=2048
+I (239928) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=29 ms wait_in_q=717 ms
+I (240218) RAM: internal free=37835 min=21476 largest=18432 | psram free=7337740 min=7300764 largest=7208960
+W (240678) InternetRadio: [RADIO_HTTP_GAP] read_time=857 ms bytes=2048
+I (240688) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (241698) InternetRadio: [RADIO_HTTP_GAP] read_time=667 ms bytes=2048
+W (241718) AudioService: [RADIO_OUTPUT_GAP] gap=1430 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=1033 ms
+I (241718) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=1033 ms
+I (242268) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=1258 ms
+I (242798) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+I (243318) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=29 ms wait_in_q=737 ms
+W (243748) InternetRadio: [RADIO_HTTP_GAP] read_time=866 ms bytes=2048
+I (243748) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (243758) InternetRadio: [RADIO] buffer=78 ms queue=3 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (244168) AudioService: [RADIO_OUTPUT_GAP] gap=511 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=417 ms
+I (244168) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=417 ms
+I (244718) AudioService: [RADIO_OUTPUT] queue=19 buffer=494 ms pcm=26 ms write=19 ms wait_in_q=621 ms
+W (244768) InternetRadio: [RADIO_HTTP_GAP] read_time=320 ms bytes=2048
+I (245228) RAM: internal free=29919 min=21476 largest=18432 | psram free=7302048 min=7300764 largest=7208960
+I (245248) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=440 ms
+I (245738) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=665 ms
+I (246258) AudioService: [RADIO_OUTPUT] queue=26 buffer=676 ms pcm=26 ms write=19 ms wait_in_q=755 ms
+I (246788) AudioService: [RADIO_OUTPUT] queue=6 buffer=156 ms pcm=26 ms write=29 ms wait_in_q=636 ms
+W (246828) InternetRadio: [RADIO_HTTP_GAP] read_time=624 ms bytes=2048
+W (247838) InternetRadio: [RADIO_HTTP_GAP] read_time=878 ms bytes=2048
+I (247848) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (248238) AudioService: [RADIO_OUTPUT_GAP] gap=1040 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=384 ms
+I (248238) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=384 ms
+I (248518) SystemInfo: free sram: 27079 minimal sram: 21476
+I (248788) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=623 ms
+I (248828) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (249318) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=753 ms
+W (249888) InternetRadio: [RADIO_HTTP_GAP] read_time=888 ms bytes=2048
+I (249898) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (250218) RAM: internal free=37099 min=21476 largest=18432 | psram free=7313344 min=7300764 largest=7208960
+W (250298) AudioService: [RADIO_OUTPUT_GAP] gap=568 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=399 ms
+I (250298) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=399 ms
+I (250838) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=18 ms wait_in_q=566 ms
+I (251368) AudioService: [RADIO_OUTPUT] queue=18 buffer=468 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (251948) InternetRadio: [RADIO_HTTP_GAP] read_time=886 ms bytes=2048
+I (251948) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (252358) AudioService: [RADIO_OUTPUT_GAP] gap=519 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=404 ms
+I (252358) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=404 ms
+I (252888) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=600 ms
+I (253408) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=738 ms
+I (253928) AudioService: [RADIO_OUTPUT] queue=24 buffer=624 ms pcm=26 ms write=19 ms wait_in_q=752 ms
+I (254448) AudioService: [RADIO_OUTPUT] queue=4 buffer=104 ms pcm=26 ms write=19 ms wait_in_q=759 ms
+W (254548) InternetRadio: [RADIO_HTTP_GAP] read_time=762 ms bytes=2048
+I (254558) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (254568) InternetRadio: [RADIO] buffer=52 ms queue=2 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (254928) AudioService: [RADIO_OUTPUT_GAP] gap=367 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=366 ms
+I (254978) AudioService: [RADIO_OUTPUT] queue=27 buffer=702 ms pcm=26 ms write=29 ms wait_in_q=360 ms
+I (255218) RAM: internal free=34031 min=21476 largest=13824 | psram free=7300764 min=7300764 largest=7208960
+I (255468) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=582 ms
+I (255998) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (256488) AudioService: [RADIO_OUTPUT] queue=9 buffer=234 ms pcm=26 ms write=19 ms wait_in_q=751 ms
+W (257068) InternetRadio: [RADIO_HTTP_GAP] read_time=1100 ms bytes=2048
+I (257078) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (257448) AudioService: [RADIO_OUTPUT_GAP] gap=722 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=374 ms
+I (257448) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=374 ms
+I (257998) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=609 ms
+I (258508) SystemInfo: free sram: 30107 minimal sram: 21476
+I (258528) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (259018) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (259108) InternetRadio: [RADIO_HTTP_GAP] read_time=498 ms bytes=2048
+I (259538) AudioService: [RADIO_OUTPUT] queue=25 buffer=650 ms pcm=26 ms write=18 ms wait_in_q=303 ms
+I (259578) InternetRadio: [RADIO] buffer=676 ms queue=26 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (260068) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=552 ms
+I (260218) RAM: internal free=29971 min=21476 largest=13824 | psram free=7303072 min=7300764 largest=7208960
+I (260588) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (261078) AudioService: [RADIO_OUTPUT] queue=11 buffer=286 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (261158) InternetRadio: [RADIO_HTTP_GAP] read_time=558 ms bytes=2048
+I (261598) AudioService: [RADIO_OUTPUT] queue=22 buffer=572 ms pcm=26 ms write=19 ms wait_in_q=285 ms
+I (262128) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=533 ms
+I (262618) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=760 ms
+I (263138) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (263208) InternetRadio: [RADIO_HTTP_GAP] read_time=451 ms bytes=2048
+I (263658) AudioService: [RADIO_OUTPUT] queue=27 buffer=702 ms pcm=26 ms write=19 ms wait_in_q=393 ms
+I (264188) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=572 ms
+I (264608) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (264708) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=28 ms wait_in_q=738 ms
+I (265218) RAM: internal free=32775 min=21476 largest=18432 | psram free=7319764 min=7300764 largest=7208960
+I (265228) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=29 ms wait_in_q=741 ms
+W (265258) InternetRadio: [RADIO_HTTP_GAP] read_time=387 ms bytes=2048
+I (265748) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=443 ms
+I (266268) AudioService: [RADIO_OUTPUT] queue=25 buffer=650 ms pcm=26 ms write=19 ms wait_in_q=673 ms
+I (266788) AudioService: [RADIO_OUTPUT] queue=5 buffer=130 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (267308) InternetRadio: [RADIO_HTTP_GAP] read_time=1160 ms bytes=2048
+I (267308) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (267748) AudioService: [RADIO_OUTPUT_GAP] gap=820 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=436 ms
+I (267748) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=436 ms
+I (268298) AudioService: [RADIO_OUTPUT] queue=23 buffer=598 ms pcm=26 ms write=19 ms wait_in_q=622 ms
+I (268508) SystemInfo: free sram: 37539 minimal sram: 21476
+I (268828) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (269318) AudioService: [RADIO_OUTPUT] queue=19 buffer=494 ms pcm=26 ms write=19 ms wait_in_q=702 ms
+I (270218) RAM: internal free=31843 min=21476 largest=15872 | psram free=7341592 min=7300764 largest=7208960
+W (270368) InternetRadio: [RADIO_HTTP_GAP] read_time=1324 ms bytes=2048
+I (270378) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (270388) InternetRadio: [RADIO] buffer=52 ms queue=2 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (270828) AudioService: [RADIO_OUTPUT_GAP] gap=1012 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=450 ms
+I (270828) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=450 ms
+I (271378) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=19 ms wait_in_q=623 ms
+W (271398) InternetRadio: [RADIO_HTTP_GAP] read_time=446 ms bytes=2048
+I (271908) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=434 ms
+I (272428) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=658 ms
+I (272948) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=29 ms wait_in_q=737 ms
+W (273448) InternetRadio: [RADIO_HTTP_GAP] read_time=1007 ms bytes=2048
+I (273448) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (273798) AudioService: [RADIO_OUTPUT_GAP] gap=593 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=347 ms
+I (273798) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=347 ms
+I (274348) AudioService: [RADIO_OUTPUT] queue=21 buffer=546 ms pcm=26 ms write=19 ms wait_in_q=585 ms
+W (274468) InternetRadio: [RADIO_HTTP_GAP] read_time=348 ms bytes=2048
+I (274878) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=747 ms
+I (275218) RAM: internal free=32499 min=21476 largest=18432 | psram free=7302048 min=7300764 largest=7208960
+I (275368) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=648 ms
+I (275408) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (275888) AudioService: [RADIO_OUTPUT] queue=26 buffer=676 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+I (276418) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (276528) InternetRadio: [RADIO_HTTP_GAP] read_time=541 ms bytes=2048
+I (276938) AudioService: [RADIO_OUTPUT] queue=5 buffer=130 ms pcm=26 ms write=29 ms wait_in_q=313 ms
+W (277548) InternetRadio: [RADIO_HTTP_GAP] read_time=851 ms bytes=2048
+I (277548) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (277938) AudioService: [RADIO_OUTPUT_GAP] gap=875 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=390 ms
+I (277938) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=390 ms
+I (278488) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=614 ms
+I (278508) SystemInfo: free sram: 29023 minimal sram: 21476
+I (279018) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=29 ms wait_in_q=760 ms
+W (279588) InternetRadio: [RADIO_HTTP_GAP] read_time=1008 ms bytes=2048
+I (279588) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (279958) AudioService: [RADIO_OUTPUT_GAP] gap=603 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=366 ms
+I (279958) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=366 ms
+I (280218) RAM: internal free=32639 min=21476 largest=15872 | psram free=7300764 min=7300764 largest=7208960
+I (280418) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (280508) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=570 ms
+I (281038) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=28 ms wait_in_q=761 ms
+I (281558) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=738 ms
+I (282078) AudioService: [RADIO_OUTPUT] queue=18 buffer=468 ms pcm=26 ms write=29 ms wait_in_q=737 ms
+W (282658) InternetRadio: [RADIO_HTTP_GAP] read_time=878 ms bytes=2048
+I (282668) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (283088) AudioService: [RADIO_OUTPUT_GAP] gap=542 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=421 ms
+I (283088) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=421 ms
+I (283638) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=621 ms
+I (284168) AudioService: [RADIO_OUTPUT] queue=11 buffer=286 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (284708) InternetRadio: [RADIO_HTTP_GAP] read_time=1029 ms bytes=2048
+I (284718) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (285098) AudioService: [RADIO_OUTPUT_GAP] gap=653 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=385 ms
+I (285098) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=385 ms
+I (285218) RAM: internal free=37463 min=21476 largest=18432 | psram free=7303072 min=7300764 largest=7208960
+I (285428) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (285648) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=611 ms
+I (286178) AudioService: [RADIO_OUTPUT] queue=11 buffer=286 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (286758) InternetRadio: [RADIO_HTTP_GAP] read_time=1068 ms bytes=2048
+I (286758) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (287778) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (288528) SystemInfo: free sram: 41207 minimal sram: 21476
+I (290218) RAM: internal free=41219 min=21476 largest=18432 | psram free=7372680 min=7300764 largest=7208960
+I (291878) InternetRadio: Stream connected: status=200 content_type=unknown
+I (291878) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (291878) InternetRadio: [RADIO] buffer=390 ms queue=15 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (291888) InternetRadio: Received first stream data: bytes=2048
+I (291898) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (291908) RAM: [RADIO_PLAYING] internal free=35123 min=21476 largest=18432 | psram free=7322332 min=7300764 largest=7208960
+W (292038) AudioService: [RADIO_OUTPUT_GAP] gap=5587 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=5280 ms
+I (292048) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=5280 ms
+I (292588) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=19 ms wait_in_q=584 ms
+W (292908) InternetRadio: [RADIO_HTTP_GAP] read_time=344 ms bytes=2048
+I (293118) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=28 ms wait_in_q=749 ms
+I (293638) AudioService: [RADIO_OUTPUT] queue=27 buffer=702 ms pcm=26 ms write=29 ms wait_in_q=579 ms
+W (293928) InternetRadio: [RADIO_HTTP_GAP] read_time=342 ms bytes=2048
+I (294128) AudioService: [RADIO_OUTPUT] queue=25 buffer=650 ms pcm=26 ms write=18 ms wait_in_q=749 ms
+I (294658) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=566 ms
+I (295178) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+I (295218) RAM: internal free=33895 min=21476 largest=13824 | psram free=7300764 min=7300764 largest=7208960
+I (295668) AudioService: [RADIO_OUTPUT] queue=13 buffer=338 ms pcm=26 ms write=19 ms wait_in_q=750 ms
+W (295968) InternetRadio: [RADIO_HTTP_GAP] read_time=729 ms bytes=2048
+I (296188) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=19 ms wait_in_q=86 ms
+I (296718) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=343 ms
+I (296908) InternetRadio: [RADIO] buffer=754 ms queue=29 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (297238) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=617 ms
+I (297728) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (298018) InternetRadio: [RADIO_HTTP_GAP] read_time=671 ms bytes=2048
+I (298248) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=19 ms wait_in_q=170 ms
+I (298538) SystemInfo: free sram: 32175 minimal sram: 21476
+I (298778) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=390 ms
+I (299268) AudioService: [RADIO_OUTPUT] queue=19 buffer=494 ms pcm=26 ms write=19 ms wait_in_q=664 ms
+W (300068) InternetRadio: [RADIO_HTTP_GAP] read_time=1060 ms bytes=2048
+I (300068) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (300218) RAM: internal free=36671 min=21476 largest=18432 | psram free=7322332 min=7300764 largest=7208960
+W (300398) AudioService: [RADIO_OUTPUT_GAP] gap=628 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=321 ms
+I (300398) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=321 ms
+I (300938) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=598 ms
+I (301468) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=751 ms
+I (301988) AudioService: [RADIO_OUTPUT] queue=23 buffer=598 ms pcm=26 ms write=29 ms wait_in_q=740 ms
+W (302118) InternetRadio: [RADIO_HTTP_GAP] read_time=269 ms bytes=2048
+I (302128) InternetRadio: [RADIO] buffer=520 ms queue=20 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (302508) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=689 ms
+I (303028) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=693 ms
+I (303548) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=19 ms wait_in_q=748 ms
+W (304168) InternetRadio: [RADIO_HTTP_GAP] read_time=1126 ms bytes=2048
+I (304168) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (304548) AudioService: [RADIO_OUTPUT_GAP] gap=741 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=375 ms
+I (304548) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=375 ms
+I (305098) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=19 ms wait_in_q=607 ms
+I (305218) RAM: internal free=37007 min=21476 largest=18432 | psram free=7304356 min=7300764 largest=7208960
+I (305628) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+I (306148) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=737 ms
+W (306208) InternetRadio: [RADIO_HTTP_GAP] read_time=434 ms bytes=2048
+I (306638) AudioService: [RADIO_OUTPUT] queue=23 buffer=598 ms pcm=26 ms write=19 ms wait_in_q=374 ms
+I (307168) AudioService: [RADIO_OUTPUT] queue=23 buffer=598 ms pcm=26 ms write=29 ms wait_in_q=585 ms
+I (307688) AudioService: [RADIO_OUTPUT] queue=3 buffer=78 ms pcm=26 ms write=29 ms wait_in_q=748 ms
+W (308258) InternetRadio: [RADIO_HTTP_GAP] read_time=1274 ms bytes=2048
+I (308268) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (308278) InternetRadio: [RADIO] buffer=52 ms queue=2 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+I (308518) SystemInfo: free sram: 34671 minimal sram: 21476
+W (308648) AudioService: [RADIO_OUTPUT_GAP] gap=881 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=384 ms
+I (308648) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=384 ms
+I (309198) AudioService: [RADIO_OUTPUT] queue=21 buffer=546 ms pcm=26 ms write=19 ms wait_in_q=608 ms
+W (309288) InternetRadio: [RADIO_HTTP_GAP] read_time=314 ms bytes=2048
+I (309728) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=759 ms
+I (310218) RAM: internal free=26971 min=21476 largest=15872 | psram free=7302048 min=7300764 largest=7208960
+I (310248) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=29 ms wait_in_q=682 ms
+I (310768) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=29 ms wait_in_q=749 ms
+W (311338) InternetRadio: [RADIO_HTTP_GAP] read_time=951 ms bytes=2048
+I (311338) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+W (311708) AudioService: [RADIO_OUTPUT_GAP] gap=548 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=362 ms
+I (311708) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=0 ms wait_in_q=362 ms
+I (312248) AudioService: [RADIO_OUTPUT] queue=29 buffer=754 ms pcm=26 ms write=19 ms wait_in_q=567 ms
+I (312778) AudioService: [RADIO_OUTPUT] queue=20 buffer=520 ms pcm=26 ms write=29 ms wait_in_q=712 ms
+I (313298) AudioService: [RADIO_OUTPUT] queue=0 buffer=0 ms pcm=26 ms write=29 ms wait_in_q=734 ms
+W (313388) InternetRadio: [RADIO_HTTP_GAP] read_time=851 ms bytes=2048
+I (313388) AudioService: [RADIO_PCM] ptr=0x3c3f0a30 size=1252 bytes PSRAM=YES (queue=1)
+I (313398) InternetRadio: [RADIO] buffer=78 ms queue=3 underruns=0 reconnects=1 dec_err=0 status=PLAYING
+W (313738) AudioService: [RADIO_OUTPUT_GAP] gap=447 ms expected_duration=26 ms queue=28 buffer=728 ms wait_in_q=354 ms
+I (313798) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=29 ms wait_in_q=351 ms
+I (314318) AudioService: [RADIO_OUTPUT] queue=28 buffer=728 ms pcm=26 ms write=29 ms wait_in_q=607 ms

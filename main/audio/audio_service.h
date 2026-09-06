@@ -43,7 +43,7 @@
 #define OPUS_FRAME_DURATION_MS 60
 #define MAX_ENCODE_TASKS_IN_QUEUE 2
 #define MAX_PLAYBACK_TASKS_IN_QUEUE 2
-#define RADIO_PREBUFFER_MS 750
+#define RADIO_PREBUFFER_MS 2000
 #define MAX_DECODE_PACKETS_IN_QUEUE (1200 / OPUS_FRAME_DURATION_MS)
 #define MAX_SEND_PACKETS_IN_QUEUE (2400 / OPUS_FRAME_DURATION_MS)
 #define AUDIO_TESTING_MAX_DURATION_MS 10000
@@ -133,6 +133,7 @@ struct AudioTask {
     uint32_t timestamp = 0;
     uint32_t playback_id = 0;
     uint32_t media_position_ms = 0;
+    uint32_t created_at_ms = 0;
 
     const int16_t* GetPcmData() const {
         return is_radio ? radio_pcm.data() : pcm.data();
@@ -182,6 +183,14 @@ public:
                           bool is_radio = false, uint32_t duration_ms = 0);
     uint32_t GetRadioBufferedMs();
     size_t GetRadioQueueSize();
+    size_t GetDecodeQueueSize() {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        return audio_decode_queue_.size();
+    }
+    size_t GetPlaybackQueueSize() {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        return audio_playback_queue_.size();
+    }
     void PlaySound(const std::string_view& sound);
     bool ReadAudioData(std::vector<int16_t>& data, int sample_rate, int samples);
     void ResetDecoder();
@@ -225,6 +234,8 @@ private:
     std::deque<std::unique_ptr<AudioTask>> audio_encode_queue_;
     std::deque<std::unique_ptr<AudioTask>> audio_playback_queue_;
     uint32_t radio_buffered_duration_ms_ = 0;
+    uint64_t last_radio_write_end_us_ = 0;
+    uint32_t last_radio_duration_ms_ = 0;
     bool decode_in_flight_ = false;
     bool output_in_flight_ = false;
     bool playback_drained_notified_ = true;

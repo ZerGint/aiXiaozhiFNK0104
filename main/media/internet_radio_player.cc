@@ -14,11 +14,30 @@
 #include <esp_http_client.h>
 #include <esp_log.h>
 #include <esp_timer.h>
+#include <esp_wifi.h>
 
 #include <cstring>
 #include <vector>
 
 #define TAG "InternetRadio"
+
+static const char* GetWifiPsModeName(wifi_ps_type_t type) {
+    switch (type) {
+        case WIFI_PS_NONE: return "NONE (PERFORMANCE)";
+        case WIFI_PS_MIN_MODEM: return "MIN_MODEM";
+        case WIFI_PS_MAX_MODEM: return "MAX_MODEM (LOW_POWER)";
+        default: return "UNKNOWN";
+    }
+}
+
+static void LogWifiPsStatus(const char* stage) {
+    wifi_ps_type_t ps_type = WIFI_PS_NONE;
+    if (esp_wifi_get_ps(&ps_type) == ESP_OK) {
+        ESP_LOGI(TAG, "[WIFI_PS_DIAG] stage=%s mode=%d (%s)", stage, static_cast<int>(ps_type), GetWifiPsModeName(ps_type));
+    } else {
+        ESP_LOGW(TAG, "[WIFI_PS_DIAG] stage=%s failed to get wifi ps mode", stage);
+    }
+}
 
 InternetRadioPlayer& InternetRadioPlayer::GetInstance() {
     static InternetRadioPlayer instance;
@@ -73,6 +92,7 @@ void InternetRadioPlayer::Stop() {
     SystemInfo::PrintRamSnapshot("RADIO_STOP");
     stop_requested_ = true;
     paused_ = false;
+    Application::GetInstance().GetAudioService().ResetDecoder();
     if (task_handle_ != nullptr && xTaskGetCurrentTaskHandle() != task_handle_) {
         for (int i = 0; playing_ && i < 300; ++i) vTaskDelay(pdMS_TO_TICKS(10));
     }
@@ -92,6 +112,8 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
 void InternetRadioPlayer::StreamLoop() {
     AudioManager::GetInstance().RequestAudioFocus(kAudioSourceInternetRadio);
     EnsureMp3DecoderRegistered();
+    Board::GetInstance().SetPowerSaveLevel(PowerSaveLevel::PERFORMANCE);
+    ESP_LOGI(TAG, "[WIFI_PS_RADIO] switched to PERFORMANCE (NONE)");
     auto* codec = Board::GetInstance().GetAudioCodec();
     uint32_t target_rate = codec ? codec->output_sample_rate() : 24000;
     if (target_rate == 0) target_rate = 24000;
@@ -114,19 +136,58 @@ void InternetRadioPlayer::StreamLoop() {
         // Metadata interleaving is not MP3 data and would confuse the decoder.
         esp_http_client_set_header(client, "Icy-MetaData", "0");
         esp_http_client_set_header(client, "User-Agent", "xiaozhi-esp32-radio/1.0");
-        if (esp_http_client_open(client, 0) != ESP_OK) {
-            ESP_LOGW(TAG, "Failed to open stream: %s", url.c_str());
-            esp_http_client_cleanup(client);
-            vTaskDelay(pdMS_TO_TICKS(2000));
-            continue;
+
+        LogWifiPsStatus("before_connect");
+
+        int status = -1;
+        int redirect_count = 0;
+        const int kMaxRedirects = 5;
+        bool connect_success = false;
+
+        while (redirect_count <= kMaxRedirects) {
+            if (esp_http_client_open(client, 0) != ESP_OK) {
+                ESP_LOGW(TAG, "[RADIO_HTTP_ERROR] Failed to open stream: %s", url.c_str());
+                break;
+            }
+            esp_http_client_fetch_headers(client);
+            status = esp_http_client_get_status_code(client);
+
+            if (status >= 300 && status < 400) {
+                redirect_count++;
+                ESP_LOGI(TAG, "[RADIO_REDIRECT] status=%d redirect=%d", status, redirect_count);
+                if (redirect_count > kMaxRedirects) {
+                    ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] Exceeded maximum redirects (%d)", kMaxRedirects);
+                    esp_http_client_close(client);
+                    break;
+                }
+                esp_err_t err = esp_http_client_set_redirection(client);
+                if (err != ESP_OK) {
+                    ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] esp_http_client_set_redirection failed: %d", err);
+                    esp_http_client_close(client);
+                    break;
+                }
+                esp_http_client_close(client);
+                esp_http_client_set_header(client, "Icy-MetaData", "0");
+                esp_http_client_set_header(client, "User-Agent", "xiaozhi-esp32-radio/1.0");
+                continue;
+            }
+
+            if (status >= 200 && status < 300) {
+                if (redirect_count > 0) {
+                    ESP_LOGI(TAG, "[RADIO_REDIRECT] followed successfully");
+                }
+                connect_success = true;
+            }
+            break;
         }
-        esp_http_client_fetch_headers(client);
-        const int status = esp_http_client_get_status_code(client);
+
         char* content_type = nullptr;
         esp_http_client_get_header(client, "Content-Type", &content_type);
         ESP_LOGI(TAG, "Stream connected: status=%d content_type=%s",
                  status, content_type != nullptr ? content_type : "unknown");
-        if (status < 200 || status >= 400) {
+        LogWifiPsStatus("connected");
+
+        if (!connect_success || status < 200 || status >= 400) {
             esp_http_client_close(client);
             esp_http_client_cleanup(client);
             vTaskDelay(pdMS_TO_TICKS(2000));
@@ -159,6 +220,7 @@ void InternetRadioPlayer::StreamLoop() {
             int64_t now = esp_timer_get_time();
             if (now - last_radio_log_time >= 5000000) {
                 last_radio_log_time = now;
+                LogWifiPsStatus("playing_periodic");
                 uint32_t buf_ms = Application::GetInstance().GetAudioService().GetRadioBufferedMs();
                 size_t queue_len = Application::GetInstance().GetAudioService().GetRadioQueueSize();
                 ESP_LOGI(TAG, "[RADIO] buffer=%lu ms queue=%u underruns=%lu reconnects=%lu dec_err=%lu status=%s",
@@ -168,8 +230,14 @@ void InternetRadioPlayer::StreamLoop() {
                          (unsigned long)decoder_error_count_.load(),
                          paused_ ? "PAUSED" : "PLAYING");
             }
+            int64_t t_read_start = esp_timer_get_time();
             int read = esp_http_client_read(client, reinterpret_cast<char*>(in.data()), in.size());
+            int64_t t_read_dur_ms = (esp_timer_get_time() - t_read_start) / 1000;
+            if (t_read_dur_ms > 250) {
+                ESP_LOGW(TAG, "[RADIO_HTTP_GAP] read_time=%lld ms bytes=%d", t_read_dur_ms, read);
+            }
             if (read <= 0) {
+                ESP_LOGW(TAG, "[RADIO_HTTP_ERROR] read returned %d", read);
                 reconnect_count_++;
                 break;
             }
@@ -192,7 +260,12 @@ void InternetRadioPlayer::StreamLoop() {
                 esp_audio_simple_dec_out_t frame = {};
                 frame.buffer = out.data();
                 frame.len = out.size();
+                int64_t t_dec_start = esp_timer_get_time();
                 esp_err_t result = esp_audio_simple_dec_process(decoder, &raw, &frame);
+                int64_t t_dec_dur_ms = (esp_timer_get_time() - t_dec_start) / 1000;
+                if (t_dec_dur_ms > 30) {
+                    ESP_LOGW(TAG, "[RADIO_DEC_GAP] decode_time=%lld ms decoded_bytes=%d", t_dec_dur_ms, frame.decoded_size);
+                }
                 if (result == ESP_AUDIO_ERR_BUFF_NOT_ENOUGH) {
                     const size_t new_size = frame.needed_size > out.size()
                         ? frame.needed_size
@@ -250,4 +323,8 @@ void InternetRadioPlayer::StreamLoop() {
         reconnect_requested_ = false;
         if (!stop_requested_) vTaskDelay(pdMS_TO_TICKS(500));
     }
+    Board::GetInstance().SetPowerSaveLevel(PowerSaveLevel::LOW_POWER);
+    ESP_LOGI(TAG, "[WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)");
+    LogWifiPsStatus("stopped");
+    Application::GetInstance().GetAudioService().ResetDecoder();
 }
