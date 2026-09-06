@@ -1,0 +1,335 @@
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (169) spi_flash: detected chip: generic
+I (172) spi_flash: flash io: qio
+I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=286491 min=189060 largest=126976 | psram free=8384896 min=8384896 largest=8257536
+I (228) Board: UUID=1a6fa5c0-7fe4-4e2f-aefc-08862dbdad24 SKU=freenove-fnk0104s
+I (228) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1098) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1098) StorageManager: SD Card mounted successfully at /sdcard!
+I (1098) HomeAssistant: Initializing Home Assistant integration...
+I (1108) MCP: Add tool: homeassistant.call_service
+I (1108) MCP: Add tool: homeassistant.get_states
+I (1118) MCP: Add tool: homeassistant.set_config [user]
+I (1118) MCP: Add tool: radio.add_favorite
+I (1128) MCP: Add tool: radio.list_favorites
+I (1128) MCP: Add tool: radio.play_favorite
+I (1128) MCP: Add tool: radio.remove_favorite
+I (1138) MCP: Add tool: radio.search_stations
+I (1138) MCP: Add tool: radio.play_station
+I (1148) MCP: Add tool: radio.stop
+I (1148) MCP: Add tool: media.play_sd
+I (1148) MCP: Add tool: media.list_sd
+I (1158) MCP: Add tool: media.search_sd
+I (1158) MCP: Add tool: media.pause
+I (1158) MCP: Add tool: media.next
+I (1168) MCP: Add tool: media.previous
+I (1168) MCP: Add tool: media.stop
+I (1168) StateMachine: State: unknown -> starting
+W (1188) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1188) Es8311AudioCodec: Duplex channels created
+I (1188) Es8311AudioCodec: ES8311 software reset complete
+I (1198) ES8311: Work in Slave mode
+I (1208) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1208) SdMusicPlayer: Scanning directory /sdcard/music (3 total entries)...
+I (1208) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1228) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1238) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1248) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 3
+I (1338) RAM: [AFTER_LVGL_INIT] internal free=192987 min=95524 largest=94208 | psram free=8320216 min=8318480 largest=8257536
+I (1488) AudioCodec: Audio codec started
+I (1488) RAM: [AFTER_AUDIO_INIT] internal free=155951 min=58520 largest=94208 | psram free=8277712 min=8277712 largest=8257536
+I (1498) AppManager: Initializing Application Manager...
+I (1498) MCP: Add tool: self.get_device_status
+I (1508) MCP: Add tool: self.audio_speaker.set_volume
+I (1508) MCP: Add tool: self.screen.set_brightness
+I (1508) MCP: Add tool: self.screen.set_theme
+I (1518) MCP: Add tool: self.get_system_info [user]
+I (1518) MCP: Add tool: self.reboot [user]
+I (1528) MCP: Add tool: self.upgrade_firmware [user]
+I (1528) MCP: Add tool: self.screen.get_info [user]
+I (1538) MCP: Add tool: self.screen.snapshot [user]
+I (1538) MCP: Add tool: self.screen.preview_image [user]
+I (1548) MCP: Add tool: self.assets.set_download_url [user]
+I (1548) WifiManager: Initializing...
+I (1548) pp: pp rom version: e7ae62f
+I (1558) net80211: net80211 rom version: e7ae62f
+I (1568) wifi:wifi driver task: 3fce8f7c, prio:23, stack:6656, core=0
+I (1568) wifi:wifi firmware version: e12a754
+I (1568) wifi:wifi certification version: v7.0
+I (1578) wifi:config NVS flash: disabled
+I (1578) wifi:config nano formatting: disabled
+I (1578) wifi:Init data frame dynamic rx buffer num: 6
+I (1588) wifi:Init dynamic rx mgmt buffer num: 5
+I (1588) wifi:Init management short buffer num: 32
+I (1598) wifi:Init dynamic tx buffer num: 32
+I (1598) wifi:Init static tx FG buffer num: 2
+I (1608) wifi:Init static rx buffer size: 1600
+I (1608) wifi:Init static rx buffer num: 3
+I (1608) wifi:Init dynamic rx buffer num: 6
+I (1618) wifi_init: rx ba win: 3
+I (1618) wifi_init: accept mbox: 6
+I (1618) wifi_init: tcpip mbox: 16
+I (1628) wifi_init: udp mbox: 6
+I (1628) wifi_init: tcp mbox: 6
+I (1628) wifi_init: tcp tx win: 5760
+I (1638) wifi_init: tcp rx win: 5760
+I (1638) wifi_init: tcp mss: 1440
+I (1638) WifiManager: Initialized
+I (1648) WifiBoard: Starting WiFi connection attempt
+I (1648) WifiManager: Starting station
+I (1648) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1658) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1698) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1698) wifi:enable tsf
+I (1698) WifiBoard: WiFi scanning
+I (1698) RAM: [AFTER_XIAOZHI_INIT] internal free=121767 min=39812 largest=81920 | psram free=8272468 min=8272468 largest=8257536
+I (4108) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -31, Channel: 7, Authmode: 3
+I (4108) WifiBoard: WiFi connecting to ZERG
+W (4128) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5218) RAM: internal free=121771 min=39812 largest=77824 | psram free=8272468 min=8272468 largest=8257536
+I (6588) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6588) wifi:state: init -> auth (0xb0)
+I (6598) wifi:state: auth -> assoc (0x0)
+I (6608) wifi:state: assoc -> run (0x10)
+I (6628) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6628) wifi:security: WPA2-PSK, phy: bgn, rssi: -32, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6638) wifi:pm start, type: 1
+
+I (6638) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6648) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6658) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6688) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8168) esp_netif_handlers: sta ip: 192.168.31.94, mask: 255.255.255.0, gw: 192.168.31.1
+I (8168) WifiStation: Got IP: 192.168.31.94
+I (8168) WifiBoard: Connected to WiFi: ZERG
+I (8188) Application: Network connected
+I (8188) RAM: [AFTER_WIFI] internal free=120827 min=39812 largest=77824 | psram free=8271760 min=8271724 largest=8257536
+I (8188) StateMachine: State: starting -> activating
+I (8188) Assets: The storage free size is 21568 KB
+I (8198) Assets: The partition size is 8192 KB
+I (8308) Assets: The checksum calculation time is 112 ms
+I (8318) MODEL_LOADER: Successfully load srmodels
+I (8358) Assets: Refreshing display theme...
+W (8388) EmojiCollection: Emoji not found: robot_2
+I (8388) Ota: Current version: 2.4.2
+I (8388) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10178) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1790
+I (10218) RAM: internal free=94667 min=39812 largest=47104 | psram free=8268260 min=8251528 largest=8257536
+I (10898) HttpClient: HTTP connection closed
+I (10908) Ota: Current is the latest version
+I (10908) Ota: Running partition: ota_0
+I (10908) MQTT: Connecting to endpoint api.tenclass.net
+I (13048) MQTT: Connected to endpoint
+I (13048) Application: Activation done
+I (13048) SystemInfo: free sram: 96595 minimal sram: 39812
+I (13048) StateMachine: State: activating -> idle
+I (13078) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13078) wifi:Set ps type: 2, coexist: 0
+
+I (13078) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13078) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13088) WakeWordCache: Allocated 64000 bytes in PSRAM
+I (13088) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13098) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13188) AFE: AFE Version: (1MIC_V251128)
+I (13198) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13198) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13218) AFE: AFE Version: (1MIC_V251128)
+I (13218) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13228) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13228) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13248) AudioCodec: Set output enable to true
+I (13248) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13248) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13258) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13268) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13288) Adev_Codec: Open codec device OK
+I (13298) AudioCodec: Set input enable to true
+I (13298) AudioService: Resampling audio from 16000 to 24000
+I (15218) RAM: internal free=53195 min=27252 largest=18432 | psram free=7446888 min=7433048 largest=7340032
+I (16448) Application: Wake word detected: Hey Kira (state: 3)
+I (16448) StateMachine: State: idle -> connecting
+I (16658) AfeAudioEngine: Encoded wake word into 33 packets in 207 ms
+I (16668) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (16678) wifi:Set ps type: 0, coexist: 0
+
+I (17378) MQTT: Session ID: a179e598
+I (17378) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (17378) wifi:Set ps type: 0, coexist: 0
+
+I (17378) Application: Wake word detected: Hey Kira
+I (17428) StateMachine: State: connecting -> listening
+I (17778) Application: >> Hey Kira
+I (17828) StateMachine: State: listening -> speaking
+I (18968) Application: << Привет!
+I (19578) Application: << Как дела?
+I (20218) RAM: internal free=54499 min=27252 largest=18432 | psram free=7424136 min=7409256 largest=7340032
+I (20718) StateMachine: State: speaking -> listening
+I (25218) RAM: internal free=54335 min=27252 largest=18432 | psram free=7432788 min=7409256 largest=7340032
+I (30218) RAM: internal free=54771 min=27252 largest=18432 | psram free=7433300 min=7409256 largest=7340032
+I (30508) SystemInfo: free sram: 52535 minimal sram: 27252
+I (30668) Application: >> Включи радио Юмор-ФМ.
+I (30698) StateMachine: State: listening -> speaking
+I (31958) Application: << Сейчас включу Юмор FM!
+I (33758) Application: << % radio.search_stations...
+I (35218) RAM: internal free=51155 min=27252 largest=18432 | psram free=7429200 min=7409256 largest=7340032
+I (36398) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (38038) Application: << % radio.play_station...
+I (38038) Application: Abort speaking
+I (38048) MQTT: Closing audio channel, send_goodbye: 1
+I (38048) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (38048) wifi:Set ps type: 2, coexist: 0
+
+I (38048) StateMachine: State: speaking -> idle
+I (38058) RAM: [RADIO_START] internal free=55491 min=27252 largest=18432 | psram free=7433300 min=7409256 largest=7340032
+I (38068) AudioManager: Audio focus requested by source 3 (current 0)
+I (40178) MQTT: Received goodbye message, session_id: a179e598
+I (40188) MQTT: Closing audio channel, send_goodbye: 0
+I (40188) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (40188) MQTT: Received goodbye message, session_id: a179e598
+I (40188) wifi:Set ps type: 2, coexist: 0
+I (40188) InternetRadio: Stream connected: status=200 content_type=unknown
+
+I (40208) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (40208) MQTT: Closing audio channel, send_goodbye: 0
+I (40218) RAM: internal free=45911 min=27252 largest=18432 | psram free=7400836 min=7400836 largest=7340032
+I (40208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (40228) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (40238) wifi:Set ps type: 2, coexist: 0
+I (40238) InternetRadio: Received first stream data: bytes=2048
+
+I (40258) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (40288) RAM: [RADIO_PLAYING] internal free=43639 min=27252 largest=18432 | psram free=7374824 min=7374824 largest=7340032
+I (45218) RAM: internal free=7379 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (47498) SystemInfo: free sram: 7283 minimal sram: 2604
+I (50218) RAM: internal free=7379 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (54658) FreenoveFnk0104sBoard: TOUCH READ: raw_x=301, raw_y=251 => point.x=251, point.y=19 (top_bar=1)
+I (54688) FreenoveFnk0104sBoard: TOUCH READ: raw_x=301, raw_y=251 => point.x=251, point.y=19 (top_bar=1)
+I (54748) FreenoveFnk0104sBoard: TOUCH READ: raw_x=301, raw_y=251 => point.x=251, point.y=19 (top_bar=1)
+I (54788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=302, raw_y=251 => point.x=251, point.y=18 (top_bar=1)
+I (54828) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (54828) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (55218) RAM: internal free=7151 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (56228) FreenoveFnk0104sBoard: TOUCH READ: raw_x=258, raw_y=405 => point.x=405, point.y=62 (top_bar=0)
+I (56298) FreenoveFnk0104sBoard: TOUCH READ: raw_x=268, raw_y=410 => point.x=410, point.y=52 (top_bar=0)
+I (56898) FreenoveFnk0104sBoard: TOUCH READ: raw_x=251, raw_y=435 => point.x=435, point.y=69 (top_bar=0)
+I (56938) FreenoveFnk0104sBoard: TOUCH READ: raw_x=251, raw_y=435 => point.x=435, point.y=69 (top_bar=0)
+I (56998) FreenoveFnk0104sBoard: TOUCH READ: raw_x=251, raw_y=435 => point.x=435, point.y=69 (top_bar=0)
+I (57498) SystemInfo: free sram: 7379 minimal sram: 2604
+I (57668) FreenoveFnk0104sBoard: TOUCH READ: raw_x=267, raw_y=422 => point.x=422, point.y=53 (top_bar=0)
+I (57728) FreenoveFnk0104sBoard: TOUCH READ: raw_x=267, raw_y=422 => point.x=422, point.y=53 (top_bar=0)
+I (57788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=267, raw_y=422 => point.x=422, point.y=53 (top_bar=0)
+I (57848) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (60218) RAM: internal free=7371 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (65218) RAM: internal free=7235 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (65428) Application: Wake word detected: Hey Kira (state: 3)
+I (65428) RAM: [RADIO_STOP] internal free=6731 min=2604 largest=1024 | psram free=7360380 min=7360380 largest=7340032
+I (68438) AudioManager: Releasing audio focus from source 3
+I (68438) StateMachine: State: idle -> connecting
+I (68438) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (68438) wifi:Set ps type: 0, coexist: 0
+
+I (68658) AfeAudioEngine: Encoded wake word into 33 packets in 222 ms
+I (70218) RAM: internal free=1031 min=260 largest=192 | psram free=7356916 min=7327904 largest=7208960
+I (75218) RAM: internal free=1031 min=260 largest=192 | psram free=7356916 min=7327904 largest=7208960
+E (78448) MQTT: Failed to receive server hello
+I (78448) StateMachine: State: connecting -> idle
+W (78458) Application: Alert [cancel] Ошибка: Тайм-аут ответа
+W (78458) EmojiCollection: Emoji not found: cancel
+I (78458) RAM: [RADIO_START] internal free=567 min=160 largest=28 | psram free=7356376 min=7327904 largest=7208960
+I (80218) RAM: internal free=711 min=160 largest=44 | psram free=7355536 min=7327904 largest=7208960
+I (81778) Application: Wake word detected: Hey Kira (state: 3)
+I (81778) RAM: [RADIO_STOP] internal free=663 min=160 largest=32 | psram free=7355892 min=7327904 largest=7208960
+E (84638) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=12
+I (84638) esp_mqtt: MQTT error occurred: ESP_OK
+E (84638) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
+I (84648) MQTT: MQTT disconnected, schedule reconnect in 60 seconds
+I (84788) StateMachine: State: idle -> connecting
+I (84828) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (84828) wifi:Set ps type: 0, coexist: 0
+
+I (84828) MQTT: MQTT is not connected, try to connect now
+W (84828) MQTT: Mqtt client already started
+I (85008) AfeAudioEngine: Encoded wake word into 33 packets in 226 ms
+I (85218) RAM: internal free=1023 min=160 largest=112 | psram free=7356916 min=7327904 largest=7208960
+I (89648) MQTT: Connecting to endpoint api.tenclass.net
+E (89648) mqtt_client: Error create mqtt task
+I (90218) RAM: internal free=5071 min=160 largest=4096 | psram free=7357036 min=7327904 largest=7208960
+I (95218) RAM: internal free=4999 min=160 largest=4096 | psram free=7357036 min=7327904 largest=7208960
+I (97278) AudioCodec: Set input enable to false
+I (98278) AudioCodec: Set output enable to false
+E (99648) MQTT: Failed to connect to endpoint, code=0
+I (99648) StateMachine: State: connecting -> idle
+W (99658) Application: Alert [cancel] Ошибка: Невозможно подключиться к сервису, попробуйте позже
+W (99658) EmojiCollection: Emoji not found: cancel
+I (99668) AudioCodec: Set output enable to true
+E (99668) i2s_common: i2s_channel_disable(1516): the channel has not been enabled yet
+E (99678) i2s_common: i2s_channel_disable(1516): the channel has not been enabled yet
+I (99678) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (99688) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (99698) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (99708) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (99728) Adev_Codec: Open codec device OK
+I (100218) RAM: internal free=5011 min=160 largest=3456 | psram free=7354600 min=7327904 largest=7208960
+I (100668) AudioCodec: Set output enable to false
+I (105218) RAM: internal free=5539 min=160 largest=4096 | psram free=7354600 min=7327904 largest=7208960
+I (110218) RAM: internal free=5407 min=160 largest=3712 | psram free=7354600 min=7327904 largest=7208960
+I (113738) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=275 => point.x=275, point.y=175 (top_bar=0)
+I (113798) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=275 => point.x=275, point.y=175 (top_bar=0)
+I (113858) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=275 => point.x=275, point.y=175 (top_bar=0)
+I (115218) RAM: internal free=5407 min=160 largest=3712 | psram free=7354600 min=7327904 largest=7208960
+I (115418) FreenoveFnk0104sBoard: TOUCH READ: raw_x=186, raw_y=249 => point.x=249, point.y=134 (top_bar=0)
+I (115478) FreenoveFnk0104sBoard: TOUCH READ: raw_x=186, raw_y=249 => point.x=249, point.y=134 (top_bar=0)
+I (116498) FreenoveFnk0104sBoard: TOUCH READ: raw_x=187, raw_y=256 => point.x=256, point.y=133 (top_bar=0)
+I (116558) FreenoveFnk0104sBoard: TOUCH READ: raw_x=187, raw_y=256 => point.x=256, point.y=133 (top_bar=0)
+I (116798) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=269 => point.x=269, point.y=138 (top_bar=0)
+I (116858) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=269 => point.x=269, point.y=138 (top_bar=0)
+I (117518) FreenoveFnk0104sBoard: TOUCH READ: raw_x=290, raw_y=247 => point.x=247, point.y=30 (top_bar=1)
+I (117578) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (117578) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (118758) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=242 => point.x=242, point.y=258 (top_bar=0)
+I (118828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=242 => point.x=242, point.y=258 (top_bar=0)
+I (119348) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=254 => point.x=254, point.y=246 (top_bar=0)
+I (119428) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=254 => point.x=254, point.y=246 (top_bar=0)
+I (119528) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=254 => point.x=254, point.y=246 (top_bar=0)
+I (119878) FreenoveFnk0104sBoard: TOUCH READ: raw_x=61, raw_y=240 => point.x=240, point.y=259 (top_bar=0)
+I (120218) RAM: internal free=5187 min=160 largest=3456 | psram free=7354600 min=7327904 largest=7208960
+I (121158) FreenoveFnk0104sBoard: TOUCH READ: raw_x=264, raw_y=429 => point.x=429, point.y=56 (top_bar=0)
+I (121248) FreenoveFnk0104sBoard: TOUCH READ: raw_x=264, raw_y=429 => point.x=429, point.y=56 (top_bar=0)
+I (121328) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (121968) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=264 => point.x=264, point.y=171 (top_bar=0)
+I (122028) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=264 => point.x=264, point.y=171 (top_bar=0)
+I (122088) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=264 => point.x=264, point.y=171 (top_bar=0)
+I (123168) FreenoveFnk0104sBoard: TOUCH READ: raw_x=12, raw_y=270 => point.x=270, point.y=308 (top_bar=0)
+I (123528) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=273 => point.x=273, point.y=320 (top_bar=0)
+I (123588) FreenoveFnk0104sBoard: TOUCH READ: raw_x=2, raw_y=271 => point.x=271, point.y=318 (top_bar=0)
+I (123888) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=235 => point.x=235, point.y=193 (top_bar=0)
+I (124128) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=230 => point.x=230, point.y=181 (top_bar=0)
+I (124308) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=229 => point.x=229, point.y=162 (top_bar=0)
+I (125218) RAM: internal free=4799 min=160 largest=3328 | psram free=7354600 min=7327904 largest=7208960
+I (130218) RAM: internal free=5419 min=160 largest=3456 | psram free=7354600 min=7327904 largest=7208960
+I (135218) RAM: internal free=5419 min=160 largest=3456 | psram free=7354600 min=7327904 largest=7208960
+I (140218) RAM: internal free=4871 min=160 largest=3456 | psram free=7354600 min=7327904 largest=7208960
