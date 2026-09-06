@@ -222,7 +222,7 @@ void InternetRadioPlayer::StreamLoop() {
                             SystemInfo::PrintRamSnapshot("RADIO_PLAYING");
                         }
                         PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
-                                     frame.decoded_size / 2, info.channel, info.sample_rate, target_rate);
+                                     frame.decoded_size / 2, info.channel, info.sample_rate, target_rate, true);
                     } else if (!invalid_info_logged) {
                         ESP_LOGW(TAG, "Decoded frame has unsupported audio info: rate=%lu channels=%lu bits=%lu",
                                  static_cast<unsigned long>(info.sample_rate),
