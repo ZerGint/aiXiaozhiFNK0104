@@ -1,0 +1,9 @@
+{
+    "type": "freenove-fnk0104s",
+    "target": "esp32s3",
+    "builds": [
+        {
+            "name": "freenove-fnk0104s"
+        }
+    ]
+}

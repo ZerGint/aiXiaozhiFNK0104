@@ -1,0 +1,137 @@
+I (148) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (153) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (158) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (163) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (170) spi_flash: detected chip: generic
+I (173) spi_flash: flash io: qio
+I (177) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (183) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (198) main_task: Started on CPU0
+I (198) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (208) main_task: Calling app_main()
+I (238) Board: UUID=1ba8aa15-f6ee-4bc2-95dc-1ba86effe0d2 SKU=freenove-fnk0104s
+I (238) button: IoT Button Version: 4.2.0
+I (238) FreenoveFnk0104sBoard: Initializing early Bluetooth controller & NimBLE stack at boot...
+I (248) BLE_INIT: BT controller compile version [51d9dfd]
+I (248) BLE_INIT: Using main XTAL as clock source
+I (258) BLE_INIT: Feature Config, ADV:1, BLE_50:1, DTM:1, SCAN:1, CCA:0, SMP:1, CONNECT:1
+I (258) BLE_INIT: Bluetooth MAC: 7c:e8:b1:b1:65:4a
+I (268) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (308) NimBLE: GAP procedure initiated: stop advertising.
+
+I (308) adc_battery_estimation: Use internal ADC unit
+I (308) st7796: version: 1.3.5
+I (308) st7796_general: LCD panel create success, version: 1.3.5
+I (538) Display: Power management not supported
+W (538) Settings: Namespace display is not open for writing
+I (698) LcdDisplay: Turning display on
+I (698) LcdDisplay: Initialize LVGL library
+I (698) LcdDisplay: Use 2MB of PSRAM for image cache
+I (698) LcdDisplay: Initialize LVGL port
+I (708) LcdDisplay: Adding LCD display
+I (708) LVGL: Starting LVGL task
+I (768) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (768) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (778) SD_HOST: src_freq_hz: 160000000
+W (1178) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1178) StorageManager: SD Card mounted successfully at /sdcard!
+I (1188) HomeAssistant: Initializing Home Assistant integration...
+I (1188) MCP: Add tool: homeassistant.call_service
+I (1188) MCP: Add tool: homeassistant.get_states
+I (1198) MCP: Add tool: homeassistant.set_config [user]
+I (1198) Backlight: Set brightness to 22
+I (1208) StateMachine: State: unknown -> starting
+I (1218) SdMusicPlayer: Scanning directory /sdcard/music (3 total entries)...
+I (1218) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_��~1.MP3
+I (1218) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_��~1.MP3
+I (1228) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_��~1.MP3
+I (1238) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 3
+W (1258) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1258) Es8311AudioCodec: Duplex channels created
+I (1258) Es8311AudioCodec: ES8311 software reset complete
+I (1278) ES8311: Work in Slave mode
+I (1278) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1548) AudioCodec: Audio codec started
+I (1558) AppManager: Initializing Application Manager...
+I (1558) MCP: Add tool: self.get_device_status
+I (1558) MCP: Add tool: self.audio_speaker.set_volume
+I (1558) MCP: Add tool: self.screen.set_brightness
+I (1568) MCP: Add tool: self.screen.set_theme
+I (1568) MCP: Add tool: self.get_system_info [user]
+I (1568) MCP: Add tool: self.reboot [user]
+I (1578) MCP: Add tool: self.upgrade_firmware [user]
+I (1578) MCP: Add tool: self.screen.get_info [user]
+I (1588) MCP: Add tool: self.screen.snapshot [user]
+I (1588) MCP: Add tool: self.screen.preview_image [user]
+I (1598) MCP: Add tool: self.assets.set_download_url [user]
+I (1598) WifiManager: Initializing...
+I (1608) pp: pp rom version: e7ae62f
+I (1608) net80211: net80211 rom version: e7ae62f
+I (1618) wifi:wifi driver task: 3fccf094, prio:23, stack:6656, core=0
+I (1618) wifi:wifi firmware version: e12a754
+I (1618) wifi:wifi certification version: v7.0
+I (1628) wifi:config NVS flash: disabled
+I (1628) wifi:config nano formatting: disabled
+I (1628) wifi:Init data frame dynamic rx buffer num: 6
+I (1638) wifi:Init dynamic rx mgmt buffer num: 5
+I (1638) wifi:Init management short buffer num: 32
+I (1648) wifi:Init dynamic tx buffer num: 32
+I (1648) wifi:Init static tx FG buffer num: 2
+I (1658) wifi:Init static rx buffer size: 1600
+I (1658) wifi:Init static rx buffer num: 3
+I (1658) wifi:Init dynamic rx buffer num: 6
+I (1668) wifi_init: rx ba win: 3
+I (1668) wifi_init: accept mbox: 6
+I (1668) wifi_init: tcpip mbox: 16
+I (1678) wifi_init: udp mbox: 6
+I (1678) wifi_init: tcp mbox: 6
+I (1678) wifi_init: tcp tx win: 5760
+I (1688) wifi_init: tcp rx win: 5760
+I (1688) wifi_init: tcp mss: 1440
+I (1688) WifiManager: Initialized
+I (1698) WifiBoard: Starting WiFi connection attempt
+I (1698) WifiManager: Starting station
+I (1698) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1708) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1708) wifi:enable tsf
+I (1718) WifiBoard: WiFi scanning
+I (4128) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -52, Channel: 7, Authmode: 3
+I (4128) WifiBoard: WiFi connecting to ZERG
+W (4148) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (6608) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6608) wifi:state: init -> auth (0xb0)
+I (6608) wifi:state: auth -> assoc (0x0)
+I (6628) wifi:state: assoc -> run (0x10)
+I (6638) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6638) wifi:security: WPA2-PSK, phy: bgn, rssi: -35, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6648) wifi:pm start, type: 1
+
+I (6648) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6658) wifi:set rx beacon pti, rx_bcn_pti: 14, bcn_timeout: 25000, mt_pti: 14, mt_time: 10000
+I (6678) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6708) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8168) esp_netif_handlers: sta ip: 192.168.31.94, mask: 255.255.255.0, gw: 192.168.31.1
+I (8168) WifiStation: Got IP: 192.168.31.94
+I (8168) WifiBoard: Connected to WiFi: ZERG
+I (8178) Application: Network connected
+I (8178) StateMachine: State: starting -> activating
+I (8178) Assets: The storage free size is 21440 KB
+I (8178) Assets: The partition size is 8192 KB
+I (8278) Assets: The checksum calculation time is 95 ms
+I (8288) MODEL_LOADER: Successfully load srmodels
+I (8338) Assets: Refreshing display theme...
+W (8378) EmojiCollection: Emoji not found: robot_2
+I (8388) Ota: Current version: 2.4.2
+I (8388) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+W (8398) wifi:mem fail
+I (9888) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1500
+E (9888) esp-aes: Failed to allocate memory
+E (9888) esp-tls-mbedtls: write error :-0x0084
+E (9888) EspSsl: SSL send failed: ret=-132, errno=119
+E (9898) HttpClient: Send HTTP request failed
+I (17568) SystemInfo: free sram: 4611 minimal sram: 768
+E (19898) EspSsl: Failed to wait for receive task exit
+E (19898) Ota: Failed to open HTTP connection, code=0x0
+I (19898) Ota: Running partition: ota_0
+W (19898) Application: No protocol specified in the OTA config, using MQTT
+I (19908) MQTT: Connecting to endpoint api.tenclass.net

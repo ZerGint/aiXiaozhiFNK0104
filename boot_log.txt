@@ -1,0 +1,3 @@
+I (19698) AudioCodec: Set output enable to false
+I (20958) SystemInfo: free sram: 148379 minimal sram: 142899
+I (30958) SystemInfo: free sram: 147175 minimal sram: 142899

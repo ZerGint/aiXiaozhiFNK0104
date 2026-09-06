@@ -1,0 +1,9 @@
+{
+    "type": "freenove-fnk0099k-ai-assistant",
+    "target": "esp32s3",
+    "builds": [
+        {
+            "name": "freenove-fnk0099k-ai-assistant"
+        }
+    ]
+}

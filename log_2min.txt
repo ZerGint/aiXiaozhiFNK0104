@@ -1,0 +1,340 @@
+I (152) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (157) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (169) spi_flash: detected chip: generic
+I (172) spi_flash: flash io: qio
+I (176) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (182) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (228) Board: UUID=1ba8aa15-f6ee-4bc2-95dc-1ba86effe0d2 SKU=freenove-fnk0104s
+I (228) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (238) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1098) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1098) StorageManager: SD Card mounted successfully at /sdcard!
+I (1108) HomeAssistant: Initializing Home Assistant integration...
+I (1108) MCP: Add tool: homeassistant.call_service
+I (1108) MCP: Add tool: homeassistant.get_states
+I (1118) MCP: Add tool: homeassistant.set_config [user]
+I (1118) MCP: Add tool: radio.search_stations
+I (1128) MCP: Add tool: radio.play_station
+I (1128) MCP: Add tool: radio.stop
+I (1128) MCP: Add tool: media.play_sd
+I (1138) MCP: Add tool: media.list_sd
+I (1138) MCP: Add tool: media.search_sd
+I (1138) MCP: Add tool: media.pause
+I (1148) MCP: Add tool: media.next
+I (1148) MCP: Add tool: media.previous
+I (1148) MCP: Add tool: media.stop
+I (1158) Backlight: Set brightness to 26
+I (1158) StateMachine: State: unknown -> starting
+W (1178) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1178) Es8311AudioCodec: Duplex channels created
+I (1178) Es8311AudioCodec: ES8311 software reset complete
+I (1188) ES8311: Work in Slave mode
+I (1198) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1198) SdMusicPlayer: Scanning directory /sdcard/music (3 total entries)...
+I (1198) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1208) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1228) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1228) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 3
+I (1478) AudioCodec: Audio codec started
+I (1488) AppManager: Initializing Application Manager...
+I (1488) MCP: Add tool: self.get_device_status
+I (1488) MCP: Add tool: self.audio_speaker.set_volume
+I (1488) MCP: Add tool: self.screen.set_brightness
+I (1498) MCP: Add tool: self.screen.set_theme
+I (1498) MCP: Add tool: self.get_system_info [user]
+I (1498) MCP: Add tool: self.reboot [user]
+I (1508) MCP: Add tool: self.upgrade_firmware [user]
+I (1508) MCP: Add tool: self.screen.get_info [user]
+I (1518) MCP: Add tool: self.screen.snapshot [user]
+I (1518) MCP: Add tool: self.screen.preview_image [user]
+I (1528) MCP: Add tool: self.assets.set_download_url [user]
+I (1528) WifiManager: Initializing...
+I (1538) pp: pp rom version: e7ae62f
+I (1538) net80211: net80211 rom version: e7ae62f
+I (1548) wifi:wifi driver task: 3fce8978, prio:23, stack:6656, core=0
+I (1548) wifi:wifi firmware version: e12a754
+I (1548) wifi:wifi certification version: v7.0
+I (1558) wifi:config NVS flash: disabled
+I (1558) wifi:config nano formatting: disabled
+I (1568) wifi:Init data frame dynamic rx buffer num: 6
+I (1568) wifi:Init dynamic rx mgmt buffer num: 5
+I (1568) wifi:Init management short buffer num: 32
+I (1578) wifi:Init dynamic tx buffer num: 32
+I (1578) wifi:Init static tx FG buffer num: 2
+I (1588) wifi:Init static rx buffer size: 1600
+I (1588) wifi:Init static rx buffer num: 3
+I (1598) wifi:Init dynamic rx buffer num: 6
+I (1598) wifi_init: rx ba win: 3
+I (1598) wifi_init: accept mbox: 6
+I (1608) wifi_init: tcpip mbox: 16
+I (1608) wifi_init: udp mbox: 6
+I (1608) wifi_init: tcp mbox: 6
+I (1608) wifi_init: tcp tx win: 5760
+I (1618) wifi_init: tcp rx win: 5760
+I (1618) wifi_init: tcp mss: 1440
+I (1618) WifiManager: Initialized
+I (1628) WifiBoard: Starting WiFi connection attempt
+I (1628) WifiManager: Starting station
+I (1638) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1638) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1678) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1678) wifi:enable tsf
+I (1678) WifiBoard: WiFi scanning
+I (4088) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -44, Channel: 7, Authmode: 3
+I (4088) WifiBoard: WiFi connecting to ZERG
+W (4098) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (6568) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6568) wifi:state: init -> auth (0xb0)
+I (6578) wifi:state: auth -> assoc (0x0)
+I (6578) wifi:state: assoc -> run (0x10)
+I (6598) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6598) wifi:security: WPA2-PSK, phy: bgn, rssi: -35, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6608) wifi:pm start, type: 1
+
+I (6608) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6618) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6628) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (6638) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (8158) esp_netif_handlers: sta ip: 192.168.31.94, mask: 255.255.255.0, gw: 192.168.31.1
+I (8158) WifiStation: Got IP: 192.168.31.94
+I (8158) WifiBoard: Connected to WiFi: ZERG
+I (8168) Application: Network connected
+I (8168) StateMachine: State: starting -> activating
+I (8168) Assets: The storage free size is 21568 KB
+I (8168) Assets: The partition size is 8192 KB
+I (8288) Assets: The checksum calculation time is 112 ms
+I (8288) MODEL_LOADER: Successfully load srmodels
+I (8328) Assets: Refreshing display theme...
+W (8358) EmojiCollection: Emoji not found: robot_2
+I (8358) Ota: Current version: 2.4.2
+I (8378) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10328) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1960
+I (11048) HttpClient: HTTP connection closed
+I (11048) Ota: Current is the latest version
+I (11058) Ota: Running partition: ota_0
+I (11068) MQTT: Connecting to endpoint api.tenclass.net
+I (13088) MQTT: Connected to endpoint
+I (13088) Application: Activation done
+I (13088) SystemInfo: free sram: 98079 minimal sram: 39812
+I (13088) StateMachine: State: activating -> idle
+I (13118) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13118) wifi:Set ps type: 2, coexist: 0
+
+I (13118) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13128) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13128) WakeWordCache: Allocated 64000 bytes in PSRAM
+I (13138) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13138) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13238) AFE: AFE Version: (1MIC_V251128)
+I (13238) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13248) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13258) AFE: AFE Version: (1MIC_V251128)
+I (13258) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13268) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13278) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13288) AudioCodec: Set output enable to true
+I (13288) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13298) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13308) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13308) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13338) Adev_Codec: Open codec device OK
+I (13338) AudioCodec: Set input enable to true
+I (13338) AudioService: Resampling audio from 16000 to 24000
+I (22488) SystemInfo: free sram: 61091 minimal sram: 27252
+I (32468) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=241 => point.x=241, point.y=151 (top_bar=0)
+I (32498) SystemInfo: free sram: 61059 minimal sram: 27252
+I (32508) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=241 => point.x=241, point.y=151 (top_bar=0)
+I (32568) StateMachine: State: idle -> connecting
+I (32598) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (32598) wifi:Set ps type: 0, coexist: 0
+
+I (33018) MQTT: Session ID: ab72fb35
+I (33018) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (33028) wifi:Set ps type: 0, coexist: 0
+
+I (33028) StateMachine: State: connecting -> listening
+I (33028) AudioManager: Audio focus requested by source 1 (current 0)
+I (42488) SystemInfo: free sram: 57871 minimal sram: 27252
+I (46478) Application: >> Включи радио Юмор-ФМ.
+I (46498) StateMachine: State: listening -> speaking
+I (47108) Application: << % radio.search_stations...
+I (47708) RadioBrowser: Search request succeeded: status=200 response_len=3661
+I (49158) Application: << % radio.play_station...
+I (49178) Application: Abort speaking
+I (49178) MQTT: Closing audio channel, send_goodbye: 1
+I (49188) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (49188) wifi:Set ps type: 2, coexist: 0
+
+I (49188) StateMachine: State: speaking -> idle
+I (49188) AudioManager: Audio focus requested by source 3 (current 1)
+I (49188) AudioManager: Releasing audio focus from source 1
+W (53338) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (54388) MQTT: Received goodbye message, session_id: ab72fb35
+I (54388) MQTT: Closing audio channel, send_goodbye: 0
+I (54388) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (54388) MQTT: Received goodbye message, session_id: ab72fb35
+I (54388) wifi:Set ps type: 2, coexist: 0
+
+I (54398) MQTT: Closing audio channel, send_goodbye: 0
+I (54408) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (54408) wifi:Set ps type: 2, coexist: 0
+
+I (55788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=310, raw_y=247 => point.x=247, point.y=10 (top_bar=1)
+I (55828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=310, raw_y=247 => point.x=247, point.y=10 (top_bar=1)
+I (55868) FreenoveFnk0104sBoard: TOUCH READ: raw_x=310, raw_y=247 => point.x=247, point.y=10 (top_bar=1)
+I (55918) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (55918) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (58468) InternetRadio: Stream connected: status=200 content_type=unknown
+I (58468) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (58498) SystemInfo: free sram: 51583 minimal sram: 27252
+I (58738) FreenoveFnk0104sBoard: TOUCH READ: raw_x=277, raw_y=420 => point.x=420, point.y=43 (top_bar=1)
+I (58868) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (59578) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=268 => point.x=268, point.y=162 (top_bar=0)
+I (59628) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=268 => point.x=268, point.y=162 (top_bar=0)
+I (59728) StateMachine: State: idle -> connecting
+I (59758) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (59758) wifi:Set ps type: 0, coexist: 0
+
+I (60148) MQTT: Session ID: 2284f33c
+I (60158) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (60158) wifi:Set ps type: 0, coexist: 0
+
+I (60158) StateMachine: State: connecting -> listening
+I (60158) AudioManager: Audio focus requested by source 1 (current 0)
+I (65968) Application: >> Включи музыку с SD-карты первый трек.
+I (65998) StateMachine: State: listening -> speaking
+I (66248) Application: << % media.play_sd...
+I (66278) SdMusicPlayer: Scanning directory /sdcard/music (3 total entries)...
+I (66278) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (66288) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (66298) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (66308) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 3
+I (66318) Application: Abort speaking
+I (66318) MQTT: Closing audio channel, send_goodbye: 1
+I (66328) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (66328) wifi:Set ps type: 2, coexist: 0
+
+I (66338) StateMachine: State: speaking -> idle
+I (66358) AudioManager: Audio focus requested by source 2 (current 1)
+W (66358) AUD_SDEC_REG: Overwrote ES decoder 542523735
+W (66358) AUD_SDEC_REG: Overwrote ES decoder 1094792269
+W (66358) AUD_SDEC_REG: Overwrote ES decoder 538989396
+W (66368) AUD_SDEC_REG: Overwrote ES decoder 541542223
+I (66368) SdMusicPlayer: esp_mp3_dec_register returned: 0
+I (66378) SdMusicPlayer: ▶ Playing file: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (66388) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (66388) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (66408) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (68498) MQTT: Received goodbye message, session_id: 2284f33c
+I (68498) MQTT: Received goodbye message, session_id: 2284f33c
+I (68518) MQTT: Closing audio channel, send_goodbye: 0
+I (68518) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (68518) wifi:Set ps type: 2, coexist: 0
+
+I (68518) MQTT: Closing audio channel, send_goodbye: 0
+I (68528) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (68528) wifi:Set ps type: 2, coexist: 0
+
+I (73288) FreenoveFnk0104sBoard: TOUCH READ: raw_x=317, raw_y=244 => point.x=244, point.y=3 (top_bar=1)
+I (73328) FreenoveFnk0104sBoard: TOUCH READ: raw_x=317, raw_y=244 => point.x=244, point.y=3 (top_bar=1)
+I (73378) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (73378) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (74838) FreenoveFnk0104sBoard: TOUCH READ: raw_x=66, raw_y=242 => point.x=242, point.y=254 (top_bar=0)
+I (74938) SdMusicPlayer: Playback PAUSED
+I (75488) SystemInfo: free sram: 52923 minimal sram: 25520
+I (75728) FreenoveFnk0104sBoard: TOUCH READ: raw_x=278, raw_y=431 => point.x=431, point.y=42 (top_bar=1)
+I (75818) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (78258) FreenoveFnk0104sBoard: TOUCH READ: raw_x=318, raw_y=246 => point.x=246, point.y=2 (top_bar=1)
+I (78308) FreenoveFnk0104sBoard: TOUCH READ: raw_x=318, raw_y=246 => point.x=246, point.y=2 (top_bar=1)
+I (78338) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (78338) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (79048) FreenoveFnk0104sBoard: TOUCH READ: raw_x=73, raw_y=244 => point.x=244, point.y=247 (top_bar=0)
+I (79118) SdMusicPlayer: Playback RESUMED
+I (79788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=283, raw_y=431 => point.x=431, point.y=37 (top_bar=1)
+I (79908) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (85488) SystemInfo: free sram: 46347 minimal sram: 25520
+I (87908) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=243 => point.x=243, point.y=156 (top_bar=0)
+I (87968) StateMachine: State: idle -> connecting
+I (87998) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (87998) wifi:Set ps type: 0, coexist: 0
+
+I (91018) MQTT: Session ID: 23a1108f
+I (91018) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (91018) wifi:Set ps type: 0, coexist: 0
+
+I (91018) StateMachine: State: connecting -> listening
+I (91028) AudioManager: Audio focus requested by source 1 (current 2)
+I (91028) AudioManager: Pausing current audio source 2 for TTS
+I (99508) SystemInfo: free sram: 47799 minimal sram: 25520
+I (107178) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=241 => point.x=241, point.y=183 (top_bar=0)
+I (107218) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=241 => point.x=241, point.y=183 (top_bar=0)
+I (107268) MQTT: Closing audio channel, send_goodbye: 1
+I (107268) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (107268) wifi:Set ps type: 2, coexist: 0
+
+I (107288) StateMachine: State: listening -> idle
+I (107298) AudioManager: Releasing audio focus from source 1
+I (108338) MQTT: Received goodbye message, session_id: 23a1108f
+I (108338) MQTT: Closing audio channel, send_goodbye: 0
+I (108338) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (108338) wifi:Set ps type: 2, coexist: 0
+
+I (108538) FreenoveFnk0104sBoard: TOUCH READ: raw_x=295, raw_y=253 => point.x=253, point.y=25 (top_bar=1)
+I (108588) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (108588) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (109578) FreenoveFnk0104sBoard: TOUCH READ: raw_x=71, raw_y=238 => point.x=238, point.y=249 (top_bar=0)
+I (109688) SdMusicPlayer: Playback PAUSED
+I (112008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=270, raw_y=430 => point.x=430, point.y=50 (top_bar=1)
+I (112098) FreenoveFnk0104sBoard: TOUCH READ: raw_x=270, raw_y=430 => point.x=430, point.y=50 (top_bar=1)
+I (112168) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (112868) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=254 => point.x=254, point.y=163 (top_bar=0)
+I (112898) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=254 => point.x=254, point.y=163 (top_bar=0)
+I (112948) StateMachine: State: idle -> connecting
+I (112978) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (112978) wifi:Set ps type: 0, coexist: 0
+
+I (113358) MQTT: Session ID: 4d10b769
+I (113358) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (113368) wifi:Set ps type: 0, coexist: 0
+
+I (113368) StateMachine: State: connecting -> listening
+I (113368) AudioManager: Audio focus requested by source 1 (current 2)
+I (113378) AudioManager: Pausing current audio source 2 for TTS
+I (113478) SdMusicPlayer: Player task stopped.
+I (117438) Application: >> Включи радио. Юмор. ФМ.
+I (117468) StateMachine: State: listening -> speaking
+I (117818) Application: << % radio.search_stations...
+I (118128) RadioBrowser: Search request succeeded: status=200 response_len=3661
+I (119078) Application: << % radio.play_station...
+I (119108) Application: Abort speaking
+I (119108) MQTT: Closing audio channel, send_goodbye: 1
+I (119108) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (119108) wifi:Set ps type: 2, coexist: 0
+
+I (119118) StateMachine: State: speaking -> idle
+I (119118) AudioManager: Audio focus requested by source 3 (current 1)
+I (119118) AudioManager: Releasing audio focus from source 1
+W (119128) AUD_SDEC_REG: Overwrote ES decoder 542523735
+W (119138) AUD_SDEC_REG: Overwrote ES decoder 1094792269
+W (119138) AUD_SDEC_REG: Overwrote ES decoder 538989396
+W (119148) AUD_SDEC_REG: Overwrote ES decoder 541542223
+W (120208) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
