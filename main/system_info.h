@@ -17,6 +17,8 @@ public:
     static esp_err_t PrintTaskCpuUsage(TickType_t xTicksToWait);
     static void PrintTaskList();
     static void PrintHeapStats();
+    static void PrintRamSnapshot(const char* tag = nullptr);
+    static void StartPeriodicRamLog();
     static void PrintPmLocks();
 };
 

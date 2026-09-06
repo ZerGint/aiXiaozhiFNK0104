@@ -1,5 +1,6 @@
 #include "audio_service.h"
 #include "media/sd_music_player.h"
+#include "media/internet_radio_player.h"
 #include "audio_manager.h"
 #include "application.h"
 #include <esp_log.h>
@@ -360,6 +361,9 @@ void AudioService::AudioOutputTask() {
                 }
             }
             if (has_radio && radio_duration_ms < RADIO_PREBUFFER_MS) {
+                if (radio_started) {
+                    InternetRadioPlayer::GetInstance().RecordUnderrun();
+                }
                 audio_queue_cv_.wait_for(lock, std::chrono::milliseconds(50));
                 continue;
             }
@@ -984,3 +988,20 @@ bool AudioService::InitializeAudioEngine() {
     audio_engine_->EnableDeviceAec(device_aec_enabled_);
     return true;
 }
+
+uint32_t AudioService::GetRadioBufferedMs() {
+    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+    return radio_buffered_duration_ms_;
+}
+
+size_t AudioService::GetRadioQueueSize() {
+    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+    size_t count = 0;
+    for (const auto& task : audio_playback_queue_) {
+        if (task->is_radio) {
+            count++;
+        }
+    }
+    return count;
+}
+

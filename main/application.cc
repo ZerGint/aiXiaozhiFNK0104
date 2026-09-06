@@ -66,6 +66,7 @@ void Application::Initialize() {
     // Setup the display
     auto display = board.GetDisplay();
     display->SetupUI();
+    SystemInfo::PrintRamSnapshot("AFTER_LVGL_INIT");
     // Print board name/version info
     display->SetChatMessage("system", SystemInfo::GetUserAgent().c_str());
 
@@ -73,6 +74,7 @@ void Application::Initialize() {
     auto codec = board.GetAudioCodec();
     audio_service_.Initialize(codec);
     audio_service_.Start();
+    SystemInfo::PrintRamSnapshot("AFTER_AUDIO_INIT");
 
     AudioServiceCallbacks callbacks;
     callbacks.on_send_queue_available = [this]() {
@@ -173,6 +175,8 @@ void Application::Initialize() {
 
     // Update the status bar immediately to show the network state
     display->UpdateStatusBar(true);
+
+    SystemInfo::PrintRamSnapshot("AFTER_XIAOZHI_INIT");
 }
 
 void Application::Run() {
@@ -290,6 +294,7 @@ void Application::Run() {
 
 void Application::HandleNetworkConnectedEvent() {
     ESP_LOGI(TAG, "Network connected");
+    SystemInfo::PrintRamSnapshot("AFTER_WIFI");
     auto state = GetDeviceState();
 
     if (state == kDeviceStateStarting || state == kDeviceStateWifiConfiguring) {

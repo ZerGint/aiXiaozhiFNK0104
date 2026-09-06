@@ -5,6 +5,7 @@
 #include "board.h"
 #include "audio_codec.h"
 #include "media_audio_output.h"
+#include "system_info.h"
 
 #include <decoder/impl/esp_mp3_dec.h>
 #include <simple_dec/esp_audio_simple_dec.h>
@@ -12,6 +13,7 @@
 #include <esp_crt_bundle.h>
 #include <esp_http_client.h>
 #include <esp_log.h>
+#include <esp_timer.h>
 
 #include <cstring>
 #include <vector>
@@ -39,6 +41,7 @@ std::string InternetRadioPlayer::GetUrl() const {
 
 void InternetRadioPlayer::Play(const std::string& url, const std::string& title) {
     if (url.empty()) return;
+    SystemInfo::PrintRamSnapshot("RADIO_START");
     {
         std::lock_guard<std::mutex> lock(mutex_);
         url_ = url;
@@ -67,6 +70,7 @@ void InternetRadioPlayer::TogglePlayPause() {
 }
 
 void InternetRadioPlayer::Stop() {
+    SystemInfo::PrintRamSnapshot("RADIO_STOP");
     stop_requested_ = true;
     paused_ = false;
     if (task_handle_ != nullptr && xTaskGetCurrentTaskHandle() != task_handle_) {
@@ -144,6 +148,7 @@ void InternetRadioPlayer::StreamLoop() {
         bool first_read_logged = false;
         bool first_frame_logged = false;
         bool invalid_info_logged = false;
+        int64_t last_radio_log_time = 0;
         while (!stop_requested_ && !reconnect_requested_) {
             if (paused_ ||
                 Application::GetInstance().GetDeviceState() == kDeviceStateListening ||
@@ -151,14 +156,30 @@ void InternetRadioPlayer::StreamLoop() {
                 vTaskDelay(pdMS_TO_TICKS(100));
                 continue;
             }
+            int64_t now = esp_timer_get_time();
+            if (now - last_radio_log_time >= 5000000) {
+                last_radio_log_time = now;
+                uint32_t buf_ms = Application::GetInstance().GetAudioService().GetRadioBufferedMs();
+                size_t queue_len = Application::GetInstance().GetAudioService().GetRadioQueueSize();
+                ESP_LOGI(TAG, "[RADIO] buffer=%lu ms queue=%u underruns=%lu reconnects=%lu dec_err=%lu status=%s",
+                         (unsigned long)buf_ms, (unsigned)queue_len,
+                         (unsigned long)underrun_count_.load(),
+                         (unsigned long)reconnect_count_.load(),
+                         (unsigned long)decoder_error_count_.load(),
+                         paused_ ? "PAUSED" : "PLAYING");
+            }
             int read = esp_http_client_read(client, reinterpret_cast<char*>(in.data()), in.size());
-            if (read <= 0) break;
+            if (read <= 0) {
+                reconnect_count_++;
+                break;
+            }
             if (!first_read_logged) {
                 ESP_LOGI(TAG, "Received first stream data: bytes=%d", read);
                 first_read_logged = true;
             }
             if (pending_len + static_cast<size_t>(read) > pending.size()) {
                 ESP_LOGW(TAG, "MP3 decoder made no progress; reconnecting");
+                reconnect_count_++;
                 break;
             }
             std::memcpy(pending.data() + pending_len, in.data(), read);
@@ -180,6 +201,7 @@ void InternetRadioPlayer::StreamLoop() {
                     continue;
                 }
                 if (result != ESP_AUDIO_ERR_OK) {
+                    decoder_error_count_++;
                     ESP_LOGW(TAG, "MP3 decode failed: ret=%d consumed=%u input=%u",
                              static_cast<int>(result),
                              static_cast<unsigned>(raw.consumed),
@@ -197,6 +219,7 @@ void InternetRadioPlayer::StreamLoop() {
                                      static_cast<unsigned long>(info.bits_per_sample),
                                      static_cast<int>(frame.decoded_size));
                             first_frame_logged = true;
+                            SystemInfo::PrintRamSnapshot("RADIO_PLAYING");
                         }
                         PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate, target_rate);
@@ -221,6 +244,9 @@ void InternetRadioPlayer::StreamLoop() {
         esp_audio_simple_dec_close(decoder);
         esp_http_client_close(client);
         esp_http_client_cleanup(client);
+        if (reconnect_requested_) {
+            reconnect_count_++;
+        }
         reconnect_requested_ = false;
         if (!stop_requested_) vTaskDelay(pdMS_TO_TICKS(500));
     }

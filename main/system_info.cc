@@ -13,6 +13,9 @@
 #include "esp_wifi_remote.h"
 #endif
 
+#include <esp_heap_caps.h>
+#include <esp_timer.h>
+
 #define TAG "SystemInfo"
 
 size_t SystemInfo::GetFlashSize() {
@@ -153,6 +156,45 @@ void SystemInfo::PrintHeapStats() {
     ESP_LOGI(TAG, "free sram: %u minimal sram: %u", free_sram, min_free_sram);
 }
 
+void SystemInfo::PrintRamSnapshot(const char* tag) {
+    size_t internal_free = heap_caps_get_free_size(MALLOC_CAP_INTERNAL);
+    size_t internal_min = heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL);
+    size_t internal_largest = heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL);
+
+    size_t psram_free = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
+    size_t psram_min = heap_caps_get_minimum_free_size(MALLOC_CAP_SPIRAM);
+    size_t psram_largest = heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM);
+
+    if (tag != nullptr && tag[0] != '\0') {
+        ESP_LOGI("RAM", "[%s] internal free=%u min=%u largest=%u | psram free=%u min=%u largest=%u",
+                 tag, (unsigned)internal_free, (unsigned)internal_min, (unsigned)internal_largest,
+                 (unsigned)psram_free, (unsigned)psram_min, (unsigned)psram_largest);
+    } else {
+        ESP_LOGI("RAM", "internal free=%u min=%u largest=%u | psram free=%u min=%u largest=%u",
+                 (unsigned)internal_free, (unsigned)internal_min, (unsigned)internal_largest,
+                 (unsigned)psram_free, (unsigned)psram_min, (unsigned)psram_largest);
+    }
+}
+
+static esp_timer_handle_t s_ram_diag_timer = nullptr;
+
+void SystemInfo::StartPeriodicRamLog() {
+    if (s_ram_diag_timer != nullptr) return;
+    esp_timer_create_args_t args = {
+        .callback = [](void* arg) {
+            SystemInfo::PrintRamSnapshot(nullptr);
+        },
+        .arg = nullptr,
+        .dispatch_method = ESP_TIMER_TASK,
+        .name = "ram_diag_timer",
+        .skip_unhandled_events = true,
+    };
+    if (esp_timer_create(&args, &s_ram_diag_timer) == ESP_OK) {
+        esp_timer_start_periodic(s_ram_diag_timer, 5000000); // 5 seconds
+    }
+}
+
 void SystemInfo::PrintPmLocks() {
     esp_pm_dump_locks(stdout);
 }
+

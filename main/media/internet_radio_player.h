@@ -22,6 +22,10 @@ public:
     bool IsActive() const { return playing_ || task_handle_ != nullptr; }
     std::string GetTitle() const;
     std::string GetUrl() const;
+    void RecordUnderrun() { underrun_count_++; }
+    uint32_t GetReconnectCount() const { return reconnect_count_.load(); }
+    uint32_t GetDecoderErrorCount() const { return decoder_error_count_.load(); }
+    uint32_t GetUnderrunCount() const { return underrun_count_.load(); }
 
 private:
     InternetRadioPlayer() = default;
@@ -39,6 +43,9 @@ private:
     std::atomic<bool> paused_{false};
     std::atomic<bool> stop_requested_{false};
     std::atomic<bool> reconnect_requested_{false};
+    std::atomic<uint32_t> reconnect_count_{0};
+    std::atomic<uint32_t> decoder_error_count_{0};
+    std::atomic<uint32_t> underrun_count_{0};
     TaskHandle_t task_handle_ = nullptr;
 };
 

@@ -142,6 +142,8 @@ public:
     std::unique_ptr<AudioStreamPacket> PopPacketFromSendQueue();
     void PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music = false,
                           bool is_radio = false, uint32_t duration_ms = 0);
+    uint32_t GetRadioBufferedMs();
+    size_t GetRadioQueueSize();
     void PlaySound(const std::string_view& sound);
     bool ReadAudioData(std::vector<int16_t>& data, int sample_rate, int samples);
     void ResetDecoder();
