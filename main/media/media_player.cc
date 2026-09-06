@@ -181,6 +181,10 @@ std::string MediaPlayer::GetTitle() const {
     if (InternetRadioPlayer::GetInstance().IsPlaying() ||
         InternetRadioPlayer::GetInstance().IsPaused())
         return InternetRadioPlayer::GetInstance().GetTitle();
+
+    if (paused_for_voice_ && !radio_title_for_voice_.empty())
+        return radio_title_for_voice_;
+
     return SdMusicPlayer::GetInstance().GetCurrentTrackName();
 }
 
