@@ -1,0 +1,142 @@
+--- LOG SESSION STARTED AT Mon Sep  7 10:21:51 2026 ---
+I (83539) AudioService: [RADIO_PREBUFFER] buffering... current=166 ms target=2000 ms (queue=5)
+I (83879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=135, raw_y=268 => point.x=268, point.y=185 (top_bar=0)
+I (83919) FreenoveFnk0104sBoard: TOUCH READ: raw_x=135, raw_y=268 => point.x=268, point.y=185 (top_bar=0)
+I (83949) FreenoveFnk0104sBoard: TOUCH READ: raw_x=135, raw_y=268 => point.x=268, point.y=185 (top_bar=0)
+I (83999) RAM: [RADIO_STOP] internal free=41159 min=25264 largest=18432 | psram free=7369444 min=7366404 largest=7340032
+I (84009) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (84009) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (84009) AudioManager: Releasing audio focus from source 3
+I (84019) AudioManager: Releasing audio focus from source 3
+I (84019) StateMachine: State: idle -> connecting
+I (84029) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (84039) wifi:Set ps type: 0, coexist: 0
+
+I (84399) MQTT: Session ID: 8e879a27
+I (84399) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (84409) wifi:Set ps type: 0, coexist: 0
+
+I (84409) StateMachine: State: connecting -> listening
+I (85269) RAM: internal free=49543 min=25264 largest=18432 | psram free=7457352 min=7366404 largest=7340032
+I (88439) Application: >> Включи.
+I (88469) StateMachine: State: listening -> speaking
+I (89269) Application: << Хочешь включить радио или музыку с SD-
+I (90269) RAM: internal free=49611 min=25264 largest=18432 | psram free=7452096 min=7366404 largest=7340032
+I (93239) Application: << карты?
+I (94249) StateMachine: State: speaking -> listening
+I (95269) RAM: internal free=49619 min=25264 largest=18432 | psram free=7457352 min=7366404 largest=7340032
+I (98839) Application: >> Включи радио Радиус ФМ.
+I (98859) StateMachine: State: listening -> speaking
+I (99299) Application: << % radio.search_stations...
+I (99319) RadioBrowser: Local catalog insufficient (0 matches), querying RadioBrowser online
+I (99319) RadioBrowser: [RADIO_SEARCH] query="Радиус ФМ" countrycode="" language="" tag="" limit=5
+I (99329) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (100269) RAM: internal free=45879 min=25264 largest=18432 | psram free=7453764 min=7366404 largest=7340032
+I (100359) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (100359) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (100359) RadioBrowser: [HEAP_DIAG] stage=after_http_response internal_free=48003 internal_largest=18432 dma_free=40199
+I (100369) RadioBrowser: [HEAP_DIAG] stage=after_parse_filter internal_free=48159 internal_largest=18432 dma_free=40387
+I (100379) RadioBrowser: [HEAP_DIAG] stage=after_free_root_raw internal_free=48215 internal_largest=18432 dma_free=40443
+I (100989) Application: << % radio.search_stations...
+I (101019) RadioBrowser: Local catalog insufficient (1 matches), querying RadioBrowser online
+I (101019) RadioBrowser: [RADIO_SEARCH] query="Radius FM" countrycode="" language="" tag="" limit=5
+I (101029) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (101189) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (101189) RadioBrowser: Search request succeeded: status=200 response_len=1107
+I (101189) RadioBrowser: [HEAP_DIAG] stage=after_http_response internal_free=46279 internal_largest=18432 dma_free=38735
+I (101209) RadioBrowser: RadioBrowser: accepted codec AAC+
+I (101209) RadioBrowser: [HEAP_DIAG] stage=after_parse_filter internal_free=43043 internal_largest=18432 dma_free=35271
+I (101219) RadioBrowser: [HEAP_DIAG] stage=after_free_root_raw internal_free=47447 internal_largest=18432 dma_free=39675
+I (101229) RadioBrowser: [HEAP_DIAG] stage=before_add_catalog internal_free=47315 internal_largest=18432 dma_free=39543
+I (101619) RadioStorage: Successfully saved 21 stations to /sdcard/radio_catalog.json
+I (101619) RadioBrowser: Radio catalog updated: 1 search results
+I (101619) RadioBrowser: [HEAP_DIAG] stage=after_add_catalog internal_free=47139 internal_largest=18432 dma_free=39367
+I (102699) Application: << Нашла Радиус FM из Минска, включаю!
+I (105269) RAM: internal free=49203 min=23948 largest=18432 | psram free=7452096 min=7366404 largest=7340032
+I (105639) Application: << % radio.play_station...
+I (105659) RadioBrowser: Playing radio by station UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (105659) RadioBrowser: Looking up radio station by UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (105659) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (105839) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (105839) RadioBrowser: Search request succeeded: status=200 response_len=1107
+I (105849) RadioBrowser: Resolved radio station by UUID: Radius FM
+I (106229) RadioStorage: Successfully saved 21 stations to /sdcard/radio_catalog.json
+I (106229) RAM: [RADIO_START] internal free=48011 min=23948 largest=18432 | psram free=7457864 min=7366404 largest=7340032
+I (106229) InternetRadio: Radio current:
+name=Radius FM
+uuid=3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+codec=AAC+
+bitrate=192
+country=Belarus
+url=https://stream2.datacenter.by/radiusfm_main
+I (106249) InternetRadio: Radio stream startup: connecting
+I (106259) AudioManager: Audio focus requested by source 3 (current 0)
+I (106259) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (106269) wifi:Set ps type: 0, coexist: 0
+
+I (106279) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (106279) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (106349) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (107229) InternetRadio: [RADIO_REDIRECT] status=302 from=https://stream2.datacenter.by/radiusfm_main to=http://media2.datacenter.by:8002/radiusfm_main redirect=1
+I (107239) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (107399) InternetRadio: [RADIO_REDIRECT] followed successfully to http://media2.datacenter.by:8002/radiusfm_main
+I (107399) InternetRadio: Stream connected: status=200 content_type=unknown
+I (107409) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (107419) InternetRadio: Radio codec: MP3, Content-Type: unknown/none
+I (107429) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (107429) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (107439) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (107439) InternetRadio: Received first stream data: bytes=2048
+I (107439) InternetRadio: Radio stream startup: ready
+I (107449) Application: Abort speaking
+I (107459) MQTT: Closing audio channel, send_goodbye: 1
+I (107469) StateMachine: State: speaking -> idle
+I (108029) MQTT: Received goodbye message, session_id: 8e879a27
+I (108029) MQTT: Closing audio channel, send_goodbye: 0
+I (108029) MQTT: Received goodbye message, session_id: 8e879a27
+I (108039) MQTT: Closing audio channel, send_goodbye: 0
+I (108459) InternetRadio: First MP3 frame decoded: rate=16000 channels=2 bits=16 bytes=4608
+I (108469) RAM: [RADIO_PLAYING] internal free=39943 min=23788 largest=18432 | psram free=7406136 min=7366404 largest=7340032
+I (108479) AudioService: [RADIO_PCM] ptr=0x3c40282c size=3456 bytes PSRAM=YES (queue=1)
+I (108489) AudioService: [RADIO_PREBUFFER] buffering... current=72 ms target=2000 ms (queue=1)
+I (109549) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+E (109579) ESP_MP3_DEC: Failed to decode mp3 frame, error:7.
+I (110089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=317, raw_y=242 => point.x=242, point.y=3 (top_bar=1)
+I (110129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=317, raw_y=242 => point.x=242, point.y=3 (top_bar=1)
+I (110169) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (110169) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (110269) RAM: internal free=38431 min=23788 largest=18432 | psram free=7372624 min=7366404 largest=7340032
+I (110569) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (111389) FreenoveFnk0104sBoard: TOUCH READ: raw_x=280, raw_y=433 => point.x=433, point.y=40 (top_bar=1)
+I (111449) FreenoveFnk0104sBoard: TOUCH READ: raw_x=280, raw_y=433 => point.x=433, point.y=40 (top_bar=1)
+I (111519) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (111589) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (112499) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (112499) InternetRadio: [RADIO] buffer=156 ms queue=3 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (112609) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (113629) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (114649) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (115269) RAM: internal free=38923 min=23788 largest=18432 | psram free=7372624 min=7366404 largest=7340032
+I (115579) SystemInfo: free sram: 37259 minimal sram: 23788
+I (115669) AudioService: [RADIO_PREBUFFER] buffering... current=156 ms target=2000 ms (queue=3)
+I (116709) AudioService: [RADIO_PREBUFFER] buffering... current=182 ms target=2000 ms (queue=4)
+I (117589) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (117589) InternetRadio: [RADIO] buffer=182 ms queue=4 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (117729) AudioService: [RADIO_PREBUFFER] buffering... current=182 ms target=2000 ms (queue=4)
+I (118749) AudioService: [RADIO_PREBUFFER] buffering... current=182 ms target=2000 ms (queue=4)
+I (119769) AudioService: [RADIO_PREBUFFER] buffering... current=182 ms target=2000 ms (queue=4)
+I (120269) RAM: internal free=38759 min=23788 largest=18432 | psram free=7370760 min=7366404 largest=7340032
+I (120809) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (121829) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (122739) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (122739) InternetRadio: [RADIO] buffer=194 ms queue=5 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (122849) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (123869) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (124659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=313, raw_y=241 => point.x=241, point.y=7 (top_bar=1)
+I (124709) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (124709) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (124889) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (125269) RAM: internal free=38531 min=23788 largest=18432 | psram free=7370760 min=7366404 largest=7340032
+I (125559) SystemInfo: free sram: 38891 minimal sram: 23788
+I (125909) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)
+I (126929) AudioService: [RADIO_PREBUFFER] buffering... current=194 ms target=2000 ms (queue=5)

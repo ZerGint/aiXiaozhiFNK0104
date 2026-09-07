@@ -1,863 +1,170 @@
-I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
-I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
-I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
-I (169) spi_flash: detected chip: generic
-I (172) spi_flash: flash io: qio
-I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
-I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
-I (188) main_task: Started on CPU0
-I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
-I (198) main_task: Calling app_main()
-I (198) RAM: [BOOT] internal free=286491 min=189060 largest=126976 | psram free=8384896 min=8384896 largest=8257536
-I (228) Board: UUID=0c3e18bd-2a75-4170-a976-203487159edb SKU=freenove-fnk0104s
-I (228) button: IoT Button Version: 4.2.0
-I (228) adc_battery_estimation: Use internal ADC unit
-I (228) st7796: version: 1.3.5
-I (228) st7796_general: LCD panel create success, version: 1.3.5
-I (458) Display: Power management not supported
-W (458) Settings: Namespace display is not open for writing
-I (618) LcdDisplay: Turning display on
-I (618) LcdDisplay: Initialize LVGL library
-I (618) LcdDisplay: Use 2MB of PSRAM for image cache
-I (618) LcdDisplay: Initialize LVGL port
-I (628) LcdDisplay: Adding LCD display
-I (628) LVGL: Starting LVGL task
-I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
-I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
-I (698) SD_HOST: src_freq_hz: 160000000
-W (1098) SD_HOST: input line delay not supported, fallback to 0 delay
-I (1098) StorageManager: SD Card mounted successfully at /sdcard!
-I (1098) HomeAssistant: Initializing Home Assistant integration...
-I (1108) MCP: Add tool: homeassistant.call_service
-I (1108) MCP: Add tool: homeassistant.get_states
-I (1118) MCP: Add tool: homeassistant.set_config [user]
-I (1118) MCP: Add tool: radio.add_favorite
-I (1128) MCP: Add tool: radio.list_favorites
-I (1128) MCP: Add tool: radio.play_favorite
-I (1128) MCP: Add tool: radio.remove_favorite
-I (1138) MCP: Add tool: radio.search_stations
-I (1138) MCP: Add tool: radio.play_station
-I (1148) MCP: Add tool: radio.stop
-I (1148) MCP: Add tool: media.play_sd
-I (1148) MCP: Add tool: media.list_sd
-I (1158) MCP: Add tool: media.search_sd
-I (1158) MCP: Add tool: media.pause
-I (1158) MCP: Add tool: media.next
-I (1168) MCP: Add tool: media.previous
-I (1168) MCP: Add tool: media.stop
-I (1168) StateMachine: State: unknown -> starting
-W (1188) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
-I (1188) Es8311AudioCodec: Duplex channels created
-I (1188) Es8311AudioCodec: ES8311 software reset complete
-I (1198) ES8311: Work in Slave mode
-I (1208) Es8311AudioCodec: Es8311AudioCodec initialized
-I (1208) SdMusicPlayer: Scanning directory /sdcard/music (3 total entries)...
-I (1208) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
-I (1228) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
-I (1238) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
-I (1248) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 3
-I (1338) RAM: [AFTER_LVGL_INIT] internal free=192987 min=95524 largest=94208 | psram free=8320216 min=8318480 largest=8257536
-I (1488) AudioCodec: Audio codec started
-I (1488) RAM: [AFTER_AUDIO_INIT] internal free=155951 min=58520 largest=94208 | psram free=8277712 min=8277712 largest=8257536
-I (1498) AppManager: Initializing Application Manager...
-I (1498) MCP: Add tool: self.get_device_status
-I (1508) MCP: Add tool: self.audio_speaker.set_volume
-I (1508) MCP: Add tool: self.screen.set_brightness
-I (1508) MCP: Add tool: self.screen.set_theme
-I (1518) MCP: Add tool: self.get_system_info [user]
-I (1518) MCP: Add tool: self.reboot [user]
-I (1528) MCP: Add tool: self.upgrade_firmware [user]
-I (1528) MCP: Add tool: self.screen.get_info [user]
-I (1538) MCP: Add tool: self.screen.snapshot [user]
-I (1538) MCP: Add tool: self.screen.preview_image [user]
-I (1548) MCP: Add tool: self.assets.set_download_url [user]
-I (1548) WifiManager: Initializing...
-I (1548) pp: pp rom version: e7ae62f
-I (1558) net80211: net80211 rom version: e7ae62f
-I (1568) wifi:wifi driver task: 3fce8f7c, prio:23, stack:6656, core=0
-I (1568) wifi:wifi firmware version: e12a754
-I (1568) wifi:wifi certification version: v7.0
-I (1578) wifi:config NVS flash: disabled
-I (1578) wifi:config nano formatting: disabled
-I (1578) wifi:Init data frame dynamic rx buffer num: 6
-I (1588) wifi:Init dynamic rx mgmt buffer num: 5
-I (1588) wifi:Init management short buffer num: 32
-I (1598) wifi:Init dynamic tx buffer num: 32
-I (1598) wifi:Init static tx FG buffer num: 2
-I (1608) wifi:Init static rx buffer size: 1600
-I (1608) wifi:Init static rx buffer num: 3
-I (1608) wifi:Init dynamic rx buffer num: 6
-I (1618) wifi_init: rx ba win: 3
-I (1618) wifi_init: accept mbox: 6
-I (1618) wifi_init: tcpip mbox: 16
-I (1628) wifi_init: udp mbox: 6
-I (1628) wifi_init: tcp mbox: 6
-I (1628) wifi_init: tcp tx win: 5760
-I (1638) wifi_init: tcp rx win: 5760
-I (1638) wifi_init: tcp mss: 1440
-I (1638) WifiManager: Initialized
-I (1648) WifiBoard: Starting WiFi connection attempt
-I (1648) WifiManager: Starting station
-I (1648) WifiStation: Station DHCP hostname: Xiaozhi-6548
-I (1658) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
-I (1698) wifi:mode : sta (7c:e8:b1:b1:65:48)
-I (1698) wifi:enable tsf
-I (1698) WifiBoard: WiFi scanning
-I (1708) RAM: [AFTER_XIAOZHI_INIT] internal free=121955 min=39812 largest=81920 | psram free=8272468 min=8272468 largest=8257536
-I (4108) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -32, Channel: 7, Authmode: 3
-I (4108) WifiBoard: WiFi connecting to ZERG
-W (4118) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
-I (5218) RAM: internal free=121959 min=39812 largest=81920 | psram free=8272468 min=8272468 largest=8257536
-I (6588) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
-I (6588) wifi:state: init -> auth (0xb0)
-I (6598) wifi:state: auth -> assoc (0x0)
-I (6598) wifi:state: assoc -> run (0x10)
-I (6618) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
-I (6618) wifi:security: WPA2-PSK, phy: bgn, rssi: -33, cipher(pairwise:0x3, group:0x3), pmf:0
-I (6628) wifi:pm start, type: 1
+I (160209) RAM: internal free=56159 min=27252 largest=20480 | psram free=7476080 min=7419796 largest=7471104
+I (164599) SystemInfo: free sram: 56447 minimal sram: 27252
+I (165209) RAM: internal free=56335 min=27252 largest=20480 | psram free=7476080 min=7419796 largest=7471104
+I (169939) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=328 => point.x=328, point.y=226 (top_bar=0)
+I (169979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=328 => point.x=328, point.y=226 (top_bar=0)
+I (170029) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=328 => point.x=328, point.y=226 (top_bar=0)
+I (170069) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=328 => point.x=328, point.y=226 (top_bar=0)
+I (170209) RAM: internal free=56315 min=27252 largest=20480 | psram free=7476080 min=7419796 largest=7471104
+I (171279) FreenoveFnk0104sBoard: TOUCH READ: raw_x=163, raw_y=273 => point.x=273, point.y=157 (top_bar=0)
+I (171319) FreenoveFnk0104sBoard: TOUCH READ: raw_x=163, raw_y=273 => point.x=273, point.y=157 (top_bar=0)
+I (171359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=163, raw_y=273 => point.x=273, point.y=157 (top_bar=0)
+I (171399) StateMachine: State: idle -> connecting
+I (171399) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (171399) wifi:Set ps type: 0, coexist: 0
 
-I (6628) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
-I (6638) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
-I (6648) wifi:AP's beacon interval = 102400 us, DTIM period = 1
-I (6658) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
-I (8148) esp_netif_handlers: sta ip: 192.168.31.94, mask: 255.255.255.0, gw: 192.168.31.1
-I (8148) WifiStation: Got IP: 192.168.31.94
-I (8148) WifiBoard: Connected to WiFi: ZERG
-I (8178) Application: Network connected
-I (8178) RAM: [AFTER_WIFI] internal free=120803 min=39812 largest=77824 | psram free=8271760 min=8271724 largest=8257536
-I (8178) StateMachine: State: starting -> activating
-I (8178) Assets: The storage free size is 21568 KB
-I (8188) Assets: The partition size is 8192 KB
-I (8298) Assets: The checksum calculation time is 112 ms
-I (8308) MODEL_LOADER: Successfully load srmodels
-I (8348) Assets: Refreshing display theme...
-W (8378) EmojiCollection: Emoji not found: robot_2
-I (8378) Ota: Current version: 2.4.2
-I (8378) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
-I (10218) RAM: internal free=99095 min=39812 largest=55296 | psram free=8266260 min=8251528 largest=8257536
-I (10348) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1970
-I (11078) HttpClient: HTTP connection closed
-I (11078) Ota: Current is the latest version
-I (11078) Ota: Running partition: ota_0
-I (11098) MQTT: Connecting to endpoint api.tenclass.net
-I (13318) MQTT: Connected to endpoint
-I (13318) Application: Activation done
-I (13318) SystemInfo: free sram: 96791 minimal sram: 39812
-I (13318) StateMachine: State: activating -> idle
-I (13328) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
-I (13328) wifi:Set ps type: 2, coexist: 0
+I (171769) MQTT: Session ID: 48755010
+I (171769) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (171779) wifi:Set ps type: 0, coexist: 0
 
-I (13338) AfeAudioEngine: Model 0: wn9_heykira_tts3
-I (13338) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
-I (13338) WakeWordCache: Allocated 64000 bytes in PSRAM
-I (13348) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
-I (13348) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
-MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
-MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
-I (13448) AFE: AFE Version: (1MIC_V251128)
-I (13448) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
-I (13458) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
-I (13468) AFE: AFE Version: (1MIC_V251128)
-I (13468) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
-I (13478) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
-I (13488) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
-I (13498) AudioCodec: Set output enable to true
-I (13498) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
-I (13508) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
-I (13518) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
-I (13528) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
-I (13548) Adev_Codec: Open codec device OK
-I (13548) AudioCodec: Set input enable to true
-I (13548) AudioService: Resampling audio from 16000 to 24000
-I (15218) RAM: internal free=54611 min=27252 largest=20480 | psram free=7446884 min=7408008 largest=7340032
-I (20218) RAM: internal free=59867 min=27252 largest=24576 | psram free=7476080 min=7408008 largest=7471104
-I (23338) Application: Wake word detected: Hey Kira (state: 3)
-I (23338) StateMachine: State: idle -> connecting
-I (23538) AfeAudioEngine: Encoded wake word into 33 packets in 205 ms
-I (23568) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
-I (23568) wifi:Set ps type: 0, coexist: 0
+I (171779) StateMachine: State: connecting -> listening
+I (175209) RAM: internal free=50863 min=27252 largest=18432 | psram free=7476060 min=7419796 largest=7471104
+I (176789) Application: >> Запусти радио.
+I (176809) StateMachine: State: listening -> speaking
+I (177359) Application: << Сейчас запущу радио для тебя!
+I (179349) Application: << % radio.list_favorites...
+I (180119) Application: << У тебя пока нет сохранённых радиостанций.
+I (180209) RAM: internal free=52891 min=27252 largest=18432 | psram free=7452108 min=7419796 largest=7340032
+I (182819) Application: << Какое радио хочешь послушать? Может, Юмор FM или какое-нибудь музыкальное?
+I (185209) RAM: internal free=52719 min=27252 largest=18432 | psram free=7452108 min=7419796 largest=7340032
+I (186629) SystemInfo: free sram: 52527 minimal sram: 27252
+I (186879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=134, raw_y=285 => point.x=285, point.y=186 (top_bar=0)
+I (186949) Application: Abort speaking
+I (187249) StateMachine: State: speaking -> listening
+I (190209) RAM: internal free=52707 min=27252 largest=18432 | psram free=7457364 min=7419796 largest=7340032
+I (191589) Application: >> Радиус F.
+I (191609) StateMachine: State: listening -> speaking
+I (192169) Application: << Понял, Юмор FM! Сейчас найду и включу.
+I (195139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=269 => point.x=269, point.y=183 (top_bar=0)
+I (195179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=269 => point.x=269, point.y=183 (top_bar=0)
+I (195209) RAM: internal free=52771 min=27252 largest=18432 | psram free=7451596 min=7419796 largest=7340032
+I (195219) Application: Abort speaking
+I (195289) Application: << % radio.search_stations...
+I (195299) RadioBrowser: [RADIO_SEARCH] query="Юмор FM" countrycode="RU" language="" tag="" limit=3
+I (195299) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (195649) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (195649) RadioBrowser: Search request succeeded: status=200 response_len=1156
+I (195649) RadioBrowser: RadioBrowser: accepted codec AAC
+I (195659) StateMachine: State: speaking -> listening
+I (197739) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=228 => point.x=228, point.y=178 (top_bar=0)
+I (197789) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=228 => point.x=228, point.y=178 (top_bar=0)
+I (197829) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=228 => point.x=228, point.y=178 (top_bar=0)
+I (197869) MQTT: Closing audio channel, send_goodbye: 1
+I (197879) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (197879) wifi:Set ps type: 2, coexist: 0
 
-I (23948) MQTT: Session ID: 188f8f17
-I (23958) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
-I (23958) wifi:Set ps type: 0, coexist: 0
+I (197899) StateMachine: State: listening -> idle
+I (198939) MQTT: Received goodbye message, session_id: 48755010
+I (198939) MQTT: Closing audio channel, send_goodbye: 0
+I (198939) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (198949) wifi:Set ps type: 2, coexist: 0
 
-I (23958) Application: Wake word detected: Hey Kira
-I (24008) StateMachine: State: connecting -> listening
-I (24378) Application: >> Hey Kira
-I (24428) StateMachine: State: listening -> speaking
-I (25218) RAM: internal free=54951 min=27252 largest=18432 | psram free=7448660 min=7408008 largest=7340032
-I (26288) Application: << Привет! Чем могу помочь?
-I (28518) StateMachine: State: speaking -> listening
-I (30218) RAM: internal free=52415 min=27252 largest=18432 | psram free=7435604 min=7408008 largest=7340032
-I (33888) Application: >> Радио Юмор ФМ Тула.
-I (33908) StateMachine: State: listening -> speaking
-I (34528) Application: << Сейчас включу Юмор FM Тула!
-I (35218) RAM: internal free=54367 min=27252 largest=18432 | psram free=7427016 min=7408008 largest=7340032
-I (36988) Application: << % radio.play_favorite...
-I (38198) Application: << Сейчас поищу Юмор FM Тула в радиобраузере!
-I (40218) RAM: internal free=54535 min=27252 largest=18432 | psram free=7427016 min=7408008 largest=7340032
-I (41028) Application: << % radio.search_stations...
-I (41308) RadioBrowser: Search request succeeded: status=200 response_len=2
-I (42728) Application: << Попробую поискать просто Юмор FM!
-I (43498) SystemInfo: free sram: 54475 minimal sram: 27252
-I (45068) Application: << % radio.search_stations...
-I (45218) RAM: internal free=50883 min=27252 largest=18432 | psram free=7428684 min=7408008 largest=7340032
-I (45338) RadioBrowser: Search request succeeded: status=200 response_len=1105
-I (46378) Application: << Нашла Юмор FM из Минска!
-I (48228) Application: << Включаю!
-I (49498) Application: << % radio.play_station...
-I (49508) Application: Abort speaking
-I (49508) MQTT: Closing audio channel, send_goodbye: 1
-I (49518) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
-I (49518) wifi:Set ps type: 2, coexist: 0
+I (200209) RAM: internal free=57787 min=27252 largest=20480 | psram free=7457364 min=7419796 largest=7340032
+I (200529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=308, raw_y=233 => point.x=233, point.y=12 (top_bar=1)
+I (200579) FreenoveFnk0104sBoard: TOUCH READ: raw_x=308, raw_y=233 => point.x=233, point.y=12 (top_bar=1)
+I (200619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=308, raw_y=233 => point.x=233, point.y=12 (top_bar=1)
+I (200669) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (200669) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (203009) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=419 => point.x=419, point.y=49 (top_bar=1)
+I (203099) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=419 => point.x=419, point.y=49 (top_bar=1)
+I (203189) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (205209) RAM: internal free=57863 min=27252 largest=20480 | psram free=7457364 min=7419796 largest=7340032
+I (205309) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=223 => point.x=223, point.y=175 (top_bar=0)
+I (205349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=223 => point.x=223, point.y=175 (top_bar=0)
+I (205389) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=223 => point.x=223, point.y=175 (top_bar=0)
+I (205429) StateMachine: State: idle -> connecting
+I (205459) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (205459) wifi:Set ps type: 0, coexist: 0
 
-I (49518) StateMachine: State: speaking -> idle
-I (49518) RAM: [RADIO_START] internal free=55215 min=27252 largest=18432 | psram free=7424132 min=7408008 largest=7340032
-I (49528) AudioManager: Audio focus requested by source 3 (current 0)
-I (50218) RAM: internal free=47707 min=27252 largest=18432 | psram free=7428684 min=7408008 largest=7340032
-I (50698) MQTT: Received goodbye message, session_id: 188f8f17
-I (50698) MQTT: Closing audio channel, send_goodbye: 0
-I (50698) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
-I (50698) MQTT: Received goodbye message, session_id: 188f8f17
-I (50698) wifi:Set ps type: 2, coexist: 0
+I (205819) MQTT: Session ID: 9ac51523
+I (205829) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (205829) wifi:Set ps type: 0, coexist: 0
 
-I (50708) MQTT: Closing audio channel, send_goodbye: 0
-I (50718) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
-I (50718) wifi:Set ps type: 2, coexist: 0
+I (205829) StateMachine: State: connecting -> listening
+I (210209) RAM: internal free=50935 min=27252 largest=18432 | psram free=7460184 min=7419796 largest=7340032
+I (213549) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=221 => point.x=221, point.y=142 (top_bar=0)
+I (213599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=221 => point.x=221, point.y=142 (top_bar=0)
+I (213649) MQTT: Closing audio channel, send_goodbye: 1
+I (213659) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (213659) wifi:Set ps type: 2, coexist: 0
 
-I (50898) InternetRadio: Stream connected: status=200 content_type=unknown
-I (50898) ESP_ES_PARSER: The version of es_parser is v1.0.1
-I (50898) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
-I (51138) InternetRadio: Received first stream data: bytes=2048
-I (51148) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
-I (51148) RAM: [RADIO_PLAYING] internal free=42187 min=27252 largest=18432 | psram free=7378088 min=7378088 largest=7340032
-I (55218) RAM: internal free=28547 min=22056 largest=15872 | psram free=7375780 min=7375780 largest=7340032
-I (55968) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
-I (59498) SystemInfo: free sram: 28899 minimal sram: 22056
-I (60218) RAM: internal free=30091 min=22056 largest=15872 | psram free=7375780 min=7375780 largest=7340032
-I (60968) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
-I (65218) RAM: internal free=32427 min=22056 largest=17408 | psram free=7375780 min=7375780 largest=7340032
-I (66088) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
-I (69498) SystemInfo: free sram: 45459 minimal sram: 22056
-I (70218) RAM: internal free=45275 min=22056 largest=18432 | psram free=7378088 min=7375780 largest=7340032
-I (72198) InternetRadio: Stream connected: status=200 content_type=unknown
-I (72198) ESP_ES_PARSER: The version of es_parser is v1.0.1
-I (72198) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (72208) InternetRadio: Received first stream data: bytes=2048
-I (72218) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
-I (72218) RAM: [RADIO_PLAYING] internal free=42623 min=22056 largest=18432 | psram free=7378088 min=7375780 largest=7340032
-I (75218) RAM: internal free=33355 min=22056 largest=18432 | psram free=7375780 min=7375780 largest=7340032
-I (77258) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (79508) SystemInfo: free sram: 33283 minimal sram: 22056
-I (80218) RAM: internal free=30687 min=22056 largest=18432 | psram free=7375780 min=7375780 largest=7340032
-I (82258) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (85218) RAM: internal free=28811 min=22056 largest=15872 | psram free=7375780 min=7375780 largest=7340032
-I (87268) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (89498) SystemInfo: free sram: 32471 minimal sram: 22056
-I (90218) RAM: internal free=35531 min=22056 largest=18432 | psram free=7375780 min=7375780 largest=7340032
-I (92278) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (95218) RAM: internal free=30707 min=22056 largest=13824 | psram free=7375780 min=7375780 largest=7340032
-I (97288) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (99518) SystemInfo: free sram: 33799 minimal sram: 22056
-I (100218) RAM: internal free=32311 min=22056 largest=18432 | psram free=7375780 min=7375780 largest=7340032
-I (102298) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (105218) RAM: internal free=33743 min=22056 largest=18432 | psram free=7375780 min=7375780 largest=7340032
-I (107298) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (109518) SystemInfo: free sram: 33723 minimal sram: 22056
-I (110218) RAM: internal free=31879 min=22056 largest=17408 | psram free=7375780 min=7375780 largest=7340032
-I (112338) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (115218) RAM: internal free=28759 min=22056 largest=15872 | psram free=7375780 min=7375780 largest=7340032
-I (117348) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (119498) SystemInfo: free sram: 32427 minimal sram: 22056
-I (120218) RAM: internal free=32315 min=22056 largest=17408 | psram free=7375780 min=7375780 largest=7340032
-I (122348) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (125218) RAM: internal free=33767 min=22056 largest=15872 | psram free=7375780 min=7375780 largest=7340032
-I (126248) FreenoveFnk0104sBoard: TOUCH READ: raw_x=283, raw_y=247 => point.x=247, point.y=37 (top_bar=1)
-I (126298) FreenoveFnk0104sBoard: TOUCH READ: raw_x=285, raw_y=247 => point.x=247, point.y=35 (top_bar=1)
-I (126348) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
-I (126348) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
-I (127358) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (127658) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=296 => point.x=296, point.y=106 (top_bar=0)
-I (127708) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=296 => point.x=296, point.y=106 (top_bar=0)
-I (127788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=296 => point.x=296, point.y=106 (top_bar=0)
-I (127888) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=296 => point.x=296, point.y=106 (top_bar=0)
-I (127948) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=297 => point.x=297, point.y=106 (top_bar=0)
-I (128018) FreenoveFnk0104sBoard: TOUCH READ: raw_x=215, raw_y=304 => point.x=304, point.y=105 (top_bar=0)
-I (128078) FreenoveFnk0104sBoard: TOUCH READ: raw_x=216, raw_y=306 => point.x=306, point.y=104 (top_bar=0)
-I (128128) FreenoveFnk0104sBoard: TOUCH READ: raw_x=217, raw_y=308 => point.x=308, point.y=103 (top_bar=0)
-I (128188) FreenoveFnk0104sBoard: TOUCH READ: raw_x=217, raw_y=308 => point.x=308, point.y=103 (top_bar=0)
-I (128258) FreenoveFnk0104sBoard: TOUCH READ: raw_x=217, raw_y=308 => point.x=308, point.y=103 (top_bar=0)
-I (128318) FreenoveFnk0104sBoard: TOUCH READ: raw_x=226, raw_y=312 => point.x=312, point.y=94 (top_bar=0)
-I (128658) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=287 => point.x=287, point.y=86 (top_bar=0)
-I (128768) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=285 => point.x=285, point.y=88 (top_bar=0)
-I (128868) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=283 => point.x=283, point.y=88 (top_bar=0)
-I (128988) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=281 => point.x=281, point.y=88 (top_bar=0)
-I (129058) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=279 => point.x=279, point.y=88 (top_bar=0)
-I (129138) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=277 => point.x=277, point.y=88 (top_bar=0)
-I (129138) AudioCodec: Set output volume to 68
-I (129248) FreenoveFnk0104sBoard: TOUCH READ: raw_x=235, raw_y=264 => point.x=264, point.y=85 (top_bar=0)
-I (129248) AudioCodec: Set output volume to 62
-I (129528) SystemInfo: free sram: 35083 minimal sram: 22056
-I (129828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=226, raw_y=264 => point.x=264, point.y=94 (top_bar=0)
-I (129918) FreenoveFnk0104sBoard: TOUCH READ: raw_x=226, raw_y=264 => point.x=264, point.y=94 (top_bar=0)
-I (130008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=226, raw_y=264 => point.x=264, point.y=94 (top_bar=0)
-I (130158) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=278 => point.x=278, point.y=96 (top_bar=0)
-I (130158) AudioCodec: Set output volume to 69
-I (130218) RAM: internal free=32067 min=22056 largest=17408 | psram free=7375780 min=7375780 largest=7340032
-I (130288) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=290 => point.x=290, point.y=96 (top_bar=0)
-I (130288) AudioCodec: Set output volume to 74
-I (130398) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=296 => point.x=296, point.y=96 (top_bar=0)
-I (130398) AudioCodec: Set output volume to 77
-I (130538) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=299 => point.x=299, point.y=96 (top_bar=0)
-I (130548) AudioCodec: Set output volume to 78
-I (130688) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=301 => point.x=301, point.y=96 (top_bar=0)
-I (130688) AudioCodec: Set output volume to 79
-I (130808) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=303 => point.x=303, point.y=96 (top_bar=0)
-I (130808) AudioCodec: Set output volume to 80
-I (130918) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=304 => point.x=304, point.y=96 (top_bar=0)
-I (130968) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (130978) AudioCodec: Set output volume to 81
-I (131098) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131208) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131258) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131318) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131388) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131448) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131518) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131578) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131658) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131748) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131808) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=305 => point.x=305, point.y=96 (top_bar=0)
-I (131858) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=306 => point.x=306, point.y=96 (top_bar=0)
-I (131918) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=307 => point.x=307, point.y=96 (top_bar=0)
-I (131918) AudioCodec: Set output volume to 82
-I (132028) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=308 => point.x=308, point.y=96 (top_bar=0)
-I (132088) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=309 => point.x=309, point.y=96 (top_bar=0)
-I (132098) AudioCodec: Set output volume to 83
-I (132218) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=311 => point.x=311, point.y=96 (top_bar=0)
-I (132218) AudioCodec: Set output volume to 84
-I (132348) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=311 => point.x=311, point.y=96 (top_bar=0)
-I (132368) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (132418) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132418) AudioCodec: Set output volume to 85
-I (132558) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132618) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132688) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132748) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132878) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (132948) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (133008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (133078) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (133148) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=313 => point.x=313, point.y=96 (top_bar=0)
-I (134728) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=291 => point.x=291, point.y=152 (top_bar=0)
-I (134808) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=291 => point.x=291, point.y=152 (top_bar=0)
-I (134888) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=291 => point.x=291, point.y=152 (top_bar=0)
-I (135008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=291 => point.x=291, point.y=152 (top_bar=0)
-I (135068) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=289 => point.x=289, point.y=152 (top_bar=0)
-I (135148) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=285 => point.x=285, point.y=152 (top_bar=0)
-I (135218) RAM: internal free=28759 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (135218) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=281 => point.x=281, point.y=152 (top_bar=0)
-I (135228) Backlight: Set brightness to 73
-I (135298) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=275 => point.x=275, point.y=152 (top_bar=0)
-I (135308) Backlight: Set brightness to 71
-I (135388) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=267 => point.x=267, point.y=151 (top_bar=0)
-I (135398) Backlight: Set brightness to 67
-I (135488) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=265 => point.x=265, point.y=151 (top_bar=0)
-I (135498) Backlight: Set brightness to 66
-I (135638) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=262 => point.x=262, point.y=151 (top_bar=0)
-I (135648) Backlight: Set brightness to 65
-I (135738) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=259 => point.x=259, point.y=151 (top_bar=0)
-I (135748) Backlight: Set brightness to 64
-I (135818) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=255 => point.x=255, point.y=151 (top_bar=0)
-I (135828) Backlight: Set brightness to 62
-I (135918) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=247 => point.x=247, point.y=151 (top_bar=0)
-I (135928) Backlight: Set brightness to 59
-I (136028) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=241 => point.x=241, point.y=151 (top_bar=0)
-I (136058) Backlight: Set brightness to 57
-I (136188) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=232 => point.x=232, point.y=150 (top_bar=0)
-I (136208) Backlight: Set brightness to 53
-I (136298) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=227 => point.x=227, point.y=150 (top_bar=0)
-I (136318) Backlight: Set brightness to 51
-I (136418) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=214 => point.x=214, point.y=149 (top_bar=0)
-I (136448) Backlight: Set brightness to 46
-I (136528) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=200 => point.x=200, point.y=147 (top_bar=0)
-I (136548) Backlight: Set brightness to 40
-I (136638) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=195 => point.x=195, point.y=146 (top_bar=0)
-I (136658) Backlight: Set brightness to 38
-I (136788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=175, raw_y=194 => point.x=194, point.y=145 (top_bar=0)
-I (136818) Backlight: Set brightness to 37
-I (136898) FreenoveFnk0104sBoard: TOUCH READ: raw_x=177, raw_y=195 => point.x=195, point.y=143 (top_bar=0)
-I (136918) Backlight: Set brightness to 38
-I (136978) FreenoveFnk0104sBoard: TOUCH READ: raw_x=181, raw_y=215 => point.x=215, point.y=139 (top_bar=0)
-I (136998) Backlight: Set brightness to 46
-I (137068) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=234 => point.x=234, point.y=138 (top_bar=0)
-I (137078) Backlight: Set brightness to 54
-I (137178) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=243 => point.x=243, point.y=138 (top_bar=0)
-I (137188) Backlight: Set brightness to 57
-I (137318) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=249 => point.x=249, point.y=138 (top_bar=0)
-I (137338) Backlight: Set brightness to 60
-I (137378) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (137418) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=254 => point.x=254, point.y=138 (top_bar=0)
-I (137438) Backlight: Set brightness to 62
-I (137518) FreenoveFnk0104sBoard: TOUCH READ: raw_x=181, raw_y=261 => point.x=261, point.y=139 (top_bar=0)
-I (137538) Backlight: Set brightness to 65
-I (137618) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=266 => point.x=266, point.y=140 (top_bar=0)
-I (137648) Backlight: Set brightness to 67
-I (137738) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=269 => point.x=269, point.y=140 (top_bar=0)
-I (137748) Backlight: Set brightness to 68
-I (137878) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=271 => point.x=271, point.y=140 (top_bar=0)
-I (137888) Backlight: Set brightness to 69
-I (137968) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=272 => point.x=272, point.y=140 (top_bar=0)
-I (138048) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=272 => point.x=272, point.y=140 (top_bar=0)
-I (139528) SystemInfo: free sram: 33527 minimal sram: 20516
-I (139978) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=432 => point.x=432, point.y=60 (top_bar=0)
-I (140048) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=432 => point.x=432, point.y=60 (top_bar=0)
-I (140098) FreenoveFnk0104sBoard: TOUCH READ: raw_x=262, raw_y=432 => point.x=432, point.y=58 (top_bar=0)
-I (140218) RAM: internal free=33151 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (140828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=268, raw_y=434 => point.x=434, point.y=52 (top_bar=0)
-I (140908) FreenoveFnk0104sBoard: TOUCH READ: raw_x=268, raw_y=434 => point.x=434, point.y=52 (top_bar=0)
-I (141038) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
-I (142388) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (145218) RAM: internal free=32055 min=20516 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (147498) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (149498) SystemInfo: free sram: 32147 minimal sram: 20516
-I (150218) RAM: internal free=32015 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (152508) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (155218) RAM: internal free=29939 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (157618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (159498) SystemInfo: free sram: 29939 minimal sram: 20516
-I (160218) RAM: internal free=28611 min=20516 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (162628) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (165218) RAM: internal free=32363 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (167628) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (169498) SystemInfo: free sram: 30807 minimal sram: 20516
-I (170218) RAM: internal free=33755 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (172638) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (175218) RAM: internal free=33739 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (177648) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (179508) SystemInfo: free sram: 35647 minimal sram: 20516
-I (180218) RAM: internal free=37255 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (182678) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (185218) RAM: internal free=32603 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (187688) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (189508) SystemInfo: free sram: 45607 minimal sram: 20516
-I (190218) RAM: internal free=45467 min=20516 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (192768) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (195218) RAM: internal free=28455 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (197768) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (199518) SystemInfo: free sram: 30399 minimal sram: 20516
-I (200218) RAM: internal free=30227 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (202778) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (205218) RAM: internal free=33755 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (208438) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (209498) SystemInfo: free sram: 40271 minimal sram: 20516
-I (210218) RAM: internal free=45235 min=20516 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (210788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=690, raw_y=690 => point.x=690, point.y=0 (top_bar=1)
-I (210828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=690, raw_y=690 => point.x=690, point.y=0 (top_bar=1)
-I (210868) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
-I (210878) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
-I (214568) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (215218) RAM: internal free=30439 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (219498) SystemInfo: free sram: 32575 minimal sram: 20516
-I (219588) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (220218) RAM: internal free=33691 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (224598) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (225218) RAM: internal free=31755 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (229528) SystemInfo: free sram: 35259 minimal sram: 20516
-I (229608) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (230218) RAM: internal free=34335 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (234618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (235218) RAM: internal free=33079 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (239498) SystemInfo: free sram: 30851 minimal sram: 20516
-I (239728) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (240218) RAM: internal free=31815 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (244738) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=1 dec_err=0 status=PLAYING
-I (245218) RAM: internal free=45255 min=20516 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (249498) SystemInfo: free sram: 50039 minimal sram: 20516
-I (250218) RAM: internal free=49675 min=20516 largest=18432 | psram free=7428684 min=7371348 largest=7340032
-E (251378) esp-tls: [sock=55] select() timeout
-E (251378) transport_base: Failed to open a new connection: 32774
-E (251378) HTTP_CLIENT: Connection failed, sock < 0
-W (251378) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (255218) RAM: internal free=47887 min=20516 largest=18432 | psram free=7428684 min=7371348 largest=7340032
-E (255408) esp-tls: [sock=55] select() timeout
-E (255408) transport_base: Failed to open a new connection: 32774
-E (255408) HTTP_CLIENT: Connection failed, sock < 0
-W (255408) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-E (259428) esp-tls: [sock=55] select() timeout
-E (259428) transport_base: Failed to open a new connection: 32774
-E (259428) HTTP_CLIENT: Connection failed, sock < 0
-W (259428) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (259508) SystemInfo: free sram: 51347 minimal sram: 20516
-I (260218) RAM: internal free=50787 min=20516 largest=18432 | psram free=7432784 min=7371348 largest=7340032
-E (263448) esp-tls: [sock=55] select() timeout
-E (263448) transport_base: Failed to open a new connection: 32774
-E (263448) HTTP_CLIENT: Connection failed, sock < 0
-W (263448) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (265218) RAM: internal free=51347 min=20516 largest=18432 | psram free=7432784 min=7371348 largest=7340032
-E (267468) esp-tls: [sock=55] select() timeout
-E (267468) transport_base: Failed to open a new connection: 32774
-E (267468) HTTP_CLIENT: Connection failed, sock < 0
-W (267468) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (269498) SystemInfo: free sram: 48751 minimal sram: 20516
-I (270218) RAM: internal free=48439 min=20516 largest=18432 | psram free=7428684 min=7371348 largest=7340032
-E (271488) esp-tls: [sock=55] select() timeout
-E (271488) transport_base: Failed to open a new connection: 32774
-E (271488) HTTP_CLIENT: Connection failed, sock < 0
-W (271488) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (275218) RAM: internal free=48351 min=20516 largest=18432 | psram free=7428684 min=7371348 largest=7340032
-E (275558) esp-tls: [sock=55] select() timeout
-E (275558) transport_base: Failed to open a new connection: 32774
-E (275558) HTTP_CLIENT: Connection failed, sock < 0
-W (275558) InternetRadio: Failed to open stream: http://live.humorfm.by:8000/veseloeradio
-I (279058) InternetRadio: Stream connected: status=200 content_type=unknown
-I (279058) ESP_ES_PARSER: The version of es_parser is v1.0.1
-I (279058) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (279078) InternetRadio: Received first stream data: bytes=2048
-I (279078) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
-I (279078) RAM: [RADIO_PLAYING] internal free=44563 min=20516 largest=18432 | psram free=7374308 min=7371348 largest=7340032
-I (279518) SystemInfo: free sram: 45619 minimal sram: 20516
-I (280218) RAM: internal free=44287 min=20516 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (284078) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (285218) RAM: internal free=30459 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (289088) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (289498) SystemInfo: free sram: 32615 minimal sram: 20516
-I (290218) RAM: internal free=35975 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (294098) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (295218) RAM: internal free=31951 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (299098) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (299528) SystemInfo: free sram: 31479 minimal sram: 20516
-I (300218) RAM: internal free=32247 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (304138) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (305218) RAM: internal free=32571 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (309148) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (309508) SystemInfo: free sram: 32135 minimal sram: 20516
-I (310218) RAM: internal free=31611 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (314148) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (315218) RAM: internal free=29791 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (319158) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (319498) SystemInfo: free sram: 33891 minimal sram: 20516
-I (320218) RAM: internal free=31795 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (324168) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (325218) RAM: internal free=32571 min=20516 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (329178) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (329538) SystemInfo: free sram: 35223 minimal sram: 20516
-I (330218) RAM: internal free=33351 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (334188) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (335218) RAM: internal free=32567 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (339188) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (339518) SystemInfo: free sram: 35259 minimal sram: 20516
-I (340218) RAM: internal free=36771 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (344198) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (345218) RAM: internal free=33939 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (349208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (349508) SystemInfo: free sram: 33939 minimal sram: 20516
-I (350218) RAM: internal free=32243 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (354218) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (355218) RAM: internal free=29051 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (359228) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (359558) SystemInfo: free sram: 31735 minimal sram: 20516
-I (360218) RAM: internal free=33535 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (364258) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (365218) RAM: internal free=32207 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (369268) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (369508) SystemInfo: free sram: 33947 minimal sram: 20516
-I (370218) RAM: internal free=32587 min=20516 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (374278) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (375218) RAM: internal free=33511 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (379278) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (379498) SystemInfo: free sram: 32579 minimal sram: 20516
-I (380218) RAM: internal free=33187 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (384288) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (385218) RAM: internal free=30815 min=20516 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (389298) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (389498) SystemInfo: free sram: 32615 minimal sram: 20516
-I (390218) RAM: internal free=35431 min=20516 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (394308) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (395218) RAM: internal free=27651 min=20516 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (399318) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (399498) SystemInfo: free sram: 30371 minimal sram: 20324
-I (400218) RAM: internal free=29087 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (404428) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (405218) RAM: internal free=32563 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (409438) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (409518) SystemInfo: free sram: 32131 minimal sram: 20324
-I (410218) RAM: internal free=31803 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (414448) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (415218) RAM: internal free=32575 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (419448) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (419528) SystemInfo: free sram: 35271 minimal sram: 20324
-I (420218) RAM: internal free=32207 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (424458) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (425218) RAM: internal free=31783 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (429468) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (429508) SystemInfo: free sram: 31691 minimal sram: 20324
-I (430218) RAM: internal free=28223 min=20324 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (434528) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (435218) RAM: internal free=34475 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (439558) SystemInfo: free sram: 33067 minimal sram: 20324
-I (439558) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (440218) RAM: internal free=29167 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (444618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (445218) RAM: internal free=33431 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (449518) SystemInfo: free sram: 33947 minimal sram: 20324
-I (449628) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (450218) RAM: internal free=32615 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (454638) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (455218) RAM: internal free=32251 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (459508) SystemInfo: free sram: 32615 minimal sram: 20324
-I (459648) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (460218) RAM: internal free=33587 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (464658) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (465218) RAM: internal free=32187 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (469498) SystemInfo: free sram: 30335 minimal sram: 20324
-I (469768) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (470218) RAM: internal free=28683 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (474778) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (475218) RAM: internal free=33519 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (479528) SystemInfo: free sram: 35223 minimal sram: 20324
-I (479778) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (480218) RAM: internal free=33739 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (484788) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (485218) RAM: internal free=32579 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (489508) SystemInfo: free sram: 37427 minimal sram: 20324
-I (489798) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (490218) RAM: internal free=29611 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (494808) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (495218) RAM: internal free=32255 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (499498) SystemInfo: free sram: 33939 minimal sram: 20324
-I (499818) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (500218) RAM: internal free=31379 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (504848) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (505218) RAM: internal free=33939 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (509518) SystemInfo: free sram: 32135 minimal sram: 20324
-I (509858) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (510218) RAM: internal free=27819 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (514868) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (515218) RAM: internal free=28715 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (519498) SystemInfo: free sram: 32599 minimal sram: 20324
-I (519978) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (520218) RAM: internal free=32243 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (524988) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (525218) RAM: internal free=32027 min=20324 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (529508) SystemInfo: free sram: 33939 minimal sram: 20324
-I (529988) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (530218) RAM: internal free=32239 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (534998) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (535218) RAM: internal free=33475 min=20324 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (539498) SystemInfo: free sram: 30831 minimal sram: 20324
-I (540008) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (540218) RAM: internal free=30403 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (545018) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (545218) RAM: internal free=32079 min=20324 largest=14336 | psram free=7375780 min=7371348 largest=7340032
-I (549498) SystemInfo: free sram: 30835 minimal sram: 20324
-I (550028) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (550218) RAM: internal free=32275 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (555038) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (555218) RAM: internal free=33335 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (559528) SystemInfo: free sram: 35255 minimal sram: 20324
-I (560148) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (560218) RAM: internal free=32407 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (565158) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (565218) RAM: internal free=30475 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (569498) SystemInfo: free sram: 34171 minimal sram: 20324
-I (570208) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (570218) RAM: internal free=33083 min=20324 largest=15872 | psram free=7378088 min=7371348 largest=7340032
-I (575218) RAM: internal free=30047 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (575218) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (579518) SystemInfo: free sram: 33931 minimal sram: 20324
-I (580218) RAM: internal free=31975 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (580228) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (585218) RAM: internal free=26943 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (585238) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (589518) SystemInfo: free sram: 35691 minimal sram: 20324
-I (590218) RAM: internal free=33635 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (590248) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (595218) RAM: internal free=32107 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (595358) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (599508) SystemInfo: free sram: 33891 minimal sram: 20324
-I (600218) RAM: internal free=32607 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (600368) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (605218) RAM: internal free=30271 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (605478) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (609508) SystemInfo: free sram: 30391 minimal sram: 20324
-I (610218) RAM: internal free=32607 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (610488) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (615218) RAM: internal free=32235 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (615498) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (619508) SystemInfo: free sram: 33311 minimal sram: 20324
-I (620218) RAM: internal free=33931 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (620518) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (625218) RAM: internal free=29915 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (625618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (629548) SystemInfo: free sram: 36583 minimal sram: 20324
-I (630218) RAM: internal free=32283 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (630618) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (635218) RAM: internal free=32259 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (635628) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (639498) SystemInfo: free sram: 32603 minimal sram: 20324
-I (640218) RAM: internal free=33967 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (640638) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (645218) RAM: internal free=29103 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (645668) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (649508) SystemInfo: free sram: 30395 minimal sram: 20324
-I (650218) RAM: internal free=29079 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (650678) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (655218) RAM: internal free=33491 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (655688) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (659498) SystemInfo: free sram: 32135 minimal sram: 20324
-I (660218) RAM: internal free=39875 min=20324 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (661028) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (665218) RAM: internal free=33835 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (666048) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (669498) SystemInfo: free sram: 32643 minimal sram: 20324
-I (670218) RAM: internal free=33451 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (671058) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (675218) RAM: internal free=30843 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (676068) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (679498) SystemInfo: free sram: 29071 minimal sram: 20324
-I (680218) RAM: internal free=28551 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (681078) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (685218) RAM: internal free=33567 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (686188) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (689528) SystemInfo: free sram: 35247 minimal sram: 20324
-I (690218) RAM: internal free=32471 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (691198) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (695218) RAM: internal free=32087 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (696228) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (699508) SystemInfo: free sram: 33927 minimal sram: 20324
-I (700218) RAM: internal free=33147 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (701238) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (705218) RAM: internal free=32091 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (706248) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (709538) SystemInfo: free sram: 33315 minimal sram: 20324
-I (710218) RAM: internal free=32043 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (711358) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (715218) RAM: internal free=33087 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (716368) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (719498) SystemInfo: free sram: 30399 minimal sram: 20324
-I (720218) RAM: internal free=28743 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (721478) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (725218) RAM: internal free=28563 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (726488) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (729508) SystemInfo: free sram: 33891 minimal sram: 20324
-I (730218) RAM: internal free=33575 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (731488) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (735218) RAM: internal free=33047 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (736498) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (739528) SystemInfo: free sram: 35263 minimal sram: 20324
-I (740218) RAM: internal free=32599 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (741508) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (745218) RAM: internal free=31515 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (746518) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (749518) SystemInfo: free sram: 32127 minimal sram: 20324
-I (750218) RAM: internal free=31611 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (751528) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (755218) RAM: internal free=28863 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (756638) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (759508) SystemInfo: free sram: 33911 minimal sram: 20324
-I (760218) RAM: internal free=33515 min=20324 largest=18432 | psram free=7378088 min=7371348 largest=7340032
-I (761648) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (765218) RAM: internal free=30391 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (766758) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (769498) SystemInfo: free sram: 33967 minimal sram: 20324
-I (770218) RAM: internal free=31931 min=20324 largest=13824 | psram free=7375780 min=7371348 largest=7340032
-I (771768) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (775218) RAM: internal free=30279 min=20324 largest=15872 | psram free=7375780 min=7371348 largest=7340032
-I (776878) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (779498) SystemInfo: free sram: 32643 minimal sram: 20324
-I (780218) RAM: internal free=33931 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (781888) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (785218) RAM: internal free=32243 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (786918) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (789508) SystemInfo: free sram: 33931 minimal sram: 20324
-I (790218) RAM: internal free=30463 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (791928) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (795218) RAM: internal free=30027 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (796938) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (799518) SystemInfo: free sram: 33923 minimal sram: 20324
-I (800218) RAM: internal free=33595 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (801948) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (805218) RAM: internal free=33323 min=20324 largest=15872 | psram free=7378088 min=7371348 largest=7340032
-I (807058) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (809508) SystemInfo: free sram: 30191 minimal sram: 20324
-I (810218) RAM: internal free=33527 min=20324 largest=15872 | psram free=7378088 min=7371348 largest=7340032
-I (812068) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (815218) RAM: internal free=29863 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (817068) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (819498) SystemInfo: free sram: 33959 minimal sram: 20324
-I (820218) RAM: internal free=32275 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (822078) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (825218) RAM: internal free=32019 min=20324 largest=14336 | psram free=7375780 min=7371348 largest=7340032
-I (827088) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (829498) SystemInfo: free sram: 32607 minimal sram: 20324
-I (830128) FreenoveFnk0104sBoard: TOUCH READ: raw_x=278, raw_y=439 => point.x=439, point.y=42 (top_bar=1)
-I (830208) FreenoveFnk0104sBoard: TOUCH READ: raw_x=276, raw_y=438 => point.x=438, point.y=44 (top_bar=1)
-I (830218) RAM: internal free=32951 min=20324 largest=18432 | psram free=7375780 min=7371348 largest=7340032
-I (830278) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
-I (832098) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=2 dec_err=0 status=PLAYING
-I (833308) Application: Wake word detected: Hey Kira (state: 3)
-I (833308) RAM: [RADIO_STOP] internal free=32259 min=20324 largest=17408 | psram free=7375780 min=7371348 largest=7340032
-I (833318) AudioManager: Releasing audio focus from source 3
-I (833328) StateMachine: State: idle -> connecting
-I (833378) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
-I (833378) wifi:Set ps type: 0, coexist: 0
+I (213679) StateMachine: State: listening -> idle
+I (214709) MQTT: Received goodbye message, session_id: 9ac51523
+I (214709) MQTT: Closing audio channel, send_goodbye: 0
+I (214709) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (214719) wifi:Set ps type: 2, coexist: 0
 
-I (833558) AfeAudioEngine: Encoded wake word into 33 packets in 228 ms
-I (833758) MQTT: Session ID: 54b6299a
-I (833758) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
-I (833758) wifi:Set ps type: 0, coexist: 0
+I (215209) RAM: internal free=57863 min=27252 largest=20480 | psram free=7457876 min=7419796 largest=7340032
+I (217709) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=134 => point.x=134, point.y=179 (top_bar=0)
+I (217759) FreenoveFnk0104sBoard: TOUCH READ: raw_x=250, raw_y=42 => point.x=42, point.y=70 (top_bar=0)
+I (217799) FreenoveFnk0104sBoard: TOUCH READ: raw_x=254, raw_y=56 => point.x=56, point.y=66 (top_bar=0)
+I (217839) FreenoveFnk0104sBoard: TOUCH READ: raw_x=258, raw_y=63 => point.x=63, point.y=62 (top_bar=0)
+I (217879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=262, raw_y=67 => point.x=67, point.y=58 (top_bar=0)
+I (217919) FreenoveFnk0104sBoard: TOUCH READ: raw_x=269, raw_y=69 => point.x=69, point.y=51 (top_bar=0)
+I (217959) FreenoveFnk0104sBoard: TOUCH READ: raw_x=278, raw_y=71 => point.x=71, point.y=42 (top_bar=0)
+I (217999) FreenoveFnk0104sBoard: TOUCH READ: raw_x=287, raw_y=73 => point.x=73, point.y=33 (top_bar=0)
+I (218049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=135 => point.x=135, point.y=129 (top_bar=0)
+I (218089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=133 => point.x=133, point.y=129 (top_bar=0)
+I (218129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=133 => point.x=133, point.y=129 (top_bar=0)
+I (218169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=133 => point.x=133, point.y=129 (top_bar=0)
+I (218209) StateMachine: State: idle -> connecting
+I (218239) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (218239) wifi:Set ps type: 0, coexist: 0
 
-I (833758) Application: Wake word detected: Hey Kira
-I (833808) StateMachine: State: connecting -> listening
-I (834188) Application: >> Hey Kira
-I (834238) StateMachine: State: listening -> speaking
-I (835218) RAM: internal free=51843 min=20324 largest=18432 | psram free=7432784 min=7371348 largest=7340032
-I (835298) Application: << Привет!
-I (836328) Application: << Чем могу помочь?
-I (837888) StateMachine: State: speaking -> listening
-I (840218) RAM: internal free=51907 min=20324 largest=18432 | psram free=7433296 min=7371348 largest=7340032
-I (844208) Application: >> а найди юмор fm радио какие можно идти подложить
-I (844208) StateMachine: State: listening -> speaking
-I (845128) Application: << Сейчас поищу радиостанцию Юмор FM!
-I (845218) RAM: internal free=51331 min=20324 largest=18432 | psram free=7427016 min=7371348 largest=7340032
-I (847838) Application: << % radio.search_stations...
-I (848228) RadioBrowser: Search request succeeded: status=200 response_len=1105
-I (849158) Application: << Нашла Юмор FM из Минска!
-I (850218) RAM: internal free=51563 min=20324 largest=18432 | psram free=7427016 min=7371348 largest=7340032
-I (850908) Application: << Это белорусская радиостанция с комедией и топ-40 музыкой.
-I (853498) SystemInfo: free sram: 51527 minimal sram: 20324
-I (855218) RAM: internal free=51535 min=20324 largest=18432 | psram free=7427016 min=7371348 largest=7340032
-I (855528) Application: << Хочешь включить её?
-I (857328) StateMachine: State: speaking -> listening
-I (860038) Application: >> и еще есть
-I (860048) StateMachine: State: listening -> speaking
-I (860218) RAM: internal free=51795 min=20324 largest=18432 | psram free=7433296 min=7371348 largest=7340032
-I (862348) Application: << Сейчас поищу ещё варианты!
-I (864028) Application: << % radio.search_stations...
-I (864268) RadioBrowser: Search request succeeded: status=200 response_len=4654
-I (865218) RAM: internal free=51471 min=20324 largest=18432 | psram free=7433296 min=7371348 largest=7340032
-I (865558) Application: << Нашла ещё несколько вариантов!
+I (218599) MQTT: Session ID: 29afb70e
+I (218599) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (218599) wifi:Set ps type: 0, coexist: 0
 
-1.
-I (868448) Application: << Юмор FM (
-I (869498) SystemInfo: free sram: 51547 minimal sram: 20324
-I (869598) Application: << Минск, Беларусь) —
-I (870218) RAM: internal free=51395 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (871388) Application: << комедия и топ-40
-2. Юмор ФМ Сыктывкар 99.9 FM — юмор и поп-музыка
-3. Юмор ФМ Тула 102.
-I (875218) RAM: internal free=51147 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (879548) SystemInfo: free sram: 51051 minimal sram: 20324
-I (880218) RAM: internal free=50899 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (885218) RAM: internal free=51167 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (886818) Application: << 7 FM — юмор, поп-музыка
-4. Юмор ФМ Туапсе 93.6 FM — юмор, поп-
-I (889498) SystemInfo: free sram: 51371 minimal sram: 20324
-I (890218) RAM: internal free=51311 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (895218) RAM: internal free=51439 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
-I (898088) Application: << музыка
+I (218599) StateMachine: State: connecting -> listening
+I (220209) RAM: internal free=50463 min=27252 largest=18432 | psram free=7457876 min=7419796 largest=7340032
+I (225219) RAM: internal free=52107 min=27252 largest=18432 | psram free=7457364 min=7419796 largest=7340032
+I (227599) SystemInfo: free sram: 52859 minimal sram: 27252
+I (230209) RAM: internal free=50803 min=27252 largest=18432 | psram free=7460184 min=7419796 largest=7340032
+I (235209) RAM: internal free=50463 min=27252 largest=18432 | psram free=7457364 min=7419796 largest=7340032
+I (237599) SystemInfo: free sram: 52859 minimal sram: 27252
+I (238739) FreenoveFnk0104sBoard: TOUCH READ: raw_x=154, raw_y=270 => point.x=270, point.y=166 (top_bar=0)
+I (238789) FreenoveFnk0104sBoard: TOUCH READ: raw_x=154, raw_y=270 => point.x=270, point.y=166 (top_bar=0)
+I (238829) FreenoveFnk0104sBoard: TOUCH READ: raw_x=154, raw_y=270 => point.x=270, point.y=166 (top_bar=0)
+I (238879) MQTT: Closing audio channel, send_goodbye: 1
+I (238879) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (238879) wifi:Set ps type: 2, coexist: 0
 
-Какую хочешь включить?
-I (899498) SystemInfo: free sram: 51495 minimal sram: 20324
-I (900218) RAM: internal free=51363 min=20324 largest=18432 | psram free=7427528 min=7371348 largest=7340032
+I (238899) StateMachine: State: listening -> idle
+I (239999) MQTT: Received goodbye message, session_id: 29afb70e
+I (239999) MQTT: Closing audio channel, send_goodbye: 0
+I (239999) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (240009) wifi:Set ps type: 2, coexist: 0
+
+I (240209) RAM: internal free=55811 min=27252 largest=18432 | psram free=7460184 min=7419796 largest=7340032
+I (240479) FreenoveFnk0104sBoard: TOUCH READ: raw_x=299, raw_y=222 => point.x=222, point.y=21 (top_bar=1)
+I (240519) FreenoveFnk0104sBoard: TOUCH READ: raw_x=299, raw_y=222 => point.x=222, point.y=21 (top_bar=1)
+I (240559) FreenoveFnk0104sBoard: TOUCH READ: raw_x=299, raw_y=222 => point.x=222, point.y=21 (top_bar=1)
+I (240599) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (240609) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (242099) FreenoveFnk0104sBoard: TOUCH READ: raw_x=266, raw_y=427 => point.x=427, point.y=54 (top_bar=0)
+I (242199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=266, raw_y=427 => point.x=427, point.y=54 (top_bar=0)
+I (242299) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (243359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=220 => point.x=220, point.y=171 (top_bar=0)
+I (243399) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=220 => point.x=220, point.y=171 (top_bar=0)
+I (243439) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=220 => point.x=220, point.y=171 (top_bar=0)
+I (243489) StateMachine: State: idle -> connecting
+I (243509) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (243509) wifi:Set ps type: 0, coexist: 0
+
+I (243879) MQTT: Session ID: 621b8032
+I (243879) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (243879) wifi:Set ps type: 0, coexist: 0
+
+I (243889) StateMachine: State: connecting -> listening
+I (245209) RAM: internal free=50439 min=27252 largest=18432 | psram free=7457364 min=7419796 largest=7340032
+I (247649) Application: >> Родился фэм.
+I (247669) StateMachine: State: listening -> speaking
+I (248729) Application: << Привет! Радость какая! С днём рождения тебя!
+I (249099) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=226 => point.x=226, point.y=181 (top_bar=0)
+I (249149) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=226 => point.x=226, point.y=181 (top_bar=0)
+I (249189) Application: Abort speaking
+I (249489) StateMachine: State: speaking -> listening
+I (250209) RAM: internal free=50715 min=27252 largest=18432 | psram free=7460184 min=7419796 largest=7340032
+I (255209) RAM: internal free=52623 min=27252 largest=18432 | psram free=7457364 min=7419796 largest=7340032
+I (258599) SystemInfo: free sram: 50503 minimal sram: 27252
+I (260209) RAM: internal free=50831 min=27252 largest=18432 | psram free=7460184 min=7419796 largest=7340032

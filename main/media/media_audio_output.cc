@@ -4,6 +4,7 @@
 #include "audio_codec.h"
 
 #include <decoder/impl/esp_mp3_dec.h>
+#include <decoder/impl/esp_aac_dec.h>
 #include <simple_dec/esp_audio_simple_dec_default.h>
 #include <esp_log.h>
 
@@ -18,10 +19,15 @@ constexpr char TAG[] = "MediaAudioOutput";
 void EnsureMp3DecoderRegistered() {
     static std::once_flag registration_once;
     std::call_once(registration_once, []() {
-        const esp_audio_err_t register_result = esp_mp3_dec_register();
-        if (register_result != ESP_AUDIO_ERR_OK) {
+        const esp_audio_err_t mp3_result = esp_mp3_dec_register();
+        if (mp3_result != ESP_AUDIO_ERR_OK) {
             ESP_LOGW(TAG, "MP3 decoder registration returned: %d",
-                     static_cast<int>(register_result));
+                     static_cast<int>(mp3_result));
+        }
+        const esp_audio_err_t aac_result = esp_aac_dec_register();
+        if (aac_result != ESP_AUDIO_ERR_OK) {
+            ESP_LOGW(TAG, "AAC decoder registration returned: %d",
+                     static_cast<int>(aac_result));
         }
         esp_audio_simple_dec_register_default();
     });

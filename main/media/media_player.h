@@ -4,6 +4,8 @@
 #include <atomic>
 #include <string>
 
+#include "internet_radio_player.h"
+
 class MediaPlayer {
 public:
     static MediaPlayer& GetInstance();
@@ -13,7 +15,10 @@ public:
     std::string ListSdTracks() const;
     int FindSdTrack(const std::string& query) const;
     std::string SearchSdTracks(const std::string& artist, const std::string& genre, int limit) const;
-    void PlayRadio(const std::string& url, const std::string& title = {});
+    bool PlayRadio(const RadioStationInfo& station, std::string& err_msg);
+    bool PlayRadio(const RadioStationInfo& station);
+    bool PlayRadio(const std::string& url, const std::string& title, std::string& err_msg);
+    bool PlayRadio(const std::string& url, const std::string& title = {});
     void TogglePlayPause();
     void PauseForVoice();
     void PlayForVoice();
@@ -29,8 +34,7 @@ public:
 private:
     MediaPlayer() = default;
     std::atomic<bool> paused_for_voice_{false};
-    std::string radio_url_for_voice_;
-    std::string radio_title_for_voice_;
+    RadioStationInfo radio_station_for_voice_;
 };
 
 #endif

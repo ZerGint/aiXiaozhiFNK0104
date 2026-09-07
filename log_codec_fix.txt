@@ -1,0 +1,93 @@
+--- LOG SESSION STARTED AT Mon Sep  7 10:28:58 2026 ---
+I (45271) RAM: internal free=49851 min=20004 largest=18432 | psram free=7473756 min=7303904 largest=7471104
+I (50271) RAM: internal free=49715 min=20004 largest=18432 | psram free=7473244 min=7303904 largest=7340032
+I (50591) SystemInfo: free sram: 49859 minimal sram: 20004
+I (55271) RAM: internal free=47675 min=20004 largest=18432 | psram free=7476064 min=7303904 largest=7471104
+I (57901) Application: >> Включи радио Radius FM.
+I (57941) StateMachine: State: listening -> speaking
+I (58971) Application: << % radio.search_stations...
+I (58991) RadioBrowser: Local catalog insufficient (1 matches), querying RadioBrowser online
+I (58991) RadioBrowser: [RADIO_SEARCH] query="Radius FM" countrycode="" language="" tag="" limit=5
+I (59001) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (59151) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (59151) RadioBrowser: Search request succeeded: status=200 response_len=1107
+I (59161) RadioBrowser: [HEAP_DIAG] stage=after_http_response internal_free=46639 internal_largest=18432 dma_free=38867
+I (59171) RadioBrowser: RadioBrowser: accepted codec AAC+
+I (59171) RadioBrowser: [HEAP_DIAG] stage=after_parse_filter internal_free=43191 internal_largest=18432 dma_free=35419
+I (59181) RadioBrowser: [HEAP_DIAG] stage=after_free_root_raw internal_free=47439 internal_largest=18432 dma_free=39667
+I (59191) RadioBrowser: [HEAP_DIAG] stage=before_add_catalog internal_free=47439 internal_largest=18432 dma_free=39667
+I (59591) RadioStorage: Successfully saved 21 stations to /sdcard/radio_catalog.json
+I (59591) RadioBrowser: Radio catalog updated: 1 search results
+I (59591) RadioBrowser: [HEAP_DIAG] stage=after_add_catalog internal_free=47107 internal_largest=18432 dma_free=39335
+I (60271) RAM: internal free=49275 min=20004 largest=18432 | psram free=7473244 min=7303904 largest=7340032
+I (61281) Application: << % radio.play_station...
+I (61291) RadioBrowser: Playing radio by station UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (61291) RadioBrowser: Looking up radio station by UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (61301) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (61421) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (61431) RadioBrowser: Search request succeeded: status=200 response_len=1107
+I (61431) RadioBrowser: Resolved radio station by UUID: Radius FM
+I (61821) RadioStorage: Successfully saved 21 stations to /sdcard/radio_catalog.json
+I (61821) RAM: [RADIO_START] internal free=48135 min=20004 largest=18432 | psram free=7473244 min=7303904 largest=7340032
+I (61821) InternetRadio: Radio current:
+name=Radius FM
+uuid=3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+codec=AAC+
+bitrate=192
+country=Belarus
+url=https://stream2.datacenter.by/radiusfm_main
+I (61841) InternetRadio: Radio stream startup: connecting
+I (61851) AudioManager: Audio focus requested by source 3 (current 0)
+I (61851) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (61861) wifi:Set ps type: 0, coexist: 0
+
+I (61871) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (61881) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (61941) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (62831) InternetRadio: [RADIO_REDIRECT] status=302 from=https://stream2.datacenter.by/radiusfm_main to=http://media2.datacenter.by:8002/radiusfm_main redirect=1
+I (62841) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (62991) InternetRadio: [RADIO_REDIRECT] followed successfully to http://media2.datacenter.by:8002/radiusfm_main
+I (62991) InternetRadio: Stream connected: status=200 content_type=unknown
+I (63001) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (63011) InternetRadio: Radio codec selection:
+station_codec=AAC+
+content_type=unknown
+selected_decoder=AAC
+I (63021) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (63021) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (63031) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (63041) InternetRadio: Received first stream data: bytes=2048
+I (63041) InternetRadio: Radio stream startup: ready
+I (63051) Application: Abort speaking
+I (63051) InternetRadio: First AAC frame decoded: rate=48000 channels=2 bits=16 bytes=4096
+I (63061) MQTT: Closing audio channel, send_goodbye: 1
+I (63061) RAM: [RADIO_PLAYING] internal free=29611 min=20004 largest=14336 | psram free=7392772 min=7303904 largest=7340032
+I (63071) StateMachine: State: speaking -> idle
+I (63081) AudioService: [RADIO_PCM] ptr=0x3c3ee5e4 size=1024 bytes PSRAM=YES (queue=1)
+I (63091) AudioService: [RADIO_PREBUFFER] buffering... current=21 ms target=2000 ms (queue=1)
+I (63321) AudioService: [RADIO_PCM] ptr=0x3c40a4dc size=1024 bytes PSRAM=YES (queue=32)
+I (63621) MQTT: Received goodbye message, session_id: 9caa0ed2
+I (63621) MQTT: Closing audio channel, send_goodbye: 0
+I (63621) MQTT: Received goodbye message, session_id: 9caa0ed2
+I (63631) MQTT: Closing audio channel, send_goodbye: 0
+I (64101) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (65121) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (65271) RAM: internal free=22347 min=18272 largest=11776 | psram free=7303904 min=7303904 largest=7208960
+I (66141) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (67161) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (68181) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (69201) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (70221) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (70271) RAM: internal free=22347 min=18272 largest=11776 | psram free=7303904 min=7303904 largest=7208960
+I (71241) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (71561) SystemInfo: free sram: 22347 minimal sram: 18272
+I (72261) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (73281) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (74301) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (75271) RAM: internal free=22347 min=18272 largest=11776 | psram free=7303904 min=7303904 largest=7208960
+I (75321) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (76341) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (77361) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (78381) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (79401) AudioService: [RADIO_PREBUFFER] buffering... current=1890 ms target=2000 ms (queue=90)
+I (80271) RAM: internal free=22215 min=18272 largest=11776 | psram free=7303904 min=7303904 largest=7208960

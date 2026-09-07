@@ -1,0 +1,75 @@
+--- NEW LOG CAPTURE STARTED AT Mon Sep  7 11:45:41 2026 ---
+I (65219) RAM: internal free=51423 min=10792 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (70219) RAM: internal free=51423 min=10792 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (70539) SystemInfo: free sram: 51555 minimal sram: 10792
+I (75099) Application: Wake word detected: Hey Kira (state: 3)
+I (75099) StateMachine: State: idle -> connecting
+I (75099) AfeAudioEngine: Encoded wake word into 0 packets in 1 ms
+I (75129) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (75129) wifi:Set ps type: 0, coexist: 0
+
+I (75219) RAM: internal free=47663 min=10792 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (75509) MQTT: Session ID: 87df5810
+I (75509) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (75509) wifi:Set ps type: 0, coexist: 0
+
+I (75509) Application: Wake word detected: Hey Kira
+I (75509) StateMachine: State: connecting -> listening
+I (75539) AudioService: Resampling audio from 16000 to 24000
+I (80219) RAM: internal free=44515 min=10792 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (80549) Application: >> Включи радио Юмор-ФМ.
+I (80569) StateMachine: State: listening -> speaking
+I (81489) Application: << % radio.list_favorites...
+I (82619) Application: << % radio.play_favorite...
+I (82629) RadioBrowser: [FAVORITE_PLAY] name=Юмор FM uuid=962b35ca-0601-11e8-ae97-52543be04c81
+I (82629) RadioBrowser: [FAVORITE_PLAY] resolving by UUID
+I (82629) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (82639) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (82819) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (82819) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (82829) RadioBrowser: [FAVORITE_PLAY] resolved fresh station by UUID
+I (83239) RadioStorage: Successfully saved 30 stations to /sdcard/radio_catalog.json
+I (83239) RAM: [RADIO_START] internal free=41343 min=8172 largest=18432 | psram free=7497816 min=7472424 largest=7340032
+I (83249) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (83259) InternetRadio: Radio stream startup: connecting
+I (83269) AudioManager: Audio focus requested by source 3 (current 0)
+I (83279) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (83289) wifi:Set ps type: 0, coexist: 0
+
+I (83299) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (83299) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (85219) RAM: internal free=32867 min=8172 largest=18432 | psram free=7493716 min=7472424 largest=7340032
+E (85309) esp-tls: [sock=56] select() timeout
+E (85309) transport_base: Failed to open a new connection: 32774
+E (85309) HTTP_CLIENT: Connection failed, sock < 0
+W (85309) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+W (85319) InternetRadio: Radio stream startup failed: Connection failed
+I (85319) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (85329) RAM: [RADIO_STOP] internal free=35531 min=8172 largest=18432 | psram free=7497816 min=7472424 largest=7340032
+I (85339) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (85349) AudioManager: Releasing audio focus from source 3
+I (85359) AudioManager: Releasing audio focus from source 3
+I (86169) Application: << Включаю Юмор FM!
+I (87789) StateMachine: State: speaking -> listening
+I (90219) RAM: internal free=44127 min=8172 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (95219) RAM: internal free=40155 min=8172 largest=18432 | psram free=7500124 min=7472424 largest=7340032
+I (97539) SystemInfo: free sram: 42247 minimal sram: 8172
+I (98469) Application: >> Пока.
+I (98489) StateMachine: State: listening -> speaking
+I (99029) Application: << Пока-пока!
+I (99879) StateMachine: State: speaking -> listening
+I (99889) MQTT: Received goodbye message, session_id: 87df5810
+I (99899) MQTT: Closing audio channel, send_goodbye: 0
+I (99899) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (99899) wifi:Set ps type: 2, coexist: 0
+
+I (99909) StateMachine: State: listening -> idle
+I (100219) RAM: internal free=49279 min=8172 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (105219) RAM: internal free=49091 min=8172 largest=18432 | psram free=7497304 min=7472424 largest=7340032
+I (109509) SystemInfo: free sram: 49415 minimal sram: 8172

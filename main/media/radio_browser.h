@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "internet_radio_player.h"
+
 class RadioBrowser {
 public:
     static RadioBrowser& GetInstance();
@@ -13,7 +15,14 @@ public:
                                const std::string& countrycode = "",
                                const std::string& language = "",
                                const std::string& tag = "",
-                               int limit = 5);
+                               int limit = 5,
+                               bool force_online = false);
+    bool GetStationByUuid(const std::string& stationuuid,
+                          RadioStationInfo& station,
+                          std::string& err_msg);
+    std::string PlayStation(const std::string& url = "",
+                            const std::string& title = "",
+                            const std::string& station_uuid = "");
     std::string AddFavorite(const std::string& name, const std::string& country,
                             const std::string& city, const std::string& keywords,
                             const std::string& station_uuid);
@@ -24,6 +33,11 @@ public:
 private:
     RadioBrowser() = default;
     std::string PerformRequest(const std::string& path);
+    std::string PerformOnlineSearch(const std::string& query,
+                                    const std::string& countrycode,
+                                    const std::string& language,
+                                    const std::string& tag,
+                                    int limit);
     std::string UrlEncode(const std::string& value) const;
     std::string server_url_ = "http://de1.api.radio-browser.info";
     std::vector<std::string> mirrors_ = {

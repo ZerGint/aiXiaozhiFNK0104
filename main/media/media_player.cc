@@ -4,10 +4,13 @@
 #include "sd_music_player.h"
 #include "internet_radio_player.h"
 
+#include <esp_log.h>
 #include <algorithm>
 #include <cctype>
 #include <utility>
 #include <cJSON.h>
+
+static const char* TAG = "MediaPlayer";
 
 MediaPlayer& MediaPlayer::GetInstance() {
     static MediaPlayer instance;
@@ -92,14 +95,33 @@ int MediaPlayer::FindSdTrack(const std::string& query) const {
     return -1;
 }
 
-void MediaPlayer::PlayRadio(const std::string& url, const std::string& title) {
+bool MediaPlayer::PlayRadio(const RadioStationInfo& station) {
+    std::string err_msg;
+    return PlayRadio(station, err_msg);
+}
+
+bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title) {
+    std::string err_msg;
+    return PlayRadio(url, title, err_msg);
+}
+
+bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title, std::string& err_msg) {
+    RadioStationInfo station;
+    station.url_resolved = url;
+    station.name = title;
+    return PlayRadio(station, err_msg);
+}
+
+bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_msg) {
     paused_for_voice_ = false;
-    radio_url_for_voice_.clear();
-    radio_title_for_voice_.clear();
-    auto& application = Application::GetInstance();
-    application.StopVoiceInteractionForMedia();
-    SdMusicPlayer::GetInstance().Stop();
-    InternetRadioPlayer::GetInstance().Play(url, title);
+    radio_station_for_voice_ = {};
+    const bool success = InternetRadioPlayer::GetInstance().Play(station, err_msg);
+    if (success) {
+        auto& application = Application::GetInstance();
+        application.StopVoiceInteractionForMedia();
+        SdMusicPlayer::GetInstance().Stop();
+    }
+    return success;
 }
 
 void MediaPlayer::TogglePlayPause() {
@@ -115,8 +137,7 @@ void MediaPlayer::TogglePlayPause() {
 void MediaPlayer::PauseForVoice() {
     auto& radio = InternetRadioPlayer::GetInstance();
     if (radio.IsPlaying()) {
-        radio_url_for_voice_ = radio.GetUrl();
-        radio_title_for_voice_ = radio.GetTitle();
+        radio_station_for_voice_ = radio.GetCurrentStation();
         radio.Stop();
         paused_for_voice_ = true;
         return;
@@ -129,11 +150,15 @@ void MediaPlayer::PauseForVoice() {
 
 void MediaPlayer::PlayForVoice() {
     if (paused_for_voice_.exchange(false)) {
-        if (!radio_url_for_voice_.empty()) {
-            const std::string url = std::move(radio_url_for_voice_);
-            const std::string title = std::move(radio_title_for_voice_);
-            radio_title_for_voice_.clear();
-            PlayRadio(url, title);
+        if (!radio_station_for_voice_.url_resolved.empty()) {
+            const RadioStationInfo station = std::move(radio_station_for_voice_);
+            radio_station_for_voice_ = {};
+            ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
+                     station.name.c_str(),
+                     station.stationuuid.c_str(),
+                     station.codec.c_str(),
+                     station.url_resolved.c_str());
+            PlayRadio(station);
         } else {
             TogglePlayPause();
         }
@@ -160,8 +185,7 @@ void MediaPlayer::Prev() {
 
 void MediaPlayer::Stop() {
     paused_for_voice_ = false;
-    radio_url_for_voice_.clear();
-    radio_title_for_voice_.clear();
+    radio_station_for_voice_ = {};
     Application::GetInstance().StopVoiceInteractionForMedia();
     SdMusicPlayer::GetInstance().Stop();
     InternetRadioPlayer::GetInstance().Stop();
@@ -182,8 +206,8 @@ std::string MediaPlayer::GetTitle() const {
         InternetRadioPlayer::GetInstance().IsPaused())
         return InternetRadioPlayer::GetInstance().GetTitle();
 
-    if (paused_for_voice_ && !radio_title_for_voice_.empty())
-        return radio_title_for_voice_;
+    if (paused_for_voice_ && !radio_station_for_voice_.name.empty())
+        return radio_station_for_voice_.name;
 
     return SdMusicPlayer::GetInstance().GetCurrentTrackName();
 }
