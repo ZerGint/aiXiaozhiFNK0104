@@ -36,13 +36,20 @@ std::string JsonString(cJSON* object, const char* key) {
 
 bool ContainsInsensitive(const std::string& value, const std::string& query) {
     if (query.empty()) return true;
-    std::string lower_value = value;
-    std::string lower_query = query;
-    std::transform(lower_value.begin(), lower_value.end(), lower_value.begin(),
-                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    std::transform(lower_query.begin(), lower_query.end(), lower_query.begin(),
-                   [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    return lower_value.find(lower_query) != std::string::npos;
+    if (query.size() > value.size()) return false;
+    for (size_t start = 0; start <= value.size() - query.size(); ++start) {
+        bool match = true;
+        for (size_t i = 0; i < query.size(); ++i) {
+            const auto value_char = static_cast<unsigned char>(value[start + i]);
+            const auto query_char = static_cast<unsigned char>(query[i]);
+            if (std::tolower(value_char) != std::tolower(query_char)) {
+                match = false;
+                break;
+            }
+        }
+        if (match) return true;
+    }
+    return false;
 }
 
 bool EqualsInsensitive(const std::string& a, const std::string& b) {
