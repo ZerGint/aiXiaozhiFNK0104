@@ -627,7 +627,9 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.search_stations",
-        "Search internet radio stations in Radio Browser or local catalog with structured filters.\n"
+        "Search radio stations and return candidate discovery results.\n"
+        "Present each candidate as name — state when state is non-empty, otherwise name.\n"
+        "Use stationuuid to identify the selected station; do not require country in the result.\n"
         "Usage guidelines:\n"
         "- When the user asks to play a SPECIFIC named station (e.g. 'Включи Radius FM', 'Поставь Юмор FM', 'Хочу послушать Ретро FM'):\n"
         "  1. Check radio.list_favorites first. If present in favorites, use radio.play_favorite.\n"
@@ -642,7 +644,7 @@ void RadioBrowser::RegisterMcpTools() {
         "  * Use query for a specific station name or title fragment.\n"
         "  * Set force_online=true ONLY when the user explicitly asks for new, fresh, updated, additional, or internet/online radio stations (e.g. 'Search for new stations online', 'Refresh radio list', 'Search internet for more'). Default is false (local-first search).\n"
         "  * Combine filters when the user specifies multiple constraints.\n"
-        "When presenting search results to the user, normally mention only station names. Do not read station UUIDs, URLs, codecs, bitrates, tags, languages, or other technical metadata unless explicitly requested. If several stations are found, briefly list their names and ask which one to play. Use location (country/state) only to distinguish stations with similar names.",
+        "When presenting search results, use name and state to distinguish stations with similar names. After the user chooses a result, call radio.play_station with that result's stationuuid. Do not read URLs, codecs, bitrates, tags, languages, or other technical metadata unless explicitly requested.",
         PropertyList({
             Property("query", kPropertyTypeString, std::string("")),
             Property("countrycode", kPropertyTypeString, std::string("")),
@@ -662,7 +664,7 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.play_station",
-        "Play a Radio Browser station using its stationuuid or url_resolved value.",
+        "Play a selected Radio Browser station. Prefer stationuuid from radio.search_stations because it uniquely identifies the chosen station; do not guess by name when the UUID is known. A direct URL may be used when no stationuuid is available.",
         PropertyList({
            Property("url", kPropertyTypeString, std::string("")),
            Property("title", kPropertyTypeString, std::string("")),
