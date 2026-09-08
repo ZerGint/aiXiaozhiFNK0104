@@ -141,7 +141,9 @@ bool InternetRadioPlayer::Play(const std::string& url, const std::string& title,
 }
 
 bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err_msg,
-                               std::function<void()> on_startup_ready) {
+                               std::function<void()> on_startup_ready,
+                               std::function<void()> on_startup_failed,
+                               bool emit_failure_bip) {
     if (station.url_resolved.empty()) {
         err_msg = "Station URL is empty";
         return false;
@@ -159,6 +161,8 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         title_ = station.name;
         startup_err_msg_.clear();
         on_startup_ready_ = std::move(on_startup_ready);
+        on_startup_failed_ = std::move(on_startup_failed);
+        emit_failure_bip_ = emit_failure_bip;
     }
     ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
              current_station_.name.c_str(),
@@ -187,6 +191,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         task_handle_ = nullptr;
         std::lock_guard<std::mutex> lock(mutex_);
         on_startup_ready_ = {};
+        on_startup_failed_ = {};
         err_msg = "Unable to create stream task";
         ESP_LOGE(TAG, "%s", err_msg.c_str());
         return false;
@@ -223,15 +228,19 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
     player->task_handle_ = nullptr;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
-    if (!player->initial_ready_ && !player->stop_requested_) {
+    const bool startup_failed = !player->initial_ready_ && !player->stop_requested_;
+    std::function<void()> failure_callback;
+    {
+        std::lock_guard<std::mutex> lock(player->mutex_);
+        failure_callback = std::move(player->on_startup_failed_);
+        if (!player->startup_ready_notified_) player->on_startup_ready_ = {};
+    }
+    if (startup_failed && player->emit_failure_bip_) {
         Application::GetInstance().Schedule([]() {
             Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
         });
     }
-    if (!player->startup_ready_notified_) {
-        std::lock_guard<std::mutex> lock(player->mutex_);
-        player->on_startup_ready_ = {};
-    }
+    if (startup_failed && failure_callback) failure_callback();
     vTaskDelete(nullptr);
 }
 

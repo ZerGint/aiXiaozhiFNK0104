@@ -6,6 +6,7 @@
 #include "radio_storage.h"
 #include "settings.h"
 #include "radio_memory_diag.h"
+#include "assets/lang_config.h"
 
 #include <cJSON.h>
 #include <esp_crt_bundle.h>
@@ -364,7 +365,33 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
         if (RadioStorage::GetInstance().GetCatalogStationByUuid(station_uuid, cached_station) &&
             !cached_station.url_resolved.empty()) {
             std::string play_err;
-            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err)) {
+            auto retry = [station_uuid]() {
+                Application::GetInstance().Schedule([station_uuid]() {
+                    RadioStationInfo fresh_station;
+                    std::string err_msg;
+                    if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
+                        Application::GetInstance().Schedule([]() {
+                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+                        });
+                        return;
+                    }
+                    std::string play_err;
+                    auto admission = [station = fresh_station]() mutable {
+                        Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                            std::string err;
+                            RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+                        });
+                    };
+                    if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err,
+                                                               std::move(admission), {}, true)) {
+                        Application::GetInstance().Schedule([]() {
+                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+                        });
+                    }
+                });
+            };
+            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
+                                                       std::move(retry), false)) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
             }
             return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
@@ -469,7 +496,34 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
         if (RadioStorage::GetInstance().GetCatalogStationByUuid(target_favorite.stationuuid, cached_station) &&
             !cached_station.url_resolved.empty()) {
             std::string play_err;
-            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err)) {
+            const std::string station_uuid = target_favorite.stationuuid;
+            auto retry = [station_uuid]() {
+                Application::GetInstance().Schedule([station_uuid]() {
+                    RadioStationInfo fresh_station;
+                    std::string err_msg;
+                    if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
+                        Application::GetInstance().Schedule([]() {
+                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+                        });
+                        return;
+                    }
+                    std::string play_err;
+                    auto admission = [station = fresh_station]() mutable {
+                        Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                            std::string err;
+                            RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+                        });
+                    };
+                    if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err,
+                                                               std::move(admission), {}, true)) {
+                        Application::GetInstance().Schedule([]() {
+                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+                        });
+                    }
+                });
+            };
+            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
+                                                       std::move(retry), false)) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
             }
             return "Playing favorite station: " + cached_station.name;

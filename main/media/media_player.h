@@ -17,7 +17,9 @@ public:
     int FindSdTrack(const std::string& query) const;
     std::string SearchSdTracks(const std::string& artist, const std::string& genre, int limit) const;
     bool PlayRadio(const RadioStationInfo& station, std::string& err_msg,
-                   std::function<void()> on_startup_ready = {});
+                   std::function<void()> on_startup_ready = {},
+                   std::function<void()> on_startup_failed = {},
+                   bool emit_failure_bip = true);
     bool PlayRadio(const RadioStationInfo& station);
     bool PlayRadio(const std::string& url, const std::string& title, std::string& err_msg);
     bool PlayRadio(const std::string& url, const std::string& title = {});

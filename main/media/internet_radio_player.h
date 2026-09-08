@@ -30,7 +30,9 @@ public:
     static InternetRadioPlayer& GetInstance();
 
     bool Play(const RadioStationInfo& station, std::string& err_msg,
-              std::function<void()> on_startup_ready = {});
+              std::function<void()> on_startup_ready = {},
+              std::function<void()> on_startup_failed = {},
+              bool emit_failure_bip = true);
     bool Play(const RadioStationInfo& station);
     bool Play(const std::string& url, const std::string& title, std::string& err_msg);
     bool Play(const std::string& url, const std::string& title = {});
@@ -72,6 +74,8 @@ private:
     std::atomic<bool> initial_ready_{false};
     std::string startup_err_msg_;
     std::function<void()> on_startup_ready_;
+    std::function<void()> on_startup_failed_;
+    bool emit_failure_bip_ = true;
     bool startup_ready_notified_ = false;
 };
 
