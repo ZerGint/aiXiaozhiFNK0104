@@ -403,6 +403,7 @@ bool RadioStorage::AddOrUpdateCatalogStations(const std::vector<RadioStationInfo
         return false;
     }
 
+    bool changed = false;
     for (const auto& incoming : new_stations) {
         bool found = false;
         for (auto& existing : catalog) {
@@ -411,24 +412,55 @@ bool RadioStorage::AddOrUpdateCatalogStations(const std::vector<RadioStationInfo
                                          ContainsInsensitive(existing.name, incoming.name) &&
                                          (incoming.country.empty() || ContainsInsensitive(existing.country, incoming.country));
             if (uuid_match || fallback_match) {
-                if (!incoming.name.empty()) existing.name = incoming.name;
-                if (!incoming.url_resolved.empty()) existing.url_resolved = incoming.url_resolved;
-                if (!incoming.codec.empty()) existing.codec = incoming.codec;
-                if (incoming.bitrate > 0) existing.bitrate = incoming.bitrate;
-                if (!incoming.country.empty()) existing.country = incoming.country;
-                if (!incoming.countrycode.empty()) existing.countrycode = incoming.countrycode;
-                if (!incoming.state.empty()) existing.state = incoming.state;
-                if (!incoming.language.empty()) existing.language = incoming.language;
-                if (!incoming.tags.empty()) existing.tags = incoming.tags;
+                if (!incoming.name.empty() && existing.name != incoming.name) {
+                    existing.name = incoming.name;
+                    changed = true;
+                }
+                if (!incoming.url_resolved.empty() && existing.url_resolved != incoming.url_resolved) {
+                    existing.url_resolved = incoming.url_resolved;
+                    changed = true;
+                }
+                if (!incoming.codec.empty() && existing.codec != incoming.codec) {
+                    existing.codec = incoming.codec;
+                    changed = true;
+                }
+                if (incoming.bitrate > 0 && existing.bitrate != incoming.bitrate) {
+                    existing.bitrate = incoming.bitrate;
+                    changed = true;
+                }
+                if (!incoming.country.empty() && existing.country != incoming.country) {
+                    existing.country = incoming.country;
+                    changed = true;
+                }
+                if (!incoming.countrycode.empty() && existing.countrycode != incoming.countrycode) {
+                    existing.countrycode = incoming.countrycode;
+                    changed = true;
+                }
+                if (!incoming.state.empty() && existing.state != incoming.state) {
+                    existing.state = incoming.state;
+                    changed = true;
+                }
+                if (!incoming.language.empty() && existing.language != incoming.language) {
+                    existing.language = incoming.language;
+                    changed = true;
+                }
+                if (!incoming.tags.empty() && existing.tags != incoming.tags) {
+                    existing.tags = incoming.tags;
+                    changed = true;
+                }
                 found = true;
                 break;
             }
         }
         if (!found) {
             catalog.push_back(incoming);
+            changed = true;
         }
     }
 
+    if (!changed) {
+        return true;
+    }
     return SaveCatalogInternal(catalog, err_msg);
 }
 
