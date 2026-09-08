@@ -202,6 +202,7 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     }
 
     std::vector<RadioStationInfo> catalog_stations;
+    catalog_stations.reserve(static_cast<size_t>(limit));
     cJSON* station = nullptr;
     cJSON_ArrayForEach(station, root.get()) {
         std::string codec_str = JsonString(station, "codec");
@@ -477,6 +478,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
         target_favorite.name, target_favorite.countrycode, target_favorite.language, target_favorite.tags, 10);
 
     std::vector<RadioStationInfo> exact_matches;
+    exact_matches.reserve(catalog_results.size());
     for (const auto& station : catalog_results) {
         if (station.stationuuid.empty()) continue;
         if (!EqualsInsensitive(station.name, target_favorite.name)) continue;

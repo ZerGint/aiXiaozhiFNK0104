@@ -392,6 +392,7 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
 
     limit = std::clamp(limit, 1, 20);
     std::vector<RadioStationInfo> results;
+    results.reserve(static_cast<size_t>(limit));
 
     for (const auto& station : catalog) {
         if (!IsSupportedCodec(station.codec)) {
