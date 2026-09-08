@@ -13,6 +13,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <memory>
 
 #define TAG "RadioBrowser"
 
@@ -188,15 +189,14 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     std::string raw = PerformRequest(path);
     LogHeapDiag("after_http_response");
 
-    cJSON* root = cJSON_Parse(raw.c_str());
-    if (root == nullptr || !cJSON_IsArray(root)) {
-        if (root != nullptr) cJSON_Delete(root);
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(raw.c_str()), &cJSON_Delete);
+    if (root == nullptr || !cJSON_IsArray(root.get())) {
         return raw;
     }
 
     std::vector<RadioStationInfo> catalog_stations;
     cJSON* station = nullptr;
-    cJSON_ArrayForEach(station, root) {
+    cJSON_ArrayForEach(station, root.get()) {
         std::string codec_str = JsonString(station, "codec");
         std::string codec_lower = codec_str;
         std::transform(codec_lower.begin(), codec_lower.end(), codec_lower.begin(),
@@ -218,8 +218,6 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     LogHeapDiag("after_parse_filter");
 
     // Free the heavy cJSON root tree and raw HTTP response string IMMEDIATELY
-    cJSON_Delete(root);
-    root = nullptr;
     raw.clear();
     raw.shrink_to_fit();
 
@@ -236,20 +234,23 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
         LogHeapDiag("after_add_catalog");
     }
 
-    cJSON* presentation = cJSON_CreateArray();
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> presentation(cJSON_CreateArray(), &cJSON_Delete);
+    if (presentation == nullptr) return "[]";
     for (const auto& info : catalog_stations) {
         cJSON* item = cJSON_CreateObject();
         cJSON_AddStringToObject(item, "name", info.name.c_str());
         cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str());
         cJSON_AddStringToObject(item, "country", info.country.c_str());
         cJSON_AddStringToObject(item, "state", info.state.c_str());
-        cJSON_AddItemToArray(presentation, item);
+        if (item == nullptr || !cJSON_AddItemToArray(presentation.get(), item)) {
+            cJSON_Delete(item);
+            return "[]";
+        }
     }
 
-    char* output = cJSON_PrintUnformatted(presentation);
+    char* output = cJSON_PrintUnformatted(presentation.get());
     std::string response = output != nullptr ? output : "[]";
     if (output != nullptr) cJSON_free(output);
-    cJSON_Delete(presentation);
     return response;
 }
 
@@ -266,24 +267,21 @@ bool RadioBrowser::GetStationByUuid(const std::string& stationuuid,
     const std::string path = "/json/stations/byuuid/" + UrlEncode(stationuuid);
     const std::string raw = PerformRequest(path);
 
-    cJSON* root = cJSON_Parse(raw.c_str());
-    if (root == nullptr || !cJSON_IsArray(root)) {
-        if (root != nullptr) cJSON_Delete(root);
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(raw.c_str()), &cJSON_Delete);
+    if (root == nullptr || !cJSON_IsArray(root.get())) {
         err_msg = "Failed to parse RadioBrowser response";
         ESP_LOGW(TAG, "GetStationByUuid failed: invalid JSON for UUID %s", stationuuid.c_str());
         return false;
     }
 
-    if (cJSON_GetArraySize(root) == 0) {
-        cJSON_Delete(root);
+    if (cJSON_GetArraySize(root.get()) == 0) {
         err_msg = "Station not found by UUID";
         ESP_LOGW(TAG, "GetStationByUuid: station not found for UUID %s", stationuuid.c_str());
         return false;
     }
 
-    cJSON* item = cJSON_GetArrayItem(root, 0);
+    cJSON* item = cJSON_GetArrayItem(root.get(), 0);
     RadioStationInfo parsed_info = StationInfoFromJson(item);
-    cJSON_Delete(root);
 
     std::string codec_lower = parsed_info.codec;
     std::transform(codec_lower.begin(), codec_lower.end(), codec_lower.begin(),
@@ -333,19 +331,22 @@ std::string RadioBrowser::SearchStations(const std::string& query,
     if (static_cast<int>(local_results.size()) >= required) {
         ESP_LOGI(TAG, "Local radio catalog: %d matches. Using local radio catalog results",
                  static_cast<int>(local_results.size()));
-        cJSON* root = cJSON_CreateArray();
+        std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_CreateArray(), &cJSON_Delete);
+        if (root == nullptr) return "[]";
         for (const auto& info : local_results) {
             cJSON* item = cJSON_CreateObject();
             cJSON_AddStringToObject(item, "name", info.name.c_str());
             cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str());
             cJSON_AddStringToObject(item, "country", info.country.c_str());
             cJSON_AddStringToObject(item, "state", info.state.c_str());
-            cJSON_AddItemToArray(root, item);
+            if (item == nullptr || !cJSON_AddItemToArray(root.get(), item)) {
+                cJSON_Delete(item);
+                return "[]";
+            }
         }
-        char* output = cJSON_PrintUnformatted(root);
+        char* output = cJSON_PrintUnformatted(root.get());
         std::string response = output != nullptr ? output : "[]";
         if (output != nullptr) cJSON_free(output);
-        cJSON_Delete(root);
         return response;
     }
 
