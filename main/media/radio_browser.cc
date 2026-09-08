@@ -22,6 +22,7 @@
 #define TAG "RadioBrowser"
 
 namespace {
+constexpr bool RADIO_SEARCH_DIAGNOSTICS_ENABLED = true;
 void ScheduleRadioErrorBip() {
     Application::GetInstance().Schedule([]() {
         Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
@@ -186,6 +187,7 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
                                                 int limit) {
     limit = std::clamp(limit, 1, 10);
     const int server_limit = std::min(limit * 2, 20);
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_BEFORE_HTTP");
     ESP_LOGI(TAG, "[RADIO_SEARCH] query=\"%s\" countrycode=\"%s\" language=\"%s\" tag=\"%s\" limit=%d",
              query.c_str(), countrycode.c_str(), language.c_str(), tag.c_str(), limit);
 
@@ -205,16 +207,23 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     }
 
     std::string raw = PerformRequest(path);
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_HTTP");
     LogHeapDiag("after_http_response");
 
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(raw.c_str()), &cJSON_Delete);
     if (root == nullptr || !cJSON_IsArray(root.get())) {
+        ESP_LOGI(TAG, "[RADIO_SEARCH_DIAG] user_limit=%d server_limit=%d http_response_bytes=%u server_objects=0 accepted_codec=0 rejected_codec=0 returned_results=0 stopped_after_limit=NO", limit, server_limit, static_cast<unsigned>(raw.size()));
         return raw;
     }
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_PARSE");
 
     std::vector<RadioSearchResult> catalog_stations;
     catalog_stations.reserve(static_cast<size_t>(limit));
     cJSON* station = nullptr;
+    const int server_objects = cJSON_GetArraySize(root.get());
+    int accepted_codec = 0;
+    int rejected_codec = 0;
+    bool stopped_after_limit = false;
     cJSON_ArrayForEach(station, root.get()) {
         std::string codec_str = JsonString(station, "codec");
         std::string codec_lower = codec_str;
@@ -224,19 +233,25 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
                                    codec_lower.find("aac") != std::string::npos);
 
         if (is_supported) {
+            ++accepted_codec;
             ESP_LOGI(TAG, "RadioBrowser: accepted codec %s", codec_str.c_str());
             catalog_stations.push_back({JsonString(station, "stationuuid"),
                                         JsonString(station, "name"),
                                         JsonString(station, "state")});
             if (catalog_stations.size() >= static_cast<size_t>(limit)) {
+                stopped_after_limit = true;
                 break;
             }
         } else {
+            ++rejected_codec;
             ESP_LOGD(TAG, "RadioBrowser: rejected unsupported codec %s", codec_str.c_str());
         }
     }
 
     LogHeapDiag("after_parse_filter");
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) {
+        ESP_LOGI(TAG, "[RADIO_SEARCH_DIAG] user_limit=%d server_limit=%d http_response_bytes=%u server_objects=%d accepted_codec=%d rejected_codec=%d returned_results=%u stopped_after_limit=%s", limit, server_limit, static_cast<unsigned>(raw.size()), server_objects, accepted_codec, rejected_codec, static_cast<unsigned>(catalog_stations.size()), stopped_after_limit ? "YES" : "NO");
+    }
 
     // Free the heavy cJSON root tree and raw HTTP response string IMMEDIATELY
     root.reset();
@@ -261,6 +276,7 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     char* output = cJSON_PrintUnformatted(presentation.get());
     std::string response = output != nullptr ? output : "[]";
     if (output != nullptr) cJSON_free(output);
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_OUTPUT");
     return response;
 }
 
