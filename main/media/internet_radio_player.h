@@ -50,13 +50,21 @@ public:
     uint32_t GetUnderrunCount() const { return underrun_count_.load(); }
 
 private:
+    struct AttemptContext {
+        InternetRadioPlayer* player;
+        uint64_t generation;
+        std::function<void()> on_startup_ready;
+        std::function<void()> on_startup_failed;
+        bool emit_failure_bip;
+        bool startup_ready_notified = false;
+    };
     InternetRadioPlayer();
     ~InternetRadioPlayer();
     InternetRadioPlayer(const InternetRadioPlayer&) = delete;
     InternetRadioPlayer& operator=(const InternetRadioPlayer&) = delete;
 
     static void TaskFunction(void* arg);
-    void StreamLoop();
+    void StreamLoop(AttemptContext* attempt);
 
     RadioStationInfo current_station_;
     std::string url_;
@@ -77,6 +85,7 @@ private:
     std::function<void()> on_startup_failed_;
     bool emit_failure_bip_ = true;
     bool startup_ready_notified_ = false;
+    std::atomic<uint64_t> generation_{0};
 };
 
 #endif

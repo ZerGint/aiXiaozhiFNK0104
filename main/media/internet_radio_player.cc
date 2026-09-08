@@ -156,48 +156,41 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
     SystemInfo::PrintRamSnapshot("RADIO_START");
     {
         std::lock_guard<std::mutex> lock(mutex_);
+        const uint64_t generation = generation_.fetch_add(1) + 1;
         current_station_ = station;
         url_ = station.url_resolved;
         title_ = station.name;
         startup_err_msg_.clear();
-        on_startup_ready_ = std::move(on_startup_ready);
-        on_startup_failed_ = std::move(on_startup_failed);
         emit_failure_bip_ = emit_failure_bip;
-    }
-    ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
-             current_station_.name.c_str(),
-             current_station_.stationuuid.c_str(),
-             current_station_.codec.c_str(),
-             static_cast<unsigned long>(current_station_.bitrate),
-             current_station_.country.c_str(),
-             current_station_.url_resolved.c_str());
-
-    stop_requested_ = false;
-    reconnect_requested_ = false;
-    paused_ = false;
-    playing_ = true;
-    initial_ready_ = false;
-    startup_ready_notified_ = false;
-
-    if (startup_event_group_ != nullptr) {
-        xEventGroupClearBits(startup_event_group_, kStartupBitReady | kStartupBitFailed);
-    }
-
-    ESP_LOGI(TAG, "Radio stream startup: connecting");
-
-    if (xTaskCreatePinnedToCore(TaskFunction, "InternetRadio", 6144, this, 3,
-                                &task_handle_, 1) != pdPASS) {
-        playing_ = false;
-        task_handle_ = nullptr;
-        std::lock_guard<std::mutex> lock(mutex_);
+        auto* attempt = new AttemptContext{this, generation, std::move(on_startup_ready),
+                                           std::move(on_startup_failed), emit_failure_bip};
         on_startup_ready_ = {};
         on_startup_failed_ = {};
-        err_msg = "Unable to create stream task";
-        ESP_LOGE(TAG, "%s", err_msg.c_str());
-        return false;
+        startup_ready_notified_ = false;
+        stop_requested_ = false;
+        reconnect_requested_ = false;
+        paused_ = false;
+        playing_ = true;
+        initial_ready_ = false;
+        ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
+                 current_station_.name.c_str(), current_station_.stationuuid.c_str(),
+                 current_station_.codec.c_str(), static_cast<unsigned long>(current_station_.bitrate),
+                 current_station_.country.c_str(), current_station_.url_resolved.c_str());
+        if (startup_event_group_ != nullptr) {
+            xEventGroupClearBits(startup_event_group_, kStartupBitReady | kStartupBitFailed);
+        }
+        ESP_LOGI(TAG, "Radio stream startup: connecting");
+        if (xTaskCreatePinnedToCore(TaskFunction, "InternetRadio", 6144, attempt, 3,
+                                    &task_handle_, 1) != pdPASS) {
+            delete attempt;
+            playing_ = false;
+            task_handle_ = nullptr;
+            err_msg = "Unable to create stream task";
+            ESP_LOGE(TAG, "%s", err_msg.c_str());
+            return false;
+        }
+        return true;
     }
-
-    return true;
 }
 
 void InternetRadioPlayer::TogglePlayPause() {
@@ -208,6 +201,7 @@ void InternetRadioPlayer::TogglePlayPause() {
 void InternetRadioPlayer::Stop() {
     SystemInfo::PrintRamSnapshot("RADIO_STOP");
     stop_requested_ = true;
+    generation_.fetch_add(1);
     paused_ = false;
     if (startup_event_group_ != nullptr) {
         xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
@@ -219,32 +213,30 @@ void InternetRadioPlayer::Stop() {
 }
 
 void InternetRadioPlayer::TaskFunction(void* arg) {
-    auto* player = static_cast<InternetRadioPlayer*>(arg);
+    auto* attempt = static_cast<AttemptContext*>(arg);
+    auto* player = attempt->player;
     LogRadioMemory(TAG, "RADIO_TASK_START");
-    player->StreamLoop();
+    player->StreamLoop(attempt);
     LogRadioMemory(TAG, "RADIO_STREAMLOOP_EXIT");
     player->playing_ = false;
     player->paused_ = false;
     player->task_handle_ = nullptr;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
-    const bool startup_failed = !player->initial_ready_ && !player->stop_requested_;
-    std::function<void()> failure_callback;
-    {
-        std::lock_guard<std::mutex> lock(player->mutex_);
-        failure_callback = std::move(player->on_startup_failed_);
-        if (!player->startup_ready_notified_) player->on_startup_ready_ = {};
-    }
-    if (startup_failed && player->emit_failure_bip_) {
+    const bool current_attempt = player->generation_.load() == attempt->generation;
+    const bool startup_failed = current_attempt && !attempt->startup_ready_notified && !player->stop_requested_;
+    const bool bip_failure = current_attempt && !player->initial_ready_ && !player->stop_requested_;
+    if (bip_failure && attempt->emit_failure_bip) {
         Application::GetInstance().Schedule([]() {
             Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
         });
     }
-    if (startup_failed && failure_callback) failure_callback();
+    if (startup_failed && attempt->on_startup_failed) std::move(attempt->on_startup_failed)();
+    delete attempt;
     vTaskDelete(nullptr);
 }
 
-void InternetRadioPlayer::StreamLoop() {
+void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
     AudioManager::GetInstance().RequestAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_BEFORE_BUFFERS");
     EnsureMp3DecoderRegistered();
@@ -535,15 +527,10 @@ void InternetRadioPlayer::StreamLoop() {
                         }
                         PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate, target_rate, true);
-                        if (!startup_ready_notified_ &&
+                        if (!attempt->startup_ready_notified && !stop_requested_ &&
                             Application::GetInstance().GetAudioService().GetRadioBufferedMs() >= RADIO_PREBUFFER_MS) {
-                            startup_ready_notified_ = true;
-                            std::function<void()> callback;
-                            {
-                                std::lock_guard<std::mutex> lock(mutex_);
-                                callback = std::move(on_startup_ready_);
-                            }
-                            if (callback) callback();
+                            attempt->startup_ready_notified = true;
+                            if (attempt->on_startup_ready) std::move(attempt->on_startup_ready)();
                         }
                     } else if (!invalid_info_logged) {
                         ESP_LOGW(TAG, "Decoded frame has unsupported audio info: rate=%lu channels=%lu bits=%lu",
@@ -566,7 +553,7 @@ void InternetRadioPlayer::StreamLoop() {
         esp_audio_simple_dec_close(decoder);
         esp_http_client_close(client);
         esp_http_client_cleanup(client);
-        if (!startup_ready_notified_ && !stop_requested_) {
+        if (!attempt->startup_ready_notified && !stop_requested_) {
             Application::GetInstance().GetAudioService().DiscardRadioPrebuffer();
         }
         if (reconnect_requested_) {
