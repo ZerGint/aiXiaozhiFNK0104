@@ -221,6 +221,7 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     LogHeapDiag("after_parse_filter");
 
     // Free the heavy cJSON root tree and raw HTTP response string IMMEDIATELY
+    root.reset();
     raw.clear();
     raw.shrink_to_fit();
 
