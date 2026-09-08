@@ -716,8 +716,8 @@ class TargetConfigurationTests(unittest.TestCase):
 
     def test_configure_build_uses_all_cmake_values_in_one_run(self):
         previous_cwd = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
                 os.chdir(temp_dir)
                 Path("sdkconfig").write_text(
                     'CONFIG_IDF_TARGET="esp32s3"\nCONFIG_OLD_VARIANT=y\n',
@@ -756,13 +756,13 @@ class TargetConfigurationTests(unittest.TestCase):
                     "reconfigure",
                     preview=False,
                 )
-        finally:
-            os.chdir(previous_cwd)
+            finally:
+                os.chdir(previous_cwd)
 
     def test_configure_build_replaces_stale_sdkconfig_backup(self):
         previous_cwd = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
                 os.chdir(temp_dir)
                 Path("sdkconfig").write_text(
                     'CONFIG_IDF_TARGET="esp32s3"\n',
@@ -786,8 +786,8 @@ class TargetConfigurationTests(unittest.TestCase):
                     Path("sdkconfig.old").read_text(encoding="utf-8"),
                     'CONFIG_IDF_TARGET="esp32s3"\n',
                 )
-        finally:
-            os.chdir(previous_cwd)
+            finally:
+                os.chdir(previous_cwd)
 
 
 class BuildOptionTests(unittest.TestCase):
@@ -962,8 +962,8 @@ class BuildOptionTests(unittest.TestCase):
 
     def test_configured_build_options_are_verified(self):
         previous_cwd = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
                 os.chdir(temp_dir)
                 Path("sdkconfig").write_text(
                     "CONFIG_LANGUAGE_EN_US=y\n",
@@ -978,13 +978,13 @@ class BuildOptionTests(unittest.TestCase):
                         ["CONFIG_SR_WN_UNKNOWN"],
                         "--wake-word",
                     )
-        finally:
-            os.chdir(previous_cwd)
+            finally:
+                os.chdir(previous_cwd)
 
     def test_disabled_build_options_accept_symbols_hidden_by_kconfig(self):
         previous_cwd = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
                 os.chdir(temp_dir)
                 Path("sdkconfig").write_text(
                     "CONFIG_SELECTED_STYLE=y\n"
@@ -1017,8 +1017,8 @@ class BuildOptionTests(unittest.TestCase):
                         ["CONFIG_HIDDEN_BY_DEPENDENCY=y"],
                         "--build-options-json",
                     )
-        finally:
-            os.chdir(previous_cwd)
+            finally:
+                os.chdir(previous_cwd)
 
     def test_lcd_board_exposes_curated_display_options(self):
         config = json.loads(
@@ -1487,8 +1487,8 @@ class BoardSourceTests(unittest.TestCase):
 class ZipTests(unittest.TestCase):
     def test_zip_is_always_recreated(self):
         previous_cwd = Path.cwd()
-        try:
-            with tempfile.TemporaryDirectory() as temp_dir:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            try:
                 os.chdir(temp_dir)
                 Path("build").mkdir()
                 Path("build/merged-binary.bin").write_bytes(b"new firmware")
@@ -1503,8 +1503,8 @@ class ZipTests(unittest.TestCase):
                         archive.read("merged-binary.bin"),
                         b"new firmware",
                     )
-        finally:
-            os.chdir(previous_cwd)
+            finally:
+                os.chdir(previous_cwd)
 
 
 if __name__ == "__main__":
