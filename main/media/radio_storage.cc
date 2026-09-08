@@ -22,11 +22,11 @@ constexpr const char* kFavoritesPath = "/sdcard/radio_favorites.json";
 constexpr const char* kFavoritesTmpPath = "/sdcard/radio_favorites.json.tmp";
 constexpr const char* kCatalogPath = "/sdcard/radio_catalog.json";
 constexpr const char* kCatalogTmpPath = "/sdcard/radio_catalog.json.tmp";
-constexpr bool RADIO_LOCAL_SEARCH_RANKING_ENABLED = true;
-constexpr int kNameTokenWeight = 100;
-constexpr int kStateTokenWeight = 20;
-constexpr int kMetadataTokenWeight = 5;
-constexpr int kFullNameBonus = 1000;
+constexpr bool RADIO_LOCAL_SEARCH_RANKING_ENABLED = RadioSearchRanking::Enabled;
+constexpr int kNameTokenWeight = RadioSearchRanking::NameWeight;
+constexpr int kStateTokenWeight = RadioSearchRanking::StateWeight;
+constexpr int kMetadataTokenWeight = RadioSearchRanking::MetadataWeight;
+constexpr int kFullNameBonus = RadioSearchRanking::FullNameBonus;
 bool ContainsInsensitiveNoAlloc(const std::string& value, const std::string& query);
 std::vector<std::string> TokenizeQuery(const std::string& query);
 

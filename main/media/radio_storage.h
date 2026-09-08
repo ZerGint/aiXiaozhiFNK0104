@@ -7,6 +7,14 @@
 
 #include "internet_radio_player.h"
 
+namespace RadioSearchRanking {
+constexpr bool Enabled = true;
+constexpr int NameWeight = 100;
+constexpr int StateWeight = 20;
+constexpr int MetadataWeight = 5;
+constexpr int FullNameBonus = 1000;
+}
+
 class RadioStorage {
 public:
     static RadioStorage& GetInstance();

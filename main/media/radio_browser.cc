@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cctype>
 #include <memory>
+#include <sstream>
 
 #define TAG "RadioBrowser"
 
@@ -35,6 +36,7 @@ struct RadioSearchResult {
     std::string name;
     std::string state;
 };
+int FavoriteScore(const RadioStationInfo& station, const std::string& query);
 
 #define LogHeapDiag(point) LogRadioMemory(TAG, point)
 
@@ -477,16 +479,19 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
     RadioStationInfo target_favorite;
     size_t target_index = 0;
     bool found = false;
+    int best_score = -1;
     for (size_t i = 0; i < favorites.size(); ++i) {
         const auto& fav = favorites[i];
-        if (ContainsInsensitive(fav.name, name) ||
+        const int score = RadioSearchRanking::Enabled ? FavoriteScore(fav, name) :
+            ((ContainsInsensitive(fav.name, name) ||
             ContainsInsensitive(fav.country, name) ||
             ContainsInsensitive(fav.state, name) ||
-            ContainsInsensitive(fav.tags, name)) {
+            ContainsInsensitive(fav.tags, name)) ? 1 : 0);
+        if (score > best_score && score > 0) {
             target_favorite = fav;
             target_index = i;
             found = true;
-            break;
+            best_score = score;
         }
     }
     if (!found) {
@@ -609,6 +614,21 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
     if (uuid_lookup_failed) ScheduleRadioErrorBip();
     return "Favorite station has no valid URL";
 }
+
+namespace {
+int FavoriteScore(const RadioStationInfo& station, const std::string& query) {
+    std::istringstream stream(query);
+    std::string token;
+    int score = 0;
+    while (stream >> token) {
+        if (ContainsInsensitive(station.name, token)) score += RadioSearchRanking::NameWeight;
+        else if (ContainsInsensitive(station.state, token)) score += RadioSearchRanking::StateWeight;
+        else if (ContainsInsensitive(station.tags, token) || ContainsInsensitive(station.country, token)) score += RadioSearchRanking::MetadataWeight;
+    }
+    if (!query.empty() && ContainsInsensitive(station.name, query)) score += RadioSearchRanking::FullNameBonus;
+    return score;
+}
+} // namespace
 
 std::string RadioBrowser::RemoveFavorite(const std::string& name) {
     return RadioStorage::GetInstance().RemoveFavorite(name);
