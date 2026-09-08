@@ -318,6 +318,12 @@ bool RadioBrowser::GetStationByUuid(const std::string& stationuuid,
 
 namespace {
 constexpr int kLocalCatalogMinResults = 3;
+bool HasNameToken(const std::string& name, const std::string& query) {
+    std::istringstream stream(query);
+    std::string token;
+    while (stream >> token) if (ContainsInsensitive(name, token)) return true;
+    return query.empty();
+}
 } // namespace
 
 std::string RadioBrowser::SearchStations(const std::string& query,
@@ -338,7 +344,15 @@ std::string RadioBrowser::SearchStations(const std::string& query,
     std::vector<RadioStationInfo> local_results =
         RadioStorage::GetInstance().SearchCatalog(query, countrycode, language, tag, limit);
 
-    if (static_cast<int>(local_results.size()) >= required) {
+    bool meaningful_local = false;
+    if constexpr (RadioSearchRanking::Enabled) {
+        for (const auto& station : local_results) {
+            if (HasNameToken(station.name, query)) { meaningful_local = true; break; }
+        }
+    } else {
+        meaningful_local = static_cast<int>(local_results.size()) >= required;
+    }
+    if (meaningful_local && (!RadioSearchRanking::Enabled || !local_results.empty())) {
         ESP_LOGI(TAG, "Local radio catalog: %d matches. Using local radio catalog results",
                  static_cast<int>(local_results.size()));
         std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_CreateArray(), &cJSON_Delete);
