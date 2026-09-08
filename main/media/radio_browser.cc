@@ -4,6 +4,7 @@
 #include "mcp_server.h"
 #include "radio_storage.h"
 #include "settings.h"
+#include "radio_memory_diag.h"
 
 #include <cJSON.h>
 #include <esp_crt_bundle.h>
@@ -21,13 +22,7 @@ namespace {
 constexpr const char* kFavoritesKey = "favorites";
 constexpr size_t kMaxFavorites = 10;
 
-static void LogHeapDiag(const char* stage) {
-    size_t internal_free = heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
-    size_t internal_largest = heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT);
-    size_t dma_free = heap_caps_get_free_size(MALLOC_CAP_DMA);
-    ESP_LOGI(TAG, "[HEAP_DIAG] stage=%s internal_free=%zu internal_largest=%zu dma_free=%zu",
-             stage, internal_free, internal_largest, dma_free);
-}
+#define LogHeapDiag(point) LogRadioMemory(TAG, point)
 
 std::string JsonString(cJSON* object, const char* key) {
     cJSON* value = cJSON_GetObjectItemCaseSensitive(object, key);

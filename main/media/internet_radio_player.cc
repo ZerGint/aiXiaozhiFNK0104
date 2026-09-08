@@ -7,6 +7,7 @@
 #include "media_audio_output.h"
 #include "system_info.h"
 #include "assets/lang_config.h"
+#include "radio_memory_diag.h"
 
 #include <decoder/impl/esp_mp3_dec.h>
 #include <decoder/impl/esp_aac_dec.h>
@@ -209,11 +210,14 @@ void InternetRadioPlayer::Stop() {
 
 void InternetRadioPlayer::TaskFunction(void* arg) {
     auto* player = static_cast<InternetRadioPlayer*>(arg);
+    LogRadioMemory(TAG, "RADIO_TASK_START");
     player->StreamLoop();
+    LogRadioMemory(TAG, "RADIO_STREAMLOOP_EXIT");
     player->playing_ = false;
     player->paused_ = false;
     player->task_handle_ = nullptr;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
+    LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
     if (!player->initial_ready_ && !player->stop_requested_) {
         Application::GetInstance().Schedule([]() {
             Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
@@ -224,6 +228,7 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
 
 void InternetRadioPlayer::StreamLoop() {
     AudioManager::GetInstance().RequestAudioFocus(kAudioSourceInternetRadio);
+    LogRadioMemory(TAG, "RADIO_BEFORE_BUFFERS");
     EnsureMp3DecoderRegistered();
     Board::GetInstance().SetPowerSaveLevel(PowerSaveLevel::PERFORMANCE);
     ESP_LOGI(TAG, "[WIFI_PS_RADIO] switched to PERFORMANCE (NONE)");
@@ -406,6 +411,7 @@ void InternetRadioPlayer::StreamLoop() {
         std::vector<uint8_t> in(2048);
         std::vector<uint8_t> out(16384);
         std::vector<uint8_t> pending(in.size() * 4);
+        LogRadioMemory(TAG, "RADIO_AFTER_BUFFERS");
         size_t pending_len = 0;
         bool first_read_logged = false;
         bool first_frame_logged = false;
@@ -449,6 +455,7 @@ void InternetRadioPlayer::StreamLoop() {
             }
             if (!initial_ready_) {
                 initial_ready_ = true;
+                LogRadioMemory(TAG, "RADIO_INITIAL_READY");
                 if (startup_event_group_ != nullptr) {
                     xEventGroupSetBits(startup_event_group_, kStartupBitReady);
                 }
