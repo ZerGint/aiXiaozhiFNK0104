@@ -360,6 +360,15 @@ std::string RadioBrowser::SearchStations(const std::string& query,
 std::string RadioBrowser::PlayStation(const std::string& url, const std::string& title, const std::string& station_uuid) {
     if (!station_uuid.empty()) {
         ESP_LOGI(TAG, "Playing radio by station UUID: %s", station_uuid.c_str());
+        RadioStationInfo cached_station;
+        if (RadioStorage::GetInstance().GetCatalogStationByUuid(station_uuid, cached_station) &&
+            !cached_station.url_resolved.empty()) {
+            std::string play_err;
+            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err)) {
+                return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
+            }
+            return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
+        }
         RadioStationInfo fresh_station;
         std::string err_msg;
         if (!GetStationByUuid(station_uuid, fresh_station, err_msg)) {
@@ -456,6 +465,15 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
 
     if (!target_favorite.stationuuid.empty()) {
         ESP_LOGI(TAG, "[FAVORITE_PLAY] resolving by UUID");
+        RadioStationInfo cached_station;
+        if (RadioStorage::GetInstance().GetCatalogStationByUuid(target_favorite.stationuuid, cached_station) &&
+            !cached_station.url_resolved.empty()) {
+            std::string play_err;
+            if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err)) {
+                return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
+            }
+            return "Playing favorite station: " + cached_station.name;
+        }
         RadioStationInfo fresh_station;
         std::string err_msg;
         if (GetStationByUuid(target_favorite.stationuuid, fresh_station, err_msg)) {

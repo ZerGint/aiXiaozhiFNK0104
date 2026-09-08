@@ -30,6 +30,7 @@ public:
                                                 const std::string& language = "",
                                                 const std::string& tag = "",
                                                 int limit = 5);
+    bool GetCatalogStationByUuid(const std::string& station_uuid, RadioStationInfo& station);
 
 private:
     RadioStorage() = default;

@@ -523,3 +523,19 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
 
     return results;
 }
+
+bool RadioStorage::GetCatalogStationByUuid(const std::string& station_uuid,
+                                            RadioStationInfo& station) {
+    if (station_uuid.empty()) return false;
+    std::lock_guard<std::mutex> lock(mutex_);
+    std::vector<RadioStationInfo> catalog;
+    std::string err_msg;
+    if (!LoadCatalogInternal(catalog, err_msg)) return false;
+    for (const auto& candidate : catalog) {
+        if (candidate.stationuuid == station_uuid) {
+            station = candidate;
+            return true;
+        }
+    }
+    return false;
+}
