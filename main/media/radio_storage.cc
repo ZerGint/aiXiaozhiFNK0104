@@ -67,17 +67,26 @@ RadioStationInfo StationInfoFromCJson(cJSON* object) {
 
 cJSON* StationInfoToCJson(const RadioStationInfo& info) {
     cJSON* item = cJSON_CreateObject();
+    auto add_string_reference = [item](const char* key, const std::string& value) {
+        std::unique_ptr<cJSON, decltype(&cJSON_Delete)> value_item(
+            cJSON_CreateStringReference(value.c_str()), &cJSON_Delete);
+        if (value_item == nullptr || !cJSON_AddItemToObject(item, key, value_item.get())) {
+            return false;
+        }
+        value_item.release();
+        return true;
+    };
     if (item == nullptr ||
-        cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "name", info.name.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "url_resolved", info.url_resolved.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "codec", info.codec.c_str()) == nullptr ||
+        !add_string_reference("stationuuid", info.stationuuid) ||
+        !add_string_reference("name", info.name) ||
+        !add_string_reference("url_resolved", info.url_resolved) ||
+        !add_string_reference("codec", info.codec) ||
         cJSON_AddNumberToObject(item, "bitrate", info.bitrate) == nullptr ||
-        cJSON_AddStringToObject(item, "country", info.country.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "countrycode", info.countrycode.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "state", info.state.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "language", info.language.c_str()) == nullptr ||
-        cJSON_AddStringToObject(item, "tags", info.tags.c_str()) == nullptr) {
+        !add_string_reference("country", info.country) ||
+        !add_string_reference("countrycode", info.countrycode) ||
+        !add_string_reference("state", info.state) ||
+        !add_string_reference("language", info.language) ||
+        !add_string_reference("tags", info.tags)) {
         cJSON_Delete(item);
         return nullptr;
     }
