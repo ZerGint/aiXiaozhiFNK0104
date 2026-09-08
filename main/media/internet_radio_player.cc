@@ -6,6 +6,7 @@
 #include "audio_codec.h"
 #include "media_audio_output.h"
 #include "system_info.h"
+#include "assets/lang_config.h"
 
 #include <decoder/impl/esp_mp3_dec.h>
 #include <decoder/impl/esp_aac_dec.h>
@@ -185,36 +186,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         return false;
     }
 
-    EventBits_t bits = 0;
-    if (startup_event_group_ != nullptr) {
-        bits = xEventGroupWaitBits(startup_event_group_,
-                                   kStartupBitReady | kStartupBitFailed,
-                                   pdFALSE, pdFALSE,
-                                   pdMS_TO_TICKS(3000));
-    }
-
-    if (bits & kStartupBitReady) {
-        ESP_LOGI(TAG, "Radio stream startup: ready");
-        return true;
-    }
-
-    std::string failure_reason;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        failure_reason = startup_err_msg_;
-    }
-
-    if (bits & kStartupBitFailed) {
-        if (failure_reason.empty()) failure_reason = "Stream connection failed";
-        ESP_LOGW(TAG, "Radio stream startup failed: %s", failure_reason.c_str());
-    } else {
-        failure_reason = "Connection timeout";
-        ESP_LOGW(TAG, "Radio stream startup timeout");
-    }
-
-    err_msg = failure_reason;
-    Stop();
-    return false;
+    return true;
 }
 
 void InternetRadioPlayer::TogglePlayPause() {
@@ -233,7 +205,6 @@ void InternetRadioPlayer::Stop() {
     if (task_handle_ != nullptr && xTaskGetCurrentTaskHandle() != task_handle_) {
         for (int i = 0; playing_ && i < 300; ++i) vTaskDelay(pdMS_TO_TICKS(10));
     }
-    AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
 }
 
 void InternetRadioPlayer::TaskFunction(void* arg) {
@@ -243,6 +214,11 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
     player->paused_ = false;
     player->task_handle_ = nullptr;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
+    if (!player->initial_ready_ && !player->stop_requested_) {
+        Application::GetInstance().Schedule([]() {
+            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+        });
+    }
     vTaskDelete(nullptr);
 }
 
