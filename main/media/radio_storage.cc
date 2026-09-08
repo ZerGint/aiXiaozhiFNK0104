@@ -170,6 +170,25 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
         return false;
     }
 
+    size_t value_copy_bytes = 0;
+    for (const auto& info : stations) {
+        value_copy_bytes += info.stationuuid.size() + 1;
+        value_copy_bytes += info.name.size() + 1;
+        value_copy_bytes += info.url_resolved.size() + 1;
+        value_copy_bytes += info.codec.size() + 1;
+        value_copy_bytes += info.country.size() + 1;
+        value_copy_bytes += info.countrycode.size() + 1;
+        value_copy_bytes += info.state.size() + 1;
+        value_copy_bytes += info.language.size() + 1;
+        value_copy_bytes += info.tags.size() + 1;
+    }
+    const size_t station_count = stations.size();
+    const size_t cjson_node_count = 1 + station_count * 11;
+    ESP_LOGI(TAG, "[MEM] CATALOG_SAVE_COST stations=%zu value_bytes=%zu value_allocs=%zu "
+                  "key_bytes=%zu key_allocs=%zu node_count=%zu node_bytes=%zu",
+             station_count, value_copy_bytes, station_count * 9, station_count * 84,
+             station_count * 10, cjson_node_count, cjson_node_count * sizeof(cJSON));
+
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_CreateArray(), &cJSON_Delete);
     if (root == nullptr) {
         err_msg = "Failed to allocate JSON catalog";
