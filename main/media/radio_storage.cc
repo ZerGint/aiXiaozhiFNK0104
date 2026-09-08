@@ -1,4 +1,5 @@
 #include "radio_storage.h"
+#include "radio_memory_diag.h"
 
 #include "storage_manager.h"
 
@@ -91,6 +92,7 @@ RadioStorage& RadioStorage::GetInstance() {
 
 bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>& stations,
                                 std::string& err_msg) {
+    LogRadioMemory(TAG, "CATALOG_LOAD_BEGIN");
     stations.clear();
     if (!StorageManager::GetInstance().IsSdCardMounted()) {
         err_msg = "SD card is not mounted";
@@ -106,7 +108,9 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
         return SaveJsonFileAtomic(path, tmp_path.c_str(), stations, err_msg);
     }
 
+    LogRadioMemory(TAG, "CATALOG_BEFORE_FOPEN_READ");
     std::unique_ptr<FILE, decltype(&fclose)> f(fopen(path, "rb"), &fclose);
+    LogRadioMemory(TAG, "CATALOG_AFTER_FOPEN_READ");
     if (f == nullptr) {
         err_msg = std::string("Could not open ") + path;
         ESP_LOGE(TAG, "Failed to open %s", path);
@@ -124,14 +128,20 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
 
     std::string buffer;
     buffer.resize(size);
+    ESP_LOGI(TAG, "[MEM] catalog_file_bytes=%ld buffer_size=%zu buffer_capacity=%zu",
+             size, buffer.size(), buffer.capacity());
     if (size > 0) {
+        LogRadioMemory(TAG, "CATALOG_BEFORE_READ");
         size_t read_bytes = fread(&buffer[0], 1, size, f.get());
+        LogRadioMemory(TAG, "CATALOG_AFTER_READ");
         if (read_bytes != static_cast<size_t>(size)) {
             err_msg = std::string("Failed to read ") + path;
             return false;
         }
     }
+    LogRadioMemory(TAG, "CATALOG_LOAD_BEFORE_CLOSE");
     f.reset();
+    LogRadioMemory(TAG, "CATALOG_LOAD_AFTER_CLOSE");
 
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(buffer.c_str()),
                                                          &cJSON_Delete);
@@ -145,12 +155,15 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
     cJSON_ArrayForEach (item, root.get()) {
         stations.push_back(StationInfoFromCJson(item));
     }
+    ESP_LOGI(TAG, "[MEM] catalog_station_count=%zu catalog_capacity=%zu", stations.size(), stations.capacity());
+    LogRadioMemory(TAG, "CATALOG_LOAD_END");
     return true;
 }
 
 bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_path,
                                       const std::vector<RadioStationInfo>& stations,
                                       std::string& err_msg) {
+    LogRadioMemory(TAG, "CATALOG_SAVE_BEGIN");
     if (!StorageManager::GetInstance().IsSdCardMounted()) {
         err_msg = "SD card is not mounted";
         ESP_LOGW(TAG, "SaveJsonFileAtomic failed: SD card not mounted");
@@ -172,25 +185,35 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
         }
     }
 
+    LogRadioMemory(TAG, "CATALOG_BEFORE_SERIALIZE");
     char* output = cJSON_PrintUnformatted(root.get());
+    LogRadioMemory(TAG, "CATALOG_AFTER_SERIALIZE");
     if (output == nullptr) {
         err_msg = "Failed to serialize JSON catalog";
         return false;
     }
     std::unique_ptr<char, decltype(&cJSON_free)> serialized(output, &cJSON_free);
     const size_t serialized_size = strlen(serialized.get());
+    ESP_LOGI(TAG, "[MEM] catalog_station_count=%zu serialized_bytes=%zu", stations.size(), serialized_size);
 
     // Atomic write to tmp file first
+    LogRadioMemory(TAG, "CATALOG_BEFORE_FOPEN_WRITE");
     FILE* f = fopen(tmp_path, "wb");
+    LogRadioMemory(TAG, "CATALOG_AFTER_FOPEN_WRITE");
     if (f == nullptr) {
         err_msg = std::string("Failed to create temporary file ") + tmp_path;
         ESP_LOGE(TAG, "Failed to open %s for writing", tmp_path);
         return false;
     }
 
+    LogRadioMemory(TAG, "CATALOG_BEFORE_WRITE");
     size_t written = fwrite(serialized.get(), 1, serialized_size, f);
+    LogRadioMemory(TAG, "CATALOG_AFTER_WRITE");
+    ESP_LOGI(TAG, "[MEM] catalog_write_requested=%zu catalog_write_completed=%zu", serialized_size, written);
+    LogRadioMemory(TAG, "CATALOG_SAVE_BEFORE_CLOSE");
     fflush(f);
     fclose(f);
+    LogRadioMemory(TAG, "CATALOG_SAVE_AFTER_CLOSE");
 
     if (written != serialized_size) {
         unlink(tmp_path);
@@ -204,14 +227,17 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
     if (stat(target_path, &st) == 0) {
         unlink(target_path);
     }
+    LogRadioMemory(TAG, "CATALOG_BEFORE_RENAME");
     if (rename(tmp_path, target_path) != 0) {
         unlink(tmp_path);
         err_msg = std::string("Failed to rename temporary file ") + tmp_path + " -> " + target_path;
         ESP_LOGE(TAG, "Rename %s -> %s failed", tmp_path, target_path);
         return false;
     }
+    LogRadioMemory(TAG, "CATALOG_AFTER_RENAME");
 
     ESP_LOGI(TAG, "Successfully saved %d stations to %s", (int)stations.size(), target_path);
+    LogRadioMemory(TAG, "CATALOG_SAVE_END");
     return true;
 }
 
