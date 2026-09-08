@@ -22,6 +22,12 @@ namespace {
 constexpr const char* kFavoritesKey = "favorites";
 constexpr size_t kMaxFavorites = 10;
 
+struct RadioSearchResult {
+    std::string stationuuid;
+    std::string name;
+    std::string state;
+};
+
 #define LogHeapDiag(point) LogRadioMemory(TAG, point)
 
 std::string JsonString(cJSON* object, const char* key) {
@@ -196,7 +202,7 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
         return raw;
     }
 
-    std::vector<RadioStationInfo> catalog_stations;
+    std::vector<RadioSearchResult> catalog_stations;
     catalog_stations.reserve(static_cast<size_t>(limit));
     cJSON* station = nullptr;
     cJSON_ArrayForEach(station, root.get()) {
@@ -209,7 +215,9 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
 
         if (is_supported) {
             ESP_LOGI(TAG, "RadioBrowser: accepted codec %s", codec_str.c_str());
-            catalog_stations.push_back(StationInfoFromJson(station));
+            catalog_stations.push_back({JsonString(station, "stationuuid"),
+                                        JsonString(station, "name"),
+                                        JsonString(station, "state")});
             if (catalog_stations.size() >= static_cast<size_t>(limit)) {
                 break;
             }
@@ -227,24 +235,12 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
 
     LogHeapDiag("after_free_root_raw");
 
-    if (!catalog_stations.empty()) {
-        LogHeapDiag("before_add_catalog");
-        std::string err_msg;
-        if (!RadioStorage::GetInstance().AddOrUpdateCatalogStations(catalog_stations, err_msg)) {
-            ESP_LOGW(TAG, "Failed to update radio catalog: %s", err_msg.c_str());
-        } else {
-            ESP_LOGI(TAG, "Radio catalog updated: %d search results", static_cast<int>(catalog_stations.size()));
-        }
-        LogHeapDiag("after_add_catalog");
-    }
-
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> presentation(cJSON_CreateArray(), &cJSON_Delete);
     if (presentation == nullptr) return "[]";
     for (const auto& info : catalog_stations) {
         cJSON* item = cJSON_CreateObject();
         cJSON_AddStringToObject(item, "name", info.name.c_str());
         cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str());
-        cJSON_AddStringToObject(item, "country", info.country.c_str());
         cJSON_AddStringToObject(item, "state", info.state.c_str());
         if (item == nullptr || !cJSON_AddItemToArray(presentation.get(), item)) {
             cJSON_Delete(item);
