@@ -21,6 +21,12 @@
 #define TAG "RadioBrowser"
 
 namespace {
+void ScheduleRadioErrorBip() {
+    Application::GetInstance().Schedule([]() {
+        Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+    });
+}
+
 constexpr const char* kFavoritesKey = "favorites";
 constexpr size_t kMaxFavorites = 10;
 
@@ -370,9 +376,7 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
                     RadioStationInfo fresh_station;
                     std::string err_msg;
                     if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
-                        Application::GetInstance().Schedule([]() {
-                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
-                        });
+                        ScheduleRadioErrorBip();
                         return;
                     }
                     std::string play_err;
@@ -399,6 +403,7 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
         RadioStationInfo fresh_station;
         std::string err_msg;
         if (!GetStationByUuid(station_uuid, fresh_station, err_msg)) {
+            ScheduleRadioErrorBip();
             return "Failed to resolve radio station: " + err_msg;
         }
 
@@ -489,6 +494,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
     }
 
     ESP_LOGI(TAG, "[FAVORITE_PLAY] name=%s uuid=%s", target_favorite.name.c_str(), target_favorite.stationuuid.c_str());
+    bool uuid_lookup_failed = false;
 
     if (!target_favorite.stationuuid.empty()) {
         ESP_LOGI(TAG, "[FAVORITE_PLAY] resolving by UUID");
@@ -502,9 +508,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
                     RadioStationInfo fresh_station;
                     std::string err_msg;
                     if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
-                        Application::GetInstance().Schedule([]() {
-                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
-                        });
+                        ScheduleRadioErrorBip();
                         return;
                     }
                     std::string play_err;
@@ -544,6 +548,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
             }
             return "Playing favorite station: " + fresh_station.name;
         }
+        uuid_lookup_failed = true;
     }
 
     ESP_LOGI(TAG, "[FAVORITE_PLAY] UUID missing, trying local catalog");
@@ -589,6 +594,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
             }
             return "Playing favorite station: " + fresh_station.name;
         }
+        uuid_lookup_failed = true;
     }
 
     ESP_LOGI(TAG, "[FAVORITE_PLAY] local UUID recovery failed, using direct URL fallback");
@@ -600,6 +606,7 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
         return "Playing favorite station: " + target_favorite.name;
     }
 
+    if (uuid_lookup_failed) ScheduleRadioErrorBip();
     return "Favorite station has no valid URL";
 }
 
