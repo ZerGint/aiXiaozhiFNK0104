@@ -140,7 +140,8 @@ bool InternetRadioPlayer::Play(const std::string& url, const std::string& title,
     return Play(station, err_msg);
 }
 
-bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err_msg) {
+bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err_msg,
+                               std::function<void()> on_startup_ready) {
     if (station.url_resolved.empty()) {
         err_msg = "Station URL is empty";
         return false;
@@ -157,6 +158,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         url_ = station.url_resolved;
         title_ = station.name;
         startup_err_msg_.clear();
+        on_startup_ready_ = std::move(on_startup_ready);
     }
     ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
              current_station_.name.c_str(),
@@ -171,6 +173,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
     paused_ = false;
     playing_ = true;
     initial_ready_ = false;
+    startup_ready_notified_ = false;
 
     if (startup_event_group_ != nullptr) {
         xEventGroupClearBits(startup_event_group_, kStartupBitReady | kStartupBitFailed);
@@ -182,6 +185,8 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
                                 &task_handle_, 1) != pdPASS) {
         playing_ = false;
         task_handle_ = nullptr;
+        std::lock_guard<std::mutex> lock(mutex_);
+        on_startup_ready_ = {};
         err_msg = "Unable to create stream task";
         ESP_LOGE(TAG, "%s", err_msg.c_str());
         return false;
@@ -222,6 +227,10 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
         Application::GetInstance().Schedule([]() {
             Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
         });
+    }
+    if (!player->startup_ready_notified_) {
+        std::lock_guard<std::mutex> lock(player->mutex_);
+        player->on_startup_ready_ = {};
     }
     vTaskDelete(nullptr);
 }
@@ -517,6 +526,16 @@ void InternetRadioPlayer::StreamLoop() {
                         }
                         PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate, target_rate, true);
+                        if (!startup_ready_notified_ &&
+                            Application::GetInstance().GetAudioService().GetRadioBufferedMs() >= RADIO_PREBUFFER_MS) {
+                            startup_ready_notified_ = true;
+                            std::function<void()> callback;
+                            {
+                                std::lock_guard<std::mutex> lock(mutex_);
+                                callback = std::move(on_startup_ready_);
+                            }
+                            if (callback) callback();
+                        }
                     } else if (!invalid_info_logged) {
                         ESP_LOGW(TAG, "Decoded frame has unsupported audio info: rate=%lu channels=%lu bits=%lu",
                                  static_cast<unsigned long>(info.sample_rate),

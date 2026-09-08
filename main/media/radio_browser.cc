@@ -1,5 +1,6 @@
 #include "radio_browser.h"
 
+#include "application.h"
 #include "media_player.h"
 #include "mcp_server.h"
 #include "radio_storage.h"
@@ -367,13 +368,16 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
 
         ESP_LOGI(TAG, "Resolved radio station by UUID: %s", fresh_station.name.c_str());
 
-        std::string cat_err;
-        if (!RadioStorage::GetInstance().AddOrUpdateCatalogStation(fresh_station, cat_err)) {
-            ESP_LOGW(TAG, "Failed to refresh radio catalog after UUID lookup: %s", cat_err.c_str());
-        }
-
         std::string play_err;
-        if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err)) {
+        auto admission = [station = fresh_station]() mutable {
+            Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                std::string err;
+                if (!RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err)) {
+                    ESP_LOGW(TAG, "Failed to refresh radio catalog after startup: %s", err.c_str());
+                }
+            });
+        };
+        if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
             return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
         }
         return "Playing internet radio: " + (fresh_station.name.empty() ? title : fresh_station.name);
@@ -456,9 +460,14 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
         std::string err_msg;
         if (GetStationByUuid(target_favorite.stationuuid, fresh_station, err_msg)) {
             ESP_LOGI(TAG, "[FAVORITE_PLAY] resolved fresh station by UUID");
-            RadioStorage::GetInstance().AddOrUpdateCatalogStation(fresh_station, err_msg);
             std::string play_err;
-            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err)) {
+            auto admission = [station = fresh_station]() mutable {
+                Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                    std::string err;
+                    RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+                });
+            };
+            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
             }
             return "Playing favorite station: " + fresh_station.name;
@@ -496,9 +505,14 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
             } else {
                 ESP_LOGW(TAG, "[FAVORITE_PLAY] failed to backfill favorite: %s", save_err.c_str());
             }
-            RadioStorage::GetInstance().AddOrUpdateCatalogStation(fresh_station, err_msg);
             std::string play_err;
-            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err)) {
+            auto admission = [station = fresh_station]() mutable {
+                Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                    std::string err;
+                    RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+                });
+            };
+            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
             }
             return "Playing favorite station: " + fresh_station.name;

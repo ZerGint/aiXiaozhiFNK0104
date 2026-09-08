@@ -2,6 +2,7 @@
 #define INTERNET_RADIO_PLAYER_H
 
 #include <atomic>
+#include <functional>
 #include <mutex>
 #include <string>
 
@@ -28,7 +29,8 @@ class InternetRadioPlayer {
 public:
     static InternetRadioPlayer& GetInstance();
 
-    bool Play(const RadioStationInfo& station, std::string& err_msg);
+    bool Play(const RadioStationInfo& station, std::string& err_msg,
+              std::function<void()> on_startup_ready = {});
     bool Play(const RadioStationInfo& station);
     bool Play(const std::string& url, const std::string& title, std::string& err_msg);
     bool Play(const std::string& url, const std::string& title = {});
@@ -69,6 +71,8 @@ private:
     EventGroupHandle_t startup_event_group_ = nullptr;
     std::atomic<bool> initial_ready_{false};
     std::string startup_err_msg_;
+    std::function<void()> on_startup_ready_;
+    bool startup_ready_notified_ = false;
 };
 
 #endif

@@ -119,10 +119,12 @@ bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title, st
     return PlayRadio(station, err_msg);
 }
 
-bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_msg) {
+bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_msg,
+                            std::function<void()> on_startup_ready) {
     paused_for_voice_ = false;
     radio_station_for_voice_ = {};
-    const bool success = InternetRadioPlayer::GetInstance().Play(station, err_msg);
+    const bool success = InternetRadioPlayer::GetInstance().Play(station, err_msg,
+                                                                  std::move(on_startup_ready));
     if (success) {
         auto& application = Application::GetInstance();
         application.StopVoiceInteractionForMedia();
