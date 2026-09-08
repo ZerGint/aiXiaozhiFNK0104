@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
+#include <cstring>
 #include <memory>
 
 #define TAG "RadioStorage"
@@ -65,16 +66,20 @@ RadioStationInfo StationInfoFromCJson(cJSON* object) {
 
 cJSON* StationInfoToCJson(const RadioStationInfo& info) {
     cJSON* item = cJSON_CreateObject();
-    cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str());
-    cJSON_AddStringToObject(item, "name", info.name.c_str());
-    cJSON_AddStringToObject(item, "url_resolved", info.url_resolved.c_str());
-    cJSON_AddStringToObject(item, "codec", info.codec.c_str());
-    cJSON_AddNumberToObject(item, "bitrate", info.bitrate);
-    cJSON_AddStringToObject(item, "country", info.country.c_str());
-    cJSON_AddStringToObject(item, "countrycode", info.countrycode.c_str());
-    cJSON_AddStringToObject(item, "state", info.state.c_str());
-    cJSON_AddStringToObject(item, "language", info.language.c_str());
-    cJSON_AddStringToObject(item, "tags", info.tags.c_str());
+    if (item == nullptr ||
+        cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "name", info.name.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "url_resolved", info.url_resolved.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "codec", info.codec.c_str()) == nullptr ||
+        cJSON_AddNumberToObject(item, "bitrate", info.bitrate) == nullptr ||
+        cJSON_AddStringToObject(item, "country", info.country.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "countrycode", info.countrycode.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "state", info.state.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "language", info.language.c_str()) == nullptr ||
+        cJSON_AddStringToObject(item, "tags", info.tags.c_str()) == nullptr) {
+        cJSON_Delete(item);
+        return nullptr;
+    }
     return item;
 }
 } // namespace
@@ -152,15 +157,28 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
         return false;
     }
 
-    cJSON* root = cJSON_CreateArray();
-    for (const auto& info : stations) {
-        cJSON_AddItemToArray(root, StationInfoToCJson(info));
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_CreateArray(), &cJSON_Delete);
+    if (root == nullptr) {
+        err_msg = "Failed to allocate JSON catalog";
+        return false;
     }
 
-    char* output = cJSON_PrintUnformatted(root);
-    std::string serialized = output != nullptr ? output : "[]";
-    if (output != nullptr) cJSON_free(output);
-    cJSON_Delete(root);
+    for (const auto& info : stations) {
+        cJSON* item = StationInfoToCJson(info);
+        if (item == nullptr || !cJSON_AddItemToArray(root.get(), item)) {
+            cJSON_Delete(item);
+            err_msg = "Failed to allocate JSON catalog station";
+            return false;
+        }
+    }
+
+    char* output = cJSON_PrintUnformatted(root.get());
+    if (output == nullptr) {
+        err_msg = "Failed to serialize JSON catalog";
+        return false;
+    }
+    std::unique_ptr<char, decltype(&cJSON_free)> serialized(output, &cJSON_free);
+    const size_t serialized_size = strlen(serialized.get());
 
     // Atomic write to tmp file first
     FILE* f = fopen(tmp_path, "wb");
@@ -170,11 +188,11 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
         return false;
     }
 
-    size_t written = fwrite(serialized.c_str(), 1, serialized.size(), f);
+    size_t written = fwrite(serialized.get(), 1, serialized_size, f);
     fflush(f);
     fclose(f);
 
-    if (written != serialized.size()) {
+    if (written != serialized_size) {
         unlink(tmp_path);
         err_msg = std::string("Failed to write complete data to temporary file ") + tmp_path;
         ESP_LOGE(TAG, "Short write on %s", tmp_path);
