@@ -243,3 +243,32 @@ GIT STATUS: clean / not clean
 - 2026-09-08: план сохранён. Начальное постороннее изменение лога отсутствует
   при повторной проверке; файл агентом не изменялся. Реализация начинается
   с exception-safe загрузки RadioStorage.
+- Documentation commit: `f159081 docs: record radio memory remediation plan`.
+- Этап 1.1 подготовлен в `main/media/radio_storage.cc`: unique_ptr для FILE*
+  и cJSON DOM. Canonical build FNK0104S на IDF 6.1.0: PASS; merge-bin: PASS;
+  свободно 21% app partition. Проверка затронутых участков clang-format 23.1.0
+  и git diff --check: PASS. Физические и fault-injection проверки не выполнены.
+- Первая попытка commit этапа 1.1 остановлена: host suite имел 1 failure и 5 errors.
+  Failure: `VersionTests.test_chip_defaults_only_contain_target_overrides` —
+  CONFIG_MBEDTLS_DYNAMIC_FREE_CONFIG_DATA повторён в base и esp32c3 defaults
+  уже в HEAD. Errors: пять тестов удаляют TemporaryDirectory до возврата cwd,
+  что вызывает Windows WinError 32 и последующий RecursionError.
+  После отдельного разрешения пользователя обе причины воспроизведены на
+  чистом `f159081` без RAII-fix и исправлены отдельными commits:
+  `727d6f0` — наследование одинаковых mbedTLS defaults;
+  `3991d9c` — восстановление cwd до удаления TemporaryDirectory.
+  Canonical build после каждого blocker: PASS. Все 67 host tests: PASS.
+  Generated sdkconfig, sdkconfig.h и sdkconfig.json после удаления defaults
+  побайтово идентичны исходным; merged defaults всех пяти targets идентичны.
+  Все 192 assertion-вызова в Windows-тестах сохранены.
+- RAII возвращён из stash `28d59adaf1791e84d5a7119890404ec5e2c92c56`.
+  Diff radio_storage.cc побайтово совпадает с сохранённым diff; SHA256:
+  `3bbafcb2821ea6a27f36a02cd6c25c1667978cb9b0ba0ddc6506cc1021f24935`.
+  Повторные host tests: 67/67 PASS; canonical build и merge-bin: PASS;
+  clang-format затронутых участков и git diff --check: PASS.
+  Исходный stash сохранён как резервная копия.
+  Этапы 1.2 и далее ещё не начаты.
+- Standard IDF export не смог найти инструменты в .espressif/tools; сборка
+  выполнена с существующими PlatformIO tools через IDF_PATH/ESP_IDF_VERSION,
+  IDF_PYTHON_ENV_PATH и PATH, без миграции SDK. Для форматирования установлен
+  clang-format 23.1.0 в существующий Python venv (18 не поддерживает ExceptShortType).

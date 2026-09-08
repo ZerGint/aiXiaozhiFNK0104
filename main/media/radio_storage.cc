@@ -2,14 +2,15 @@
 
 #include "storage_manager.h"
 
-#include <cJSON.h>
 #include <esp_log.h>
+#include <cJSON.h>
 
+#include <sys/stat.h>
+#include <unistd.h>
 #include <algorithm>
 #include <cctype>
 #include <cstdio>
-#include <sys/stat.h>
-#include <unistd.h>
+#include <memory>
 
 #define TAG "RadioStorage"
 
@@ -83,7 +84,8 @@ RadioStorage& RadioStorage::GetInstance() {
     return instance;
 }
 
-bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>& stations, std::string& err_msg) {
+bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>& stations,
+                                std::string& err_msg) {
     stations.clear();
     if (!StorageManager::GetInstance().IsSdCardMounted()) {
         err_msg = "SD card is not mounted";
@@ -99,19 +101,18 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
         return SaveJsonFileAtomic(path, tmp_path.c_str(), stations, err_msg);
     }
 
-    FILE* f = fopen(path, "rb");
+    std::unique_ptr<FILE, decltype(&fclose)> f(fopen(path, "rb"), &fclose);
     if (f == nullptr) {
         err_msg = std::string("Could not open ") + path;
         ESP_LOGE(TAG, "Failed to open %s", path);
         return false;
     }
 
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    fseek(f.get(), 0, SEEK_END);
+    long size = ftell(f.get());
+    fseek(f.get(), 0, SEEK_SET);
 
     if (size < 0) {
-        fclose(f);
         err_msg = std::string("Invalid file size for ") + path;
         return false;
     }
@@ -119,32 +120,32 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
     std::string buffer;
     buffer.resize(size);
     if (size > 0) {
-        size_t read_bytes = fread(&buffer[0], 1, size, f);
+        size_t read_bytes = fread(&buffer[0], 1, size, f.get());
         if (read_bytes != static_cast<size_t>(size)) {
-            fclose(f);
             err_msg = std::string("Failed to read ") + path;
             return false;
         }
     }
-    fclose(f);
+    f.reset();
 
-    cJSON* root = cJSON_Parse(buffer.c_str());
-    if (root == nullptr || !cJSON_IsArray(root)) {
-        if (root != nullptr) cJSON_Delete(root);
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(buffer.c_str()),
+                                                         &cJSON_Delete);
+    if (root == nullptr || !cJSON_IsArray(root.get())) {
         err_msg = std::string("Corrupted JSON file on SD card: ") + path;
         ESP_LOGE(TAG, "Corrupted JSON format in %s", path);
         return false;
     }
 
     cJSON* item = nullptr;
-    cJSON_ArrayForEach(item, root) {
+    cJSON_ArrayForEach (item, root.get()) {
         stations.push_back(StationInfoFromCJson(item));
     }
-    cJSON_Delete(root);
     return true;
 }
 
-bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_path, const std::vector<RadioStationInfo>& stations, std::string& err_msg) {
+bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_path,
+                                      const std::vector<RadioStationInfo>& stations,
+                                      std::string& err_msg) {
     if (!StorageManager::GetInstance().IsSdCardMounted()) {
         err_msg = "SD card is not mounted";
         ESP_LOGW(TAG, "SaveJsonFileAtomic failed: SD card not mounted");
