@@ -70,7 +70,7 @@ cJSON* StationInfoToCJson(const RadioStationInfo& info) {
     auto add_string_reference = [item](const char* key, const std::string& value) {
         std::unique_ptr<cJSON, decltype(&cJSON_Delete)> value_item(
             cJSON_CreateStringReference(value.c_str()), &cJSON_Delete);
-        if (value_item == nullptr || !cJSON_AddItemToObject(item, key, value_item.get())) {
+        if (value_item == nullptr || !cJSON_AddItemToObjectCS(item, key, value_item.get())) {
             return false;
         }
         value_item.release();
