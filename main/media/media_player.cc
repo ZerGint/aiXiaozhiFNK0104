@@ -7,6 +7,7 @@
 #include <esp_log.h>
 #include <algorithm>
 #include <cctype>
+#include <memory>
 #include <utility>
 #include <cJSON.h>
 
@@ -32,7 +33,8 @@ void MediaPlayer::PlaySd(int index) {
 
 std::string MediaPlayer::ListSdTracks() const {
     const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
-    cJSON* result = cJSON_CreateArray();
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
+    if (result == nullptr) return "[]";
     for (size_t i = 0; i < tracks.size(); ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
@@ -40,20 +42,23 @@ std::string MediaPlayer::ListSdTracks() const {
         cJSON* item = cJSON_CreateObject();
         cJSON_AddNumberToObject(item, "index", static_cast<double>(i + 1));
         cJSON_AddStringToObject(item, "title", title.c_str());
-        cJSON_AddItemToArray(result, item);
+        if (item == nullptr || !cJSON_AddItemToArray(result.get(), item)) {
+            cJSON_Delete(item);
+            return "[]";
+        }
     }
-    char* output = cJSON_PrintUnformatted(result);
+    char* output = cJSON_PrintUnformatted(result.get());
     std::string response = output != nullptr ? output : "[]";
     if (output != nullptr) cJSON_free(output);
-    cJSON_Delete(result);
     return response;
 }
 
 std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::string& genre, int limit) const {
     limit = std::max(1, std::min(limit, 20));
-    cJSON* result = cJSON_CreateArray();
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
+    if (result == nullptr) return "[]";
     const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
-    for (size_t i = 0; i < tracks.size() && cJSON_GetArraySize(result) < limit; ++i) {
+    for (size_t i = 0; i < tracks.size() && cJSON_GetArraySize(result.get()) < limit; ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
         if (slash != std::string::npos) title.erase(0, slash + 1);
@@ -69,12 +74,14 @@ std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::st
         cJSON* item = cJSON_CreateObject();
         cJSON_AddNumberToObject(item, "index", static_cast<double>(i + 1));
         cJSON_AddStringToObject(item, "title", title.c_str());
-        cJSON_AddItemToArray(result, item);
+        if (item == nullptr || !cJSON_AddItemToArray(result.get(), item)) {
+            cJSON_Delete(item);
+            return "[]";
+        }
     }
-    char* output = cJSON_PrintUnformatted(result);
+    char* output = cJSON_PrintUnformatted(result.get());
     std::string response = output != nullptr ? output : "[]";
     if (output != nullptr) cJSON_free(output);
-    cJSON_Delete(result);
     return response;
 }
 
