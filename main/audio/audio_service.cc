@@ -1044,6 +1044,16 @@ uint32_t AudioService::GetRadioBufferedMs() {
     return radio_buffered_duration_ms_;
 }
 
+void AudioService::DiscardRadioPrebuffer() {
+    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+    audio_playback_queue_.erase(
+        std::remove_if(audio_playback_queue_.begin(), audio_playback_queue_.end(),
+                       [](const std::unique_ptr<AudioTask>& task) { return task->is_radio; }),
+        audio_playback_queue_.end());
+    radio_buffered_duration_ms_ = 0;
+    audio_queue_cv_.notify_all();
+}
+
 size_t AudioService::GetRadioQueueSize() {
     std::lock_guard<std::mutex> lock(audio_queue_mutex_);
     size_t count = 0;

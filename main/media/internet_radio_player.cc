@@ -557,6 +557,9 @@ void InternetRadioPlayer::StreamLoop() {
         esp_audio_simple_dec_close(decoder);
         esp_http_client_close(client);
         esp_http_client_cleanup(client);
+        if (!startup_ready_notified_ && !stop_requested_) {
+            Application::GetInstance().GetAudioService().DiscardRadioPrebuffer();
+        }
         if (reconnect_requested_) {
             reconnect_count_++;
         }

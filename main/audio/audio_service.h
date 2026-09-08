@@ -182,6 +182,7 @@ public:
     void PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music = false,
                           bool is_radio = false, uint32_t duration_ms = 0);
     uint32_t GetRadioBufferedMs();
+    void DiscardRadioPrebuffer();
     size_t GetRadioQueueSize();
     size_t GetDecodeQueueSize() {
         std::lock_guard<std::mutex> lock(audio_queue_mutex_);
