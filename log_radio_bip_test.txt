@@ -1,0 +1,449 @@
+--- LOG SESSION STARTED AT Tue Sep  8 10:38:43 2026 ---
+I (33559) SystemInfo: free sram: 52967 minimal sram: 27252
+I (35269) RAM: internal free=52255 min=27252 largest=18432 | psram free=7540588 min=7499204 largest=7471104
+I (40269) RAM: internal free=52243 min=27252 largest=18432 | psram free=7540588 min=7499204 largest=7471104
+I (43559) SystemInfo: free sram: 52967 minimal sram: 27252
+I (45269) RAM: internal free=52243 min=27252 largest=18432 | psram free=7540588 min=7499204 largest=7471104
+I (47079) Application: Wake word detected: Hey Kira (state: 3)
+I (47079) StateMachine: State: idle -> connecting
+I (47079) AfeAudioEngine: Encoded wake word into 0 packets in 1 ms
+I (47089) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (47089) wifi:Set ps type: 0, coexist: 0
+
+I (47469) MQTT: Session ID: 0e5458c1
+I (47469) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (47469) wifi:Set ps type: 0, coexist: 0
+
+I (47469) Application: Wake word detected: Hey Kira
+I (47469) StateMachine: State: connecting -> listening
+I (50269) RAM: internal free=46771 min=27252 largest=18432 | psram free=7513168 min=7491428 largest=7471104
+I (52559) Application: >> Найди польские радиостанции ЭСКО.
+I (52579) StateMachine: State: listening -> speaking
+I (53229) Application: << Ищу польские радиостанции ЭСКО!
+I (55269) RAM: internal free=46691 min=27252 largest=18432 | psram free=7491524 min=7473760 largest=7340032
+I (55639) Application: << % radio.search_stations...
+I (55699) RadioBrowser: Local catalog insufficient (0 matches), querying RadioBrowser online
+I (55699) RadioBrowser: [RADIO_SEARCH] query="ЭСКО" countrycode="PL" language="" tag="" limit=5
+I (55699) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (56069) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (56069) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (56069) RadioBrowser: [MEM] point=after_http_response internal_free=44599 internal_largest=18432 dma_free=36827 dma_largest=18432 psram_free=7497292 psram_largest=7340032
+I (56089) RadioBrowser: [MEM] point=after_parse_filter internal_free=43531 internal_largest=18432 dma_free=35759 dma_largest=18432 psram_free=7497292 psram_largest=7340032
+I (56099) RadioBrowser: [MEM] point=after_free_root_raw internal_free=43435 internal_largest=18432 dma_free=35663 dma_largest=18432 psram_free=7497292 psram_largest=7340032
+I (57049) Application: << Не нашлось радиостанций с названием "ЭСКО"
+I (59329) Application: << в Польше. Может, точное название другое? Или это не радио, а что-то другое?
+I (60269) RAM: internal free=46055 min=1712 largest=18432 | psram free=7475648 min=7457348 largest=7340032
+I (62059) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=280 => point.x=280, point.y=154 (top_bar=0)
+I (62129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=280 => point.x=280, point.y=154 (top_bar=0)
+I (62199) Application: Abort speaking
+I (62509) StateMachine: State: speaking -> listening
+I (65269) RAM: internal free=45783 min=1712 largest=18432 | psram free=7481928 min=7457348 largest=7340032
+I (65939) Application: >> С.К.
+I (65949) StateMachine: State: listening -> speaking
+I (66639) Application: << Поняла!
+I (67249) Application: << Ищу радиостанции С.К. в Польше!
+I (69759) Application: << % radio.search_stations...
+I (69809) RadioBrowser: Local catalog insufficient (0 matches), querying RadioBrowser online
+I (69819) RadioBrowser: [RADIO_SEARCH] query="С.К." countrycode="PL" language="" tag="" limit=5
+I (69819) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (70019) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (70019) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (70019) RadioBrowser: [MEM] point=after_http_response internal_free=44267 internal_largest=18432 dma_free=36495 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (70039) RadioBrowser: [MEM] point=after_parse_filter internal_free=42871 internal_largest=18432 dma_free=35067 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (70049) RadioBrowser: [MEM] point=after_free_root_raw internal_free=43243 internal_largest=18432 dma_free=35079 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (70269) RAM: internal free=44619 min=1236 largest=18432 | psram free=7481416 min=7442228 largest=7340032
+I (70899) Application: << Не нашлось радиостанций "С.К." в Польше.
+I (71759) FreenoveFnk0104sBoard: TOUCH READ: raw_x=161, raw_y=283 => point.x=283, point.y=159 (top_bar=0)
+I (71789) Application: Abort speaking
+I (72099) StateMachine: State: speaking -> listening
+I (75269) RAM: internal free=46475 min=1236 largest=18432 | psram free=7481928 min=7442228 largest=7340032
+I (75959) Application: >> Радиостанции Эска.
+I (75959) StateMachine: State: listening -> speaking
+I (76549) Application: << Ищу радиостанции Эска в Польше!
+I (78749) Application: << % radio.search_stations...
+I (78799) RadioBrowser: Local catalog insufficient (0 matches), querying RadioBrowser online
+I (78799) RadioBrowser: [RADIO_SEARCH] query="Эска" countrycode="PL" language="" tag="" limit=5
+I (78809) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (79039) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (79039) RadioBrowser: Search request succeeded: status=200 response_len=2
+I (79039) RadioBrowser: [MEM] point=after_http_response internal_free=44031 internal_largest=18432 dma_free=36259 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (79059) RadioBrowser: [MEM] point=after_parse_filter internal_free=42831 internal_largest=18432 dma_free=35059 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (79069) RadioBrowser: [MEM] point=after_free_root_raw internal_free=42407 internal_largest=18432 dma_free=34831 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (80109) Application: << Не нашлось радиостанций "Эска"
+I (80269) RAM: internal free=46163 min=960 largest=18432 | psram free=7475648 min=7439344 largest=7340032
+I (82219) Application: << в Польше. Может, это не польская станция? Или название пишется по-другому на латыни?
+I (82319) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=256 => point.x=256, point.y=203 (top_bar=0)
+I (82359) Application: Abort speaking
+I (82669) StateMachine: State: speaking -> listening
+I (85269) RAM: internal free=43579 min=960 largest=18432 | psram free=7484236 min=7439344 largest=7340032
+I (87269) Application: >> Английскими буквами эска.
+I (87309) StateMachine: State: listening -> speaking
+I (88499) Application: << Ищу радиостанции Eska в Польше!
+I (90269) RAM: internal free=45811 min=960 largest=18432 | psram free=7476160 min=7439344 largest=7340032
+I (91019) Application: << % radio.search_stations...
+I (91059) RadioBrowser: Local radio catalog: 5 matches. Using local radio catalog results
+I (91939) Application: << Нашла несколько станций Eska в Польше!
+I (95269) RAM: internal free=45347 min=348 largest=18432 | psram free=7473276 min=7439344 largest=7340032
+I (96599) SystemInfo: free sram: 45991 minimal sram: 348
+I (100269) RAM: internal free=45655 min=348 largest=18432 | psram free=7476160 min=7439344 largest=7340032
+I (101669) StateMachine: State: speaking -> listening
+I (104109) Application: >> Из Warszawy.
+I (104119) StateMachine: State: listening -> speaking
+I (104709) Application: << Ищу Radio Eska Warszawa в избранном!
+I (105269) RAM: internal free=45827 min=348 largest=18432 | psram free=7475648 min=7439344 largest=7340032
+I (107359) Application: << % radio.list_favorites...
+I (108569) Application: << Radio Eska Warszawa нет в избранном, сейчас включу!
+I (110269) RAM: internal free=45607 min=348 largest=18432 | psram free=7472764 min=7439344 largest=7340032
+I (112889) Application: << % radio.play_station...
+I (112939) RadioBrowser: Playing radio by station UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (112939) RadioBrowser: Looking up radio station by UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (112949) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (113149) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (113149) RadioBrowser: Search request succeeded: status=200 response_len=1190
+I (113149) RadioBrowser: Resolved radio station by UUID: Radio ESKA Warszawa
+E (113209) sdmmc_cmd: allocate_dma_buf: not enough mem, err=0x101
+E (113209) diskio_sdmmc: sdmmc_read_blocks failed (0x101)
+E (113209) RadioStorage: Failed to open /sdcard/radio_catalog.json.tmp for writing
+W (113219) RadioBrowser: Failed to refresh radio catalog after UUID lookup: Failed to create temporary file /sdcard/radio_catalog.json.tmp
+I (113229) RAM: [RADIO_START] internal free=44927 min=156 largest=16384 | psram free=7481416 min=7439344 largest=7340032
+I (113239) InternetRadio: Radio current:
+name=Radio ESKA Warszawa
+uuid=c52a1932-bb22-4927-9d47-62147e26d908
+codec=AAC+
+bitrate=48
+country=Poland
+url=http://waw.ic.smcdn.pl/2380-2.aac
+I (113249) InternetRadio: Radio stream startup: connecting
+I (113259) Application: Abort speaking
+I (113259) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=38823 internal_largest=16384 dma_free=31051 dma_largest=16384 psram_free=7481416 psram_largest=7340032
+I (113279) AudioManager: Audio focus requested by source 3 (current 0)
+I (113279) MQTT: Closing audio channel, send_goodbye: 1
+I (113279) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=41339 internal_largest=16384 dma_free=33567 dma_largest=16384 psram_free=7481416 psram_largest=7340032
+I (113289) StateMachine: State: speaking -> idle
+I (113299) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (113309) wifi:Set ps type: 0, coexist: 0
+
+I (113329) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (113329) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (113409) InternetRadio: [RADIO_REDIRECT] status=302 from=http://waw.ic.smcdn.pl/2380-2.aac to=http://ic2.smcdn.pl/2380-2.aac redirect=1
+I (113419) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (113439) esp-tls: couldn't get hostname for :ic2.smcdn.pl: getaddrinfo() returns 202, addrinfo=0
+E (113439) transport_base: Failed to open a new connection: 32769
+E (113449) HTTP_CLIENT: Connection failed, sock < 0
+W (113449) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://ic2.smcdn.pl/2380-2.aac
+I (113459) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (113469) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (113479) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=40819 internal_largest=18432 dma_free=33047 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (113489) AudioManager: Releasing audio focus from source 3
+I (113499) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=40819 internal_largest=18432 dma_free=33047 dma_largest=18432 psram_free=7481416 psram_largest=7340032
+I (113509) AudioService: Resampling audio from 16000 to 24000
+I (113829) MQTT: Received goodbye message, session_id: 0e5458c1
+I (113829) MQTT: Received goodbye message, session_id: 0e5458c1
+I (115099) MQTT: Closing audio channel, send_goodbye: 0
+I (115109) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (115109) wifi:Set ps type: 2, coexist: 0
+
+I (115109) MQTT: Closing audio channel, send_goodbye: 0
+I (115109) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (115119) wifi:Set ps type: 2, coexist: 0
+
+I (115269) RAM: internal free=43615 min=156 largest=18432 | psram free=7483684 min=7439344 largest=7340032
+I (119239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=272 => point.x=272, point.y=150 (top_bar=0)
+I (119279) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=272 => point.x=272, point.y=150 (top_bar=0)
+I (119319) StateMachine: State: idle -> connecting
+I (119349) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (119349) wifi:Set ps type: 0, coexist: 0
+
+I (119729) MQTT: Session ID: 2fe672e4
+I (119729) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (119729) wifi:Set ps type: 0, coexist: 0
+
+I (119729) StateMachine: State: connecting -> listening
+I (120269) RAM: internal free=42055 min=156 largest=18432 | psram free=7486504 min=7439344 largest=7340032
+I (125269) RAM: internal free=43839 min=156 largest=18432 | psram free=7484196 min=7439344 largest=7340032
+I (125949) Application: >> Включи радио Эско Варшава из интернета.
+I (125979) StateMachine: State: listening -> speaking
+I (126589) Application: << Сейчас включу Эско из Варшавы!
+I (129109) Application: << % radio.search_stations...
+I (129149) RadioBrowser: Local radio catalog: 1 matches. Using local radio catalog results
+I (130159) Application: << % radio.play_station...
+I (130179) RadioBrowser: Playing radio by station UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (130179) RadioBrowser: Looking up radio station by UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (130189) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (130269) RAM: internal free=38771 min=32 largest=18432 | psram free=7479584 min=7439344 largest=7340032
+I (130339) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (130349) RadioBrowser: Search request succeeded: status=200 response_len=1190
+I (130349) RadioBrowser: Resolved radio station by UUID: Radio ESKA Warszawa
+E (130399) sdmmc_cmd: allocate_dma_buf: not enough mem, err=0x101
+E (130399) diskio_sdmmc: sdmmc_read_blocks failed (0x101)
+E (130399) RadioStorage: Failed to open /sdcard/radio_catalog.json.tmp for writing
+W (130419) RadioBrowser: Failed to refresh radio catalog after UUID lookup: Failed to create temporary file /sdcard/radio_catalog.json.tmp
+I (130419) RAM: [RADIO_START] internal free=43115 min=32 largest=18432 | psram free=7483684 min=7439344 largest=7340032
+I (130429) InternetRadio: Radio current:
+name=Radio ESKA Warszawa
+uuid=c52a1932-bb22-4927-9d47-62147e26d908
+codec=AAC+
+bitrate=48
+country=Poland
+url=http://waw.ic.smcdn.pl/2380-2.aac
+I (130449) InternetRadio: Radio stream startup: connecting
+I (130459) Application: Abort speaking
+I (130459) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=36647 internal_largest=18432 dma_free=28951 dma_largest=18432 psram_free=7483684 psram_largest=7340032
+I (130469) MQTT: Closing audio channel, send_goodbye: 1
+I (130469) AudioManager: Audio focus requested by source 3 (current 0)
+I (130479) StateMachine: State: speaking -> idle
+I (130479) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=38803 internal_largest=18432 dma_free=31107 dma_largest=18432 psram_free=7483684 psram_largest=7340032
+I (130499) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (130509) wifi:Set ps type: 0, coexist: 0
+
+I (130509) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (130519) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (130619) InternetRadio: [RADIO_REDIRECT] status=302 from=http://waw.ic.smcdn.pl/2380-2.aac to=http://ic2.smcdn.pl/2380-2.aac redirect=1
+I (130619) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (130629) esp-tls: couldn't get hostname for :ic2.smcdn.pl: getaddrinfo() returns 202, addrinfo=0
+E (130639) transport_base: Failed to open a new connection: 32769
+E (130639) HTTP_CLIENT: Connection failed, sock < 0
+W (130649) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://ic2.smcdn.pl/2380-2.aac
+I (130659) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (130659) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (130669) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=39487 internal_largest=18432 dma_free=31715 dma_largest=18432 psram_free=7483684 psram_largest=7340032
+I (130689) AudioManager: Releasing audio focus from source 3
+I (130689) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=39487 internal_largest=18432 dma_free=31715 dma_largest=18432 psram_free=7483684 psram_largest=7340032
+I (130709) AudioService: Resampling audio from 16000 to 24000
+I (131019) MQTT: Received goodbye message, session_id: 2fe672e4
+I (131019) MQTT: Received goodbye message, session_id: 2fe672e4
+I (132299) MQTT: Closing audio channel, send_goodbye: 0
+I (132309) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (132309) wifi:Set ps type: 2, coexist: 0
+
+I (132309) MQTT: Closing audio channel, send_goodbye: 0
+I (132309) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (132319) wifi:Set ps type: 2, coexist: 0
+
+I (134299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=251 => point.x=251, point.y=154 (top_bar=0)
+I (134339) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=251 => point.x=251, point.y=154 (top_bar=0)
+I (134379) StateMachine: State: idle -> connecting
+I (134409) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (134409) wifi:Set ps type: 0, coexist: 0
+
+I (134779) MQTT: Session ID: 9b18a567
+I (134779) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (134779) wifi:Set ps type: 0, coexist: 0
+
+I (134789) StateMachine: State: connecting -> listening
+I (135269) RAM: internal free=43439 min=32 largest=18432 | psram free=7483684 min=7439344 largest=7340032
+I (138329) Application: >> Найди белорусские радиостанции.
+I (138339) StateMachine: State: listening -> speaking
+I (138739) Application: << % radio.search_stations...
+I (138779) RadioBrowser: Local radio catalog: 10 matches. Using local radio catalog results
+I (140069) Application: << Нашла несколько белорусских радиостанций! Вот список:
+I (140269) RAM: internal free=42699 min=16 largest=18432 | psram free=7478428 min=7439344 largest=7340032
+I (143569) Application: << Юмор FM, Душевное радио Минск 105.7 FM, Радиус FM, Новое радио, Радыё Relax,
+I (145269) RAM: internal free=43139 min=16 largest=18432 | psram free=7478428 min=7439344 largest=7340032
+I (147589) SystemInfo: free sram: 43527 minimal sram: 16
+I (147809) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=260 => point.x=260, point.y=158 (top_bar=0)
+I (147879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=260 => point.x=260, point.y=158 (top_bar=0)
+I (147959) Application: Abort speaking
+I (148259) StateMachine: State: speaking -> listening
+I (150269) RAM: internal free=43031 min=16 largest=18432 | psram free=7483684 min=7439344 largest=7340032
+I (151919) Application: >> Включи радиорелакс.
+I (151959) StateMachine: State: listening -> speaking
+I (152339) Application: << % radio.play_favorite...
+I (153159) Application: << % radio.search_stations...
+I (153209) RadioBrowser: Local radio catalog: 1 matches. Using local radio catalog results
+I (154629) Application: << % radio.play_station...
+I (154639) RadioBrowser: Playing radio by station UUID: 6ad3f6e9-eac9-11e9-a96c-52543be04c81
+I (154639) RadioBrowser: Looking up radio station by UUID: 6ad3f6e9-eac9-11e9-a96c-52543be04c81
+I (154649) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (154919) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (154919) RadioBrowser: Search request succeeded: status=200 response_len=1123
+I (154929) RadioBrowser: Resolved radio station by UUID: Радыё Relax
+E (154979) sdmmc_cmd: allocate_dma_buf: not enough mem, err=0x101
+E (154979) diskio_sdmmc: sdmmc_read_blocks failed (0x101)
+E (154979) RadioStorage: Failed to open /sdcard/radio_catalog.json.tmp for writing
+W (154989) RadioBrowser: Failed to refresh radio catalog after UUID lookup: Failed to create temporary file /sdcard/radio_catalog.json.tmp
+I (154999) RAM: [RADIO_START] internal free=42667 min=16 largest=18432 | psram free=7484196 min=7439344 largest=7340032
+I (155009) InternetRadio: Radio current:
+name=Радыё Relax
+uuid=6ad3f6e9-eac9-11e9-a96c-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/radiorelax
+I (155029) InternetRadio: Radio stream startup: connecting
+I (155029) Application: Abort speaking
+I (155029) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=36403 internal_largest=18432 dma_free=28707 dma_largest=18432 psram_free=7484196 psram_largest=7340032
+I (155049) AudioManager: Audio focus requested by source 3 (current 0)
+I (155049) MQTT: Closing audio channel, send_goodbye: 1
+I (155059) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=39923 internal_largest=18432 dma_free=32227 dma_largest=18432 psram_free=7484196 psram_largest=7340032
+I (155059) StateMachine: State: speaking -> idle
+I (155079) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (155089) wifi:Set ps type: 0, coexist: 0
+
+I (155099) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (155099) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (155269) RAM: internal free=34719 min=16 largest=18432 | psram free=7480096 min=7439344 largest=7340032
+I (155449) InternetRadio: Stream connected: status=200 content_type=unknown
+I (155449) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (155459) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (155469) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (155469) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=36411 internal_largest=18432 dma_free=28639 dma_largest=18432 psram_free=7455512 psram_largest=7340032
+I (155489) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (155499) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (155509) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=34255 internal_largest=18432 dma_free=26483 dma_largest=18432 psram_free=7455512 psram_largest=7340032
+I (155519) InternetRadio: Received first stream data: bytes=2048
+I (155529) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (155529) RAM: [RADIO_PLAYING] internal free=30883 min=16 largest=15360 | psram free=7429500 min=7429500 largest=7340032
+I (155549) AudioService: [RADIO_PCM] ptr=0x3c3df9c8 size=1252 bytes PSRAM=YES (queue=1)
+I (155549) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (155599) MQTT: Received goodbye message, session_id: 9b18a567
+I (155599) MQTT: Closing audio channel, send_goodbye: 0
+I (155609) MQTT: Received goodbye message, session_id: 9b18a567
+I (155649) MQTT: Closing audio channel, send_goodbye: 0
+I (155829) AudioService: [RADIO_PCM] ptr=0x3c404e50 size=1252 bytes PSRAM=YES (queue=32)
+I (156129) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=586 ms
+I (156669) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=900 ms
+I (157199) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1235 ms
+I (157689) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1589 ms
+I (158209) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1824 ms
+I (158739) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1824 ms
+I (159259) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1814 ms
+I (159729) FreenoveFnk0104sBoard: TOUCH READ: raw_x=154, raw_y=252 => point.x=252, point.y=166 (top_bar=0)
+I (159779) FreenoveFnk0104sBoard: TOUCH READ: raw_x=154, raw_y=252 => point.x=252, point.y=166 (top_bar=0)
+I (159779) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1814 ms
+I (159839) RAM: [RADIO_STOP] internal free=19235 min=16 largest=8704 | psram free=7337312 min=7336028 largest=7208960
+I (159839) AudioService: [RADIO_PCM] ptr=0x3c3df9c8 size=1252 bytes PSRAM=YES (queue=1)
+I (159839) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (159849) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (159859) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=41943 internal_largest=18432 dma_free=34171 dma_largest=18432 psram_free=7482912 psram_largest=7208960
+I (159869) AudioManager: Releasing audio focus from source 3
+I (159879) StateMachine: State: idle -> connecting
+I (159879) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=41999 internal_largest=18432 dma_free=34227 dma_largest=18432 psram_free=7484196 psram_largest=7340032
+I (159899) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (159909) wifi:Set ps type: 0, coexist: 0
+
+I (160269) RAM: internal free=47507 min=16 largest=18432 | psram free=7484196 min=7336028 largest=7340032
+I (160289) MQTT: Session ID: abfaf2ad
+I (160289) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (160289) wifi:Set ps type: 0, coexist: 0
+
+I (160289) StateMachine: State: connecting -> listening
+I (164379) Application: >> Включи радио Юмор-ФМ.
+I (164399) StateMachine: State: listening -> speaking
+I (164799) Application: << % radio.list_favorites...
+I (165269) RAM: internal free=41895 min=16 largest=18432 | psram free=7484196 min=7336028 largest=7340032
+I (165789) Application: << % radio.play_favorite...
+I (165819) RadioBrowser: [FAVORITE_PLAY] name=Юмор FM uuid=962b35ca-0601-11e8-ae97-52543be04c81
+I (165819) RadioBrowser: [FAVORITE_PLAY] resolving by UUID
+I (165819) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (165829) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (166019) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (166019) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (166019) RadioBrowser: [FAVORITE_PLAY] resolved fresh station by UUID
+E (166079) sdmmc_cmd: allocate_dma_buf: not enough mem, err=0x101
+E (166079) diskio_sdmmc: sdmmc_read_blocks failed (0x101)
+E (166079) RadioStorage: Failed to open /sdcard/radio_catalog.json.tmp for writing
+I (166089) RAM: [RADIO_START] internal free=41055 min=16 largest=17408 | psram free=7484196 min=7336028 largest=7340032
+I (166089) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (166109) InternetRadio: Radio stream startup: connecting
+I (166119) Application: Abort speaking
+I (166119) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=34923 internal_largest=17408 dma_free=27227 dma_largest=17408 psram_free=7484196 psram_largest=7340032
+I (166129) MQTT: Closing audio channel, send_goodbye: 1
+I (166129) AudioManager: Audio focus requested by source 3 (current 0)
+I (166139) StateMachine: State: speaking -> idle
+I (166149) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=36755 internal_largest=17408 dma_free=29059 dma_largest=17408 psram_free=7484196 psram_largest=7340032
+I (166159) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (166169) wifi:Set ps type: 0, coexist: 0
+
+I (166179) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (166179) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (166499) InternetRadio: Stream connected: status=200 content_type=unknown
+I (166499) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (166499) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (166509) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (166519) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=36067 internal_largest=17408 dma_free=28295 dma_largest=17408 psram_free=7455512 psram_largest=7340032
+I (166529) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (166539) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (166639) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=34131 internal_largest=17408 dma_free=26359 dma_largest=17408 psram_free=7455512 psram_largest=7340032
+I (166649) InternetRadio: Received first stream data: bytes=2048
+I (166659) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (166659) RAM: [RADIO_PLAYING] internal free=30575 min=16 largest=13824 | psram free=7429500 min=7336028 largest=7340032
+I (166679) AudioService: [RADIO_PCM] ptr=0x3c3df9c8 size=1252 bytes PSRAM=YES (queue=1)
+I (166679) MQTT: Received goodbye message, session_id: abfaf2ad
+I (166679) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (166689) MQTT: Closing audio channel, send_goodbye: 0
+I (166689) MQTT: Received goodbye message, session_id: abfaf2ad
+I (166739) MQTT: Closing audio channel, send_goodbye: 0
+I (166999) AudioService: [RADIO_PCM] ptr=0x3c404e50 size=1252 bytes PSRAM=YES (queue=32)
+I (167309) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=639 ms
+I (167859) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=938 ms
+I (168389) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1300 ms
+I (168879) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1600 ms
+I (169399) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1811 ms
+I (169929) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=28 ms wait_in_q=1825 ms
+I (170269) RAM: internal free=25243 min=16 largest=8704 | psram free=7336028 min=7336028 largest=7208960
+I (170449) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1814 ms
+I (170939) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1824 ms
+I (171459) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1824 ms
+I (171549) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (171549) InternetRadio: [RADIO] buffer=1820 ms queue=70 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (171989) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1824 ms
+I (172509) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1814 ms
+I (172999) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1824 ms
+I (173519) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1825 ms
+I (174009) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=263 => point.x=263, point.y=175 (top_bar=0)
+I (174049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=263 => point.x=263, point.y=175 (top_bar=0)
+I (174049) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1824 ms
+I (174099) RAM: [RADIO_STOP] internal free=19115 min=16 largest=7680 | psram free=7337312 min=7336028 largest=7208960
+I (174109) AudioService: [RADIO_PCM] ptr=0x3c3df9c8 size=1252 bytes PSRAM=YES (queue=1)
+I (174109) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (174119) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (174129) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42047 internal_largest=17408 dma_free=34275 dma_largest=17408 psram_free=7482912 psram_largest=7340032
+I (174139) AudioManager: Releasing audio focus from source 3
+I (174149) StateMachine: State: idle -> connecting
+I (174149) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=42047 internal_largest=17408 dma_free=34275 dma_largest=17408 psram_free=7482912 psram_largest=7340032
+I (174179) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (174179) wifi:Set ps type: 0, coexist: 0
+
+I (174549) MQTT: Session ID: f54c3682
+I (174549) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (174549) wifi:Set ps type: 0, coexist: 0
+
+I (174549) StateMachine: State: connecting -> listening
+I (175269) RAM: internal free=43035 min=16 largest=17408 | psram free=7484196 min=7336028 largest=7340032
+I (177809) Application: >> останови радио
+I (177839) StateMachine: State: listening -> speaking
+I (178059) Application: << % radio.stop...
+I (178079) Application: Abort speaking
+I (178079) MQTT: Closing audio channel, send_goodbye: 1
+I (178089) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (178089) wifi:Set ps type: 2, coexist: 0
+
+I (178089) StateMachine: State: speaking -> idle
+I (178089) RAM: [RADIO_STOP] internal free=45039 min=16 largest=17408 | psram free=7483684 min=7336028 largest=7340032
+I (180249) MQTT: Received goodbye message, session_id: f54c3682
+I (180249) MQTT: Closing audio channel, send_goodbye: 0
+I (180249) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (180249) MQTT: Received goodbye message, session_id: f54c3682
+I (180259) wifi:Set ps type: 2, coexist: 0
+
+I (180269) MQTT: Closing audio channel, send_goodbye: 0
+I (180269) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (180279) wifi:Set ps type: 2, coexist: 0
+
+I (180269) RAM: internal free=47835 min=16 largest=17408 | psram free=7483684 min=7336028 largest=7340032
+I (185269) RAM: internal free=48111 min=16 largest=17408 | psram free=7483684 min=7336028 largest=7340032
+I (187559) SystemInfo: free sram: 48823 minimal sram: 16
+I (190269) RAM: internal free=48111 min=16 largest=17408 | psram free=7483684 min=7336028 largest=7340032

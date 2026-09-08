@@ -1,0 +1,463 @@
+--- LOG SESSION STARTED AT Tue Sep  8 12:20:13 2026 ---
+I (6659) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6659) wifi:state: init -> auth (0xb0)
+I (6669) wifi:state: auth -> assoc (0x0)
+I (6679) wifi:state: assoc -> run (0x10)
+I (6699) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6699) wifi:security: WPA2-PSK, phy: bgn, rssi: -34, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6699) wifi:pm start, type: 1
+
+I (6709) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6719) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6729) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6739) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8269) esp_netif_handlers: sta ip: 192.168.31.94, mask: 255.255.255.0, gw: 192.168.31.1
+I (8269) WifiStation: Got IP: 192.168.31.94
+I (8269) WifiBoard: Connected to WiFi: ZERG
+I (8269) Application: Network connected
+I (8269) RAM: [AFTER_WIFI] internal free=113575 min=39812 largest=73728 | psram free=8271760 min=8271724 largest=8257536
+I (8279) StateMachine: State: starting -> activating
+I (8289) Assets: The storage free size is 21440 KB
+I (8289) Assets: The partition size is 8192 KB
+I (8409) Assets: The checksum calculation time is 112 ms
+I (8409) MODEL_LOADER: Successfully load srmodels
+I (8479) Assets: Refreshing display theme...
+W (8509) EmojiCollection: Emoji not found: robot_2
+I (8509) Ota: Current version: 2.4.2
+I (8519) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=91875 min=39812 largest=47104 | psram free=8266260 min=8251528 largest=8257536
+I (10429) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1920
+I (11189) HttpClient: HTTP connection closed
+I (11189) Ota: Current is the latest version
+I (11199) Ota: Running partition: ota_0
+I (11199) MQTT: Connecting to endpoint api.tenclass.net
+I (13399) MQTT: Connected to endpoint
+I (13399) Application: Activation done
+I (13399) SystemInfo: free sram: 89743 minimal sram: 39812
+I (13399) StateMachine: State: activating -> idle
+I (13409) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13409) wifi:Set ps type: 2, coexist: 0
+
+I (13459) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13459) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13459) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13459) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13549) AFE: AFE Version: (1MIC_V251128)
+I (13559) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13559) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13569) AFE: AFE Version: (1MIC_V251128)
+I (13579) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13589) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13589) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13599) AudioCodec: Set output enable to true
+I (13599) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13609) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13619) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13629) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13649) Adev_Codec: Open codec device OK
+I (13649) AudioCodec: Set input enable to true
+I (13659) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=47299 min=27252 largest=18432 | psram free=7513068 min=7499216 largest=7471104
+I (20269) RAM: internal free=49671 min=27252 largest=18432 | psram free=7540600 min=7499216 largest=7471104
+I (21229) Application: Wake word detected: Hey Kira (state: 3)
+I (21229) StateMachine: State: idle -> connecting
+I (21229) AfeAudioEngine: Encoded wake word into 0 packets in 1 ms
+I (21239) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (21239) wifi:Set ps type: 0, coexist: 0
+
+I (21639) MQTT: Session ID: 3a68db2b
+I (21639) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (21639) wifi:Set ps type: 0, coexist: 0
+
+I (21639) Application: Wake word detected: Hey Kira
+I (21639) StateMachine: State: connecting -> listening
+I (25269) RAM: internal free=47483 min=27252 largest=18432 | psram free=7513692 min=7491440 largest=7471104
+I (26729) Application: >> Найти все российские радиостанции.
+I (26749) StateMachine: State: listening -> speaking
+I (27609) Application: << % radio.search_stations...
+I (27629) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=46403 internal_largest=18432 dma_free=38631 dma_largest=18432 psram_free=7513692 psram_largest=7471104
+I (27629) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=46403 internal_largest=18432 dma_free=38631 dma_largest=18432 psram_free=7513692 psram_largest=7471104
+I (27649) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=46223 internal_largest=18432 dma_free=38451 dma_largest=18432 psram_free=7513176 psram_largest=7471104
+I (27669) RadioStorage: [MEM] catalog_file_bytes=14244 buffer_size=14244 buffer_capacity=14244
+I (27669) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=45547 internal_largest=18432 dma_free=37775 dma_largest=18432 psram_free=7498836 psram_largest=7471104
+I (27699) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=46127 internal_largest=18432 dma_free=38355 dma_largest=18432 psram_free=7498836 psram_largest=7471104
+I (27699) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=45731 internal_largest=18432 dma_free=37959 dma_largest=18432 psram_free=7498836 psram_largest=7471104
+I (27719) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=46303 internal_largest=18432 dma_free=38531 dma_largest=18432 psram_free=7499352 psram_largest=7471104
+I (27759) RadioStorage: [MEM] catalog_station_count=50 catalog_capacity=64
+I (27759) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7479084 psram_largest=7340032
+I (27769) RadioBrowser: Local radio catalog: 10 matches. Using local radio catalog results
+I (29449) Application: << Вот нашёл несколько российских радиостанций: Юмор FM,
+I (30269) RAM: internal free=47067 min=16 largest=18432 | psram free=7492048 min=7473988 largest=7340032
+I (33609) Application: << ЮморФМ Стендапы и Ретро FM. Хочешь какую-нибудь из них включить?
+I (35269) RAM: internal free=46915 min=16 largest=18432 | psram free=7492048 min=7473988 largest=7340032
+I (36599) SystemInfo: free sram: 47039 minimal sram: 16
+I (39489) StateMachine: State: speaking -> listening
+I (40269) RAM: internal free=44883 min=16 largest=18432 | psram free=7497816 min=7473988 largest=7340032
+I (44289) Application: >> Найди все российские радиостанции в интернете
+I (44289) StateMachine: State: listening -> speaking
+I (45269) RAM: internal free=47043 min=16 largest=18432 | psram free=7497304 min=7473988 largest=7340032
+I (45369) Application: << % radio.search_stations...
+I (45389) RadioBrowser: Force-online radio search: bypassing local catalog
+I (45389) RadioBrowser: [RADIO_SEARCH] query="" countrycode="RU" language="" tag="" limit=10
+I (45389) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (45779) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (45779) RadioBrowser: Search request succeeded: status=200 response_len=22717
+I (45789) RadioBrowser: [MEM] point=after_http_response internal_free=45795 internal_largest=18432 dma_free=38023 dma_largest=18432 psram_free=7466580 psram_largest=7340032
+I (45829) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45829) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45829) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45839) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45839) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45849) RadioBrowser: RadioBrowser: accepted codec AAC+
+I (45849) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45859) RadioBrowser: RadioBrowser: accepted codec AAC+
+I (45859) RadioBrowser: RadioBrowser: accepted codec MP3
+I (45869) RadioBrowser: RadioBrowser: accepted codec AAC
+I (45869) RadioBrowser: [MEM] point=after_parse_filter internal_free=43 internal_largest=16 dma_free=39 dma_largest=16 psram_free=7445368 psram_largest=7340032
+I (45889) RadioBrowser: [MEM] point=after_free_root_raw internal_free=45815 internal_largest=18432 dma_free=38043 dma_largest=18432 psram_free=7493280 psram_largest=7340032
+I (45899) RadioBrowser: [MEM] point=before_add_catalog internal_free=45815 internal_largest=18432 dma_free=38043 dma_largest=18432 psram_free=7493412 psram_largest=7340032
+I (45919) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=45683 internal_largest=18432 dma_free=37911 dma_largest=18432 psram_free=7493412 psram_largest=7340032
+I (45929) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=45599 internal_largest=18432 dma_free=37827 dma_largest=18432 psram_free=7493412 psram_largest=7340032
+I (45949) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=45651 internal_largest=18432 dma_free=37879 dma_largest=18432 psram_free=7492896 psram_largest=7340032
+I (45959) RadioStorage: [MEM] catalog_file_bytes=14244 buffer_size=14244 buffer_capacity=14244
+I (45969) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=44959 internal_largest=18432 dma_free=37187 dma_largest=18432 psram_free=7478556 psram_largest=7340032
+I (45989) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=45507 internal_largest=18432 dma_free=37223 dma_largest=18432 psram_free=7478556 psram_largest=7340032
+I (45999) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=45451 internal_largest=18432 dma_free=37679 dma_largest=18432 psram_free=7478556 psram_largest=7340032
+I (46019) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=45459 internal_largest=18432 dma_free=37759 dma_largest=18432 psram_free=7479072 psram_largest=7340032
+I (46059) RadioStorage: [MEM] catalog_station_count=50 catalog_capacity=64
+I (46059) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=55 dma_largest=32 psram_free=7458264 psram_largest=7340032
+I (46069) RadioStorage: [MEM] point=CATALOG_SAVE_BEGIN internal_free=43739 internal_largest=18432 dma_free=36575 dma_largest=18432 psram_free=7472604 psram_largest=7340032
+I (46079) RadioStorage: [MEM] CATALOG_SAVE_COST stations=58 value_bytes=9257 value_allocs=522 key_bytes=4872 key_allocs=580 node_count=639 node_bytes=25560
+I (46099) RadioStorage: [MEM] point=CATALOG_BEFORE_SERIALIZE internal_free=14455 internal_largest=7168 dma_free=7291 dma_largest=7168 psram_free=7472604 psram_largest=7340032
+I (46109) RadioStorage: [MEM] point=CATALOG_AFTER_SERIALIZE internal_free=14439 internal_largest=6656 dma_free=7275 dma_largest=6656 psram_free=7455948 psram_largest=7340032
+I (46119) RadioStorage: [MEM] catalog_station_count=58 serialized_bytes=16649
+I (46129) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_WRITE internal_free=14439 internal_largest=6656 dma_free=7275 dma_largest=6656 psram_free=7455948 psram_largest=7340032
+I (46149) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_WRITE internal_free=14291 internal_largest=6656 dma_free=7127 dma_largest=6144 psram_free=7455432 psram_largest=7340032
+I (46159) RadioStorage: [MEM] point=CATALOG_BEFORE_WRITE internal_free=14291 internal_largest=6656 dma_free=7127 dma_largest=6144 psram_free=7455432 psram_largest=7340032
+I (46269) RadioStorage: [MEM] point=CATALOG_AFTER_WRITE internal_free=14159 internal_largest=6656 dma_free=6995 dma_largest=5632 psram_free=7455432 psram_largest=7340032
+I (46269) RadioStorage: [MEM] catalog_write_requested=16649 catalog_write_completed=16649
+I (46279) RadioStorage: [MEM] point=CATALOG_SAVE_BEFORE_CLOSE internal_free=14027 internal_largest=6656 dma_free=6863 dma_largest=5632 psram_free=7455432 psram_largest=7340032
+I (46509) RadioStorage: [MEM] point=CATALOG_SAVE_AFTER_CLOSE internal_free=14371 internal_largest=6656 dma_free=7207 dma_largest=5120 psram_free=7455948 psram_largest=7340032
+I (46639) RadioStorage: [MEM] point=CATALOG_BEFORE_RENAME internal_free=14035 internal_largest=6656 dma_free=6943 dma_largest=6144 psram_free=7455948 psram_largest=7340032
+I (46639) RadioStorage: [MEM] point=CATALOG_AFTER_RENAME internal_free=14239 internal_largest=6656 dma_free=7075 dma_largest=5632 psram_free=7455948 psram_largest=7340032
+I (46659) RadioStorage: Successfully saved 58 stations to /sdcard/radio_catalog.json
+I (46659) RadioStorage: [MEM] point=CATALOG_SAVE_END internal_free=14371 internal_largest=6656 dma_free=7207 dma_largest=5632 psram_free=7455948 psram_largest=7340032
+I (46679) RadioBrowser: Radio catalog updated: 10 search results
+I (46679) RadioBrowser: [MEM] point=after_add_catalog internal_free=45599 internal_largest=12800 dma_free=37827 dma_largest=12800 psram_free=7493412 psram_largest=7340032
+I (48669) Application: << Вот что нашлось в интернете среди российских станций:
+I (50269) RAM: internal free=46487 min=16 largest=18432 | psram free=7491536 min=7444896 largest=7340032
+I (51669) Application: << Anon.FM, Europa Plus, Relax FM Chillout, Вести FM, ROCK FM, Радио Ваня, Ретро FM,
+I (54579) SystemInfo: free sram: 46839 minimal sram: 16
+I (55269) RAM: internal free=46603 min=16 largest=18432 | psram free=7488652 min=7444896 largest=7340032
+I (60019) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=265 => point.x=265, point.y=154 (top_bar=0)
+I (60089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=265 => point.x=265, point.y=154 (top_bar=0)
+I (60159) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=265 => point.x=265, point.y=154 (top_bar=0)
+I (60229) Application: Abort speaking
+I (60269) RAM: internal free=45059 min=16 largest=18432 | psram free=7488652 min=7444896 largest=7340032
+I (60539) StateMachine: State: speaking -> listening
+I (64179) Application: >> Включи ROG FM.
+I (64219) StateMachine: State: listening -> speaking
+I (65269) RAM: internal free=47031 min=16 largest=18432 | psram free=7497816 min=7444896 largest=7340032
+I (65439) Application: << % radio.list_favorites...
+I (65439) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=45775 internal_largest=18432 dma_free=38003 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (65449) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=45775 internal_largest=18432 dma_free=38991 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (65469) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=46371 internal_largest=18432 dma_free=38599 dma_largest=18432 psram_free=7497300 psram_largest=7340032
+I (65479) RadioStorage: [MEM] catalog_file_bytes=1175 buffer_size=1175 buffer_capacity=1175
+I (65489) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=44475 internal_largest=18432 dma_free=36703 dma_largest=18432 psram_free=7497300 psram_largest=7340032
+I (65499) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=44475 internal_largest=18432 dma_free=36699 dma_largest=18432 psram_free=7497300 psram_largest=7340032
+I (65519) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=44339 internal_largest=18432 dma_free=36567 dma_largest=18432 psram_free=7497300 psram_largest=7340032
+I (65529) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=44647 internal_largest=18432 dma_free=36875 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (65549) RadioStorage: [MEM] catalog_station_count=4 catalog_capacity=4
+I (65559) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=39391 internal_largest=18432 dma_free=31619 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (67409) Application: << В избранном такой станции нет.
+I (69519) Application: << Сейчас поищу ROCK FM в интернете.
+I (70269) RAM: internal free=46875 min=16 largest=18432 | psram free=7492048 min=7444896 largest=7340032
+I (72219) Application: << % radio.search_stations...
+I (72239) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=45899 internal_largest=18432 dma_free=38127 dma_largest=18432 psram_free=7492048 psram_largest=7340032
+I (72249) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=45899 internal_largest=18432 dma_free=38127 dma_largest=18432 psram_free=7492048 psram_largest=7340032
+I (72269) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=45783 internal_largest=18432 dma_free=38011 dma_largest=18432 psram_free=7491532 psram_largest=7340032
+I (72279) RadioStorage: [MEM] catalog_file_bytes=16649 buffer_size=16649 buffer_capacity=16649
+I (72289) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=45647 internal_largest=18432 dma_free=37875 dma_largest=18432 psram_free=7477516 psram_largest=7340032
+I (72309) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=44759 internal_largest=18432 dma_free=37183 dma_largest=18432 psram_free=7477516 psram_largest=7340032
+I (72319) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=45611 internal_largest=18432 dma_free=37839 dma_largest=18432 psram_free=7477516 psram_largest=7340032
+I (72339) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=45919 internal_largest=18432 dma_free=38147 dma_largest=18432 psram_free=7478032 psram_largest=7340032
+I (72379) RadioStorage: [MEM] catalog_station_count=58 catalog_capacity=64
+I (72379) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7451648 psram_largest=7340032
+I (72399) RadioBrowser: Local radio catalog: 1 matches. Using local radio catalog results
+I (73569) SystemInfo: free sram: 46579 minimal sram: 16
+I (73769) Application: << Нашёл ROCK FM, включаю!
+I (75269) RAM: internal free=46595 min=16 largest=18432 | psram free=7489164 min=7444896 largest=7340032
+I (76169) Application: << % radio.play_station...
+I (76189) RadioBrowser: Playing radio by station UUID: 961c96ef-0601-11e8-ae97-52543be04c81
+I (76189) RadioBrowser: Looking up radio station by UUID: 961c96ef-0601-11e8-ae97-52543be04c81
+I (76199) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (76449) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (76449) RadioBrowser: Search request succeeded: status=200 response_len=1200
+I (76449) RadioBrowser: Resolved radio station by UUID: ROCK FM
+I (76459) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=44771 internal_largest=18432 dma_free=37071 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (76469) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=44979 internal_largest=18432 dma_free=37207 dma_largest=18432 psram_free=7497816 psram_largest=7340032
+I (76489) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=45027 internal_largest=18432 dma_free=37255 dma_largest=18432 psram_free=7497300 psram_largest=7340032
+I (76499) RadioStorage: [MEM] catalog_file_bytes=16649 buffer_size=16649 buffer_capacity=16649
+I (76509) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=44427 internal_largest=18432 dma_free=36655 dma_largest=18432 psram_free=7480400 psram_largest=7340032
+I (76529) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=44023 internal_largest=18432 dma_free=36451 dma_largest=18432 psram_free=7480400 psram_largest=7340032
+I (76539) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=44875 internal_largest=18432 dma_free=37103 dma_largest=18432 psram_free=7480400 psram_largest=7340032
+I (76559) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=45195 internal_largest=18432 dma_free=37423 dma_largest=18432 psram_free=7480916 psram_largest=7340032
+I (76599) RadioStorage: [MEM] catalog_station_count=58 catalog_capacity=64
+I (76599) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7450844 psram_largest=7340032
+I (76619) RadioStorage: [MEM] point=CATALOG_SAVE_BEGIN internal_free=45067 internal_largest=18432 dma_free=37295 dma_largest=18432 psram_free=7475136 psram_largest=7340032
+I (76629) RadioStorage: [MEM] CATALOG_SAVE_COST stations=58 value_bytes=9257 value_allocs=522 key_bytes=4872 key_allocs=580 node_count=639 node_bytes=25560
+I (76649) RadioStorage: [MEM] point=CATALOG_BEFORE_SERIALIZE internal_free=15883 internal_largest=7936 dma_free=8111 dma_largest=7936 psram_free=7475136 psram_largest=7340032
+I (76659) RadioStorage: [MEM] point=CATALOG_AFTER_SERIALIZE internal_free=15751 internal_largest=7680 dma_free=7979 dma_largest=6912 psram_free=7458480 psram_largest=7340032
+I (76669) RadioStorage: [MEM] catalog_station_count=58 serialized_bytes=16649
+I (76679) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_WRITE internal_free=15523 internal_largest=7680 dma_free=7679 dma_largest=6912 psram_free=7458480 psram_largest=7340032
+I (76689) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_WRITE internal_free=14243 internal_largest=7680 dma_free=6667 dma_largest=5888 psram_free=7457964 psram_largest=7340032
+I (76709) RadioStorage: [MEM] point=CATALOG_BEFORE_WRITE internal_free=14851 internal_largest=7680 dma_free=7019 dma_largest=5888 psram_free=7457964 psram_largest=7340032
+I (76809) RadioStorage: [MEM] point=CATALOG_AFTER_WRITE internal_free=15575 internal_largest=7680 dma_free=7803 dma_largest=7424 psram_free=7457964 psram_largest=7340032
+I (76819) RadioStorage: [MEM] catalog_write_requested=16649 catalog_write_completed=16649
+I (76829) RadioStorage: [MEM] point=CATALOG_SAVE_BEFORE_CLOSE internal_free=15443 internal_largest=7680 dma_free=7475 dma_largest=6656 psram_free=7457964 psram_largest=7340032
+I (76969) RadioStorage: [MEM] point=CATALOG_SAVE_AFTER_CLOSE internal_free=15303 internal_largest=7680 dma_free=7531 dma_largest=6656 psram_free=7458480 psram_largest=7340032
+I (77099) RadioStorage: [MEM] point=CATALOG_BEFORE_RENAME internal_free=15171 internal_largest=7680 dma_free=7399 dma_largest=6144 psram_free=7458480 psram_largest=7340032
+I (77109) RadioStorage: [MEM] point=CATALOG_AFTER_RENAME internal_free=15455 internal_largest=7680 dma_free=7755 dma_largest=6144 psram_free=7458480 psram_largest=7340032
+I (77119) RadioStorage: Successfully saved 58 stations to /sdcard/radio_catalog.json
+I (77129) RadioStorage: [MEM] point=CATALOG_SAVE_END internal_free=15887 internal_largest=7680 dma_free=8115 dma_largest=6656 psram_free=7458480 psram_largest=7340032
+I (77149) RAM: [RADIO_START] internal free=45743 min=16 largest=12288 | psram free=7497816 min=7444896 largest=7340032
+I (77149) InternetRadio: Radio current:
+name=ROCK FM
+uuid=961c96ef-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=0
+country=The Russian Federation
+url=http://nashe1.hostingradio.ru/rock-128.mp3
+I (77169) InternetRadio: Radio stream startup: connecting
+I (77179) Application: Abort speaking
+I (77169) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=39059 internal_largest=11776 dma_free=31287 dma_largest=11776 psram_free=7497816 psram_largest=7340032
+I (77189) AudioManager: Audio focus requested by source 3 (current 0)
+I (77199) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=37775 internal_largest=12288 dma_free=30003 dma_largest=12288 psram_free=7497816 psram_largest=7340032
+I (77209) MQTT: Closing audio channel, send_goodbye: 1
+I (77209) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (77219) StateMachine: State: speaking -> idle
+I (77229) wifi:Set ps type: 0, coexist: 0
+
+I (77229) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (77239) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (77549) InternetRadio: Stream connected: status=200 content_type=unknown
+I (77549) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (77549) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (77559) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (77559) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=35351 internal_largest=12288 dma_free=27579 dma_largest=12288 psram_free=7465672 psram_largest=7340032
+I (77579) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (77589) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (77599) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=35351 internal_largest=12288 dma_free=27579 dma_largest=12288 psram_free=7465672 psram_largest=7340032
+I (77609) InternetRadio: Received first stream data: bytes=2048
+I (77619) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (77629) RAM: [RADIO_PLAYING] internal free=29831 min=16 largest=12288 | psram free=7439660 min=7439660 largest=7340032
+I (77639) AudioService: [RADIO_PCM] ptr=0x3c3f9034 size=1252 bytes PSRAM=YES (queue=1)
+I (77639) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (77739) MQTT: Received goodbye message, session_id: 3a68db2b
+I (77739) MQTT: Closing audio channel, send_goodbye: 0
+I (77749) MQTT: Received goodbye message, session_id: 3a68db2b
+I (77749) MQTT: Closing audio channel, send_goodbye: 0
+I (77859) AudioService: [RADIO_PCM] ptr=0x3c4021a8 size=1252 bytes PSRAM=YES (queue=32)
+I (78119) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=480 ms
+I (78669) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=848 ms
+I (79199) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1245 ms
+I (79689) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1602 ms
+I (80209) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1817 ms
+I (80269) RAM: internal free=25055 min=16 largest=12288 | psram free=7350932 min=7349648 largest=7340032
+I (80739) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1817 ms
+I (81259) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1807 ms
+I (81749) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1817 ms
+I (82269) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1830 ms
+I (82619) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (82619) InternetRadio: [RADIO] buffer=1820 ms queue=70 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (82799) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1830 ms
+I (82989) Application: Wake word detected: Hey Kira (state: 3)
+I (82989) RAM: [RADIO_STOP] internal free=29635 min=16 largest=12288 | psram free=7351956 min=7349648 largest=7340032
+I (82999) AudioService: [RADIO_PCM] ptr=0x3c3f8730 size=1252 bytes PSRAM=YES (queue=1)
+I (83009) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (83009) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (83019) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=45195 internal_largest=17408 dma_free=37423 dma_largest=17408 psram_free=7496532 psram_largest=7340032
+I (83039) AudioManager: Releasing audio focus from source 3
+I (83039) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=45255 internal_largest=17408 dma_free=37483 dma_largest=17408 psram_free=7497816 psram_largest=7340032
+I (83049) StateMachine: State: idle -> connecting
+I (83049) AfeAudioEngine: Encoded wake word into 0 packets in 0 ms
+I (83059) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (83069) wifi:Set ps type: 0, coexist: 0
+
+I (83459) MQTT: Session ID: c2c31956
+I (83459) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (83459) wifi:Set ps type: 0, coexist: 0
+
+I (83459) Application: Wake word detected: Hey Kira
+I (83459) StateMachine: State: connecting -> listening
+I (83469) AudioService: Resampling audio from 16000 to 24000
+I (85279) RAM: internal free=43999 min=16 largest=17408 | psram free=7497304 min=7349648 largest=7340032
+I (87729) Application: >> Найти польские радиостанции.
+I (87749) StateMachine: State: listening -> speaking
+I (89209) Application: << % radio.search_stations...
+I (89229) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=43259 internal_largest=17408 dma_free=35487 dma_largest=17408 psram_free=7497304 psram_largest=7340032
+I (89229) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=43259 internal_largest=17408 dma_free=35487 dma_largest=17408 psram_free=7497304 psram_largest=7340032
+I (89249) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=43091 internal_largest=17408 dma_free=35319 dma_largest=17408 psram_free=7496788 psram_largest=7340032
+I (89269) RadioStorage: [MEM] catalog_file_bytes=16649 buffer_size=16649 buffer_capacity=16649
+I (89269) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=42887 internal_largest=17408 dma_free=35115 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (89299) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=42983 internal_largest=17408 dma_free=35211 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (89299) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=42591 internal_largest=17408 dma_free=35079 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (89319) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=43171 internal_largest=17408 dma_free=35399 dma_largest=17408 psram_free=7480404 psram_largest=7340032
+I (89359) RadioStorage: [MEM] catalog_station_count=58 catalog_capacity=64
+I (89359) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7448136 psram_largest=7340032
+I (89379) RadioBrowser: Local radio catalog: 6 matches. Using local radio catalog results
+I (90269) RAM: internal free=44087 min=16 largest=17408 | psram free=7497304 min=7349648 largest=7340032
+I (90709) Application: << Нашла несколько польских радиостанций! Вот что есть:
+I (95269) RAM: internal free=43923 min=16 largest=17408 | psram free=7491536 min=7349648 largest=7340032
+I (97599) SystemInfo: free sram: 44067 minimal sram: 16
+I (99749) FreenoveFnk0104sBoard: TOUCH READ: raw_x=165, raw_y=253 => point.x=253, point.y=155 (top_bar=0)
+I (99819) Application: Abort speaking
+I (100129) StateMachine: State: speaking -> listening
+I (100269) RAM: internal free=42563 min=16 largest=17408 | psram free=7497304 min=7349648 largest=7340032
+I (104459) Application: >> Включи радио Эско Варшава.
+I (104459) StateMachine: State: listening -> speaking
+I (105279) RAM: internal free=40391 min=16 largest=17408 | psram free=7496832 min=7349648 largest=7340032
+I (105279) Application: << % radio.play_station...
+I (105309) RadioBrowser: Playing radio by station UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (105309) RadioBrowser: Looking up radio station by UUID: c52a1932-bb22-4927-9d47-62147e26d908
+I (105309) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (105889) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (105889) RadioBrowser: Search request succeeded: status=200 response_len=1190
+I (105899) RadioBrowser: Resolved radio station by UUID: Radio ESKA Warszawa
+I (105899) RadioStorage: [MEM] point=CATALOG_LOAD_BEGIN internal_free=42323 internal_largest=17408 dma_free=34551 dma_largest=17408 psram_free=7497304 psram_largest=7340032
+I (105919) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_READ internal_free=42359 internal_largest=17408 dma_free=34587 dma_largest=17408 psram_free=7497304 psram_largest=7340032
+I (105929) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_READ internal_free=42147 internal_largest=17408 dma_free=34179 dma_largest=17408 psram_free=7496788 psram_largest=7340032
+I (105949) RadioStorage: [MEM] catalog_file_bytes=16649 buffer_size=16649 buffer_capacity=16649
+I (105959) RadioStorage: [MEM] point=CATALOG_BEFORE_READ internal_free=42203 internal_largest=17408 dma_free=34431 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (105979) RadioStorage: [MEM] point=CATALOG_AFTER_READ internal_free=42135 internal_largest=17408 dma_free=34363 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (105989) RadioStorage: [MEM] point=CATALOG_LOAD_BEFORE_CLOSE internal_free=42135 internal_largest=17408 dma_free=34363 dma_largest=17408 psram_free=7479888 psram_largest=7340032
+I (105999) RadioStorage: [MEM] point=CATALOG_LOAD_AFTER_CLOSE internal_free=42575 internal_largest=17408 dma_free=34803 dma_largest=17408 psram_free=7480404 psram_largest=7340032
+I (106049) RadioStorage: [MEM] catalog_station_count=58 catalog_capacity=64
+I (106049) RadioStorage: [MEM] point=CATALOG_LOAD_END internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7447588 psram_largest=7340032
+I (106059) RadioStorage: [MEM] point=CATALOG_SAVE_BEGIN internal_free=42575 internal_largest=17408 dma_free=34803 dma_largest=17408 psram_free=7474384 psram_largest=7340032
+I (106069) RadioStorage: [MEM] CATALOG_SAVE_COST stations=58 value_bytes=9257 value_allocs=522 key_bytes=4872 key_allocs=580 node_count=639 node_bytes=25560
+I (106089) RadioStorage: [MEM] point=CATALOG_BEFORE_SERIALIZE internal_free=13087 internal_largest=7680 dma_free=5119 dma_largest=4864 psram_free=7474516 psram_largest=7340032
+I (106109) RadioStorage: [MEM] point=CATALOG_AFTER_SERIALIZE internal_free=12859 internal_largest=7680 dma_free=5015 dma_largest=4608 psram_free=7457860 psram_largest=7340032
+I (106119) RadioStorage: [MEM] catalog_station_count=58 serialized_bytes=16649
+I (106119) RadioStorage: [MEM] point=CATALOG_BEFORE_FOPEN_WRITE internal_free=13219 internal_largest=7680 dma_free=5447 dma_largest=5120 psram_free=7457860 psram_largest=7340032
+I (106139) RadioStorage: [MEM] point=CATALOG_AFTER_FOPEN_WRITE internal_free=12911 internal_largest=7680 dma_free=5139 dma_largest=3584 psram_free=7457344 psram_largest=7340032
+I (106159) RadioStorage: [MEM] point=CATALOG_BEFORE_WRITE internal_free=12715 internal_largest=7680 dma_free=4683 dma_largest=3584 psram_free=7457344 psram_largest=7340032
+I (106239) RadioStorage: [MEM] point=CATALOG_AFTER_WRITE internal_free=12911 internal_largest=7680 dma_free=5139 dma_largest=4608 psram_free=7457344 psram_largest=7340032
+I (106249) RadioStorage: [MEM] catalog_write_requested=16649 catalog_write_completed=16649
+I (106259) RadioStorage: [MEM] point=CATALOG_SAVE_BEFORE_CLOSE internal_free=12779 internal_largest=7680 dma_free=5007 dma_largest=4096 psram_free=7457344 psram_largest=7340032
+I (106409) RadioStorage: [MEM] point=CATALOG_SAVE_AFTER_CLOSE internal_free=13123 internal_largest=7680 dma_free=5351 dma_largest=3712 psram_free=7457860 psram_largest=7340032
+I (106549) RadioStorage: [MEM] point=CATALOG_BEFORE_RENAME internal_free=12611 internal_largest=7680 dma_free=4839 dma_largest=3712 psram_free=7457860 psram_largest=7340032
+I (106549) RadioStorage: [MEM] point=CATALOG_AFTER_RENAME internal_free=12415 internal_largest=7680 dma_free=4611 dma_largest=3712 psram_free=7457860 psram_largest=7340032
+I (106569) RadioStorage: Successfully saved 58 stations to /sdcard/radio_catalog.json
+I (106579) RadioStorage: [MEM] point=CATALOG_SAVE_END internal_free=12639 internal_largest=7680 dma_free=4867 dma_largest=3712 psram_free=7457860 psram_largest=7340032
+I (106589) RAM: [RADIO_START] internal free=42451 min=16 largest=9728 | psram free=7497304 min=7349648 largest=7340032
+I (106599) InternetRadio: Radio current:
+name=Radio ESKA Warszawa
+uuid=c52a1932-bb22-4927-9d47-62147e26d908
+codec=AAC+
+bitrate=48
+country=Poland
+url=http://waw.ic.smcdn.pl/2380-2.aac
+I (106619) InternetRadio: Radio stream startup: connecting
+I (106619) Application: Abort speaking
+I (106619) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=36007 internal_largest=7680 dma_free=28235 dma_largest=7168 psram_free=7497304 psram_largest=7340032
+I (106639) AudioManager: Audio focus requested by source 3 (current 0)
+I (106649) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=34807 internal_largest=11776 dma_free=27035 dma_largest=11776 psram_free=7497304 psram_largest=7340032
+I (106649) MQTT: Closing audio channel, send_goodbye: 1
+I (106659) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (106669) StateMachine: State: speaking -> idle
+I (106669) wifi:Set ps type: 0, coexist: 0
+
+I (106679) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (106689) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (107309) InternetRadio: [RADIO_REDIRECT] status=302 from=http://waw.ic.smcdn.pl/2380-2.aac to=http://ic1.smcdn.pl/2380-2.aac redirect=1
+I (107319) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (107439) InternetRadio: [RADIO_REDIRECT] followed successfully to http://ic1.smcdn.pl/2380-2.aac
+I (107439) InternetRadio: Stream connected: status=200 content_type=unknown
+I (107439) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (107449) InternetRadio: Radio codec selection:
+station_codec=AAC+
+content_type=unknown
+selected_decoder=AAC
+I (107459) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (107469) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=29323 internal_largest=11776 dma_free=21551 dma_largest=11776 psram_free=7416832 psram_largest=7340032
+I (107479) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (107489) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (107499) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=25795 internal_largest=11776 dma_free=18023 dma_largest=11776 psram_free=7416832 psram_largest=7340032
+I (107509) InternetRadio: Received first stream data: bytes=2048
+I (107529) InternetRadio: First AAC frame decoded: rate=48000 channels=2 bits=16 bytes=8192
+I (107529) RAM: [RADIO_PLAYING] internal free=24575 min=16 largest=11776 | psram free=7361532 min=7349648 largest=7340032
+I (107539) AudioService: [RADIO_PCM] ptr=0x3c3ded24 size=2048 bytes PSRAM=YES (queue=1)
+I (107539) AudioService: [RADIO_PREBUFFER] buffering... current=42 ms target=1800 ms (queue=1)
+I (107629) MQTT: Received goodbye message, session_id: c2c31956
+I (107629) MQTT: Closing audio channel, send_goodbye: 0
+I (107629) MQTT: Received goodbye message, session_id: c2c31956
+I (107639) MQTT: Closing audio channel, send_goodbye: 0
+I (107959) AudioService: [RADIO_PCM] ptr=0x3c41b718 size=2048 bytes PSRAM=YES (queue=32)
+I (108139) AudioService: [RADIO_OUTPUT] queue=42 buffer=1764 ms pcm=42 ms write=0 ms wait_in_q=605 ms
+I (108689) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=932 ms
+I (109199) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1280 ms
+I (109719) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=49 ms wait_in_q=1590 ms
+I (110229) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1827 ms
+I (110269) RAM: internal free=17715 min=16 largest=7680 | psram free=7272848 min=7270796 largest=7208960
+I (110739) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1827 ms
+I (111249) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1827 ms
+I (111759) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1817 ms
+I (112279) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=49 ms wait_in_q=1817 ms
+I (112659) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (112659) InternetRadio: [RADIO] buffer=1806 ms queue=43 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (112789) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1829 ms
+I (113299) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1827 ms
+I (113809) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1830 ms
+I (114319) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1817 ms
+I (114839) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=49 ms wait_in_q=1817 ms
+I (115269) RAM: internal free=21371 min=16 largest=7680 | psram free=7274896 min=7270796 largest=7208960
+I (115349) AudioService: [RADIO_OUTPUT] queue=43 buffer=1806 ms pcm=42 ms write=39 ms wait_in_q=1827 ms
+I (115559) SystemInfo: free sram: 19515 minimal sram: 16
+I (115559) Application: Wake word detected: Hey Kira (state: 3)
+I (115559) RAM: [RADIO_STOP] internal free=19495 min=16 largest=7680 | psram free=7272848 min=7270796 largest=7208960
+I (115579) AudioService: [RADIO_PCM] ptr=0x3c3e7d68 size=2048 bytes PSRAM=YES (queue=1)
+I (115579) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (115589) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (115589) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42823 internal_largest=11776 dma_free=35051 dma_largest=11776 psram_free=7495252 psram_largest=7340032
+I (115609) AudioManager: Releasing audio focus from source 3
+I (115609) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=42879 internal_largest=11776 dma_free=35107 dma_largest=11776 psram_free=7497304 psram_largest=7340032
+I (115619) StateMachine: State: idle -> connecting
+I (115619) AfeAudioEngine: Encoded wake word into 0 packets in 0 ms
+I (115659) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (115659) wifi:Set ps type: 0, coexist: 0
+
+I (116039) MQTT: Session ID: 17f996ee
+I (116039) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (116039) wifi:Set ps type: 0, coexist: 0
+
+I (116039) Application: Wake word detected: Hey Kira
+I (116049) StateMachine: State: connecting -> listening
+I (116069) AudioService: Resampling audio from 16000 to 24000
+I (119209) Application: >> останови радио
+I (119219) StateMachine: State: listening -> speaking
+I (120089) Application: << Сейчас остановлю радио.
+I (120269) RAM: internal free=41787 min=16 largest=11776 | psram free=7492048 min=7270796 largest=7340032
+I (121799) Application: << % radio.stop...
+I (121799) Application: Abort speaking
+I (121809) MQTT: Closing audio channel, send_goodbye: 1
+I (121809) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (121809) wifi:Set ps type: 2, coexist: 0
+
+I (121809) StateMachine: State: speaking -> idle
+I (121819) RAM: [RADIO_STOP] internal free=43011 min=16 largest=11776 | psram free=7489164 min=7270796 largest=7340032
+I (124919) MQTT: Received goodbye message, session_id: 17f996ee
+I (124919) MQTT: Closing audio channel, send_goodbye: 0
+I (124919) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (124919) MQTT: Received goodbye message, session_id: 17f996ee
+I (124929) wifi:Set ps type: 2, coexist: 0
+
+I (124939) MQTT: Closing audio channel, send_goodbye: 0
+I (124939) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (124949) wifi:Set ps type: 2, coexist: 0
+
+I (125269) RAM: internal free=46895 min=16 largest=11776 | psram free=7497816 min=7270796 largest=7340032
