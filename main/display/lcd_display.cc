@@ -33,6 +33,7 @@
 #include "board.h"
 #include "application.h"
 #include "audio/audio_codec.h"
+#include "media/radio_browser.h"
 
 #define TAG "LcdDisplay"
 
@@ -1587,6 +1588,20 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
             display->ToggleQuickSettings();
             display->OpenSettingsModal();
         }
+    }, LV_EVENT_CLICKED, this);
+
+    // TEMPORARY: run the bounded online radio search diagnostic.
+    lv_obj_t* test_btn = lv_btn_create(header);
+    lv_obj_set_size(test_btn, 48, 36);
+    lv_obj_align(test_btn, LV_ALIGN_RIGHT_MID, -92, 0);
+    lv_obj_set_style_radius(test_btn, 8, 0);
+    lv_obj_set_style_bg_color(test_btn, lv_color_hex(0x92400E), 0);
+    lv_obj_t* test_label = lv_label_create(test_btn);
+    lv_label_set_text(test_label, "TEST");
+    lv_obj_set_style_text_color(test_label, lv_color_hex(0xFFFFFF), 0);
+    lv_obj_center(test_label);
+    lv_obj_add_event_cb(test_btn, [](lv_event_t*) {
+        RadioBrowser::GetInstance().TestOnlineSearch();
     }, LV_EVENT_CLICKED, this);
 
     // Volume Row (Anchored at X=95 to avoid label overlap)

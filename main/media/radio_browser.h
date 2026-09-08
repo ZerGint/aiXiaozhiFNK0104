@@ -11,6 +11,8 @@ public:
     static RadioBrowser& GetInstance();
 
     void RegisterMcpTools();
+    // TEMPORARY: diagnostic online-search hook for the radio UI.
+    void TestOnlineSearch();
     std::string SearchStations(const std::string& query = "",
                                const std::string& countrycode = "",
                                const std::string& language = "",

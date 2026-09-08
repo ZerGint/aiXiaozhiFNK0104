@@ -18,11 +18,15 @@
 #include <cctype>
 #include <memory>
 #include <sstream>
+#include <atomic>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #define TAG "RadioBrowser"
 
 namespace {
 constexpr bool RADIO_SEARCH_DIAGNOSTICS_ENABLED = true;
+std::atomic<bool> radio_test_running{false};
 void ScheduleRadioErrorBip() {
     Application::GetInstance().Schedule([]() {
         Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
@@ -340,7 +344,28 @@ bool HasNameToken(const std::string& name, const std::string& query) {
     while (stream >> token) if (ContainsInsensitive(name, token)) return true;
     return query.empty();
 }
+
 } // namespace
+
+void RadioBrowser::TestOnlineSearch() {
+    // TEMPORARY: keep blocking test traffic off the UI/event task.
+    bool expected = false;
+    if (!radio_test_running.compare_exchange_strong(expected, true)) {
+        ESP_LOGW(TAG, "[RADIO_TEST] already running");
+        return;
+    }
+    ESP_LOGI(TAG, "[RADIO_TEST] start query=rock limit=10");
+    if (xTaskCreate([](void* arg) {
+        auto* browser = static_cast<RadioBrowser*>(arg);
+        std::string result = browser->PerformOnlineSearch("rock", "", "", "", 10);
+        ESP_LOGI(TAG, "[RADIO_TEST] end result_bytes=%u", static_cast<unsigned>(result.size()));
+        radio_test_running.store(false);
+        vTaskDelete(nullptr);
+    }, "RadioTest", 6144, this, 3, nullptr) != pdPASS) {
+        radio_test_running.store(false);
+        ESP_LOGE(TAG, "[RADIO_TEST] task creation failed");
+    }
+}
 
 std::string RadioBrowser::SearchStations(const std::string& query,
                                           const std::string& countrycode,
