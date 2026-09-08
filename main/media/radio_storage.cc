@@ -13,6 +13,7 @@
 #include <cstdio>
 #include <cstring>
 #include <memory>
+#include <sstream>
 
 #define TAG "RadioStorage"
 
@@ -21,6 +22,13 @@ constexpr const char* kFavoritesPath = "/sdcard/radio_favorites.json";
 constexpr const char* kFavoritesTmpPath = "/sdcard/radio_favorites.json.tmp";
 constexpr const char* kCatalogPath = "/sdcard/radio_catalog.json";
 constexpr const char* kCatalogTmpPath = "/sdcard/radio_catalog.json.tmp";
+constexpr bool RADIO_LOCAL_SEARCH_RANKING_ENABLED = true;
+constexpr int kNameTokenWeight = 100;
+constexpr int kStateTokenWeight = 20;
+constexpr int kMetadataTokenWeight = 5;
+constexpr int kFullNameBonus = 1000;
+bool ContainsInsensitiveNoAlloc(const std::string& value, const std::string& query);
+std::vector<std::string> TokenizeQuery(const std::string& query);
 
 std::string JsonString(cJSON* object, const char* key) {
     cJSON* value = cJSON_GetObjectItemCaseSensitive(object, key);
@@ -480,6 +488,39 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
     std::vector<RadioStationInfo> results;
     results.reserve(static_cast<size_t>(limit));
 
+    if constexpr (RADIO_LOCAL_SEARCH_RANKING_ENABLED) {
+        struct ScoredStation { int score; RadioStationInfo station; };
+        std::vector<ScoredStation> ranked;
+        ranked.reserve(static_cast<size_t>(limit));
+        const auto tokens = TokenizeQuery(query);
+        for (const auto& station : catalog) {
+            if (!IsSupportedCodec(station.codec)) continue;
+            if (!countrycode.empty() && !ContainsInsensitiveNoAlloc(station.countrycode, countrycode) &&
+                !ContainsInsensitiveNoAlloc(station.country, countrycode)) continue;
+            if (!language.empty() && !ContainsInsensitiveNoAlloc(station.language, language)) continue;
+            if (!tag.empty() && !ContainsInsensitiveNoAlloc(station.tags, tag)) continue;
+            int score = 0;
+            int useful_tokens = 0;
+            for (const auto& token : tokens) {
+                if (ContainsInsensitiveNoAlloc(station.name, token)) { score += kNameTokenWeight; ++useful_tokens; }
+                else if (ContainsInsensitiveNoAlloc(station.state, token)) { score += kStateTokenWeight; ++useful_tokens; }
+                else if (ContainsInsensitiveNoAlloc(station.tags, token) || ContainsInsensitiveNoAlloc(station.country, token)) {
+                    score += kMetadataTokenWeight; ++useful_tokens;
+                }
+            }
+            if (!query.empty() && useful_tokens == 0) continue;
+            if (!query.empty() && ContainsInsensitiveNoAlloc(station.name, query)) score += kFullNameBonus;
+            auto position = std::find_if(ranked.begin(), ranked.end(), [score](const ScoredStation& item) {
+                return score > item.score;
+            });
+            if (position == ranked.end() && ranked.size() >= static_cast<size_t>(limit)) continue;
+            ranked.insert(position, {score, station});
+            if (ranked.size() > static_cast<size_t>(limit)) ranked.pop_back();
+        }
+        for (auto& item : ranked) results.push_back(std::move(item.station));
+        return results;
+    }
+
     for (const auto& station : catalog) {
         if (!IsSupportedCodec(station.codec)) {
             continue;
@@ -523,6 +564,32 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
 
     return results;
 }
+
+namespace {
+bool ContainsInsensitiveNoAlloc(const std::string& value, const std::string& query) {
+    if (query.empty() || query.size() > value.size()) return query.empty();
+    for (size_t start = 0; start <= value.size() - query.size(); ++start) {
+        bool match = true;
+        for (size_t i = 0; i < query.size(); ++i) {
+            if (std::tolower(static_cast<unsigned char>(value[start + i])) !=
+                std::tolower(static_cast<unsigned char>(query[i]))) {
+                match = false;
+                break;
+            }
+        }
+        if (match) return true;
+    }
+    return false;
+}
+
+std::vector<std::string> TokenizeQuery(const std::string& query) {
+    std::istringstream stream(query);
+    std::vector<std::string> tokens;
+    std::string token;
+    while (stream >> token) tokens.push_back(std::move(token));
+    return tokens;
+}
+} // namespace
 
 bool RadioStorage::GetCatalogStationByUuid(const std::string& station_uuid,
                                             RadioStationInfo& station) {
