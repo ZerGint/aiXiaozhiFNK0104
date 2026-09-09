@@ -1116,6 +1116,66 @@ void LcdDisplay::SetupUI() {
     panel_roboeyes_ = emoji_box_;
     SetupQuickSettingsOverlay(screen);
     SetupFullSettingsModal(screen);
+    // UI-1 visual shell: navigation and service panels are intentionally
+    // presentation-only; playback/storage services are not touched here.
+    if (status_bar_ != nullptr) lv_obj_add_flag(status_bar_, LV_OBJ_FLAG_HIDDEN);
+    if (bottom_bar_ != nullptr) lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
+
+    lv_obj_t* nav = lv_obj_create(screen);
+    lv_obj_set_size(nav, 92, LV_VER_RES - 50);
+    lv_obj_align(nav, LV_ALIGN_BOTTOM_LEFT, 0, 0);
+    lv_obj_set_style_pad_all(nav, 4, 0);
+    lv_obj_set_style_bg_color(nav, lv_color_hex(0x0B2433), 0);
+    lv_obj_set_style_border_width(nav, 0, 0);
+    lv_obj_set_flex_flow(nav, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(nav, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER,
+                          LV_FLEX_ALIGN_CENTER);
+    const char* nav_labels[] = {"SD Player\nReady", "Internet Radio\nReady", "AI\nReady"};
+    for (int i = 0; i < 3; ++i) {
+        lv_obj_t* button = lv_button_create(nav);
+        lv_obj_set_width(button, 84);
+        lv_obj_set_height(button, 78);
+        lv_obj_t* label = lv_label_create(button);
+        lv_label_set_text(label, nav_labels[i]);
+        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
+        lv_obj_center(label);
+        lv_obj_add_event_cb(button, [](lv_event_t* e) {
+            auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            auto* button = static_cast<lv_obj_t*>(lv_event_get_target(e));
+            const int nav_index = static_cast<int>(reinterpret_cast<intptr_t>(lv_obj_get_user_data(button)));
+            display->SwitchTab(nav_index == 0 ? 1 : (nav_index == 1 ? 2 : 0));
+        }, LV_EVENT_CLICKED, this);
+        lv_obj_set_user_data(button, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
+    }
+
+    panel_player_ = lv_obj_create(screen);
+    lv_obj_set_size(panel_player_, LV_HOR_RES - 96, LV_VER_RES - 50);
+    lv_obj_align(panel_player_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
+    lv_obj_set_style_bg_color(panel_player_, lv_color_hex(0x061A24), 0);
+    lv_obj_set_style_border_color(panel_player_, lv_color_hex(0x16D99A), 0);
+    lv_obj_set_style_radius(panel_player_, 12, 0);
+    lv_obj_t* player_label = lv_label_create(panel_player_);
+    lv_label_set_text(player_label, "SD PLAYER\n\n[ artwork ]\n\nNo track\n\n|<   PLAY   >|\n\nShuffle    Repeat\n\nVolume  ━━━━━");
+    lv_obj_set_style_text_align(player_label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_center(player_label);
+
+    panel_sega_ = lv_obj_create(screen);
+    lv_obj_set_size(panel_sega_, LV_HOR_RES - 96, LV_VER_RES - 50);
+    lv_obj_align(panel_sega_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
+    lv_obj_set_style_bg_color(panel_sega_, lv_color_hex(0x061A24), 0);
+    lv_obj_set_style_border_color(panel_sega_, lv_color_hex(0x16D99A), 0);
+    lv_obj_set_style_radius(panel_sega_, 12, 0);
+    lv_obj_t* radio_label = lv_label_create(panel_sega_);
+    lv_label_set_text(radio_label, "INTERNET RADIO\n\n[ station logo ]\n\nNo station\n\n|<   PLAY   >|   ☆\n\nAll   |   Favorites\n\nStation list\n\n◀  1 / 3  ▶");
+    lv_obj_set_style_text_align(radio_label, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_center(radio_label);
+
+    lv_obj_t* ai_title = lv_label_create(emoji_box_);
+    lv_label_set_text(ai_title, "AI\n\nWeather\n--\nNo weather data");
+    lv_obj_set_style_text_align(ai_title, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_align(ai_title, LV_ALIGN_CENTER, 0, 95);
+    lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
     lv_obj_move_foreground(top_bar_);
     lv_obj_move_foreground(status_bar_);
 }
