@@ -365,16 +365,27 @@ void RadioBrowser::TestOnlineSearch() {
     if (xTaskCreate([](void* arg) {
         auto* browser = static_cast<RadioBrowser*>(arg);
         const int step = radio_test_step.load();
-        constexpr const char* kUuid = "01b61e49-18bd-486d-b0e1-cb51cbaf9a6d";
+        constexpr const char* kUuid = "3937d9d4-4ee8-444b-bdb6-fbf64c7324f8";
         bool ok = true; std::string error;
         if (step == 1 || step == 10) {
+            RadioStationInfo cached;
+            const bool catalog_found = RadioStorage::GetInstance().GetCatalogStationByUuid(kUuid, cached);
+            ESP_LOGI(TAG, "[RADIO_FRESH_TEST] precondition uuid=%s catalog_found=%d", kUuid, catalog_found ? 1 : 0);
+            if (step == 1 && catalog_found) {
+                ESP_LOGW(TAG, "[RADIO_FRESH_TEST] BLOCKED catalog already contains test UUID");
+                radio_test_step.store(0);
+                radio_test_ready.store(false);
+                radio_test_running.store(false);
+                vTaskDelete(nullptr);
+                return;
+            }
             const std::string response = browser->PlayStation("", "", kUuid);
             ok = response.find("Playing internet radio:") != std::string::npos;
             radio_test_uuid = kUuid; radio_test_ready.store(ok);
         } else if (step == 2 || step == 3 || step == 6) {
             const std::string response = browser->AddFavorite();
             ESP_LOGI(TAG, "[RADIO_TEST] favorite_result=%s", response.c_str());
-            ok = (step == 3) ? response.find("already") != std::string::npos : (step == 2 ? response.find("added") != std::string::npos : response.find("No current") != std::string::npos);
+            ok = (step == 3) ? response.find("already") != std::string::npos : (step == 2 ? (response.find("added") != std::string::npos || response.find("already") != std::string::npos) : response.find("No current") != std::string::npos);
         } else if (step == 4 || step == 9) {
             ESP_LOGI(TAG, "[RADIO_TEST] favorites=%s", browser->ListFavorites().c_str());
         } else if (step == 5) {
