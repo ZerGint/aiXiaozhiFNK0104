@@ -587,29 +587,23 @@ bool RadioStorage::GetCatalogStationByUuid(const std::string& station_uuid,
     std::lock_guard<std::mutex> lock(mutex_);
     struct stat st;
     if (stat(kBinaryCatalogPath, &st) != 0) {
-        ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] catalog_lookup uuid=%s result=missing", station_uuid.c_str());
         return false;
     }
     RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
     uint32_t count = 0;
     if (!reader.Open(count)) {
-        ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] catalog_lookup uuid=%s result=open_failure", station_uuid.c_str());
         return false;
     }
     bool found = false;
     for (uint32_t i = 0; i < count; ++i) {
         RadioStationInfo candidate;
         if (!reader.ReadNext(candidate)) {
-            ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] catalog_lookup uuid=%s result=record_failure", station_uuid.c_str());
             return false;
         }
         if (candidate.stationuuid == station_uuid) { station = std::move(candidate); found = true; }
     }
     if (!reader.Finish()) {
-        ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] catalog_lookup uuid=%s result=finish_failure", station_uuid.c_str());
         return false;
     }
-    ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] catalog_lookup uuid=%s result=%s url_empty=%d",
-             station_uuid.c_str(), found ? "hit" : "absent", found && station.url_resolved.empty() ? 1 : 0);
     return found;
 }

@@ -27,10 +27,6 @@
 
 namespace {
 constexpr bool RADIO_SEARCH_DIAGNOSTICS_ENABLED = true;
-std::atomic<bool> radio_test_running{false};
-std::atomic<int> radio_test_step{0};
-std::atomic<bool> radio_test_ready{false};
-std::string radio_test_uuid;
 void ScheduleRadioErrorBip() {
     Application::GetInstance().Schedule([]() {
         Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
@@ -353,54 +349,6 @@ bool HasNameToken(const std::string& name, const std::string& query) {
 } // namespace
 
 void RadioBrowser::TestOnlineSearch() {
-    // TEMPORARY: binary storage end-to-end diagnostic.
-    const int step = radio_test_step.load() + 1;
-    if (step > 10) { ESP_LOGI(TAG, "[RADIO_TEST] binary sequence complete"); return; }
-    bool expected = false;
-    if (!radio_test_running.compare_exchange_strong(expected, true)) {
-        ESP_LOGW(TAG, "[RADIO_TEST] busy step=%d", radio_test_step.load() + 1); return;
-    }
-    radio_test_step.store(step);
-    ESP_LOGI(TAG, "TEST_BINARY step=%d BEFORE", step);
-    if (xTaskCreate([](void* arg) {
-        auto* browser = static_cast<RadioBrowser*>(arg);
-        const int step = radio_test_step.load();
-        constexpr const char* kUuid = "3937d9d4-4ee8-444b-bdb6-fbf64c7324f8";
-        bool ok = true; std::string error;
-        if (step == 1 || step == 10) {
-            RadioStationInfo cached;
-            const bool catalog_found = RadioStorage::GetInstance().GetCatalogStationByUuid(kUuid, cached);
-            ESP_LOGI(TAG, "[RADIO_FRESH_TEST] precondition uuid=%s catalog_found=%d", kUuid, catalog_found ? 1 : 0);
-            if (step == 1 && catalog_found) {
-                ESP_LOGW(TAG, "[RADIO_FRESH_TEST] BLOCKED catalog already contains test UUID");
-                radio_test_step.store(0);
-                radio_test_ready.store(false);
-                radio_test_running.store(false);
-                vTaskDelete(nullptr);
-                return;
-            }
-            const std::string response = browser->PlayStation("", "", kUuid);
-            ok = response.find("Playing internet radio:") != std::string::npos;
-            radio_test_uuid = kUuid; radio_test_ready.store(ok);
-        } else if (step == 2 || step == 3 || step == 6) {
-            const std::string response = browser->AddFavorite();
-            ESP_LOGI(TAG, "[RADIO_TEST] favorite_result=%s", response.c_str());
-            ok = (step == 3) ? response.find("already") != std::string::npos : (step == 2 ? (response.find("added") != std::string::npos || response.find("already") != std::string::npos) : response.find("No current") != std::string::npos);
-        } else if (step == 4 || step == 9) {
-            ESP_LOGI(TAG, "[RADIO_TEST] favorites=%s", browser->ListFavorites().c_str());
-        } else if (step == 5) {
-            InternetRadioPlayer::GetInstance().Stop();
-        } else if (step == 7) {
-            ok = browser->PlayFavorite(kUuid).find("Playing favorite") != std::string::npos;
-        } else if (step == 8) {
-            ok = browser->RemoveFavorite(kUuid).find("removed") != std::string::npos;
-        }
-        LogRadioMemory(TAG, "TEST_BINARY_AFTER");
-        ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/10 %s", step, ok ? "PASS" : "FAIL");
-        radio_test_running.store(false); vTaskDelete(nullptr);
-    }, "RadioTest", 6144, this, 3, nullptr) != pdPASS) {
-        radio_test_running.store(false); ESP_LOGE(TAG, "[RADIO_TEST] task creation failed");
-    }
 }
 
 std::string RadioBrowser::SearchStations(const std::string& query,
@@ -504,13 +452,9 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
 
         std::string play_err;
         auto admission = [station = fresh_station]() mutable {
-            ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] callback uuid=%s", station.stationuuid.c_str());
             Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] scheduled_begin uuid=%s", station.stationuuid.c_str());
                 std::string err;
                 const bool ok = RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] storage_result uuid=%s ok=%d err=%s",
-                         station.stationuuid.c_str(), ok ? 1 : 0, err.c_str());
                 if (!ok) {
                     ESP_LOGW(TAG, "Failed to refresh radio catalog after startup: %s", err.c_str());
                 }
@@ -583,9 +527,6 @@ std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
         ESP_LOGI(TAG, "[FAVORITE_PLAY] resolving by UUID");
         RadioStationInfo cached_station;
         const bool catalog_found = RadioStorage::GetInstance().GetCatalogStationByUuid(target_favorite.stationuuid, cached_station);
-        ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] favorite_catalog uuid=%s found=%d url_empty=%d",
-                 target_favorite.stationuuid.c_str(), catalog_found ? 1 : 0,
-                 cached_station.url_resolved.empty() ? 1 : 0);
         if (catalog_found && !cached_station.url_resolved.empty()) {
             std::string play_err;
             const std::string station_uuid = target_favorite.stationuuid;
