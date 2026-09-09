@@ -6,6 +6,7 @@
 #include "radio_storage.h"
 #include "settings.h"
 #include "radio_memory_diag.h"
+#include "radio_json_framer.h"
 #include "assets/lang_config.h"
 
 #include <cJSON.h>
@@ -214,43 +215,45 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_HTTP");
     LogHeapDiag("after_http_response");
 
-    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(raw.c_str()), &cJSON_Delete);
-    if (root == nullptr || !cJSON_IsArray(root.get())) {
-        ESP_LOGI(TAG, "[RADIO_SEARCH_DIAG] user_limit=%d server_limit=%d http_response_bytes=%u server_objects=0 accepted_codec=0 rejected_codec=0 returned_results=0 stopped_after_limit=NO", limit, server_limit, static_cast<unsigned>(raw.size()));
-        return raw;
-    }
-    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_PARSE");
-
     std::vector<RadioSearchResult> catalog_stations;
     catalog_stations.reserve(static_cast<size_t>(limit));
-    cJSON* station = nullptr;
-    const int server_objects = cJSON_GetArraySize(root.get());
+    int server_objects = 0;
     int accepted_codec = 0;
     int rejected_codec = 0;
     bool stopped_after_limit = false;
-    cJSON_ArrayForEach(station, root.get()) {
-        std::string codec_str = JsonString(station, "codec");
+    const bool valid = ForEachJsonObject(raw, [&](std::string_view object) {
+        ++server_objects;
+        if (catalog_stations.size() >= static_cast<size_t>(limit)) {
+            stopped_after_limit = true;
+            return true;
+        }
+        std::unique_ptr<cJSON, decltype(&cJSON_Delete)> station(
+            cJSON_ParseWithLength(object.data(), object.size()), &cJSON_Delete);
+        if (station == nullptr || !cJSON_IsObject(station.get())) return false;
+        std::string codec_str = JsonString(station.get(), "codec");
         std::string codec_lower = codec_str;
         std::transform(codec_lower.begin(), codec_lower.end(), codec_lower.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
         const bool is_supported = (codec_lower.find("mp3") != std::string::npos ||
                                    codec_lower.find("aac") != std::string::npos);
-
         if (is_supported) {
             ++accepted_codec;
             ESP_LOGI(TAG, "RadioBrowser: accepted codec %s", codec_str.c_str());
-            catalog_stations.push_back({JsonString(station, "stationuuid"),
-                                        JsonString(station, "name"),
-                                        JsonString(station, "state")});
-            if (catalog_stations.size() >= static_cast<size_t>(limit)) {
-                stopped_after_limit = true;
-                break;
-            }
+            catalog_stations.push_back({JsonString(station.get(), "stationuuid"),
+                                        JsonString(station.get(), "name"),
+                                        JsonString(station.get(), "state")});
+            if (catalog_stations.size() >= static_cast<size_t>(limit)) stopped_after_limit = true;
         } else {
             ++rejected_codec;
             ESP_LOGD(TAG, "RadioBrowser: rejected unsupported codec %s", codec_str.c_str());
         }
+        return true;
+    });
+    if (!valid) {
+        ESP_LOGI(TAG, "[RADIO_SEARCH_DIAG] user_limit=%d server_limit=%d http_response_bytes=%u server_objects=0 accepted_codec=0 rejected_codec=0 returned_results=0 stopped_after_limit=NO", limit, server_limit, static_cast<unsigned>(raw.size()));
+        return raw;
     }
+    if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) LogHeapDiag("RADIO_SEARCH_AFTER_PARSE");
 
     LogHeapDiag("after_parse_filter");
     if constexpr (RADIO_SEARCH_DIAGNOSTICS_ENABLED) {
@@ -258,7 +261,6 @@ std::string RadioBrowser::PerformOnlineSearch(const std::string& query,
     }
 
     // Free the heavy cJSON root tree and raw HTTP response string IMMEDIATELY
-    root.reset();
     raw.clear();
     raw.shrink_to_fit();
 
