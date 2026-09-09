@@ -352,56 +352,41 @@ bool HasNameToken(const std::string& name, const std::string& query) {
 } // namespace
 
 void RadioBrowser::TestOnlineSearch() {
-    // TEMPORARY: ten-step physical regression runner; keep blocking work off UI.
+    // TEMPORARY: two-step active-playback favorites diagnostic.
     const int step = radio_test_step.load() + 1;
-    if (step > 10) {
-        ESP_LOGI(TAG, "[RADIO_TEST] sequence complete");
-        return;
-    }
+    if (step > 2) { ESP_LOGI(TAG, "[RADIO_TEST] sequence complete"); return; }
     bool expected = false;
     if (!radio_test_running.compare_exchange_strong(expected, true)) {
-        ESP_LOGW(TAG, "[RADIO_TEST] busy step=%d", radio_test_step.load() + 1);
-        return;
+        ESP_LOGW(TAG, "[RADIO_TEST] busy step=%d", radio_test_step.load() + 1); return;
     }
     radio_test_step.store(step);
-    ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/10 START", step);
+    ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/2 START", step);
     if (xTaskCreate([](void* arg) {
         auto* browser = static_cast<RadioBrowser*>(arg);
-        const int step = radio_test_step.load();
-        std::string result;
         bool ok = true;
-        if (step == 1) result = browser->PerformOnlineSearch("rock", "", "", "", 10);
-        else if (step == 2) result = browser->PerformOnlineSearch("jazz", "", "", "", 10);
-        else if (step == 3) result = browser->PerformOnlineSearch("Юмор FM", "", "", "", 10);
-        else if (step == 4) result = browser->PerformOnlineSearch("zzzz_aixiaozhi_radio_test_no_station_987654", "", "", "", 10);
-        else if (step == 5) {
-            result = browser->SearchStations("rock", "", "", "", 10, true);
+        if (radio_test_step.load() == 1) {
+            const std::string result = browser->SearchStations("rock", "", "", "", 1, true);
             std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(result.c_str()), &cJSON_Delete);
             cJSON* item = root && cJSON_IsArray(root.get()) ? cJSON_GetArrayItem(root.get(), 0) : nullptr;
-            std::string uuid = item == nullptr ? "" : JsonString(item, "stationuuid");
-            RadioStationInfo station;
-            std::string error;
-            ok = !uuid.empty() && browser->GetStationByUuid(uuid, station, error) &&
-                 MediaPlayer::GetInstance().PlayRadio(station, error);
-            if (ok) { radio_test_uuid = uuid; ESP_LOGI(TAG, "[RADIO_TEST] selected_test_uuid=%s selected_test_name=%s selected_test_state=%s", station.stationuuid.c_str(), station.name.c_str(), station.state.c_str()); }
-        } else if (step == 6 || step == 10) {
-            MediaPlayer::GetInstance().Stop();
-        } else if (step == 7 || step == 9) {
-            ok = !radio_test_uuid.empty();
-            if (ok) { const std::string response = browser->PlayStation("", "", radio_test_uuid); ESP_LOGI(TAG, "[RADIO_TEST] replay_result=%s", response.c_str()); }
-        } else if (step == 8) {
+            const std::string uuid = item == nullptr ? "" : JsonString(item, "stationuuid");
+            RadioStationInfo station; std::string error;
+            ok = !uuid.empty() && browser->GetStationByUuid(uuid, station, error) && MediaPlayer::GetInstance().PlayRadio(station, error);
+            if (ok) { radio_test_uuid = uuid; ESP_LOGI(TAG, "[RADIO_TEST] selected_test_uuid=%s selected_test_name=%s selected_test_state=%s", station.stationuuid.c_str(), station.name.c_str(), station.state.c_str()); ESP_LOGI(TAG, "[RADIO_TEST] play_result=accepted"); }
+        } else {
+            const auto station = InternetRadioPlayer::GetInstance().GetCurrentStation();
+            ESP_LOGI(TAG, "[RADIO_TEST] current playing=%s uuid=%s name=%s state=%s", MediaPlayer::GetInstance().IsPlaying() ? "YES" : "NO", station.stationuuid.c_str(), station.name.c_str(), station.state.c_str());
+            LogRadioMemory(TAG, "RADIO_TEST_BEFORE_ADD_FAVORITE");
             const std::string response = browser->AddFavorite("", "", "", "", "");
             ESP_LOGI(TAG, "[RADIO_TEST] favorite_result=%s", response.c_str());
-            ok = response.rfind("Station added to favorites:", 0) == 0 ||
-                 response == "Station is already in favorites";
+            ok = response.rfind("Station added to favorites:", 0) == 0 || response == "Station is already in favorites";
+            LogRadioMemory(TAG, "RADIO_TEST_AFTER_ADD_FAVORITE");
         }
-        if (!ok) ESP_LOGW(TAG, "[RADIO_TEST] STEP %d/10 FAIL%s", step, step >= 7 ? " prerequisite_missing" : "");
-        else ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/10 PASS result_bytes=%u", step, static_cast<unsigned>(result.size()));
-        radio_test_running.store(false);
-        vTaskDelete(nullptr);
+        if (ok) ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/2 PASS", radio_test_step.load());
+        else ESP_LOGW(TAG, "[RADIO_TEST] STEP %d/2 FAIL reason=operation_failed", radio_test_step.load());
+        if (radio_test_step.load() == 2) ESP_LOGI(TAG, "[RADIO_TEST] SEQUENCE COMPLETE 2/2");
+        radio_test_running.store(false); vTaskDelete(nullptr);
     }, "RadioTest", 6144, this, 3, nullptr) != pdPASS) {
-        radio_test_running.store(false);
-        ESP_LOGE(TAG, "[RADIO_TEST] task creation failed");
+        radio_test_running.store(false); ESP_LOGE(TAG, "[RADIO_TEST] task creation failed");
     }
 }
 
