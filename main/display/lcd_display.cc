@@ -61,6 +61,12 @@ constexpr int kRightW = 138;
 
 lv_obj_t* g_nav_buttons[3] = {nullptr, nullptr, nullptr};
 
+static void DisableScroll(lv_obj_t* obj)
+{
+    lv_obj_remove_flag(obj, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_set_scrollbar_mode(obj, LV_SCROLLBAR_MODE_OFF);
+}
+
 static lv_obj_t* MakePanel(lv_obj_t* parent, int w, int h)
 {
     auto p = lv_obj_create(parent);
@@ -72,7 +78,7 @@ static lv_obj_t* MakePanel(lv_obj_t* parent, int w, int h)
     lv_obj_set_style_border_width(p, 1, 0);
     lv_obj_set_style_border_color(p, kBorder, 0);
 
-    lv_obj_set_scrollbar_mode(p, LV_SCROLLBAR_MODE_OFF);
+    DisableScroll(p);
 
     return p;
 }
@@ -106,6 +112,7 @@ static lv_obj_t* MakeButton(lv_obj_t* parent,
     lv_obj_set_style_radius(b, 10, 0);
     lv_obj_set_style_bg_color(b, bg, 0);
     lv_obj_set_style_border_width(b, 0, 0);
+    DisableScroll(b);
 
     auto l = lv_label_create(b);
     lv_label_set_text(l, text);
@@ -1006,6 +1013,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_bg_opa(emoji_box_, LV_OPA_TRANSP, 0);
     lv_obj_set_style_pad_all(emoji_box_, 0, 0);
     lv_obj_set_style_border_width(emoji_box_, 0, 0);
+    DisableScroll(emoji_box_);
     lv_obj_align(emoji_box_, LV_ALIGN_CENTER, 0, 0);
 
     emoji_label_ = lv_label_create(emoji_box_);
@@ -1228,6 +1236,7 @@ lv_obj_align(nav, LV_ALIGN_BOTTOM_LEFT, 0, 0);
 lv_obj_set_style_bg_color(nav, kNav, 0);
 lv_obj_set_style_border_width(nav, 0, 0);
 lv_obj_set_style_pad_all(nav, 6, 0);
+DisableScroll(nav);
 
 lv_obj_set_flex_flow(nav, LV_FLEX_FLOW_COLUMN);
 lv_obj_set_flex_align(nav,
@@ -1313,7 +1322,7 @@ lv_obj_align(panel_player_,
 
 lv_obj_set_style_bg_color(panel_player_, kBg, 0);
 lv_obj_set_style_border_width(panel_player_, 0, 0);
-lv_obj_set_scrollbar_mode(panel_player_, LV_SCROLLBAR_MODE_OFF);
+DisableScroll(panel_player_);
 
 
 /* CENTER */
@@ -1360,6 +1369,7 @@ lv_obj_set_style_bg_color(art,
                           lv_color_hex(0x173747),
                           0);
 lv_obj_set_style_border_width(art, 0, 0);
+DisableScroll(art);
 
 auto note = lv_label_create(art);
 
@@ -1457,6 +1467,7 @@ lv_obj_set_style_bg_opa(controls,
 lv_obj_set_style_border_width(controls,
                               0,
                               0);
+DisableScroll(controls);
 
 auto prev =
     MakeButton(controls,
@@ -1548,6 +1559,7 @@ for (int i = 0; i < 4; ++i)
         0);
 
     lv_obj_set_style_border_width(row, 0, 0);
+    DisableScroll(row);
 
     auto label = lv_label_create(row);
 
@@ -1595,7 +1607,7 @@ lv_obj_align(panel_sega_,
 
 lv_obj_set_style_bg_color(panel_sega_, kBg, 0);
 lv_obj_set_style_border_width(panel_sega_, 0, 0);
-lv_obj_set_scrollbar_mode(panel_sega_, LV_SCROLLBAR_MODE_OFF);
+DisableScroll(panel_sega_);
 
 
 /* center */
@@ -1823,6 +1835,7 @@ for (int i = 0; i < 4; ++i)
         0);
 
     lv_obj_set_style_border_width(row, 0, 0);
+    DisableScroll(row);
 
     auto name = lv_label_create(row);
 
