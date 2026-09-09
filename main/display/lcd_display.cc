@@ -1257,12 +1257,16 @@ void LcdDisplay::SetupUI() {
     }
     ai_view_ = panel(screen, 66, 38, 408, 276, kBg);
     lv_obj_set_style_border_width(ai_view_, 0, 0);
-    lv_obj_set_parent(emoji_box_, ai_view_);
+    auto ai_center = panel(ai_view_, 0, 0, 258, 276, lv_color_black());
+    lv_obj_set_style_border_width(ai_center, 2, 0);
+    lv_obj_set_style_border_color(ai_center, kPanel2, 0);
+    lv_obj_set_parent(emoji_box_, ai_center);
     lv_obj_set_size(emoji_box_, 240, 120);
-    lv_obj_set_pos(emoji_box_, 6, 32);
+    lv_obj_center(emoji_box_);
+    robo_eyes_.adapter.setColors(lv_color_black(), lv_color_hex(0x00F0FF));
     DisableScroll(emoji_box_);
-    lv_obj_set_parent(bottom_bar_, ai_view_);
-    lv_obj_set_size(bottom_bar_, 248, 90);
+    lv_obj_set_parent(bottom_bar_, ai_center);
+    lv_obj_set_size(bottom_bar_, 248, 64);
     lv_obj_align(bottom_bar_, LV_ALIGN_BOTTOM_LEFT, 0, -4);
     lv_obj_set_style_pad_all(bottom_bar_, 4, 0);
     lv_obj_set_style_bg_opa(bottom_bar_, LV_OPA_TRANSP, 0);
