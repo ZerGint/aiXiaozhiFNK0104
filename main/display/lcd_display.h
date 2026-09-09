@@ -50,6 +50,13 @@ protected:
     lv_timer_t* media_update_timer_ = nullptr;
     bool quick_settings_open_ = false;
 
+    lv_obj_t* nav_buttons_[3] = {};
+    lv_obj_t* nav_status_[3] = {};
+    lv_obj_t* ai_view_ = nullptr;
+    lv_obj_t* radio_view_ = nullptr;
+    lv_timer_t* service_timer_ = nullptr;
+    void UpdateServiceIndicators();
+
     // Tabs (AI RoboEyes, Player, Sega Emulator)
     lv_obj_t* panel_roboeyes_ = nullptr;
     lv_obj_t* panel_player_ = nullptr;
