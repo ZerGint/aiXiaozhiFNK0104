@@ -1122,7 +1122,7 @@ void LcdDisplay::SetupUI() {
     if (bottom_bar_ != nullptr) lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
 
     lv_obj_t* nav = lv_obj_create(screen);
-    lv_obj_set_size(nav, 92, LV_VER_RES - 50);
+    lv_obj_set_size(nav, 72, LV_VER_RES - 50);
     lv_obj_align(nav, LV_ALIGN_BOTTOM_LEFT, 0, 0);
     lv_obj_set_style_pad_all(nav, 4, 0);
     lv_obj_set_style_bg_color(nav, lv_color_hex(0x0B2433), 0);
@@ -1130,11 +1130,15 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_flex_flow(nav, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(nav, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
-    const char* nav_labels[] = {"SD Player\nReady", "Internet Radio\nReady", "AI\nReady"};
+    const char* nav_labels[] = {"Player", "Radio", "AI"};
     for (int i = 0; i < 3; ++i) {
         lv_obj_t* button = lv_button_create(nav);
-        lv_obj_set_width(button, 84);
-        lv_obj_set_height(button, 78);
+        lv_obj_set_width(button, 64);
+        lv_obj_set_height(button, 58);
+        lv_obj_set_style_bg_color(button, lv_color_hex(0x102D3A), 0);
+        lv_obj_set_style_border_color(button, lv_color_hex(0x1B5363), 0);
+        lv_obj_set_style_border_width(button, 1, 0);
+        lv_obj_set_style_radius(button, 8, 0);
         lv_obj_t* label = lv_label_create(button);
         lv_label_set_text(label, nav_labels[i]);
         lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
@@ -1149,7 +1153,7 @@ void LcdDisplay::SetupUI() {
     }
 
     panel_player_ = lv_obj_create(screen);
-    lv_obj_set_size(panel_player_, LV_HOR_RES - 96, LV_VER_RES - 50);
+    lv_obj_set_size(panel_player_, LV_HOR_RES - 76, LV_VER_RES - 50);
     lv_obj_align(panel_player_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
     lv_obj_set_style_bg_color(panel_player_, lv_color_hex(0x061A24), 0);
     lv_obj_set_style_border_color(panel_player_, lv_color_hex(0x16D99A), 0);
@@ -1160,7 +1164,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_center(player_label);
 
     panel_sega_ = lv_obj_create(screen);
-    lv_obj_set_size(panel_sega_, LV_HOR_RES - 96, LV_VER_RES - 50);
+    lv_obj_set_size(panel_sega_, LV_HOR_RES - 76, LV_VER_RES - 50);
     lv_obj_align(panel_sega_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
     lv_obj_set_style_bg_color(panel_sega_, lv_color_hex(0x061A24), 0);
     lv_obj_set_style_border_color(panel_sega_, lv_color_hex(0x16D99A), 0);
@@ -1170,10 +1174,6 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_text_align(radio_label, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_center(radio_label);
 
-    lv_obj_t* ai_title = lv_label_create(emoji_box_);
-    lv_label_set_text(ai_title, "AI\n\nWeather\n--\nNo weather data");
-    lv_obj_set_style_text_align(ai_title, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_align(ai_title, LV_ALIGN_CENTER, 0, 95);
     lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
     lv_obj_move_foreground(top_bar_);
