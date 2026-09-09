@@ -1237,13 +1237,13 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_event_cb(settings, [](lv_event_t* event) {
         static_cast<LcdDisplay*>(lv_event_get_user_data(event))->OpenSettingsModal();
     }, LV_EVENT_CLICKED, this);
-    auto nav = panel(screen, 0, 34, 64, 286, kNav);
+    auto nav = panel(screen, 0, 38, 64, 276, kNav);
     const char* names[] = {"Player", "Radio", "AI"};
     for (int i = 0; i < 3; ++i) {
-        auto obj = button(nav, names[i], 4, 8 + i * 86, 56, 78);
+        auto obj = button(nav, names[i], 4, 4 + i * 70, 56, 64);
         nav_buttons_[i] = obj;
-        lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 12);
-        nav_status_[i] = label(obj, "", 2, 44, 50, kMuted);
+        lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 8);
+        nav_status_[i] = label(obj, "", 2, 36, 50, kMuted);
         lv_obj_set_style_text_align(nav_status_[i], LV_TEXT_ALIGN_CENTER, 0);
         lv_obj_set_user_data(obj, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
         lv_obj_add_event_cb(obj, [](lv_event_t* e) {
@@ -1255,6 +1255,14 @@ void LcdDisplay::SetupUI() {
         lv_obj_set_style_border_width(obj, 1, 0);
         lv_obj_set_style_border_color(obj, i == 2 ? kAccent : kBorder, 0);
     }
+    auto nav_settings = button(nav, MATERIAL_SYMBOLS_SETTINGS, 4, 216, 56, 56);
+    lv_obj_set_style_border_width(nav_settings, 1, 0);
+    lv_obj_set_style_border_color(nav_settings, kBorder, 0);
+    lv_obj_set_style_text_font(lv_obj_get_child(nav_settings, 0), &BUILTIN_ICON_FONT, 0);
+    lv_obj_add_event_cb(nav_settings, [](lv_event_t* event) {
+        static_cast<LcdDisplay*>(lv_event_get_user_data(event))->OpenSettingsModal();
+    }, LV_EVENT_CLICKED, this);
+
     ai_view_ = panel(screen, 66, 38, 408, 276, kBg);
     lv_obj_set_style_border_width(ai_view_, 0, 0);
     auto ai_center = panel(ai_view_, 0, 0, 258, 276, lv_color_black());
