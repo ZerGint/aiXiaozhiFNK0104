@@ -1518,7 +1518,6 @@ void LcdDisplay::SwitchTab(int tab_index) {
             lv_obj_remove_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
         } else {
             lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-            MediaPlayer::GetInstance().Stop();
         }
     }
     if (panel_sega_) {
