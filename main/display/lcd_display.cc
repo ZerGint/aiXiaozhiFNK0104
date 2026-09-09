@@ -39,21 +39,21 @@
 
 namespace {
 
-constexpr lv_color_t kBg = lv_color_hex(0x071923);
-constexpr lv_color_t kTop = lv_color_hex(0x0B2433);
-constexpr lv_color_t kNav = lv_color_hex(0x0A202D);
+const lv_color_t kBg = lv_color_hex(0x071923);
+const lv_color_t kTop = lv_color_hex(0x0B2433);
+const lv_color_t kNav = lv_color_hex(0x0A202D);
 
-constexpr lv_color_t kPanel = lv_color_hex(0x0D2734);
-constexpr lv_color_t kPanel2 = lv_color_hex(0x0C2230);
+const lv_color_t kPanel = lv_color_hex(0x0D2734);
+const lv_color_t kPanel2 = lv_color_hex(0x0C2230);
 
-constexpr lv_color_t kCard = lv_color_hex(0x102C39);
-constexpr lv_color_t kCardHi = lv_color_hex(0x153D4B);
+const lv_color_t kCard = lv_color_hex(0x102C39);
+const lv_color_t kCardHi = lv_color_hex(0x153D4B);
 
-constexpr lv_color_t kAccent = lv_color_hex(0x16D99A);
-constexpr lv_color_t kBorder = lv_color_hex(0x163B4A);
+const lv_color_t kAccent = lv_color_hex(0x16D99A);
+const lv_color_t kBorder = lv_color_hex(0x163B4A);
 
-constexpr lv_color_t kText = lv_color_hex(0xF4FBFC);
-constexpr lv_color_t kMuted = lv_color_hex(0x9CB8C2);
+const lv_color_t kText = lv_color_hex(0xF4FBFC);
+const lv_color_t kMuted = lv_color_hex(0x9CB8C2);
 
 constexpr int kTopH = 34;
 constexpr int kNavW = 64;
