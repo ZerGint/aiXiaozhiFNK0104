@@ -392,6 +392,8 @@ void RadioBrowser::TestOnlineSearch() {
         } else if (step == 8) {
             const std::string response = browser->AddFavorite("", "", "", "", "");
             ESP_LOGI(TAG, "[RADIO_TEST] favorite_result=%s", response.c_str());
+            ok = response.rfind("Station added to favorites:", 0) == 0 ||
+                 response == "Station is already in favorites";
         }
         if (!ok) ESP_LOGW(TAG, "[RADIO_TEST] STEP %d/10 FAIL%s", step, step >= 7 ? " prerequisite_missing" : "");
         else ESP_LOGI(TAG, "[RADIO_TEST] STEP %d/10 PASS result_bytes=%u", step, static_cast<unsigned>(result.size()));

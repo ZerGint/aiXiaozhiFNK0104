@@ -145,11 +145,12 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
 
     std::string buffer;
     buffer.resize(size);
+    size_t read_bytes = 0;
     ESP_LOGI(TAG, "[MEM] catalog_file_bytes=%ld buffer_size=%zu buffer_capacity=%zu",
              size, buffer.size(), buffer.capacity());
     if (size > 0) {
         LogRadioMemory(TAG, "CATALOG_BEFORE_READ");
-        size_t read_bytes = fread(&buffer[0], 1, size, f.get());
+        read_bytes = fread(&buffer[0], 1, size, f.get());
         LogRadioMemory(TAG, "CATALOG_AFTER_READ");
         if (read_bytes != static_cast<size_t>(size)) {
             err_msg = std::string("Failed to read ") + path;
@@ -160,9 +161,18 @@ bool RadioStorage::LoadJsonFile(const char* path, std::vector<RadioStationInfo>&
     f.reset();
     LogRadioMemory(TAG, "CATALOG_LOAD_AFTER_CLOSE");
 
+    LogRadioMemory(TAG, "CATALOG_BEFORE_JSON_PARSE");
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> root(cJSON_Parse(buffer.c_str()),
                                                          &cJSON_Delete);
     if (root == nullptr || !cJSON_IsArray(root.get())) {
+        const char* parse_error = cJSON_GetErrorPtr();
+        const size_t error_offset = parse_error != nullptr && parse_error >= buffer.c_str() &&
+                                            parse_error <= buffer.c_str() + buffer.size()
+                                        ? static_cast<size_t>(parse_error - buffer.c_str())
+                                        : 0;
+        ESP_LOGE(TAG, "[MEM] JSON_PARSE_FAIL path=%s file_bytes=%ld read_bytes=%zu error_offset=%zu",
+                 path, size, read_bytes, error_offset);
+        LogRadioMemory(TAG, "CATALOG_AFTER_JSON_PARSE_FAIL");
         err_msg = std::string("Corrupted JSON file on SD card: ") + path;
         ESP_LOGE(TAG, "Corrupted JSON format in %s", path);
         return false;
