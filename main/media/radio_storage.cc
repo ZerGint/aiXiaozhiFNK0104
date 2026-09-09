@@ -2,6 +2,7 @@
 #include "radio_memory_diag.h"
 
 #include "storage_manager.h"
+#include "radio_binary_io.h"
 
 #include <esp_log.h>
 #include <cJSON.h>
@@ -22,6 +23,8 @@ constexpr const char* kFavoritesPath = "/sdcard/radio_favorites.json";
 constexpr const char* kFavoritesTmpPath = "/sdcard/radio_favorites.json.tmp";
 constexpr const char* kCatalogPath = "/sdcard/radio_catalog.json";
 constexpr const char* kCatalogTmpPath = "/sdcard/radio_catalog.json.tmp";
+constexpr const char* kBinaryCatalogPath = "/sdcard/radio_catalog.dat";
+constexpr const char* kBinaryCatalogTmpPath = "/sdcard/radio_catalog.tmp";
 constexpr bool RADIO_LOCAL_SEARCH_RANKING_ENABLED = RadioSearchRanking::Enabled;
 constexpr int kNameTokenWeight = RadioSearchRanking::NameWeight;
 constexpr int kStateTokenWeight = RadioSearchRanking::StateWeight;
@@ -387,11 +390,28 @@ bool RadioStorage::GetFavorites(std::vector<RadioStationInfo>& favorites) {
 
 // Catalog implementation
 bool RadioStorage::LoadCatalogInternal(std::vector<RadioStationInfo>& stations, std::string& err_msg) {
-    return LoadJsonFile(kCatalogPath, stations, err_msg);
+    stations.clear();
+    struct stat st;
+    if (stat(kBinaryCatalogPath, &st) != 0) return true;
+    RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
+    uint32_t count = 0;
+    if (!reader.Open(count)) { err_msg = "Failed to open binary catalog"; return false; }
+    stations.reserve(count);
+    for (uint32_t i = 0; i < count; ++i) {
+        RadioStationInfo station;
+        if (!reader.ReadNext(station)) { err_msg = "Corrupted binary catalog"; return false; }
+        stations.push_back(std::move(station));
+    }
+    if (!reader.Finish()) { err_msg = "Corrupted binary catalog"; return false; }
+    return true;
 }
 
 bool RadioStorage::SaveCatalogInternal(const std::vector<RadioStationInfo>& stations, std::string& err_msg) {
-    return SaveJsonFileAtomic(kCatalogPath, kCatalogTmpPath, stations, err_msg);
+    RadioBinaryIO::CatalogWriter writer(kBinaryCatalogTmpPath, static_cast<uint32_t>(stations.size()));
+    if (!writer.Begin()) { err_msg = "Failed to create binary catalog"; return false; }
+    for (const auto& station : stations) if (!writer.Write(station)) { err_msg = "Failed to write binary catalog"; return false; }
+    if (!writer.Finish() || !RadioBinaryIO::ReplaceTarget(kBinaryCatalogTmpPath, kBinaryCatalogPath)) { err_msg = "Failed to replace binary catalog"; return false; }
+    return true;
 }
 
 bool RadioStorage::LoadCatalog(std::vector<RadioStationInfo>& stations, std::string& err_msg) {
@@ -605,14 +625,16 @@ bool RadioStorage::GetCatalogStationByUuid(const std::string& station_uuid,
                                             RadioStationInfo& station) {
     if (station_uuid.empty()) return false;
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<RadioStationInfo> catalog;
-    std::string err_msg;
-    if (!LoadCatalogInternal(catalog, err_msg)) return false;
-    for (const auto& candidate : catalog) {
-        if (candidate.stationuuid == station_uuid) {
-            station = candidate;
-            return true;
-        }
+    struct stat st;
+    if (stat(kBinaryCatalogPath, &st) != 0) return false;
+    RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
+    uint32_t count = 0;
+    if (!reader.Open(count)) return false;
+    bool found = false;
+    for (uint32_t i = 0; i < count; ++i) {
+        RadioStationInfo candidate;
+        if (!reader.ReadNext(candidate)) return false;
+        if (candidate.stationuuid == station_uuid) { station = std::move(candidate); found = true; }
     }
-    return false;
+    return reader.Finish() && found;
 }
