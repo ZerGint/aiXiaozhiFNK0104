@@ -368,8 +368,8 @@ void RadioBrowser::TestOnlineSearch() {
         constexpr const char* kUuid = "01b61e49-18bd-486d-b0e1-cb51cbaf9a6d";
         bool ok = true; std::string error;
         if (step == 1 || step == 10) {
-            RadioStationInfo station;
-            ok = browser->GetStationByUuid(kUuid, station, error) && MediaPlayer::GetInstance().PlayRadio(station, error);
+            const std::string response = browser->PlayStation("", "", kUuid);
+            ok = response.find("Playing internet radio:") != std::string::npos;
             radio_test_uuid = kUuid; radio_test_ready.store(ok);
         } else if (step == 2 || step == 3 || step == 6) {
             const std::string response = browser->AddFavorite();
