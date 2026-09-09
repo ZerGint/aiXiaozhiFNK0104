@@ -169,72 +169,85 @@ GIT STATUS: clean / not clean
 Для leak-проверки повторять операцию без роста каталога и дождаться очистки
 ресурсов, включая освобождение завершённых задач idle task.
 
-## Этап 4. Крупные пики: отдельное согласование перед реализацией
+## Этап 4. Крупные пики: актуальный статус после физической проверки
 
 ### 4.1 Последовательная запись существующего JSON array
 
-- Subject: `perf(radio-storage): serialize station files incrementally`
-- Писать по одной станции вместо полного DOM/serialized buffer.
-- Сохранить JSON array и все поля; vector пока может оставаться целиком.
-- Проверить escapes, пустой каталог, длинные строки и ошибки SD.
+STATUS: DEFERRED / REQUIRE NEW EVIDENCE
+
+RATIONALE: Текущий критический пик устранён в online RadioBrowser parse. Rewrite catalog serialization пока не оправдан без отдельного измерения SaveJsonFileAtomic на актуальной архитектуре permanent catalog.
+
+TRIGGER TO REOPEN: Новый physical log должен показать, что catalog save снова создаёт критический INTERNAL/DMA провал.
 
 ### 4.2 Последовательный локальный поиск
 
-- Subject: `perf(radio-storage): search catalog without loading all stations`
-- Читать станции последовательно, хранить только N результатов.
-- Сохранить порядок, codec handling, фильтры и limit.
-- Явно сохранить прежнее поведение при повреждении конца файла: не возвращать
-  частичный успех, если прежняя реализация отклоняла весь каталог.
+STATUS: DEFERRED / REQUIRE NEW EVIDENCE
+
+RATIONALE: Local catalog теперь является ограниченным working set/history. Полный streaming rewrite не следует начинать без нового измерения SearchCatalog.
+
+TRIGGER TO REOPEN: Physical test показывает существенный transient peak во время local search.
 
 ### 4.3 Последовательный разбор RadioBrowser
 
-- Subject: `perf(radio-browser): parse station responses incrementally`
-- Устранить полный DOM ответа; предварительно выбрать проверенный parser.
-- Проверить границы HTTP chunks, JSON escapes, UTF-8, неизвестные поля,
-  порядок, фильтрацию и повреждение конца ответа.
-- Не делать parser простым поиском фигурных скобок.
-- Высокий ожидаемый эффект: старые логи показали особенно сильный DMA-провал
-  на parse/filter. Связь с текущей прошивкой подтвердить измерениями.
+STATUS: DONE + PHYSICAL PASS
+
+RATIONALE: Full-array cJSON DOM заменён allocation-free O(1) framer и последовательным разбором station objects через cJSON_ParseWithLength(). HTTP response остаётся buffered.
+
+EVIDENCE: rock, limit 10, server_limit 20: response_len=24574, server_objects=20, accepted_codec=10, returned_results=10. Baseline AFTER_PARSE internal 23 / DMA 19; incremental AFTER_PARSE internal 43967 / DMA 36195; minimum internal heap вырос с 16 до 27252 bytes.
+
+TRIGGER TO REOPEN: Новый A/B test покажет повторный DOM-like collapse или потребность уменьшить buffered HTTP response.
 
 ### 4.4 Ограничения входных данных
 
-- Subject: `fix(radio-browser): bound response memory usage`
-- Выбрать body/field limits по реальным ответам и согласовать реакцию.
-- Изменяет поведение для слишком больших данных: отдельное разрешение.
-- Не усекать названия и URL молча.
+STATUS: DEFERRED / RELIABILITY HARDENING
+
+RATIONALE: Новые body/field limits не вводились. Это не обязательная memory optimization без измерений и согласованной реакции.
+
+TRIGGER TO REOPEN: Доказано, что oversized response вызывает отказ из-за heap pressure.
 
 ### 4.5 Последовательное обновление каталога
 
-- Subject: `perf(radio-storage): update catalog incrementally`
-- После проверки streaming reader/writer убрать полный load при update.
-- Сохранить UUID/fallback matching, порядок и правила непустых полей.
-- Не смешивать с миграцией на NDJSON.
+STATUS: DEFERRED / REQUIRE NEW EVIDENCE
+
+RATIONALE: Permanent catalog теперь малый working set успешно запущенных станций.
+
+TRIGGER TO REOPEN: Physical log покажет значимый пик catalog refresh/update.
+
+### 4.6 Сериализация AI output RadioBrowser
+
+STATUS: LOW PRIORITY / MEASURED
+
+RATIONALE: Output construction даёт около 4.5 KB transient capability-heap cost; это не текущий критический hotspot.
+
+TRIGGER TO REOPEN: Измерения покажут влияние output construction на успешный поиск или playback.
 
 ## Этап 5. Отдельные проблемы надёжности
 
-- Удаление старого файла перед rename: изучить FAT/VFS guarantees и согласовать
-  восстановление при сбое замены или питания.
-- Проверка fflush/fclose: возвращать ошибку записи, определить судьбу tmp.
-- Условная AES leak в локальном SDK: подтвердить достижимость; выбрать
-  поддерживаемое исправление зависимости. Не редактировать vendor output.
-- Возможное перекрытие radio tasks при долгом Stop: воспроизвести отдельно;
-  исправление lifecycle требует отдельного согласования.
+Статусы требуют отдельного аудита и воспроизведения; Stage 4.3 не закрывает их автоматически.
+
+- Замена catalog-файла (remove/rename): NEEDS AUDIT.
+- fflush/fclose и судьба tmp: NEEDS AUDIT.
+- Условная AES leak в локальном SDK: NEEDS REPRODUCTION.
+- Перекрытие radio tasks при долгом Stop: NEEDS REPRODUCTION.
 
 ## Отложить до доказанной необходимости
 
-- Перенос больших buffers в PSRAM: многие уже предпочитают external heap.
-- Reuse PCM/decoder buffers: только при значимом измеренном allocation churn.
-- Уменьшение стеков: только по worst-case HWM с запасом.
-- Изменение allocator threshold/reserve.
-- NDJSON, UUID index, binary DB, SQLite, PMR/custom allocators.
-- Сокращение playback metadata: ожидаемый эффект мал.
+- HTTP streaming: DEFERRED — текущий Stage 4.3 устранил подтверждённый DOM hotspot.
+- Перенос buffers в PSRAM: DEFERRED.
+- Reuse PCM/decoder buffers: DEFERRED до измеренного allocation churn.
+- Уменьшение task stacks: DEFERRED до worst-case HWM.
+- Изменение allocator threshold/reserve: DEFERRED; sdkconfig не менять.
+- NDJSON, UUID index, binary DB, SQLite, PMR/custom allocators: DEFERRED.
+- Сокращение playback metadata: DEFERRED; ожидаемый эффект мал.
 
 ## Критерии завершения
 
+- Stage 4.3: DONE + PHYSICAL PASS; full-array RadioBrowser DOM больше не является hotspot.
+- Для оставшихся catalog/save проблем есть свежие измерения до начала rewrite.
 - Нет утечек на проверенных error paths.
-- OOM не приводит к записи пустого/неполного каталога вместо корректного.
+- OOM не приводит к записи пустого/неполного каталога.
 - После повторных одинаковых операций heap восстанавливается.
-- Есть измеренный DMA reserve относительно реальных AES allocations.
+- Есть измеренный DMA reserve относительно реальных AES/TLS/SD/task allocations.
 - Нет регрессий радио, поиска, избранного, voice interruption/resume.
 - Host/build проверки успешны; оставшиеся физические проверки перечислены.
 
