@@ -37,6 +37,86 @@
 
 #define TAG "LcdDisplay"
 
+namespace {
+
+constexpr lv_color_t kBg = lv_color_hex(0x071923);
+constexpr lv_color_t kTop = lv_color_hex(0x0B2433);
+constexpr lv_color_t kNav = lv_color_hex(0x0A202D);
+
+constexpr lv_color_t kPanel = lv_color_hex(0x0D2734);
+constexpr lv_color_t kPanel2 = lv_color_hex(0x0C2230);
+
+constexpr lv_color_t kCard = lv_color_hex(0x102C39);
+constexpr lv_color_t kCardHi = lv_color_hex(0x153D4B);
+
+constexpr lv_color_t kAccent = lv_color_hex(0x16D99A);
+constexpr lv_color_t kBorder = lv_color_hex(0x163B4A);
+
+constexpr lv_color_t kText = lv_color_hex(0xF4FBFC);
+constexpr lv_color_t kMuted = lv_color_hex(0x9CB8C2);
+
+constexpr int kTopH = 34;
+constexpr int kNavW = 64;
+constexpr int kRightW = 138;
+
+lv_obj_t* g_nav_buttons[3] = {nullptr, nullptr, nullptr};
+
+static lv_obj_t* MakePanel(lv_obj_t* parent, int w, int h)
+{
+    auto p = lv_obj_create(parent);
+
+    lv_obj_set_size(p, w, h);
+
+    lv_obj_set_style_radius(p, 14, 0);
+    lv_obj_set_style_bg_color(p, kPanel, 0);
+    lv_obj_set_style_border_width(p, 1, 0);
+    lv_obj_set_style_border_color(p, kBorder, 0);
+
+    lv_obj_set_scrollbar_mode(p, LV_SCROLLBAR_MODE_OFF);
+
+    return p;
+}
+
+static lv_obj_t* MakeLabel(lv_obj_t* parent,
+                           const char* text,
+                           lv_color_t color,
+                           lv_align_t align,
+                           int x,
+                           int y)
+{
+    auto l = lv_label_create(parent);
+
+    lv_label_set_text(l, text);
+    lv_obj_set_style_text_color(l, color, 0);
+
+    lv_obj_align(l, align, x, y);
+
+    return l;
+}
+
+static lv_obj_t* MakeButton(lv_obj_t* parent,
+                            const char* text,
+                            int w,
+                            int h,
+                            lv_color_t bg)
+{
+    auto b = lv_btn_create(parent);
+
+    lv_obj_set_size(b, w, h);
+    lv_obj_set_style_radius(b, 10, 0);
+    lv_obj_set_style_bg_color(b, bg, 0);
+    lv_obj_set_style_border_width(b, 0, 0);
+
+    auto l = lv_label_create(b);
+    lv_label_set_text(l, text);
+    lv_obj_set_style_text_color(l, kText, 0);
+    lv_obj_center(l);
+
+    return b;
+}
+
+}
+
 LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
 LV_FONT_DECLARE(BUILTIN_ICON_FONT);
 LV_FONT_DECLARE(font_material_symbols_30_4);
@@ -1116,68 +1196,699 @@ void LcdDisplay::SetupUI() {
     panel_roboeyes_ = emoji_box_;
     SetupQuickSettingsOverlay(screen);
     SetupFullSettingsModal(screen);
-    // UI-1 visual shell: navigation and service panels are intentionally
-    // presentation-only; playback/storage services are not touched here.
-    if (status_bar_ != nullptr) lv_obj_add_flag(status_bar_, LV_OBJ_FLAG_HIDDEN);
-    if (bottom_bar_ != nullptr) lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
+   /* ---------------------------------------------------------
+ * UI-3 MAIN SHELL
+ * --------------------------------------------------------- */
 
-    lv_obj_t* nav = lv_obj_create(screen);
-    lv_obj_set_size(nav, 72, LV_VER_RES - 50);
-    lv_obj_align(nav, LV_ALIGN_BOTTOM_LEFT, 0, 0);
-    lv_obj_set_style_pad_all(nav, 4, 0);
-    lv_obj_set_style_bg_color(nav, lv_color_hex(0x0B2433), 0);
-    lv_obj_set_style_border_width(nav, 0, 0);
-    lv_obj_set_flex_flow(nav, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(nav, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER,
-                          LV_FLEX_ALIGN_CENTER);
-    const char* nav_labels[] = {"Player", "Radio", "AI"};
-    for (int i = 0; i < 3; ++i) {
-        lv_obj_t* button = lv_button_create(nav);
-        lv_obj_set_width(button, 64);
-        lv_obj_set_height(button, 58);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0x102D3A), 0);
-        lv_obj_set_style_border_color(button, lv_color_hex(0x1B5363), 0);
-        lv_obj_set_style_border_width(button, 1, 0);
-        lv_obj_set_style_radius(button, 8, 0);
-        lv_obj_t* label = lv_label_create(button);
-        lv_label_set_text(label, nav_labels[i]);
-        lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_CENTER, 0);
-        lv_obj_center(label);
-        lv_obj_add_event_cb(button, [](lv_event_t* e) {
-            auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-            auto* button = static_cast<lv_obj_t*>(lv_event_get_target(e));
-            const int nav_index = static_cast<int>(reinterpret_cast<intptr_t>(lv_obj_get_user_data(button)));
-            display->SwitchTab(nav_index == 0 ? 1 : (nav_index == 1 ? 2 : 0));
-        }, LV_EVENT_CLICKED, this);
-        lv_obj_set_user_data(button, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
-    }
+lv_obj_set_style_bg_color(screen, kBg, 0);
 
-    panel_player_ = lv_obj_create(screen);
-    lv_obj_set_size(panel_player_, LV_HOR_RES - 76, LV_VER_RES - 50);
-    lv_obj_align(panel_player_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
-    lv_obj_set_style_bg_color(panel_player_, lv_color_hex(0x061A24), 0);
-    lv_obj_set_style_border_color(panel_player_, lv_color_hex(0x16D99A), 0);
-    lv_obj_set_style_radius(panel_player_, 12, 0);
-    lv_obj_t* player_label = lv_label_create(panel_player_);
-    lv_label_set_text(player_label, "SD PLAYER\n\n[ artwork ]\n\nNo track\n\n|<   PLAY   >|\n\nShuffle    Repeat\n\nVolume  ━━━━━");
-    lv_obj_set_style_text_align(player_label, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_center(player_label);
+if (status_bar_)
+    lv_obj_add_flag(status_bar_, LV_OBJ_FLAG_HIDDEN);
 
-    panel_sega_ = lv_obj_create(screen);
-    lv_obj_set_size(panel_sega_, LV_HOR_RES - 76, LV_VER_RES - 50);
-    lv_obj_align(panel_sega_, LV_ALIGN_BOTTOM_RIGHT, 0, 0);
-    lv_obj_set_style_bg_color(panel_sega_, lv_color_hex(0x061A24), 0);
-    lv_obj_set_style_border_color(panel_sega_, lv_color_hex(0x16D99A), 0);
-    lv_obj_set_style_radius(panel_sega_, 12, 0);
-    lv_obj_t* radio_label = lv_label_create(panel_sega_);
-    lv_label_set_text(radio_label, "INTERNET RADIO\n\n[ station logo ]\n\nNo station\n\n|<   PLAY   >|   ☆\n\nAll   |   Favorites\n\nStation list\n\n◀  1 / 3  ▶");
-    lv_obj_set_style_text_align(radio_label, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_center(radio_label);
+if (bottom_bar_)
+    lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
 
-    lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_move_foreground(top_bar_);
-    lv_obj_move_foreground(status_bar_);
+
+/* TOP BAR */
+
+lv_obj_set_size(top_bar_, LV_HOR_RES, kTopH);
+lv_obj_set_style_bg_color(top_bar_, kTop, 0);
+lv_obj_set_style_bg_opa(top_bar_, LV_OPA_COVER, 0);
+
+lv_obj_move_foreground(top_bar_);
+
+
+/* LEFT NAVIGATION */
+
+lv_obj_t* nav = lv_obj_create(screen);
+
+lv_obj_set_size(nav, kNavW, LV_VER_RES - kTopH);
+lv_obj_align(nav, LV_ALIGN_BOTTOM_LEFT, 0, 0);
+
+lv_obj_set_style_bg_color(nav, kNav, 0);
+lv_obj_set_style_border_width(nav, 0, 0);
+lv_obj_set_style_pad_all(nav, 6, 0);
+
+lv_obj_set_flex_flow(nav, LV_FLEX_FLOW_COLUMN);
+lv_obj_set_flex_align(nav,
+                      LV_FLEX_ALIGN_START,
+                      LV_FLEX_ALIGN_CENTER,
+                      LV_FLEX_ALIGN_CENTER);
+
+const char* nav_names[] =
+{
+    "Player",
+    "Radio",
+    "AI"
+};
+
+for (int i = 0; i < 3; ++i)
+{
+    auto b = lv_btn_create(nav);
+
+    lv_obj_set_size(b, 52, 52);
+    lv_obj_set_style_radius(b, 10, 0);
+
+    lv_obj_set_style_bg_color(b,
+        i == 2 ? kCardHi : lv_color_hex(0x0F2A37), 0);
+
+    lv_obj_set_style_border_width(b, 1, 0);
+    lv_obj_set_style_border_color(
+        b,
+        i == 2 ? kAccent : lv_color_hex(0x1B5363),
+        0);
+
+    auto l = lv_label_create(b);
+
+    lv_label_set_text(l, nav_names[i]);
+    lv_obj_set_style_text_color(l, kText, 0);
+    lv_obj_set_style_text_align(l, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_center(l);
+
+    lv_obj_set_user_data(b,
+        reinterpret_cast<void*>(
+            static_cast<intptr_t>(i)));
+
+    lv_obj_add_event_cb(
+        b,
+        [](lv_event_t* e)
+        {
+            auto display =
+                static_cast<LcdDisplay*>(
+                    lv_event_get_user_data(e));
+
+            auto button =
+                static_cast<lv_obj_t*>(
+                    lv_event_get_target(e));
+
+            int idx =
+                static_cast<int>(
+                    reinterpret_cast<intptr_t>(
+                        lv_obj_get_user_data(button)));
+
+            display->SwitchTab(idx == 0 ? 1 :
+                               idx == 1 ? 2 : 0);
+        },
+        LV_EVENT_CLICKED,
+        this);
+
+    g_nav_buttons[i] = b;
+}
+
+
+/* ---------------------------------------------------------
+ * PLAYER SCREEN
+ * --------------------------------------------------------- */
+
+panel_player_ = lv_obj_create(screen);
+
+lv_obj_set_size(panel_player_,
+                LV_HOR_RES - kNavW,
+                LV_VER_RES - kTopH);
+
+lv_obj_align(panel_player_,
+             LV_ALIGN_BOTTOM_RIGHT,
+             0,
+             0);
+
+lv_obj_set_style_bg_color(panel_player_, kBg, 0);
+lv_obj_set_style_border_width(panel_player_, 0, 0);
+lv_obj_set_scrollbar_mode(panel_player_, LV_SCROLLBAR_MODE_OFF);
+
+
+/* CENTER */
+
+auto player_center =
+    MakePanel(panel_player_,
+              LV_HOR_RES - kNavW - kRightW - 18,
+              LV_VER_RES - kTopH - 16);
+
+lv_obj_align(player_center,
+             LV_ALIGN_LEFT_MID,
+             8,
+             0);
+
+
+/* RIGHT */
+
+auto player_right =
+    MakePanel(panel_player_,
+              kRightW,
+              LV_VER_RES - kTopH - 16);
+
+lv_obj_align(player_right,
+             LV_ALIGN_RIGHT_MID,
+             -8,
+             0);
+
+lv_obj_set_style_bg_color(player_right, kPanel2, 0);
+
+
+/* artwork */
+
+auto art = lv_obj_create(player_center);
+
+lv_obj_set_size(art, 110, 110);
+
+lv_obj_align(art,
+             LV_ALIGN_TOP_LEFT,
+             14,
+             14);
+
+lv_obj_set_style_radius(art, 12, 0);
+lv_obj_set_style_bg_color(art,
+                          lv_color_hex(0x173747),
+                          0);
+lv_obj_set_style_border_width(art, 0, 0);
+
+auto note = lv_label_create(art);
+
+lv_label_set_text(note, "♫");
+lv_obj_set_style_text_color(note,
+                            lv_color_hex(0x9FE7D5),
+                            0);
+lv_obj_set_style_text_font(note,
+                           &font_material_symbols_30_4,
+                           0);
+lv_obj_center(note);
+
+
+/* track */
+
+MakeLabel(player_center,
+          "Now Playing",
+          kMuted,
+          LV_ALIGN_TOP_LEFT,
+          140,
+          18);
+
+auto track =
+    MakeLabel(player_center,
+              "No track",
+              kText,
+              LV_ALIGN_TOP_LEFT,
+              140,
+              38);
+
+lv_obj_set_style_text_font(track,
+                           &BUILTIN_TEXT_FONT,
+                           0);
+
+MakeLabel(player_center,
+          "Artist",
+          kMuted,
+          LV_ALIGN_TOP_LEFT,
+          140,
+          62);
+
+
+/* progress */
+
+auto bar = lv_bar_create(player_center);
+
+lv_obj_set_size(bar, 220, 6);
+
+lv_obj_align(bar,
+             LV_ALIGN_TOP_LEFT,
+             14,
+             142);
+
+lv_bar_set_range(bar, 0, 100);
+lv_bar_set_value(bar, 32, LV_ANIM_OFF);
+
+lv_obj_set_style_bg_color(bar,
+                          lv_color_hex(0x23424F),
+                          LV_PART_MAIN);
+
+lv_obj_set_style_bg_color(bar,
+                          kAccent,
+                          LV_PART_INDICATOR);
+
+MakeLabel(player_center,
+          "0:00",
+          kMuted,
+          LV_ALIGN_TOP_LEFT,
+          14,
+          154);
+
+MakeLabel(player_center,
+          "3:45",
+          kMuted,
+          LV_ALIGN_TOP_RIGHT,
+          -14,
+          154);
+
+
+/* controls */
+
+auto controls = lv_obj_create(player_center);
+
+lv_obj_set_size(controls, 150, 42);
+
+lv_obj_align(controls,
+             LV_ALIGN_BOTTOM_LEFT,
+             18,
+             -16);
+
+lv_obj_set_style_bg_opa(controls,
+                        LV_OPA_TRANSP,
+                        0);
+
+lv_obj_set_style_border_width(controls,
+                              0,
+                              0);
+
+auto prev =
+    MakeButton(controls,
+               "◀",
+               34,
+               30,
+               lv_color_hex(0x173747));
+
+lv_obj_align(prev,
+             LV_ALIGN_LEFT_MID,
+             0,
+             0);
+
+auto play =
+    MakeButton(controls,
+               "▶",
+               54,
+               40,
+               kAccent);
+
+lv_obj_align(play,
+             LV_ALIGN_CENTER,
+             0,
+             0);
+
+auto next =
+    MakeButton(controls,
+               "▶",
+               34,
+               30,
+               lv_color_hex(0x173747));
+
+lv_obj_align(next,
+             LV_ALIGN_RIGHT_MID,
+             0,
+             0);
+
+
+/* shuffle */
+
+MakeLabel(player_center,
+          "Shuffle",
+          kMuted,
+          LV_ALIGN_BOTTOM_RIGHT,
+          -16,
+          -40);
+
+MakeLabel(player_center,
+          "Repeat",
+          kMuted,
+          LV_ALIGN_BOTTOM_RIGHT,
+          -16,
+          -24);
+
+
+/* right list */
+
+MakeLabel(player_right,
+          "SD Card",
+          kText,
+          LV_ALIGN_TOP_LEFT,
+          12,
+          10);
+
+const char* files[] =
+{
+    "Ambient.wav",
+    "Night Drive.mp3",
+    "LoFi Dreams.flac",
+    "Synthwave.mp3"
+};
+
+for (int i = 0; i < 4; ++i)
+{
+    auto row = lv_obj_create(player_right);
+
+    lv_obj_set_size(row, 118, 28);
+
+    lv_obj_align(row,
+                 LV_ALIGN_TOP_MID,
+                 0,
+                 36 + i * 34);
+
+    lv_obj_set_style_radius(row, 6, 0);
+
+    lv_obj_set_style_bg_color(
+        row,
+        i == 1 ? kCardHi : kCard,
+        0);
+
+    lv_obj_set_style_border_width(row, 0, 0);
+
+    auto label = lv_label_create(row);
+
+    lv_label_set_text(label, files[i]);
+
+    lv_obj_set_width(label, 106);
+
+    lv_label_set_long_mode(
+        label,
+        LV_LABEL_LONG_DOT);
+
+    lv_obj_set_style_text_color(
+        label,
+        i == 1 ? kText : lv_color_hex(0xC7D9DF),
+        0);
+
+    lv_obj_align(label,
+                 LV_ALIGN_LEFT_MID,
+                 6,
+                 0);
+}
+
+MakeLabel(player_right,
+          "◀  1 / 3  ▶",
+          kText,
+          LV_ALIGN_BOTTOM_MID,
+          0,
+          -10);
+
+
+/* ---------------------------------------------------------
+ * RADIO SCREEN
+ * --------------------------------------------------------- */
+
+panel_sega_ = lv_obj_create(screen);
+
+lv_obj_set_size(panel_sega_,
+                LV_HOR_RES - kNavW,
+                LV_VER_RES - kTopH);
+
+lv_obj_align(panel_sega_,
+             LV_ALIGN_BOTTOM_RIGHT,
+             0,
+             0);
+
+lv_obj_set_style_bg_color(panel_sega_, kBg, 0);
+lv_obj_set_style_border_width(panel_sega_, 0, 0);
+lv_obj_set_scrollbar_mode(panel_sega_, LV_SCROLLBAR_MODE_OFF);
+
+
+/* center */
+
+auto radio_center =
+    MakePanel(panel_sega_,
+              LV_HOR_RES - kNavW - kRightW - 18,
+              LV_VER_RES - kTopH - 16);
+
+lv_obj_align(radio_center,
+             LV_ALIGN_LEFT_MID,
+             8,
+             0);
+
+
+/* right */
+
+auto radio_right =
+    MakePanel(panel_sega_,
+              kRightW,
+              LV_VER_RES - kTopH - 16);
+
+lv_obj_align(radio_right,
+             LV_ALIGN_RIGHT_MID,
+             -8,
+             0);
+
+lv_obj_set_style_bg_color(radio_right,
+                          kPanel2,
+                          0);
+
+
+/* station logo */
+
+auto logo = lv_obj_create(radio_center);
+
+lv_obj_set_size(logo, 110, 110);
+
+lv_obj_align(logo,
+             LV_ALIGN_TOP_LEFT,
+             14,
+             14);
+
+lv_obj_set_style_radius(logo, 12, 0);
+lv_obj_set_style_bg_color(logo,
+                          lv_color_hex(0x173747),
+                          0);
+lv_obj_set_style_border_width(logo, 0, 0);
+
+auto radio_icon = lv_label_create(logo);
+
+lv_label_set_text(radio_icon, "●");
+lv_obj_set_style_text_color(radio_icon,
+                            kAccent,
+                            0);
+lv_obj_set_style_text_font(radio_icon,
+                           &font_material_symbols_30_4,
+                           0);
+lv_obj_center(radio_icon);
+
+
+/* station */
+
+MakeLabel(radio_center,
+          "Station",
+          kMuted,
+          LV_ALIGN_TOP_LEFT,
+          140,
+          18);
+
+MakeLabel(radio_center,
+          "No station",
+          kText,
+          LV_ALIGN_TOP_LEFT,
+          140,
+          38);
+
+MakeLabel(radio_center,
+          "State",
+          kMuted,
+          LV_ALIGN_TOP_LEFT,
+          140,
+          62);
+
+
+/* favorite */
+
+auto fav =
+    MakeButton(radio_center,
+               "☆",
+               34,
+               34,
+               lv_color_hex(0x173747));
+
+lv_obj_align(fav,
+             LV_ALIGN_TOP_RIGHT,
+             -16,
+             16);
+
+
+/* progress */
+
+auto rbar = lv_bar_create(radio_center);
+
+lv_obj_set_size(rbar, 220, 6);
+
+lv_obj_align(rbar,
+             LV_ALIGN_TOP_LEFT,
+             14,
+             142);
+
+lv_bar_set_range(rbar, 0, 100);
+lv_bar_set_value(rbar, 55, LV_ANIM_OFF);
+
+lv_obj_set_style_bg_color(rbar,
+                          lv_color_hex(0x23424F),
+                          LV_PART_MAIN);
+
+lv_obj_set_style_bg_color(rbar,
+                          kAccent,
+                          LV_PART_INDICATOR);
+
+
+/* controls */
+
+auto rcontrols = lv_obj_create(radio_center);
+
+lv_obj_set_size(rcontrols, 150, 42);
+
+lv_obj_align(rcontrols,
+             LV_ALIGN_BOTTOM_LEFT,
+             18,
+             -16);
+
+lv_obj_set_style_bg_opa(rcontrols,
+                        LV_OPA_TRANSP,
+                        0);
+
+lv_obj_set_style_border_width(rcontrols,
+                              0,
+                              0);
+
+auto rp =
+    MakeButton(rcontrols,
+               "◀",
+               34,
+               30,
+               lv_color_hex(0x173747));
+
+lv_obj_align(rp,
+             LV_ALIGN_LEFT_MID,
+             0,
+             0);
+
+auto rplay =
+    MakeButton(rcontrols,
+               "▶",
+               54,
+               40,
+               kAccent);
+
+lv_obj_align(rplay,
+             LV_ALIGN_CENTER,
+             0,
+             0);
+
+auto rn =
+    MakeButton(rcontrols,
+               "▶",
+               34,
+               30,
+               lv_color_hex(0x173747));
+
+lv_obj_align(rn,
+             LV_ALIGN_RIGHT_MID,
+             0,
+             0);
+
+
+/* right tabs */
+
+auto all =
+    MakeLabel(radio_right,
+              "All",
+              kText,
+              LV_ALIGN_TOP_LEFT,
+              12,
+              10);
+
+auto favs =
+    MakeLabel(radio_right,
+              "Favorites",
+              kMuted,
+              LV_ALIGN_TOP_RIGHT,
+              -10,
+              10);
+
+(void)all;
+(void)favs;
+
+const char* stations[] =
+{
+    "Skyrock",
+    "Radius FM",
+    "Retro Belarus",
+    "Rock FM"
+};
+
+for (int i = 0; i < 4; ++i)
+{
+    auto row = lv_obj_create(radio_right);
+
+    lv_obj_set_size(row, 118, 32);
+
+    lv_obj_align(row,
+                 LV_ALIGN_TOP_MID,
+                 0,
+                 36 + i * 36);
+
+    lv_obj_set_style_radius(row, 6, 0);
+
+    lv_obj_set_style_bg_color(
+        row,
+        i == 0 ? kCardHi : kCard,
+        0);
+
+    lv_obj_set_style_border_width(row, 0, 0);
+
+    auto name = lv_label_create(row);
+
+    lv_label_set_text(name, stations[i]);
+
+    lv_obj_set_width(name, 90);
+
+    lv_label_set_long_mode(name,
+                           LV_LABEL_LONG_DOT);
+
+    lv_obj_set_style_text_color(
+        name,
+        i == 0 ? kText : lv_color_hex(0xD4E2E7),
+        0);
+
+    lv_obj_align(name,
+                 LV_ALIGN_LEFT_MID,
+                 6,
+                 -5);
+
+    auto state = lv_label_create(row);
+
+    lv_label_set_text(state,
+                      i == 0 ? "Paris" :
+                      i == 1 ? "Minsk" :
+                      i == 2 ? "Belarus" :
+                               "Warsaw");
+
+    lv_obj_set_style_text_color(state,
+                                kMuted,
+                                0);
+
+    lv_obj_align(state,
+                 LV_ALIGN_LEFT_MID,
+                 6,
+                 8);
+
+    auto star = lv_label_create(row);
+
+    lv_label_set_text(star,
+                      i < 3 ? "★" : "");
+
+    lv_obj_set_style_text_color(star,
+                                kAccent,
+                                0);
+
+    lv_obj_align(star,
+                 LV_ALIGN_RIGHT_MID,
+                 -6,
+                 0);
+}
+
+MakeLabel(radio_right,
+          "◀  1 / 3  ▶",
+          kText,
+          LV_ALIGN_BOTTOM_MID,
+          0,
+          -10);
+
+
+/* default visible tab */
+
+lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
+lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
+
+lv_obj_move_foreground(top_bar_);
 }
 
 void LcdDisplay::SetPreviewImage(std::unique_ptr<LvglImage> image) {
@@ -1566,27 +2277,63 @@ void LcdDisplay::ToggleQuickSettings() {
     }
 }
 
-void LcdDisplay::SwitchTab(int tab_index) {
+void LcdDisplay::SwitchTab(int tab_index)
+{
     DisplayLockGuard lock(this);
+
     current_tab_index_ = tab_index;
-    if (panel_roboeyes_) {
-        if (tab_index == 0) lv_obj_remove_flag(panel_roboeyes_, LV_OBJ_FLAG_HIDDEN);
-        else lv_obj_add_flag(panel_roboeyes_, LV_OBJ_FLAG_HIDDEN);
+
+    if (panel_roboeyes_)
+    {
+        if (tab_index == 0)
+            lv_obj_remove_flag(panel_roboeyes_, LV_OBJ_FLAG_HIDDEN);
+        else
+            lv_obj_add_flag(panel_roboeyes_, LV_OBJ_FLAG_HIDDEN);
     }
-    if (panel_player_) {
-        if (tab_index == 1) {
+
+    if (panel_player_)
+    {
+        if (tab_index == 1)
             lv_obj_remove_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-        } else {
+        else
             lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-        }
     }
-    if (panel_sega_) {
-        if (tab_index == 2) lv_obj_remove_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
-        else lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
+
+    if (panel_sega_)
+    {
+        if (tab_index == 2)
+            lv_obj_remove_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
+        else
+            lv_obj_add_flag(panel_sega_, LV_OBJ_FLAG_HIDDEN);
     }
-    if (quick_settings_open_) {
+
+    /* navigation highlight */
+
+    for (int i = 0; i < 3; ++i)
+    {
+        if (!g_nav_buttons[i])
+            continue;
+
+        bool selected =
+            (tab_index == 0 && i == 2) ||
+            (tab_index == 1 && i == 0) ||
+            (tab_index == 2 && i == 1);
+
+        lv_obj_set_style_bg_color(
+            g_nav_buttons[i],
+            selected ? kCardHi : lv_color_hex(0x0F2A37),
+            0);
+
+        lv_obj_set_style_border_color(
+            g_nav_buttons[i],
+            selected ? kAccent : lv_color_hex(0x1B5363),
+            0);
+    }
+
+    if (quick_settings_open_)
         ToggleQuickSettings();
-    }
+
+    lv_obj_move_foreground(top_bar_);
 }
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
