@@ -25,12 +25,10 @@ public:
     std::string PlayStation(const std::string& url = "",
                             const std::string& title = "",
                             const std::string& station_uuid = "");
-    std::string AddFavorite(const std::string& name, const std::string& country,
-                            const std::string& city, const std::string& keywords,
-                            const std::string& station_uuid);
+    std::string AddFavorite();
     std::string ListFavorites() const;
-    std::string PlayFavorite(const std::string& name);
-    std::string RemoveFavorite(const std::string& name);
+    std::string PlayFavorite(const std::string& station_uuid);
+    std::string RemoveFavorite(const std::string& station_uuid);
 
 private:
     RadioBrowser() = default;

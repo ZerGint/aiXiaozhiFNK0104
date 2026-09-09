@@ -292,86 +292,53 @@ bool RadioStorage::SaveJsonFileAtomic(const char* target_path, const char* tmp_p
 
 // Favorites implementation
 bool RadioStorage::LoadFavorites(std::vector<RadioStationInfo>& favorites, std::string& err_msg) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    return LoadJsonFile(kFavoritesPath, favorites, err_msg);
+    std::lock_guard<std::mutex> lock(mutex_); favorites.clear(); struct stat st; if(stat("/sdcard/radio_favorites.dat",&st)!=0)return true; RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); uint32_t count=0; if(!reader.Open(count)){err_msg="Failed to load favorites";return false;} for(uint32_t i=0;i<count;++i){std::string uuid;if(!reader.ReadNext(uuid)){err_msg="Corrupted favorites";return false;} RadioStationInfo station; station.stationuuid=uuid; favorites.push_back(std::move(station));} if(!reader.Finish()){err_msg="Corrupted favorites";return false;} return true;
 }
-
 bool RadioStorage::SaveFavorites(const std::vector<RadioStationInfo>& favorites, std::string& err_msg) {
+    std::lock_guard<std::mutex> lock(mutex_); if(favorites.size()>RadioBinaryCodec::kMaxRecords){err_msg="Favorites capacity reached";return false;} RadioBinaryIO::FavoritesWriter writer("/sdcard/radio_favorites.tmp",favorites.size()); if(!writer.Begin()){err_msg="Failed to save favorites";return false;} for(const auto& station:favorites)if(!writer.Write(station.stationuuid)){err_msg="Failed to save favorites";return false;} if(!writer.Finish()||!RadioBinaryIO::ReplaceTarget("/sdcard/radio_favorites.tmp","/sdcard/radio_favorites.dat")){err_msg="Failed to save favorites";return false;} return true;
+}
+bool RadioStorage::ContainsFavoriteUuid(const std::string& uuid) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return SaveJsonFileAtomic(kFavoritesPath, kFavoritesTmpPath, favorites, err_msg);
+    if (uuid.empty()) return false;
+    struct stat st; if (stat("/sdcard/radio_favorites.dat", &st) != 0) return false;
+    RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); uint32_t count = 0;
+    if (!reader.Open(count)) return false;
+    bool found = false; for (uint32_t i = 0; i < count; ++i) { std::string candidate; if (!reader.ReadNext(candidate)) return false; if (candidate == uuid) found = true; }
+    return reader.Finish() && found;
 }
 
-std::string RadioStorage::AddFavorite(const RadioStationInfo& station) {
+std::string RadioStorage::AddFavoriteUuid(const std::string& uuid) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (station.name.empty()) {
-        return "No current radio station is available";
-    }
-
-    std::vector<RadioStationInfo> favorites;
-    std::string err_msg;
-    if (!LoadJsonFile(kFavoritesPath, favorites, err_msg)) {
-        return err_msg.empty() ? "Failed to load favorites" : err_msg;
-    }
-
-    for (const auto& fav : favorites) {
-        const bool same_uuid = !station.stationuuid.empty() && (station.stationuuid == fav.stationuuid);
-        const bool same_name = ContainsInsensitive(fav.name, station.name) &&
-                               (station.country.empty() || ContainsInsensitive(fav.country, station.country));
-        if (same_uuid || same_name) {
-            return "Station is already in favorites";
-        }
-    }
-
-    favorites.push_back(station);
-    if (!SaveJsonFileAtomic(kFavoritesPath, kFavoritesTmpPath, favorites, err_msg)) {
-        return err_msg.empty() ? "Failed to save favorite station" : err_msg;
-    }
-
-    return "Station added to favorites: " + station.name;
+    if (uuid.empty() || uuid.size() > RadioBinaryCodec::kMaxUuidLength) return "Station UUID is required";
+    struct stat st; const bool exists = stat("/sdcard/radio_favorites.dat", &st) == 0; uint32_t count = 0;
+    if (exists) { RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); if (!reader.Open(count)) return "Failed to load favorites"; for (uint32_t i=0;i<count;++i){std::string candidate;if(!reader.ReadNext(candidate))return "Failed to load favorites";if(candidate==uuid){if(!reader.Finish())return "Failed to load favorites";return "Station is already in favorites";}} if(!reader.Finish())return "Failed to load favorites"; }
+    if (count >= RadioBinaryCodec::kMaxRecords) return "Favorites capacity reached";
+    RadioBinaryIO::FavoritesWriter writer("/sdcard/radio_favorites.tmp", count + 1); if (!writer.Begin()) return "Failed to save favorite station";
+    if (exists) { RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); if(!reader.Open(count)) return "Failed to save favorite station"; for(uint32_t i=0;i<count;++i){std::string candidate;if(!reader.ReadNext(candidate)||!writer.Write(candidate))return "Failed to save favorite station";} if(!reader.Finish())return "Failed to save favorite station"; }
+    if(!writer.Write(uuid)||!writer.Finish()||!RadioBinaryIO::ReplaceTarget("/sdcard/radio_favorites.tmp","/sdcard/radio_favorites.dat")) return "Failed to save favorite station";
+    return "Station added to favorites";
 }
 
-std::string RadioStorage::RemoveFavorite(const std::string& name) {
+std::string RadioStorage::RemoveFavoriteUuid(const std::string& uuid) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (name.empty()) {
-        return "Favorite station name is required";
-    }
-
-    std::vector<RadioStationInfo> favorites;
-    std::string err_msg;
-    if (!LoadJsonFile(kFavoritesPath, favorites, err_msg)) {
-        return err_msg.empty() ? "Failed to load favorites" : err_msg;
-    }
-
-    if (favorites.empty()) {
-        return "Favorites list is empty";
-    }
-
-    auto it = std::remove_if(favorites.begin(), favorites.end(), [&](const RadioStationInfo& fav) {
-        return ContainsInsensitive(fav.name, name);
-    });
-
-    if (it == favorites.end()) {
-        return "Favorite station not found";
-    }
-
-    favorites.erase(it, favorites.end());
-    if (!SaveJsonFileAtomic(kFavoritesPath, kFavoritesTmpPath, favorites, err_msg)) {
-        return err_msg.empty() ? "Failed to save favorites after removal" : err_msg;
-    }
-
-    return "Station removed from favorites";
+    if (uuid.empty()) return "Favorite station UUID is required";
+    struct stat st; if(stat("/sdcard/radio_favorites.dat",&st)!=0)return "Favorite station not found";
+    RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); uint32_t count=0; if(!reader.Open(count))return "Failed to load favorites"; bool found=false; for(uint32_t i=0;i<count;++i){std::string c;if(!reader.ReadNext(c))return "Failed to load favorites";if(c==uuid)found=true;} if(!reader.Finish())return "Failed to load favorites"; if(!found)return "Favorite station not found";
+    RadioBinaryIO::FavoritesWriter writer("/sdcard/radio_favorites.tmp",count-1); if(!writer.Begin())return "Failed to save favorites"; RadioBinaryIO::FavoritesReader reader2("/sdcard/radio_favorites.dat"); if(!reader2.Open(count))return "Failed to save favorites"; for(uint32_t i=0;i<count;++i){std::string c;if(!reader2.ReadNext(c))return "Failed to save favorites"; if(c!=uuid&&!writer.Write(c))return "Failed to save favorites";} if(!reader2.Finish()||!writer.Finish()||!RadioBinaryIO::ReplaceTarget("/sdcard/radio_favorites.tmp","/sdcard/radio_favorites.dat"))return "Failed to save favorites"; return "Station removed from favorites";
 }
 
 std::string RadioStorage::ListFavorites() {
-    std::lock_guard<std::mutex> lock(mutex_);
     std::vector<RadioStationInfo> favorites;
-    std::string err_msg;
-    if (!LoadJsonFile(kFavoritesPath, favorites, err_msg)) {
+    if (!GetFavorites(favorites)) {
         return "[]";
     }
 
     cJSON* root = cJSON_CreateArray();
-    for (const auto& info : favorites) {
+    for (const auto& favorite : favorites) {
+        RadioStationInfo info;
+        if (!GetCatalogStationByUuid(favorite.stationuuid, info)) {
+            info.stationuuid = favorite.stationuuid;
+        }
         cJSON_AddItemToArray(root, StationInfoToCJson(info));
     }
 
@@ -384,8 +351,7 @@ std::string RadioStorage::ListFavorites() {
 
 bool RadioStorage::GetFavorites(std::vector<RadioStationInfo>& favorites) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::string err_msg;
-    return LoadJsonFile(kFavoritesPath, favorites, err_msg);
+    favorites.clear(); struct stat st; if(stat("/sdcard/radio_favorites.dat",&st)!=0)return true; RadioBinaryIO::FavoritesReader reader("/sdcard/radio_favorites.dat"); uint32_t count=0; if(!reader.Open(count))return false; for(uint32_t i=0;i<count;++i){std::string uuid;if(!reader.ReadNext(uuid))return false; RadioStationInfo station; station.stationuuid=uuid; favorites.push_back(std::move(station));} return reader.Finish();
 }
 
 // Catalog implementation

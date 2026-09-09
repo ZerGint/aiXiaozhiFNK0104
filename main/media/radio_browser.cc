@@ -397,7 +397,7 @@ void RadioBrowser::TestOnlineSearch() {
             const auto station = InternetRadioPlayer::GetInstance().GetCurrentStation();
             ESP_LOGI(TAG, "[RADIO_TEST] current playing=%s uuid=%s name=%s state=%s", MediaPlayer::GetInstance().IsPlaying() ? "YES" : "NO", station.stationuuid.c_str(), station.name.c_str(), station.state.c_str());
             LogRadioMemory(TAG, "RADIO_TEST_BEFORE_ADD_FAVORITE");
-            const std::string response = radio_test_ready.load() ? browser->AddFavorite("", "", "", "", "") : "Step 1 did not select a new station";
+            const std::string response = radio_test_ready.load() ? browser->AddFavorite() : "Step 1 did not select a new station";
             ESP_LOGI(TAG, "[RADIO_TEST] favorite_result=%s", response.c_str());
             ok = response.rfind("Station added to favorites:", 0) == 0;
             LogRadioMemory(TAG, "RADIO_TEST_AFTER_ADD_FAVORITE");
@@ -536,9 +536,13 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
     return "Playing internet radio";
 }
 
-std::string RadioBrowser::AddFavorite(const std::string& name, const std::string& country,
-                                      const std::string& city, const std::string& keywords,
-                                      const std::string& station_uuid) {
+std::string RadioBrowser::AddFavorite() {
+    const auto& radio = InternetRadioPlayer::GetInstance();
+    if (!radio.IsPlaying()) return "No current radio station is available";
+    const auto current = radio.GetCurrentStation();
+    if (current.stationuuid.empty()) return "Current radio station has no UUID";
+    return RadioStorage::GetInstance().AddFavoriteUuid(current.stationuuid);
+/*
     RadioStationInfo target_station;
     target_station.name = name;
     target_station.country = country;
@@ -562,40 +566,18 @@ std::string RadioBrowser::AddFavorite(const std::string& name, const std::string
         return "No current radio station is available";
     }
 
-    return RadioStorage::GetInstance().AddFavorite(target_station);
+    return RadioStorage::GetInstance().AddFavoriteUuid(target_station.stationuuid);
+*/
 }
 
 std::string RadioBrowser::ListFavorites() const {
     return RadioStorage::GetInstance().ListFavorites();
 }
 
-std::string RadioBrowser::PlayFavorite(const std::string& name) {
-    std::vector<RadioStationInfo> favorites;
-    if (!RadioStorage::GetInstance().GetFavorites(favorites) || favorites.empty()) {
-        return "Favorites list is empty";
-    }
-
+std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
+    if (station_uuid.empty() || !RadioStorage::GetInstance().ContainsFavoriteUuid(station_uuid)) return "Favorite station not found";
     RadioStationInfo target_favorite;
-    size_t target_index = 0;
-    bool found = false;
-    int best_score = -1;
-    for (size_t i = 0; i < favorites.size(); ++i) {
-        const auto& fav = favorites[i];
-        const int score = RadioSearchRanking::Enabled ? FavoriteScore(fav, name) :
-            ((ContainsInsensitive(fav.name, name) ||
-            ContainsInsensitive(fav.country, name) ||
-            ContainsInsensitive(fav.state, name) ||
-            ContainsInsensitive(fav.tags, name)) ? 1 : 0);
-        if (score > best_score && score > 0) {
-            target_favorite = fav;
-            target_index = i;
-            found = true;
-            best_score = score;
-        }
-    }
-    if (!found) {
-        return "Favorite station not found";
-    }
+    target_favorite.stationuuid = station_uuid;
 
     ESP_LOGI(TAG, "[FAVORITE_PLAY] name=%s uuid=%s", target_favorite.name.c_str(), target_favorite.stationuuid.c_str());
     bool uuid_lookup_failed = false;
@@ -655,61 +637,6 @@ std::string RadioBrowser::PlayFavorite(const std::string& name) {
         uuid_lookup_failed = true;
     }
 
-    ESP_LOGI(TAG, "[FAVORITE_PLAY] UUID missing, trying local catalog");
-    const auto catalog_results = RadioStorage::GetInstance().SearchCatalog(
-        target_favorite.name, target_favorite.countrycode, target_favorite.language, target_favorite.tags, 10);
-
-    std::vector<RadioStationInfo> exact_matches;
-    exact_matches.reserve(catalog_results.size());
-    for (const auto& station : catalog_results) {
-        if (station.stationuuid.empty()) continue;
-        if (!EqualsInsensitive(station.name, target_favorite.name)) continue;
-        if (!target_favorite.countrycode.empty() &&
-            !ContainsInsensitive(station.countrycode, target_favorite.countrycode) &&
-            !ContainsInsensitive(station.country, target_favorite.countrycode)) {
-            continue;
-        }
-        exact_matches.push_back(station);
-    }
-
-    if (exact_matches.size() == 1) {
-        const std::string recovered_uuid = exact_matches[0].stationuuid;
-        ESP_LOGI(TAG, "[FAVORITE_PLAY] local UUID recovered: %s", recovered_uuid.c_str());
-        RadioStationInfo fresh_station;
-        std::string err_msg;
-        if (GetStationByUuid(recovered_uuid, fresh_station, err_msg)) {
-            ESP_LOGI(TAG, "[FAVORITE_PLAY] fresh station resolved by recovered UUID");
-            favorites[target_index] = fresh_station;
-            std::string save_err;
-            if (RadioStorage::GetInstance().SaveFavorites(favorites, save_err)) {
-                ESP_LOGI(TAG, "[FAVORITE_PLAY] favorite UUID backfilled");
-            } else {
-                ESP_LOGW(TAG, "[FAVORITE_PLAY] failed to backfill favorite: %s", save_err.c_str());
-            }
-            std::string play_err;
-            auto admission = [station = fresh_station]() mutable {
-                Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                    std::string err;
-                    RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                });
-            };
-            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
-                return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-            }
-            return "Playing favorite station: " + fresh_station.name;
-        }
-        uuid_lookup_failed = true;
-    }
-
-    ESP_LOGI(TAG, "[FAVORITE_PLAY] local UUID recovery failed, using direct URL fallback");
-    if (!target_favorite.url_resolved.empty()) {
-        std::string play_err;
-        if (!MediaPlayer::GetInstance().PlayRadio(target_favorite, play_err)) {
-            return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-        }
-        return "Playing favorite station: " + target_favorite.name;
-    }
-
     if (uuid_lookup_failed) ScheduleRadioErrorBip();
     return "Favorite station has no valid URL";
 }
@@ -729,33 +656,17 @@ int FavoriteScore(const RadioStationInfo& station, const std::string& query) {
 }
 } // namespace
 
-std::string RadioBrowser::RemoveFavorite(const std::string& name) {
-    return RadioStorage::GetInstance().RemoveFavorite(name);
+std::string RadioBrowser::RemoveFavorite(const std::string& station_uuid) {
+    return RadioStorage::GetInstance().RemoveFavoriteUuid(station_uuid);
 }
 
 void RadioBrowser::RegisterMcpTools() {
     McpServer::GetInstance().AddTool(
         "radio.add_favorite",
-        "Save an internet radio station to hidden favorites.\n"
-        "Two modes of operation:\n"
-        "1. Save a specified station: pass 'name' and optional country, city, keywords, stationuuid.\n"
-        "2. Save the currently playing or last played station: omit 'name' (or pass empty string ''). The device automatically uses current station details.\n"
-        "Use mode 2 when the user asks to save the active or currently playing radio (e.g. 'Add this station to favorites', 'Save current radio').\n"
-        "Do NOT guess or invent a station name from dialogue history when user asks to save current radio; call this tool without 'name'.",
-        PropertyList({
-            Property("name", kPropertyTypeString, std::string("")),
-            Property("country", kPropertyTypeString, std::string("")),
-            Property("city", kPropertyTypeString, std::string("")),
-            Property("keywords", kPropertyTypeString, std::string("")),
-            Property("stationuuid", kPropertyTypeString, std::string(""))
-        }),
+        "Add the currently playing radio station to favorites. No arguments are required.",
+        PropertyList(),
         [this](const PropertyList& properties) -> ReturnValue {
-            const std::string name = properties.HasProperty("name") ? properties["name"].value<std::string>() : "";
-            const std::string country = properties.HasProperty("country") ? properties["country"].value<std::string>() : "";
-            const std::string city = properties.HasProperty("city") ? properties["city"].value<std::string>() : "";
-            const std::string keywords = properties.HasProperty("keywords") ? properties["keywords"].value<std::string>() : "";
-            const std::string stationuuid = properties.HasProperty("stationuuid") ? properties["stationuuid"].value<std::string>() : "";
-            return AddFavorite(name, country, city, keywords, stationuuid);
+            return AddFavorite();
         });
     McpServer::GetInstance().AddTool(
         "radio.get_current",
@@ -813,29 +724,29 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.play_favorite",
-        "Play a hidden favorite station by its saved name or key name fragment.\n"
-        "Use this tool when the requested station matches an item returned by radio.list_favorites (including minor name/spelling variations).",
+        "Play a hidden favorite station by its stationuuid from radio.list_favorites.",
         PropertyList({
-            Property("name", kPropertyTypeString)
+            Property("stationuuid", kPropertyTypeString)
         }),
         [this](const PropertyList& properties) -> ReturnValue {
-            if (!properties.HasProperty("name")) {
-                return "Favorite station name is required";
+            if (!properties.HasProperty("stationuuid")) {
+                return "Favorite station UUID is required";
             }
-            const std::string name = properties["name"].value<std::string>();
-            if (name.empty()) {
-                return "Favorite station name is required";
+            const std::string uuid = properties["stationuuid"].value<std::string>();
+            if (uuid.empty()) {
+                return "Favorite station UUID is required";
             }
-            return PlayFavorite(name);
+            return PlayFavorite(uuid);
         });
     McpServer::GetInstance().AddTool(
         "radio.remove_favorite",
-        "Remove a hidden favorite radio station by name.",
+        "Remove a hidden favorite radio station by stationuuid.",
         PropertyList({
-            Property("name", kPropertyTypeString)
+            Property("stationuuid", kPropertyTypeString)
         }),
         [this](const PropertyList& properties) -> ReturnValue {
-            return RemoveFavorite(properties["name"].value<std::string>());
+            if (!properties.HasProperty("stationuuid")) return "Favorite station UUID is required";
+            return RemoveFavorite(properties["stationuuid"].value<std::string>());
         });
     McpServer::GetInstance().AddTool(
         "radio.search_stations",

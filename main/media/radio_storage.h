@@ -22,8 +22,9 @@ public:
     // Favorites API (/sdcard/radio_favorites.json)
     bool LoadFavorites(std::vector<RadioStationInfo>& favorites, std::string& err_msg);
     bool SaveFavorites(const std::vector<RadioStationInfo>& favorites, std::string& err_msg);
-    std::string AddFavorite(const RadioStationInfo& station);
-    std::string RemoveFavorite(const std::string& name);
+    std::string AddFavoriteUuid(const std::string& uuid);
+    std::string RemoveFavoriteUuid(const std::string& uuid);
+    bool ContainsFavoriteUuid(const std::string& uuid);
     std::string ListFavorites();
     bool GetFavorites(std::vector<RadioStationInfo>& favorites);
 
