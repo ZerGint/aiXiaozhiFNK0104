@@ -150,6 +150,7 @@ void MediaPlayer::TogglePlayPause() {
 void MediaPlayer::PauseForVoice() {
     auto& radio = InternetRadioPlayer::GetInstance();
     if (radio.IsPlaying()) {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
         radio_station_for_voice_ = radio.GetCurrentStation();
         radio.Stop();
         paused_for_voice_ = true;
@@ -163,9 +164,13 @@ void MediaPlayer::PauseForVoice() {
 
 void MediaPlayer::PlayForVoice() {
     if (paused_for_voice_.exchange(false)) {
-        if (!radio_station_for_voice_.url_resolved.empty()) {
-            const RadioStationInfo station = std::move(radio_station_for_voice_);
+        RadioStationInfo station;
+        {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            station = std::move(radio_station_for_voice_);
             radio_station_for_voice_ = {};
+        }
+        if (!station.url_resolved.empty()) {
             ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
                      station.name.c_str(),
                      station.stationuuid.c_str(),
@@ -198,7 +203,10 @@ void MediaPlayer::Prev() {
 
 void MediaPlayer::Stop() {
     paused_for_voice_ = false;
-    radio_station_for_voice_ = {};
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        radio_station_for_voice_ = {};
+    }
     Application::GetInstance().StopVoiceInteractionForMedia();
     SdMusicPlayer::GetInstance().Stop();
     InternetRadioPlayer::GetInstance().Stop();
@@ -207,6 +215,17 @@ void MediaPlayer::Stop() {
 bool MediaPlayer::IsPlaying() const {
     return SdMusicPlayer::GetInstance().IsPlaying() ||
            InternetRadioPlayer::GetInstance().IsPlaying();
+}
+
+bool MediaPlayer::GetCurrentRadioStationForAction(RadioStationInfo& station) const {
+    if (InternetRadioPlayer::GetInstance().IsPlaying()) {
+        station = InternetRadioPlayer::GetInstance().GetCurrentStation();
+        return !station.stationuuid.empty();
+    }
+    if (!paused_for_voice_.load()) return false;
+    std::lock_guard<std::mutex> lock(voice_mutex_);
+    station = radio_station_for_voice_;
+    return !station.stationuuid.empty();
 }
 
 bool MediaPlayer::IsPaused() const {

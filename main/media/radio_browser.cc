@@ -478,9 +478,8 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
 }
 
 std::string RadioBrowser::AddFavorite() {
-    const auto& radio = InternetRadioPlayer::GetInstance();
-    if (!radio.IsPlaying()) return "No current radio station is available";
-    const auto current = radio.GetCurrentStation();
+    RadioStationInfo current;
+    if (!MediaPlayer::GetInstance().GetCurrentRadioStationForAction(current)) return "No current radio station is available";
     if (current.stationuuid.empty()) return "Current radio station has no UUID";
     return RadioStorage::GetInstance().AddFavoriteUuid(current.stationuuid);
 /*

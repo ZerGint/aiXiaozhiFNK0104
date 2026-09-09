@@ -4,6 +4,7 @@
 #include <atomic>
 #include <string>
 #include <functional>
+#include <mutex>
 
 #include "internet_radio_player.h"
 
@@ -31,6 +32,7 @@ public:
     void Stop();
 
     bool IsPlaying() const;
+    bool GetCurrentRadioStationForAction(RadioStationInfo& station) const;
     bool IsPaused() const;
     std::string GetTitle() const;
     std::string GetStatus() const;
@@ -39,6 +41,7 @@ private:
     MediaPlayer() = default;
     std::atomic<bool> paused_for_voice_{false};
     RadioStationInfo radio_station_for_voice_;
+    mutable std::mutex voice_mutex_;
 };
 
 #endif
