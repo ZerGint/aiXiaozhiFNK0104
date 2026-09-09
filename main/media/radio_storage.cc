@@ -508,11 +508,11 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
                                                           const std::string& tag,
                                                           int limit) {
     std::lock_guard<std::mutex> lock(mutex_);
-    std::vector<RadioStationInfo> catalog;
-    std::string err_msg;
-    if (!LoadCatalogInternal(catalog, err_msg) || catalog.empty()) {
-        return {};
-    }
+    struct stat st;
+    if (stat(kBinaryCatalogPath, &st) != 0) return {};
+    RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
+    uint32_t catalog_count = 0;
+    if (!reader.Open(catalog_count) || catalog_count == 0) return {};
 
     limit = std::clamp(limit, 1, 20);
     std::vector<RadioStationInfo> results;
@@ -523,7 +523,9 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
         std::vector<ScoredStation> ranked;
         ranked.reserve(static_cast<size_t>(limit));
         const auto tokens = TokenizeQuery(query);
-        for (const auto& station : catalog) {
+        for (uint32_t index = 0; index < catalog_count; ++index) {
+            RadioStationInfo station;
+            if (!reader.ReadNext(station)) return {};
             if (!IsSupportedCodec(station.codec)) continue;
             if (!countrycode.empty() && !ContainsInsensitiveNoAlloc(station.countrycode, countrycode) &&
                 !ContainsInsensitiveNoAlloc(station.country, countrycode)) continue;
@@ -548,10 +550,13 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
             if (ranked.size() > static_cast<size_t>(limit)) ranked.pop_back();
         }
         for (auto& item : ranked) results.push_back(std::move(item.station));
+        if (!reader.Finish()) return {};
         return results;
     }
 
-    for (const auto& station : catalog) {
+    for (uint32_t index = 0; index < catalog_count; ++index) {
+        RadioStationInfo station;
+        if (!reader.ReadNext(station)) return {};
         if (!IsSupportedCodec(station.codec)) {
             continue;
         }
@@ -592,6 +597,7 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
         }
     }
 
+    if (!reader.Finish()) return {};
     return results;
 }
 
