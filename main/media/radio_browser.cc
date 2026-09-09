@@ -652,12 +652,7 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.list_favorites",
-        "Return hidden favorite radio stations for internal selection.\n"
-        "Usage guidelines:\n"
-        "- When the user asks to play a specific radio station by name (e.g. 'Включи Radius FM', 'Поставь Ретро FM', 'Хочу послушать Юмор FM'), call radio.list_favorites FIRST before searching.\n"
-        "- Treat minor name variations as equivalent: spaces, hyphens, case, Cyrillic/Latin variants when obvious from context (e.g. 'Ретро-ФМ' ≈ 'Ретро FM' ≈ 'Retro FM', 'Радиус ФМ' ≈ 'Radius FM').\n"
-        "- If a clear match is found in favorites, use radio.play_favorite. Do NOT call radio.search_stations if the requested station is already present in favorites.\n"
-        "- Do not read every favorite station aloud to the user unless explicitly asked; summarize briefly.",
+        "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name � state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
         PropertyList(),
         [this](const PropertyList&) -> ReturnValue {
             return ListFavorites();

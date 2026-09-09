@@ -339,7 +339,11 @@ std::string RadioStorage::ListFavorites() {
         if (!GetCatalogStationByUuid(favorite.stationuuid, info)) {
             info.stationuuid = favorite.stationuuid;
         }
-        cJSON_AddItemToArray(root, StationInfoToCJson(info));
+        cJSON* item = cJSON_CreateObject();
+        cJSON_AddStringToObject(item, "stationuuid", info.stationuuid.c_str());
+        cJSON_AddStringToObject(item, "name", info.name.c_str());
+        cJSON_AddStringToObject(item, "state", info.state.c_str());
+        cJSON_AddItemToArray(root, item);
     }
 
     char* output = cJSON_PrintUnformatted(root);
