@@ -493,9 +493,14 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
 
         std::string play_err;
         auto admission = [station = fresh_station]() mutable {
+            ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] callback uuid=%s", station.stationuuid.c_str());
             Application::GetInstance().Schedule([station = std::move(station)]() mutable {
+                ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] scheduled_begin uuid=%s", station.stationuuid.c_str());
                 std::string err;
-                if (!RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err)) {
+                const bool ok = RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+                ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] storage_result uuid=%s ok=%d err=%s",
+                         station.stationuuid.c_str(), ok ? 1 : 0, err.c_str());
+                if (!ok) {
                     ESP_LOGW(TAG, "Failed to refresh radio catalog after startup: %s", err.c_str());
                 }
             });
@@ -566,8 +571,11 @@ std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
     if (!target_favorite.stationuuid.empty()) {
         ESP_LOGI(TAG, "[FAVORITE_PLAY] resolving by UUID");
         RadioStationInfo cached_station;
-        if (RadioStorage::GetInstance().GetCatalogStationByUuid(target_favorite.stationuuid, cached_station) &&
-            !cached_station.url_resolved.empty()) {
+        const bool catalog_found = RadioStorage::GetInstance().GetCatalogStationByUuid(target_favorite.stationuuid, cached_station);
+        ESP_LOGI(TAG, "[RADIO_ADMISSION_DIAG] favorite_catalog uuid=%s found=%d url_empty=%d",
+                 target_favorite.stationuuid.c_str(), catalog_found ? 1 : 0,
+                 cached_station.url_resolved.empty() ? 1 : 0);
+        if (catalog_found && !cached_station.url_resolved.empty()) {
             std::string play_err;
             const std::string station_uuid = target_favorite.stationuuid;
             auto retry = [station_uuid]() {
