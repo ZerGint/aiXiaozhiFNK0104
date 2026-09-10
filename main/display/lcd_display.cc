@@ -1271,7 +1271,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_size(top_status_group, 160, 34);
     lv_obj_set_style_pad_all(top_status_group, 0, 0);
     lv_obj_set_layout(top_status_group, LV_LAYOUT_NONE);
-    lv_obj_set_pos(top_status_group, 318, 0);
+    lv_obj_set_pos(top_status_group, 318, 5);
     lv_obj_set_style_pad_all(top_status_group, 0, 0);
     lv_obj_remove_flag(top_status_group, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER));
     lv_obj_set_scrollbar_mode(top_status_group, LV_SCROLLBAR_MODE_OFF);
@@ -1395,7 +1395,8 @@ void LcdDisplay::SetupUI() {
     }
     auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
     lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
-    media_volume_slider_ = lv_slider_create(media_center);\n    auto media_volume = media_volume_slider_;
+    media_volume_slider_ = lv_slider_create(media_center);
+    auto media_volume = media_volume_slider_;
     lv_obj_set_pos(media_volume, 54, 247);
     lv_obj_set_size(media_volume, 182, 6);
     auto initial_media_codec = Board::GetInstance().GetAudioCodec();
@@ -1875,11 +1876,7 @@ void LcdDisplay::UpdateServiceIndicators() {
             lv_label_set_text(nav_status_[i], "");
         }
     }
-'    if (media_volume_slider_) {
-        auto codec = Board::GetInstance().GetAudioCodec();
-        if (codec) lv_slider_set_value(media_volume_slider_, codec->output_volume(), LV_ANIM_OFF);
-    }
-'    if (media_volume_slider_) {
+    if (media_volume_slider_) {
         auto codec = Board::GetInstance().GetAudioCodec();
         if (codec) lv_slider_set_value(media_volume_slider_, codec->output_volume(), LV_ANIM_OFF);
     }
