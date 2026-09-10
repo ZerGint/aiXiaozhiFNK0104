@@ -1328,18 +1328,32 @@ void LcdDisplay::SetupUI() {
             lv_obj_set_style_bg_color(progress, kAccent, LV_PART_INDICATOR);
             DisableScroll(progress);
         }
-        button(center, "<<", 30, 138, 48, 40);
-        auto play = button(center, "Play", 101, 132, 54, 52, true);
+        button(center, "<<", 30, 130, 48, 40);
+        auto play = button(center, "Play", 101, 124, 54, 52, true);
         lv_obj_set_style_radius(play, 26, 0);
-        button(center, ">>", 178, 138, 48, 40);
-        if (radio) button(center, "Favorite", 89, 210, 80, 30);
-        else {
-            button(center, "Shuffle", 42, 210, 76, 30);
-            button(center, "Repeat", 142, 210, 76, 30);
+        button(center, ">>", 178, 130, 48, 40);
+        if (radio) {
+            auto favorite = button(center, "", 109, 198, 40, 38);
+            // Unselected placeholder; membership will be wired to storage later.
+            static const lv_point_precise_t star_points[] = {
+                {12, 0}, {15, 8}, {24, 9}, {17, 15}, {20, 24},
+                {12, 19}, {4, 24}, {7, 15}, {0, 9}, {9, 8}, {12, 0}
+            };
+            auto star = lv_line_create(favorite);
+            lv_line_set_points(star, star_points, 11);
+            lv_obj_set_style_line_color(star, kText, 0);
+            lv_obj_set_style_line_width(star, 2, 0);
+            lv_obj_center(star);
+            DisableScroll(star);
+            lv_obj_remove_flag(star, LV_OBJ_FLAG_CLICKABLE);
         }
-        label(center, "Vol", 12, 250, 30, kMuted);
+        else {
+            button(center, "Shuffle", 42, 202, 76, 30);
+            button(center, "Repeat", 142, 202, 76, 30);
+        }
+        label(center, "Vol", 12, 242, 30, kMuted);
         auto volume = lv_slider_create(center);
-        lv_obj_set_pos(volume, 54, 255);
+        lv_obj_set_pos(volume, 54, 247);
         lv_obj_set_size(volume, 182, 6);
         lv_slider_set_value(volume, 60, LV_ANIM_OFF);
         lv_obj_set_style_bg_color(volume, kBorder, LV_PART_MAIN);
