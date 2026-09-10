@@ -524,7 +524,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(right_icons, 0, 0);
     lv_obj_set_style_pad_all(right_icons, 0, 0);
     lv_obj_set_flex_flow(right_icons, LV_FLEX_FLOW_ROW);
-    lv_obj_set_width(right_icons, 100);
+    lv_obj_set_width(right_icons, 160);
     lv_obj_set_height(right_icons, 24);
     lv_obj_remove_flag(right_icons, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
     lv_obj_set_scrollbar_mode(right_icons, LV_SCROLLBAR_MODE_OFF);
@@ -1060,7 +1060,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_flex_align(top_bar_, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
     lv_obj_set_scrollbar_mode(top_bar_, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(top_bar_, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+    lv_obj_remove_flag(top_bar_, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER));
     lv_obj_add_flag(top_bar_, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_move_foreground(top_bar_);
     lv_obj_align(top_bar_, LV_ALIGN_TOP_MID, 0, 0);
@@ -1078,9 +1078,9 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(right_icons, 0, 0);
     lv_obj_set_style_pad_all(right_icons, 0, 0);
     lv_obj_set_flex_flow(right_icons, LV_FLEX_FLOW_ROW);
-    lv_obj_set_width(right_icons, 100);
+    lv_obj_set_width(right_icons, 160);
     lv_obj_set_height(right_icons, 24);
-    lv_obj_remove_flag(right_icons, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+    lv_obj_remove_flag(right_icons, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER));
     lv_obj_set_scrollbar_mode(right_icons, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_flex_align(right_icons, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
@@ -1268,16 +1268,28 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_pos(network_label_, 12, 7);
     lv_obj_set_pos(top_time_label_, 200, 7);
     auto top_status_group = lv_obj_get_parent(battery_label_);
-    lv_obj_set_width(top_status_group, 100);
-    lv_obj_set_height(top_status_group, 24);
-    lv_obj_set_pos(top_status_group, 370, 5);
-    lv_obj_remove_flag(top_status_group, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
-    lv_obj_set_scrollbar_mode(top_status_group, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_size(top_status_group, 160, 34);
+    lv_obj_set_style_pad_all(top_status_group, 0, 0);
     lv_obj_set_layout(top_status_group, LV_LAYOUT_NONE);
-    lv_obj_set_pos(mute_label_, 0, 2);
-    lv_obj_set_pos(top_volume_value_label_, 30, 2);
-    lv_obj_set_pos(battery_label_, 62, 2);
-    lv_obj_set_pos(top_battery_value_label_, 82, 2);
+    lv_obj_set_pos(top_status_group, 318, 0);
+    lv_obj_set_style_pad_all(top_status_group, 0, 0);
+    lv_obj_remove_flag(top_status_group, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER));
+    lv_obj_set_scrollbar_mode(top_status_group, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_set_style_min_width(mute_label_, 24, 0);
+    lv_obj_set_style_min_width(top_volume_value_label_, 32, 0);
+    lv_obj_set_style_min_width(battery_label_, 24, 0);
+    lv_obj_set_style_min_width(top_battery_value_label_, 32, 0);
+    lv_obj_set_style_text_align(mute_label_, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_align(battery_label_, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_text_align(top_volume_value_label_, LV_TEXT_ALIGN_LEFT, 0);
+    lv_obj_set_style_text_align(top_battery_value_label_, LV_TEXT_ALIGN_LEFT, 0);
+    lv_obj_set_pos(mute_label_, 0, 0);
+    lv_obj_set_pos(top_volume_value_label_, 28, 0);
+    lv_obj_set_pos(battery_label_, 78, 0);
+    lv_obj_set_pos(top_battery_value_label_, 106, 0);
+    lv_obj_set_style_margin_left(top_volume_value_label_, 0, 0);
+    lv_obj_set_style_margin_left(battery_label_, 20, 0);
+    lv_obj_set_style_margin_left(top_battery_value_label_, 10, 0);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
     LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
     const char* names[] = {"AI", "", ""};
@@ -1369,24 +1381,33 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_text_align(media_icon, LV_TEXT_ALIGN_CENTER, 0);
     label(media_center, "Now Playing", 120, 14, 124, kMuted);
     media_title_label_ = label(media_center, "No track", 120, 42, 124, kText);
-    auto media_prev = button(media_center, "<<", 30, 130, 48, 40);
-    media_play_button_ = button(media_center, "Play", 101, 124, 54, 52, true);
+    auto media_prev = button(media_center, MATERIAL_SYMBOLS_SKIP_PREVIOUS, 30, 130, 48, 40);
+    media_play_button_ = button(media_center, MATERIAL_SYMBOLS_PLAY_ARROW, 101, 124, 54, 52, true);
     auto media_play = media_play_button_;
-    auto media_next = button(media_center, ">>", 178, 130, 48, 40);
+    auto media_next = button(media_center, MATERIAL_SYMBOLS_SKIP_NEXT, 178, 130, 48, 40);
     lv_obj_add_event_cb(media_prev, [](lv_event_t*) { MediaPlayer::GetInstance().Prev(); }, LV_EVENT_CLICKED, nullptr);
     lv_obj_add_event_cb(media_play, [](lv_event_t*) { MediaPlayer::GetInstance().TogglePlayPause(); }, LV_EVENT_CLICKED, nullptr);
     lv_obj_add_event_cb(media_next, [](lv_event_t*) { MediaPlayer::GetInstance().Next(); }, LV_EVENT_CLICKED, nullptr);
-    media_shuffle_button_ = button(media_center, "Shuffle", 42, 202, 76, 30);
-    media_repeat_button_ = button(media_center, "Repeat", 142, 202, 76, 30);
+    media_shuffle_button_ = button(media_center, MATERIAL_SYMBOLS_SHUFFLE, 42, 202, 76, 30);
+    media_repeat_button_ = button(media_center, MATERIAL_SYMBOLS_REPEAT, 142, 202, 76, 30);
+    for (auto control : {media_prev, media_play, media_next, media_shuffle_button_, media_repeat_button_}) {
+        lv_obj_set_style_text_font(lv_obj_get_child(control, 0), &BUILTIN_ICON_FONT, 0);
+    }
     auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
     lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
-    auto media_volume = lv_slider_create(media_center);
+    media_volume_slider_ = lv_slider_create(media_center);\n    auto media_volume = media_volume_slider_;
     lv_obj_set_pos(media_volume, 54, 247);
     lv_obj_set_size(media_volume, 182, 6);
-    lv_slider_set_value(media_volume, 60, LV_ANIM_OFF);
+    auto initial_media_codec = Board::GetInstance().GetAudioCodec();
+    lv_slider_set_value(media_volume, initial_media_codec ? initial_media_codec->output_volume() : 0, LV_ANIM_OFF);
     lv_obj_set_style_bg_color(media_volume, kBorder, LV_PART_MAIN);
     lv_obj_set_style_bg_color(media_volume, kAccent, LV_PART_INDICATOR);
     DisableScroll(media_volume);
+    lv_obj_add_event_cb(media_volume, [](lv_event_t* e) {
+        auto slider = (lv_obj_t*)lv_event_get_target(e);
+        auto codec = Board::GetInstance().GetAudioCodec();
+        if (codec) codec->SetOutputVolume(lv_slider_get_value(slider));
+    }, LV_EVENT_VALUE_CHANGED, nullptr);
     label(media_right, "Media", 10, 12, 124, kText);
     for (int row = 0; row < 4; ++row) {
         auto card = panel(media_right, 8, 40 + row * 46, 128, 42, row == 0 ? kCardHi : kCard);
@@ -1811,7 +1832,7 @@ void LcdDisplay::UpdateServiceIndicators() {
                                  ? InternetRadioPlayer::GetInstance().IsPlaying()
                                  : (active_media_source_ == ActiveMediaSource::Player)
                                      ? SdMusicPlayer::GetInstance().IsPlaying() : false;
-        lv_label_set_text(lv_obj_get_child(media_play_button_, 0), playing ? "Pause" : "Play");
+        lv_label_set_text(lv_obj_get_child(media_play_button_, 0), playing ? MATERIAL_SYMBOLS_PAUSE : MATERIAL_SYMBOLS_PLAY_ARROW);
     }
     if (media_title_label_) {
         std::string title = "Nothing playing";
@@ -1853,6 +1874,14 @@ void LcdDisplay::UpdateServiceIndicators() {
             else lv_obj_add_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
             lv_label_set_text(nav_status_[i], "");
         }
+    }
+'    if (media_volume_slider_) {
+        auto codec = Board::GetInstance().GetAudioCodec();
+        if (codec) lv_slider_set_value(media_volume_slider_, codec->output_volume(), LV_ANIM_OFF);
+    }
+'    if (media_volume_slider_) {
+        auto codec = Board::GetInstance().GetAudioCodec();
+        if (codec) lv_slider_set_value(media_volume_slider_, codec->output_volume(), LV_ANIM_OFF);
     }
     if (top_volume_value_label_) {
         auto codec = Board::GetInstance().GetAudioCodec();
@@ -1984,7 +2013,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_align(volume_slider_, LV_ALIGN_LEFT_MID, 95, 0);
     lv_slider_set_range(volume_slider_, 0, 100);
     auto codec = Board::GetInstance().GetAudioCodec();
-    int cur_vol = codec ? codec->output_volume() : 70;
+    int cur_vol = codec ? codec->output_volume() : 0;
     lv_slider_set_value(volume_slider_, cur_vol, LV_ANIM_OFF);
     lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x173B4D), LV_PART_MAIN);
     lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x16C1B7), LV_PART_INDICATOR);
