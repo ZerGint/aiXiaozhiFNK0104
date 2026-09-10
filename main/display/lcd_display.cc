@@ -40,6 +40,13 @@
 
 namespace {
 
+static void LogUiMemory(const char* marker) {
+    ESP_LOGI(TAG, "%s internal_free=%u internal_largest=%u spiram_free=%u", marker,
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT),
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+}
+
 const lv_color_t kBg = lv_color_hex(0x071923);
 const lv_color_t kTop = lv_color_hex(0x0B2433);
 const lv_color_t kNav = lv_color_hex(0x0A202D);
@@ -481,6 +488,8 @@ void LcdDisplay::SetupUI() {
         return;
     }
 
+    LogUiMemory("UI_MEM_BEFORE_SETUP");
+    LogUiMemory("UI_MEM_BEFORE_SETUP");
     Display::SetupUI();  // Mark SetupUI as called
     DisplayLockGuard lock(this);
 
@@ -1266,6 +1275,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_pos(top_time_label_, 200, 7);
     lv_obj_set_pos(lv_obj_get_parent(battery_label_), 374, 5);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
+    LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
     const char* names[] = {"AI", "", ""};
     for (int i = 0; i < 3; ++i) {
         auto obj = button(nav, names[i], 4, 4 + i * 78, 56, 72);
@@ -1428,6 +1438,7 @@ void LcdDisplay::SetupUI() {
         self->UpdateServiceIndicators();
     }, 250, this);
     UpdateServiceIndicators();
+    LogUiMemory("UI_MEM_AFTER_ACTIVE_PAGE");
     lv_obj_move_foreground(top_bar_);
 
 }
@@ -1865,6 +1876,7 @@ void LcdDisplay::SwitchTab(int tab_index)
     DisplayLockGuard lock(this);
 
     current_tab_index_ = tab_index;
+    LogUiMemory("UI_MEM_AFTER_TAB_SWITCH");
 
     if (ai_view_)
     {
