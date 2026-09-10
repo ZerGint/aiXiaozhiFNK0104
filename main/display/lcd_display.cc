@@ -1309,13 +1309,11 @@ void LcdDisplay::SetupUI() {
             lv_obj_set_style_bg_color(progress, kBorder, LV_PART_MAIN);
             lv_obj_set_style_bg_color(progress, kAccent, LV_PART_INDICATOR);
             DisableScroll(progress);
-            label(center, "0:00", 12, 126, 50, kMuted);
-            label(center, "0:00", 198, 126, 46, kMuted);
         }
-        button(center, "<<", 30, 154, 48, 40);
-        auto play = button(center, "Play", 101, 148, 54, 52, true);
+        button(center, "<<", 30, 138, 48, 40);
+        auto play = button(center, "Play", 101, 132, 54, 52, true);
         lv_obj_set_style_radius(play, 26, 0);
-        button(center, ">>", 178, 154, 48, 40);
+        button(center, ">>", 178, 138, 48, 40);
         if (radio) button(center, "Favorite", 89, 210, 80, 30);
         else {
             button(center, "Shuffle", 42, 210, 76, 30);
