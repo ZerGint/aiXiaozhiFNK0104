@@ -1231,31 +1231,49 @@ void LcdDisplay::SetupUI() {
     };
 
     lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_ROW);
-    auto identity = label(top_bar_, "XiaoZhi", 0, 0, 80, kText);
-    lv_obj_move_to_index(identity, 0);
-    auto settings = button(top_bar_, "Settings", 0, 0, 68, 28);
-    lv_obj_add_event_cb(settings, [](lv_event_t* event) {
-        static_cast<LcdDisplay*>(lv_event_get_user_data(event))->OpenSettingsModal();
-    }, LV_EVENT_CLICKED, this);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
-    const char* names[] = {"Player", "Radio", "AI"};
+    const char* names[] = {"AI", "", ""};
     for (int i = 0; i < 3; ++i) {
-        auto obj = button(nav, names[i], 4, 4 + i * 70, 56, 64);
+        auto obj = button(nav, names[i], 4, 4 + i * 78, 56, 72);
         nav_buttons_[i] = obj;
+        // Code-native icons avoid depending on missing font glyphs.
+        auto stroke = [&](int x, int y, int w, int h, int radius = 0) {
+            auto part = panel(obj, x, y, w, h, kText);
+            lv_obj_set_style_radius(part, radius, 0);
+            lv_obj_remove_flag(part, LV_OBJ_FLAG_CLICKABLE);
+        };
+        if (i == 2) { // Double musical note.
+            stroke(17, 10, 3, 22);
+            stroke(33, 10, 3, 22);
+            stroke(17, 10, 19, 4);
+            stroke(10, 28, 10, 7, 4);
+            stroke(26, 28, 10, 7, 4);
+        } else if (i == 1) { // Radio receiver and aerial.
+            auto receiver = panel(obj, 12, 17, 32, 21, kCard);
+            lv_obj_set_style_border_width(receiver, 2, 0);
+            lv_obj_set_style_border_color(receiver, kText, 0);
+            lv_obj_set_style_radius(receiver, 4, 0);
+            lv_obj_remove_flag(receiver, LV_OBJ_FLAG_CLICKABLE);
+            stroke(17, 7, 3, 10);
+            stroke(17, 22, 8, 10, 4);
+            stroke(29, 22, 10, 2);
+            stroke(29, 28, 10, 2);
+        }
+
         lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 8);
-        nav_status_[i] = label(obj, "", 2, 36, 50, kMuted);
+        nav_status_[i] = label(obj, "", 2, 44, 50, kMuted);
         lv_obj_set_style_text_align(nav_status_[i], LV_TEXT_ALIGN_CENTER, 0);
         lv_obj_set_user_data(obj, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
         lv_obj_add_event_cb(obj, [](lv_event_t* e) {
             auto self = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
             auto target = static_cast<lv_obj_t*>(lv_event_get_target(e));
             int index = static_cast<int>(reinterpret_cast<intptr_t>(lv_obj_get_user_data(target)));
-            self->SwitchTab(index == 0 ? 1 : index == 1 ? 2 : 0);
+            self->SwitchTab(index == 0 ? 0 : index == 1 ? 2 : 1);
         }, LV_EVENT_CLICKED, this);
         lv_obj_set_style_border_width(obj, 1, 0);
-        lv_obj_set_style_border_color(obj, i == 2 ? kAccent : kBorder, 0);
+        lv_obj_set_style_border_color(obj, i == 0 ? kAccent : kBorder, 0);
     }
-    auto nav_settings = button(nav, MATERIAL_SYMBOLS_SETTINGS, 4, 216, 56, 56);
+    auto nav_settings = button(nav, MATERIAL_SYMBOLS_SETTINGS, 4, 240, 56, 32);
     lv_obj_set_style_border_width(nav_settings, 1, 0);
     lv_obj_set_style_border_color(nav_settings, kBorder, 0);
     lv_obj_set_style_text_font(lv_obj_get_child(nav_settings, 0), &BUILTIN_ICON_FONT, 0);
@@ -1750,13 +1768,13 @@ void LcdDisplay::UpdateServiceIndicators() {
     const auto state = Application::GetInstance().GetDeviceState();
     const char* ai_state = state == kDeviceStateListening ? "Listen" :
                            state == kDeviceStateSpeaking ? "Speak" : "Ready";
-    const char* states[] = {player_state, radio_state, ai_state};
+    const char* states[] = {ai_state, radio_state, player_state};
     for (int i = 0; i < 3; ++i) {
         if (!nav_status_[i]) continue;
         if (strcmp(lv_label_get_text(nav_status_[i]), states[i]) != 0) {
             lv_label_set_text(nav_status_[i], states[i]);
         }
-        const bool active = i == 2 ? state == kDeviceStateListening ||
+        const bool active = i == 0 ? state == kDeviceStateListening ||
                                     state == kDeviceStateSpeaking : states[i][0] != 0;
         lv_obj_set_style_text_color(nav_status_[i], active ? kAccent : kMuted, 0);
     }
@@ -1800,8 +1818,8 @@ void LcdDisplay::SwitchTab(int tab_index)
             continue;
 
         bool selected =
-            (tab_index == 0 && i == 2) ||
-            (tab_index == 1 && i == 0) ||
+            (tab_index == 0 && i == 0) ||
+            (tab_index == 1 && i == 2) ||
             (tab_index == 2 && i == 1);
 
         lv_obj_set_style_bg_color(
