@@ -137,7 +137,7 @@ private:
                 if (was_pressed) {
                     was_pressed = false;
                     auto lcd = static_cast<LcdDisplay*>(self->GetDisplay());
-                    if (lcd && !lcd->IsQuickSettingsOpen() && !lcd->IsSettingsModalOpen() && tap_was_top_bar && last_y <= 50) {
+                    if (lcd && !lcd->IsQuickSettingsOpen() && tap_was_top_bar && last_y <= 50) {
                         ESP_LOGI(TAG, "TOP BAR TAP RELEASED! Opening Quick Settings...");
                         lcd->ToggleQuickSettings();
                     }

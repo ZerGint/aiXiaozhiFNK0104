@@ -13,6 +13,9 @@
 
 #define PREVIEW_IMAGE_DURATION_MS 5000
 
+enum class MediaBrowserMode { Player, Radio };
+enum class ActiveMediaSource { None, Player, Radio };
+
 class LcdDisplay : public LvglDisplay {
 protected:
     esp_lcd_panel_io_handle_t panel_io_ = nullptr;
@@ -46,6 +49,8 @@ protected:
     lv_obj_t* volume_val_label_ = nullptr;
     lv_obj_t* brightness_val_label_ = nullptr;
     lv_obj_t* media_status_label_ = nullptr;
+    lv_obj_t* media_title_label_ = nullptr;
+    lv_obj_t* media_art_label_ = nullptr;
     bool quick_settings_open_ = false;
 
     lv_obj_t* nav_buttons_[3] = {};
@@ -56,6 +61,12 @@ protected:
     lv_obj_t* top_battery_value_label_ = nullptr;
     lv_obj_t* ai_view_ = nullptr;
     lv_obj_t* radio_view_ = nullptr;
+    lv_obj_t* media_shuffle_button_ = nullptr;
+    lv_obj_t* media_repeat_button_ = nullptr;
+    lv_obj_t* media_play_button_ = nullptr;
+    bool media_radio_mode_ = false;
+    MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
+    ActiveMediaSource active_media_source_ = ActiveMediaSource::None;
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
     void UpdateServiceIndicators();
@@ -68,45 +79,16 @@ protected:
     lv_obj_t* player_status_label_ = nullptr;
     int current_tab_index_ = 0; // 0 = AI RoboEyes, 1 = Player, 2 = Sega
 
-    // Full-Screen Settings Modal (Left Sidebar & Content Panels)
-    lv_obj_t* settings_modal_ = nullptr;
-    lv_obj_t* settings_sidebar_ = nullptr;
-    lv_obj_t* settings_content_area_ = nullptr;
-    lv_obj_t* panel_settings_wifi_ = nullptr;
-    lv_obj_t* panel_settings_ha_ = nullptr;
-    lv_obj_t* panel_settings_info_ = nullptr;
-    lv_obj_t* settings_kb_ = nullptr;
-    lv_obj_t* ha_url_ta_ = nullptr;
-    lv_obj_t* ha_token_ta_ = nullptr;
-    lv_obj_t* ha_status_label_ = nullptr;
-
-    // Wi-Fi Interactive Manager
-    lv_obj_t* wifi_status_label_ = nullptr;
-    lv_obj_t* wifi_ap_list_container_ = nullptr;
-    lv_obj_t* wifi_connect_popup_ = nullptr;
-    lv_obj_t* wifi_pw_ta_ = nullptr;
-    std::string wifi_selected_ssid_;
-    bool wifi_selected_open_ = false;
-
-    bool settings_modal_open_ = false;
-    int current_settings_cat_ = 0; // 0 = Wi-Fi, 1 = Home Assistant, 2 = Info
-
     void SetupQuickSettingsOverlay(lv_obj_t* parent);
     void SetupTabPanels(lv_obj_t* parent);
     void SetupMediaPlayerTab(lv_obj_t* parent);
     void SetupSegaEmulatorTab(lv_obj_t* parent);
-    void SetupFullSettingsModal(lv_obj_t* parent);
     void SwitchSettingsCategory(int cat_index);
     void UpdateWifiStatusLabel();
-    void ScanWifiNetworks();
-    void ConnectToWifi(const std::string& ssid, const std::string& password);
 
 public:
     void ToggleQuickSettings();
     void SwitchTab(int tab_index);
-    void OpenSettingsModal();
-    void CloseSettingsModal();
-    bool IsSettingsModalOpen() const { return settings_modal_open_; }
 
     void InitializeLcdThemes();
     virtual bool Lock(int timeout_ms = 0) override;

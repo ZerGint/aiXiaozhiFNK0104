@@ -11,9 +11,6 @@
 #include "home_assistant.h"
 #include <esp_err.h>
 #include <esp_log.h>
-#include <esp_wifi.h>
-#include <esp_netif.h>
-#include <ssid_manager.h>
 #include <esp_heap_caps.h>
 #include <esp_lvgl_port.h>
 #include <esp_psram.h>
@@ -24,7 +21,6 @@
 #ifndef LV_USE_KEYBOARD
 #define LV_USE_KEYBOARD 1
 #endif
-#include <src/widgets/keyboard/lv_keyboard.h>
 #include <src/misc/cache/lv_cache.h>
 #include <algorithm>
 #include <cstring>
@@ -41,10 +37,13 @@
 namespace {
 
 static void LogUiMemory(const char* marker) {
-    ESP_LOGI(TAG, "%s internal_free=%u internal_largest=%u spiram_free=%u", marker,
+    ESP_LOGI(TAG, "%s internal_free=%u internal_largest=%u dma_free=%u dma_largest=%u spiram_free=%u spiram_largest=%u", marker,
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT),
              (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT),
-             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_DMA),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_DMA),
+             (unsigned)heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT),
+             (unsigned)heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT));
 }
 
 const lv_color_t kBg = lv_color_hex(0x071923);
@@ -471,6 +470,7 @@ void LcdDisplay::SetupUI() {
     LogUiMemory("UI_MEM_BEFORE_SETUP");
     Display::SetupUI();  // Mark SetupUI as called
     DisplayLockGuard lock(this);
+    LogUiMemory("UI_MEM_BEFORE_COMMON_SHELL");
 
     auto lvgl_theme = static_cast<LvglTheme*>(current_theme_);
     auto text_font = lvgl_theme->text_font()->font();
@@ -509,6 +509,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_flex_align(top_bar_, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
     lv_obj_set_scrollbar_mode(top_bar_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_remove_flag(top_bar_, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
 
     // Left icon
     network_label_ = lv_label_create(top_bar_);
@@ -523,6 +524,10 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(right_icons, 0, 0);
     lv_obj_set_style_pad_all(right_icons, 0, 0);
     lv_obj_set_flex_flow(right_icons, LV_FLEX_FLOW_ROW);
+    lv_obj_set_width(right_icons, 100);
+    lv_obj_set_height(right_icons, 24);
+    lv_obj_remove_flag(right_icons, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+    lv_obj_set_scrollbar_mode(right_icons, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_flex_align(right_icons, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
 
@@ -1055,6 +1060,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_flex_align(top_bar_, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
     lv_obj_set_scrollbar_mode(top_bar_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_remove_flag(top_bar_, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
     lv_obj_add_flag(top_bar_, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_move_foreground(top_bar_);
     lv_obj_align(top_bar_, LV_ALIGN_TOP_MID, 0, 0);
@@ -1072,6 +1078,10 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(right_icons, 0, 0);
     lv_obj_set_style_pad_all(right_icons, 0, 0);
     lv_obj_set_flex_flow(right_icons, LV_FLEX_FLOW_ROW);
+    lv_obj_set_width(right_icons, 100);
+    lv_obj_set_height(right_icons, 24);
+    lv_obj_remove_flag(right_icons, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+    lv_obj_set_scrollbar_mode(right_icons, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_flex_align(right_icons, LV_FLEX_ALIGN_END, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
 
@@ -1186,10 +1196,11 @@ void LcdDisplay::SetupUI() {
     lv_obj_center(low_battery_label_);
     lv_obj_add_flag(low_battery_popup_, LV_OBJ_FLAG_HIDDEN);
 
-    // Initialize tabs & quick settings overlay in active SetupUI
+    LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
+    LogUiMemory("UI_MEM_BEFORE_QUICK_SETTINGS");
     panel_roboeyes_ = emoji_box_;
     SetupQuickSettingsOverlay(screen);
-    SetupFullSettingsModal(screen);
+    LogUiMemory("UI_MEM_AFTER_QUICK_SETTINGS");
 
     // Fixed landscape shell. View selection is independent of service state.
     DisableScroll(screen);
@@ -1259,12 +1270,14 @@ void LcdDisplay::SetupUI() {
     auto top_status_group = lv_obj_get_parent(battery_label_);
     lv_obj_set_width(top_status_group, 100);
     lv_obj_set_height(top_status_group, 24);
-    lv_obj_set_pos(top_status_group, 371, 5);
+    lv_obj_set_pos(top_status_group, 370, 5);
+    lv_obj_remove_flag(top_status_group, LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER);
+    lv_obj_set_scrollbar_mode(top_status_group, LV_SCROLLBAR_MODE_OFF);
     lv_obj_set_layout(top_status_group, LV_LAYOUT_NONE);
     lv_obj_set_pos(mute_label_, 0, 2);
-    lv_obj_set_pos(top_volume_value_label_, 21, 2);
-    lv_obj_set_pos(battery_label_, 53, 2);
-    lv_obj_set_pos(top_battery_value_label_, 74, 2);
+    lv_obj_set_pos(top_volume_value_label_, 30, 2);
+    lv_obj_set_pos(battery_label_, 62, 2);
+    lv_obj_set_pos(top_battery_value_label_, 82, 2);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
     LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
     const char* names[] = {"AI", "", ""};
@@ -1318,14 +1331,6 @@ void LcdDisplay::SetupUI() {
         lv_obj_set_style_border_width(obj, 1, 0);
         lv_obj_set_style_border_color(obj, i == 0 ? kAccent : kBorder, 0);
     }
-    auto nav_settings = button(nav, MATERIAL_SYMBOLS_SETTINGS, 4, 240, 56, 32);
-    lv_obj_set_style_border_width(nav_settings, 1, 0);
-    lv_obj_set_style_border_color(nav_settings, kBorder, 0);
-    lv_obj_set_style_text_font(lv_obj_get_child(nav_settings, 0), &BUILTIN_ICON_FONT, 0);
-    lv_obj_add_event_cb(nav_settings, [](lv_event_t* event) {
-        static_cast<LcdDisplay*>(lv_event_get_user_data(event))->OpenSettingsModal();
-    }, LV_EVENT_CLICKED, this);
-
     ai_view_ = panel(screen, 66, 38, 408, 276, kBg);
     lv_obj_set_style_border_width(ai_view_, 0, 0);
     auto ai_center = panel(ai_view_, 0, 0, 258, 276, lv_color_black());
@@ -1349,87 +1354,59 @@ void LcdDisplay::SetupUI() {
     label(weather, "Weather", 10, 12, 124, kText);
     label(weather, "--", 10, 68, 124, kText);
     label(weather, "No weather data", 10, 104, 124, kMuted);
+    LogUiMemory("UI_MEM_AFTER_AI_VIEW");
 
-    for (int view = 0; view < 2; ++view) {
-        const bool radio = view == 1;
-        auto root = panel(screen, 66, 38, 408, 276, kBg);
-        lv_obj_set_style_border_width(root, 0, 0);
-        if (radio) radio_view_ = root;
-        else panel_player_ = root;
-        auto center = panel(root, 0, 0, 258, 276, kPanel);
-        auto right = panel(root, 264, 0, 144, 276, kPanel2);
-        auto art = panel(center, 12, 12, 96, 90, kCard);
-        auto icon = label(art, radio ? "RADIO" : "MUSIC", 6, 36, 84, kAccent);
-        lv_obj_set_style_text_align(icon, LV_TEXT_ALIGN_CENTER, 0);
-        label(center, radio ? "Station" : "Now Playing", 120, 14, 124, kMuted);
-        label(center, radio ? "No station" : "No track", 120, 42, 124, kText);
-        label(center, radio ? "Location --" : "Artist --", 120, 74, 124, kMuted);
-        if (!radio) {
-            auto progress = lv_bar_create(center);
-            lv_obj_set_pos(progress, 12, 114);
-            lv_obj_set_size(progress, 232, 6);
-            lv_bar_set_value(progress, 0, LV_ANIM_OFF);
-            lv_obj_set_style_bg_color(progress, kBorder, LV_PART_MAIN);
-            lv_obj_set_style_bg_color(progress, kAccent, LV_PART_INDICATOR);
-            DisableScroll(progress);
-        }
-        button(center, "<<", 30, 130, 48, 40);
-        auto play = button(center, "Play", 101, 124, 54, 52, true);
-        lv_obj_set_style_radius(play, 26, 0);
-        button(center, ">>", 178, 130, 48, 40);
-        if (radio) {
-            auto favorite = button(center, "", 109, 198, 40, 38);
-            // Unselected placeholder; membership will be wired to storage later.
-            static const lv_point_precise_t star_points[] = {
-                {12, 0}, {15, 8}, {24, 9}, {17, 15}, {20, 24},
-                {12, 19}, {4, 24}, {7, 15}, {0, 9}, {9, 8}, {12, 0}
-            };
-            auto star = lv_line_create(favorite);
-            lv_line_set_points(star, star_points, 11);
-            lv_obj_set_style_line_color(star, kText, 0);
-            lv_obj_set_style_line_width(star, 2, 0);
-            lv_obj_center(star);
-            DisableScroll(star);
-            lv_obj_remove_flag(star, LV_OBJ_FLAG_CLICKABLE);
-        }
-        else {
-            button(center, "Shuffle", 42, 202, 76, 30);
-            button(center, "Repeat", 142, 202, 76, 30);
-        }
-        auto volume_label = label(center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
-        lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
-        auto volume = lv_slider_create(center);
-        lv_obj_set_pos(volume, 54, 247);
-        lv_obj_set_size(volume, 182, 6);
-        lv_slider_set_value(volume, 60, LV_ANIM_OFF);
-        lv_obj_set_style_bg_color(volume, kBorder, LV_PART_MAIN);
-        lv_obj_set_style_bg_color(volume, kAccent, LV_PART_INDICATOR);
-        DisableScroll(volume);
-        label(right, radio ? "All | Favorites" : "SD Card", 10, 12, 124, kText);
-        for (int row = 0; row < 4; ++row) {
-            auto card = panel(right, 8, 40 + row * 46, 128, 42, row == 0 ? kCardHi : kCard);
-            lv_obj_set_style_border_width(card, 0, 0);
-            const char* files[] = {"Track_01.mp3", "Track_02.mp3",
-                                   "Long_filename_example.mp3", "Track_04.mp3"};
-            const char* stations[] = {"Station 1", "Station 2", "Station 3", "Station 4"};
-            label(card, radio ? stations[row] : files[row], 8, radio ? 4 : 12,
-                  radio ? 92 : 112, kText);
-            if (radio) {
-                label(card, "Location --", 8, 23, 100, kMuted);
-                label(card, "*", 110, 5, 12, kAccent);
-            }
-        }
-        button(right, "<", 6, 238, 32, 32);
-        label(right, "1 / 3", 48, 246, 48, kText);
-        button(right, ">", 106, 238, 32, 32);
-        lv_obj_add_flag(root, LV_OBJ_FLAG_HIDDEN);
+    LogUiMemory("UI_MEM_BEFORE_MEDIA_PAGE");
+    auto media_root = panel(screen, 66, 38, 408, 276, kBg);
+    lv_obj_set_style_border_width(media_root, 0, 0);
+    panel_player_ = media_root;
+    radio_view_ = media_root;
+    auto media_center = panel(media_root, 0, 0, 258, 276, kPanel);
+    auto media_right = panel(media_root, 264, 0, 144, 276, kPanel2);
+    auto media_art = panel(media_center, 12, 12, 96, 90, kCard);
+    media_art_label_ = label(media_art, "MUSIC", 6, 36, 84, kAccent);
+    auto media_icon = media_art_label_;
+    lv_obj_set_style_text_align(media_icon, LV_TEXT_ALIGN_CENTER, 0);
+    label(media_center, "Now Playing", 120, 14, 124, kMuted);
+    media_title_label_ = label(media_center, "No track", 120, 42, 124, kText);
+    auto media_prev = button(media_center, "<<", 30, 130, 48, 40);
+    media_play_button_ = button(media_center, "Play", 101, 124, 54, 52, true);
+    auto media_play = media_play_button_;
+    auto media_next = button(media_center, ">>", 178, 130, 48, 40);
+    lv_obj_add_event_cb(media_prev, [](lv_event_t*) { MediaPlayer::GetInstance().Prev(); }, LV_EVENT_CLICKED, nullptr);
+    lv_obj_add_event_cb(media_play, [](lv_event_t*) { MediaPlayer::GetInstance().TogglePlayPause(); }, LV_EVENT_CLICKED, nullptr);
+    lv_obj_add_event_cb(media_next, [](lv_event_t*) { MediaPlayer::GetInstance().Next(); }, LV_EVENT_CLICKED, nullptr);
+    media_shuffle_button_ = button(media_center, "Shuffle", 42, 202, 76, 30);
+    media_repeat_button_ = button(media_center, "Repeat", 142, 202, 76, 30);
+    auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
+    lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
+    auto media_volume = lv_slider_create(media_center);
+    lv_obj_set_pos(media_volume, 54, 247);
+    lv_obj_set_size(media_volume, 182, 6);
+    lv_slider_set_value(media_volume, 60, LV_ANIM_OFF);
+    lv_obj_set_style_bg_color(media_volume, kBorder, LV_PART_MAIN);
+    lv_obj_set_style_bg_color(media_volume, kAccent, LV_PART_INDICATOR);
+    DisableScroll(media_volume);
+    label(media_right, "Media", 10, 12, 124, kText);
+    for (int row = 0; row < 4; ++row) {
+        auto card = panel(media_right, 8, 40 + row * 46, 128, 42, row == 0 ? kCardHi : kCard);
+        lv_obj_set_style_border_width(card, 0, 0);
+        label(card, "Track", 8, 12, 112, kText);
     }
+    button(media_right, "<", 6, 238, 32, 32);
+    label(media_right, "1 / 3", 48, 246, 48, kText);
+    button(media_right, ">", 106, 238, 32, 32);
+    lv_obj_add_flag(media_root, LV_OBJ_FLAG_HIDDEN);
+    LogUiMemory("UI_MEM_AFTER_MEDIA_PAGE");
+    LogUiMemory("UI_MEM_BEFORE_SERVICE_TIMER");
     service_timer_ = lv_timer_create([](lv_timer_t* timer) {
         auto self = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
         self->UpdateServiceIndicators();
     }, 250, this);
+    LogUiMemory("UI_MEM_AFTER_SERVICE_TIMER");
     UpdateServiceIndicators();
     LogUiMemory("UI_MEM_AFTER_ACTIVE_PAGE");
+    LogUiMemory("UI_MEM_AFTER_SETUP_COMPLETE");
     lv_obj_move_foreground(top_bar_);
 
 }
@@ -1826,6 +1803,39 @@ void LcdDisplay::UpdateServiceIndicators() {
     auto& radio = InternetRadioPlayer::GetInstance();
     const char* player_state = sd.IsPlaying() ? "Playing" : sd.IsPaused() ? "Paused" : "";
     const char* radio_state = radio.IsPlaying() ? "Playing" : radio.IsPaused() ? "Paused" : "";
+    if (InternetRadioPlayer::GetInstance().IsActive()) active_media_source_ = ActiveMediaSource::Radio;
+    else if (SdMusicPlayer::GetInstance().IsPlaying() || SdMusicPlayer::GetInstance().IsPaused()) active_media_source_ = ActiveMediaSource::Player;
+    else active_media_source_ = ActiveMediaSource::None;
+    if (media_play_button_) {
+        const bool playing = (active_media_source_ == ActiveMediaSource::Radio)
+                                 ? InternetRadioPlayer::GetInstance().IsPlaying()
+                                 : (active_media_source_ == ActiveMediaSource::Player)
+                                     ? SdMusicPlayer::GetInstance().IsPlaying() : false;
+        lv_label_set_text(lv_obj_get_child(media_play_button_, 0), playing ? "Pause" : "Play");
+    }
+    if (media_title_label_) {
+        std::string title = "Nothing playing";
+        const char* art = "MEDIA";
+        if (active_media_source_ == ActiveMediaSource::Radio) {
+            title = InternetRadioPlayer::GetInstance().GetTitle();
+            art = "RADIO";
+        } else if (active_media_source_ == ActiveMediaSource::Player) {
+            title = MediaPlayer::GetInstance().GetTitle();
+            art = "MUSIC";
+        }
+        if (title.empty()) title = "Nothing playing";
+        lv_label_set_text(media_title_label_, title.c_str());
+        if (media_art_label_) lv_label_set_text(media_art_label_, art);
+    }
+    if (media_shuffle_button_ && media_repeat_button_) {
+        if (active_media_source_ == ActiveMediaSource::Radio) {
+            lv_obj_add_state(media_shuffle_button_, LV_STATE_DISABLED);
+            lv_obj_add_state(media_repeat_button_, LV_STATE_DISABLED);
+        } else {
+            lv_obj_clear_state(media_shuffle_button_, LV_STATE_DISABLED);
+            lv_obj_clear_state(media_repeat_button_, LV_STATE_DISABLED);
+        }
+    }
     const auto state = Application::GetInstance().GetDeviceState();
     const char* ai_state = state == kDeviceStateListening ? "Listen" :
                            state == kDeviceStateSpeaking ? "Speak" : "Ready";
@@ -1843,6 +1853,10 @@ void LcdDisplay::UpdateServiceIndicators() {
             else lv_obj_add_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
             lv_label_set_text(nav_status_[i], "");
         }
+    }
+    if (top_volume_value_label_) {
+        auto codec = Board::GetInstance().GetAudioCodec();
+        lv_label_set_text_fmt(top_volume_value_label_, "%d%%", codec ? codec->output_volume() : 0);
     }
     if (top_battery_value_label_) {
         int level = 0;
@@ -1867,31 +1881,16 @@ void LcdDisplay::SwitchTab(int tab_index)
     DisplayLockGuard lock(this);
 
     current_tab_index_ = tab_index;
+    media_browser_mode_ = (tab_index == 2) ? MediaBrowserMode::Radio : MediaBrowserMode::Player;
+    media_radio_mode_ = (media_browser_mode_ == MediaBrowserMode::Radio);
     LogUiMemory("UI_MEM_AFTER_TAB_SWITCH");
 
     if (ai_view_)
-    {
-        if (tab_index == 0)
-            lv_obj_remove_flag(ai_view_, LV_OBJ_FLAG_HIDDEN);
-        else
-            lv_obj_add_flag(ai_view_, LV_OBJ_FLAG_HIDDEN);
-    }
-
+        (tab_index == 0) ? lv_obj_remove_flag(ai_view_, LV_OBJ_FLAG_HIDDEN)
+                         : lv_obj_add_flag(ai_view_, LV_OBJ_FLAG_HIDDEN);
     if (panel_player_)
-    {
-        if (tab_index == 1)
-            lv_obj_remove_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-        else
-            lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-    }
-
-    if (radio_view_)
-    {
-        if (tab_index == 2)
-            lv_obj_remove_flag(radio_view_, LV_OBJ_FLAG_HIDDEN);
-        else
-            lv_obj_add_flag(radio_view_, LV_OBJ_FLAG_HIDDEN);
-    }
+        (tab_index == 0) ? lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN)
+                         : lv_obj_remove_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
 
     /* navigation highlight */
 
@@ -1924,7 +1923,7 @@ void LcdDisplay::SwitchTab(int tab_index)
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 150);
+    lv_obj_set_size(quick_settings_panel_, 440, 160);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -1933,6 +1932,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_border_color(quick_settings_panel_, lv_color_hex(0x1E4A60), 0);
     lv_obj_set_style_pad_all(quick_settings_panel_, 10, 0);
     lv_obj_set_scrollbar_mode(quick_settings_panel_, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_remove_flag(quick_settings_panel_, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_add_flag(quick_settings_panel_, LV_OBJ_FLAG_HIDDEN);
 
     // Header Row: Title + Close Button
@@ -1942,6 +1942,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_bg_opa(header, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(header, 0, 0);
     lv_obj_set_style_pad_all(header, 0, 0);
+    lv_obj_remove_flag(header, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t* title = lv_label_create(header);
     lv_label_set_text(title, "Настройки");
@@ -1970,6 +1971,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_bg_opa(vol_row, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(vol_row, 0, 0);
     lv_obj_set_style_pad_all(vol_row, 0, 0);
+    lv_obj_remove_flag(vol_row, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t* vol_icon = lv_label_create(vol_row);
     lv_label_set_text(vol_icon, MATERIAL_SYMBOLS_VOLUME_UP);
@@ -2011,6 +2013,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_bg_opa(bright_row, LV_OPA_TRANSP, 0);
     lv_obj_set_style_border_width(bright_row, 0, 0);
     lv_obj_set_style_pad_all(bright_row, 0, 0);
+    lv_obj_remove_flag(bright_row, LV_OBJ_FLAG_SCROLLABLE);
 
     lv_obj_t* bright_icon = lv_label_create(bright_row);
     lv_label_set_text(bright_icon, "Экран");
@@ -2221,708 +2224,6 @@ void LcdDisplay::SetupSegaEmulatorTab(lv_obj_t* parent) {
     lv_label_set_text(launch_lbl, "ЗАПУСТИТЬ ИГРУ");
     lv_obj_set_style_text_color(launch_lbl, lv_color_hex(0xFFFFFF), 0);
     lv_obj_center(launch_lbl);
-}
-
-void LcdDisplay::UpdateWifiStatusLabel() {
-    if (!wifi_status_label_) return;
-    wifi_ap_record_t cur_ap = {};
-    if (esp_wifi_sta_get_ap_info(&cur_ap) == ESP_OK) {
-        esp_netif_ip_info_t ip_info = {};
-        esp_netif_t* netif = esp_netif_get_handle_from_ifkey("WIFI_STA_DEF");
-        if (netif) esp_netif_get_ip_info(netif, &ip_info);
-        char ip_str[32] = "";
-        snprintf(ip_str, sizeof(ip_str), IPSTR, IP2STR(&ip_info.ip));
-
-        lv_label_set_text_fmt(wifi_status_label_, "🟢 Сеть: %s (%d dBm)\nIP: %s",
-                              (char*)cur_ap.ssid, cur_ap.rssi, ip_str);
-        lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0x10B981), 0);
-    } else {
-        lv_label_set_text(wifi_status_label_, "🔴 Статус: Не подключено");
-        lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0xEF4444), 0);
-    }
-}
-
-void LcdDisplay::OpenSettingsModal() {
-    DisplayLockGuard lock(this);
-    if (settings_modal_) {
-        lv_obj_remove_flag(settings_modal_, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_move_foreground(settings_modal_);
-        settings_modal_open_ = true;
-        UpdateWifiStatusLabel();
-    }
-}
-
-void LcdDisplay::CloseSettingsModal() {
-    DisplayLockGuard lock(this);
-    if (settings_modal_) {
-        lv_obj_add_flag(settings_modal_, LV_OBJ_FLAG_HIDDEN);
-        if (settings_kb_) {
-            lv_obj_add_flag(settings_kb_, LV_OBJ_FLAG_HIDDEN);
-        }
-        settings_modal_open_ = false;
-    }
-}
-
-void LcdDisplay::SwitchSettingsCategory(int cat_index) {
-    DisplayLockGuard lock(this);
-    current_settings_cat_ = cat_index;
-    if (panel_settings_wifi_) {
-        if (cat_index == 0) {
-            lv_obj_remove_flag(panel_settings_wifi_, LV_OBJ_FLAG_HIDDEN);
-            UpdateWifiStatusLabel();
-        } else {
-            lv_obj_add_flag(panel_settings_wifi_, LV_OBJ_FLAG_HIDDEN);
-        }
-    }
-    if (panel_settings_ha_) {
-        if (cat_index == 1) lv_obj_remove_flag(panel_settings_ha_, LV_OBJ_FLAG_HIDDEN);
-        else lv_obj_add_flag(panel_settings_ha_, LV_OBJ_FLAG_HIDDEN);
-    }
-    if (panel_settings_info_) {
-        if (cat_index == 2) lv_obj_remove_flag(panel_settings_info_, LV_OBJ_FLAG_HIDDEN);
-        else lv_obj_add_flag(panel_settings_info_, LV_OBJ_FLAG_HIDDEN);
-    }
-}
-
-void LcdDisplay::SetupFullSettingsModal(lv_obj_t* parent) {
-    settings_modal_ = lv_obj_create(parent);
-    lv_obj_set_size(settings_modal_, LV_HOR_RES, LV_VER_RES);
-    lv_obj_align(settings_modal_, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_bg_color(settings_modal_, lv_color_hex(0x08141F), 0);
-    lv_obj_set_style_bg_opa(settings_modal_, LV_OPA_90, 0);
-    lv_obj_set_style_radius(settings_modal_, 0, 0);
-    lv_obj_set_style_border_width(settings_modal_, 0, 0);
-    lv_obj_set_style_pad_all(settings_modal_, 0, 0);
-    lv_obj_set_scrollbar_mode(settings_modal_, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_add_flag(settings_modal_, LV_OBJ_FLAG_HIDDEN);
-
-    // Left Sidebar (120px)
-    settings_sidebar_ = lv_obj_create(settings_modal_);
-    lv_obj_set_size(settings_sidebar_, 120, LV_VER_RES);
-    lv_obj_align(settings_sidebar_, LV_ALIGN_LEFT_MID, 0, 0);
-    lv_obj_set_style_bg_color(settings_sidebar_, lv_color_hex(0x102432), 0);
-    lv_obj_set_style_border_width(settings_sidebar_, 1, 0);
-    lv_obj_set_style_border_color(settings_sidebar_, lv_color_hex(0x1E4A60), 0);
-    lv_obj_set_style_pad_all(settings_sidebar_, 6, 0);
-    lv_obj_set_flex_flow(settings_sidebar_, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(settings_sidebar_, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    // Sidebar Title
-    lv_obj_t* side_title_box = lv_obj_create(settings_sidebar_);
-    lv_obj_set_size(side_title_box, 108, 30);
-    lv_obj_set_style_bg_opa(side_title_box, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(side_title_box, 0, 0);
-    lv_obj_set_style_pad_all(side_title_box, 0, 0);
-    lv_obj_set_flex_flow(side_title_box, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(side_title_box, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_remove_flag(side_title_box, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* side_title_icon = lv_label_create(side_title_box);
-    lv_label_set_text(side_title_icon, MATERIAL_SYMBOLS_SETTINGS);
-    lv_obj_set_style_text_font(side_title_icon, &BUILTIN_ICON_FONT, 0);
-    lv_obj_set_style_text_color(side_title_icon, lv_color_hex(0x3B82F6), 0);
-
-    lv_obj_t* side_title_txt = lv_label_create(side_title_box);
-    lv_label_set_text(side_title_txt, " Настройки");
-    lv_obj_set_style_text_font(side_title_txt, &BUILTIN_TEXT_FONT, 0);
-    lv_obj_set_style_text_color(side_title_txt, lv_color_hex(0x3B82F6), 0);
-
-    const char* cat_icons[] = {MATERIAL_SYMBOLS_WIFI, MATERIAL_SYMBOLS_HOME, MATERIAL_SYMBOLS_INFO};
-    const char* cat_names[] = {" Wi-Fi", " Home Asst", " Инфо"};
-    constexpr int category_count = 3;
-    for (int i = 0; i < category_count; i++) {
-        lv_obj_t* btn = lv_btn_create(settings_sidebar_);
-        lv_obj_set_size(btn, 108, 42);
-        lv_obj_set_style_radius(btn, 10, 0);
-        lv_obj_set_style_bg_color(btn, lv_color_hex(0x1E1E2E), 0);
-        lv_obj_set_style_border_width(btn, 1, 0);
-        lv_obj_set_style_border_color(btn, lv_color_hex(0x383850), 0);
-        lv_obj_set_style_pad_all(btn, 2, 0);
-        lv_obj_set_flex_flow(btn, LV_FLEX_FLOW_ROW);
-        lv_obj_set_flex_align(btn, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-        lv_obj_set_scrollbar_mode(btn, LV_SCROLLBAR_MODE_OFF);
-        lv_obj_remove_flag(btn, LV_OBJ_FLAG_SCROLLABLE);
-
-        lv_obj_t* icon_lbl = lv_label_create(btn);
-        lv_label_set_text(icon_lbl, cat_icons[i]);
-        lv_obj_set_style_text_font(icon_lbl, &BUILTIN_ICON_FONT, 0);
-        lv_obj_set_style_text_color(icon_lbl, lv_color_hex(0x60A5FA), 0);
-
-        lv_obj_t* txt_lbl = lv_label_create(btn);
-        lv_label_set_text(txt_lbl, cat_names[i]);
-        lv_obj_set_style_text_font(txt_lbl, &BUILTIN_TEXT_FONT, 0);
-        lv_obj_set_style_text_color(txt_lbl, lv_color_hex(0xFFFFFF), 0);
-
-        struct CatCtx { LcdDisplay* display; int index; };
-        auto ctx = new CatCtx{this, i};
-        lv_obj_add_event_cb(btn, [](lv_event_t* e) {
-            auto c = static_cast<CatCtx*>(lv_event_get_user_data(e));
-            if (c && c->display) c->display->SwitchSettingsCategory(c->index);
-        }, LV_EVENT_CLICKED, ctx);
-    }
-
-    // Exit Button at bottom of sidebar
-    lv_obj_t* exit_btn = lv_btn_create(settings_sidebar_);
-    lv_obj_set_size(exit_btn, 108, 40);
-    lv_obj_align(exit_btn, LV_ALIGN_BOTTOM_MID, 0, -10);
-    lv_obj_set_style_radius(exit_btn, 10, 0);
-    lv_obj_set_style_bg_color(exit_btn, lv_color_hex(0xEF4444), 0);
-    lv_obj_set_flex_flow(exit_btn, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(exit_btn, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_set_scrollbar_mode(exit_btn, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(exit_btn, LV_OBJ_FLAG_SCROLLABLE);
-
-    lv_obj_t* exit_icon = lv_label_create(exit_btn);
-    lv_label_set_text(exit_icon, MATERIAL_SYMBOLS_ARROW_BACK);
-    lv_obj_set_style_text_font(exit_icon, &BUILTIN_ICON_FONT, 0);
-    lv_obj_set_style_text_color(exit_icon, lv_color_hex(0xFFFFFF), 0);
-
-    lv_obj_t* exit_txt = lv_label_create(exit_btn);
-    lv_label_set_text(exit_txt, " Выход");
-    lv_obj_set_style_text_font(exit_txt, &BUILTIN_TEXT_FONT, 0);
-    lv_obj_set_style_text_color(exit_txt, lv_color_hex(0xFFFFFF), 0);
-    lv_obj_add_event_cb(exit_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display) display->CloseSettingsModal();
-    }, LV_EVENT_CLICKED, this);
-
-    // Right Content Area (355px)
-    settings_content_area_ = lv_obj_create(settings_modal_);
-    lv_obj_set_size(settings_content_area_, 355, LV_VER_RES);
-    lv_obj_align(settings_content_area_, LV_ALIGN_RIGHT_MID, 0, 0);
-    lv_obj_set_style_bg_color(settings_content_area_, lv_color_hex(0x0D1D2A), 0);
-    lv_obj_set_style_border_width(settings_content_area_, 0, 0);
-    lv_obj_set_style_pad_all(settings_content_area_, 12, 0);
-
-    // Virtual Keyboard
-    settings_kb_ = lv_keyboard_create(settings_modal_);
-    lv_obj_set_size(settings_kb_, LV_HOR_RES, 140);
-    lv_obj_align(settings_kb_, LV_ALIGN_BOTTOM_MID, 0, 0);
-    lv_obj_add_flag(settings_kb_, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_add_event_cb(settings_kb_, [](lv_event_t* e) {
-        lv_event_code_t code = lv_event_get_code(e);
-        auto kb = (lv_obj_t*)lv_event_get_target(e);
-        if (code == LV_EVENT_READY || code == LV_EVENT_CANCEL) {
-            if (kb) lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
-        } else if (code == LV_EVENT_VALUE_CHANGED) {
-            uint16_t btn_id = lv_keyboard_get_selected_btn(kb);
-            const char* txt = lv_keyboard_get_btn_text(kb, btn_id);
-            if (txt && (strcmp(txt, LV_SYMBOL_KEYBOARD) == 0 || strcmp(txt, LV_SYMBOL_CLOSE) == 0)) {
-                if (kb) lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
-            }
-        }
-    }, LV_EVENT_ALL, nullptr);
-
-    // ==========================================
-    // Category 0: Wi-Fi Panel (Interactive Manager)
-    // ==========================================
-    panel_settings_wifi_ = lv_obj_create(settings_content_area_);
-    lv_obj_set_size(panel_settings_wifi_, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_opa(panel_settings_wifi_, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(panel_settings_wifi_, 0, 0);
-    lv_obj_set_style_pad_all(panel_settings_wifi_, 0, 0);
-    lv_obj_set_flex_flow(panel_settings_wifi_, LV_FLEX_FLOW_COLUMN);
-
-    lv_obj_t* w_title = lv_label_create(panel_settings_wifi_);
-    lv_label_set_text(w_title, "Wi-Fi Менеджер");
-    lv_obj_set_style_text_color(w_title, lv_color_hex(0xFFFFFF), 0);
-
-    // Current Connection Status
-    wifi_ap_record_t cur_ap = {};
-    std::string cur_ssid = "Не подключено";
-    int cur_rssi = 0;
-    if (esp_wifi_sta_get_ap_info(&cur_ap) == ESP_OK) {
-        cur_ssid = (char*)cur_ap.ssid;
-        cur_rssi = cur_ap.rssi;
-    }
-
-    wifi_status_label_ = lv_label_create(panel_settings_wifi_);
-    lv_label_set_text_fmt(wifi_status_label_, "Сеть: %s (%d dBm)", cur_ssid.c_str(), cur_rssi);
-    lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0x10B981), 0);
-
-    // Action buttons row (Find networks + Disconnect)
-    lv_obj_t* w_btn_row = lv_obj_create(panel_settings_wifi_);
-    lv_obj_set_size(w_btn_row, 330, 42);
-    lv_obj_set_style_bg_opa(w_btn_row, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(w_btn_row, 0, 0);
-    lv_obj_set_style_pad_all(w_btn_row, 0, 0);
-    lv_obj_set_flex_flow(w_btn_row, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(w_btn_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    lv_obj_t* w_scan_btn = lv_btn_create(w_btn_row);
-    lv_obj_set_size(w_scan_btn, 160, 36);
-    lv_obj_set_style_radius(w_scan_btn, 8, 0);
-    lv_obj_set_style_bg_color(w_scan_btn, lv_color_hex(0x2563EB), 0);
-    lv_obj_t* w_scan_lbl = lv_label_create(w_scan_btn);
-    lv_label_set_text(w_scan_lbl, "🔍 Найти сети");
-    lv_obj_center(w_scan_lbl);
-    lv_obj_add_event_cb(w_scan_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display) display->ScanWifiNetworks();
-    }, LV_EVENT_CLICKED, this);
-
-    lv_obj_t* w_dis_btn = lv_btn_create(w_btn_row);
-    lv_obj_set_size(w_dis_btn, 150, 36);
-    lv_obj_set_style_radius(w_dis_btn, 8, 0);
-    lv_obj_set_style_bg_color(w_dis_btn, lv_color_hex(0xEF4444), 0);
-    lv_obj_t* w_dis_lbl = lv_label_create(w_dis_btn);
-    lv_label_set_text(w_dis_lbl, "🔴 Отключить");
-    lv_obj_center(w_dis_lbl);
-    lv_obj_add_event_cb(w_dis_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        esp_wifi_disconnect();
-        if (display && display->wifi_status_label_) {
-            lv_label_set_text(display->wifi_status_label_, "🔴 Отключено");
-            lv_obj_set_style_text_color(display->wifi_status_label_, lv_color_hex(0xEF4444), 0);
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    // Scrollable AP List Container
-    wifi_ap_list_container_ = lv_obj_create(panel_settings_wifi_);
-    lv_obj_set_size(wifi_ap_list_container_, 330, 190);
-    lv_obj_set_style_bg_color(wifi_ap_list_container_, lv_color_hex(0x12121B), 0);
-    lv_obj_set_style_border_width(wifi_ap_list_container_, 1, 0);
-    lv_obj_set_style_border_color(wifi_ap_list_container_, lv_color_hex(0x2A2A3D), 0);
-    lv_obj_set_style_pad_all(wifi_ap_list_container_, 4, 0);
-    lv_obj_set_flex_flow(wifi_ap_list_container_, LV_FLEX_FLOW_COLUMN);
-
-    // Password Connect Popup Modal (Positioned at Top, Height 170px, zero scrollbars)
-    wifi_connect_popup_ = lv_obj_create(settings_modal_);
-    lv_obj_set_size(wifi_connect_popup_, 330, 170);
-    lv_obj_align(wifi_connect_popup_, LV_ALIGN_TOP_MID, 0, 5);
-    lv_obj_set_style_bg_color(wifi_connect_popup_, lv_color_hex(0x181826), 0);
-    lv_obj_set_style_border_width(wifi_connect_popup_, 2, 0);
-    lv_obj_set_style_border_color(wifi_connect_popup_, lv_color_hex(0x2563EB), 0);
-    lv_obj_set_style_radius(wifi_connect_popup_, 12, 0);
-    lv_obj_set_style_pad_all(wifi_connect_popup_, 10, 0);
-    lv_obj_set_style_pad_row(wifi_connect_popup_, 10, 0);
-    lv_obj_set_scrollbar_mode(wifi_connect_popup_, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(wifi_connect_popup_, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_flex_flow(wifi_connect_popup_, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(wifi_connect_popup_, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_add_flag(wifi_connect_popup_, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_t* pop_title = lv_label_create(wifi_connect_popup_);
-    lv_label_set_text(pop_title, "🔑 Ввод пароля Wi-Fi");
-    lv_obj_set_style_text_color(pop_title, lv_color_hex(0xFFFFFF), 0);
-
-    wifi_pw_ta_ = lv_textarea_create(wifi_connect_popup_);
-    lv_obj_set_size(wifi_pw_ta_, 295, 34);
-    lv_textarea_set_password_mode(wifi_pw_ta_, true);
-    lv_textarea_set_one_line(wifi_pw_ta_, true);
-    lv_textarea_set_placeholder_text(wifi_pw_ta_, "Пароль...");
-    lv_obj_set_style_radius(wifi_pw_ta_, 6, 0);
-    lv_obj_set_scrollbar_mode(wifi_pw_ta_, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(wifi_pw_ta_, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_add_event_cb(wifi_pw_ta_, [](lv_event_t* e) {
-        auto kb = (lv_obj_t*)lv_event_get_user_data(e);
-        auto ta = lv_event_get_target(e);
-        if (kb && ta) {
-            lv_keyboard_set_textarea(kb, (lv_obj_t*)ta);
-            lv_obj_remove_flag(kb, LV_OBJ_FLAG_HIDDEN);
-            lv_obj_move_foreground(kb);
-        }
-    }, LV_EVENT_FOCUSED, settings_kb_);
-
-    lv_obj_t* pop_btn_row = lv_obj_create(wifi_connect_popup_);
-    lv_obj_set_size(pop_btn_row, 295, 36);
-    lv_obj_set_style_bg_opa(pop_btn_row, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(pop_btn_row, 0, 0);
-    lv_obj_set_style_pad_all(pop_btn_row, 0, 0);
-    lv_obj_set_scrollbar_mode(pop_btn_row, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(pop_btn_row, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_flex_flow(pop_btn_row, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(pop_btn_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    lv_obj_t* pop_conn_btn = lv_btn_create(pop_btn_row);
-    lv_obj_set_size(pop_conn_btn, 135, 28);
-    lv_obj_set_style_radius(pop_conn_btn, 6, 0);
-    lv_obj_set_style_bg_color(pop_conn_btn, lv_color_hex(0x16A34A), 0);
-    lv_obj_t* pop_conn_lbl = lv_label_create(pop_conn_btn);
-    lv_label_set_text(pop_conn_lbl, "🟢 Подключить");
-    lv_obj_center(pop_conn_lbl);
-
-    lv_obj_add_event_cb(pop_conn_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display && display->wifi_pw_ta_) {
-            const char* pw = lv_textarea_get_text(display->wifi_pw_ta_);
-            display->ConnectToWifi(display->wifi_selected_ssid_, pw);
-            if (display->wifi_connect_popup_) {
-                lv_obj_add_flag(display->wifi_connect_popup_, LV_OBJ_FLAG_HIDDEN);
-            }
-            if (display->settings_kb_) {
-                lv_obj_add_flag(display->settings_kb_, LV_OBJ_FLAG_HIDDEN);
-            }
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    lv_obj_t* pop_cancel_btn = lv_btn_create(pop_btn_row);
-    lv_obj_set_size(pop_cancel_btn, 135, 28);
-    lv_obj_set_style_radius(pop_cancel_btn, 6, 0);
-    lv_obj_set_style_bg_color(pop_cancel_btn, lv_color_hex(0xEF4444), 0);
-    lv_obj_t* pop_cancel_lbl = lv_label_create(pop_cancel_btn);
-    lv_label_set_text(pop_cancel_lbl, "🔴 Отмена");
-    lv_obj_center(pop_cancel_lbl);
-
-    lv_obj_add_event_cb(pop_cancel_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display && display->wifi_connect_popup_) {
-            lv_obj_add_flag(display->wifi_connect_popup_, LV_OBJ_FLAG_HIDDEN);
-        }
-        if (display && display->settings_kb_) {
-            lv_obj_add_flag(display->settings_kb_, LV_OBJ_FLAG_HIDDEN);
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    // ==========================================
-    // Category 1: Home Assistant Panel
-    // ==========================================
-    panel_settings_ha_ = lv_obj_create(settings_content_area_);
-    lv_obj_set_size(panel_settings_ha_, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_opa(panel_settings_ha_, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(panel_settings_ha_, 0, 0);
-    lv_obj_set_style_pad_all(panel_settings_ha_, 0, 0);
-    lv_obj_set_flex_flow(panel_settings_ha_, LV_FLEX_FLOW_COLUMN);
-    lv_obj_add_flag(panel_settings_ha_, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_t* ha_title = lv_label_create(panel_settings_ha_);
-    lv_label_set_text(ha_title, "Home Assistant");
-    lv_obj_set_style_text_color(ha_title, lv_color_hex(0xFFFFFF), 0);
-
-    lv_obj_t* ha_url_lbl = lv_label_create(panel_settings_ha_);
-    lv_label_set_text(ha_url_lbl, "URL Сервера:");
-    lv_obj_set_style_text_color(ha_url_lbl, lv_color_hex(0xAAAAAA), 0);
-
-    ha_url_ta_ = lv_textarea_create(panel_settings_ha_);
-    lv_obj_set_size(ha_url_ta_, 320, 36);
-    std::string current_ha_url = HomeAssistant::GetInstance().GetUrl();
-    lv_textarea_set_text(ha_url_ta_, current_ha_url.c_str());
-    lv_textarea_set_one_line(ha_url_ta_, true);
-    lv_obj_add_event_cb(ha_url_ta_, [](lv_event_t* e) {
-        auto kb = (lv_obj_t*)lv_event_get_user_data(e);
-        auto ta = lv_event_get_target(e);
-        if (kb && ta) {
-            lv_keyboard_set_textarea(kb, (lv_obj_t*)ta);
-            lv_obj_remove_flag(kb, LV_OBJ_FLAG_HIDDEN);
-            lv_obj_move_foreground(kb);
-        }
-    }, LV_EVENT_FOCUSED, settings_kb_);
-
-    lv_obj_t* ha_tok_lbl = lv_label_create(panel_settings_ha_);
-    lv_label_set_text(ha_tok_lbl, "Токен Доступа (Long-Lived):");
-    lv_obj_set_style_text_color(ha_tok_lbl, lv_color_hex(0xAAAAAA), 0);
-
-    ha_token_ta_ = lv_textarea_create(panel_settings_ha_);
-    lv_obj_set_size(ha_token_ta_, 320, 36);
-    lv_textarea_set_placeholder_text(ha_token_ta_, "eyJhbGciOiJIUzI1Ni...");
-    lv_textarea_set_one_line(ha_token_ta_, true);
-    lv_obj_add_event_cb(ha_token_ta_, [](lv_event_t* e) {
-        auto kb = (lv_obj_t*)lv_event_get_user_data(e);
-        auto ta = lv_event_get_target(e);
-        if (kb && ta) {
-            lv_keyboard_set_textarea(kb, (lv_obj_t*)ta);
-            lv_obj_remove_flag(kb, LV_OBJ_FLAG_HIDDEN);
-            lv_obj_move_foreground(kb);
-        }
-    }, LV_EVENT_FOCUSED, settings_kb_);
-
-    // HA Save & Test Buttons
-    lv_obj_t* ha_btn_row = lv_obj_create(panel_settings_ha_);
-    lv_obj_set_size(ha_btn_row, 320, 42);
-    lv_obj_set_style_bg_opa(ha_btn_row, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(ha_btn_row, 0, 0);
-    lv_obj_set_style_pad_all(ha_btn_row, 0, 0);
-    lv_obj_set_flex_flow(ha_btn_row, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(ha_btn_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    lv_obj_t* ha_save_btn = lv_btn_create(ha_btn_row);
-    lv_obj_set_size(ha_save_btn, 150, 36);
-    lv_obj_set_style_radius(ha_save_btn, 8, 0);
-    lv_obj_set_style_bg_color(ha_save_btn, lv_color_hex(0x16A34A), 0);
-    lv_obj_t* ha_save_lbl = lv_label_create(ha_save_btn);
-    lv_label_set_text(ha_save_lbl, "💾 Сохранить");
-    lv_obj_center(ha_save_lbl);
-
-    lv_obj_add_event_cb(ha_save_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display && display->ha_url_ta_ && display->ha_token_ta_) {
-            const char* url = lv_textarea_get_text(display->ha_url_ta_);
-            const char* token = lv_textarea_get_text(display->ha_token_ta_);
-            HomeAssistant::GetInstance().SetConfig(url, token);
-            if (display->ha_status_label_) {
-                lv_label_set_text(display->ha_status_label_, "Сохранено в NVS!");
-                lv_obj_set_style_text_color(display->ha_status_label_, lv_color_hex(0x10B981), 0);
-            }
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    lv_obj_t* ha_test_btn = lv_btn_create(ha_btn_row);
-    lv_obj_set_size(ha_test_btn, 150, 36);
-    lv_obj_set_style_radius(ha_test_btn, 8, 0);
-    lv_obj_set_style_bg_color(ha_test_btn, lv_color_hex(0x2563EB), 0);
-    lv_obj_t* ha_test_lbl = lv_label_create(ha_test_btn);
-    lv_label_set_text(ha_test_lbl, "⚡ Проверить");
-    lv_obj_center(ha_test_lbl);
-
-    ha_status_label_ = lv_label_create(panel_settings_ha_);
-    lv_label_set_text(ha_status_label_, "Статус: Не проверено");
-    lv_obj_set_style_text_color(ha_status_label_, lv_color_hex(0xAAAAAA), 0);
-
-    lv_obj_add_event_cb(ha_test_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display && display->ha_status_label_) {
-            lv_label_set_text(display->ha_status_label_, "⏳ Проверка подключения...");
-            lv_obj_set_style_text_color(display->ha_status_label_, lv_color_hex(0xF59E0B), 0);
-        }
-        std::string res = HomeAssistant::GetInstance().TestConnection();
-        if (display && display->ha_status_label_) {
-            if (res == "OK") {
-                lv_label_set_text(display->ha_status_label_, "🟢 Подключено OK!");
-                lv_obj_set_style_text_color(display->ha_status_label_, lv_color_hex(0x10B981), 0);
-            } else {
-                lv_label_set_text(display->ha_status_label_, "🔴 Ошибка подключения!");
-                lv_obj_set_style_text_color(display->ha_status_label_, lv_color_hex(0xEF4444), 0);
-            }
-        }
-    }, LV_EVENT_CLICKED, this);
-
-#if 0 // Bluetooth UI removed from the voice/media build.
-    // Category 2: Bluetooth Panel (Interactive & Dynamic)
-    panel_settings_bt_ = lv_obj_create(settings_content_area_);
-    lv_obj_set_size(panel_settings_bt_, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_opa(panel_settings_bt_, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(panel_settings_bt_, 0, 0);
-    lv_obj_set_style_pad_all(panel_settings_bt_, 0, 0);
-    lv_obj_set_scrollbar_mode(panel_settings_bt_, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(panel_settings_bt_, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_flex_flow(panel_settings_bt_, LV_FLEX_FLOW_COLUMN);
-    lv_obj_add_flag(panel_settings_bt_, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_t* bt_title = lv_label_create(panel_settings_bt_);
-    lv_label_set_text(bt_title, "Bluetooth Устройства");
-    lv_obj_set_style_text_color(bt_title, lv_color_hex(0xFFFFFF), 0);
-
-    // Connected Device Status Label (Displayed Above Action Row)
-    bt_status_label_ = lv_label_create(panel_settings_bt_);
-    if (!bt_connected_device_.empty()) {
-        lv_label_set_text_fmt(bt_status_label_, "🟢 Подключено: %s", bt_connected_device_.c_str());
-        lv_obj_set_style_text_color(bt_status_label_, lv_color_hex(0x10B981), 0);
-    } else {
-        lv_label_set_text(bt_status_label_, "🔴 Статус: Не подключено");
-        lv_obj_set_style_text_color(bt_status_label_, lv_color_hex(0xEF4444), 0);
-    }
-
-    // Action buttons row (Search BLE + Disconnect)
-    lv_obj_t* bt_btn_row = lv_obj_create(panel_settings_bt_);
-    lv_obj_set_size(bt_btn_row, 330, 42);
-    lv_obj_set_style_bg_opa(bt_btn_row, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(bt_btn_row, 0, 0);
-    lv_obj_set_style_pad_all(bt_btn_row, 0, 0);
-    lv_obj_set_scrollbar_mode(bt_btn_row, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_remove_flag(bt_btn_row, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_set_flex_flow(bt_btn_row, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(bt_btn_row, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    lv_obj_t* bt_scan_btn = lv_btn_create(bt_btn_row);
-    lv_obj_set_size(bt_scan_btn, 160, 36);
-    lv_obj_set_style_radius(bt_scan_btn, 8, 0);
-    lv_obj_set_style_bg_color(bt_scan_btn, lv_color_hex(0x9333EA), 0);
-    lv_obj_t* bt_scan_lbl = lv_label_create(bt_scan_btn);
-    lv_label_set_text(bt_scan_lbl, "🔍 Поиск BLE");
-    lv_obj_center(bt_scan_lbl);
-    lv_obj_add_event_cb(bt_scan_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display) display->ScanBluetoothDevices();
-    }, LV_EVENT_CLICKED, this);
-
-    lv_obj_t* bt_dis_btn = lv_btn_create(bt_btn_row);
-    lv_obj_set_size(bt_dis_btn, 150, 36);
-    lv_obj_set_style_radius(bt_dis_btn, 8, 0);
-    lv_obj_set_style_bg_color(bt_dis_btn, lv_color_hex(0xEF4444), 0);
-    lv_obj_t* bt_dis_lbl = lv_label_create(bt_dis_btn);
-    lv_label_set_text(bt_dis_lbl, "🔴 Отключить");
-    lv_obj_center(bt_dis_lbl);
-    lv_obj_add_event_cb(bt_dis_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display) {
-            display->bt_connected_device_ = "";
-            if (display->bt_status_label_) {
-                lv_label_set_text(display->bt_status_label_, "🔴 Статус: Не подключено");
-                lv_obj_set_style_text_color(display->bt_status_label_, lv_color_hex(0xEF4444), 0);
-            }
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    // Scrollable BLE Devices List Container
-    bt_dev_list_container_ = lv_obj_create(panel_settings_bt_);
-    lv_obj_set_size(bt_dev_list_container_, 330, 190);
-    lv_obj_set_style_bg_color(bt_dev_list_container_, lv_color_hex(0x12121B), 0);
-    lv_obj_set_style_border_width(bt_dev_list_container_, 1, 0);
-    lv_obj_set_style_border_color(bt_dev_list_container_, lv_color_hex(0x2A2A3D), 0);
-    lv_obj_set_style_pad_all(bt_dev_list_container_, 4, 0);
-    lv_obj_set_flex_flow(bt_dev_list_container_, LV_FLEX_FLOW_COLUMN);
- #endif
-
-    // ==========================================
-    // Category 3: System Info Panel
-    // ==========================================
-    panel_settings_info_ = lv_obj_create(settings_content_area_);
-    lv_obj_set_size(panel_settings_info_, LV_PCT(100), LV_PCT(100));
-    lv_obj_set_style_bg_opa(panel_settings_info_, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(panel_settings_info_, 0, 0);
-    lv_obj_set_style_pad_all(panel_settings_info_, 0, 0);
-    lv_obj_set_flex_flow(panel_settings_info_, LV_FLEX_FLOW_COLUMN);
-    lv_obj_add_flag(panel_settings_info_, LV_OBJ_FLAG_HIDDEN);
-
-    lv_obj_t* inf_title = lv_label_create(panel_settings_info_);
-    lv_label_set_text(inf_title, "Информация о системе");
-    lv_obj_set_style_text_color(inf_title, lv_color_hex(0xFFFFFF), 0);
-
-    char info_str[300];
-    uint32_t free_heap = esp_get_free_heap_size();
-    size_t free_psram = heap_caps_get_free_size(MALLOC_CAP_SPIRAM);
-    snprintf(info_str, sizeof(info_str),
-        "• Модель: Freenove FNK0104S\n"
-        "• Чип: ESP32-S3 (8MB PSRAM)\n"
-        "• Дисплей: ST7796 IPS (320x480)\n"
-        "• Тачскрин: FT6336 (I2C)\n"
-        "• Свободно Heap: %lu KB\n"
-        "• Свободно PSRAM: %u KB\n"
-        "• Прошивка: XiaoZhi OS v2.1",
-        (unsigned long)(free_heap / 1024), (unsigned int)(free_psram / 1024));
-
-    lv_obj_t* inf_text = lv_label_create(panel_settings_info_);
-    lv_label_set_text(inf_text, info_str);
-    lv_obj_set_style_text_color(inf_text, lv_color_hex(0xCCCCCC), 0);
-}
-
-void LcdDisplay::ScanWifiNetworks() {
-    DisplayLockGuard lock(this);
-    if (!wifi_status_label_ || !wifi_ap_list_container_) return;
-
-    lv_label_set_text(wifi_status_label_, "⏳ Сканирование эфира...");
-    lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0xF59E0B), 0);
-    lv_obj_clean(wifi_ap_list_container_);
-
-    // Stop active scan if any
-    esp_wifi_scan_stop();
-
-    wifi_scan_config_t scan_config = {};
-    scan_config.show_hidden = false;
-    scan_config.scan_type = WIFI_SCAN_TYPE_ACTIVE;
-    scan_config.scan_time.active.min = 100;
-    scan_config.scan_time.active.max = 300;
-
-    esp_err_t err = esp_wifi_scan_start(&scan_config, false);
-    if (err != ESP_OK) {
-        err = esp_wifi_scan_start(nullptr, false);
-    }
-
-    if (err != ESP_OK && err != ESP_ERR_WIFI_STATE) {
-        ESP_LOGE("LcdDisplay", "Scan start error: %s (0x%x)", esp_err_to_name(err), err);
-        lv_label_set_text_fmt(wifi_status_label_, "🔴 Ошибка запуска (%s)", esp_err_to_name(err));
-        lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0xEF4444), 0);
-        return;
-    }
-
-    // Wait 1.5 seconds for scan results
-    vTaskDelay(pdMS_TO_TICKS(1500));
-
-    uint16_t ap_count = 0;
-    esp_wifi_scan_get_ap_num(&ap_count);
-
-    if (ap_count == 0) {
-        lv_label_set_text(wifi_status_label_, "Сети Wi-Fi не найдены. Попробуйте еще раз.");
-        lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0xAAAAAA), 0);
-        return;
-    }
-
-    if (ap_count > 15) ap_count = 15;
-    std::vector<wifi_ap_record_t> ap_records(ap_count);
-    esp_wifi_scan_get_ap_records(&ap_count, ap_records.data());
-
-    lv_label_set_text_fmt(wifi_status_label_, "🟢 Найдено сетей: %d", ap_count);
-    lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0x10B981), 0);
-
-    for (int i = 0; i < ap_count; i++) {
-        const auto& ap = ap_records[i];
-        std::string ssid = (char*)ap.ssid;
-        if (ssid.empty()) continue;
-
-        bool is_open = (ap.authmode == WIFI_AUTH_OPEN);
-
-        lv_obj_t* btn = lv_btn_create(wifi_ap_list_container_);
-        lv_obj_set_size(btn, 320, 42);
-        lv_obj_set_style_radius(btn, 8, 0);
-        lv_obj_set_style_bg_color(btn, lv_color_hex(0x222233), 0);
-        lv_obj_set_style_border_width(btn, 1, 0);
-        lv_obj_set_style_border_color(btn, lv_color_hex(0x444466), 0);
-
-        lv_obj_t* lbl = lv_label_create(btn);
-        char item_buf[64];
-        snprintf(item_buf, sizeof(item_buf), "%s %s (%d dBm)",
-                 is_open ? "🔓" : "🔒", ssid.c_str(), ap.rssi);
-        lv_label_set_text(lbl, item_buf);
-        lv_obj_set_style_text_color(lbl, lv_color_hex(0xE0E0E0), 0);
-        lv_obj_align(lbl, LV_ALIGN_LEFT_MID, 10, 0);
-
-        struct ApItemCtx { LcdDisplay* display; std::string ssid; bool is_open; };
-        auto ctx = new ApItemCtx{this, ssid, is_open};
-
-        lv_obj_add_event_cb(btn, [](lv_event_t* e) {
-            auto c = static_cast<ApItemCtx*>(lv_event_get_user_data(e));
-            lv_event_code_t code = lv_event_get_code(e);
-            if (code == LV_EVENT_DELETE) {
-                delete c;
-                return;
-            }
-            if (code == LV_EVENT_CLICKED && c && c->display) {
-                if (c->is_open) {
-                    c->display->ConnectToWifi(c->ssid, "");
-                } else {
-                    c->display->wifi_selected_ssid_ = c->ssid;
-                    c->display->wifi_selected_open_ = false;
-                    if (c->display->wifi_connect_popup_) {
-                        lv_obj_remove_flag(c->display->wifi_connect_popup_, LV_OBJ_FLAG_HIDDEN);
-                        lv_obj_move_foreground(c->display->wifi_connect_popup_);
-                    }
-                    if (c->display->wifi_pw_ta_) {
-                        lv_textarea_set_text(c->display->wifi_pw_ta_, "");
-                    }
-                }
-            }
-        }, LV_EVENT_ALL, ctx);
-    }
-}
-
-void LcdDisplay::ConnectToWifi(const std::string& ssid, const std::string& password) {
-    DisplayLockGuard lock(this);
-    if (wifi_status_label_) {
-        lv_label_set_text_fmt(wifi_status_label_, "⏳ Подключение к %s...", ssid.c_str());
-        lv_obj_set_style_text_color(wifi_status_label_, lv_color_hex(0xF59E0B), 0);
-    }
-
-    // Save to system SsidManager (persisted in NVS)
-    SsidManager::GetInstance().AddSsid(ssid, password);
-
-    wifi_config_t wifi_config = {};
-    strncpy((char*)wifi_config.sta.ssid, ssid.c_str(), sizeof(wifi_config.sta.ssid));
-    strncpy((char*)wifi_config.sta.password, password.c_str(), sizeof(wifi_config.sta.password));
-    wifi_config.sta.threshold.authmode = password.empty() ? WIFI_AUTH_OPEN : WIFI_AUTH_WPA2_PSK;
-
-    esp_wifi_disconnect();
-    esp_wifi_set_config(WIFI_IF_STA, &wifi_config);
-    esp_wifi_connect();
-
-    // Auto-refresh status label after 3.5s
-    lv_timer_create([](lv_timer_t* t) {
-        auto display = static_cast<LcdDisplay*>(lv_timer_get_user_data(t));
-        if (display) {
-            display->UpdateWifiStatusLabel();
-        }
-        lv_timer_del(t);
-    }, 3500, this);
 }
 
 #if 0 // Bluetooth implementation retained only as historical reference.
