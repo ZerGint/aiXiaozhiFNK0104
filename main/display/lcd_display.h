@@ -52,6 +52,10 @@ protected:
 
     lv_obj_t* nav_buttons_[3] = {};
     lv_obj_t* nav_status_[3] = {};
+    lv_obj_t* nav_activity_[3] = {};
+    lv_obj_t* top_time_label_ = nullptr;
+    lv_obj_t* top_volume_value_label_ = nullptr;
+    lv_obj_t* top_battery_value_label_ = nullptr;
     lv_obj_t* ai_view_ = nullptr;
     lv_obj_t* radio_view_ = nullptr;
     lv_timer_t* service_timer_ = nullptr;

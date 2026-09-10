@@ -164,7 +164,8 @@ void LcdDisplay::UpdateMediaControls() {
             lv_label_set_text_fmt(volume_val_label_, "%d%%", volume);
         }
         if (mute_label_) {
-            lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP, volume);
+            lv_label_set_text(mute_label_, MATERIAL_SYMBOLS_VOLUME_UP);
+            if (top_volume_value_label_) lv_label_set_text_fmt(top_volume_value_label_, "%d%%", volume);
         }
     }
     if (media_title_label_) {
@@ -539,16 +540,23 @@ void LcdDisplay::SetupUI() {
 
     mute_label_ = lv_label_create(right_icons);
     auto initial_codec = Board::GetInstance().GetAudioCodec();
-    lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP,
-                          initial_codec ? initial_codec->output_volume() : 0);
+    lv_label_set_text(mute_label_, MATERIAL_SYMBOLS_VOLUME_UP);
     lv_obj_set_style_text_font(mute_label_, icon_font, 0);
     lv_obj_set_style_text_color(mute_label_, lvgl_theme->text_color(), 0);
+    top_volume_value_label_ = lv_label_create(right_icons);
+    lv_label_set_text_fmt(top_volume_value_label_, "%d%%", initial_codec ? initial_codec->output_volume() : 0);
+    lv_obj_set_style_text_font(top_volume_value_label_, text_font, 0);
+    lv_obj_set_style_text_color(top_volume_value_label_, lvgl_theme->text_color(), 0);
 
     battery_label_ = lv_label_create(right_icons);
     lv_label_set_text(battery_label_, "");
     lv_obj_set_style_text_font(battery_label_, icon_font, 0);
     lv_obj_set_style_text_color(battery_label_, lvgl_theme->text_color(), 0);
     lv_obj_set_style_margin_left(battery_label_, lvgl_theme->spacing(2), 0);
+    top_battery_value_label_ = lv_label_create(right_icons);
+    lv_label_set_text(top_battery_value_label_, "--%");
+    lv_obj_set_style_text_font(top_battery_value_label_, text_font, 0);
+    lv_obj_set_style_text_color(top_battery_value_label_, lvgl_theme->text_color(), 0);
 
     /* Layer 2: Status bar - for center text labels */
     status_bar_ = lv_obj_create(screen);
@@ -1079,8 +1087,7 @@ void LcdDisplay::SetupUI() {
 
     mute_label_ = lv_label_create(right_icons);
     auto initial_codec = Board::GetInstance().GetAudioCodec();
-    lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP,
-                          initial_codec ? initial_codec->output_volume() : 0);
+    lv_label_set_text(mute_label_, MATERIAL_SYMBOLS_VOLUME_UP);
     lv_obj_set_style_text_font(mute_label_, icon_font, 0);
     lv_obj_set_style_text_color(mute_label_, lvgl_theme->text_color(), 0);
 
@@ -1203,6 +1210,20 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_bg_color(top_bar_, kTop, 0);
     lv_obj_set_style_bg_opa(top_bar_, LV_OPA_COVER, 0);
     DisableScroll(top_bar_);
+    if (!top_volume_value_label_) {
+        auto icons = lv_obj_get_parent(battery_label_);
+        top_volume_value_label_ = lv_label_create(icons);
+        lv_label_set_text(top_volume_value_label_, "0%");
+        lv_obj_set_style_text_font(top_volume_value_label_, LV_FONT_DEFAULT, 0);
+        lv_obj_set_style_text_color(top_volume_value_label_, kText, 0);
+    }
+    if (!top_battery_value_label_) {
+        auto icons = lv_obj_get_parent(battery_label_);
+        top_battery_value_label_ = lv_label_create(icons);
+        lv_label_set_text(top_battery_value_label_, "--%");
+        lv_obj_set_style_text_font(top_battery_value_label_, LV_FONT_DEFAULT, 0);
+        lv_obj_set_style_text_color(top_battery_value_label_, kText, 0);
+    }
     auto label = [](lv_obj_t* parent, const char* text, int x, int y, int w,
                     lv_color_t color) {
         auto obj = lv_label_create(parent);
@@ -1238,6 +1259,12 @@ void LcdDisplay::SetupUI() {
     };
 
     lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_ROW);
+    top_time_label_ = label(top_bar_, "--:--", 200, 8, 80, kText);
+    lv_obj_set_style_text_align(top_time_label_, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_NONE);
+    lv_obj_set_pos(network_label_, 12, 7);
+    lv_obj_set_pos(top_time_label_, 200, 7);
+    lv_obj_set_pos(lv_obj_get_parent(battery_label_), 374, 5);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
     const char* names[] = {"AI", "", ""};
     for (int i = 0; i < 3; ++i) {
@@ -1270,6 +1297,16 @@ void LcdDisplay::SetupUI() {
         lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 8);
         nav_status_[i] = label(obj, "", 2, 44, 50, kMuted);
         lv_obj_set_style_text_align(nav_status_[i], LV_TEXT_ALIGN_CENTER, 0);
+        if (i > 0) {
+            nav_activity_[i] = lv_obj_create(obj);
+            lv_obj_set_size(nav_activity_[i], 8, 8);
+            lv_obj_set_style_radius(nav_activity_[i], LV_RADIUS_CIRCLE, 0);
+            lv_obj_set_style_bg_color(nav_activity_[i], kAccent, 0);
+            lv_obj_set_style_bg_opa(nav_activity_[i], LV_OPA_COVER, 0);
+            lv_obj_set_style_border_width(nav_activity_[i], 0, 0);
+            lv_obj_align(nav_activity_[i], LV_ALIGN_BOTTOM_MID, 0, -4);
+            lv_obj_add_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
+        }
         lv_obj_set_user_data(obj, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
         lv_obj_add_event_cb(obj, [](lv_event_t* e) {
             auto self = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
@@ -1799,6 +1836,27 @@ void LcdDisplay::UpdateServiceIndicators() {
         const bool active = i == 0 ? state == kDeviceStateListening ||
                                     state == kDeviceStateSpeaking : states[i][0] != 0;
         lv_obj_set_style_text_color(nav_status_[i], active ? kAccent : kMuted, 0);
+        if (i > 0 && nav_activity_[i]) {
+            if (active) lv_obj_remove_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
+            else lv_obj_add_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(nav_status_[i], "");
+        }
+    }
+    if (top_battery_value_label_) {
+        int level = 0;
+        bool charging = false, discharging = false;
+        if (Board::GetInstance().GetBatteryLevel(level, charging, discharging))
+            lv_label_set_text_fmt(top_battery_value_label_, "%d%%", level);
+    }
+    if (top_time_label_) {
+        time_t now = time(nullptr);
+        struct tm tm_now;
+        localtime_r(&now, &tm_now);
+        if (tm_now.tm_year >= 2025 - 1900) {
+            char time_text[8];
+            strftime(time_text, sizeof(time_text), "%H:%M", &tm_now);
+            lv_label_set_text(top_time_label_, time_text);
+        }
     }
 }
 
