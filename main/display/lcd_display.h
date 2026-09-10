@@ -9,6 +9,7 @@
 #include <esp_lcd_panel_ops.h>
 #include <atomic>
 #include <memory>
+#include <functional>
 
 #define PREVIEW_IMAGE_DURATION_MS 5000
 
@@ -44,10 +45,7 @@ protected:
     lv_obj_t* brightness_slider_ = nullptr;
     lv_obj_t* volume_val_label_ = nullptr;
     lv_obj_t* brightness_val_label_ = nullptr;
-    lv_obj_t* media_title_label_ = nullptr;
     lv_obj_t* media_status_label_ = nullptr;
-    lv_obj_t* media_play_label_ = nullptr;
-    lv_timer_t* media_update_timer_ = nullptr;
     bool quick_settings_open_ = false;
 
     lv_obj_t* nav_buttons_[3] = {};
@@ -58,6 +56,7 @@ protected:
     lv_obj_t* top_battery_value_label_ = nullptr;
     lv_obj_t* ai_view_ = nullptr;
     lv_obj_t* radio_view_ = nullptr;
+    std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
     void UpdateServiceIndicators();
 
@@ -101,7 +100,6 @@ protected:
     void UpdateWifiStatusLabel();
     void ScanWifiNetworks();
     void ConnectToWifi(const std::string& ssid, const std::string& password);
-    void UpdateMediaControls();
 
 public:
     void ToggleQuickSettings();

@@ -160,28 +160,7 @@ void LcdDisplay::InitializeLcdThemes() {
     theme_manager.RegisterTheme("dark", dark_theme);
 }
 
-void LcdDisplay::UpdateMediaControls() {
-    auto codec = Board::GetInstance().GetAudioCodec();
-    if (codec && volume_slider_) {
-        const int volume = codec->output_volume();
-        if (lv_slider_get_value(volume_slider_) != volume) {
-            lv_slider_set_value(volume_slider_, volume, LV_ANIM_OFF);
-        }
-        if (volume_val_label_) {
-            lv_label_set_text_fmt(volume_val_label_, "%d%%", volume);
-        }
-        if (mute_label_) {
-            lv_label_set_text(mute_label_, MATERIAL_SYMBOLS_VOLUME_UP);
-            if (top_volume_value_label_) lv_label_set_text_fmt(top_volume_value_label_, "%d%%", volume);
-        }
-    }
-    if (media_title_label_) {
-        lv_label_set_text(media_title_label_, MediaPlayer::GetInstance().GetTitle().c_str());
-    }
-    if (media_play_label_) {
-        lv_label_set_text(media_play_label_, MediaPlayer::GetInstance().IsPlaying() ? "||" : ">");
-    }
-}
+
 
 LcdDisplay::LcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_handle_t panel, int width,
                        int height)
@@ -1270,7 +1249,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_ROW);
     top_time_label_ = label(top_bar_, "--:--", 200, 8, 80, kText);
     lv_obj_set_style_text_align(top_time_label_, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_NONE);
+    lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
     lv_obj_set_pos(network_label_, 12, 7);
     lv_obj_set_pos(top_time_label_, 200, 7);
     lv_obj_set_pos(lv_obj_get_parent(battery_label_), 374, 5);
@@ -1933,10 +1912,10 @@ void LcdDisplay::SwitchTab(int tab_index)
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 285);
+    lv_obj_set_size(quick_settings_panel_, 440, 145);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
-    lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_90, 0);
+    lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
     lv_obj_set_style_radius(quick_settings_panel_, 16, 0);
     lv_obj_set_style_border_width(quick_settings_panel_, 2, 0);
     lv_obj_set_style_border_color(quick_settings_panel_, lv_color_hex(0x1E4A60), 0);
@@ -1970,39 +1949,6 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_add_event_cb(close_btn, [](lv_event_t* e) {
         auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         if (display) display->ToggleQuickSettings();
-    }, LV_EVENT_CLICKED, this);
-
-    lv_obj_t* settings_btn = lv_btn_create(header);
-    lv_obj_set_size(settings_btn, 36, 36);
-    lv_obj_align(settings_btn, LV_ALIGN_RIGHT_MID, -50, 0);
-    lv_obj_set_style_radius(settings_btn, 18, 0);
-    lv_obj_set_style_bg_color(settings_btn, lv_color_hex(0x0B6E78), 0);
-    lv_obj_t* settings_icon = lv_label_create(settings_btn);
-    lv_label_set_text(settings_icon, MATERIAL_SYMBOLS_SETTINGS);
-    lv_obj_set_style_text_font(settings_icon, &BUILTIN_ICON_FONT, 0);
-    lv_obj_set_style_text_color(settings_icon, lv_color_hex(0xFFFFFF), 0);
-    lv_obj_center(settings_icon);
-
-    lv_obj_add_event_cb(settings_btn, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display) {
-            display->ToggleQuickSettings();
-            display->OpenSettingsModal();
-        }
-    }, LV_EVENT_CLICKED, this);
-
-    // TEMPORARY: run the bounded online radio search diagnostic.
-    lv_obj_t* test_btn = lv_btn_create(header);
-    lv_obj_set_size(test_btn, 48, 36);
-    lv_obj_align(test_btn, LV_ALIGN_RIGHT_MID, -92, 0);
-    lv_obj_set_style_radius(test_btn, 8, 0);
-    lv_obj_set_style_bg_color(test_btn, lv_color_hex(0x92400E), 0);
-    lv_obj_t* test_label = lv_label_create(test_btn);
-    lv_label_set_text(test_label, "TEST");
-    lv_obj_set_style_text_color(test_label, lv_color_hex(0xFFFFFF), 0);
-    lv_obj_center(test_label);
-    lv_obj_add_event_cb(test_btn, [](lv_event_t*) {
-        RadioBrowser::GetInstance().TestOnlineSearch();
     }, LV_EVENT_CLICKED, this);
 
     // Volume Row (Anchored at X=95 to avoid label overlap)
@@ -2088,71 +2034,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         }
     }, LV_EVENT_VALUE_CHANGED, this);
 
-    // Compact media controls
-    MediaPlayer::GetInstance().ScanSd();
-    lv_obj_t* media_row = lv_obj_create(quick_settings_panel_);
-    lv_obj_set_size(media_row, 416, 90);
-    lv_obj_align(media_row, LV_ALIGN_TOP_MID, 0, 145);
-    lv_obj_set_style_bg_opa(media_row, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(media_row, 0, 0);
-    lv_obj_set_style_pad_all(media_row, 0, 0);
 
-    media_title_label_ = lv_label_create(media_row);
-    lv_obj_set_width(media_title_label_, 396);
-    lv_obj_set_height(media_title_label_, LV_SIZE_CONTENT);
-    lv_label_set_long_mode(media_title_label_, LV_LABEL_LONG_SCROLL_CIRCULAR);
-    lv_obj_set_style_text_align(media_title_label_, LV_TEXT_ALIGN_CENTER, 0);
-    lv_obj_set_style_text_color(media_title_label_, lv_color_white(), 0);
-    lv_obj_align(media_title_label_, LV_ALIGN_TOP_MID, 0, 0);
-
-    lv_obj_t* media_buttons = lv_obj_create(media_row);
-    lv_obj_set_size(media_buttons, 396, 34);
-    lv_obj_align(media_buttons, LV_ALIGN_TOP_MID, 0, 54);
-    lv_obj_set_style_bg_opa(media_buttons, LV_OPA_TRANSP, 0);
-    lv_obj_set_style_border_width(media_buttons, 0, 0);
-    lv_obj_set_style_pad_all(media_buttons, 0, 0);
-    lv_obj_set_flex_flow(media_buttons, LV_FLEX_FLOW_ROW);
-    lv_obj_set_flex_align(media_buttons, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-
-    auto add_media_button = [this, media_buttons](const char* text, lv_event_cb_t callback) {
-        lv_obj_t* button = lv_btn_create(media_buttons);
-        lv_obj_set_size(button, 38, 34);
-        lv_obj_set_style_bg_color(button, lv_color_hex(0x334155), 0);
-        lv_obj_add_flag(button, LV_OBJ_FLAG_CLICKABLE);
-        lv_obj_t* label = lv_label_create(button);
-        lv_label_set_text(label, text);
-        lv_obj_set_style_text_color(label, lv_color_white(), 0);
-        lv_obj_center(label);
-        lv_obj_add_event_cb(button, callback, LV_EVENT_CLICKED, this);
-    };
-    add_media_button("<<", [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        MediaPlayer::GetInstance().Prev();
-        if (display) display->UpdateMediaControls();
-    });
-    lv_obj_t* play_button = lv_btn_create(media_buttons);
-    lv_obj_set_size(play_button, 38, 34);
-    lv_obj_set_style_bg_color(play_button, lv_color_hex(0x334155), 0);
-    lv_obj_add_flag(play_button, LV_OBJ_FLAG_CLICKABLE);
-    media_play_label_ = lv_label_create(play_button);
-    lv_label_set_text(media_play_label_, ">");
-    lv_obj_set_style_text_color(media_play_label_, lv_color_white(), 0);
-    lv_obj_center(media_play_label_);
-    lv_obj_add_event_cb(play_button, [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        MediaPlayer::GetInstance().TogglePlayPause();
-        if (display) display->UpdateMediaControls();
-    }, LV_EVENT_CLICKED, this);
-    add_media_button(">>", [](lv_event_t* e) {
-        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        MediaPlayer::GetInstance().Next();
-        if (display) display->UpdateMediaControls();
-    });
-    UpdateMediaControls();
-    media_update_timer_ = lv_timer_create([](lv_timer_t* timer) {
-        auto display = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
-        if (display) display->UpdateMediaControls();
-    }, 500, this);
 
 }
 
