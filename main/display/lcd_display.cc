@@ -163,6 +163,9 @@ void LcdDisplay::UpdateMediaControls() {
         if (volume_val_label_) {
             lv_label_set_text_fmt(volume_val_label_, "%d%%", volume);
         }
+        if (mute_label_) {
+            lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP, volume);
+        }
     }
     if (media_title_label_) {
         lv_label_set_text(media_title_label_, MediaPlayer::GetInstance().GetTitle().c_str());
@@ -520,7 +523,7 @@ void LcdDisplay::SetupUI() {
 
     // Left icon
     network_label_ = lv_label_create(top_bar_);
-    lv_label_set_text(network_label_, "");
+    lv_label_set_text(network_label_, MATERIAL_SYMBOLS_WIFI);
     lv_obj_set_style_text_font(network_label_, icon_font, 0);
     lv_obj_set_style_text_color(network_label_, lvgl_theme->text_color(), 0);
 
@@ -535,7 +538,9 @@ void LcdDisplay::SetupUI() {
                           LV_FLEX_ALIGN_CENTER);
 
     mute_label_ = lv_label_create(right_icons);
-    lv_label_set_text(mute_label_, "");
+    auto initial_codec = Board::GetInstance().GetAudioCodec();
+    lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP,
+                          initial_codec ? initial_codec->output_volume() : 0);
     lv_obj_set_style_text_font(mute_label_, icon_font, 0);
     lv_obj_set_style_text_color(mute_label_, lvgl_theme->text_color(), 0);
 
@@ -1058,7 +1063,7 @@ void LcdDisplay::SetupUI() {
 
     // Left icon
     network_label_ = lv_label_create(top_bar_);
-    lv_label_set_text(network_label_, "");
+    lv_label_set_text(network_label_, MATERIAL_SYMBOLS_WIFI);
     lv_obj_set_style_text_font(network_label_, icon_font, 0);
     lv_obj_set_style_text_color(network_label_, lvgl_theme->text_color(), 0);
 
@@ -1073,7 +1078,9 @@ void LcdDisplay::SetupUI() {
                           LV_FLEX_ALIGN_CENTER);
 
     mute_label_ = lv_label_create(right_icons);
-    lv_label_set_text(mute_label_, "");
+    auto initial_codec = Board::GetInstance().GetAudioCodec();
+    lv_label_set_text_fmt(mute_label_, "%s %d%%", MATERIAL_SYMBOLS_VOLUME_UP,
+                          initial_codec ? initial_codec->output_volume() : 0);
     lv_obj_set_style_text_font(mute_label_, icon_font, 0);
     lv_obj_set_style_text_color(mute_label_, lvgl_theme->text_color(), 0);
 
@@ -1351,7 +1358,8 @@ void LcdDisplay::SetupUI() {
             button(center, "Shuffle", 42, 202, 76, 30);
             button(center, "Repeat", 142, 202, 76, 30);
         }
-        label(center, "Vol", 12, 242, 30, kMuted);
+        auto volume_label = label(center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
+        lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
         auto volume = lv_slider_create(center);
         lv_obj_set_pos(volume, 54, 247);
         lv_obj_set_size(volume, 182, 6);
@@ -1857,11 +1865,11 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     quick_settings_panel_ = lv_obj_create(parent);
     lv_obj_set_size(quick_settings_panel_, 440, 285);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
-    lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x12121C), 0);
+    lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_90, 0);
     lv_obj_set_style_radius(quick_settings_panel_, 16, 0);
     lv_obj_set_style_border_width(quick_settings_panel_, 2, 0);
-    lv_obj_set_style_border_color(quick_settings_panel_, lv_color_hex(0x3B82F6), 0);
+    lv_obj_set_style_border_color(quick_settings_panel_, lv_color_hex(0x1E4A60), 0);
     lv_obj_set_style_pad_all(quick_settings_panel_, 10, 0);
     lv_obj_set_scrollbar_mode(quick_settings_panel_, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(quick_settings_panel_, LV_OBJ_FLAG_HIDDEN);
@@ -1883,7 +1891,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_size(close_btn, 36, 36);
     lv_obj_align(close_btn, LV_ALIGN_RIGHT_MID, -5, 0);
     lv_obj_set_style_radius(close_btn, 18, 0);
-    lv_obj_set_style_bg_color(close_btn, lv_color_hex(0xEF4444), 0);
+    lv_obj_set_style_bg_color(close_btn, lv_color_hex(0x173B4D), 0);
     lv_obj_t* close_label = lv_label_create(close_btn);
     lv_label_set_text(close_label, "X");
     lv_obj_set_style_text_color(close_label, lv_color_hex(0xFFFFFF), 0);
@@ -1898,7 +1906,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_size(settings_btn, 36, 36);
     lv_obj_align(settings_btn, LV_ALIGN_RIGHT_MID, -50, 0);
     lv_obj_set_style_radius(settings_btn, 18, 0);
-    lv_obj_set_style_bg_color(settings_btn, lv_color_hex(0x2563EB), 0);
+    lv_obj_set_style_bg_color(settings_btn, lv_color_hex(0x0B6E78), 0);
     lv_obj_t* settings_icon = lv_label_create(settings_btn);
     lv_label_set_text(settings_icon, MATERIAL_SYMBOLS_SETTINGS);
     lv_obj_set_style_text_font(settings_icon, &BUILTIN_ICON_FONT, 0);
@@ -1936,7 +1944,8 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_pad_all(vol_row, 0, 0);
 
     lv_obj_t* vol_icon = lv_label_create(vol_row);
-    lv_label_set_text(vol_icon, "Звук");
+    lv_label_set_text(vol_icon, MATERIAL_SYMBOLS_VOLUME_UP);
+    lv_obj_set_style_text_font(vol_icon, &BUILTIN_ICON_FONT, 0);
     lv_obj_set_style_text_color(vol_icon, lv_color_hex(0xAAAAAA), 0);
     lv_obj_align(vol_icon, LV_ALIGN_LEFT_MID, 10, 0);
 
@@ -1947,9 +1956,9 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     auto codec = Board::GetInstance().GetAudioCodec();
     int cur_vol = codec ? codec->output_volume() : 70;
     lv_slider_set_value(volume_slider_, cur_vol, LV_ANIM_OFF);
-    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x334155), LV_PART_MAIN);
-    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x3B82F6), LV_PART_INDICATOR);
-    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x60A5FA), LV_PART_KNOB);
+    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x173B4D), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x16C1B7), LV_PART_INDICATOR);
+    lv_obj_set_style_bg_color(volume_slider_, lv_color_hex(0x8AF2DD), LV_PART_KNOB);
 
     volume_val_label_ = lv_label_create(vol_row);
     lv_label_set_text_fmt(volume_val_label_, "%d%%", cur_vol);
@@ -2315,7 +2324,7 @@ void LcdDisplay::SetupFullSettingsModal(lv_obj_t* parent) {
     settings_modal_ = lv_obj_create(parent);
     lv_obj_set_size(settings_modal_, LV_HOR_RES, LV_VER_RES);
     lv_obj_align(settings_modal_, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_bg_color(settings_modal_, lv_color_hex(0x0A0A12), 0);
+    lv_obj_set_style_bg_color(settings_modal_, lv_color_hex(0x08141F), 0);
     lv_obj_set_style_bg_opa(settings_modal_, LV_OPA_90, 0);
     lv_obj_set_style_radius(settings_modal_, 0, 0);
     lv_obj_set_style_border_width(settings_modal_, 0, 0);
@@ -2327,9 +2336,9 @@ void LcdDisplay::SetupFullSettingsModal(lv_obj_t* parent) {
     settings_sidebar_ = lv_obj_create(settings_modal_);
     lv_obj_set_size(settings_sidebar_, 120, LV_VER_RES);
     lv_obj_align(settings_sidebar_, LV_ALIGN_LEFT_MID, 0, 0);
-    lv_obj_set_style_bg_color(settings_sidebar_, lv_color_hex(0x12121D), 0);
+    lv_obj_set_style_bg_color(settings_sidebar_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_border_width(settings_sidebar_, 1, 0);
-    lv_obj_set_style_border_color(settings_sidebar_, lv_color_hex(0x252538), 0);
+    lv_obj_set_style_border_color(settings_sidebar_, lv_color_hex(0x1E4A60), 0);
     lv_obj_set_style_pad_all(settings_sidebar_, 6, 0);
     lv_obj_set_flex_flow(settings_sidebar_, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(settings_sidebar_, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -2417,7 +2426,7 @@ void LcdDisplay::SetupFullSettingsModal(lv_obj_t* parent) {
     settings_content_area_ = lv_obj_create(settings_modal_);
     lv_obj_set_size(settings_content_area_, 355, LV_VER_RES);
     lv_obj_align(settings_content_area_, LV_ALIGN_RIGHT_MID, 0, 0);
-    lv_obj_set_style_bg_color(settings_content_area_, lv_color_hex(0x181824), 0);
+    lv_obj_set_style_bg_color(settings_content_area_, lv_color_hex(0x0D1D2A), 0);
     lv_obj_set_style_border_width(settings_content_area_, 0, 0);
     lv_obj_set_style_pad_all(settings_content_area_, 12, 0);
 
