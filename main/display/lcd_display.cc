@@ -535,6 +535,7 @@ void LcdDisplay::SetupUI() {
     lv_label_set_text_fmt(top_volume_value_label_, "%d%%", initial_codec ? initial_codec->output_volume() : 0);
     lv_obj_set_style_text_font(top_volume_value_label_, text_font, 0);
     lv_obj_set_style_text_color(top_volume_value_label_, lvgl_theme->text_color(), 0);
+    lv_obj_set_style_margin_left(top_volume_value_label_, 3, 0);
 
     battery_label_ = lv_label_create(right_icons);
     lv_label_set_text(battery_label_, "");
@@ -545,6 +546,7 @@ void LcdDisplay::SetupUI() {
     lv_label_set_text(top_battery_value_label_, "--%");
     lv_obj_set_style_text_font(top_battery_value_label_, text_font, 0);
     lv_obj_set_style_text_color(top_battery_value_label_, lvgl_theme->text_color(), 0);
+    lv_obj_set_style_margin_left(top_battery_value_label_, 3, 0);
 
     /* Layer 2: Status bar - for center text labels */
     status_bar_ = lv_obj_create(screen);
@@ -1204,6 +1206,7 @@ void LcdDisplay::SetupUI() {
         lv_label_set_text(top_volume_value_label_, "0%");
         lv_obj_set_style_text_font(top_volume_value_label_, LV_FONT_DEFAULT, 0);
         lv_obj_set_style_text_color(top_volume_value_label_, kText, 0);
+        lv_obj_set_style_margin_left(top_volume_value_label_, 3, 0);
     }
     if (!top_battery_value_label_) {
         auto icons = lv_obj_get_parent(battery_label_);
@@ -1211,6 +1214,7 @@ void LcdDisplay::SetupUI() {
         lv_label_set_text(top_battery_value_label_, "--%");
         lv_obj_set_style_text_font(top_battery_value_label_, LV_FONT_DEFAULT, 0);
         lv_obj_set_style_text_color(top_battery_value_label_, kText, 0);
+        lv_obj_set_style_margin_left(top_battery_value_label_, 3, 0);
     }
     auto label = [](lv_obj_t* parent, const char* text, int x, int y, int w,
                     lv_color_t color) {
@@ -1252,7 +1256,15 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
     lv_obj_set_pos(network_label_, 12, 7);
     lv_obj_set_pos(top_time_label_, 200, 7);
-    lv_obj_set_pos(lv_obj_get_parent(battery_label_), 374, 5);
+    auto top_status_group = lv_obj_get_parent(battery_label_);
+    lv_obj_set_width(top_status_group, 100);
+    lv_obj_set_height(top_status_group, 24);
+    lv_obj_set_pos(top_status_group, 371, 5);
+    lv_obj_set_layout(top_status_group, LV_LAYOUT_NONE);
+    lv_obj_set_pos(mute_label_, 0, 2);
+    lv_obj_set_pos(top_volume_value_label_, 21, 2);
+    lv_obj_set_pos(battery_label_, 53, 2);
+    lv_obj_set_pos(top_battery_value_label_, 74, 2);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
     LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
     const char* names[] = {"AI", "", ""};
@@ -1912,7 +1924,7 @@ void LcdDisplay::SwitchTab(int tab_index)
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 145);
+    lv_obj_set_size(quick_settings_panel_, 440, 150);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);

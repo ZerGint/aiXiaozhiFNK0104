@@ -1,0 +1,1506 @@
+--- LOG SESSION STARTED AT Thu Sep 10 00:35:35 2026 ---
+I (4271) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -45, Channel: 7, Authmode: 3
+I (4271) WifiBoard: WiFi connecting to ZERG
+W (4271) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5271) RAM: internal free=96307 min=40212 largest=55296 | psram free=8272468 min=8272468 largest=8257536
+I (6741) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6741) wifi:state: init -> auth (0xb0)
+I (6761) wifi:state: auth -> assoc (0x0)
+I (6771) wifi:state: assoc -> run (0x10)
+I (6791) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6791) wifi:security: WPA2-PSK, phy: bgn, rssi: -41, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6801) wifi:pm start, type: 1
+
+I (6801) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6811) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6841) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6861) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8631) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8631) WifiStation: Got IP: 192.168.31.95
+I (8631) WifiBoard: Connected to WiFi: ZERG
+I (8661) Application: Network connected
+I (8661) RAM: [AFTER_WIFI] internal free=95515 min=40212 largest=53248 | psram free=8271760 min=8271724 largest=8257536
+I (8661) StateMachine: State: starting -> activating
+I (8661) Assets: The storage free size is 21440 KB
+I (8671) Assets: The partition size is 8192 KB
+I (8791) Assets: The checksum calculation time is 112 ms
+I (8791) MODEL_LOADER: Successfully load srmodels
+I (8841) Assets: Refreshing display theme...
+W (8901) EmojiCollection: Emoji not found: robot_2
+I (8901) Ota: Current version: 2.4.2
+I (8921) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10271) RAM: internal free=72087 min=39812 largest=31744 | psram free=8266260 min=8251528 largest=8257536
+I (10861) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1950
+I (11581) HttpClient: HTTP connection closed
+I (11581) Ota: Current is the latest version
+I (11591) Ota: Running partition: ota_0
+I (11611) MQTT: Connecting to endpoint api.tenclass.net
+I (12291) FreenoveFnk0104sBoard: TOUCH READ: raw_x=261, raw_y=33 => point.x=33, point.y=59 (top_bar=0)
+I (13741) MQTT: Connected to endpoint
+I (13741) Application: Activation done
+I (13741) SystemInfo: free sram: 71751 minimal sram: 39812
+I (13741) StateMachine: State: activating -> idle
+I (13741) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13751) wifi:Set ps type: 2, coexist: 0
+
+I (13751) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13761) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13761) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13771) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13861) AFE: AFE Version: (1MIC_V251128)
+I (13861) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13871) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13881) AFE: AFE Version: (1MIC_V251128)
+I (13881) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13891) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13901) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13911) AudioCodec: Set output enable to true
+I (13911) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13921) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13931) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13931) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13961) Adev_Codec: Open codec device OK
+I (13961) AudioCodec: Set input enable to true
+I (13961) AudioService: Resampling audio from 16000 to 24000
+I (15271) RAM: internal free=29451 min=20672 largest=14336 | psram free=7533552 min=7523240 largest=7471104
+I (16411) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=37 => point.x=37, point.y=141 (top_bar=0)
+I (20271) RAM: internal free=33339 min=20160 largest=12800 | psram free=7556476 min=7519716 largest=7471104
+I (20351) FreenoveFnk0104sBoard: TOUCH READ: raw_x=115, raw_y=37 => point.x=37, point.y=205 (top_bar=0)
+I (20391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=115, raw_y=37 => point.x=37, point.y=205 (top_bar=0)
+I (21511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=192, raw_y=36 => point.x=36, point.y=128 (top_bar=0)
+I (22141) FreenoveFnk0104sBoard: TOUCH READ: raw_x=244, raw_y=36 => point.x=36, point.y=76 (top_bar=0)
+I (23651) SystemInfo: free sram: 34695 minimal sram: 18424
+I (25271) RAM: internal free=34795 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (30271) RAM: internal free=34795 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (33651) SystemInfo: free sram: 34795 minimal sram: 18424
+I (35271) RAM: internal free=34795 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (40271) RAM: internal free=34655 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (40891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=34 => point.x=34, point.y=171 (top_bar=0)
+I (40931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=34 => point.x=34, point.y=171 (top_bar=0)
+I (40961) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=34 => point.x=34, point.y=176 (top_bar=0)
+I (42591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=30 => point.x=30, point.y=152 (top_bar=0)
+I (42641) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=30 => point.x=30, point.y=151 (top_bar=0)
+I (42691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=30 => point.x=30, point.y=150 (top_bar=0)
+I (43651) SystemInfo: free sram: 34811 minimal sram: 18424
+I (44851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=219, raw_y=35 => point.x=35, point.y=101 (top_bar=0)
+I (44891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=220, raw_y=35 => point.x=35, point.y=100 (top_bar=0)
+I (45271) RAM: internal free=34811 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (45651) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=44 => point.x=44, point.y=87 (top_bar=0)
+I (45691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=44 => point.x=44, point.y=87 (top_bar=0)
+I (45731) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=44 => point.x=44, point.y=87 (top_bar=0)
+I (46531) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=41 => point.x=41, point.y=141 (top_bar=0)
+I (46571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=41 => point.x=41, point.y=141 (top_bar=0)
+I (50271) RAM: internal free=34811 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (50791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=103, raw_y=31 => point.x=31, point.y=217 (top_bar=0)
+I (50841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=103, raw_y=31 => point.x=31, point.y=217 (top_bar=0)
+I (50881) FreenoveFnk0104sBoard: TOUCH READ: raw_x=103, raw_y=31 => point.x=31, point.y=217 (top_bar=0)
+I (52031) FreenoveFnk0104sBoard: TOUCH READ: raw_x=100, raw_y=34 => point.x=34, point.y=220 (top_bar=0)
+I (52071) FreenoveFnk0104sBoard: TOUCH READ: raw_x=100, raw_y=34 => point.x=34, point.y=220 (top_bar=0)
+I (52101) FreenoveFnk0104sBoard: TOUCH READ: raw_x=100, raw_y=34 => point.x=34, point.y=220 (top_bar=0)
+I (52701) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=43 => point.x=43, point.y=187 (top_bar=0)
+I (52741) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=43 => point.x=43, point.y=187 (top_bar=0)
+I (52771) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=43 => point.x=43, point.y=187 (top_bar=0)
+I (53651) SystemInfo: free sram: 34943 minimal sram: 18424
+I (55271) RAM: internal free=34811 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (60271) RAM: internal free=34943 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (63671) SystemInfo: free sram: 34955 minimal sram: 18424
+I (65271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (70271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (73651) SystemInfo: free sram: 34955 minimal sram: 18424
+I (75271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (80271) RAM: internal free=34855 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (83671) SystemInfo: free sram: 34955 minimal sram: 18424
+I (85271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (90271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (93671) SystemInfo: free sram: 34955 minimal sram: 18424
+I (95271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (100271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (103681) SystemInfo: free sram: 34955 minimal sram: 18424
+I (105271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (110271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (113681) SystemInfo: free sram: 34955 minimal sram: 18424
+I (115271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (120271) RAM: internal free=34511 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (123661) SystemInfo: free sram: 34955 minimal sram: 18424
+I (125271) RAM: internal free=34955 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (130271) RAM: internal free=34855 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (133651) SystemInfo: free sram: 34987 minimal sram: 18424
+I (135271) RAM: internal free=34855 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (140271) RAM: internal free=34887 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (143671) SystemInfo: free sram: 34987 minimal sram: 18424
+I (145271) RAM: internal free=34987 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (150271) RAM: internal free=34987 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (153671) SystemInfo: free sram: 34987 minimal sram: 18424
+I (155271) RAM: internal free=34987 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (160271) RAM: internal free=34987 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (162181) FreenoveFnk0104sBoard: TOUCH READ: raw_x=241, raw_y=30 => point.x=30, point.y=79 (top_bar=0)
+I (162241) FreenoveFnk0104sBoard: TOUCH READ: raw_x=241, raw_y=30 => point.x=30, point.y=79 (top_bar=0)
+I (163651) SystemInfo: free sram: 34855 minimal sram: 18424
+I (165271) RAM: internal free=34855 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (169381) FreenoveFnk0104sBoard: TOUCH READ: raw_x=313, raw_y=339 => point.x=339, point.y=7 (top_bar=1)
+I (169411) FreenoveFnk0104sBoard: TOUCH READ: raw_x=313, raw_y=339 => point.x=339, point.y=7 (top_bar=1)
+I (169461) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (169461) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (170271) RAM: internal free=34199 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (170371) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=286 => point.x=286, point.y=96 (top_bar=0)
+I (170441) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=285 => point.x=285, point.y=96 (top_bar=0)
+I (170511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=226, raw_y=270 => point.x=270, point.y=94 (top_bar=0)
+I (170511) AudioCodec: Set output volume to 65
+I (170591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=251 => point.x=251, point.y=88 (top_bar=0)
+I (170591) AudioCodec: Set output volume to 56
+I (170671) FreenoveFnk0104sBoard: TOUCH READ: raw_x=235, raw_y=239 => point.x=239, point.y=85 (top_bar=0)
+I (170671) AudioCodec: Set output volume to 51
+I (170761) FreenoveFnk0104sBoard: TOUCH READ: raw_x=236, raw_y=226 => point.x=226, point.y=84 (top_bar=0)
+I (170771) AudioCodec: Set output volume to 45
+I (171551) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=439 => point.x=439, point.y=60 (top_bar=0)
+I (171591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=439 => point.x=439, point.y=60 (top_bar=0)
+I (172561) FreenoveFnk0104sBoard: TOUCH READ: raw_x=280, raw_y=435 => point.x=435, point.y=40 (top_bar=1)
+I (172621) FreenoveFnk0104sBoard: TOUCH READ: raw_x=280, raw_y=435 => point.x=435, point.y=40 (top_bar=1)
+I (172671) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (173651) SystemInfo: free sram: 34807 minimal sram: 18424
+I (173901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=392 => point.x=392, point.y=138 (top_bar=0)
+I (173941) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=392 => point.x=392, point.y=138 (top_bar=0)
+I (173981) FreenoveFnk0104sBoard: TOUCH READ: raw_x=182, raw_y=392 => point.x=392, point.y=138 (top_bar=0)
+I (175271) RAM: internal free=34807 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (175511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=389 => point.x=389, point.y=142 (top_bar=0)
+I (175551) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=389 => point.x=389, point.y=141 (top_bar=0)
+I (175591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=181, raw_y=389 => point.x=389, point.y=139 (top_bar=0)
+I (175641) FreenoveFnk0104sBoard: TOUCH READ: raw_x=187, raw_y=389 => point.x=389, point.y=133 (top_bar=0)
+I (175681) FreenoveFnk0104sBoard: TOUCH READ: raw_x=190, raw_y=389 => point.x=389, point.y=130 (top_bar=0)
+I (175721) FreenoveFnk0104sBoard: TOUCH READ: raw_x=194, raw_y=389 => point.x=389, point.y=126 (top_bar=0)
+I (175761) FreenoveFnk0104sBoard: TOUCH READ: raw_x=198, raw_y=390 => point.x=390, point.y=122 (top_bar=0)
+I (175811) FreenoveFnk0104sBoard: TOUCH READ: raw_x=201, raw_y=390 => point.x=390, point.y=119 (top_bar=0)
+I (175841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=203, raw_y=391 => point.x=391, point.y=117 (top_bar=0)
+I (175881) FreenoveFnk0104sBoard: TOUCH READ: raw_x=205, raw_y=391 => point.x=391, point.y=115 (top_bar=0)
+I (175921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=207, raw_y=391 => point.x=391, point.y=113 (top_bar=0)
+I (175971) FreenoveFnk0104sBoard: TOUCH READ: raw_x=209, raw_y=392 => point.x=392, point.y=111 (top_bar=0)
+I (176001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=210, raw_y=392 => point.x=392, point.y=110 (top_bar=0)
+I (176041) FreenoveFnk0104sBoard: TOUCH READ: raw_x=211, raw_y=392 => point.x=392, point.y=109 (top_bar=0)
+I (176671) FreenoveFnk0104sBoard: TOUCH READ: raw_x=175, raw_y=394 => point.x=394, point.y=145 (top_bar=0)
+I (176711) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=394 => point.x=394, point.y=147 (top_bar=0)
+I (176761) FreenoveFnk0104sBoard: TOUCH READ: raw_x=169, raw_y=394 => point.x=394, point.y=151 (top_bar=0)
+I (176801) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=394 => point.x=394, point.y=156 (top_bar=0)
+I (176841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=394 => point.x=394, point.y=160 (top_bar=0)
+I (176881) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=394 => point.x=394, point.y=163 (top_bar=0)
+I (176931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=153, raw_y=394 => point.x=394, point.y=167 (top_bar=0)
+I (176971) FreenoveFnk0104sBoard: TOUCH READ: raw_x=151, raw_y=394 => point.x=394, point.y=169 (top_bar=0)
+I (177011) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=394 => point.x=394, point.y=170 (top_bar=0)
+I (177061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=394 => point.x=394, point.y=172 (top_bar=0)
+I (177091) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=394 => point.x=394, point.y=172 (top_bar=0)
+I (177131) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=394 => point.x=394, point.y=172 (top_bar=0)
+I (177171) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=394 => point.x=394, point.y=172 (top_bar=0)
+I (177221) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=394 => point.x=394, point.y=172 (top_bar=0)
+I (177261) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=394 => point.x=394, point.y=171 (top_bar=0)
+I (177311) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=394 => point.x=394, point.y=171 (top_bar=0)
+I (177351) FreenoveFnk0104sBoard: TOUCH READ: raw_x=151, raw_y=395 => point.x=395, point.y=169 (top_bar=0)
+I (177401) FreenoveFnk0104sBoard: TOUCH READ: raw_x=151, raw_y=395 => point.x=395, point.y=169 (top_bar=0)
+I (178171) FreenoveFnk0104sBoard: TOUCH READ: raw_x=189, raw_y=35 => point.x=35, point.y=131 (top_bar=0)
+I (178211) FreenoveFnk0104sBoard: TOUCH READ: raw_x=189, raw_y=35 => point.x=35, point.y=131 (top_bar=0)
+I (179421) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=386 => point.x=386, point.y=160 (top_bar=0)
+I (179461) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=386 => point.x=386, point.y=160 (top_bar=0)
+I (179491) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=386 => point.x=386, point.y=160 (top_bar=0)
+I (180271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (180291) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=382 => point.x=382, point.y=197 (top_bar=0)
+I (180341) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=382 => point.x=382, point.y=197 (top_bar=0)
+I (180711) FreenoveFnk0104sBoard: TOUCH READ: raw_x=138, raw_y=385 => point.x=385, point.y=182 (top_bar=0)
+I (180741) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=385 => point.x=385, point.y=181 (top_bar=0)
+I (180791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=151, raw_y=387 => point.x=387, point.y=169 (top_bar=0)
+I (180831) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=388 => point.x=388, point.y=160 (top_bar=0)
+I (180871) FreenoveFnk0104sBoard: TOUCH READ: raw_x=166, raw_y=389 => point.x=389, point.y=154 (top_bar=0)
+I (180921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=390 => point.x=390, point.y=149 (top_bar=0)
+I (180961) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=391 => point.x=391, point.y=147 (top_bar=0)
+I (181011) FreenoveFnk0104sBoard: TOUCH READ: raw_x=176, raw_y=391 => point.x=391, point.y=144 (top_bar=0)
+I (181051) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=391 => point.x=391, point.y=142 (top_bar=0)
+I (181091) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=391 => point.x=391, point.y=142 (top_bar=0)
+I (181121) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=391 => point.x=391, point.y=142 (top_bar=0)
+I (181171) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=391 => point.x=391, point.y=142 (top_bar=0)
+I (181211) FreenoveFnk0104sBoard: TOUCH READ: raw_x=178, raw_y=391 => point.x=391, point.y=142 (top_bar=0)
+I (181251) FreenoveFnk0104sBoard: TOUCH READ: raw_x=177, raw_y=391 => point.x=391, point.y=143 (top_bar=0)
+I (181301) FreenoveFnk0104sBoard: TOUCH READ: raw_x=172, raw_y=391 => point.x=391, point.y=148 (top_bar=0)
+I (181341) FreenoveFnk0104sBoard: TOUCH READ: raw_x=167, raw_y=391 => point.x=391, point.y=153 (top_bar=0)
+I (181381) FreenoveFnk0104sBoard: TOUCH READ: raw_x=165, raw_y=391 => point.x=391, point.y=155 (top_bar=0)
+I (181411) FreenoveFnk0104sBoard: TOUCH READ: raw_x=163, raw_y=390 => point.x=390, point.y=157 (top_bar=0)
+I (181451) FreenoveFnk0104sBoard: TOUCH READ: raw_x=161, raw_y=390 => point.x=390, point.y=159 (top_bar=0)
+I (181501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=159, raw_y=390 => point.x=390, point.y=161 (top_bar=0)
+I (181971) FreenoveFnk0104sBoard: TOUCH READ: raw_x=135, raw_y=396 => point.x=396, point.y=185 (top_bar=0)
+I (182011) FreenoveFnk0104sBoard: TOUCH READ: raw_x=135, raw_y=396 => point.x=396, point.y=185 (top_bar=0)
+I (182061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=395 => point.x=395, point.y=187 (top_bar=0)
+I (182101) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=395 => point.x=395, point.y=189 (top_bar=0)
+I (182151) FreenoveFnk0104sBoard: TOUCH READ: raw_x=129, raw_y=395 => point.x=395, point.y=191 (top_bar=0)
+I (182181) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=395 => point.x=395, point.y=193 (top_bar=0)
+I (182231) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=394 => point.x=394, point.y=195 (top_bar=0)
+I (182271) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=394 => point.x=394, point.y=197 (top_bar=0)
+I (182311) FreenoveFnk0104sBoard: TOUCH READ: raw_x=121, raw_y=394 => point.x=394, point.y=199 (top_bar=0)
+I (182361) FreenoveFnk0104sBoard: TOUCH READ: raw_x=119, raw_y=393 => point.x=393, point.y=201 (top_bar=0)
+I (182401) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=393 => point.x=393, point.y=203 (top_bar=0)
+I (182821) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=393 => point.x=393, point.y=183 (top_bar=0)
+I (182851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=393 => point.x=393, point.y=183 (top_bar=0)
+I (182901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=393 => point.x=393, point.y=183 (top_bar=0)
+I (183421) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=394 => point.x=394, point.y=178 (top_bar=0)
+I (183461) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=394 => point.x=394, point.y=178 (top_bar=0)
+I (183511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=394 => point.x=394, point.y=178 (top_bar=0)
+I (183651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (184671) FreenoveFnk0104sBoard: TOUCH READ: raw_x=138, raw_y=406 => point.x=406, point.y=182 (top_bar=0)
+I (184711) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=408 => point.x=408, point.y=174 (top_bar=0)
+I (184761) FreenoveFnk0104sBoard: TOUCH READ: raw_x=160, raw_y=411 => point.x=411, point.y=160 (top_bar=0)
+I (184801) FreenoveFnk0104sBoard: TOUCH READ: raw_x=165, raw_y=413 => point.x=413, point.y=155 (top_bar=0)
+I (184841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=415 => point.x=415, point.y=150 (top_bar=0)
+I (184901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=176, raw_y=416 => point.x=416, point.y=144 (top_bar=0)
+I (184931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=416 => point.x=416, point.y=141 (top_bar=0)
+I (184971) FreenoveFnk0104sBoard: TOUCH READ: raw_x=184, raw_y=416 => point.x=416, point.y=136 (top_bar=0)
+I (185011) FreenoveFnk0104sBoard: TOUCH READ: raw_x=187, raw_y=417 => point.x=417, point.y=133 (top_bar=0)
+I (185061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=190, raw_y=418 => point.x=418, point.y=130 (top_bar=0)
+I (185111) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=418 => point.x=418, point.y=129 (top_bar=0)
+I (185151) FreenoveFnk0104sBoard: TOUCH READ: raw_x=191, raw_y=418 => point.x=418, point.y=129 (top_bar=0)
+I (185191) FreenoveFnk0104sBoard: TOUCH READ: raw_x=188, raw_y=418 => point.x=418, point.y=132 (top_bar=0)
+I (185241) FreenoveFnk0104sBoard: TOUCH READ: raw_x=180, raw_y=418 => point.x=418, point.y=140 (top_bar=0)
+I (185271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (185281) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=417 => point.x=417, point.y=147 (top_bar=0)
+I (185331) FreenoveFnk0104sBoard: TOUCH READ: raw_x=161, raw_y=415 => point.x=415, point.y=159 (top_bar=0)
+I (185371) FreenoveFnk0104sBoard: TOUCH READ: raw_x=153, raw_y=414 => point.x=414, point.y=167 (top_bar=0)
+I (185411) FreenoveFnk0104sBoard: TOUCH READ: raw_x=149, raw_y=413 => point.x=413, point.y=171 (top_bar=0)
+I (185441) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=413 => point.x=413, point.y=175 (top_bar=0)
+I (185481) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=413 => point.x=413, point.y=179 (top_bar=0)
+I (185521) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=415 => point.x=415, point.y=183 (top_bar=0)
+I (185571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=134, raw_y=418 => point.x=418, point.y=186 (top_bar=0)
+I (185601) FreenoveFnk0104sBoard: TOUCH READ: raw_x=132, raw_y=419 => point.x=419, point.y=188 (top_bar=0)
+I (185651) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=422 => point.x=422, point.y=189 (top_bar=0)
+I (185701) FreenoveFnk0104sBoard: TOUCH READ: raw_x=129, raw_y=425 => point.x=425, point.y=191 (top_bar=0)
+I (185731) FreenoveFnk0104sBoard: TOUCH READ: raw_x=128, raw_y=427 => point.x=427, point.y=192 (top_bar=0)
+I (185771) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=429 => point.x=429, point.y=193 (top_bar=0)
+I (185811) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=430 => point.x=430, point.y=193 (top_bar=0)
+I (185861) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=4015 => point.x=4015, point.y=193 (top_bar=0)
+I (185901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=129, raw_y=434 => point.x=434, point.y=191 (top_bar=0)
+I (185951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=137, raw_y=437 => point.x=437, point.y=183 (top_bar=0)
+I (185991) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=439 => point.x=439, point.y=176 (top_bar=0)
+I (186021) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=441 => point.x=441, point.y=172 (top_bar=0)
+I (186061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=153, raw_y=443 => point.x=443, point.y=167 (top_bar=0)
+I (186111) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=446 => point.x=446, point.y=163 (top_bar=0)
+I (186151) FreenoveFnk0104sBoard: TOUCH READ: raw_x=159, raw_y=447 => point.x=447, point.y=161 (top_bar=0)
+I (186211) FreenoveFnk0104sBoard: TOUCH READ: raw_x=159, raw_y=449 => point.x=449, point.y=161 (top_bar=0)
+I (186431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=472 => point.x=472, point.y=190 (top_bar=0)
+I (186471) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=472 => point.x=472, point.y=190 (top_bar=0)
+I (186501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=472 => point.x=472, point.y=190 (top_bar=0)
+I (186981) FreenoveFnk0104sBoard: TOUCH READ: raw_x=189, raw_y=416 => point.x=416, point.y=131 (top_bar=0)
+I (187031) FreenoveFnk0104sBoard: TOUCH READ: raw_x=184, raw_y=414 => point.x=414, point.y=136 (top_bar=0)
+I (187071) FreenoveFnk0104sBoard: TOUCH READ: raw_x=175, raw_y=414 => point.x=414, point.y=145 (top_bar=0)
+I (187281) FreenoveFnk0104sBoard: TOUCH READ: raw_x=129, raw_y=416 => point.x=416, point.y=191 (top_bar=0)
+I (187471) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=417 => point.x=417, point.y=202 (top_bar=0)
+I (187661) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=420 => point.x=420, point.y=203 (top_bar=0)
+I (187711) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=423 => point.x=423, point.y=202 (top_bar=0)
+I (187751) FreenoveFnk0104sBoard: TOUCH READ: raw_x=120, raw_y=425 => point.x=425, point.y=200 (top_bar=0)
+I (187941) FreenoveFnk0104sBoard: TOUCH READ: raw_x=140, raw_y=433 => point.x=433, point.y=180 (top_bar=0)
+I (188131) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=436 => point.x=436, point.y=147 (top_bar=0)
+I (188321) FreenoveFnk0104sBoard: TOUCH READ: raw_x=195, raw_y=438 => point.x=438, point.y=125 (top_bar=0)
+I (188511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=217, raw_y=439 => point.x=439, point.y=103 (top_bar=0)
+I (188691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=434 => point.x=434, point.y=106 (top_bar=0)
+I (188881) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=418 => point.x=418, point.y=197 (top_bar=0)
+I (189071) FreenoveFnk0104sBoard: TOUCH READ: raw_x=88, raw_y=416 => point.x=416, point.y=232 (top_bar=0)
+I (189261) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=417 => point.x=417, point.y=258 (top_bar=0)
+I (189451) FreenoveFnk0104sBoard: TOUCH READ: raw_x=35, raw_y=418 => point.x=418, point.y=285 (top_bar=0)
+I (190271) RAM: internal free=34551 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (190591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=99, raw_y=396 => point.x=396, point.y=221 (top_bar=0)
+I (190631) FreenoveFnk0104sBoard: TOUCH READ: raw_x=98, raw_y=396 => point.x=396, point.y=222 (top_bar=0)
+I (190671) FreenoveFnk0104sBoard: TOUCH READ: raw_x=95, raw_y=396 => point.x=396, point.y=225 (top_bar=0)
+I (190721) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=396 => point.x=396, point.y=234 (top_bar=0)
+I (190931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=400 => point.x=400, point.y=288 (top_bar=0)
+I (192571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=183, raw_y=391 => point.x=391, point.y=137 (top_bar=0)
+I (192611) FreenoveFnk0104sBoard: TOUCH READ: raw_x=168, raw_y=390 => point.x=390, point.y=152 (top_bar=0)
+I (192821) FreenoveFnk0104sBoard: TOUCH READ: raw_x=75, raw_y=390 => point.x=390, point.y=245 (top_bar=0)
+I (193001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=10, raw_y=399 => point.x=399, point.y=310 (top_bar=0)
+I (193711) SystemInfo: free sram: 34099 minimal sram: 18424
+I (194621) FreenoveFnk0104sBoard: TOUCH READ: raw_x=109, raw_y=420 => point.x=420, point.y=211 (top_bar=0)
+I (194661) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=416 => point.x=416, point.y=202 (top_bar=0)
+I (194711) FreenoveFnk0104sBoard: TOUCH READ: raw_x=145, raw_y=410 => point.x=410, point.y=175 (top_bar=0)
+I (194751) FreenoveFnk0104sBoard: TOUCH READ: raw_x=167, raw_y=407 => point.x=407, point.y=153 (top_bar=0)
+I (194791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=188, raw_y=407 => point.x=407, point.y=132 (top_bar=0)
+I (194841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=220, raw_y=407 => point.x=407, point.y=100 (top_bar=0)
+I (194881) FreenoveFnk0104sBoard: TOUCH READ: raw_x=236, raw_y=409 => point.x=409, point.y=84 (top_bar=0)
+I (194911) FreenoveFnk0104sBoard: TOUCH READ: raw_x=256, raw_y=411 => point.x=411, point.y=64 (top_bar=0)
+I (195271) RAM: internal free=34815 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (195931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=316 => point.x=316, point.y=258 (top_bar=0)
+I (195971) FreenoveFnk0104sBoard: TOUCH READ: raw_x=70, raw_y=315 => point.x=315, point.y=250 (top_bar=0)
+I (196001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=315 => point.x=315, point.y=226 (top_bar=0)
+I (196211) FreenoveFnk0104sBoard: TOUCH READ: raw_x=215, raw_y=317 => point.x=317, point.y=105 (top_bar=0)
+I (196931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=107, raw_y=299 => point.x=299, point.y=213 (top_bar=0)
+I (197101) FreenoveFnk0104sBoard: TOUCH READ: raw_x=173, raw_y=304 => point.x=304, point.y=147 (top_bar=0)
+I (197331) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=311 => point.x=311, point.y=93 (top_bar=0)
+I (197521) FreenoveFnk0104sBoard: TOUCH READ: raw_x=246, raw_y=318 => point.x=318, point.y=74 (top_bar=0)
+I (199021) FreenoveFnk0104sBoard: TOUCH READ: raw_x=132, raw_y=290 => point.x=290, point.y=188 (top_bar=0)
+I (199071) FreenoveFnk0104sBoard: TOUCH READ: raw_x=120, raw_y=290 => point.x=290, point.y=200 (top_bar=0)
+I (199281) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=291 => point.x=291, point.y=292 (top_bar=0)
+I (200271) RAM: internal free=34555 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (200581) FreenoveFnk0104sBoard: TOUCH READ: raw_x=246, raw_y=43 => point.x=43, point.y=74 (top_bar=0)
+I (201541) FreenoveFnk0104sBoard: TOUCH READ: raw_x=147, raw_y=294 => point.x=294, point.y=173 (top_bar=0)
+I (201571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=138, raw_y=294 => point.x=294, point.y=182 (top_bar=0)
+I (201611) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=292 => point.x=292, point.y=203 (top_bar=0)
+I (201811) FreenoveFnk0104sBoard: TOUCH READ: raw_x=53, raw_y=287 => point.x=287, point.y=267 (top_bar=0)
+I (203441) FreenoveFnk0104sBoard: TOUCH READ: raw_x=138, raw_y=293 => point.x=293, point.y=182 (top_bar=0)
+I (203491) FreenoveFnk0104sBoard: TOUCH READ: raw_x=156, raw_y=294 => point.x=294, point.y=164 (top_bar=0)
+I (203681) SystemInfo: free sram: 34923 minimal sram: 18424
+I (203691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=255, raw_y=297 => point.x=297, point.y=65 (top_bar=0)
+I (205271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (210271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (213651) SystemInfo: free sram: 34923 minimal sram: 18424
+I (215271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (220271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (223651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (225271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (230271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (233651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (235271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (236731) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=303 => point.x=303, point.y=179 (top_bar=0)
+I (236771) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=303 => point.x=303, point.y=179 (top_bar=0)
+I (236801) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=3635 => point.x=3635, point.y=178 (top_bar=0)
+I (236901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=334 => point.x=334, point.y=174 (top_bar=0)
+I (236991) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=348 => point.x=348, point.y=174 (top_bar=0)
+I (237091) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=367 => point.x=367, point.y=174 (top_bar=0)
+I (237191) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=378 => point.x=378, point.y=176 (top_bar=0)
+I (237281) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=382 => point.x=382, point.y=176 (top_bar=0)
+I (237381) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=383 => point.x=383, point.y=176 (top_bar=0)
+I (237421) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=383 => point.x=383, point.y=176 (top_bar=0)
+I (237471) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=382 => point.x=382, point.y=176 (top_bar=0)
+I (237511) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=370 => point.x=370, point.y=174 (top_bar=0)
+I (237601) FreenoveFnk0104sBoard: TOUCH READ: raw_x=156, raw_y=334 => point.x=334, point.y=164 (top_bar=0)
+I (237701) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=285 => point.x=285, point.y=146 (top_bar=0)
+I (237791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=190, raw_y=248 => point.x=248, point.y=130 (top_bar=0)
+I (237891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=202, raw_y=215 => point.x=215, point.y=118 (top_bar=0)
+I (237991) FreenoveFnk0104sBoard: TOUCH READ: raw_x=211, raw_y=192 => point.x=192, point.y=109 (top_bar=0)
+I (238081) FreenoveFnk0104sBoard: TOUCH READ: raw_x=214, raw_y=181 => point.x=181, point.y=106 (top_bar=0)
+I (238181) FreenoveFnk0104sBoard: TOUCH READ: raw_x=216, raw_y=166 => point.x=166, point.y=104 (top_bar=0)
+I (238661) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=247 => point.x=247, point.y=179 (top_bar=0)
+I (238751) FreenoveFnk0104sBoard: TOUCH READ: raw_x=161, raw_y=201 => point.x=201, point.y=159 (top_bar=0)
+I (238851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=177, raw_y=158 => point.x=158, point.y=143 (top_bar=0)
+I (239571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=152, raw_y=271 => point.x=271, point.y=168 (top_bar=0)
+I (239691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=236 => point.x=236, point.y=170 (top_bar=0)
+I (239841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=161 => point.x=161, point.y=156 (top_bar=0)
+I (240271) RAM: internal free=34555 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (241271) FreenoveFnk0104sBoard: TOUCH READ: raw_x=152, raw_y=254 => point.x=254, point.y=168 (top_bar=0)
+I (241311) FreenoveFnk0104sBoard: TOUCH READ: raw_x=152, raw_y=254 => point.x=254, point.y=168 (top_bar=0)
+I (241351) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=255 => point.x=255, point.y=170 (top_bar=0)
+I (241401) FreenoveFnk0104sBoard: TOUCH READ: raw_x=148, raw_y=263 => point.x=263, point.y=172 (top_bar=0)
+I (241441) FreenoveFnk0104sBoard: TOUCH READ: raw_x=146, raw_y=272 => point.x=272, point.y=174 (top_bar=0)
+I (241571) FreenoveFnk0104sBoard: TOUCH READ: raw_x=143, raw_y=291 => point.x=291, point.y=177 (top_bar=0)
+I (241681) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=299 => point.x=299, point.y=178 (top_bar=0)
+I (241801) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=304 => point.x=304, point.y=178 (top_bar=0)
+I (241921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=298 => point.x=298, point.y=179 (top_bar=0)
+I (242031) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=256 => point.x=256, point.y=178 (top_bar=0)
+I (242151) FreenoveFnk0104sBoard: TOUCH READ: raw_x=147, raw_y=225 => point.x=225, point.y=173 (top_bar=0)
+I (243651) SystemInfo: free sram: 34783 minimal sram: 18424
+I (245271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (250271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (253651) SystemInfo: free sram: 34915 minimal sram: 18424
+I (255271) RAM: internal free=33215 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (260271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (263651) SystemInfo: free sram: 34783 minimal sram: 18424
+I (265271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (270271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (273651) SystemInfo: free sram: 34763 minimal sram: 18424
+I (275271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (280271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (283651) SystemInfo: free sram: 34775 minimal sram: 18424
+I (285271) RAM: internal free=34655 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (290271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (293651) SystemInfo: free sram: 34775 minimal sram: 18424
+I (295271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (300271) RAM: internal free=34875 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (303651) SystemInfo: free sram: 34775 minimal sram: 18424
+I (305271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (310271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (313651) SystemInfo: free sram: 34775 minimal sram: 18424
+I (315271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (320271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (323651) SystemInfo: free sram: 34775 minimal sram: 18424
+I (325271) RAM: internal free=34775 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (330271) RAM: internal free=34675 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (333651) SystemInfo: free sram: 34783 minimal sram: 18424
+I (335271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (340271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (343651) SystemInfo: free sram: 34747 minimal sram: 18424
+I (345271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (350271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (353651) SystemInfo: free sram: 34783 minimal sram: 18424
+I (355271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (360271) RAM: internal free=34783 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (363651) SystemInfo: free sram: 34583 minimal sram: 18424
+I (365271) RAM: internal free=34911 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (370271) RAM: internal free=34731 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (373651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (375271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (380271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (383651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (385271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (390271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (393651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (395271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (400271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (403651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (405271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (410271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (413651) SystemInfo: free sram: 34671 minimal sram: 18424
+I (415271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (420271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (423651) SystemInfo: free sram: 34911 minimal sram: 18424
+I (425271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (430271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (433651) SystemInfo: free sram: 34767 minimal sram: 18424
+I (435271) RAM: internal free=34767 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (440271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (443651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (445271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (450271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (453651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (455271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (460271) RAM: internal free=34619 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (463651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (465271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (470271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (473651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (475271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (480271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (483651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (485271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (490271) RAM: internal free=34895 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (493651) SystemInfo: free sram: 34671 minimal sram: 18424
+I (495271) RAM: internal free=34911 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (500271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (503651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (505271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (510271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (513651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (515271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (520271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (523651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (525271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (530271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (533661) SystemInfo: free sram: 34911 minimal sram: 18424
+I (535271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (540271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (543651) SystemInfo: free sram: 34631 minimal sram: 18424
+I (545271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (550271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (553651) SystemInfo: free sram: 34911 minimal sram: 18424
+I (555271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (560271) RAM: internal free=34911 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (563651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (565271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (570271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (573651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (575271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (580271) RAM: internal free=34911 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (583651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (585271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (590271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (593651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (595271) RAM: internal free=34767 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (600271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (603651) SystemInfo: free sram: 34583 minimal sram: 18424
+I (605271) RAM: internal free=34779 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (610271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (613651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (615271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (620271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (623651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (625271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (630271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (633651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (635271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (640271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (643651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (645271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (650271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (653651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (655271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (660271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (663651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (665271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (670271) RAM: internal free=34675 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (673651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (675271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (680271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (683651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (685271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (690271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (693651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (695271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (700271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (703651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (705271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (710271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (713651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (715271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (720271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (723651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (725271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (730271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (733651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (735271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (740271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (743651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (745271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (750271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (753651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (755271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (760271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (763651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (765271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (770271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (773651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (775271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (780271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (783651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (785271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (790271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (793651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (795271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (800271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (803651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (805271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (810271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (813651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (815271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (820271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (823651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (825271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (830271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (833651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (835271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (840271) RAM: internal free=34675 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (843651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (845271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (850271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (853651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (855271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (860271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (863651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (865271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (870271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (873651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (875271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (880271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (883651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (885271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (890271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (893651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (895271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (900271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (903651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (905271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (910271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (913651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (915271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (920271) RAM: internal free=34807 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (923651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (925271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (930271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (933651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (935271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (940271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (943651) SystemInfo: free sram: 34651 minimal sram: 18424
+I (945271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (950271) RAM: internal free=34675 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (953651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (955271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (960271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (963651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (965271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (970271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (973651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (975271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (980271) RAM: internal free=33123 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (983651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (985271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (990271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (993651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (995271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1000271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1003651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (1005271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1010271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1013651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1015271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1020271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1023651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1025271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1030271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1033651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1035271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1040271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1043651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1045271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1050271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1053651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1055271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1060271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1063651) SystemInfo: free sram: 34639 minimal sram: 18424
+I (1065271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1070271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1073651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1075271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1080271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1083651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1085271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1090271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1093661) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1095271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1100271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1103651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1105271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1110271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1113651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1115271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1120271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1123651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1125271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1130271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1133651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1135271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1140271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1143651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1145271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1150271) RAM: internal free=34711 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1153651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1155271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1160271) RAM: internal free=34915 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1163651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1165271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1170271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1173651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1175271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1180271) RAM: internal free=34763 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1183651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1185271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1190271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1193651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1195271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1200271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1203651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1205271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1210271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1213651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1215271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1220271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1223651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1225271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1230271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1233651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1235271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1240271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1243651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1245271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1250271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1253651) SystemInfo: free sram: 34595 minimal sram: 18424
+I (1255271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1260271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1263651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1265271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1270271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1273651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1275271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1280271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1283651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1285271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1290271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1293651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1295271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1300271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1303651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1305271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1310271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1313651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1315271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1320271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1323651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1325271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1330271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1333651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1335271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1340271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1343651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1345271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1350271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1353651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1355271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1360271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1363651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1365271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1370271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1373651) SystemInfo: free sram: 34647 minimal sram: 18424
+I (1375271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1380271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1383651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1385271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1390271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1393651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1395271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1400271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1403651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1405271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1410271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1413651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1415271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1420271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1423651) SystemInfo: free sram: 34711 minimal sram: 18424
+I (1425271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1430271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1433651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1435271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1440271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1443651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1445271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1450271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1453651) SystemInfo: free sram: 34807 minimal sram: 18424
+I (1455271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1460271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1463651) SystemInfo: free sram: 33031 minimal sram: 18424
+I (1465271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1470271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1473651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1475271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1480271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1483651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1485271) RAM: internal free=34919 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1490271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1493651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1495271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1500271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1503651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1505271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1510271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1513651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1515271) RAM: internal free=34647 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1520271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1523651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1525271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1530271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1533651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1535271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1540271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1543651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1545271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1550271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1553651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1555271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1560271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1563651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1565271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1570271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1573651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1575271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1580271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1583651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1585271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1590271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1593651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1595271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1600271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1603651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1605271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1610271) RAM: internal free=34727 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1613651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1615271) RAM: internal free=34887 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1620271) RAM: internal free=34639 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1623651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1625271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1630271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1633651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1635271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1640271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1643651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1645271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1650271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1653651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1655271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1660271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1663651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1665271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1670271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1673651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1675271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1680271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1683651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1685271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1690271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1693651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1695271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1700271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1703651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1705271) RAM: internal free=33231 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1710271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1713651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1715271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1720271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1723651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1725271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1730271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1733651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1735271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1740271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1743651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1745271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1750271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1753651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1755271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1760271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1763651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1765271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1770271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1773651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1775271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1780271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1783651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1785271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1790271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1793651) SystemInfo: free sram: 34763 minimal sram: 18424
+I (1795271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1800271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1803651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1805271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1810271) RAM: internal free=34919 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1813651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1815271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1820271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1823651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1825271) RAM: internal free=34639 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1830271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1833651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1835271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1840271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1843651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1845271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1850271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1853651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1855271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1860271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1863651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1865271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1870271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1873651) SystemInfo: free sram: 34571 minimal sram: 18424
+I (1875271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1880271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1883651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1885271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1890271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1893651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1895271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1900271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1903651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1905271) RAM: internal free=34299 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1910271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1913651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1915271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1920271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1923651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1925271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1930271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1933651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (1935271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1940271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1943651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1945271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1950271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1953651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1955271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1960271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1963651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1965271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1970271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1973651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1975271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1980271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1983651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1985271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1990271) RAM: internal free=34711 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (1993651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (1995271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2000271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2003651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2005271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2010271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2013651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2015271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2020271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2023651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2025271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2030271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2033651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2035271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2040271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2043651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2045271) RAM: internal free=34879 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2050271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2053651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (2055271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2060271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2063651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2065271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2070271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2073651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (2075271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2080271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2083651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2085271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2090271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2093651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2095271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2100271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2103651) SystemInfo: free sram: 34823 minimal sram: 18424
+I (2105271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2110271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2113651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2115271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2120271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2123651) SystemInfo: free sram: 34843 minimal sram: 18424
+I (2125271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2130271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2133651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2135271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2140271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2143651) SystemInfo: free sram: 34639 minimal sram: 18424
+I (2145271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2150271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2153651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (2155271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2160271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2163651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2165271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2170271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2173651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2175271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2180271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2183651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2185271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2190271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2193651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2195271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2200271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2203651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2205271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2210271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2213651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2215271) RAM: internal free=34823 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2220271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2223651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2225271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2230271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2233651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (2235271) RAM: internal free=34843 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2240271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2243651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2245271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2250271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2253651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2255271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2260271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2263651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2265271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2270271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2273651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2275271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2280271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2283651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2285271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2290271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2293651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2295271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2300271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2303651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2305271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2310271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2313651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2315271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2320271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2323651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2325271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2330271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2333651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2335271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2340271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2343651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2345271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2350271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2353651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2355271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2360271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2363651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2365271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2370271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2373651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2375271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2380271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2383651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2385271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2390271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2393651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2395271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2400271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2403651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2405271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2410271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2413651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2415271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2420271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2423651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2425271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2430271) RAM: internal free=33231 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2433651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (2435271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2440271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2443651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2445271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2450271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2453651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2455271) RAM: internal free=34763 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2460271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2463651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2465271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2470271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2473661) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2475271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2480271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2483651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2485271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2490271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2493651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2495271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2500271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2503651) SystemInfo: free sram: 34699 minimal sram: 18424
+I (2505271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2510271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2513651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2515271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2520271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2523651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2525271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2530271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2533651) SystemInfo: free sram: 34859 minimal sram: 18424
+I (2535271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2540271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2543651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2545271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2550271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2553651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2555271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2560271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2563651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (2565271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2570271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2573651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2575271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2580271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2583651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2585271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2590271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2593651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2595271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2600271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2603651) SystemInfo: free sram: 34763 minimal sram: 18424
+I (2605271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2610271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2613651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2615271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2620271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2623651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2625271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2630271) RAM: internal free=34559 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2633651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2635271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2640271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2643651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2645271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2650271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2653651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2655271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2660271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2663651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2665271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2670271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2673651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2675271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2680271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2683651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2685271) RAM: internal free=34683 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2690271) RAM: internal free=34815 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2693651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2695271) RAM: internal free=34683 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2700271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2703651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2705271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2710271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2713651) SystemInfo: free sram: 34595 minimal sram: 18424
+I (2715271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2720271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2723651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2725271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2730271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2733651) SystemInfo: free sram: 34675 minimal sram: 18424
+I (2735271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2740271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2743651) SystemInfo: free sram: 34595 minimal sram: 18424
+I (2745271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2750271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2753651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2755271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2760271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2763651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2765271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2770271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2773651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2775271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2780271) RAM: internal free=34631 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2783651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2785271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2790271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2793651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (2795271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2800271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2803651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2805271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2810271) RAM: internal free=34667 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2813651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2815271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2820271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2823651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2825271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2830271) RAM: internal free=34647 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2833651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2835271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2840271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2843651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2845271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2850271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2853651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2855271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2860271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2863651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (2865271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2870271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2873651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2875271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2880271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2883651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2885271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2890271) RAM: internal free=34639 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2893651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2895271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2900271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2903651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (2905271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2910271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2913651) SystemInfo: free sram: 33175 minimal sram: 18424
+I (2915271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2920271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2923651) SystemInfo: free sram: 34687 minimal sram: 18424
+I (2925271) RAM: internal free=34923 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2930271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2933651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2935271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2940271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2943651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2945271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2950271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2953651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2955271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2960271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2963651) SystemInfo: free sram: 34923 minimal sram: 18424
+I (2965271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2970271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2973651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2975271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2980271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2983651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2985271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2990271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (2993651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (2995271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3000271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3003651) SystemInfo: free sram: 34779 minimal sram: 18424
+I (3005271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3010271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3013651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3015271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3020271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3023651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3025271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3030271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3033651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3035271) RAM: internal free=34923 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3040271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3043651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3045271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3050271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3053651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3055271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3060271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3063651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3065271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3070271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3073651) SystemInfo: free sram: 34923 minimal sram: 18424
+I (3075271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3080271) RAM: internal free=34923 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3083651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3085271) RAM: internal free=34631 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3090271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3093651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3095271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3100271) RAM: internal free=34923 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3103651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3105271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3110271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3113651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3115271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3120271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3123651) SystemInfo: free sram: 34687 minimal sram: 18424
+I (3125271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3130271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3133651) SystemInfo: free sram: 34791 minimal sram: 18424
+I (3135271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3140271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3143651) SystemInfo: free sram: 34675 minimal sram: 18424
+I (3145271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3150271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3153651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3155271) RAM: internal free=33231 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3160271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3163651) SystemInfo: free sram: 34639 minimal sram: 18424
+I (3165271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3170271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3173651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3175271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3180271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3183651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3185271) RAM: internal free=34935 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3190271) RAM: internal free=34671 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3193651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3195271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3200271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3203651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3205271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3210271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3213651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3215271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3220271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3223651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3225271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3230271) RAM: internal free=34935 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3233651) SystemInfo: free sram: 34803 minimal sram: 18424
+I (3235271) RAM: internal free=34803 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3240271) RAM: internal free=34647 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3243651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3245271) RAM: internal free=34667 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3250271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3253651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3255271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3260271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3263651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3265271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3270271) RAM: internal free=34915 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3273651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3275271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3280271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3283651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3285271) RAM: internal free=34699 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3290271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3293651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3295271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3300271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3303651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3305271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3310271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3313651) SystemInfo: free sram: 34595 minimal sram: 18424
+I (3315271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3320271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3323651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3325271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3330271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3333651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3335271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3340271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3343651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3345271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3350271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3353651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3355271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3360271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3363651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3365271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3370271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3373651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3375271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3380271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3383651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3385271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3390271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3393651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3395271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3400271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3403651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3405271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3410271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3413651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3415271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3420271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3423651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3425271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3430271) RAM: internal free=34647 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3433651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3435271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3440271) RAM: internal free=34763 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3443651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3445271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3450271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3453651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3455271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3460271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3463651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3465271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3470271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3473651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3475271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3480271) RAM: internal free=34727 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3483651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3485271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3490271) RAM: internal free=34595 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3493651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (3495271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3500271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3503651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3505271) RAM: internal free=34771 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3510271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3513651) SystemInfo: free sram: 34667 minimal sram: 18424
+I (3515271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3520271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3523651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3525271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3530271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3533651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3535271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3540271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3543651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3545271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3550271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3553651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3555271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3560271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3563651) SystemInfo: free sram: 34843 minimal sram: 18424
+I (3565271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3570271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3573651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3575271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3580271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3583651) SystemInfo: free sram: 34639 minimal sram: 18424
+I (3585271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3590271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3593651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3595271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3600271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3603651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3605271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3610271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3613651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3615271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3620271) RAM: internal free=34667 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3623651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3625271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3630271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3633651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3635271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3640271) RAM: internal free=34675 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3643651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3645271) RAM: internal free=34647 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3650271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3653661) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3655271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3660271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3663651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3665271) RAM: internal free=34711 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3670271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3673651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3675271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3680271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3683651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3685271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3690271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3693651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3695271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3700271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3703651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3705271) RAM: internal free=34639 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3710271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3713651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3715271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3720271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3723651) SystemInfo: free sram: 34675 minimal sram: 18424
+I (3725271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3730271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3733651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3735271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3740271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3743651) SystemInfo: free sram: 34595 minimal sram: 18424
+I (3745271) RAM: internal free=34735 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3750271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3753651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3755271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3760271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3763651) SystemInfo: free sram: 34687 minimal sram: 18424
+I (3765271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3770271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3773651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3775271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3780271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3783651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (3785271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3790271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3793651) SystemInfo: free sram: 34639 minimal sram: 18424
+I (3795271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3800271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3803651) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3805271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3810271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3813651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3815271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3820271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3823651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3825271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3830271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3833651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3835271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3840271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3843651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3845271) RAM: internal free=34691 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3850271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3853651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3855271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3860271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3863651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3865271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3870271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3873651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3875271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3880271) RAM: internal free=33231 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3883651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3885271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3890271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3893651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3895271) RAM: internal free=34931 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3900271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3903651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3905271) RAM: internal free=34687 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3910271) RAM: internal free=34791 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3913661) SystemInfo: free sram: 34931 minimal sram: 18424
+I (3915271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3920271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3923651) SystemInfo: free sram: 34691 minimal sram: 18424
+I (3925271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3930271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3933651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3935271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3940271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3943651) SystemInfo: free sram: 34787 minimal sram: 18424
+I (3945271) RAM: internal free=34787 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3950271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3953651) SystemInfo: free sram: 34799 minimal sram: 18424
+I (3955271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3960271) RAM: internal free=34799 min=18424 largest=18432 | psram free=7540600 min=7517068 largest=7471104
+I (3963651) SystemInfo: free sram: 34799 minimal sram: 18424

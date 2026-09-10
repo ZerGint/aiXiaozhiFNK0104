@@ -1,0 +1,109 @@
+--- LOG SESSION STARTED AT Wed Sep  9 01:38:44 2026 ---
+I (8249) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8249) WifiStation: Got IP: 192.168.31.95
+I (8249) WifiBoard: Connected to WiFi: ZERG
+I (8279) Application: Network connected
+I (8279) RAM: [AFTER_WIFI] internal free=112755 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8279) StateMachine: State: starting -> activating
+I (8279) Assets: The storage free size is 21440 KB
+I (8289) Assets: The partition size is 8192 KB
+I (8399) Assets: The checksum calculation time is 112 ms
+I (8409) MODEL_LOADER: Successfully load srmodels
+I (8449) Assets: Refreshing display theme...
+W (8479) EmojiCollection: Emoji not found: robot_2
+I (8479) Ota: Current version: 2.4.2
+I (8489) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=90663 min=39812 largest=47104 | psram free=8266260 min=8251528 largest=8257536
+I (10439) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1960
+I (11189) HttpClient: HTTP connection closed
+I (11189) Ota: Current is the latest version
+I (11189) Ota: Running partition: ota_0
+I (11199) MQTT: Connecting to endpoint api.tenclass.net
+I (13309) MQTT: Connected to endpoint
+I (13309) Application: Activation done
+I (13309) SystemInfo: free sram: 88571 minimal sram: 39812
+I (13309) StateMachine: State: activating -> idle
+I (13339) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13339) wifi:Set ps type: 2, coexist: 0
+
+I (13339) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13339) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13349) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13349) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13449) AFE: AFE Version: (1MIC_V251128)
+I (13449) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13459) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13469) AFE: AFE Version: (1MIC_V251128)
+I (13469) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13479) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13489) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13499) AudioCodec: Set output enable to true
+I (13499) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13509) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13509) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13519) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13549) Adev_Codec: Open codec device OK
+I (13549) AudioCodec: Set input enable to true
+I (13549) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=46587 min=27252 largest=18432 | psram free=7513068 min=7499216 largest=7471104
+I (20269) RAM: internal free=47379 min=27252 largest=18432 | psram free=7540600 min=7499216 largest=7471104
+I (22769) FreenoveFnk0104sBoard: TOUCH READ: raw_x=315, raw_y=242 => point.x=242, point.y=5 (top_bar=1)
+I (22809) FreenoveFnk0104sBoard: TOUCH READ: raw_x=315, raw_y=242 => point.x=242, point.y=5 (top_bar=1)
+I (22849) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (22849) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (23619) SystemInfo: free sram: 52147 minimal sram: 27252
+I (24579) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=197 => point.x=197, point.y=93 (top_bar=0)
+I (24669) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=197 => point.x=197, point.y=93 (top_bar=0)
+I (24759) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=197 => point.x=197, point.y=93 (top_bar=0)
+I (24839) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=195 => point.x=195, point.y=93 (top_bar=0)
+I (24909) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=195 => point.x=195, point.y=93 (top_bar=0)
+I (24979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=193 => point.x=193, point.y=93 (top_bar=0)
+I (25049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=191 => point.x=191, point.y=93 (top_bar=0)
+I (25119) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=187 => point.x=187, point.y=93 (top_bar=0)
+I (25129) AudioCodec: Set output volume to 27
+I (25229) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=185 => point.x=185, point.y=93 (top_bar=0)
+I (25229) AudioCodec: Set output volume to 26
+I (25269) RAM: internal free=51835 min=27252 largest=18432 | psram free=7540600 min=7499216 largest=7471104
+I (25979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+I (26079) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+I (26169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+I (26249) AudioCodec: Set output volume to 24
+I (27099) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=175 => point.x=175, point.y=91 (top_bar=0)
+I (27199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=175 => point.x=175, point.y=91 (top_bar=0)
+I (27289) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=173 => point.x=173, point.y=91 (top_bar=0)
+I (27369) AudioCodec: Set output volume to 21
+I (28229) FreenoveFnk0104sBoard: TOUCH READ: raw_x=275, raw_y=337 => point.x=337, point.y=45 (top_bar=1)
+I (28309) FreenoveFnk0104sBoard: TOUCH READ: raw_x=275, raw_y=337 => point.x=337, point.y=45 (top_bar=1)
+I (28389) RadioBrowser: [RADIO_TEST] start query=rock limit=10
+I (28399) RadioBrowser: [MEM] point=RADIO_SEARCH_BEFORE_HTTP internal_free=45287 internal_largest=18432 dma_free=37515 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (28399) RadioBrowser: [RADIO_SEARCH] query="rock" countrycode="" language="" tag="" limit=10
+I (28409) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (29979) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (29979) RadioBrowser: Search request succeeded: status=200 response_len=24574
+I (29989) RadioBrowser: [MEM] point=RADIO_SEARCH_AFTER_HTTP internal_free=44899 internal_largest=18432 dma_free=37127 dma_largest=18432 psram_free=7509876 psram_largest=7471104
+I (29999) RadioBrowser: [MEM] point=after_http_response internal_free=44899 internal_largest=18432 dma_free=37127 dma_largest=18432 psram_free=7509876 psram_largest=7471104
+W (30029) wifi:m f null
+
+I (30049) RadioBrowser: [MEM] point=RADIO_SEARCH_AFTER_PARSE internal_free=23 internal_largest=0 dma_free=19 dma_largest=0 psram_free=7490388 psram_largest=7471104
+I (30049) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30059) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30059) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30069) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30069) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30079) RadioBrowser: RadioBrowser: accepted codec AAC+
+I (30079) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30089) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30089) RadioBrowser: RadioBrowser: accepted codec MP3
+I (30099) RadioBrowser: RadioBrowser: accepted codec AAC
+I (30099) RadioBrowser: [MEM] point=after_parse_filter internal_free=43 internal_largest=16 dma_free=39 dma_largest=16 psram_free=7489172 psram_largest=7471104
+I (30119) RadioBrowser: [RADIO_SEARCH_DIAG] user_limit=10 server_limit=20 http_response_bytes=24574 server_objects=20 accepted_codec=10 rejected_codec=0 returned_results=10 stopped_after_limit=YES
+I (30139) RadioBrowser: [MEM] point=after_free_root_raw internal_free=45551 internal_largest=18432 dma_free=37779 dma_largest=18432 psram_free=7539252 psram_largest=7471104
+I (30149) RadioBrowser: [MEM] point=RADIO_SEARCH_AFTER_OUTPUT internal_free=40827 internal_largest=18432 dma_free=33055 dma_largest=18432 psram_free=7539252 psram_largest=7471104
+I (30159) RadioBrowser: [RADIO_TEST] end result_bytes=972
+I (30269) RAM: internal free=50827 min=16 largest=18432 | psram free=7540600 min=7487552 largest=7471104
+I (33609) SystemInfo: free sram: 50971 minimal sram: 16
+I (35269) RAM: internal free=50643 min=16 largest=18432 | psram free=7540600 min=7487552 largest=7471104
+I (40269) RAM: internal free=50611 min=16 largest=18432 | psram free=7540600 min=7487552 largest=7471104
+I (43609) SystemInfo: free sram: 50979 minimal sram: 16
+I (45269) RAM: internal free=50619 min=16 largest=18432 | psram free=7540600 min=7487552 largest=7471104

@@ -1,0 +1,255 @@
+[  0.00s] ESP-ROM:esp32s3-20210327
+[  0.00s] Build:Mar 27 2021
+[  0.00s] rst:0x15 (USB_UART_CHIP_RESET),boot:0xa (SPI_FAST_FLASH_BOOT)
+[  0.00s] Saved PC:0x40384aba
+[  0.00s] SPIWP:0xee
+[  0.00s] mode:DIO, clock div:1
+[  0.00s] load:0x3fce2820,len:0x544
+[  0.00s] load:0x403c8700,len:0xd14
+[  0.00s] load:0x403cb700,len:0x2eb4
+[  0.00s] entry 0x403c88f4
+[  0.00s] I (34) octal_psram: vendor id    : 0x0d (AP)
+[  0.00s] I (34) octal_psram: dev id       : 0x02 (generation 3)
+[  0.00s] I (34) octal_psram: density      : 0x03 (64 Mbit)
+[  0.00s] I (36) octal_psram: good-die     : 0x01 (Pass)
+[  0.00s] I (40) octal_psram: Latency      : 0x01 (Fixed)
+[  0.00s] I (44) octal_psram: VCC          : 0x01 (3V)
+[  0.01s] I (48) octal_psram: SRF          : 0x01 (Fast Refresh)
+[  0.01s] I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+[  0.01s] I (58) octal_psram: BurstLen     : 0x01 (32 Byte)
+[  0.01s] I (62) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+[  0.01s] I (67) octal_psram: DriveStrength: 0x00 (1/1)
+[  0.01s] I (72) MSPI Timing: Enter psram timing tuning
+[  0.01s] I (76) esp_psram: Found 8MB PSRAM device
+[  0.01s] I (79) esp_psram: Speed: 80MHz
+[  0.01s] I (82) cpu_start: Multicore app
+[  0.01s] I (96) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+[  0.01s] I (97) cpu_start: Pro cpu start user code
+[  0.01s] I (97) cpu_start: cpu freq: 240000000 Hz
+[  0.01s] I (98) app_init: Application information:
+[  0.01s] I (102) app_init: Project name:     xiaozhi
+[  0.01s] I (106) app_init: App version:      2.4.2
+[  0.01s] I (110) app_init: Compile time:     Sep  7 2026 11:41:21
+[  0.01s] I (115) app_init: ELF file SHA256:  bb7dd8c81...
+[  0.01s] I (119) app_init: ESP-IDF:          6.1.0
+[  0.01s] I (123) efuse_init: Min chip rev:     v0.0
+[  0.01s] I (127) efuse_init: Max chip rev:     v0.99
+[  0.01s] I (131) efuse_init: Chip rev:         v0.2
+[  0.01s] I (134) heap_init: Initializing. RAM available for dynamic allocation:
+[  0.01s] I (141) heap_init: At 3FCACBB0 len 0003CB60 (242 KiB): RAM
+[  0.01s] I (146) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+[  0.01s] I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+[  0.01s] I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+[  0.01s] I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+[  0.01s] I (169) spi_flash: detected chip: generic
+[  0.01s] I (172) spi_flash: flash io: qio
+[  0.01s] I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+[  0.01s] I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+[  0.01s] I (188) main_task: Started on CPU0
+[  0.01s] I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+[  0.01s] I (198) main_task: Calling app_main()
+[  0.02s] I (198) RAM: [BOOT] internal free=283595 min=186164 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+[  0.02s] I (218) Board: UUID=17806e0e-b025-41c8-b092-1f7c9d04eb23 SKU=freenove-fnk0104s
+[  0.02s] I (218) button: IoT Button Version: 4.2.0
+[  0.03s] I (228) adc_battery_estimation: Use internal ADC unit
+[  0.03s] I (228) st7796: version: 1.3.5
+[  0.03s] I (228) st7796_general: LCD panel create success, version: 1.3.5
+[  0.25s] I (458) Display: Power management not supported
+[  0.25s] W (458) Settings: Namespace display is not open for writing
+[  0.42s] I (618) LcdDisplay: Turning display on
+[  0.42s] I (618) LcdDisplay: Initialize LVGL library
+[  0.42s] I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+[  0.42s] I (618) LcdDisplay: Initialize LVGL port
+[  0.43s] I (628) LcdDisplay: Adding LCD display
+[  0.43s] I (628) LVGL: Starting LVGL task
+[  0.49s] I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+[  0.49s] I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+[  0.50s] I (698) SD_HOST: src_freq_hz: 160000000
+[  0.89s] W (1088) SD_HOST: input line delay not supported, fallback to 0 delay
+[  0.89s] I (1088) StorageManager: SD Card mounted successfully at /sdcard!
+[  0.90s] I (1088) HomeAssistant: Initializing Home Assistant integration...
+[  0.90s] I (1098) MCP: Add tool: homeassistant.call_service
+[  0.90s] I (1098) MCP: Add tool: homeassistant.get_states
+[  0.91s] I (1108) MCP: Add tool: homeassistant.set_config [user]
+[  0.91s] I (1108) MCP: Add tool: radio.add_favorite
+[  0.92s] I (1118) MCP: Add tool: radio.get_current
+[  0.92s] I (1118) MCP: Add tool: radio.list_favorites
+[  0.92s] I (1118) MCP: Add tool: radio.play_favorite
+[  0.93s] I (1128) MCP: Add tool: radio.remove_favorite
+[  0.93s] I (1128) MCP: Add tool: radio.search_stations
+[  0.94s] I (1138) MCP: Add tool: radio.play_station
+[  0.94s] I (1138) MCP: Add tool: radio.stop
+[  0.94s] I (1138) MCP: Add tool: media.play_sd
+[  0.95s] I (1148) MCP: Add tool: media.list_sd
+[  0.95s] I (1148) MCP: Add tool: media.search_sd
+[  0.95s] I (1148) MCP: Add tool: media.pause
+[  0.96s] I (1158) MCP: Add tool: media.next
+[  0.96s] I (1158) MCP: Add tool: media.previous
+[  0.96s] I (1158) MCP: Add tool: media.stop
+[  0.97s] I (1168) StateMachine: State: unknown -> starting
+[  0.98s] W (1178) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+[  0.98s] I (1178) Es8311AudioCodec: Duplex channels created
+[  0.99s] I (1178) Es8311AudioCodec: ES8311 software reset complete
+[  0.99s] I (1188) ES8311: Work in Slave mode
+[  0.99s] I (1198) Es8311AudioCodec: Es8311AudioCodec initialized
+[  1.09s] I (1288) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=189375 internal_largest=94208 spiram_free=8320216
+[  1.19s] I (1388) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=159371 internal_largest=94208 spiram_free=8320216
+[  1.19s] I (1388) RAM: [AFTER_LVGL_INIT] internal free=159371 min=61940 largest=94208 | psram free=8320216 min=8320216 largest=8257536
+[  1.41s] I (1618) AudioCodec: Audio codec started
+[  1.42s] I (1618) RAM: [AFTER_AUDIO_INIT] internal free=123603 min=50752 largest=69632 | psram free=8277712 min=8277712 largest=8257536
+[  1.42s] I (1618) AppManager: Initializing Application Manager...
+[  1.43s] I (1628) MCP: Add tool: self.get_device_status
+[  1.43s] I (1628) MCP: Add tool: self.audio_speaker.set_volume
+[  1.44s] I (1628) MCP: Add tool: self.screen.set_brightness
+[  1.44s] I (1638) MCP: Add tool: self.screen.set_theme
+[  1.44s] I (1638) MCP: Add tool: self.get_system_info [user]
+[  1.45s] I (1648) MCP: Add tool: self.reboot [user]
+[  1.45s] I (1648) MCP: Add tool: self.upgrade_firmware [user]
+[  1.46s] I (1658) MCP: Add tool: self.screen.get_info [user]
+[  1.46s] I (1658) MCP: Add tool: self.screen.snapshot [user]
+[  1.47s] I (1668) MCP: Add tool: self.screen.preview_image [user]
+[  1.47s] I (1668) MCP: Add tool: self.assets.set_download_url [user]
+[  1.48s] I (1678) WifiManager: Initializing...
+[  1.48s] I (1678) pp: pp rom version: e7ae62f
+[  1.48s] I (1678) net80211: net80211 rom version: e7ae62f
+[  1.49s] I (1698) wifi:wifi driver task: 3fce9628, prio:23, stack:6656, core=0
+[  1.49s] I (1698) wifi:wifi firmware version: e12a754
+[  1.50s] I (1698) wifi:wifi certification version: v7.0
+[  1.50s] I (1698) wifi:config NVS flash: disabled
+[  1.51s] I (1698) wifi:config nano formatting: disabled
+[  1.51s] I (1708) wifi:Init data frame dynamic rx buffer num: 6
+[  1.51s] I (1708) wifi:Init dynamic rx mgmt buffer num: 5
+[  1.52s] I (1718) wifi:Init management short buffer num: 32
+[  1.52s] I (1718) wifi:Init dynamic tx buffer num: 32
+[  1.53s] I (1728) wifi:Init static tx FG buffer num: 2
+[  1.53s] I (1728) wifi:Init static rx buffer size: 1600
+[  1.53s] I (1728) wifi:Init static rx buffer num: 3
+[  1.54s] I (1738) wifi:Init dynamic rx buffer num: 6
+[  1.54s] I (1738) wifi_init: rx ba win: 3
+[  1.54s] I (1748) wifi_init: accept mbox: 6
+[  1.55s] I (1748) wifi_init: tcpip mbox: 16
+[  1.55s] I (1748) wifi_init: udp mbox: 6
+[  1.55s] I (1748) wifi_init: tcp mbox: 6
+[  1.56s] I (1758) wifi_init: tcp tx win: 5760
+[  1.56s] I (1758) wifi_init: tcp rx win: 5760
+[  1.56s] I (1758) wifi_init: tcp mss: 1440
+[  1.57s] I (1768) WifiManager: Initialized
+[  1.57s] I (1768) WifiBoard: Starting WiFi connection attempt
+[  1.58s] I (1778) WifiManager: Starting station
+[  1.58s] I (1778) WifiStation: Station DHCP hostname: Xiaozhi-6548
+[  1.59s] I (1778) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+[  1.62s] I (1828) wifi:mode : sta (7c:e8:b1:b1:65:48)
+[  1.62s] I (1828) wifi:enable tsf
+[  1.63s] I (1828) WifiBoard: WiFi scanning
+[  1.66s] I (1858) RAM: [AFTER_XIAOZHI_INIT] internal free=89559 min=40340 largest=49152 | psram free=8272468 min=8272468 largest=8257536
+[  4.04s] I (4238) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -48, Channel: 7, Authmode: 3
+[  4.04s] I (4238) WifiBoard: WiFi connecting to ZERG
+[  4.06s] W (4258) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+[  5.01s] I (5218) RAM: internal free=89431 min=40324 largest=47104 | psram free=8272468 min=8272468 largest=8257536
+[  6.52s] I (6718) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+[  6.52s] I (6718) wifi:state: init -> auth (0xb0)
+[  6.52s] I (6728) wifi:state: auth -> assoc (0x0)
+[  6.54s] I (6738) wifi:state: assoc -> run (0x10)
+[  6.56s] I (6758) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+[  6.57s] I (6758) wifi:security: WPA2-PSK, phy: bgn, rssi: -48, cipher(pairwise:0x3, group:0x3), pmf:0
+[  6.57s] I (6768) wifi:pm start, type: 1
+[  6.57s] 
+[  6.58s] I (6768) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+[  6.59s] I (6778) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+[  6.59s] I (6798) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+[  6.64s] I (6838) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+[  8.09s] I (8298) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+[  8.09s] I (8298) WifiStation: Got IP: 192.168.31.95
+[  8.10s] I (8298) WifiBoard: Connected to WiFi: ZERG
+[  8.13s] I (8328) Application: Network connected
+[  8.13s] I (8328) RAM: [AFTER_WIFI] internal free=88631 min=40260 largest=47104 | psram free=8271760 min=8271724 largest=8257536
+[  8.13s] I (8328) StateMachine: State: starting -> activating
+[  8.14s] I (8338) Assets: The storage free size is 21440 KB
+[  8.14s] I (8338) Assets: The partition size is 8192 KB
+[  8.26s] I (8458) Assets: The checksum calculation time is 112 ms
+[  8.26s] I (8458) MODEL_LOADER: Successfully load srmodels
+[  8.31s] I (8508) Assets: Refreshing display theme...
+[  8.36s] W (8568) EmojiCollection: Emoji not found: robot_2
+[  8.37s] I (8568) Ota: Current version: 2.4.2
+[  8.38s] I (8588) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+[ 10.01s] I (10218) RAM: internal free=65071 min=39812 largest=31744 | psram free=8266260 min=8251528 largest=8257536
+[ 10.34s] I (10538) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1970
+[ 11.07s] I (11268) HttpClient: HTTP connection closed
+[ 11.08s] I (11278) Ota: Current is the latest version
+[ 11.08s] I (11278) Ota: Running partition: ota_0
+[ 11.08s] I (11278) MQTT: Connecting to endpoint api.tenclass.net
+[ 13.30s] I (13508) MQTT: Connected to endpoint
+[ 13.30s] I (13508) Application: Activation done
+[ 13.30s] I (13508) SystemInfo: free sram: 64859 minimal sram: 39812
+[ 13.31s] I (13508) StateMachine: State: activating -> idle
+[ 13.31s] I (13508) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+[ 13.32s] I (13518) wifi:Set ps type: 2, coexist: 0
+[ 13.32s] 
+[ 13.35s] I (13548) AfeAudioEngine: Model 0: wn9_heykira_tts3
+[ 13.35s] I (13548) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+[ 13.35s] I (13548) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+[ 13.36s] I (13548) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+[ 13.41s] MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+[ 13.45s] MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+[ 13.45s] I (13648) AFE: AFE Version: (1MIC_V251128)
+[ 13.46s] I (13648) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+[ 13.47s] I (13658) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+[ 13.47s] I (13668) AFE: AFE Version: (1MIC_V251128)
+[ 13.48s] I (13678) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+[ 13.49s] I (13688) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+[ 13.50s] I (13688) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+[ 13.50s] I (13698) AudioCodec: Set output enable to true
+[ 13.51s] I (13698) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+[ 13.52s] I (13708) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+[ 13.53s] I (13718) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+[ 13.53s] I (13728) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+[ 13.55s] I (13748) Adev_Codec: Open codec device OK
+[ 13.55s] I (13758) AudioService: Resampling audio from 16000 to 24000
+[ 13.55s] I (13758) AudioCodec: Set input enable to true
+[ 15.01s] I (15218) RAM: internal free=22055 min=14664 largest=8704 | psram free=7517676 min=7504224 largest=7471104
+[ 20.01s] I (20218) RAM: internal free=24379 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 22.45s] I (22658) SystemInfo: free sram: 24923 minimal sram: 14664
+[ 25.01s] I (25218) RAM: internal free=24607 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 30.01s] I (30218) RAM: internal free=24607 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 32.45s] I (32648) SystemInfo: free sram: 24927 minimal sram: 14664
+[ 35.01s] I (35218) RAM: internal free=24399 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 40.01s] I (40218) RAM: internal free=24819 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 42.42s] I (42618) SystemInfo: free sram: 24943 minimal sram: 14664
+[ 45.01s] I (45218) RAM: internal free=24943 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 50.01s] I (50218) RAM: internal free=24943 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 52.45s] I (52648) SystemInfo: free sram: 24943 minimal sram: 14664
+[ 55.01s] I (55218) RAM: internal free=24935 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 60.01s] I (60218) RAM: internal free=24415 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 62.45s] I (62648) SystemInfo: free sram: 24947 minimal sram: 14664
+[ 65.01s] I (65218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 70.01s] I (70218) RAM: internal free=24203 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 72.43s] I (72638) SystemInfo: free sram: 24947 minimal sram: 14664
+[ 75.01s] I (75218) RAM: internal free=24623 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 80.01s] I (80218) RAM: internal free=24627 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 82.42s] I (82628) SystemInfo: free sram: 24947 minimal sram: 14664
+[ 85.01s] I (85218) RAM: internal free=24627 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 90.01s] I (90218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[ 92.42s] I (92628) SystemInfo: free sram: 24947 minimal sram: 14664
+[ 95.01s] I (95218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[100.02s] I (100218) RAM: internal free=24279 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[102.42s] I (102618) SystemInfo: free sram: 24947 minimal sram: 14664
+[105.02s] I (105218) RAM: internal free=24383 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[110.02s] I (110218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[112.42s] I (112618) SystemInfo: free sram: 24947 minimal sram: 14664
+[115.02s] I (115218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[120.02s] I (120218) RAM: internal free=24419 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[122.42s] I (122618) SystemInfo: free sram: 24947 minimal sram: 14664
+[125.01s] I (125218) RAM: internal free=24947 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[130.02s] I (130218) RAM: internal free=24423 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[132.42s] I (132618) SystemInfo: free sram: 24967 minimal sram: 14664
+[135.02s] I (135218) RAM: internal free=24439 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[140.02s] I (140218) RAM: internal free=24399 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[142.44s] I (142638) SystemInfo: free sram: 24955 minimal sram: 14664
+[145.02s] I (145218) RAM: internal free=24639 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[150.02s] I (150218) RAM: internal free=24427 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[152.43s] I (152628) SystemInfo: free sram: 24955 minimal sram: 14664
+[155.02s] I (155218) RAM: internal free=24199 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[160.02s] I (160218) RAM: internal free=24615 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[162.42s] I (162618) SystemInfo: free sram: 24955 minimal sram: 14664
+[165.02s] I (165218) RAM: internal free=24551 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
+[170.02s] I (170218) RAM: internal free=24639 min=14664 largest=10240 | psram free=7540600 min=7504224 largest=7471104
