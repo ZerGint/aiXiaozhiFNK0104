@@ -125,6 +125,9 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
                             bool emit_failure_bip) {
     paused_for_voice_ = false;
     radio_station_for_voice_ = {};
+    // Ensure the SD decoder task and audio pipeline are fully stopped before
+    // starting the radio source; this prevents a transient dual-source period.
+    SdMusicPlayer::GetInstance().Stop();
     const bool success = InternetRadioPlayer::GetInstance().Play(station, err_msg,
                                                                   std::move(on_startup_ready),
                                                                   std::move(on_startup_failed),
@@ -132,7 +135,6 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
     if (success) {
         auto& application = Application::GetInstance();
         application.StopVoiceInteractionForMedia();
-        SdMusicPlayer::GetInstance().Stop();
     }
     return success;
 }
