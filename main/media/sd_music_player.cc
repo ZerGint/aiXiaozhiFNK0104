@@ -87,6 +87,14 @@ void SdMusicPlayer::TaskFunction(void* param) {
     vTaskDelete(NULL);
 }
 
+void SdMusicPlayer::SetSelectedTrackIndex(int index) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (playlist_.empty()) { selected_index_ = -1; return; }
+    if (index < 0) index = 0;
+    if (index >= (int)playlist_.size()) index = (int)playlist_.size() - 1;
+    selected_index_ = index;
+}
+
 void SdMusicPlayer::Play(int index) {
     {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -97,6 +105,7 @@ void SdMusicPlayer::Play(int index) {
         if (index < 0) index = 0;
         if (index >= (int)playlist_.size()) index = 0;
         current_index_ = index;
+    selected_index_ = index;
     }
 
     if (is_playing_) {

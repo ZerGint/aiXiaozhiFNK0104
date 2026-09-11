@@ -50,6 +50,7 @@ protected:
     lv_obj_t* brightness_val_label_ = nullptr;
     lv_obj_t* media_status_label_ = nullptr;
     lv_obj_t* media_title_label_ = nullptr;
+    lv_obj_t* media_header_label_ = nullptr;
     lv_obj_t* media_art_label_ = nullptr;
     bool quick_settings_open_ = false;
 
@@ -63,7 +64,9 @@ protected:
     lv_obj_t* radio_view_ = nullptr;
     lv_obj_t* media_shuffle_button_ = nullptr;
     lv_obj_t* media_repeat_button_ = nullptr;
-    lv_obj_t* media_play_button_ = nullptr;\n    lv_obj_t* media_volume_slider_ = nullptr;
+    lv_obj_t* media_play_button_ = nullptr;
+    lv_obj_t* media_volume_slider_ = nullptr;
+    lv_obj_t* media_favorite_button_ = nullptr;
     bool media_radio_mode_ = false;
     MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;

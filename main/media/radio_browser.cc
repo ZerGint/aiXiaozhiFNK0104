@@ -477,6 +477,55 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
     return "Playing internet radio";
 }
 
+bool RadioBrowser::GetFirstCatalogStation(RadioStationInfo& station) const {
+    std::vector<RadioStationInfo> stations;
+    if (!RadioStorage::GetInstance().GetCatalog(stations) || stations.empty()) return false;
+    station = stations.front();
+    return true;
+}
+
+void RadioBrowser::SetSelectedStationUuid(const std::string& station_uuid) {
+    selected_station_uuid_ = station_uuid;
+}
+
+std::string RadioBrowser::GetSelectedStationUuid() const { return selected_station_uuid_; }
+
+bool RadioBrowser::GetSelectedStation(RadioStationInfo& station) const {
+    return !selected_station_uuid_.empty() &&
+           RadioStorage::GetInstance().GetCatalogStationByUuid(selected_station_uuid_, station);
+}
+
+std::string RadioBrowser::AddFavoriteStation(const std::string& station_uuid) {
+    if (station_uuid.empty()) return "No radio station is selected";
+    RadioStationInfo station;
+    if (!RadioStorage::GetInstance().GetCatalogStationByUuid(station_uuid, station))
+        return "Selected radio station not found";
+    return RadioStorage::GetInstance().AddFavoriteUuid(station_uuid);
+}
+bool RadioBrowser::MoveSelectedStation(int delta) {
+    std::vector<RadioStationInfo> stations;
+    if (!RadioStorage::GetInstance().GetCatalog(stations) || stations.empty()) return false;
+    size_t index = 0;
+    for (size_t i = 0; i < stations.size(); ++i) if (stations[i].stationuuid == selected_station_uuid_) { index = i; break; }
+    index = (index + stations.size() + delta) % stations.size();
+    selected_station_uuid_ = stations[index].stationuuid;
+    return true;
+}
+
+bool RadioBrowser::MoveActiveStation(int delta) {
+    RadioStationInfo current = InternetRadioPlayer::GetInstance().GetCurrentStation();
+    if (current.stationuuid.empty()) return false;
+    std::vector<RadioStationInfo> stations;
+    if (!RadioStorage::GetInstance().GetCatalog(stations) || stations.empty()) return false;
+    size_t index = 0;
+    bool found = false;
+    for (size_t i = 0; i < stations.size(); ++i) if (stations[i].stationuuid == current.stationuuid) { index = i; found = true; break; }
+    if (!found) return false;
+    index = (index + stations.size() + delta) % stations.size();
+    selected_station_uuid_ = stations[index].stationuuid;
+    PlayStation("", "", selected_station_uuid_);
+    return true;
+}
 std::string RadioBrowser::AddFavorite() {
     RadioStationInfo current;
     if (!MediaPlayer::GetInstance().GetCurrentRadioStationForAction(current)) return "No current radio station is available";
@@ -652,7 +701,7 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "radio.list_favorites",
-        "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name — state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
+        "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name ï¿½ state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
         PropertyList(),
         [this](const PropertyList&) -> ReturnValue {
             return ListFavorites();

@@ -25,6 +25,13 @@ public:
     std::string PlayStation(const std::string& url = "",
                             const std::string& title = "",
                             const std::string& station_uuid = "");
+    bool GetFirstCatalogStation(RadioStationInfo& station) const;
+    void SetSelectedStationUuid(const std::string& station_uuid);
+    std::string GetSelectedStationUuid() const;
+    bool GetSelectedStation(RadioStationInfo& station) const;
+    bool MoveSelectedStation(int delta);
+    bool MoveActiveStation(int delta);
+    std::string AddFavoriteStation(const std::string& station_uuid);
     std::string AddFavorite();
     std::string ListFavorites() const;
     std::string PlayFavorite(const std::string& station_uuid);
@@ -47,6 +54,7 @@ private:
         "http://fi1.api.radio-browser.info"
     };
     size_t current_mirror_index_ = 0;
+    std::string selected_station_uuid_;
 };
 
 #endif

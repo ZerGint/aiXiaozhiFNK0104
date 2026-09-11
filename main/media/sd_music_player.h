@@ -18,6 +18,8 @@ public:
     void ScanPlaylist();
     const std::vector<std::string>& GetPlaylist() const { return playlist_; }
     int GetCurrentTrackIndex() const { return current_index_; }
+    void SetSelectedTrackIndex(int index);
+    int GetSelectedTrackIndex() const { return selected_index_; }
     std::string GetCurrentTrackName() const;
 
     bool IsPlaying() const { return is_playing_ && !is_paused_; }
@@ -38,6 +40,7 @@ private:
 
     std::vector<std::string> playlist_;
     int current_index_ = 0;
+    int selected_index_ = -1;
     std::atomic<bool> is_playing_{false};
     std::atomic<bool> is_paused_{false};
     std::atomic<bool> stop_requested_{false};
