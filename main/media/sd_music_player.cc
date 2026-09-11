@@ -13,6 +13,8 @@
 #include <simple_dec/esp_audio_simple_dec_default.h>
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
+#include <random>
 
 #define TAG "SdMusicPlayer"
 
@@ -41,12 +43,12 @@ void SdMusicPlayer::ScanPlaylist() {
     std::lock_guard<std::mutex> lock(mutex_);
     playlist_.clear();
 
-    const char* paths[] = {"/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC", "/sdcard"};
+    const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC", "/sdcard"};
 
     for (auto p : paths) {
         auto files = StorageManager::GetInstance().ListDirectory(p);
         if (!files.empty()) {
-            ESP_LOGI(TAG, "Scanning directory %s (%d total entries)...", p, (int)files.size());
+            ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", p, (int)files.size());
             for (const auto& name : files) {
                 std::string lower_name = name;
                 for (auto& c : lower_name) c = tolower((unsigned char)c);
@@ -93,6 +95,37 @@ void SdMusicPlayer::SetSelectedTrackIndex(int index) {
     if (index < 0) index = 0;
     if (index >= (int)playlist_.size()) index = (int)playlist_.size() - 1;
     selected_index_ = index;
+    if (shuffle_enabled_) {
+        auto it = std::find(shuffle_order_.begin(), shuffle_order_.end(), index);
+        if (it != shuffle_order_.end()) shuffle_position_ = static_cast<int>(it - shuffle_order_.begin());
+    }
+}
+
+void SdMusicPlayer::SetShuffleEnabled(bool enabled) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    shuffle_enabled_ = enabled;
+    shuffle_order_.clear(); shuffle_position_ = -1;
+    if (!enabled || playlist_.empty()) return;
+    for (int i = 0; i < static_cast<int>(playlist_.size()); ++i) shuffle_order_.push_back(i);
+    int current = selected_index_;
+    if (current < 0 || current >= static_cast<int>(playlist_.size())) current = 0;
+    std::mt19937 rng(std::random_device{}()); std::shuffle(shuffle_order_.begin(), shuffle_order_.end(), rng);
+    auto it = std::find(shuffle_order_.begin(), shuffle_order_.end(), current);
+    std::iter_swap(shuffle_order_.begin(), it);
+    selected_index_ = current; shuffle_position_ = 0;
+}
+
+int SdMusicPlayer::NavigateNext() {
+    std::lock_guard<std::mutex> lock(mutex_); if (playlist_.empty()) return -1;
+    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) { shuffle_position_ = (shuffle_position_ + 1) % shuffle_order_.size(); selected_index_ = shuffle_order_[shuffle_position_]; }
+    else { shuffle_enabled_ = false; selected_index_ = (selected_index_ < 0 ? 0 : (selected_index_ + 1) % playlist_.size()); }
+    return selected_index_;
+}
+int SdMusicPlayer::NavigatePrev() {
+    std::lock_guard<std::mutex> lock(mutex_); if (playlist_.empty()) return -1;
+    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) { shuffle_position_ = (shuffle_position_ - 1 + shuffle_order_.size()) % shuffle_order_.size(); selected_index_ = shuffle_order_[shuffle_position_]; }
+    else { shuffle_enabled_ = false; selected_index_ = (selected_index_ <= 0 ? playlist_.size() - 1 : selected_index_ - 1); }
+    return selected_index_;
 }
 
 void SdMusicPlayer::Play(int index) {
@@ -139,22 +172,12 @@ void SdMusicPlayer::TogglePlayPause() {
 }
 
 void SdMusicPlayer::Next() {
-    int next_idx = 0;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (playlist_.empty()) return;
-        next_idx = (current_index_ + 1) % playlist_.size();
-    }
+    int next_idx = NavigateNext(); if (next_idx < 0) return;
     Play(next_idx);
 }
 
 void SdMusicPlayer::Prev() {
-    int prev_idx = 0;
-    {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (playlist_.empty()) return;
-        prev_idx = (current_index_ - 1 + (int)playlist_.size()) % playlist_.size();
-    }
+    int prev_idx = NavigatePrev(); if (prev_idx < 0) return;
     Play(prev_idx);
 }
 

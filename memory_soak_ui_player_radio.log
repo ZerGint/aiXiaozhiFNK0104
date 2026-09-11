@@ -1,0 +1,779 @@
+
+--- MEMORY SOAK TEST SESSION STARTED AT Fri Sep 11 21:21:21 2026 ---
+I (8439) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8439) WifiStation: Got IP: 192.168.31.95
+I (8439) WifiBoard: Connected to WiFi: ZERG
+I (8449) Application: Network connected
+I (8449) RAM: [AFTER_WIFI] internal free=113007 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8449) StateMachine: State: starting -> activating
+I (8459) Assets: The storage free size is 21376 KB
+I (8459) Assets: The partition size is 8192 KB
+I (8579) Assets: The checksum calculation time is 112 ms
+I (8579) MODEL_LOADER: Successfully load srmodels
+I (8599) Assets: Refreshing display theme...
+W (8609) EmojiCollection: Emoji not found: robot_2
+I (8609) Ota: Current version: 2.4.2
+I (8619) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=91299 min=39812 largest=47104 | psram free=8266260 min=8251528 largest=8257536
+I (10529) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1910
+I (11269) HttpClient: HTTP connection closed
+I (11269) Ota: Current is the latest version
+I (11269) Ota: Running partition: ota_0
+I (11269) MQTT: Connecting to endpoint api.tenclass.net
+I (13599) MQTT: Connected to endpoint
+I (13599) Application: Activation done
+I (13599) SystemInfo: free sram: 89055 minimal sram: 39812
+I (13599) StateMachine: State: activating -> idle
+I (13619) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13629) wifi:Set ps type: 2, coexist: 0
+
+I (13629) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13629) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13629) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13639) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13729) AFE: AFE Version: (1MIC_V251128)
+I (13739) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13749) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13759) AFE: AFE Version: (1MIC_V251128)
+I (13759) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13769) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13769) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13789) AudioCodec: Set output enable to true
+I (13789) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13799) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13799) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13809) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13839) Adev_Codec: Open codec device OK
+I (13839) AudioCodec: Set input enable to true
+I (13839) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=46639 min=27252 largest=18432 | psram free=7517676 min=7483796 largest=7471104
+I (20269) RAM: internal free=50995 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (22719) SystemInfo: free sram: 52551 minimal sram: 27252
+I (25269) RAM: internal free=52043 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (30269) RAM: internal free=52239 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (32719) SystemInfo: free sram: 52551 minimal sram: 27252
+I (35269) RAM: internal free=52239 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (40269) RAM: internal free=52239 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (42719) SystemInfo: free sram: 52551 minimal sram: 27252
+I (45269) RAM: internal free=52551 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (50269) RAM: internal free=52243 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (52719) SystemInfo: free sram: 52555 minimal sram: 27252
+I (55269) RAM: internal free=52239 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (55479) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=38 => point.x=38, point.y=158 (top_bar=0)
+I (55549) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=38 => point.x=38, point.y=158 (top_bar=0)
+I (55609) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=51947 internal_largest=18432 dma_free=44175 dma_largest=18432 spiram_free=7540600 spiram_largest=7471104
+I (57199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=405 => point.x=405, point.y=149 (top_bar=0)
+I (57239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=405 => point.x=405, point.y=149 (top_bar=0)
+I (57289) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=405 => point.x=405, point.y=149 (top_bar=0)
+I (57319) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=405 => point.x=405, point.y=149 (top_bar=0)
+I (57369) RadioBrowser: Playing radio by station UUID: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+I (57379) RAM: [RADIO_START] internal free=50699 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (57379) InternetRadio: Radio current:
+name=Skyrock
+uuid=01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+codec=MP3
+bitrate=128
+country=France
+url=http://icecast.skyrock.net/s/natio_mp3_128k
+I (57399) InternetRadio: Radio stream startup: connecting
+I (57409) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=44235 internal_largest=18432 dma_free=36463 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (57419) AudioManager: Audio focus requested by source 3 (current 0)
+I (57429) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=44235 internal_largest=18432 dma_free=36463 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (57449) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (57449) wifi:Set ps type: 0, coexist: 0
+
+I (57449) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (57459) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (57999) InternetRadio: Stream connected: status=200 content_type=unknown
+I (57999) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (58009) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (58019) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (58029) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=38987 internal_largest=18432 dma_free=31215 dma_largest=18432 psram_free=7511400 psram_largest=7471104
+I (58039) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (58049) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (58409) InternetRadio: [RADIO_HTTP_GAP] read_time=358 ms bytes=2048
+I (58409) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=37771 internal_largest=18432 dma_free=29999 dma_largest=18432 psram_free=7511916 psram_largest=7471104
+I (58419) InternetRadio: Received first stream data: bytes=2048
+I (58439) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (58439) RAM: [RADIO_PLAYING] internal free=34015 min=27252 largest=18432 | psram free=7485904 min=7483796 largest=7471104
+I (58449) AudioService: [RADIO_PCM] ptr=0x3c3fd474 size=1152 bytes PSRAM=YES (queue=1)
+I (58459) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=1800 ms (queue=1)
+I (58649) AudioService: [RADIO_PCM] ptr=0x3c406070 size=1152 bytes PSRAM=YES (queue=32)
+I (58969) AudioService: [RADIO_OUTPUT] queue=74 buffer=1776 ms pcm=24 ms write=0 ms wait_in_q=519 ms
+I (59499) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=868 ms
+I (59779) FreenoveFnk0104sBoard: TOUCH READ: raw_x=200, raw_y=410 => point.x=410, point.y=120 (top_bar=0)
+I (59809) FreenoveFnk0104sBoard: TOUCH READ: raw_x=200, raw_y=410 => point.x=410, point.y=120 (top_bar=0)
+I (59849) FreenoveFnk0104sBoard: TOUCH READ: raw_x=200, raw_y=410 => point.x=410, point.y=120 (top_bar=0)
+I (59889) FreenoveFnk0104sBoard: TOUCH READ: raw_x=200, raw_y=410 => point.x=410, point.y=120 (top_bar=0)
+I (59999) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1200 ms
+I (60269) RAM: internal free=20471 min=17948 largest=10240 | psram free=7396896 min=7394708 largest=7340032
+I (60529) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1599 ms
+I (60869) FreenoveFnk0104sBoard: TOUCH READ: raw_x=215, raw_y=409 => point.x=409, point.y=105 (top_bar=0)
+I (60909) FreenoveFnk0104sBoard: TOUCH READ: raw_x=215, raw_y=409 => point.x=409, point.y=105 (top_bar=0)
+I (60959) FreenoveFnk0104sBoard: TOUCH READ: raw_x=215, raw_y=409 => point.x=409, point.y=105 (top_bar=0)
+I (60999) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (61009) RAM: [RADIO_STOP] internal free=25219 min=17948 largest=12288 | psram free=7395740 min=7394708 largest=7340032
+I (61019) AudioService: [RADIO_PCM] ptr=0x3c3fcb70 size=1152 bytes PSRAM=YES (queue=1)
+I (61029) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (61029) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (61039) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=43403 internal_largest=18432 dma_free=35631 dma_largest=18432 psram_free=7539444 psram_largest=7340032
+I (61049) AudioManager: Releasing audio focus from source 3
+I (61059) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=43459 internal_largest=18432 dma_free=35687 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (61069) RAM: [RADIO_START] internal free=43591 min=17948 largest=18432 | psram free=7540600 min=7394708 largest=7471104
+I (61079) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (61099) InternetRadio: Radio stream startup: connecting
+I (61109) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=43623 internal_largest=18432 dma_free=35851 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (61119) AudioManager: Audio focus requested by source 3 (current 0)
+I (61129) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=43623 internal_largest=18432 dma_free=35851 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (61139) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (61149) wifi:Set ps type: 0, coexist: 0
+
+I (61149) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (61159) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (61269) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (62719) SystemInfo: free sram: 41691 minimal sram: 17948
+I (62779) InternetRadio: Stream connected: status=200 content_type=unknown
+I (62779) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (62779) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (62789) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (62799) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=30519 internal_largest=16384 dma_free=22747 dma_largest=16384 psram_free=7487876 psram_largest=7471104
+I (62809) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (62819) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (62829) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=30519 internal_largest=16384 dma_free=22747 dma_largest=16384 psram_free=7487876 psram_largest=7471104
+I (62839) InternetRadio: Received first stream data: bytes=2048
+I (62859) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (62859) RAM: [RADIO_PLAYING] internal free=28435 min=17948 largest=14848 | psram free=7461864 min=7394708 largest=7340032
+I (62869) AudioService: [RADIO_PCM] ptr=0x3c403008 size=1252 bytes PSRAM=YES (queue=1)
+I (62879) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (63069) AudioService: [RADIO_PCM] ptr=0x3c40c57c size=1252 bytes PSRAM=YES (queue=32)
+I (63509) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=635 ms
+I (64049) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=1009 ms
+I (64299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=132, raw_y=413 => point.x=413, point.y=188 (top_bar=0)
+I (64369) FreenoveFnk0104sBoard: TOUCH READ: raw_x=132, raw_y=413 => point.x=413, point.y=188 (top_bar=0)
+I (64439) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (64459) RAM: [RADIO_STOP] internal free=23855 min=17948 largest=13312 | psram free=7373328 min=7371012 largest=7340032
+I (64469) AudioService: [RADIO_PCM] ptr=0x3c3f5c20 size=1252 bytes PSRAM=YES (queue=1)
+I (64469) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (64479) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (64479) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (64499) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=43255 internal_largest=18432 dma_free=35483 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (64509) AudioManager: Releasing audio focus from source 3
+I (64509) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=43255 internal_largest=18432 dma_free=35483 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (64529) RAM: [RADIO_START] internal free=43387 min=17948 largest=18432 | psram free=7540600 min=7371012 largest=7471104
+I (64549) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (64549) InternetRadio: Radio stream startup: connecting
+I (64559) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=43571 internal_largest=18432 dma_free=35799 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (64569) AudioManager: Audio focus requested by source 3 (current 0)
+I (64589) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=43571 internal_largest=18432 dma_free=35799 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (64599) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (64599) wifi:Set ps type: 0, coexist: 0
+
+I (64609) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (64609) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (65269) RAM: internal free=41355 min=17948 largest=18432 | psram free=7536500 min=7371012 largest=7471104
+E (66659) esp-tls: [sock=55] select() timeout
+E (66669) transport_base: Failed to open a new connection: 32774
+E (66669) HTTP_CLIENT: Connection failed, sock < 0
+W (66669) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (66679) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (66679) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (66689) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=43931 internal_largest=18432 dma_free=36159 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (66699) AudioManager: Releasing audio focus from source 3
+I (66709) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=43931 internal_largest=18432 dma_free=36159 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (66729) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (66729) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (66949) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (66949) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (66949) RAM: [RADIO_START] internal free=49211 min=17948 largest=18432 | psram free=7540600 min=7371012 largest=7471104
+I (66959) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (66979) InternetRadio: Radio stream startup: connecting
+I (66979) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=42887 internal_largest=18432 dma_free=35795 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (66999) AudioManager: Audio focus requested by source 3 (current 0)
+I (67009) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=43727 internal_largest=18432 dma_free=35955 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (67019) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (67029) wifi:Set ps type: 0, coexist: 0
+
+I (67029) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (67039) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (69059) esp-tls: [sock=55] select() timeout
+E (69069) transport_base: Failed to open a new connection: 32774
+E (69069) HTTP_CLIENT: Connection failed, sock < 0
+W (69069) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (69079) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (69079) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (69089) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=43487 internal_largest=18432 dma_free=35715 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (69099) AudioManager: Releasing audio focus from source 3
+I (69109) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=43487 internal_largest=18432 dma_free=35715 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (69129) AudioService: Resampling audio from 16000 to 24000
+I (70269) RAM: internal free=42243 min=17948 largest=18432 | psram free=7540432 min=7371012 largest=7471104
+I (71109) FreenoveFnk0104sBoard: TOUCH READ: raw_x=65, raw_y=34 => point.x=34, point.y=255 (top_bar=0)
+I (71149) FreenoveFnk0104sBoard: TOUCH READ: raw_x=65, raw_y=34 => point.x=34, point.y=255 (top_bar=0)
+I (71189) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=48503 internal_largest=18432 dma_free=40731 dma_largest=18432 spiram_free=7542868 spiram_largest=7471104
+I (72139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=209, raw_y=421 => point.x=421, point.y=111 (top_bar=0)
+I (72179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=209, raw_y=421 => point.x=421, point.y=111 (top_bar=0)
+I (72229) FreenoveFnk0104sBoard: TOUCH READ: raw_x=207, raw_y=421 => point.x=421, point.y=113 (top_bar=0)
+I (72269) RAM: [RADIO_STOP] internal free=49707 min=17948 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (72269) AudioManager: Audio focus requested by source 2 (current 0)
+I (72289) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (72289) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (72309) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (73739) SystemInfo: free sram: 34091 minimal sram: 17948
+I (74729) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=415 => point.x=415, point.y=149 (top_bar=0)
+I (74769) FreenoveFnk0104sBoard: TOUCH READ: raw_x=171, raw_y=415 => point.x=415, point.y=149 (top_bar=0)
+I (74839) RAM: [RADIO_STOP] internal free=34231 min=17948 largest=18432 | psram free=7495592 min=7371012 largest=7471104
+I (74849) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (74849) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (74869) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (75269) RAM: internal free=35883 min=17948 largest=18432 | psram free=7495592 min=7371012 largest=7471104
+I (76169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=411 => point.x=411, point.y=206 (top_bar=0)
+I (76199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=411 => point.x=411, point.y=206 (top_bar=0)
+I (76229) RAM: [RADIO_STOP] internal free=33875 min=17948 largest=18432 | psram free=7495592 min=7371012 largest=7471104
+I (76239) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (76249) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (76259) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (77319) FreenoveFnk0104sBoard: TOUCH READ: raw_x=64, raw_y=128 => point.x=128, point.y=256 (top_bar=0)
+I (77359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=64, raw_y=128 => point.x=128, point.y=256 (top_bar=0)
+I (77419) FreenoveFnk0104sBoard: TOUCH READ: raw_x=65, raw_y=127 => point.x=127, point.y=255 (top_bar=0)
+I (78349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=124, raw_y=268 => point.x=268, point.y=196 (top_bar=0)
+I (78469) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (78469) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (78489) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (80109) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=271 => point.x=271, point.y=206 (top_bar=0)
+I (80169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=115, raw_y=270 => point.x=270, point.y=205 (top_bar=0)
+I (80219) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (80229) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (80249) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (80269) RAM: internal free=35487 min=17948 largest=18432 | psram free=7495592 min=7371012 largest=7471104
+I (83719) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=37 => point.x=37, point.y=165 (top_bar=0)
+I (83729) SystemInfo: free sram: 34323 minimal sram: 17948
+I (83759) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=37 => point.x=37, point.y=165 (top_bar=0)
+I (83799) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=37 => point.x=37, point.y=165 (top_bar=0)
+I (83859) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=35095 internal_largest=18432 dma_free=27323 dma_largest=18432 spiram_free=7495592 spiram_largest=7471104
+I (84939) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=428 => point.x=428, point.y=162 (top_bar=0)
+I (84969) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=428 => point.x=428, point.y=162 (top_bar=0)
+I (85019) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=428 => point.x=428, point.y=162 (top_bar=0)
+I (85069) RadioBrowser: Playing radio by station UUID: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+I (85079) RAM: [RADIO_START] internal free=33083 min=17948 largest=18432 | psram free=7495592 min=7371012 largest=7471104
+I (85079) InternetRadio: Radio current:
+name=Skyrock
+uuid=01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+codec=MP3
+bitrate=128
+country=France
+url=http://icecast.skyrock.net/s/natio_mp3_128k
+I (85099) InternetRadio: Radio stream startup: connecting
+I (85099) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=26763 internal_largest=12800 dma_free=18991 dma_largest=12800 psram_free=7495592 psram_largest=7471104
+I (85119) AudioManager: Audio focus requested by source 3 (current 2)
+I (85129) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=26763 internal_largest=12800 dma_free=18991 dma_largest=12800 psram_free=7495592 psram_largest=7471104
+I (85139) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (85149) wifi:Set ps type: 0, coexist: 0
+
+I (85149) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (85159) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (85219) SdMusicPlayer: Player task stopped.
+I (85269) RAM: internal free=35167 min=17948 largest=12800 | psram free=7538768 min=7371012 largest=7471104
+I (85559) InternetRadio: Stream connected: status=200 content_type=unknown
+I (85569) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (85569) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (85579) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (85579) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=38071 internal_largest=12800 dma_free=30299 dma_largest=12800 psram_free=7514184 psram_largest=7471104
+I (85599) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (85609) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (85969) InternetRadio: [RADIO_HTTP_GAP] read_time=353 ms bytes=2048
+I (85969) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=34143 internal_largest=12800 dma_free=26371 dma_largest=12800 psram_free=7514184 psram_largest=7471104
+I (85979) InternetRadio: Received first stream data: bytes=2048
+I (85989) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (85989) RAM: [RADIO_PLAYING] internal free=32547 min=17948 largest=12800 | psram free=7488172 min=7371012 largest=7471104
+I (86009) AudioService: [RADIO_PCM] ptr=0x3c3f9838 size=1152 bytes PSRAM=YES (queue=1)
+I (86009) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=1800 ms (queue=1)
+I (86209) AudioService: [RADIO_PCM] ptr=0x3c405c28 size=1152 bytes PSRAM=YES (queue=32)
+I (86479) AudioService: [RADIO_OUTPUT] queue=74 buffer=1776 ms pcm=24 ms write=0 ms wait_in_q=473 ms
+I (87009) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=828 ms
+I (87539) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=29 ms wait_in_q=1213 ms
+I (87819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=424 => point.x=424, point.y=202 (top_bar=0)
+I (87889) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (87899) RAM: [RADIO_STOP] internal free=20039 min=15908 largest=7936 | psram free=7398008 min=7371012 largest=7340032
+I (87909) AudioService: [RADIO_PCM] ptr=0x3c3f8f34 size=1152 bytes PSRAM=YES (queue=1)
+I (87909) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (87909) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (87919) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=41231 internal_largest=12800 dma_free=33459 dma_largest=12800 psram_free=7541712 psram_largest=7471104
+I (87939) AudioManager: Releasing audio focus from source 3
+I (87939) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=41231 internal_largest=12800 dma_free=33459 dma_largest=12800 psram_free=7541712 psram_largest=7471104
+I (87939) RAM: [RADIO_START] internal free=41231 min=15908 largest=12800 | psram free=7541712 min=7371012 largest=7471104
+I (87969) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (87989) InternetRadio: Radio stream startup: connecting
+I (87989) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=41619 internal_largest=12800 dma_free=33847 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (88009) AudioManager: Audio focus requested by source 3 (current 0)
+I (88009) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=41055 internal_largest=12800 dma_free=33283 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (88029) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (88039) wifi:Set ps type: 0, coexist: 0
+
+I (88049) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (88049) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (90079) esp-tls: [sock=55] select() timeout
+E (90089) transport_base: Failed to open a new connection: 32774
+E (90089) HTTP_CLIENT: Connection failed, sock < 0
+W (90089) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (90099) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (90099) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (90109) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42647 internal_largest=12800 dma_free=34875 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (90129) AudioManager: Releasing audio focus from source 3
+I (90129) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=42647 internal_largest=12800 dma_free=34875 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (90149) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (90149) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (90269) RAM: internal free=45371 min=15908 largest=18432 | psram free=7538768 min=7371012 largest=7471104
+I (90279) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (90279) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (90289) RAM: [RADIO_START] internal free=47411 min=15908 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (90299) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (90309) InternetRadio: Radio stream startup: connecting
+I (90319) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40951 internal_largest=18432 dma_free=33899 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (90339) AudioManager: Audio focus requested by source 3 (current 0)
+I (90339) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=41787 internal_largest=18432 dma_free=34015 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (90359) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (90359) wifi:Set ps type: 0, coexist: 0
+
+I (90369) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (90379) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (92389) esp-tls: [sock=55] select() timeout
+E (92389) transport_base: Failed to open a new connection: 32774
+E (92389) HTTP_CLIENT: Connection failed, sock < 0
+W (92389) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (92399) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (92409) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (92409) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42335 internal_largest=18432 dma_free=34563 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (92429) AudioManager: Releasing audio focus from source 3
+I (92429) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=42335 internal_largest=18432 dma_free=34563 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (93679) FreenoveFnk0104sBoard: TOUCH READ: raw_x=224, raw_y=422 => point.x=422, point.y=96 (top_bar=0)
+I (93739) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (93749) RAM: [RADIO_START] internal free=40643 min=15908 largest=18432 | psram free=7540432 min=7371012 largest=7471104
+I (93749) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (93769) InternetRadio: Radio stream startup: connecting
+I (93779) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=34315 internal_largest=18432 dma_free=26543 dma_largest=18432 psram_free=7540432 psram_largest=7471104
+I (93789) AudioManager: Audio focus requested by source 3 (current 0)
+I (93799) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=35591 internal_largest=18432 dma_free=27819 dma_largest=18432 psram_free=7540432 psram_largest=7471104
+I (93809) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (93819) wifi:Set ps type: 0, coexist: 0
+
+I (93819) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (93839) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (93909) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (94719) SystemInfo: free sram: 33303 minimal sram: 15908
+I (94999) InternetRadio: Stream connected: status=200 content_type=unknown
+I (94999) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (95009) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (95019) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (95019) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=35811 internal_largest=18432 dma_free=28039 dma_largest=18432 psram_free=7490152 psram_largest=7471104
+I (95039) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (95039) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (95049) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=35811 internal_largest=18432 dma_free=28039 dma_largest=18432 psram_free=7490152 psram_largest=7471104
+I (95069) InternetRadio: Received first stream data: bytes=2048
+I (95079) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (95089) RAM: [RADIO_PLAYING] internal free=30287 min=15908 largest=15360 | psram free=7464140 min=7371012 largest=7340032
+I (95089) AudioService: [RADIO_PCM] ptr=0x3c3eec90 size=1252 bytes PSRAM=YES (queue=1)
+I (95109) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (95269) RAM: internal free=26411 min=15908 largest=13824 | psram free=7430556 min=7371012 largest=7340032
+I (95289) AudioService: [RADIO_PCM] ptr=0x3c40bef8 size=1252 bytes PSRAM=YES (queue=32)
+I (95689) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=600 ms
+I (96239) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=983 ms
+I (96769) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=1206 ms
+I (97289) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1612 ms
+I (97809) AudioService: [RADIO_OUTPUT] queue=68 buffer=1768 ms pcm=26 ms write=29 ms wait_in_q=1808 ms
+I (98309) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=29 ms wait_in_q=1823 ms
+I (98389) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=270 => point.x=270, point.y=193 (top_bar=0)
+I (98439) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=270 => point.x=270, point.y=193 (top_bar=0)
+I (98519) RadioBrowser: Playing radio by station UUID: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+I (98529) RAM: [RADIO_STOP] internal free=20927 min=15908 largest=11776 | psram free=7374320 min=7371012 largest=7340032
+I (98549) AudioService: [RADIO_PCM] ptr=0x3c3eec90 size=1252 bytes PSRAM=YES (queue=1)
+I (98549) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (98559) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (98569) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (98569) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=40231 internal_largest=18432 dma_free=32459 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (98579) AudioManager: Releasing audio focus from source 3
+I (98589) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=40427 internal_largest=18432 dma_free=32655 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (98609) RAM: [RADIO_START] internal free=40587 min=15908 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (98619) InternetRadio: Radio current:
+name=Skyrock
+uuid=01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+codec=MP3
+bitrate=128
+country=France
+url=http://icecast.skyrock.net/s/natio_mp3_128k
+I (98629) InternetRadio: Radio stream startup: connecting
+I (98639) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40743 internal_largest=18432 dma_free=32971 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (98649) AudioManager: Audio focus requested by source 3 (current 0)
+I (98659) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=40743 internal_largest=18432 dma_free=32971 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (98669) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (98679) wifi:Set ps type: 0, coexist: 0
+
+I (98679) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (98689) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (98709) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=269 => point.x=269, point.y=190 (top_bar=0)
+I (98789) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (98789) RAM: [RADIO_STOP] internal free=36107 min=15908 largest=18432 | psram free=7538768 min=7371012 largest=7471104
+I (99149) InternetRadio: Stream connected: status=200 content_type=unknown
+I (99149) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (99149) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (99159) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (99169) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=34963 internal_largest=18432 dma_free=28259 dma_largest=18432 psram_free=7514184 psram_largest=7471104
+I (99179) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (99189) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (99199) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=39311 internal_largest=18432 dma_free=31539 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (99219) AudioManager: Releasing audio focus from source 3
+I (99219) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=39859 internal_largest=18432 dma_free=32087 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (99229) RAM: [RADIO_START] internal free=39859 min=15908 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (99249) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (99259) InternetRadio: Radio stream startup: connecting
+I (99269) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=35475 internal_largest=12800 dma_free=34375 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (99279) AudioManager: Audio focus requested by source 3 (current 0)
+I (99289) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=42147 internal_largest=12800 dma_free=34375 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (99309) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (99309) wifi:Set ps type: 0, coexist: 0
+
+I (99319) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (99319) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (100269) RAM: internal free=39587 min=15908 largest=12800 | psram free=7538768 min=7371012 largest=7471104
+I (100869) FreenoveFnk0104sBoard: TOUCH READ: raw_x=136, raw_y=268 => point.x=268, point.y=184 (top_bar=0)
+I (100909) FreenoveFnk0104sBoard: TOUCH READ: raw_x=136, raw_y=268 => point.x=268, point.y=184 (top_bar=0)
+I (100969) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (100979) RAM: [RADIO_STOP] internal free=37391 min=15908 largest=12800 | psram free=7538768 min=7371012 largest=7471104
+E (101349) esp-tls: [sock=55] select() timeout
+E (101349) transport_base: Failed to open a new connection: 32774
+E (101349) HTTP_CLIENT: Connection failed, sock < 0
+W (101349) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (101359) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (101369) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (101379) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=40011 internal_largest=12800 dma_free=32239 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (101389) AudioManager: Releasing audio focus from source 3
+I (101399) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=40011 internal_largest=12800 dma_free=32239 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (101399) RAM: [RADIO_START] internal free=40011 min=15908 largest=12800 | psram free=7542868 min=7371012 largest=7471104
+I (101429) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (101439) InternetRadio: Radio stream startup: connecting
+I (101449) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=35623 internal_largest=12800 dma_free=27851 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (101469) AudioManager: Audio focus requested by source 3 (current 0)
+I (101469) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=42287 internal_largest=18432 dma_free=34515 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (101489) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (101489) wifi:Set ps type: 0, coexist: 0
+
+I (101499) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (101509) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (101579) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (102999) InternetRadio: Stream connected: status=200 content_type=unknown
+I (102999) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (102999) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (103009) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (103019) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=28707 internal_largest=16384 dma_free=20935 dma_largest=16384 psram_free=7490152 psram_largest=7471104
+I (103029) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (103049) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (103049) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=28707 internal_largest=16384 dma_free=20935 dma_largest=16384 psram_free=7490152 psram_largest=7471104
+I (103059) InternetRadio: Received first stream data: bytes=2048
+I (103079) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (103079) RAM: [RADIO_PLAYING] internal free=26719 min=15908 largest=14848 | psram free=7464140 min=7371012 largest=7340032
+I (103089) AudioService: [RADIO_PCM] ptr=0x3c40273c size=1252 bytes PSRAM=YES (queue=1)
+I (103099) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (103289) AudioService: [RADIO_PCM] ptr=0x3c40bcb0 size=1252 bytes PSRAM=YES (queue=32)
+I (103689) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=0 ms wait_in_q=603 ms
+I (104239) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=977 ms
+I (104719) SystemInfo: free sram: 31107 minimal sram: 15908
+I (104769) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=29 ms wait_in_q=1208 ms
+I (105129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=121, raw_y=269 => point.x=269, point.y=199 (top_bar=0)
+I (105189) FreenoveFnk0104sBoard: TOUCH READ: raw_x=121, raw_y=269 => point.x=269, point.y=199 (top_bar=0)
+I (105259) RadioBrowser: Playing radio by station UUID: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+I (105259) RAM: [RADIO_STOP] internal free=19915 min=15908 largest=10240 | psram free=7375604 min=7371012 largest=7340032
+I (105269) AudioService: [RADIO_PCM] ptr=0x3c3f5354 size=1252 bytes PSRAM=YES (queue=1)
+I (105269) RAM: internal free=25567 min=15908 largest=12288 | psram free=7508188 min=7371012 largest=7340032
+I (105279) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (105289) AudioService: [RADIO_OUTPUT] queue=1 buffer=26 ms pcm=26 ms write=29 ms wait_in_q=1612 ms
+I (105299) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (105309) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=39743 internal_largest=12288 dma_free=31971 dma_largest=12288 psram_free=7541584 psram_largest=7471104
+I (105319) AudioManager: Releasing audio focus from source 3
+I (105329) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=39799 internal_largest=12288 dma_free=32027 dma_largest=12288 psram_free=7542868 psram_largest=7471104
+I (105329) RAM: [RADIO_START] internal free=39799 min=15908 largest=12288 | psram free=7542868 min=7371012 largest=7471104
+I (105349) InternetRadio: Radio current:
+name=Skyrock
+uuid=01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+codec=MP3
+bitrate=128
+country=France
+url=http://icecast.skyrock.net/s/natio_mp3_128k
+I (105369) InternetRadio: Radio stream startup: connecting
+I (105379) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40127 internal_largest=12288 dma_free=32355 dma_largest=12288 psram_free=7542868 psram_largest=7471104
+I (105389) AudioManager: Audio focus requested by source 3 (current 0)
+I (105399) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=42075 internal_largest=12800 dma_free=34303 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (105409) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (105419) wifi:Set ps type: 0, coexist: 0
+
+I (105419) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (105429) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (106039) InternetRadio: Stream connected: status=200 content_type=unknown
+I (106039) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (106039) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (106059) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (106059) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=37531 internal_largest=18432 dma_free=29759 dma_largest=18432 psram_free=7514184 psram_largest=7471104
+I (106069) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (106079) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (106439) InternetRadio: [RADIO_HTTP_GAP] read_time=347 ms bytes=2048
+I (106439) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=34003 internal_largest=18432 dma_free=26231 dma_largest=18432 psram_free=7514184 psram_largest=7471104
+I (106449) InternetRadio: Received first stream data: bytes=2048
+I (106459) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (106469) RAM: [RADIO_PLAYING] internal free=32015 min=15908 largest=16384 | psram free=7488172 min=7371012 largest=7471104
+I (106469) AudioService: [RADIO_PCM] ptr=0x3c3fc840 size=1152 bytes PSRAM=YES (queue=1)
+I (106479) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=1800 ms (queue=1)
+I (106659) AudioService: [RADIO_PCM] ptr=0x3c40543c size=1152 bytes PSRAM=YES (queue=32)
+I (106959) AudioService: [RADIO_OUTPUT] queue=74 buffer=1776 ms pcm=24 ms write=0 ms wait_in_q=488 ms
+I (107489) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=843 ms
+I (108019) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=29 ms wait_in_q=1209 ms
+I (108519) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1591 ms
+I (109029) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=29 ms wait_in_q=1794 ms
+I (109199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=52, raw_y=200 => point.x=200, point.y=268 (top_bar=0)
+I (109239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=52, raw_y=200 => point.x=200, point.y=268 (top_bar=0)
+I (109299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=52, raw_y=200 => point.x=200, point.y=268 (top_bar=0)
+I (109529) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1791 ms
+W (109849) InternetRadio: [RADIO_DEC_GAP] decode_time=90 ms decoded_bytes=4608
+I (110029) AudioService: [RADIO_OUTPUT] queue=74 buffer=1776 ms pcm=24 ms write=19 ms wait_in_q=1789 ms
+I (110269) RAM: internal free=20455 min=15448 largest=8704 | psram free=7399164 min=7371012 largest=7340032
+I (110559) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1794 ms
+I (111089) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1788 ms
+I (111099) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (111099) InternetRadio: [RADIO] buffer=1800 ms queue=75 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (111589) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1631 ms
+I (112099) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=28 ms wait_in_q=1794 ms
+I (112369) FreenoveFnk0104sBoard: TOUCH READ: raw_x=61, raw_y=203 => point.x=203, point.y=259 (top_bar=0)
+I (112419) FreenoveFnk0104sBoard: TOUCH READ: raw_x=61, raw_y=203 => point.x=203, point.y=259 (top_bar=0)
+I (112489) FreenoveFnk0104sBoard: TOUCH READ: raw_x=61, raw_y=203 => point.x=203, point.y=259 (top_bar=0)
+I (112529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=61, raw_y=203 => point.x=203, point.y=259 (top_bar=0)
+I (112599) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1788 ms
+W (112979) InternetRadio: [RADIO_DEC_GAP] decode_time=196 ms decoded_bytes=4608
+W (113079) InternetRadio: [RADIO_DEC_GAP] decode_time=86 ms decoded_bytes=4608
+I (113109) AudioService: [RADIO_OUTPUT] queue=64 buffer=1536 ms pcm=24 ms write=29 ms wait_in_q=1789 ms
+I (113609) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1789 ms
+I (113969) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=283 => point.x=283, point.y=197 (top_bar=0)
+I (114009) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=283 => point.x=283, point.y=197 (top_bar=0)
+I (114069) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=283 => point.x=283, point.y=197 (top_bar=0)
+I (114109) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1789 ms
+I (114149) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (114159) RAM: [RADIO_STOP] internal free=18007 min=14352 largest=7936 | psram free=7399156 min=7371012 largest=7340032
+I (114169) AudioService: [RADIO_PCM] ptr=0x3c40ce28 size=1152 bytes PSRAM=YES (queue=1)
+I (114169) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (114179) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (114189) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=40355 internal_largest=12800 dma_free=32583 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (114199) AudioManager: Releasing audio focus from source 3
+I (114209) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=40411 internal_largest=12800 dma_free=32639 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (114219) RAM: [RADIO_START] internal free=40547 min=14352 largest=12800 | psram free=7542868 min=7371012 largest=7471104
+I (114229) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (114249) InternetRadio: Radio stream startup: connecting
+I (114249) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40743 internal_largest=12800 dma_free=32971 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (114269) AudioManager: Audio focus requested by source 3 (current 0)
+I (114279) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=40743 internal_largest=12800 dma_free=32971 dma_largest=12800 psram_free=7542868 psram_largest=7471104
+I (114289) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (114299) wifi:Set ps type: 0, coexist: 0
+
+I (114299) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (114309) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (114719) SystemInfo: free sram: 39607 minimal sram: 14352
+I (115269) RAM: internal free=39607 min=14352 largest=18432 | psram free=7538768 min=7371012 largest=7471104
+E (116329) esp-tls: [sock=55] select() timeout
+E (116329) transport_base: Failed to open a new connection: 32774
+E (116329) HTTP_CLIENT: Connection failed, sock < 0
+W (116329) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (116339) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (116349) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (116359) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42231 internal_largest=18432 dma_free=34459 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (116369) AudioManager: Releasing audio focus from source 3
+I (116379) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=42231 internal_largest=18432 dma_free=34459 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (116389) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (116399) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (116519) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (116519) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (116529) RAM: [RADIO_START] internal free=46843 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (116539) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (116549) InternetRadio: Radio stream startup: connecting
+I (116559) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40519 internal_largest=18432 dma_free=33431 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (116569) AudioManager: Audio focus requested by source 3 (current 0)
+I (116579) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=41359 internal_largest=18432 dma_free=33587 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (116599) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (116599) wifi:Set ps type: 0, coexist: 0
+
+I (116609) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (116619) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+E (118629) esp-tls: [sock=55] select() timeout
+E (118629) transport_base: Failed to open a new connection: 32774
+E (118629) HTTP_CLIENT: Connection failed, sock < 0
+W (118629) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (118639) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (118649) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (118659) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=41751 internal_largest=18432 dma_free=33979 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (118669) AudioManager: Releasing audio focus from source 3
+I (118679) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=41751 internal_largest=18432 dma_free=33979 dma_largest=18432 psram_free=7542868 psram_largest=7471104
+I (119269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=256 => point.x=256, point.y=298 (top_bar=0)
+I (119309) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=256 => point.x=256, point.y=298 (top_bar=0)
+I (119349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=256 => point.x=256, point.y=298 (top_bar=0)
+I (119399) FreenoveFnk0104sBoard: TOUCH READ: raw_x=20, raw_y=254 => point.x=254, point.y=300 (top_bar=0)
+I (119429) FreenoveFnk0104sBoard: TOUCH READ: raw_x=20, raw_y=254 => point.x=254, point.y=300 (top_bar=0)
+I (119469) FreenoveFnk0104sBoard: TOUCH READ: raw_x=20, raw_y=250 => point.x=250, point.y=300 (top_bar=0)
+I (119529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=21, raw_y=234 => point.x=234, point.y=299 (top_bar=0)
+I (119559) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=227 => point.x=227, point.y=298 (top_bar=0)
+I (119599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=222 => point.x=222, point.y=298 (top_bar=0)
+I (119659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=213 => point.x=213, point.y=298 (top_bar=0)
+I (119699) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=208 => point.x=208, point.y=298 (top_bar=0)
+I (119749) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=204 => point.x=204, point.y=298 (top_bar=0)
+I (119789) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=202 => point.x=202, point.y=298 (top_bar=0)
+I (119829) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=196 => point.x=196, point.y=293 (top_bar=0)
+I (120269) RAM: internal free=41431 min=14352 largest=18432 | psram free=7540432 min=7371012 largest=7471104
+I (120299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=24, raw_y=258 => point.x=258, point.y=296 (top_bar=0)
+I (120339) FreenoveFnk0104sBoard: TOUCH READ: raw_x=24, raw_y=258 => point.x=258, point.y=296 (top_bar=0)
+I (120399) FreenoveFnk0104sBoard: TOUCH READ: raw_x=24, raw_y=258 => point.x=258, point.y=296 (top_bar=0)
+I (120459) FreenoveFnk0104sBoard: TOUCH READ: raw_x=26, raw_y=240 => point.x=240, point.y=294 (top_bar=0)
+I (120459) AudioCodec: Set output volume to 66
+I (120489) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=231 => point.x=231, point.y=292 (top_bar=0)
+I (120499) AudioCodec: Set output volume to 61
+I (120529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=30, raw_y=223 => point.x=223, point.y=290 (top_bar=0)
+I (120539) AudioCodec: Set output volume to 57
+I (120569) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=217 => point.x=217, point.y=289 (top_bar=0)
+I (120569) AudioCodec: Set output volume to 53
+I (120619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=213 => point.x=213, point.y=289 (top_bar=0)
+I (120619) AudioCodec: Set output volume to 51
+I (120659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=211 => point.x=211, point.y=289 (top_bar=0)
+I (120669) AudioCodec: Set output volume to 50
+I (120729) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=210 => point.x=210, point.y=288 (top_bar=0)
+I (120729) AudioCodec: Set output volume to 49
+I (120779) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=209 => point.x=209, point.y=288 (top_bar=0)
+I (120839) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=206 => point.x=206, point.y=288 (top_bar=0)
+I (120839) AudioCodec: Set output volume to 47
+I (120879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=203 => point.x=203, point.y=288 (top_bar=0)
+I (120879) AudioCodec: Set output volume to 46
+I (120939) FreenoveFnk0104sBoard: TOUCH READ: raw_x=32, raw_y=201 => point.x=201, point.y=288 (top_bar=0)
+I (120939) AudioCodec: Set output volume to 45
+I (121549) FreenoveFnk0104sBoard: TOUCH READ: raw_x=83, raw_y=35 => point.x=35, point.y=237 (top_bar=0)
+I (121609) FreenoveFnk0104sBoard: TOUCH READ: raw_x=83, raw_y=35 => point.x=35, point.y=237 (top_bar=0)
+I (121639) FreenoveFnk0104sBoard: TOUCH READ: raw_x=84, raw_y=35 => point.x=35, point.y=236 (top_bar=0)
+I (121709) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=47923 internal_largest=18432 dma_free=40151 dma_largest=18432 spiram_free=7542868 spiram_largest=7471104
+I (123089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=207, raw_y=413 => point.x=413, point.y=113 (top_bar=0)
+I (123149) FreenoveFnk0104sBoard: TOUCH READ: raw_x=207, raw_y=413 => point.x=413, point.y=113 (top_bar=0)
+I (123179) RAM: [RADIO_STOP] internal free=48519 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (123189) AudioManager: Audio focus requested by source 2 (current 0)
+I (123199) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (123209) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (123229) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (125269) RAM: internal free=35299 min=14352 largest=17408 | psram free=7497900 min=7371012 largest=7471104
+I (125719) SystemInfo: free sram: 34015 minimal sram: 14352
+I (127159) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=268 => point.x=268, point.y=193 (top_bar=0)
+I (127209) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=268 => point.x=268, point.y=193 (top_bar=0)
+I (127329) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (127329) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (127349) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (129839) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=129 => point.x=129, point.y=258 (top_bar=0)
+I (129879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=129 => point.x=129, point.y=258 (top_bar=0)
+I (129949) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=129 => point.x=129, point.y=258 (top_bar=0)
+I (130269) RAM: internal free=34183 min=14352 largest=17408 | psram free=7495592 min=7371012 largest=7471104
+I (131239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=108, raw_y=418 => point.x=418, point.y=212 (top_bar=0)
+I (131269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=108, raw_y=418 => point.x=418, point.y=212 (top_bar=0)
+I (133619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=59, raw_y=308 => point.x=308, point.y=261 (top_bar=0)
+I (133669) FreenoveFnk0104sBoard: TOUCH READ: raw_x=59, raw_y=308 => point.x=308, point.y=261 (top_bar=0)
+I (133709) FreenoveFnk0104sBoard: TOUCH READ: raw_x=60, raw_y=307 => point.x=307, point.y=260 (top_bar=0)
+I (133869) AudioManager: Releasing audio focus from source 2
+I (133869) SdMusicPlayer: Player task stopped.
+I (133869) RAM: [RADIO_STOP] internal free=37599 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (135269) RAM: internal free=49515 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (135719) SystemInfo: free sram: 49515 minimal sram: 14352
+I (140269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (145269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (145719) SystemInfo: free sram: 49511 minimal sram: 14352
+I (150269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (155269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (155719) SystemInfo: free sram: 49599 minimal sram: 14352
+I (160269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (165269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (165719) SystemInfo: free sram: 49479 minimal sram: 14352
+I (170269) RAM: internal free=49263 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (175269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (175719) SystemInfo: free sram: 49511 minimal sram: 14352
+I (180269) RAM: internal free=49511 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (185269) RAM: internal free=49307 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (185719) SystemInfo: free sram: 49511 minimal sram: 14352
+I (190269) RAM: internal free=49731 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (195269) RAM: internal free=49731 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104
+I (195719) SystemInfo: free sram: 49863 minimal sram: 14352
+I (200269) RAM: internal free=49731 min=14352 largest=18432 | psram free=7542868 min=7371012 largest=7471104

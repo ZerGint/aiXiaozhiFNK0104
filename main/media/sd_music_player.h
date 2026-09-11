@@ -20,6 +20,10 @@ public:
     int GetCurrentTrackIndex() const { return current_index_; }
     void SetSelectedTrackIndex(int index);
     int GetSelectedTrackIndex() const { return selected_index_; }
+    void SetShuffleEnabled(bool enabled);
+    bool IsShuffleEnabled() const { return shuffle_enabled_; }
+    int NavigateNext();
+    int NavigatePrev();
     std::string GetCurrentTrackName() const;
 
     bool IsPlaying() const { return is_playing_ && !is_paused_; }
@@ -41,6 +45,9 @@ private:
     std::vector<std::string> playlist_;
     int current_index_ = 0;
     int selected_index_ = -1;
+    bool shuffle_enabled_ = false;
+    std::vector<int> shuffle_order_;
+    int shuffle_position_ = -1;
     std::atomic<bool> is_playing_{false};
     std::atomic<bool> is_paused_{false};
     std::atomic<bool> stop_requested_{false};

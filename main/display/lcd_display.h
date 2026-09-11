@@ -64,9 +64,14 @@ protected:
     lv_obj_t* radio_view_ = nullptr;
     lv_obj_t* media_shuffle_button_ = nullptr;
     lv_obj_t* media_repeat_button_ = nullptr;
+    lv_obj_t* media_stop_button_ = nullptr;
     lv_obj_t* media_play_button_ = nullptr;
     lv_obj_t* media_volume_slider_ = nullptr;
     lv_obj_t* media_favorite_button_ = nullptr;
+    lv_obj_t* radio_list_panel_ = nullptr;
+    lv_obj_t* media_list_title_label_ = nullptr;
+    lv_obj_t* radio_page_label_ = nullptr;
+    int radio_page_ = 0;
     bool media_radio_mode_ = false;
     MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;
@@ -88,6 +93,7 @@ protected:
     void SetupSegaEmulatorTab(lv_obj_t* parent);
     void SwitchSettingsCategory(int cat_index);
     void UpdateWifiStatusLabel();
+    void RefreshRadioCatalogPage();
 
 public:
     void ToggleQuickSettings();
