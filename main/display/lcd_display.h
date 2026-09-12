@@ -51,7 +51,6 @@ protected:
     lv_obj_t* media_status_label_ = nullptr;
     lv_obj_t* media_title_label_ = nullptr;
     lv_obj_t* media_header_label_ = nullptr;
-    lv_obj_t* media_art_label_ = nullptr;
     bool quick_settings_open_ = false;
 
     lv_obj_t* nav_buttons_[3] = {};
@@ -72,6 +71,7 @@ protected:
     lv_obj_t* media_list_title_label_ = nullptr;
     lv_obj_t* radio_page_label_ = nullptr;
     int radio_page_ = 0;
+    int player_page_ = 0;
     bool media_radio_mode_ = false;
     MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;

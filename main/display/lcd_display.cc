@@ -1378,22 +1378,49 @@ void LcdDisplay::SetupUI() {
     radio_view_ = media_root;
     auto media_center = panel(media_root, 0, 0, 258, 276, kPanel);
     auto media_right = panel(media_root, 264, 0, 144, 276, kPanel2);
-    auto media_art = panel(media_center, 12, 12, 96, 90, kCard);
-    media_art_label_ = label(media_art, "MUSIC", 6, 36, 84, kAccent);
-    auto media_icon = media_art_label_;
-    lv_obj_set_style_text_align(media_icon, LV_TEXT_ALIGN_CENTER, 0);
-    media_header_label_ = label(media_center, "Now Playing", 120, 14, 124, kMuted);
-    media_title_label_ = label(media_center, "No track", 120, 42, 124, kText);
+    media_header_label_ = label(media_center, "Now Playing", 8, 14, 242, kMuted);
+    lv_obj_set_style_text_align(media_header_label_, LV_TEXT_ALIGN_CENTER, 0);
+    media_title_label_ = label(media_center, "No track", 8, 48, 242, kText);
     lv_obj_set_style_text_font(media_title_label_, &font_noto_sans_radio_16_4, 0);
     lv_obj_set_height(media_title_label_, 40);
-    lv_obj_set_style_text_align(media_title_label_, LV_TEXT_ALIGN_LEFT, 0);
+    lv_obj_set_style_text_align(media_title_label_, LV_TEXT_ALIGN_CENTER, 0);
     lv_label_set_long_mode(media_title_label_, LV_LABEL_LONG_WRAP);
     lv_obj_remove_flag(media_title_label_, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scrollbar_mode(media_title_label_, LV_SCROLLBAR_MODE_OFF);
-    auto media_prev = button(media_center, MATERIAL_SYMBOLS_SKIP_PREVIOUS, 30, 130, 48, 40);
-    media_play_button_ = button(media_center, MATERIAL_SYMBOLS_PLAY_ARROW, 101, 124, 54, 52, true);
+
+    media_shuffle_button_ = button(media_center, MATERIAL_SYMBOLS_SHUFFLE, 20, 183, 40, 40);
+    lv_obj_add_event_cb(media_shuffle_button_, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { auto& sd = SdMusicPlayer::GetInstance(); sd.SetShuffleEnabled(!sd.IsShuffleEnabled()); d->UpdateServiceIndicators(); } }, LV_EVENT_CLICKED, this);
+    media_favorite_button_ = button(media_center, "★", 80, 183, 40, 40);
+    lv_obj_set_style_text_font(lv_obj_get_child(media_favorite_button_, 0), &font_noto_sans_symbols_star_20_4, 0);
+    lv_obj_add_flag(media_favorite_button_, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_event_cb(media_favorite_button_, [](lv_event_t* e) {
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        auto& radio = InternetRadioPlayer::GetInstance();
+        auto& browser = RadioBrowser::GetInstance();
+        const auto uuid = radio.IsActive() ? radio.GetCurrentStation().stationuuid : browser.GetSelectedStationUuid();
+        if (!uuid.empty()) {
+            if (RadioStorage::GetInstance().ContainsFavoriteUuid(uuid))
+                RadioStorage::GetInstance().RemoveFavoriteUuid(uuid);
+            else
+                browser.AddFavoriteStation(uuid);
+        }
+        if (display) {
+            display->UpdateServiceIndicators();
+            display->RefreshRadioCatalogPage();
+        }
+    }, LV_EVENT_CLICKED, this);
+    media_stop_button_ = button(media_center, MATERIAL_SYMBOLS_STOP, 140, 183, 40, 40);
+    lv_obj_add_event_cb(media_stop_button_, [](lv_event_t*) { MediaPlayer::GetInstance().Stop(); }, LV_EVENT_CLICKED, nullptr);
+    media_repeat_button_ = button(media_center, MATERIAL_SYMBOLS_REPEAT, 200, 183, 40, 40);
+    lv_obj_add_event_cb(media_repeat_button_, [](lv_event_t* e) {
+        auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (d) { SdMusicPlayer::GetInstance().ToggleRepeat(); d->UpdateServiceIndicators(); }
+    }, LV_EVENT_CLICKED, this);
+
+    auto media_prev = button(media_center, MATERIAL_SYMBOLS_SKIP_PREVIOUS, 30, 117, 48, 40);
+    media_play_button_ = button(media_center, MATERIAL_SYMBOLS_PLAY_ARROW, 101, 111, 54, 52, true);
     auto media_play = media_play_button_;
-    auto media_next = button(media_center, MATERIAL_SYMBOLS_SKIP_NEXT, 178, 130, 48, 40);
+    auto media_next = button(media_center, MATERIAL_SYMBOLS_SKIP_NEXT, 178, 117, 48, 40);
     lv_obj_add_event_cb(media_prev, [](lv_event_t* e) {
         auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         if (d && d->active_media_source_ == ActiveMediaSource::Radio) RadioBrowser::GetInstance().MoveActiveStation(-1);
@@ -1432,38 +1459,15 @@ void LcdDisplay::SetupUI() {
         else if (d && d->active_media_source_ == ActiveMediaSource::None && d->media_browser_mode_ == MediaBrowserMode::Player) { SdMusicPlayer::GetInstance().NavigateNext(); if (d) d->UpdateServiceIndicators(); }
         else MediaPlayer::GetInstance().Next();
     }, LV_EVENT_CLICKED, this);
-    media_shuffle_button_ = button(media_center, MATERIAL_SYMBOLS_SHUFFLE, 42, 192, 48, 40);
-    lv_obj_add_event_cb(media_shuffle_button_, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { auto& sd = SdMusicPlayer::GetInstance(); sd.SetShuffleEnabled(!sd.IsShuffleEnabled()); d->UpdateServiceIndicators(); } }, LV_EVENT_CLICKED, this);
-    media_repeat_button_ = button(media_center, MATERIAL_SYMBOLS_REPEAT, 170, 192, 48, 40);
-    media_stop_button_ = button(media_center, MATERIAL_SYMBOLS_STOP, 218, 192, 36, 40);
-    lv_obj_add_event_cb(media_stop_button_, [](lv_event_t*) { MediaPlayer::GetInstance().Stop(); }, LV_EVENT_CLICKED, nullptr);
-    media_favorite_button_ = button(media_center, "★", 106, 192, 40, 40);
-    lv_obj_set_style_text_font(lv_obj_get_child(media_favorite_button_, 0), &font_noto_sans_symbols_star_20_4, 0);
-    lv_obj_add_flag(media_favorite_button_, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_add_event_cb(media_favorite_button_, [](lv_event_t* e) {
-        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        auto& radio = InternetRadioPlayer::GetInstance();
-        auto& browser = RadioBrowser::GetInstance();
-        const auto uuid = radio.IsActive() ? radio.GetCurrentStation().stationuuid : browser.GetSelectedStationUuid();
-        if (!uuid.empty()) {
-            if (RadioStorage::GetInstance().ContainsFavoriteUuid(uuid))
-                RadioStorage::GetInstance().RemoveFavoriteUuid(uuid);
-            else
-                browser.AddFavoriteStation(uuid);
-        }
-        if (display) {
-            display->UpdateServiceIndicators();
-            display->RefreshRadioCatalogPage();
-        }
-    }, LV_EVENT_CLICKED, this);
+
     for (auto control : {media_prev, media_play, media_next, media_shuffle_button_, media_repeat_button_, media_stop_button_}) {
         lv_obj_set_style_text_font(lv_obj_get_child(control, 0), &BUILTIN_ICON_FONT, 0);
     }
-    auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 242, 30, kMuted);
+    auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 244, 30, kMuted);
     lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
     media_volume_slider_ = lv_slider_create(media_center);
     auto media_volume = media_volume_slider_;
-    lv_obj_set_pos(media_volume, 54, 247);
+    lv_obj_set_pos(media_volume, 54, 249);
     lv_obj_set_size(media_volume, 182, 6);
     auto initial_media_codec = Board::GetInstance().GetAudioCodec();
     lv_slider_set_value(media_volume, initial_media_codec ? initial_media_codec->output_volume() : 0, LV_ANIM_OFF);
@@ -1486,8 +1490,8 @@ void LcdDisplay::SetupUI() {
     radio_page_label_ = label(media_right, "1 / 1", 48, 246, 48, kText);
     auto prev_page = button(media_right, "<", 6, 238, 32, 32);
     auto next_page = button(media_right, ">", 106, 238, 32, 32);
-    lv_obj_add_event_cb(prev_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d && d->radio_page_ > 0) { --d->radio_page_; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
-    lv_obj_add_event_cb(next_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { ++d->radio_page_; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
+    lv_obj_add_event_cb(prev_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { int& page = d->media_browser_mode_ == MediaBrowserMode::Player ? d->player_page_ : d->radio_page_; if (page > 0) --page; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
+    lv_obj_add_event_cb(next_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { if (d->media_browser_mode_ == MediaBrowserMode::Player) ++d->player_page_; else ++d->radio_page_; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
     lv_obj_add_flag(media_root, LV_OBJ_FLAG_HIDDEN);
     LogUiMemory("UI_MEM_AFTER_MEDIA_PAGE");
     LogUiMemory("UI_MEM_BEFORE_SERVICE_TIMER");
@@ -1512,7 +1516,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
         const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
         constexpr int rows_per_page = 4;
         const int pages = std::max(1, (static_cast<int>(tracks.size()) + rows_per_page - 1) / rows_per_page);
-        radio_page_ = std::clamp(radio_page_, 0, pages - 1);
+        player_page_ = std::clamp(player_page_, 0, pages - 1);
         lv_obj_clean(radio_list_panel_);
         if (tracks.empty()) {
             auto l = lv_label_create(radio_list_panel_); lv_label_set_text(l, "No tracks");
@@ -1520,7 +1524,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
             return;
         }
         for (int row = 0; row < rows_per_page; ++row) {
-            const int index = radio_page_ * rows_per_page + row;
+            const int index = player_page_ * rows_per_page + row;
             if (index >= static_cast<int>(tracks.size())) break;
             auto card = lv_btn_create(radio_list_panel_); lv_obj_set_size(card, 128, 42); lv_obj_set_pos(card, 0, row * 46);
             lv_obj_set_style_bg_color(card, kCard, 0); lv_obj_set_style_border_width(card, 0, 0); DisableScroll(card);
@@ -1528,14 +1532,14 @@ void LcdDisplay::RefreshRadioCatalogPage() {
             const size_t slash = display.find_last_of('/'); if (slash != std::string::npos) display.erase(0, slash + 1);
             lv_label_set_text(name, display.c_str()); lv_obj_set_style_text_font(name, &font_noto_sans_radio_16_4, 0);
             lv_obj_set_width(name, 120); lv_obj_set_height(name, 20); lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
-            lv_obj_align(name, LV_ALIGN_LEFT_MID, 4, 0);
+            lv_obj_align(name, LV_ALIGN_LEFT_MID, 2, 0);
             lv_obj_add_event_cb(card, [](lv_event_t* e) {
                 if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
                 const int index = static_cast<int>(reinterpret_cast<intptr_t>(lv_event_get_user_data(e)));
                 auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(index); MediaPlayer::GetInstance().PlaySd(index);
             }, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(index)));
         }
-        if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", radio_page_ + 1, pages);
+        if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", player_page_ + 1, pages);
         return;
     }
     std::vector<RadioStationInfo> stations;
@@ -1555,7 +1559,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
         lv_obj_set_style_text_font(star, &font_noto_sans_symbols_star_20_4, 0);
         lv_obj_set_width(star, 16);
         lv_obj_set_style_text_align(star, LV_TEXT_ALIGN_CENTER, 0);
-        lv_obj_align(star, LV_ALIGN_LEFT_MID, 2, 0);
+        lv_obj_align(star, LV_ALIGN_LEFT_MID, 1, 0);
         if (!favorite) lv_obj_add_flag(star, LV_OBJ_FLAG_HIDDEN);
         lv_obj_remove_flag(star, LV_OBJ_FLAG_CLICKABLE);
         auto name = lv_label_create(card);
@@ -1564,7 +1568,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
         lv_obj_set_width(name, 104);
         lv_obj_set_height(name, 20);
         lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
-        lv_obj_align(name, LV_ALIGN_LEFT_MID, 22, 0);
+        lv_obj_align(name, LV_ALIGN_LEFT_MID, 20, 0);
         auto* uuid = new std::string(stations[i].stationuuid); lv_obj_add_event_cb(card, [](lv_event_t* e) { auto* u = static_cast<std::string*>(lv_event_get_user_data(e)); if (lv_event_get_code(e) == LV_EVENT_DELETE) delete u; else if (lv_event_get_code(e) == LV_EVENT_CLICKED) { auto& browser = RadioBrowser::GetInstance(); browser.SetSelectedStationUuid(*u); browser.PlayStation("", "", *u); } }, LV_EVENT_ALL, uuid);
     }
     if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", radio_page_ + 1, pages);
@@ -1984,7 +1988,10 @@ void LcdDisplay::UpdateServiceIndicators() {
     }
     if (media_repeat_button_) {
         if (center_radio) lv_obj_add_flag(media_repeat_button_, LV_OBJ_FLAG_HIDDEN);
-        else lv_obj_remove_flag(media_repeat_button_, LV_OBJ_FLAG_HIDDEN);
+        else {
+            lv_obj_remove_flag(media_repeat_button_, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_set_style_bg_color(media_repeat_button_, sd.IsRepeatEnabled() ? kAccent : kCard, 0);
+        }
     }
     if (media_favorite_button_) {
         if (center_radio) {
@@ -2009,14 +2016,11 @@ void LcdDisplay::UpdateServiceIndicators() {
     }
     if (media_title_label_) {
         std::string title = "Nothing playing";
-        const char* art = "MEDIA";
         if (active_media_source_ == ActiveMediaSource::Radio) {
             const auto station = InternetRadioPlayer::GetInstance().GetCurrentStation();
             title = station.name;
-            art = "RADIO";
         } else if (active_media_source_ == ActiveMediaSource::Player) {
             title = MediaPlayer::GetInstance().GetTitle();
-            art = "MUSIC";
         } else if (media_browser_mode_ == MediaBrowserMode::Radio) {
             RadioStationInfo preview;
             auto& browser = RadioBrowser::GetInstance();
@@ -2024,7 +2028,6 @@ void LcdDisplay::UpdateServiceIndicators() {
                 browser.SetSelectedStationUuid(preview.stationuuid);
             }
             title = preview.name.empty() ? "--" : preview.name;
-            art = "RADIO";
         } else {
             const auto& tracks = sd.GetPlaylist();
             int index = sd.GetSelectedTrackIndex();
@@ -2036,7 +2039,6 @@ void LcdDisplay::UpdateServiceIndicators() {
                 title = tracks[index];
                 const size_t slash = title.find_last_of('/');
                 if (slash != std::string::npos) title.erase(0, slash + 1);
-                art = "MUSIC";
             }
         }
         const bool active = active_media_source_ != ActiveMediaSource::None;
@@ -2046,7 +2048,6 @@ void LcdDisplay::UpdateServiceIndicators() {
         }
         if (title.empty()) title = (active_media_source_ == ActiveMediaSource::Radio) ? "--" : "Nothing playing";
         lv_label_set_text(media_title_label_, title.c_str());
-        if (media_art_label_) lv_label_set_text(media_art_label_, art);
     }
     static int last_track_count = -1;
     static MediaBrowserMode last_browser_mode = MediaBrowserMode::Radio;

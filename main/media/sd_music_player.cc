@@ -18,6 +18,22 @@
 
 #define TAG "SdMusicPlayer"
 
+namespace {
+void CheckMusicHeap(const char* checkpoint) {
+    const bool ok = heap_caps_check_integrity_all(true);
+    ESP_LOGW(TAG, "HEAP_CHECK %s: %s", checkpoint, ok ? "PASS" : "FAIL");
+}
+
+void LogMusicRuntime(const char* checkpoint) {
+    CheckMusicHeap(checkpoint);
+    ESP_LOGW(TAG, "MUSIC_CHECKPOINT %s task=%s internal_free=%u internal_largest=%u stack_hwm=%u",
+             checkpoint, pcTaskGetName(nullptr),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(uxTaskGetStackHighWaterMark(nullptr)));
+}
+}
+
 struct ChunkHeader {
     char id[4];
     uint32_t size;
@@ -203,8 +219,11 @@ void SdMusicPlayer::Stop() {
 }
 
 void SdMusicPlayer::PlayerLoop() {
+    LogMusicRuntime("PLAYER_LOOP_ENTER");
     AudioManager::GetInstance().RequestAudioFocus(kAudioSourceMp3Player);
+    LogMusicRuntime("AFTER_AUDIO_FOCUS");
     EnsureMp3DecoderRegistered();
+    LogMusicRuntime("AFTER_DECODER_REGISTER");
 
     auto codec = Board::GetInstance().GetAudioCodec();
     uint32_t target_rate = codec ? codec->output_sample_rate() : 24000;
@@ -222,12 +241,14 @@ void SdMusicPlayer::PlayerLoop() {
 
         ESP_LOGI(TAG, "▶ Playing file: %s", filepath.c_str());
 
+        LogMusicRuntime("BEFORE_FILE_OPEN");
         FILE* f = fopen(filepath.c_str(), "rb");
         if (!f) {
             ESP_LOGE(TAG, "Failed to open file: %s", filepath.c_str());
             vTaskDelay(pdMS_TO_TICKS(1000));
             break;
         }
+        LogMusicRuntime("AFTER_FILE_OPEN");
 
         std::string lower_path = filepath;
         for (auto& c : lower_path) c = tolower((unsigned char)c);
@@ -242,6 +263,7 @@ void SdMusicPlayer::PlayerLoop() {
 
         if (err == ESP_AUDIO_ERR_OK && dec_handle != nullptr) {
             ESP_LOGI(TAG, "esp_audio_simple_dec opened successfully for %s", filepath.c_str());
+            LogMusicRuntime("AFTER_DECODER_OPEN");
             size_t in_buf_size = 2048;
             size_t out_buf_size = 16384;
             uint8_t* in_buf_ptr = (uint8_t*)heap_caps_malloc(in_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
@@ -250,6 +272,7 @@ void SdMusicPlayer::PlayerLoop() {
             if (!out_pcm_buf_ptr) out_pcm_buf_ptr = (uint8_t*)malloc(out_buf_size);
 
             bool info_logged = false;
+            bool pcm_checkpoint_logged = false;
             while (!stop_requested_ && !skip_requested_) {
                 auto state = Application::GetInstance().GetDeviceState();
                 if (is_paused_ || state == kDeviceStateListening || state == kDeviceStateSpeaking) {
@@ -301,6 +324,10 @@ void SdMusicPlayer::PlayerLoop() {
                                          (unsigned)info.bits_per_sample);
                                 info_logged = true;
                             }
+                            if (!pcm_checkpoint_logged) {
+                                LogMusicRuntime("BEFORE_FIRST_PCM");
+                                pcm_checkpoint_logged = true;
+                            }
                             size_t num_samples = out_frame.decoded_size / (info.bits_per_sample / 8);
                             PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out_pcm_buf_ptr),
                                          num_samples, info.channel, info.sample_rate, target_rate,
@@ -340,7 +367,25 @@ void SdMusicPlayer::PlayerLoop() {
         if (!skip_requested_) {
             std::lock_guard<std::mutex> lock(mutex_);
             if (!playlist_.empty()) {
-                current_index_ = (current_index_ + 1) % playlist_.size();
+                if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) {
+                    if (shuffle_position_ + 1 >= static_cast<int>(shuffle_order_.size())) {
+                        if (!repeat_enabled_) { stop_requested_ = true; continue; }
+                        shuffle_position_ = 0;
+                    } else {
+                        ++shuffle_position_;
+                    }
+                    current_index_ = shuffle_order_[shuffle_position_];
+                } else if (!shuffle_enabled_ && repeat_enabled_ &&
+                           current_index_ + 1 >= static_cast<int>(playlist_.size())) {
+                    current_index_ = 0;
+                } else if (!shuffle_enabled_ &&
+                           current_index_ + 1 >= static_cast<int>(playlist_.size())) {
+                    stop_requested_ = true;
+                    continue;
+                } else {
+                    ++current_index_;
+                }
+                selected_index_ = current_index_;
             } else {
                 break;
             }

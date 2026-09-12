@@ -22,6 +22,11 @@
 #include <atomic>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <sys/stat.h>
+#include <cstdio>
+#include <new>
+#include <cstring>
+#include <strings.h>
 
 #define TAG "RadioBrowser"
 
@@ -438,8 +443,7 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
             if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
                                                        std::move(retry), false)) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-            }
-            return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
+            }return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
         }
         RadioStationInfo fresh_station;
         std::string err_msg;
@@ -462,8 +466,7 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
         };
         if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
             return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-        }
-        return "Playing internet radio: " + (fresh_station.name.empty() ? title : fresh_station.name);
+        }return "Playing internet radio: " + (fresh_station.name.empty() ? title : fresh_station.name);
     }
 
     if (url.empty()) {
@@ -483,6 +486,7 @@ bool RadioBrowser::GetFirstCatalogStation(RadioStationInfo& station) const {
     station = stations.front();
     return true;
 }
+
 
 void RadioBrowser::SetSelectedStationUuid(const std::string& station_uuid) {
     selected_station_uuid_ = station_uuid;

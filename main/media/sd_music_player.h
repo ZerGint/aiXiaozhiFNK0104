@@ -22,6 +22,18 @@ public:
     int GetSelectedTrackIndex() const { return selected_index_; }
     void SetShuffleEnabled(bool enabled);
     bool IsShuffleEnabled() const { return shuffle_enabled_; }
+    void SetRepeatEnabled(bool enabled) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        repeat_enabled_ = enabled;
+    }
+    void ToggleRepeat() {
+        std::lock_guard<std::mutex> lock(mutex_);
+        repeat_enabled_ = !repeat_enabled_;
+    }
+    bool IsRepeatEnabled() const {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return repeat_enabled_;
+    }
     int NavigateNext();
     int NavigatePrev();
     std::string GetCurrentTrackName() const;
@@ -46,6 +58,7 @@ private:
     int current_index_ = 0;
     int selected_index_ = -1;
     bool shuffle_enabled_ = false;
+    bool repeat_enabled_ = false;
     std::vector<int> shuffle_order_;
     int shuffle_position_ = -1;
     std::atomic<bool> is_playing_{false};
