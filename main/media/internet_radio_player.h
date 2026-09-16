@@ -40,7 +40,7 @@ public:
     void Stop();
     bool IsPlaying() const { return playing_ && !paused_; }
     bool IsPaused() const { return playing_ && paused_; }
-    bool IsActive() const { return playing_ || task_handle_ != nullptr; }
+    bool IsActive() const { return playing_ || task_handle_.load() != nullptr; }
     std::string GetTitle() const;
     std::string GetUrl() const;
     RadioStationInfo GetCurrentStation() const;
@@ -77,9 +77,13 @@ private:
     std::atomic<uint32_t> reconnect_count_{0};
     std::atomic<uint32_t> decoder_error_count_{0};
     std::atomic<uint32_t> underrun_count_{0};
-    TaskHandle_t task_handle_ = nullptr;
+    std::atomic<TaskHandle_t> task_handle_{nullptr};
+    mutable std::mutex lifecycle_mutex_;
     EventGroupHandle_t startup_event_group_ = nullptr;
     std::atomic<bool> initial_ready_{false};
+    std::atomic<bool> cleanup_complete_{true};
+    std::atomic<uint64_t> active_generation_{0};
+    std::atomic<uint64_t> completed_generation_{0};
     std::string startup_err_msg_;
     std::function<void()> on_startup_ready_;
     std::function<void()> on_startup_failed_;

@@ -3,6 +3,8 @@
 
 #include <esp_log.h>
 #include <driver/ledc.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #define TAG "Backlight"
 
@@ -56,6 +58,11 @@ void Backlight::SetBrightness(uint8_t brightness, bool permanent) {
     if (brightness_ == brightness) {
         return;
     }
+
+    ESP_LOGW(TAG,
+             "BACKLIGHT_REQUEST requested=%u permanent=%d task=%s core=%u",
+             static_cast<unsigned>(brightness), permanent ? 1 : 0,
+             pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()));
 
     if (permanent) {
         Settings settings("display", true);

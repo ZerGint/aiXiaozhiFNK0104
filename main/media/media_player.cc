@@ -24,6 +24,11 @@ void MediaPlayer::ScanSd() {
 
 void MediaPlayer::PlaySd(int index) {
     paused_for_voice_ = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        paused_by_user_ = false;
+        radio_station_for_manual_pause_ = {};
+    }
     auto& application = Application::GetInstance();
     application.StopVoiceInteractionForMedia();
     InternetRadioPlayer::GetInstance().Stop();
@@ -123,8 +128,21 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
                             std::function<void()> on_startup_ready,
                             std::function<void()> on_startup_failed,
                             bool emit_failure_bip) {
-    paused_for_voice_ = false;
-    radio_station_for_voice_ = {};
+    bool restore_voice_pause = false;
+    bool restore_manual_pause = false;
+    RadioStationInfo voice_station;
+    RadioStationInfo manual_station;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        restore_voice_pause = paused_for_voice_.load();
+        restore_manual_pause = paused_by_user_.load();
+        voice_station = radio_station_for_voice_;
+        manual_station = radio_station_for_manual_pause_;
+        paused_for_voice_ = false;
+        radio_station_for_voice_ = {};
+        paused_by_user_ = false;
+        radio_station_for_manual_pause_ = {};
+    }
     // Ensure the SD decoder task and audio pipeline are fully stopped before
     // starting the radio source; this prevents a transient dual-source period.
     SdMusicPlayer::GetInstance().Stop();
@@ -133,17 +151,95 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
                                                                   std::move(on_startup_failed),
                                                                   emit_failure_bip);
     if (success) {
-        auto& application = Application::GetInstance();
-        application.StopVoiceInteractionForMedia();
+        Application::GetInstance().StopVoiceInteractionForMedia();
+    } else {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (restore_voice_pause) {
+            paused_for_voice_ = true;
+            radio_station_for_voice_ = voice_station;
+        }
+        if (restore_manual_pause) {
+            paused_by_user_ = true;
+            radio_station_for_manual_pause_ = manual_station;
+        }
     }
     return success;
 }
 
 void MediaPlayer::TogglePlayPause() {
+    auto& radio = InternetRadioPlayer::GetInstance();
+
+    // A user action during a voice-interrupted Radio session cancels the
+    // pending automatic resume. Keep the station as a manual pause target so
+    // a later explicit Play can reconnect it, but never restart it implicitly.
+    if (paused_for_voice_.load()) {
+        RadioStationInfo station;
+        bool converted_to_manual_pause = false;
+        {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            station = radio_station_for_voice_;
+            if (!station.url_resolved.empty()) {
+                radio_station_for_manual_pause_ = station;
+                paused_by_user_ = true;
+                radio_station_for_voice_ = {};
+                paused_for_voice_ = false;
+                converted_to_manual_pause = true;
+            }
+        }
+        if (converted_to_manual_pause) {
+            ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE] station=%s active_before=0 voice_pending=1",
+                     station.name.c_str());
+            return;
+        }
+        paused_for_voice_ = false;
+    }
+
+    if (radio.IsPlaying()) {
+        const RadioStationInfo station = radio.GetCurrentStation();
+        {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+            paused_for_voice_ = false;
+            radio_station_for_voice_ = {};
+        }
+        ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE] station=%s active_before=1", station.name.c_str());
+        radio.Stop();
+        ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE_DONE] active=%d", radio.IsActive() ? 1 : 0);
+        return;
+    }
+
+    if (paused_by_user_.load()) {
+        RadioStationInfo station;
+        {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            station = radio_station_for_manual_pause_;
+        }
+        if (radio.IsActive() || station.url_resolved.empty()) {
+            return;
+        }
+        ESP_LOGI(TAG, "[RADIO_MANUAL_RESUME] station=%s", station.name.c_str());
+        std::string err_msg;
+        const bool success = PlayRadio(
+            station, err_msg, {}, [this, station]() {
+                std::lock_guard<std::mutex> lock(voice_mutex_);
+                radio_station_for_manual_pause_ = station;
+                paused_by_user_ = true;
+            });
+        if (!success) {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+        }
+        ESP_LOGI(TAG, "[RADIO_MANUAL_RESUME_RESULT] success=%d", success ? 1 : 0);
+        return;
+    }
+
     paused_for_voice_ = false;
-    if (InternetRadioPlayer::GetInstance().IsPlaying() ||
-        InternetRadioPlayer::GetInstance().IsPaused()) {
-        InternetRadioPlayer::GetInstance().TogglePlayPause();
+    if (radio.IsPaused()) {
+        // Preserve compatibility with any non-UI caller that still uses the
+        // legacy in-task pause state. Manual UI pause never enters this path.
+        radio.TogglePlayPause();
         return;
     }
     SdMusicPlayer::GetInstance().TogglePlayPause();
@@ -151,9 +247,14 @@ void MediaPlayer::TogglePlayPause() {
 
 void MediaPlayer::PauseForVoice() {
     auto& radio = InternetRadioPlayer::GetInstance();
+    if (paused_by_user_.load()) {
+        return;
+    }
     if (radio.IsPlaying()) {
         std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (paused_by_user_.load()) return;
         radio_station_for_voice_ = radio.GetCurrentStation();
+        ESP_LOGI(TAG, "[RADIO_VOICE_PAUSE] station=%s", radio_station_for_voice_.name.c_str());
         radio.Stop();
         paused_for_voice_ = true;
         return;
@@ -165,6 +266,10 @@ void MediaPlayer::PauseForVoice() {
 }
 
 void MediaPlayer::PlayForVoice() {
+    if (paused_by_user_.load()) {
+        paused_for_voice_ = false;
+        return;
+    }
     if (paused_for_voice_.exchange(false)) {
         RadioStationInfo station;
         {
@@ -173,12 +278,23 @@ void MediaPlayer::PlayForVoice() {
             radio_station_for_voice_ = {};
         }
         if (!station.url_resolved.empty()) {
+            ESP_LOGI(TAG, "[RADIO_VOICE_RESUME] station=%s", station.name.c_str());
             ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
                      station.name.c_str(),
                      station.stationuuid.c_str(),
                      station.codec.c_str(),
                      station.url_resolved.c_str());
-            PlayRadio(station);
+            std::string err_msg;
+            auto restore_voice_pause = [this, station]() {
+                std::lock_guard<std::mutex> lock(voice_mutex_);
+                if (!paused_by_user_.load()) {
+                    radio_station_for_voice_ = station;
+                    paused_for_voice_ = true;
+                }
+            };
+            if (!PlayRadio(station, err_msg, {}, restore_voice_pause)) {
+                restore_voice_pause();
+            }
         } else {
             TogglePlayPause();
         }
@@ -208,6 +324,8 @@ void MediaPlayer::Stop() {
     {
         std::lock_guard<std::mutex> lock(voice_mutex_);
         radio_station_for_voice_ = {};
+        paused_by_user_ = false;
+        radio_station_for_manual_pause_ = {};
     }
     Application::GetInstance().StopVoiceInteractionForMedia();
     SdMusicPlayer::GetInstance().Stop();
@@ -219,9 +337,25 @@ bool MediaPlayer::IsPlaying() const {
            InternetRadioPlayer::GetInstance().IsPlaying();
 }
 
+bool MediaPlayer::HasRadioPausedByUser() const {
+    return paused_by_user_.load();
+}
+
+bool MediaPlayer::GetRadioStationPausedByUser(RadioStationInfo& station) const {
+    if (!paused_by_user_.load()) return false;
+    std::lock_guard<std::mutex> lock(voice_mutex_);
+    station = radio_station_for_manual_pause_;
+    return !station.url_resolved.empty();
+}
+
 bool MediaPlayer::GetCurrentRadioStationForAction(RadioStationInfo& station) const {
     if (InternetRadioPlayer::GetInstance().IsPlaying()) {
         station = InternetRadioPlayer::GetInstance().GetCurrentStation();
+        return !station.stationuuid.empty();
+    }
+    if (paused_by_user_.load()) {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        station = radio_station_for_manual_pause_;
         return !station.stationuuid.empty();
     }
     if (!paused_for_voice_.load()) return false;
@@ -230,8 +364,16 @@ bool MediaPlayer::GetCurrentRadioStationForAction(RadioStationInfo& station) con
     return !station.stationuuid.empty();
 }
 
+bool MediaPlayer::GetRadioStationPausedForVoice(RadioStationInfo& station) const {
+    if (!paused_for_voice_.load()) return false;
+    std::lock_guard<std::mutex> lock(voice_mutex_);
+    station = radio_station_for_voice_;
+    return !station.url_resolved.empty();
+}
+
 bool MediaPlayer::IsPaused() const {
-    return SdMusicPlayer::GetInstance().IsPaused() ||
+    return paused_by_user_.load() ||
+           SdMusicPlayer::GetInstance().IsPaused() ||
            InternetRadioPlayer::GetInstance().IsPaused();
 }
 
@@ -240,8 +382,16 @@ std::string MediaPlayer::GetTitle() const {
         InternetRadioPlayer::GetInstance().IsPaused())
         return InternetRadioPlayer::GetInstance().GetTitle();
 
-    if (paused_for_voice_ && !radio_station_for_voice_.name.empty())
-        return radio_station_for_voice_.name;
+    if (paused_for_voice_.load()) {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (!radio_station_for_voice_.name.empty()) return radio_station_for_voice_.name;
+    }
+
+    if (paused_by_user_.load()) {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (!radio_station_for_manual_pause_.name.empty())
+            return radio_station_for_manual_pause_.name;
+    }
 
     return SdMusicPlayer::GetInstance().GetCurrentTrackName();
 }

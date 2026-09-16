@@ -8,6 +8,7 @@
 #include <esp_lcd_panel_io.h>
 #include <esp_lcd_panel_ops.h>
 #include <atomic>
+#include <cstdint>
 #include <memory>
 #include <functional>
 
@@ -48,10 +49,17 @@ protected:
     lv_obj_t* brightness_slider_ = nullptr;
     lv_obj_t* volume_val_label_ = nullptr;
     lv_obj_t* brightness_val_label_ = nullptr;
+    lv_obj_t* auto_brightness_button_ = nullptr;
+    lv_obj_t* auto_brightness_timeout_label_ = nullptr;
     lv_obj_t* media_status_label_ = nullptr;
     lv_obj_t* media_title_label_ = nullptr;
     lv_obj_t* media_header_label_ = nullptr;
     bool quick_settings_open_ = false;
+    bool auto_brightness_enabled_ = false;
+    bool auto_brightness_dimmed_ = false;
+    bool ai_brightness_active_ = false;
+    uint8_t auto_brightness_timeout_index_ = 2;
+    uint32_t last_display_activity_ms_ = 0;
 
     lv_obj_t* nav_buttons_[3] = {};
     lv_obj_t* nav_status_[3] = {};
@@ -78,6 +86,11 @@ protected:
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
     void UpdateServiceIndicators();
+    void UpdateAutoBrightness();
+    void UpdateAutoBrightnessControls();
+    void SetAutoBrightnessEnabled(bool enabled);
+    void AdjustAutoBrightnessTimeout(int delta);
+    void RestoreSystemBrightness();
 
     // Tabs (AI RoboEyes, Player, Sega Emulator)
     lv_obj_t* panel_roboeyes_ = nullptr;
@@ -98,6 +111,7 @@ protected:
 public:
     void ToggleQuickSettings();
     void SwitchTab(int tab_index);
+    void RegisterDisplayActivity(const char* source = "OTHER_UI");
 
     void InitializeLcdThemes();
     virtual bool Lock(int timeout_ms = 0) override;

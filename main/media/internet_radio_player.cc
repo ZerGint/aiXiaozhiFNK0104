@@ -149,14 +149,25 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         return false;
     }
 
-    if (playing_) {
-        Stop();
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        if (!cleanup_complete_.load()) {
+            err_msg = "Radio is still stopping";
+            return false;
+        }
     }
+    if (playing_ || task_handle_.load() != nullptr) Stop();
 
     SystemInfo::PrintRamSnapshot("RADIO_START");
     {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        if (playing_ || task_handle_.load() != nullptr || !cleanup_complete_.load()) {
+            err_msg = "Radio is still stopping";
+            return false;
+        }
         std::lock_guard<std::mutex> lock(mutex_);
         const uint64_t generation = generation_.fetch_add(1) + 1;
+        active_generation_ = generation;
         current_station_ = station;
         url_ = station.url_resolved;
         title_ = station.name;
@@ -171,6 +182,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         reconnect_requested_ = false;
         paused_ = false;
         playing_ = true;
+        cleanup_complete_ = false;
         initial_ready_ = false;
         ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
                  current_station_.name.c_str(), current_station_.stationuuid.c_str(),
@@ -180,15 +192,20 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
             xEventGroupClearBits(startup_event_group_, kStartupBitReady | kStartupBitFailed);
         }
         ESP_LOGI(TAG, "Radio stream startup: connecting");
+        TaskHandle_t new_task_handle = nullptr;
         if (xTaskCreatePinnedToCore(TaskFunction, "InternetRadio", 6144, attempt, 3,
-                                    &task_handle_, 1) != pdPASS) {
+                                    &new_task_handle, 1) != pdPASS) {
             delete attempt;
             playing_ = false;
-            task_handle_ = nullptr;
+            task_handle_.store(nullptr);
+            active_generation_ = 0;
+            completed_generation_ = generation;
+            cleanup_complete_ = true;
             err_msg = "Unable to create stream task";
             ESP_LOGE(TAG, "%s", err_msg.c_str());
             return false;
         }
+        task_handle_.store(new_task_handle);
         return true;
     }
 }
@@ -200,15 +217,26 @@ void InternetRadioPlayer::TogglePlayPause() {
 
 void InternetRadioPlayer::Stop() {
     SystemInfo::PrintRamSnapshot("RADIO_STOP");
-    stop_requested_ = true;
-    generation_.fetch_add(1);
-    paused_ = false;
-    if (startup_event_group_ != nullptr) {
-        xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
+    uint64_t wait_generation = 0;
+    TaskHandle_t task = nullptr;
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        stop_requested_ = true;
+        generation_.fetch_add(1);
+        paused_ = false;
+        wait_generation = active_generation_.load();
+        task = task_handle_.load();
+        if (startup_event_group_ != nullptr) {
+            xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
+        }
     }
     Application::GetInstance().GetAudioService().ResetDecoder();
-    if (task_handle_ != nullptr && xTaskGetCurrentTaskHandle() != task_handle_) {
-        for (int i = 0; playing_ && i < 300; ++i) vTaskDelay(pdMS_TO_TICKS(10));
+    if (xTaskGetCurrentTaskHandle() != task) {
+        for (int i = 0; completed_generation_.load() != wait_generation && i < 300; ++i)
+            vTaskDelay(pdMS_TO_TICKS(10));
+        if (completed_generation_.load() != wait_generation) {
+            ESP_LOGW(TAG, "Radio stop timed out; cleanup still in progress");
+        }
     }
 }
 
@@ -218,12 +246,9 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
     LogRadioMemory(TAG, "RADIO_TASK_START");
     player->StreamLoop(attempt);
     LogRadioMemory(TAG, "RADIO_STREAMLOOP_EXIT");
-    player->playing_ = false;
-    player->paused_ = false;
-    player->task_handle_ = nullptr;
+    const bool current_attempt = player->generation_.load() == attempt->generation;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
-    const bool current_attempt = player->generation_.load() == attempt->generation;
     const bool startup_failed = current_attempt && !attempt->startup_ready_notified && !player->stop_requested_;
     const bool bip_failure = current_attempt && !player->initial_ready_ && !player->stop_requested_;
     if (bip_failure && attempt->emit_failure_bip) {
@@ -232,6 +257,23 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
         });
     }
     if (startup_failed && attempt->on_startup_failed) std::move(attempt->on_startup_failed)();
+    {
+        std::lock_guard<std::mutex> lifecycle_lock(player->lifecycle_mutex_);
+        if (player->active_generation_.load() == attempt->generation) {
+            player->playing_ = false;
+            player->paused_ = false;
+            player->task_handle_.store(nullptr);
+            // Restore low-power Wi-Fi only after Radio is no longer active. The
+            // lifecycle lock prevents a new generation from starting here.
+            if (Application::GetInstance().GetDeviceState() == kDeviceStateIdle) {
+                Board::GetInstance().SetPowerSaveLevel(PowerSaveLevel::LOW_POWER);
+                ESP_LOGI(TAG, "[WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)");
+                LogWifiPsStatus("stopped");
+            }
+            player->completed_generation_ = attempt->generation;
+            player->cleanup_complete_ = true;
+        }
+    }
     delete attempt;
     vTaskDelete(nullptr);
 }
@@ -562,8 +604,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         reconnect_requested_ = false;
         if (!stop_requested_) vTaskDelay(pdMS_TO_TICKS(500));
     }
-    Board::GetInstance().SetPowerSaveLevel(PowerSaveLevel::LOW_POWER);
-    ESP_LOGI(TAG, "[WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)");
-    LogWifiPsStatus("stopped");
-    Application::GetInstance().GetAudioService().ResetDecoder();
+    if (active_generation_.load() == attempt->generation) {
+        Application::GetInstance().GetAudioService().ResetDecoder();
+    }
 }

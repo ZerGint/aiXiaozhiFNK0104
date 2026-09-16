@@ -32,7 +32,10 @@ public:
     void Stop();
 
     bool IsPlaying() const;
+    bool HasRadioPausedByUser() const;
+    bool GetRadioStationPausedByUser(RadioStationInfo& station) const;
     bool GetCurrentRadioStationForAction(RadioStationInfo& station) const;
+    bool GetRadioStationPausedForVoice(RadioStationInfo& station) const;
     bool IsPaused() const;
     std::string GetTitle() const;
     std::string GetStatus() const;
@@ -40,7 +43,9 @@ public:
 private:
     MediaPlayer() = default;
     std::atomic<bool> paused_for_voice_{false};
+    std::atomic<bool> paused_by_user_{false};
     RadioStationInfo radio_station_for_voice_;
+    RadioStationInfo radio_station_for_manual_pause_;
     mutable std::mutex voice_mutex_;
 };
 

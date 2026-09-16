@@ -58,7 +58,11 @@ public:
 
         uint8_t reg = 0x02;
         uint8_t buf[5];
-        if (i2c_master_transmit_receive(dev_, &reg, 1, buf, 5, 50) != ESP_OK) return false;
+        const esp_err_t ret = i2c_master_transmit_receive(dev_, &reg, 1, buf, 5, 50);
+        if (ret != ESP_OK) {
+            ESP_LOGW(TAG, "TOUCH_READ_ERROR error=%s (0x%x)", esp_err_to_name(ret), ret);
+            return false;
+        }
 
         uint8_t points = buf[0] & 0x0F;
         if (points == 0) return true;
@@ -139,7 +143,13 @@ private:
                     auto lcd = static_cast<LcdDisplay*>(self->GetDisplay());
                     if (lcd && !lcd->IsQuickSettingsOpen() && tap_was_top_bar && last_y <= 50) {
                         ESP_LOGI(TAG, "TOP BAR TAP RELEASED! Opening Quick Settings...");
+                        ESP_LOGW(TAG,
+                                 "TOP_BAR_BOARD_RELEASE task=%s core=%u quick_settings_open_before=%d",
+                                 pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()),
+                                 lcd->IsQuickSettingsOpen());
                         lcd->ToggleQuickSettings();
+                        ESP_LOGW(TAG, "TOP_BAR_BOARD_RELEASE done quick_settings_open_after=%d",
+                                 lcd->IsQuickSettingsOpen());
                     }
                 }
             }
@@ -176,6 +186,9 @@ private:
 
     void InitializeButtons() {
         boot_button_.OnClick([this]() {
+#if !CONFIG_USE_EMOTE_MESSAGE_STYLE
+            if (display_) static_cast<LcdDisplay*>(display_)->RegisterDisplayActivity("BOOT_BUTTON");
+#endif
             auto &app = Application::GetInstance();
             if (app.GetDeviceState() == kDeviceStateStarting) {
                 EnterWifiConfigMode();

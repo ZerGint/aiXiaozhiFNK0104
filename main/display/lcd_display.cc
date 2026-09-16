@@ -18,6 +18,8 @@
 #include <material_symbols.h>
 #include <noto_emoji.h>
 #include <sdkconfig.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #ifndef LV_USE_KEYBOARD
 #define LV_USE_KEYBOARD 1
@@ -63,6 +65,15 @@ const lv_color_t kBorder = lv_color_hex(0x163B4A);
 const lv_color_t kText = lv_color_hex(0xF4FBFC);
 const lv_color_t kMuted = lv_color_hex(0x9CB8C2);
 
+constexpr uint32_t kAutoBrightnessTimeoutMs[] = {
+    30 * 1000,
+    60 * 1000,
+    3 * 60 * 1000,
+    5 * 60 * 1000,
+    10 * 60 * 1000,
+};
+constexpr const char* kAutoBrightnessTimeoutLabels[] = {"30s", "60s", "3m", "5m", "10m"};
+constexpr uint8_t kDefaultAutoBrightnessTimeoutIndex = 2;
 
 
 
@@ -636,7 +647,18 @@ void LcdDisplay::SetupUI() {
         lv_event_code_t code = lv_event_get_code(e);
         ESP_LOGI(TAG, "TOP BAR EVENT DETECTED: code=%d", (int)code);
         if (code == LV_EVENT_CLICKED || code == LV_EVENT_PRESSED || code == LV_EVENT_SHORT_CLICKED) {
-            if (display) display->ToggleQuickSettings();
+            if (display) {
+                const char* event_name = code == LV_EVENT_PRESSED ? "PRESSED" :
+                                         code == LV_EVENT_SHORT_CLICKED ? "SHORT_CLICKED" : "CLICKED";
+                ESP_LOGW(TAG,
+                         "TOP_BAR_LVGL event=%s task=%s core=%u quick_settings_open_before=%d",
+                         event_name, pcTaskGetName(nullptr),
+                         static_cast<unsigned>(xPortGetCoreID()),
+                         display->IsQuickSettingsOpen());
+                display->ToggleQuickSettings();
+                ESP_LOGW(TAG, "TOP_BAR_LVGL done quick_settings_open_after=%d",
+                         display->IsQuickSettingsOpen());
+            }
         }
     };
 
@@ -1397,7 +1419,19 @@ void LcdDisplay::SetupUI() {
         auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         auto& radio = InternetRadioPlayer::GetInstance();
         auto& browser = RadioBrowser::GetInstance();
-        const auto uuid = radio.IsActive() ? radio.GetCurrentStation().stationuuid : browser.GetSelectedStationUuid();
+        std::string uuid;
+        if (radio.IsActive()) {
+            uuid = radio.GetCurrentStation().stationuuid;
+        } else {
+            RadioStationInfo voice_station;
+            RadioStationInfo manual_station;
+            if (MediaPlayer::GetInstance().GetRadioStationPausedForVoice(voice_station))
+                uuid = voice_station.stationuuid;
+            else if (MediaPlayer::GetInstance().GetRadioStationPausedByUser(manual_station))
+                uuid = manual_station.stationuuid;
+            else
+                uuid = browser.GetSelectedStationUuid();
+        }
         if (!uuid.empty()) {
             if (RadioStorage::GetInstance().ContainsFavoriteUuid(uuid))
                 RadioStorage::GetInstance().RemoveFavoriteUuid(uuid);
@@ -1432,6 +1466,14 @@ void LcdDisplay::SetupUI() {
         auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         auto& radio = InternetRadioPlayer::GetInstance();
         auto& sd = SdMusicPlayer::GetInstance();
+        if (display && display->media_browser_mode_ == MediaBrowserMode::Radio) {
+            RadioStationInfo voice_station;
+            if (MediaPlayer::GetInstance().HasRadioPausedByUser() ||
+                MediaPlayer::GetInstance().GetRadioStationPausedForVoice(voice_station)) {
+                MediaPlayer::GetInstance().TogglePlayPause();
+                return;
+            }
+        }
         if (!radio.IsPlaying() && !radio.IsPaused() && !sd.IsPlaying() && !sd.IsPaused() &&
             display && display->media_browser_mode_ == MediaBrowserMode::Radio) {
             auto& browser = RadioBrowser::GetInstance();
@@ -1946,9 +1988,17 @@ void LcdDisplay::SetHideSubtitle(bool hide) {
 }
 
 void LcdDisplay::ToggleQuickSettings() {
+    static std::atomic<int> toggle_nesting{0};
+    const int nesting = toggle_nesting.fetch_add(1) + 1;
+    ESP_LOGW(TAG, "TOGGLE_QS enter task=%s core=%u open_before=%d nesting=%d",
+             pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()),
+             quick_settings_open_, nesting);
+    if (nesting > 1) ESP_LOGW(TAG, "TOGGLE_QS REENTRANT");
     DisplayLockGuard lock(this);
     if (!quick_settings_panel_) {
         ESP_LOGE(TAG, "ToggleQuickSettings: quick_settings_panel_ is null!");
+        const int after = toggle_nesting.fetch_sub(1) - 1;
+        ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
         return;
     }
     quick_settings_open_ = !quick_settings_open_;
@@ -1959,9 +2009,128 @@ void LcdDisplay::ToggleQuickSettings() {
     } else {
         lv_obj_add_flag(quick_settings_panel_, LV_OBJ_FLAG_HIDDEN);
     }
+    const int after = toggle_nesting.fetch_sub(1) - 1;
+    ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
+}
+
+void LcdDisplay::RestoreSystemBrightness() {
+    auto backlight = Board::GetInstance().GetBacklight();
+    if (backlight == nullptr) {
+        auto_brightness_dimmed_ = false;
+        return;
+    }
+
+    Settings settings("display");
+    int normal_brightness = settings.GetInt("brightness", backlight->brightness());
+    normal_brightness = std::clamp(normal_brightness, 10, 100);
+    const bool dimmed_before = auto_brightness_dimmed_;
+    ESP_LOGW(TAG,
+             "AUTO_RESTORE begin task=%s core=%u dimmed_before=%d current=%u target=%d",
+             pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()), dimmed_before,
+             static_cast<unsigned>(backlight->brightness()), normal_brightness);
+    backlight->SetBrightness(static_cast<uint8_t>(normal_brightness), false);
+    auto_brightness_dimmed_ = false;
+    ESP_LOGW(TAG, "AUTO_RESTORE requested dimmed_after=%d", auto_brightness_dimmed_);
+}
+
+void LcdDisplay::RegisterDisplayActivity(const char* source) {
+    const bool dimmed_before = auto_brightness_dimmed_;
+    auto backlight = Board::GetInstance().GetBacklight();
+    ESP_LOGW(TAG,
+             "AUTO_ACTIVITY source=%s task=%s core=%u dimmed_before=%d backlight_current=%u",
+             source ? source : "OTHER_UI", pcTaskGetName(nullptr),
+             static_cast<unsigned>(xPortGetCoreID()), dimmed_before,
+             backlight ? static_cast<unsigned>(backlight->brightness()) : 0U);
+    last_display_activity_ms_ = lv_tick_get();
+    if (auto_brightness_dimmed_)
+        RestoreSystemBrightness();
+}
+
+void LcdDisplay::UpdateAutoBrightnessControls() {
+    if (auto_brightness_button_) {
+        lv_obj_set_style_bg_color(auto_brightness_button_,
+                                  auto_brightness_enabled_ ? kAccent : kCard, 0);
+    }
+    if (auto_brightness_timeout_label_) {
+        lv_label_set_text(auto_brightness_timeout_label_,
+                          kAutoBrightnessTimeoutLabels[auto_brightness_timeout_index_]);
+    }
+}
+
+void LcdDisplay::SetAutoBrightnessEnabled(bool enabled) {
+    if (auto_brightness_enabled_ == enabled) {
+        RegisterDisplayActivity("AUTO_SETTING");
+        return;
+    }
+
+    auto_brightness_enabled_ = enabled;
+    Settings settings("display", true);
+    settings.SetBool("auto_brightness", enabled);
+    RegisterDisplayActivity("AUTO_SETTING");
+    UpdateAutoBrightnessControls();
+}
+
+void LcdDisplay::AdjustAutoBrightnessTimeout(int delta) {
+    const int next = std::clamp(static_cast<int>(auto_brightness_timeout_index_) + delta,
+                                0, static_cast<int>(sizeof(kAutoBrightnessTimeoutMs) /
+                                                     sizeof(kAutoBrightnessTimeoutMs[0])) - 1);
+    if (next == auto_brightness_timeout_index_) {
+        RegisterDisplayActivity("AUTO_SETTING");
+        return;
+    }
+
+    auto_brightness_timeout_index_ = static_cast<uint8_t>(next);
+    Settings settings("display", true);
+        settings.SetInt("auto_dim_time", auto_brightness_timeout_index_);
+    RegisterDisplayActivity("AUTO_SETTING");
+    UpdateAutoBrightnessControls();
+}
+
+void LcdDisplay::UpdateAutoBrightness() {
+    const auto state = Application::GetInstance().GetDeviceState();
+    const bool ai_active = state == kDeviceStateConnecting ||
+                           state == kDeviceStateListening ||
+                           state == kDeviceStateSpeaking ||
+                           state == kDeviceStateNotifying;
+    const uint32_t now = lv_tick_get();
+
+    if (ai_active) {
+        if (!ai_brightness_active_ || auto_brightness_dimmed_)
+            RestoreSystemBrightness();
+        ai_brightness_active_ = true;
+        last_display_activity_ms_ = now;
+        return;
+    }
+
+    if (ai_brightness_active_) {
+        ai_brightness_active_ = false;
+        last_display_activity_ms_ = now;
+        return;
+    }
+
+    if (!auto_brightness_enabled_) {
+        if (auto_brightness_dimmed_)
+            RestoreSystemBrightness();
+        return;
+    }
+
+    if (!auto_brightness_dimmed_ &&
+        lv_tick_elaps(last_display_activity_ms_) >=
+            kAutoBrightnessTimeoutMs[auto_brightness_timeout_index_]) {
+        if (auto backlight = Board::GetInstance().GetBacklight()) {
+            ESP_LOGW(TAG,
+                     "AUTO_DIM begin task=%s core=%u dimmed_before=%d backlight_current=%u",
+                     pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()),
+                     auto_brightness_dimmed_, static_cast<unsigned>(backlight->brightness()));
+            backlight->SetBrightness(10, false);
+            auto_brightness_dimmed_ = true;
+            ESP_LOGW(TAG, "AUTO_DIM done dimmed_after=%d", auto_brightness_dimmed_);
+        }
+    }
 }
 
 void LcdDisplay::UpdateServiceIndicators() {
+    UpdateAutoBrightness();
     // LVGL timer context: read service state without changing it.
     auto& sd = SdMusicPlayer::GetInstance();
     auto& radio = InternetRadioPlayer::GetInstance();
@@ -1999,8 +2168,16 @@ void LcdDisplay::UpdateServiceIndicators() {
             std::string uuid;
             if (active_media_source_ == ActiveMediaSource::Radio)
                 uuid = radio.GetCurrentStation().stationuuid;
-            else
-                uuid = RadioBrowser::GetInstance().GetSelectedStationUuid();
+            else {
+                RadioStationInfo voice_station;
+                RadioStationInfo manual_station;
+                if (MediaPlayer::GetInstance().GetRadioStationPausedForVoice(voice_station))
+                    uuid = voice_station.stationuuid;
+                else if (MediaPlayer::GetInstance().GetRadioStationPausedByUser(manual_station))
+                    uuid = manual_station.stationuuid;
+                else
+                    uuid = RadioBrowser::GetInstance().GetSelectedStationUuid();
+            }
             lv_label_set_text(lv_obj_get_child(media_favorite_button_, 0),
                               (!uuid.empty() && RadioStorage::GetInstance().ContainsFavoriteUuid(uuid)) ? "★" : "☆");
             lv_obj_set_style_text_font(lv_obj_get_child(media_favorite_button_, 0), &font_noto_sans_symbols_star_20_4, 0);
@@ -2021,24 +2198,34 @@ void LcdDisplay::UpdateServiceIndicators() {
             title = station.name;
         } else if (active_media_source_ == ActiveMediaSource::Player) {
             title = MediaPlayer::GetInstance().GetTitle();
-        } else if (media_browser_mode_ == MediaBrowserMode::Radio) {
-            RadioStationInfo preview;
-            auto& browser = RadioBrowser::GetInstance();
-            if (!browser.GetSelectedStation(preview) && browser.GetFirstCatalogStation(preview)) {
-                browser.SetSelectedStationUuid(preview.stationuuid);
-            }
-            title = preview.name.empty() ? "--" : preview.name;
         } else {
-            const auto& tracks = sd.GetPlaylist();
-            int index = sd.GetSelectedTrackIndex();
-            if (index < 0 || index >= static_cast<int>(tracks.size())) {
-                index = tracks.empty() ? -1 : 0;
-                if (index >= 0) sd.SetSelectedTrackIndex(index);
-            }
-            if (index >= 0) {
-                title = tracks[index];
-                const size_t slash = title.find_last_of('/');
-                if (slash != std::string::npos) title.erase(0, slash + 1);
+            RadioStationInfo voice_station;
+            if (MediaPlayer::GetInstance().GetRadioStationPausedForVoice(voice_station)) {
+                title = voice_station.name.empty() ? "--" : voice_station.name;
+            } else {
+                RadioStationInfo manual_station;
+                if (MediaPlayer::GetInstance().GetRadioStationPausedByUser(manual_station)) {
+                    title = manual_station.name.empty() ? "--" : manual_station.name;
+                } else if (media_browser_mode_ == MediaBrowserMode::Radio) {
+                    RadioStationInfo preview;
+                    auto& browser = RadioBrowser::GetInstance();
+                    if (!browser.GetSelectedStation(preview)) {
+                        browser.GetFirstCatalogStation(preview);
+                    }
+                    title = preview.name.empty() ? "--" : preview.name;
+                } else {
+                    const auto& tracks = sd.GetPlaylist();
+                    int index = sd.GetSelectedTrackIndex();
+                    if (index < 0 || index >= static_cast<int>(tracks.size())) {
+                        index = tracks.empty() ? -1 : 0;
+                        if (index >= 0) sd.SetSelectedTrackIndex(index);
+                    }
+                    if (index >= 0) {
+                        title = tracks[index];
+                        const size_t slash = title.find_last_of('/');
+                        if (slash != std::string::npos) title.erase(0, slash + 1);
+                    }
+                }
             }
         }
         const bool active = active_media_source_ != ActiveMediaSource::None;
@@ -2171,8 +2358,25 @@ void LcdDisplay::SwitchTab(int tab_index)
 }
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
+    Settings settings("display");
+    auto_brightness_enabled_ = settings.GetBool("auto_brightness", false);
+    const int saved_timeout = settings.GetInt("auto_dim_time", kDefaultAutoBrightnessTimeoutIndex);
+    auto_brightness_timeout_index_ = static_cast<uint8_t>(std::clamp(
+        saved_timeout, 0, static_cast<int>(sizeof(kAutoBrightnessTimeoutMs) /
+                                            sizeof(kAutoBrightnessTimeoutMs[0])) - 1));
+    last_display_activity_ms_ = lv_tick_get();
+
+    for (lv_indev_t* indev = lv_indev_get_next(nullptr); indev != nullptr;
+         indev = lv_indev_get_next(indev)) {
+        lv_indev_add_event_cb(indev, [](lv_event_t* e) {
+            auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            if (display && lv_event_get_code(e) == LV_EVENT_PRESSED)
+                display->RegisterDisplayActivity("LVGL_INDEV_PRESSED");
+        }, LV_EVENT_PRESSED, this);
+    }
+
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 160);
+    lv_obj_set_size(quick_settings_panel_, 440, 210);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -2298,8 +2502,63 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         }
     }, LV_EVENT_VALUE_CHANGED, this);
 
+    // Auto brightness row
+    lv_obj_t* auto_row = lv_obj_create(quick_settings_panel_);
+    lv_obj_set_size(auto_row, 416, 45);
+    lv_obj_align(auto_row, LV_ALIGN_TOP_MID, 0, 145);
+    lv_obj_set_style_bg_opa(auto_row, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(auto_row, 0, 0);
+    lv_obj_set_style_pad_all(auto_row, 0, 0);
+    lv_obj_remove_flag(auto_row, LV_OBJ_FLAG_SCROLLABLE);
 
+    auto_brightness_button_ = lv_btn_create(auto_row);
+    lv_obj_set_size(auto_brightness_button_, 42, 40);
+    lv_obj_align(auto_brightness_button_, LV_ALIGN_LEFT_MID, 0, 0);
+    lv_obj_set_style_radius(auto_brightness_button_, 10, 0);
+    lv_obj_set_style_border_width(auto_brightness_button_, 0, 0);
+    auto* auto_icon = lv_label_create(auto_brightness_button_);
+    lv_label_set_text(auto_icon, MATERIAL_SYMBOLS_BRIGHTNESS_6);
+    lv_obj_set_style_text_font(auto_icon, &BUILTIN_ICON_FONT, 0);
+    lv_obj_set_style_text_color(auto_icon, kText, 0);
+    lv_obj_center(auto_icon);
+    lv_obj_add_event_cb(auto_brightness_button_, [](lv_event_t* e) {
+        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display) display->SetAutoBrightnessEnabled(!display->auto_brightness_enabled_);
+    }, LV_EVENT_CLICKED, this);
 
+    auto_brightness_timeout_label_ = lv_label_create(auto_row);
+    lv_obj_set_size(auto_brightness_timeout_label_, 52, 40);
+    lv_obj_set_style_text_color(auto_brightness_timeout_label_, kText, 0);
+    lv_obj_set_style_text_align(auto_brightness_timeout_label_, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_align(auto_brightness_timeout_label_, LV_ALIGN_LEFT_MID, 50, 0);
+
+    auto make_timeout_button = [this, auto_row](const char* icon, int x, int delta) {
+        auto button = lv_btn_create(auto_row);
+        lv_obj_set_size(button, 38, 38);
+        lv_obj_align(button, LV_ALIGN_LEFT_MID, x, 0);
+        lv_obj_set_style_radius(button, 9, 0);
+        lv_obj_set_style_bg_color(button, kCard, 0);
+        lv_obj_set_style_border_width(button, 0, 0);
+        auto label = lv_label_create(button);
+        lv_label_set_text(label, icon);
+        lv_obj_set_style_text_font(label, &BUILTIN_ICON_FONT, 0);
+        lv_obj_set_style_text_color(label, kText, 0);
+        lv_obj_center(label);
+        if (delta < 0) {
+            lv_obj_add_event_cb(button, [](lv_event_t* e) {
+                auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+                if (display) display->AdjustAutoBrightnessTimeout(-1);
+            }, LV_EVENT_CLICKED, this);
+        } else {
+            lv_obj_add_event_cb(button, [](lv_event_t* e) {
+                auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+                if (display) display->AdjustAutoBrightnessTimeout(1);
+            }, LV_EVENT_CLICKED, this);
+        }
+    };
+    make_timeout_button(MATERIAL_SYMBOLS_KEYBOARD_ARROW_LEFT, 110, -1);
+    make_timeout_button(MATERIAL_SYMBOLS_KEYBOARD_ARROW_RIGHT, 154, 1);
+    UpdateAutoBrightnessControls();
 }
 
 void LcdDisplay::SetupMediaPlayerTab(lv_obj_t* parent) {
