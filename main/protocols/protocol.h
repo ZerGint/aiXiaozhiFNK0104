@@ -13,6 +13,7 @@ struct AudioStreamPacket {
     uint32_t timestamp = 0;
     uint32_t playback_id = 0;
     uint32_t media_position_ms = 0;
+    bool is_system_sound = false;
     std::vector<uint8_t> payload;
 };
 

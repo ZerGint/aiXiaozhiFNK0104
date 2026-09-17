@@ -1,15 +1,16 @@
 #include "media_player.h"
 
 #include "application.h"
-#include "sd_music_player.h"
 #include "internet_radio_player.h"
+#include "radio_browser.h"
+#include "sd_music_player.h"
 
 #include <esp_log.h>
+#include <cJSON.h>
 #include <algorithm>
 #include <cctype>
 #include <memory>
 #include <utility>
-#include <cJSON.h>
 
 static const char* TAG = "MediaPlayer";
 
@@ -18,9 +19,7 @@ MediaPlayer& MediaPlayer::GetInstance() {
     return instance;
 }
 
-void MediaPlayer::ScanSd() {
-    SdMusicPlayer::GetInstance().ScanPlaylist();
-}
+void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
 
 void MediaPlayer::PlaySd(int index) {
     paused_for_voice_ = false;
@@ -39,11 +38,13 @@ void MediaPlayer::PlaySd(int index) {
 std::string MediaPlayer::ListSdTracks() const {
     const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
-    if (result == nullptr) return "[]";
+    if (result == nullptr)
+        return "[]";
     for (size_t i = 0; i < tracks.size(); ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
-        if (slash != std::string::npos) title.erase(0, slash + 1);
+        if (slash != std::string::npos)
+            title.erase(0, slash + 1);
         cJSON* item = cJSON_CreateObject();
         cJSON_AddNumberToObject(item, "index", static_cast<double>(i + 1));
         cJSON_AddStringToObject(item, "title", title.c_str());
@@ -54,28 +55,34 @@ std::string MediaPlayer::ListSdTracks() const {
     }
     char* output = cJSON_PrintUnformatted(result.get());
     std::string response = output != nullptr ? output : "[]";
-    if (output != nullptr) cJSON_free(output);
+    if (output != nullptr)
+        cJSON_free(output);
     return response;
 }
 
-std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::string& genre, int limit) const {
+std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::string& genre,
+                                        int limit) const {
     limit = std::max(1, std::min(limit, 20));
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
-    if (result == nullptr) return "[]";
+    if (result == nullptr)
+        return "[]";
     const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
     for (size_t i = 0; i < tracks.size() && cJSON_GetArraySize(result.get()) < limit; ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
-        if (slash != std::string::npos) title.erase(0, slash + 1);
+        if (slash != std::string::npos)
+            title.erase(0, slash + 1);
         std::string title_lower = title;
         std::string wanted_artist = artist;
         std::string wanted_genre = genre;
         auto lowercase = [](unsigned char c) { return static_cast<char>(std::tolower(c)); };
         std::transform(title_lower.begin(), title_lower.end(), title_lower.begin(), lowercase);
-        std::transform(wanted_artist.begin(), wanted_artist.end(), wanted_artist.begin(), lowercase);
+        std::transform(wanted_artist.begin(), wanted_artist.end(), wanted_artist.begin(),
+                       lowercase);
         std::transform(wanted_genre.begin(), wanted_genre.end(), wanted_genre.begin(), lowercase);
         if ((!wanted_artist.empty() && title_lower.find(wanted_artist) == std::string::npos) ||
-            (!wanted_genre.empty() && title_lower.find(wanted_genre) == std::string::npos)) continue;
+            (!wanted_genre.empty() && title_lower.find(wanted_genre) == std::string::npos))
+            continue;
         cJSON* item = cJSON_CreateObject();
         cJSON_AddNumberToObject(item, "index", static_cast<double>(i + 1));
         cJSON_AddStringToObject(item, "title", title.c_str());
@@ -86,7 +93,8 @@ std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::st
     }
     char* output = cJSON_PrintUnformatted(result.get());
     std::string response = output != nullptr ? output : "[]";
-    if (output != nullptr) cJSON_free(output);
+    if (output != nullptr)
+        cJSON_free(output);
     return response;
 }
 
@@ -98,11 +106,13 @@ int MediaPlayer::FindSdTrack(const std::string& query) const {
     for (size_t i = 0; i < tracks.size(); ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
-        if (slash != std::string::npos) title.erase(0, slash + 1);
+        if (slash != std::string::npos)
+            title.erase(0, slash + 1);
         std::string lower_title = title;
         std::transform(lower_title.begin(), lower_title.end(), lower_title.begin(),
                        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-        if (lower_title.find(needle) != std::string::npos) return static_cast<int>(i);
+        if (lower_title.find(needle) != std::string::npos)
+            return static_cast<int>(i);
     }
     return -1;
 }
@@ -117,7 +127,8 @@ bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title) {
     return PlayRadio(url, title, err_msg);
 }
 
-bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title, std::string& err_msg) {
+bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title,
+                            std::string& err_msg) {
     RadioStationInfo station;
     station.url_resolved = url;
     station.name = title;
@@ -126,8 +137,7 @@ bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title, st
 
 bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_msg,
                             std::function<void()> on_startup_ready,
-                            std::function<void()> on_startup_failed,
-                            bool emit_failure_bip) {
+                            std::function<void()> on_startup_failed, bool emit_failure_bip) {
     bool restore_voice_pause = false;
     bool restore_manual_pause = false;
     RadioStationInfo voice_station;
@@ -146,10 +156,9 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
     // Ensure the SD decoder task and audio pipeline are fully stopped before
     // starting the radio source; this prevents a transient dual-source period.
     SdMusicPlayer::GetInstance().Stop();
-    const bool success = InternetRadioPlayer::GetInstance().Play(station, err_msg,
-                                                                  std::move(on_startup_ready),
-                                                                  std::move(on_startup_failed),
-                                                                  emit_failure_bip);
+    const bool success =
+        InternetRadioPlayer::GetInstance().Play(station, err_msg, std::move(on_startup_ready),
+                                                std::move(on_startup_failed), emit_failure_bip);
     if (success) {
         Application::GetInstance().StopVoiceInteractionForMedia();
     } else {
@@ -220,12 +229,11 @@ void MediaPlayer::TogglePlayPause() {
         }
         ESP_LOGI(TAG, "[RADIO_MANUAL_RESUME] station=%s", station.name.c_str());
         std::string err_msg;
-        const bool success = PlayRadio(
-            station, err_msg, {}, [this, station]() {
-                std::lock_guard<std::mutex> lock(voice_mutex_);
-                radio_station_for_manual_pause_ = station;
-                paused_by_user_ = true;
-            });
+        const bool success = PlayRadio(station, err_msg, {}, [this, station]() {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+        });
         if (!success) {
             std::lock_guard<std::mutex> lock(voice_mutex_);
             radio_station_for_manual_pause_ = station;
@@ -252,7 +260,8 @@ void MediaPlayer::PauseForVoice() {
     }
     if (radio.IsPlaying()) {
         std::lock_guard<std::mutex> lock(voice_mutex_);
-        if (paused_by_user_.load()) return;
+        if (paused_by_user_.load())
+            return;
         radio_station_for_voice_ = radio.GetCurrentStation();
         ESP_LOGI(TAG, "[RADIO_VOICE_PAUSE] station=%s", radio_station_for_voice_.name.c_str());
         radio.Stop();
@@ -280,9 +289,7 @@ void MediaPlayer::PlayForVoice() {
         if (!station.url_resolved.empty()) {
             ESP_LOGI(TAG, "[RADIO_VOICE_RESUME] station=%s", station.name.c_str());
             ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
-                     station.name.c_str(),
-                     station.stationuuid.c_str(),
-                     station.codec.c_str(),
+                     station.name.c_str(), station.stationuuid.c_str(), station.codec.c_str(),
                      station.url_resolved.c_str());
             std::string err_msg;
             auto restore_voice_pause = [this, station]() {
@@ -304,7 +311,7 @@ void MediaPlayer::PlayForVoice() {
 void MediaPlayer::Next() {
     paused_for_voice_ = false;
     if (InternetRadioPlayer::GetInstance().IsActive()) {
-        InternetRadioPlayer::GetInstance().Stop();
+        RadioBrowser::GetInstance().MoveActiveStation(1);
         return;
     }
     SdMusicPlayer::GetInstance().Next();
@@ -313,7 +320,7 @@ void MediaPlayer::Next() {
 void MediaPlayer::Prev() {
     paused_for_voice_ = false;
     if (InternetRadioPlayer::GetInstance().IsActive()) {
-        InternetRadioPlayer::GetInstance().Stop();
+        RadioBrowser::GetInstance().MoveActiveStation(-1);
         return;
     }
     SdMusicPlayer::GetInstance().Prev();
@@ -337,12 +344,11 @@ bool MediaPlayer::IsPlaying() const {
            InternetRadioPlayer::GetInstance().IsPlaying();
 }
 
-bool MediaPlayer::HasRadioPausedByUser() const {
-    return paused_by_user_.load();
-}
+bool MediaPlayer::HasRadioPausedByUser() const { return paused_by_user_.load(); }
 
 bool MediaPlayer::GetRadioStationPausedByUser(RadioStationInfo& station) const {
-    if (!paused_by_user_.load()) return false;
+    if (!paused_by_user_.load())
+        return false;
     std::lock_guard<std::mutex> lock(voice_mutex_);
     station = radio_station_for_manual_pause_;
     return !station.url_resolved.empty();
@@ -358,22 +364,23 @@ bool MediaPlayer::GetCurrentRadioStationForAction(RadioStationInfo& station) con
         station = radio_station_for_manual_pause_;
         return !station.stationuuid.empty();
     }
-    if (!paused_for_voice_.load()) return false;
+    if (!paused_for_voice_.load())
+        return false;
     std::lock_guard<std::mutex> lock(voice_mutex_);
     station = radio_station_for_voice_;
     return !station.stationuuid.empty();
 }
 
 bool MediaPlayer::GetRadioStationPausedForVoice(RadioStationInfo& station) const {
-    if (!paused_for_voice_.load()) return false;
+    if (!paused_for_voice_.load())
+        return false;
     std::lock_guard<std::mutex> lock(voice_mutex_);
     station = radio_station_for_voice_;
     return !station.url_resolved.empty();
 }
 
 bool MediaPlayer::IsPaused() const {
-    return paused_by_user_.load() ||
-           SdMusicPlayer::GetInstance().IsPaused() ||
+    return paused_by_user_.load() || SdMusicPlayer::GetInstance().IsPaused() ||
            InternetRadioPlayer::GetInstance().IsPaused();
 }
 
@@ -384,7 +391,8 @@ std::string MediaPlayer::GetTitle() const {
 
     if (paused_for_voice_.load()) {
         std::lock_guard<std::mutex> lock(voice_mutex_);
-        if (!radio_station_for_voice_.name.empty()) return radio_station_for_voice_.name;
+        if (!radio_station_for_voice_.name.empty())
+            return radio_station_for_voice_.name;
     }
 
     if (paused_by_user_.load()) {
@@ -397,7 +405,9 @@ std::string MediaPlayer::GetTitle() const {
 }
 
 std::string MediaPlayer::GetStatus() const {
-    if (IsPlaying()) return "▶ Воспроизведение";
-    if (IsPaused()) return "⏸ Пауза";
+    if (IsPlaying())
+        return "▶ Воспроизведение";
+    if (IsPaused())
+        return "⏸ Пауза";
     return "⏹ Остановлен";
 }

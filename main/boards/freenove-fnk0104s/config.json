@@ -3,7 +3,10 @@
     "target": "esp32s3",
     "builds": [
         {
-            "name": "freenove-fnk0104s"
+            "name": "freenove-fnk0104s",
+            "sdkconfig_append": [
+                "CONFIG_FNK_EXTERNAL_I2S_SPEAKER=y"
+            ]
         }
     ]
 }

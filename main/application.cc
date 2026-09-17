@@ -357,6 +357,7 @@ void Application::HandleActivationDoneEvent() {
 
     Schedule([this]() {
         // Play the success sound to indicate the device is ready
+        ESP_LOGI(TAG, "CONNECTION_SOUND_START timestamp_ms=%lld", esp_timer_get_time() / 1000);
         audio_service_.PlaySound(Lang::Sounds::OGG_SUCCESS);
     });
 }
@@ -543,7 +544,11 @@ void Application::InitializeProtocol() {
         protocol_ = std::make_unique<MqttProtocol>();
     }
 
-    protocol_->OnConnected([this]() { DismissAlert(); });
+    protocol_->OnConnected([this]() {
+        ESP_LOGI(TAG, "PROTOCOL_CONNECTED timestamp_ms=%lld", esp_timer_get_time() / 1000);
+        DismissAlert();
+        Schedule([]() { Board::GetInstance().GetDisplay()->OnServerConnected(); });
+    });
 
     protocol_->OnNetworkError([this](const std::string& message) {
         last_error_message_ = message;

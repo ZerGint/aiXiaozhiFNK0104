@@ -75,6 +75,17 @@ constexpr uint32_t kAutoBrightnessTimeoutMs[] = {
 constexpr const char* kAutoBrightnessTimeoutLabels[] = {"30s", "60s", "3m", "5m", "10m"};
 constexpr uint8_t kDefaultAutoBrightnessTimeoutIndex = 2;
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+constexpr uint32_t kBootIntroDurationMs = 1400;
+constexpr uint32_t kBootMinimumDisplayMs = 1750;
+constexpr uint32_t kBootMaximumDisplayMs = 8000;
+constexpr uint32_t kBootExitDurationMs = 300;
+constexpr uint32_t kBootTimerPeriodMs = 33;
+constexpr int kBootBarCount = 5;
+constexpr int kBootBarXOffsets[kBootBarCount] = {-38, -19, 0, 19, 38};
+constexpr int kBootBarAmplitudes[kBootBarCount] = {14, 24, 34, 24, 14};
+#endif
+
 
 
 static void DisableScroll(lv_obj_t* obj)
@@ -400,6 +411,9 @@ MipiLcdDisplay::MipiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel
 }
 
 LcdDisplay::~LcdDisplay() {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    DestroyBootAnimation();
+#endif
     if (service_timer_) lv_timer_delete(service_timer_);
     if (robo_eyes_timer_) {
         lv_timer_delete(robo_eyes_timer_);
@@ -1548,7 +1562,198 @@ void LcdDisplay::SetupUI() {
     LogUiMemory("UI_MEM_AFTER_SETUP_COMPLETE");
     lv_obj_move_foreground(top_bar_);
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    StartBootAnimation();
+#endif
+
 }
+
+void LcdDisplay::OnServerConnected() {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    boot_server_connected_.store(true, std::memory_order_release);
+    ESP_LOGI(TAG, "AI_READY_FOR_BOOT timestamp_ms=%lld", esp_timer_get_time() / 1000);
+#endif
+}
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::StartBootAnimation() {
+    auto screen = lv_screen_active();
+    boot_overlay_ = lv_obj_create(screen);
+    lv_obj_set_size(boot_overlay_, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_pos(boot_overlay_, 0, 0);
+    lv_obj_set_style_radius(boot_overlay_, 0, 0);
+    lv_obj_set_style_border_width(boot_overlay_, 0, 0);
+    lv_obj_set_style_pad_all(boot_overlay_, 0, 0);
+    lv_obj_set_style_bg_color(boot_overlay_, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(boot_overlay_, LV_OPA_COVER, 0);
+    lv_obj_add_flag(boot_overlay_, LV_OBJ_FLAG_CLICKABLE);
+    DisableScroll(boot_overlay_);
+
+    boot_ring_ = lv_obj_create(boot_overlay_);
+    lv_obj_set_size(boot_ring_, 8, 8);
+    lv_obj_set_style_radius(boot_ring_, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_bg_opa(boot_ring_, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(boot_ring_, 2, 0);
+    lv_obj_set_style_border_color(boot_ring_, lv_color_hex(0x16D99A), 0);
+    lv_obj_set_style_border_opa(boot_ring_, LV_OPA_TRANSP, 0);
+    lv_obj_center(boot_ring_);
+
+    boot_dot_ = lv_obj_create(boot_overlay_);
+    lv_obj_set_size(boot_dot_, 8, 8);
+    lv_obj_set_style_radius(boot_dot_, LV_RADIUS_CIRCLE, 0);
+    lv_obj_set_style_border_width(boot_dot_, 0, 0);
+    lv_obj_set_style_bg_color(boot_dot_, lv_color_hex(0xA8FFF0), 0);
+    lv_obj_set_style_bg_opa(boot_dot_, LV_OPA_TRANSP, 0);
+    lv_obj_center(boot_dot_);
+
+    for (int i = 0; i < kBootBarCount; ++i) {
+        boot_bars_[i] = lv_obj_create(boot_overlay_);
+        lv_obj_set_size(boot_bars_[i], 4, 4);
+        lv_obj_set_style_radius(boot_bars_[i], 2, 0);
+        lv_obj_set_style_border_width(boot_bars_[i], 0, 0);
+        lv_obj_set_style_bg_color(boot_bars_[i], lv_color_hex(0x72E8D4), 0);
+        lv_obj_set_style_bg_opa(boot_bars_[i], LV_OPA_TRANSP, 0);
+        lv_obj_align(boot_bars_[i], LV_ALIGN_CENTER, kBootBarXOffsets[i], 0);
+    }
+
+    boot_server_connected_.store(false, std::memory_order_relaxed);
+    boot_animation_started_ms_ = lv_tick_get();
+    boot_exit_started_ms_ = 0;
+    boot_min_wait_logged_ = false;
+    boot_intro_logged_ = false;
+    boot_exiting_ = false;
+    boot_animation_timer_ = lv_timer_create(
+        [](lv_timer_t* timer) {
+            auto display = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
+            if (display) {
+                display->UpdateBootAnimation();
+            }
+        },
+        kBootTimerPeriodMs, this);
+    lv_obj_move_foreground(boot_overlay_);
+    ESP_LOGI(TAG, "BOOT_ANIM_START");
+}
+
+void LcdDisplay::UpdateBootAnimation() {
+    if (!boot_overlay_) {
+        return;
+    }
+    const uint32_t now = lv_tick_get();
+    const uint32_t elapsed = now - boot_animation_started_ms_;
+    const bool connected = boot_server_connected_.load(std::memory_order_acquire);
+
+    if (!boot_intro_logged_ && elapsed >= kBootIntroDurationMs) {
+        boot_intro_logged_ = true;
+        ESP_LOGI(TAG, "BOOT_ANIM_INTRO_COMPLETE elapsed_ms=%lu",
+                 static_cast<unsigned long>(elapsed));
+    }
+
+    if (connected && !boot_min_wait_logged_) {
+        ESP_LOGI(TAG, "BOOT_ANIM_AI_CONNECTED elapsed_ms=%lu", static_cast<unsigned long>(elapsed));
+        if (elapsed < kBootMinimumDisplayMs) {
+            ESP_LOGI(TAG, "BOOT_ANIM_MIN_WAIT");
+        }
+        boot_min_wait_logged_ = true;
+    }
+
+    if (!boot_exiting_ &&
+        ((connected && elapsed >= kBootMinimumDisplayMs) || elapsed >= kBootMaximumDisplayMs)) {
+        boot_exiting_ = true;
+        boot_exit_started_ms_ = now;
+        for (int i = 0; i < kBootBarCount; ++i) {
+            boot_exit_bar_heights_[i] = lv_obj_get_height(boot_bars_[i]);
+        }
+        ESP_LOGI(TAG, "BOOT_ANIM_EXIT reason=%s elapsed_ms=%lu",
+                 connected ? "connected" : "timeout", static_cast<unsigned long>(elapsed));
+    }
+
+    if (boot_exiting_) {
+        const uint32_t exit_elapsed = now - boot_exit_started_ms_;
+        if (exit_elapsed >= kBootExitDurationMs) {
+            DestroyBootAnimation();
+            return;
+        }
+        const int progress = exit_elapsed * 255 / kBootExitDurationMs;
+        const int ring_size = 120 + exit_elapsed * 40 / kBootExitDurationMs;
+        lv_obj_set_style_opa(boot_overlay_, 255 - progress, 0);
+        lv_obj_set_size(boot_ring_, ring_size, ring_size);
+        lv_obj_center(boot_ring_);
+        for (int i = 0; i < kBootBarCount; ++i) {
+            lv_obj_set_height(boot_bars_[i],
+                              std::max(4, boot_exit_bar_heights_[i] * (255 - progress) / 255));
+            lv_obj_align(boot_bars_[i], LV_ALIGN_CENTER, kBootBarXOffsets[i], 0);
+        }
+        return;
+    }
+
+    int dot_opa = elapsed <= 100 ? 0 : elapsed >= 250 ? 255 : (elapsed - 100) * 255 / 150;
+    if (elapsed >= 900) {
+        dot_opa = elapsed >= kBootIntroDurationMs
+                      ? 0
+                      : 255 - (elapsed - 900) * 255 / (kBootIntroDurationMs - 900);
+    }
+    lv_obj_set_style_bg_opa(boot_dot_, dot_opa, 0);
+
+    if (elapsed >= 250) {
+        const uint32_t reveal =
+            std::min<uint32_t>(elapsed - 250, kBootIntroDurationMs - 250);
+        const int progress = reveal * 1024 / (kBootIntroDurationMs - 250);
+        const int remaining = 1024 - progress;
+        const int eased = 1024 - remaining * remaining / 1024;
+        int ring_size = 8 + eased * 112 / 1024;
+        if (elapsed >= kBootIntroDurationMs) {
+            const uint32_t cycle = (elapsed - kBootIntroDurationMs) % 4000;
+            const int triangle = cycle <= 2000 ? cycle : 4000 - cycle;
+            ring_size = 120 + triangle * 3 / 2000;
+        }
+        lv_obj_set_size(boot_ring_, ring_size, ring_size);
+        lv_obj_center(boot_ring_);
+        lv_obj_set_style_border_opa(boot_ring_, eased * 210 / 1024, 0);
+    }
+
+    if (elapsed >= 700) {
+        const uint32_t reveal =
+            std::min<uint32_t>(elapsed - 700, kBootIntroDurationMs - 700);
+        const int intro_progress = reveal * 1024 / (kBootIntroDurationMs - 700);
+        const int intro_remaining = 1024 - intro_progress;
+        const int eased = 1024 - intro_remaining * intro_remaining / 1024;
+        uint32_t triangle = 1200;
+        if (elapsed >= kBootIntroDurationMs) {
+            const uint32_t phase = (elapsed - kBootIntroDurationMs + 1200) % 2400;
+            triangle = phase <= 1200 ? phase : 2400 - phase;
+        }
+        for (int i = 0; i < kBootBarCount; ++i) {
+            const int loop_height = 8 + kBootBarAmplitudes[i] * triangle / 1200;
+            const int height = elapsed < kBootIntroDurationMs
+                                   ? 4 + (loop_height - 4) * eased / 1024
+                                   : loop_height;
+            lv_obj_set_size(boot_bars_[i], 4, height);
+            lv_obj_align(boot_bars_[i], LV_ALIGN_CENTER, kBootBarXOffsets[i], 0);
+            lv_obj_set_style_bg_opa(boot_bars_[i], eased * LV_OPA_80 / 1024, 0);
+        }
+    }
+}
+
+void LcdDisplay::DestroyBootAnimation() {
+    if (boot_animation_timer_) {
+        lv_timer_delete(boot_animation_timer_);
+        boot_animation_timer_ = nullptr;
+    }
+    if (boot_overlay_) {
+        lv_obj_delete(boot_overlay_);
+        boot_overlay_ = nullptr;
+    }
+    boot_ring_ = nullptr;
+    boot_dot_ = nullptr;
+    for (auto& bar : boot_bars_) {
+        bar = nullptr;
+    }
+    if (boot_animation_started_ms_ != 0) {
+        ESP_LOGI(TAG, "BOOT_ANIM_DESTROYED");
+        boot_animation_started_ms_ = 0;
+    }
+}
+#endif
 
 void LcdDisplay::RefreshRadioCatalogPage() {
     if (!radio_list_panel_) return;

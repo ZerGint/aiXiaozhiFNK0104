@@ -206,6 +206,7 @@ void NotifyPlayer::WorkerTask() {
                         packet->frame_duration = frame_duration_ms;
                         packet->playback_id = playback_id;
                         packet->media_position_ms = media_position_ms;
+                        packet->is_system_sound = true;
                         packet->payload.assign(data, data + size);
 
                         {

@@ -6,6 +6,9 @@
 #include <wifi_station.h>
 #include "wifi_board.h"
 #include "codecs/es8311_audio_codec.h"
+#if CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+#include "external_i2s_audio_codec.h"
+#endif
 #include "display/lcd_display.h"
 #include "display/emote_display.h"
 #include "application.h"
@@ -271,6 +274,9 @@ private:
 
 public:
     FreenoveFnk0104sBoard() : boot_button_(BOOT_BUTTON_GPIO) {
+#if !CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+        ESP_LOGI(TAG, "AUDIO_OUTPUT: INTERNAL_ES8311");
+#endif
         InitializeI2c();
         InitializeBatteryMonitor();
         InitializeSpi();
@@ -287,10 +293,14 @@ public:
     }
 
     virtual AudioCodec* GetAudioCodec() override {
+#if CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+        static FnkExternalI2sAudioCodec audio_codec(codec_i2c_bus_, AUDIO_CODEC_I2C_NUM);
+#else
         static Es8311AudioCodec audio_codec(codec_i2c_bus_, AUDIO_CODEC_I2C_NUM,
             AUDIO_INPUT_SAMPLE_RATE, AUDIO_OUTPUT_SAMPLE_RATE, AUDIO_I2S_GPIO_MCLK, AUDIO_I2S_GPIO_BCLK,
             AUDIO_I2S_GPIO_WS, AUDIO_I2S_GPIO_DOUT, AUDIO_I2S_GPIO_DIN, AUDIO_CODEC_PA_PIN,
             AUDIO_CODEC_ES8311_ADDR, true, true);
+#endif
         return &audio_codec;
     }
 

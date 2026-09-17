@@ -85,6 +85,23 @@ protected:
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    lv_obj_t* boot_overlay_ = nullptr;
+    lv_obj_t* boot_ring_ = nullptr;
+    lv_obj_t* boot_dot_ = nullptr;
+    lv_obj_t* boot_bars_[5] = {};
+    lv_timer_t* boot_animation_timer_ = nullptr;
+    std::atomic<bool> boot_server_connected_{false};
+    uint32_t boot_animation_started_ms_ = 0;
+    uint32_t boot_exit_started_ms_ = 0;
+    int16_t boot_exit_bar_heights_[5] = {};
+    bool boot_min_wait_logged_ = false;
+    bool boot_intro_logged_ = false;
+    bool boot_exiting_ = false;
+    void StartBootAnimation();
+    void UpdateBootAnimation();
+    void DestroyBootAnimation();
+#endif
     void UpdateServiceIndicators();
     void UpdateAutoBrightness();
     void UpdateAutoBrightnessControls();
@@ -129,6 +146,7 @@ public:
     virtual void ClearChatMessages() override;
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image) override;
     virtual void SetupUI() override;
+    virtual void OnServerConnected() override;
     // Add theme switching function
     virtual void SetTheme(Theme* theme) override;
 

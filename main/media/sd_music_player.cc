@@ -1,19 +1,19 @@
 #include "sd_music_player.h"
-#include "media/media_audio_output.h"
-#include "storage_manager.h"
+#include "application.h"
+#include "audio_codec.h"
 #include "audio_manager.h"
 #include "board.h"
-#include "audio_codec.h"
-#include "application.h"
+#include "media/media_audio_output.h"
+#include "storage_manager.h"
 
-#include <esp_log.h>
 #include <esp_heap_caps.h>
+#include <esp_log.h>
 #include <decoder/impl/esp_mp3_dec.h>
 #include <simple_dec/esp_audio_simple_dec.h>
 #include <simple_dec/esp_audio_simple_dec_default.h>
+#include <algorithm>
 #include <cstdio>
 #include <cstring>
-#include <algorithm>
 #include <random>
 
 #define TAG "SdMusicPlayer"
@@ -29,10 +29,11 @@ void LogMusicRuntime(const char* checkpoint) {
     ESP_LOGW(TAG, "MUSIC_CHECKPOINT %s task=%s internal_free=%u internal_largest=%u stack_hwm=%u",
              checkpoint, pcTaskGetName(nullptr),
              static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
-             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(
+                 heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
              static_cast<unsigned>(uxTaskGetStackHighWaterMark(nullptr)));
 }
-}
+}  // namespace
 
 struct ChunkHeader {
     char id[4];
@@ -48,26 +49,26 @@ struct FmtChunk {
     uint16_t bits_per_sample;
 };
 
-SdMusicPlayer::SdMusicPlayer() {
-}
+SdMusicPlayer::SdMusicPlayer() {}
 
-SdMusicPlayer::~SdMusicPlayer() {
-    Stop();
-}
+SdMusicPlayer::~SdMusicPlayer() { Stop(); }
 
 void SdMusicPlayer::ScanPlaylist() {
     std::lock_guard<std::mutex> lock(mutex_);
     playlist_.clear();
 
-    const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC", "/sdcard"};
+    const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC",
+                           "/sdcard"};
 
     for (auto p : paths) {
         auto files = StorageManager::GetInstance().ListDirectory(p);
         if (!files.empty()) {
-            ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", p, (int)files.size());
+            ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", p,
+                     (int)files.size());
             for (const auto& name : files) {
                 std::string lower_name = name;
-                for (auto& c : lower_name) c = tolower((unsigned char)c);
+                for (auto& c : lower_name)
+                    c = tolower((unsigned char)c);
                 if (lower_name.rfind(".wav") != std::string::npos ||
                     lower_name.rfind(".mp3") != std::string::npos) {
                     std::string full_path = std::string(p) + "/" + name;
@@ -107,40 +108,66 @@ void SdMusicPlayer::TaskFunction(void* param) {
 
 void SdMusicPlayer::SetSelectedTrackIndex(int index) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (playlist_.empty()) { selected_index_ = -1; return; }
-    if (index < 0) index = 0;
-    if (index >= (int)playlist_.size()) index = (int)playlist_.size() - 1;
+    if (playlist_.empty()) {
+        selected_index_ = -1;
+        return;
+    }
+    if (index < 0)
+        index = 0;
+    if (index >= (int)playlist_.size())
+        index = (int)playlist_.size() - 1;
     selected_index_ = index;
     if (shuffle_enabled_) {
         auto it = std::find(shuffle_order_.begin(), shuffle_order_.end(), index);
-        if (it != shuffle_order_.end()) shuffle_position_ = static_cast<int>(it - shuffle_order_.begin());
+        if (it != shuffle_order_.end())
+            shuffle_position_ = static_cast<int>(it - shuffle_order_.begin());
     }
 }
 
 void SdMusicPlayer::SetShuffleEnabled(bool enabled) {
     std::lock_guard<std::mutex> lock(mutex_);
     shuffle_enabled_ = enabled;
-    shuffle_order_.clear(); shuffle_position_ = -1;
-    if (!enabled || playlist_.empty()) return;
-    for (int i = 0; i < static_cast<int>(playlist_.size()); ++i) shuffle_order_.push_back(i);
+    shuffle_order_.clear();
+    shuffle_position_ = -1;
+    if (!enabled || playlist_.empty())
+        return;
+    for (int i = 0; i < static_cast<int>(playlist_.size()); ++i)
+        shuffle_order_.push_back(i);
     int current = selected_index_;
-    if (current < 0 || current >= static_cast<int>(playlist_.size())) current = 0;
-    std::mt19937 rng(std::random_device{}()); std::shuffle(shuffle_order_.begin(), shuffle_order_.end(), rng);
+    if (current < 0 || current >= static_cast<int>(playlist_.size()))
+        current = 0;
+    std::mt19937 rng(std::random_device{}());
+    std::shuffle(shuffle_order_.begin(), shuffle_order_.end(), rng);
     auto it = std::find(shuffle_order_.begin(), shuffle_order_.end(), current);
     std::iter_swap(shuffle_order_.begin(), it);
-    selected_index_ = current; shuffle_position_ = 0;
+    selected_index_ = current;
+    shuffle_position_ = 0;
 }
 
 int SdMusicPlayer::NavigateNext() {
-    std::lock_guard<std::mutex> lock(mutex_); if (playlist_.empty()) return -1;
-    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) { shuffle_position_ = (shuffle_position_ + 1) % shuffle_order_.size(); selected_index_ = shuffle_order_[shuffle_position_]; }
-    else { shuffle_enabled_ = false; selected_index_ = (selected_index_ < 0 ? 0 : (selected_index_ + 1) % playlist_.size()); }
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (playlist_.empty())
+        return -1;
+    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) {
+        shuffle_position_ = (shuffle_position_ + 1) % shuffle_order_.size();
+        selected_index_ = shuffle_order_[shuffle_position_];
+    } else {
+        shuffle_enabled_ = false;
+        selected_index_ = (selected_index_ < 0 ? 0 : (selected_index_ + 1) % playlist_.size());
+    }
     return selected_index_;
 }
 int SdMusicPlayer::NavigatePrev() {
-    std::lock_guard<std::mutex> lock(mutex_); if (playlist_.empty()) return -1;
-    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) { shuffle_position_ = (shuffle_position_ - 1 + shuffle_order_.size()) % shuffle_order_.size(); selected_index_ = shuffle_order_[shuffle_position_]; }
-    else { shuffle_enabled_ = false; selected_index_ = (selected_index_ <= 0 ? playlist_.size() - 1 : selected_index_ - 1); }
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (playlist_.empty())
+        return -1;
+    if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) {
+        shuffle_position_ = (shuffle_position_ - 1 + shuffle_order_.size()) % shuffle_order_.size();
+        selected_index_ = shuffle_order_[shuffle_position_];
+    } else {
+        shuffle_enabled_ = false;
+        selected_index_ = (selected_index_ <= 0 ? playlist_.size() - 1 : selected_index_ - 1);
+    }
     return selected_index_;
 }
 
@@ -151,10 +178,12 @@ void SdMusicPlayer::Play(int index) {
             ESP_LOGW(TAG, "Cannot play: playlist is empty");
             return;
         }
-        if (index < 0) index = 0;
-        if (index >= (int)playlist_.size()) index = 0;
+        if (index < 0)
+            index = 0;
+        if (index >= (int)playlist_.size())
+            index = 0;
         current_index_ = index;
-    selected_index_ = index;
+        selected_index_ = index;
     }
 
     if (is_playing_) {
@@ -169,7 +198,8 @@ void SdMusicPlayer::Play(int index) {
     is_playing_ = true;
 
     if (task_handle_ == nullptr) {
-        BaseType_t ret = xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5, &task_handle_, 1);
+        BaseType_t ret =
+            xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5, &task_handle_, 1);
         if (ret != pdPASS) {
             ESP_LOGE(TAG, "xTaskCreatePinnedToCore failed with error: %d", (int)ret);
             is_playing_ = false;
@@ -188,12 +218,16 @@ void SdMusicPlayer::TogglePlayPause() {
 }
 
 void SdMusicPlayer::Next() {
-    int next_idx = NavigateNext(); if (next_idx < 0) return;
+    int next_idx = NavigateNext();
+    if (next_idx < 0)
+        return;
     Play(next_idx);
 }
 
 void SdMusicPlayer::Prev() {
-    int prev_idx = NavigatePrev(); if (prev_idx < 0) return;
+    int prev_idx = NavigatePrev();
+    if (prev_idx < 0)
+        return;
     Play(prev_idx);
 }
 
@@ -201,7 +235,7 @@ void SdMusicPlayer::Stop() {
     if (is_playing_ || task_handle_ != nullptr) {
         stop_requested_ = true;
         is_paused_ = false;
-        int timeout = 50; // max 500ms timeout
+        int timeout = 50;  // max 500ms timeout
         while (is_playing_ && timeout > 0) {
             vTaskDelay(pdMS_TO_TICKS(10));
             timeout--;
@@ -227,7 +261,8 @@ void SdMusicPlayer::PlayerLoop() {
 
     auto codec = Board::GetInstance().GetAudioCodec();
     uint32_t target_rate = codec ? codec->output_sample_rate() : 24000;
-    if (target_rate == 0) target_rate = 24000;
+    if (target_rate == 0)
+        target_rate = 24000;
 
     while (!stop_requested_) {
         std::string filepath;
@@ -251,7 +286,8 @@ void SdMusicPlayer::PlayerLoop() {
         LogMusicRuntime("AFTER_FILE_OPEN");
 
         std::string lower_path = filepath;
-        for (auto& c : lower_path) c = tolower((unsigned char)c);
+        for (auto& c : lower_path)
+            c = tolower((unsigned char)c);
         bool is_mp3 = (lower_path.rfind(".mp3") != std::string::npos);
 
         esp_audio_simple_dec_cfg_t dec_cfg = {};
@@ -262,21 +298,27 @@ void SdMusicPlayer::PlayerLoop() {
         skip_requested_ = false;
 
         if (err == ESP_AUDIO_ERR_OK && dec_handle != nullptr) {
+            BeginMediaPcmStream();
             ESP_LOGI(TAG, "esp_audio_simple_dec opened successfully for %s", filepath.c_str());
             LogMusicRuntime("AFTER_DECODER_OPEN");
             size_t in_buf_size = 2048;
             size_t out_buf_size = 16384;
-            uint8_t* in_buf_ptr = (uint8_t*)heap_caps_malloc(in_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-            if (!in_buf_ptr) in_buf_ptr = (uint8_t*)malloc(in_buf_size);
-            uint8_t* out_pcm_buf_ptr = (uint8_t*)heap_caps_malloc(out_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-            if (!out_pcm_buf_ptr) out_pcm_buf_ptr = (uint8_t*)malloc(out_buf_size);
+            uint8_t* in_buf_ptr =
+                (uint8_t*)heap_caps_malloc(in_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+            if (!in_buf_ptr)
+                in_buf_ptr = (uint8_t*)malloc(in_buf_size);
+            uint8_t* out_pcm_buf_ptr =
+                (uint8_t*)heap_caps_malloc(out_buf_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+            if (!out_pcm_buf_ptr)
+                out_pcm_buf_ptr = (uint8_t*)malloc(out_buf_size);
 
             bool info_logged = false;
             bool pcm_checkpoint_logged = false;
             while (!stop_requested_ && !skip_requested_) {
                 auto state = Application::GetInstance().GetDeviceState();
                 if (is_paused_ || state == kDeviceStateListening || state == kDeviceStateSpeaking) {
-                    ESP_LOGD(TAG, "Player waiting: is_paused=%d, state=%d", (int)is_paused_, (int)state);
+                    ESP_LOGD(TAG, "Player waiting: is_paused=%d, state=%d", (int)is_paused_,
+                             (int)state);
                     vTaskDelay(pdMS_TO_TICKS(100));
                     continue;
                 }
@@ -298,11 +340,14 @@ void SdMusicPlayer::PlayerLoop() {
                     out_frame.len = out_buf_size;
 
                     esp_err_t dec_res = esp_audio_simple_dec_process(dec_handle, &raw, &out_frame);
-                    
+
                     if (dec_res == ESP_AUDIO_ERR_BUFF_NOT_ENOUGH) {
-                        ESP_LOGW(TAG, "Decoder buffer too small, expanding from %d to %d bytes", (int)out_buf_size, (int)out_frame.needed_size);
-                        size_t new_size = out_frame.needed_size > 0 ? out_frame.needed_size : out_buf_size * 2;
-                        uint8_t* new_ptr = (uint8_t*)heap_caps_realloc(out_pcm_buf_ptr, new_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+                        ESP_LOGW(TAG, "Decoder buffer too small, expanding from %d to %d bytes",
+                                 (int)out_buf_size, (int)out_frame.needed_size);
+                        size_t new_size =
+                            out_frame.needed_size > 0 ? out_frame.needed_size : out_buf_size * 2;
+                        uint8_t* new_ptr = (uint8_t*)heap_caps_realloc(
+                            out_pcm_buf_ptr, new_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
                         if (new_ptr) {
                             out_pcm_buf_ptr = new_ptr;
                             out_buf_size = new_size;
@@ -311,13 +356,17 @@ void SdMusicPlayer::PlayerLoop() {
                     }
 
                     if (dec_res != ESP_AUDIO_ERR_OK) {
-                        ESP_LOGW(TAG, "esp_audio_simple_dec_process ret=%d, consumed=%d/%d, decoded_size=%d, needed_size=%d",
-                                 (int)dec_res, (int)raw.consumed, (int)raw.len, (int)out_frame.decoded_size, (int)out_frame.needed_size);
+                        ESP_LOGW(TAG,
+                                 "esp_audio_simple_dec_process ret=%d, consumed=%d/%d, "
+                                 "decoded_size=%d, needed_size=%d",
+                                 (int)dec_res, (int)raw.consumed, (int)raw.len,
+                                 (int)out_frame.decoded_size, (int)out_frame.needed_size);
                     }
 
                     if (out_frame.decoded_size > 0) {
                         esp_audio_simple_dec_info_t info = {};
-                        if (esp_audio_simple_dec_get_info(dec_handle, &info) == ESP_AUDIO_ERR_OK && info.sample_rate > 0) {
+                        if (esp_audio_simple_dec_get_info(dec_handle, &info) == ESP_AUDIO_ERR_OK &&
+                            info.sample_rate > 0) {
                             if (!info_logged) {
                                 ESP_LOGI(TAG, "Audio info: sample_rate=%u, channels=%u, bits=%u",
                                          (unsigned)info.sample_rate, (unsigned)info.channel,
@@ -328,7 +377,8 @@ void SdMusicPlayer::PlayerLoop() {
                                 LogMusicRuntime("BEFORE_FIRST_PCM");
                                 pcm_checkpoint_logged = true;
                             }
-                            size_t num_samples = out_frame.decoded_size / (info.bits_per_sample / 8);
+                            size_t num_samples =
+                                out_frame.decoded_size / (info.bits_per_sample / 8);
                             PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out_pcm_buf_ptr),
                                          num_samples, info.channel, info.sample_rate, target_rate,
                                          false);
@@ -343,14 +393,18 @@ void SdMusicPlayer::PlayerLoop() {
                     raw.consumed = 0;
                 }
 
-                if (is_eos) break;
+                if (is_eos)
+                    break;
             }
 
-            if (in_buf_ptr) free(in_buf_ptr);
-            if (out_pcm_buf_ptr) free(out_pcm_buf_ptr);
+            if (in_buf_ptr)
+                free(in_buf_ptr);
+            if (out_pcm_buf_ptr)
+                free(out_pcm_buf_ptr);
             esp_audio_simple_dec_close(dec_handle);
         } else {
-            ESP_LOGE(TAG, "esp_audio_simple_dec_open failed with ret=%d for %s", (int)err, filepath.c_str());
+            ESP_LOGE(TAG, "esp_audio_simple_dec_open failed with ret=%d for %s", (int)err,
+                     filepath.c_str());
             fclose(f);
             vTaskDelay(pdMS_TO_TICKS(500));
             std::lock_guard<std::mutex> lock(mutex_);
@@ -362,14 +416,18 @@ void SdMusicPlayer::PlayerLoop() {
 
         fclose(f);
 
-        if (stop_requested_) break;
+        if (stop_requested_)
+            break;
 
         if (!skip_requested_) {
             std::lock_guard<std::mutex> lock(mutex_);
             if (!playlist_.empty()) {
                 if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) {
                     if (shuffle_position_ + 1 >= static_cast<int>(shuffle_order_.size())) {
-                        if (!repeat_enabled_) { stop_requested_ = true; continue; }
+                        if (!repeat_enabled_) {
+                            stop_requested_ = true;
+                            continue;
+                        }
                         shuffle_position_ = 0;
                     } else {
                         ++shuffle_position_;

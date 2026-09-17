@@ -783,6 +783,22 @@ choice WK_BOARD_TYPE
         bool "不带电机驱动"    
 endchoice
 
+config FNK_EXTERNAL_I2S_SPEAKER
+    bool "Use external I2S speaker on Freenove FNK0104S"
+    depends on BOARD_TYPE_FREENOVE_FNK0104S
+    default n
+    help
+        Route speaker output to an external I2S amplifier on I2S1 while
+        keeping the ES8311 microphone input on I2S0. The external interface
+        uses GPIO2 for BCLK, GPIO21 for WS, and GPIO14 for DATA.
+
+config FNK_EXTERNAL_I2S_DIAGNOSTICS
+    bool "Log external I2S PCM level diagnostics"
+    depends on FNK_EXTERNAL_I2S_SPEAKER
+    default n
+    help
+        Log rate-limited PCM peak, RMS, near-full-scale, and clipping counters
+        immediately before and after the external speaker volume stage.
 
 choice DISPLAY_ESP32S3_KORVO2_V3
     depends on BOARD_TYPE_ESP32_S3_KORVO_2_V3 || BOARD_TYPE_ESP32_S3_KORVO_2_V3_RNDIS

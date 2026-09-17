@@ -6,13 +6,10 @@
 
 class AudioCodec;
 
-void PushMediaPcm(AudioCodec* codec,
-                  const int16_t* pcm_data,
-                  size_t num_samples,
-                  uint32_t channels,
-                  uint32_t sample_rate,
-                  uint32_t target_rate,
-                  bool is_radio = false);
+void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples, uint32_t channels,
+                  uint32_t sample_rate, uint32_t target_rate, bool is_radio = false);
+
+void BeginMediaPcmStream();
 
 void EnsureMp3DecoderRegistered();
 

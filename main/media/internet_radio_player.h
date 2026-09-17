@@ -31,8 +31,7 @@ public:
 
     bool Play(const RadioStationInfo& station, std::string& err_msg,
               std::function<void()> on_startup_ready = {},
-              std::function<void()> on_startup_failed = {},
-              bool emit_failure_bip = true);
+              std::function<void()> on_startup_failed = {}, bool emit_failure_bip = true);
     bool Play(const RadioStationInfo& station);
     bool Play(const std::string& url, const std::string& title, std::string& err_msg);
     bool Play(const std::string& url, const std::string& title = {});
@@ -70,6 +69,7 @@ private:
     std::string url_;
     std::string title_;
     mutable std::mutex mutex_;
+    std::mutex play_mutex_;
     std::atomic<bool> playing_{false};
     std::atomic<bool> paused_{false};
     std::atomic<bool> stop_requested_{false};

@@ -82,7 +82,8 @@ Es8311AudioCodec::~Es8311AudioCodec() {
 }
 
 void Es8311AudioCodec::UpdateDeviceState() {
-    if ((input_enabled_ || output_enabled_) && dev_ == nullptr) {
+    const bool codec_output_enabled = UsesEs8311Output() && output_enabled_;
+    if ((input_enabled_ || codec_output_enabled) && dev_ == nullptr) {
         esp_codec_dev_cfg_t dev_cfg = {
             .dev_type = ESP_CODEC_DEV_TYPE_IN_OUT,
             .codec_if = codec_if_,
@@ -101,13 +102,13 @@ void Es8311AudioCodec::UpdateDeviceState() {
         ESP_ERROR_CHECK(esp_codec_dev_open(dev_, &fs));
         ESP_ERROR_CHECK(esp_codec_dev_set_in_gain(dev_, input_gain_));
         ESP_ERROR_CHECK(esp_codec_dev_set_out_vol(dev_, output_volume_));
-    } else if (!input_enabled_ && !output_enabled_ && dev_ != nullptr) {
+    } else if (!input_enabled_ && !codec_output_enabled && dev_ != nullptr) {
         ESP_ERROR_CHECK(esp_codec_dev_close(dev_));
         esp_codec_dev_delete(dev_);
         dev_ = nullptr;
     }
     if (pa_pin_ != GPIO_NUM_NC) {
-        int level = output_enabled_ ? 1 : 0;
+        int level = codec_output_enabled ? 1 : 0;
         gpio_set_level(pa_pin_, pa_inverted_ ? !level : level);
     }
 }

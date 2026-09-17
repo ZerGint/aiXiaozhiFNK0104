@@ -1,23 +1,23 @@
 #include "internet_radio_player.h"
 
 #include "application.h"
+#include "assets/lang_config.h"
+#include "audio_codec.h"
 #include "audio_manager.h"
 #include "board.h"
-#include "audio_codec.h"
 #include "media_audio_output.h"
-#include "system_info.h"
-#include "assets/lang_config.h"
 #include "radio_memory_diag.h"
+#include "system_info.h"
 
-#include <decoder/impl/esp_mp3_dec.h>
-#include <decoder/impl/esp_aac_dec.h>
-#include <simple_dec/esp_audio_simple_dec.h>
-#include <simple_dec/esp_audio_simple_dec_default.h>
 #include <esp_crt_bundle.h>
 #include <esp_http_client.h>
 #include <esp_log.h>
 #include <esp_timer.h>
 #include <esp_wifi.h>
+#include <decoder/impl/esp_aac_dec.h>
+#include <decoder/impl/esp_mp3_dec.h>
+#include <simple_dec/esp_audio_simple_dec.h>
+#include <simple_dec/esp_audio_simple_dec_default.h>
 
 #include <cctype>
 #include <cstring>
@@ -31,12 +31,14 @@ constexpr EventBits_t kStartupBitReady = (1 << 0);
 constexpr EventBits_t kStartupBitFailed = (1 << 1);
 
 std::string ResolveRedirectUrl(const std::string& current_url, const std::string& location) {
-    if (location.empty()) return "";
+    if (location.empty())
+        return "";
     if (location.rfind("http://", 0) == 0 || location.rfind("https://", 0) == 0) {
         return location;
     }
     size_t scheme_end = current_url.find("://");
-    if (scheme_end == std::string::npos) return location;
+    if (scheme_end == std::string::npos)
+        return location;
 
     size_t host_start = scheme_end + 3;
     size_t path_start = current_url.find('/', host_start);
@@ -60,11 +62,11 @@ std::string ResolveRedirectUrl(const std::string& current_url, const std::string
     }
 }
 
-esp_err_t HttpEventHandler(esp_http_client_event_t *evt) {
+esp_err_t HttpEventHandler(esp_http_client_event_t* evt) {
     if (evt->event_id == HTTP_EVENT_ON_HEADER) {
         if (evt->header_key && evt->header_value && evt->user_data) {
             if (strcasecmp(evt->header_key, "Location") == 0) {
-                std::string *loc = static_cast<std::string *>(evt->user_data);
+                std::string* loc = static_cast<std::string*>(evt->user_data);
                 *loc = evt->header_value;
             }
         }
@@ -74,31 +76,34 @@ esp_err_t HttpEventHandler(esp_http_client_event_t *evt) {
 
 const char* GetWifiPsModeName(wifi_ps_type_t type) {
     switch (type) {
-        case WIFI_PS_NONE: return "NONE (PERFORMANCE)";
-        case WIFI_PS_MIN_MODEM: return "MIN_MODEM";
-        case WIFI_PS_MAX_MODEM: return "MAX_MODEM (LOW_POWER)";
-        default: return "UNKNOWN";
+        case WIFI_PS_NONE:
+            return "NONE (PERFORMANCE)";
+        case WIFI_PS_MIN_MODEM:
+            return "MIN_MODEM";
+        case WIFI_PS_MAX_MODEM:
+            return "MAX_MODEM (LOW_POWER)";
+        default:
+            return "UNKNOWN";
     }
 }
 
 void LogWifiPsStatus(const char* stage) {
     wifi_ps_type_t ps_type = WIFI_PS_NONE;
     if (esp_wifi_get_ps(&ps_type) == ESP_OK) {
-        ESP_LOGI(TAG, "[WIFI_PS_DIAG] stage=%s mode=%d (%s)", stage, static_cast<int>(ps_type), GetWifiPsModeName(ps_type));
+        ESP_LOGI(TAG, "[WIFI_PS_DIAG] stage=%s mode=%d (%s)", stage, static_cast<int>(ps_type),
+                 GetWifiPsModeName(ps_type));
     } else {
         ESP_LOGW(TAG, "[WIFI_PS_DIAG] stage=%s failed to get wifi ps mode", stage);
     }
 }
-} // namespace
+}  // namespace
 
 InternetRadioPlayer& InternetRadioPlayer::GetInstance() {
     static InternetRadioPlayer instance;
     return instance;
 }
 
-InternetRadioPlayer::InternetRadioPlayer() {
-    startup_event_group_ = xEventGroupCreate();
-}
+InternetRadioPlayer::InternetRadioPlayer() { startup_event_group_ = xEventGroupCreate(); }
 
 InternetRadioPlayer::~InternetRadioPlayer() {
     Stop();
@@ -133,7 +138,8 @@ bool InternetRadioPlayer::Play(const std::string& url, const std::string& title)
     return Play(url, title, err_msg);
 }
 
-bool InternetRadioPlayer::Play(const std::string& url, const std::string& title, std::string& err_msg) {
+bool InternetRadioPlayer::Play(const std::string& url, const std::string& title,
+                               std::string& err_msg) {
     RadioStationInfo station;
     station.url_resolved = url;
     station.name = title;
@@ -142,21 +148,26 @@ bool InternetRadioPlayer::Play(const std::string& url, const std::string& title,
 
 bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err_msg,
                                std::function<void()> on_startup_ready,
-                               std::function<void()> on_startup_failed,
-                               bool emit_failure_bip) {
+                               std::function<void()> on_startup_failed, bool emit_failure_bip) {
+    std::lock_guard<std::mutex> play_lock(play_mutex_);
     if (station.url_resolved.empty()) {
         err_msg = "Station URL is empty";
         return false;
     }
 
     {
-        std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
-        if (!cleanup_complete_.load()) {
-            err_msg = "Radio is still stopping";
-            return false;
+        std::lock_guard<std::mutex> lock(mutex_);
+        const bool same_uuid =
+            !station.stationuuid.empty() && station.stationuuid == current_station_.stationuuid;
+        const bool same_url = station.stationuuid.empty() && current_station_.stationuuid.empty() &&
+                              station.url_resolved == current_station_.url_resolved;
+        if ((playing_ || task_handle_.load() != nullptr) && (same_uuid || same_url)) {
+            return true;
         }
     }
-    if (playing_ || task_handle_.load() != nullptr) Stop();
+    if (playing_ || task_handle_.load() != nullptr || !cleanup_complete_.load()) {
+        Stop();
+    }
 
     SystemInfo::PrintRamSnapshot("RADIO_START");
     {
@@ -186,7 +197,8 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         initial_ready_ = false;
         ESP_LOGI(TAG, "Radio current:\nname=%s\nuuid=%s\ncodec=%s\nbitrate=%lu\ncountry=%s\nurl=%s",
                  current_station_.name.c_str(), current_station_.stationuuid.c_str(),
-                 current_station_.codec.c_str(), static_cast<unsigned long>(current_station_.bitrate),
+                 current_station_.codec.c_str(),
+                 static_cast<unsigned long>(current_station_.bitrate),
                  current_station_.country.c_str(), current_station_.url_resolved.c_str());
         if (startup_event_group_ != nullptr) {
             xEventGroupClearBits(startup_event_group_, kStartupBitReady | kStartupBitFailed);
@@ -211,7 +223,8 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
 }
 
 void InternetRadioPlayer::TogglePlayPause() {
-    if (!playing_) return;
+    if (!playing_)
+        return;
     paused_ = !paused_;
 }
 
@@ -249,14 +262,15 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
     const bool current_attempt = player->generation_.load() == attempt->generation;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
-    const bool startup_failed = current_attempt && !attempt->startup_ready_notified && !player->stop_requested_;
+    const bool startup_failed =
+        current_attempt && !attempt->startup_ready_notified && !player->stop_requested_;
     const bool bip_failure = current_attempt && !player->initial_ready_ && !player->stop_requested_;
     if (bip_failure && attempt->emit_failure_bip) {
-        Application::GetInstance().Schedule([]() {
-            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
-        });
+        Application::GetInstance().Schedule(
+            []() { Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR); });
     }
-    if (startup_failed && attempt->on_startup_failed) std::move(attempt->on_startup_failed)();
+    if (startup_failed && attempt->on_startup_failed)
+        std::move(attempt->on_startup_failed)();
     {
         std::lock_guard<std::mutex> lifecycle_lock(player->lifecycle_mutex_);
         if (player->active_generation_.load() == attempt->generation) {
@@ -286,11 +300,15 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
     ESP_LOGI(TAG, "[WIFI_PS_RADIO] switched to PERFORMANCE (NONE)");
     auto* codec = Board::GetInstance().GetAudioCodec();
     uint32_t target_rate = codec ? codec->output_sample_rate() : 24000;
-    if (target_rate == 0) target_rate = 24000;
+    if (target_rate == 0)
+        target_rate = 24000;
 
     while (!stop_requested_) {
         std::string current_url;
-        { std::lock_guard<std::mutex> lock(mutex_); current_url = url_; }
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            current_url = url_;
+        }
 
         int status = -1;
         int redirect_count = 0;
@@ -313,7 +331,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
 
             client = esp_http_client_init(&config);
             if (!client) {
-                ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] Failed to initialize HTTP client for %s", current_url.c_str());
+                ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] Failed to initialize HTTP client for %s",
+                         current_url.c_str());
                 break;
             }
 
@@ -336,8 +355,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             if (status >= 300 && status < 400) {
                 std::string new_url = ResolveRedirectUrl(current_url, redirect_location);
 
-                ESP_LOGI(TAG, "[RADIO_REDIRECT] status=%d from=%s to=%s redirect=%d",
-                         status, current_url.c_str(), new_url.c_str(), redirect_count + 1);
+                ESP_LOGI(TAG, "[RADIO_REDIRECT] status=%d from=%s to=%s redirect=%d", status,
+                         current_url.c_str(), new_url.c_str(), redirect_count + 1);
 
                 esp_http_client_close(client);
                 esp_http_client_cleanup(client);
@@ -350,7 +369,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
 
                 redirect_count++;
                 if (redirect_count > kMaxRedirects) {
-                    ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] Exceeded maximum redirects (%d)", kMaxRedirects);
+                    ESP_LOGE(TAG, "[RADIO_HTTP_ERROR] Exceeded maximum redirects (%d)",
+                             kMaxRedirects);
                     break;
                 }
 
@@ -360,7 +380,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
 
             if (status >= 200 && status < 300) {
                 if (redirect_count > 0) {
-                    ESP_LOGI(TAG, "[RADIO_REDIRECT] followed successfully to %s", current_url.c_str());
+                    ESP_LOGI(TAG, "[RADIO_REDIRECT] followed successfully to %s",
+                             current_url.c_str());
                 }
                 connect_success = true;
             }
@@ -394,8 +415,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
 
         char* content_type = nullptr;
         esp_http_client_get_header(client, "Content-Type", &content_type);
-        ESP_LOGI(TAG, "Stream connected: status=%d content_type=%s",
-                 status, content_type != nullptr ? content_type : "unknown");
+        ESP_LOGI(TAG, "Stream connected: status=%d content_type=%s", status,
+                 content_type != nullptr ? content_type : "unknown");
         LogWifiPsStatus("connected");
 
         std::string st_codec;
@@ -405,10 +426,12 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         }
 
         std::string st_codec_lower = st_codec;
-        for (auto& c : st_codec_lower) c = std::tolower(static_cast<unsigned char>(c));
+        for (auto& c : st_codec_lower)
+            c = std::tolower(static_cast<unsigned char>(c));
 
         std::string ct_lower = content_type != nullptr ? content_type : "";
-        for (auto& c : ct_lower) c = std::tolower(static_cast<unsigned char>(c));
+        for (auto& c : ct_lower)
+            c = std::tolower(static_cast<unsigned char>(c));
 
         bool is_aac = false;
         if (st_codec_lower.find("aac") != std::string::npos) {
@@ -427,10 +450,10 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             }
         }
 
-        ESP_LOGI(TAG, "Radio codec selection:\nstation_codec=%s\ncontent_type=%s\nselected_decoder=%s",
+        ESP_LOGI(TAG,
+                 "Radio codec selection:\nstation_codec=%s\ncontent_type=%s\nselected_decoder=%s",
                  st_codec.empty() ? "unknown" : st_codec.c_str(),
-                 content_type != nullptr ? content_type : "unknown",
-                 is_aac ? "AAC" : "MP3");
+                 content_type != nullptr ? content_type : "unknown", is_aac ? "AAC" : "MP3");
 
         esp_aac_dec_cfg_t aac_cfg = ESP_AAC_DEC_CONFIG_DEFAULT();
         aac_cfg.aac_plus_enable = true;
@@ -447,8 +470,10 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         esp_audio_simple_dec_handle_t decoder = nullptr;
         const esp_err_t decoder_error = esp_audio_simple_dec_open(&dec_cfg, &decoder);
         if (decoder_error != ESP_AUDIO_ERR_OK) {
-            ESP_LOGE(TAG, "%s decoder open failed: %d", is_aac ? "AAC" : "MP3", static_cast<int>(decoder_error));
-            esp_http_client_close(client); esp_http_client_cleanup(client);
+            ESP_LOGE(TAG, "%s decoder open failed: %d", is_aac ? "AAC" : "MP3",
+                     static_cast<int>(decoder_error));
+            esp_http_client_close(client);
+            esp_http_client_cleanup(client);
             if (!initial_ready_) {
                 {
                     std::lock_guard<std::mutex> lock(mutex_);
@@ -460,6 +485,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             }
             break;
         }
+        BeginMediaPcmStream();
         std::vector<uint8_t> in(2048);
         std::vector<uint8_t> out(16384);
         std::vector<uint8_t> pending(in.size() * 4);
@@ -470,9 +496,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         bool invalid_info_logged = false;
         int64_t last_radio_log_time = 0;
         while (!stop_requested_) {
-            if (initial_ready_ && (paused_ ||
-                Application::GetInstance().GetDeviceState() == kDeviceStateListening ||
-                Application::GetInstance().GetDeviceState() == kDeviceStateSpeaking)) {
+            if (initial_ready_ &&
+                (paused_ || Application::GetInstance().GetDeviceState() == kDeviceStateListening ||
+                 Application::GetInstance().GetDeviceState() == kDeviceStateSpeaking)) {
                 vTaskDelay(pdMS_TO_TICKS(100));
                 continue;
             }
@@ -482,12 +508,13 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                 LogWifiPsStatus("playing_periodic");
                 uint32_t buf_ms = Application::GetInstance().GetAudioService().GetRadioBufferedMs();
                 size_t queue_len = Application::GetInstance().GetAudioService().GetRadioQueueSize();
-                ESP_LOGI(TAG, "[RADIO] buffer=%lu ms queue=%u underruns=%lu reconnects=%lu dec_err=%lu status=%s",
-                         (unsigned long)buf_ms, (unsigned)queue_len,
-                         (unsigned long)underrun_count_.load(),
-                         (unsigned long)reconnect_count_.load(),
-                         (unsigned long)decoder_error_count_.load(),
-                         paused_ ? "PAUSED" : "PLAYING");
+                ESP_LOGI(
+                    TAG,
+                    "[RADIO] buffer=%lu ms queue=%u underruns=%lu reconnects=%lu dec_err=%lu "
+                    "status=%s",
+                    (unsigned long)buf_ms, (unsigned)queue_len,
+                    (unsigned long)underrun_count_.load(), (unsigned long)reconnect_count_.load(),
+                    (unsigned long)decoder_error_count_.load(), paused_ ? "PAUSED" : "PLAYING");
             }
             int64_t t_read_start = esp_timer_get_time();
             int read = esp_http_client_read(client, reinterpret_cast<char*>(in.data()), in.size());
@@ -535,22 +562,20 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                 esp_err_t result = esp_audio_simple_dec_process(decoder, &raw, &frame);
                 int64_t t_dec_dur_ms = (esp_timer_get_time() - t_dec_start) / 1000;
                 if (t_dec_dur_ms > 30) {
-                    ESP_LOGW(TAG, "[RADIO_DEC_GAP] decode_time=%lld ms decoded_bytes=%d", t_dec_dur_ms, frame.decoded_size);
+                    ESP_LOGW(TAG, "[RADIO_DEC_GAP] decode_time=%lld ms decoded_bytes=%d",
+                             t_dec_dur_ms, frame.decoded_size);
                 }
                 if (result == ESP_AUDIO_ERR_BUFF_NOT_ENOUGH) {
-                    const size_t new_size = frame.needed_size > out.size()
-                        ? frame.needed_size
-                        : out.size() * 2;
+                    const size_t new_size =
+                        frame.needed_size > out.size() ? frame.needed_size : out.size() * 2;
                     out.resize(new_size);
                     continue;
                 }
                 if (result != ESP_AUDIO_ERR_OK) {
                     decoder_error_count_++;
                     ESP_LOGW(TAG, "%s decode failed: ret=%d consumed=%u input=%u",
-                             is_aac ? "AAC" : "MP3",
-                             static_cast<int>(result),
-                             static_cast<unsigned>(raw.consumed),
-                             static_cast<unsigned>(raw.len));
+                             is_aac ? "AAC" : "MP3", static_cast<int>(result),
+                             static_cast<unsigned>(raw.consumed), static_cast<unsigned>(raw.len));
                     break;
                 }
                 if (frame.decoded_size > 0) {
@@ -558,33 +583,44 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                     if (esp_audio_simple_dec_get_info(decoder, &info) == ESP_AUDIO_ERR_OK &&
                         info.sample_rate > 0 && info.bits_per_sample == 16) {
                         if (!first_frame_logged) {
-                            ESP_LOGI(TAG, "First %s frame decoded: rate=%lu channels=%lu bits=%lu bytes=%d",
-                                     is_aac ? "AAC" : "MP3",
-                                     static_cast<unsigned long>(info.sample_rate),
-                                     static_cast<unsigned long>(info.channel),
-                                     static_cast<unsigned long>(info.bits_per_sample),
-                                     static_cast<int>(frame.decoded_size));
+                            ESP_LOGI(
+                                TAG,
+                                "First %s frame decoded: rate=%lu channels=%lu bits=%lu bytes=%d",
+                                is_aac ? "AAC" : "MP3",
+                                static_cast<unsigned long>(info.sample_rate),
+                                static_cast<unsigned long>(info.channel),
+                                static_cast<unsigned long>(info.bits_per_sample),
+                                static_cast<int>(frame.decoded_size));
                             first_frame_logged = true;
                             SystemInfo::PrintRamSnapshot("RADIO_PLAYING");
                         }
                         PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
-                                     frame.decoded_size / 2, info.channel, info.sample_rate, target_rate, true);
-                        const uint32_t buffered_ms = Application::GetInstance().GetAudioService().GetRadioBufferedMs();
-                        if (!attempt->startup_ready_notified && !stop_requested_ && buffered_ms >= RADIO_PREBUFFER_MS) {
+                                     frame.decoded_size / 2, info.channel, info.sample_rate,
+                                     target_rate, true);
+                        const uint32_t buffered_ms =
+                            Application::GetInstance().GetAudioService().GetRadioBufferedMs();
+                        if (!attempt->startup_ready_notified && !stop_requested_ &&
+                            buffered_ms >= RADIO_PREBUFFER_MS) {
                             attempt->startup_ready_notified = true;
-                            if (attempt->on_startup_ready) std::move(attempt->on_startup_ready)();
+                            if (attempt->on_startup_ready)
+                                std::move(attempt->on_startup_ready)();
                         }
                     } else if (!invalid_info_logged) {
-                        ESP_LOGW(TAG, "Decoded frame has unsupported audio info: rate=%lu channels=%lu bits=%lu",
+                        ESP_LOGW(TAG,
+                                 "Decoded frame has unsupported audio info: rate=%lu channels=%lu "
+                                 "bits=%lu",
                                  static_cast<unsigned long>(info.sample_rate),
                                  static_cast<unsigned long>(info.channel),
                                  static_cast<unsigned long>(info.bits_per_sample));
                         invalid_info_logged = true;
                     }
                 }
-                if (raw.consumed == 0) break;
+                if (raw.consumed == 0)
+                    break;
                 consumed_total += raw.consumed;
-                raw.buffer += raw.consumed; raw.len -= raw.consumed; raw.consumed = 0;
+                raw.buffer += raw.consumed;
+                raw.len -= raw.consumed;
+                raw.consumed = 0;
             }
             if (consumed_total > 0) {
                 std::memmove(pending.data(), pending.data() + consumed_total,
@@ -602,7 +638,8 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             reconnect_count_++;
         }
         reconnect_requested_ = false;
-        if (!stop_requested_) vTaskDelay(pdMS_TO_TICKS(500));
+        if (!stop_requested_)
+            vTaskDelay(pdMS_TO_TICKS(500));
     }
     if (active_generation_.load() == attempt->generation) {
         Application::GetInstance().GetAudioService().ResetDecoder();

@@ -1,19 +1,21 @@
 #ifndef _AUDIO_CODEC_H
 #define _AUDIO_CODEC_H
 
-#include <freertos/FreeRTOS.h>
-#include <freertos/event_groups.h>
 #include <driver/i2s_std.h>
 #include <esp_idf_version.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/event_groups.h>
 
-#include <vector>
-#include <string>
 #include <functional>
+#include <string>
+#include <vector>
 
 #include "board.h"
 
 #define AUDIO_CODEC_DMA_DESC_NUM 6
 #define AUDIO_CODEC_DMA_FRAME_NUM 240
+
+enum class AudioOutputSource { kSystem, kAiSpeech, kMedia };
 
 // ESP-IDF 6 removed i2s_port_t and changed i2s_chan_config_t::id to an integer.
 // Keep numeric I2S controller IDs usable on targets where IDF 5 does not expose
@@ -28,11 +30,12 @@ class AudioCodec {
 public:
     AudioCodec();
     virtual ~AudioCodec();
-    
+
     virtual void SetOutputVolume(int volume);
     virtual void SetInputGain(float gain);
     virtual void EnableInput(bool enable);
     virtual void EnableOutput(bool enable);
+    virtual void SetOutputSource(AudioOutputSource source, bool stream_start = false) {}
 
     virtual void OutputData(std::vector<int16_t>& data);
     virtual void OutputData(const int16_t* data, size_t samples);
@@ -69,4 +72,4 @@ protected:
     virtual int Write(const int16_t* data, int samples) = 0;
 };
 
-#endif // _AUDIO_CODEC_H
+#endif  // _AUDIO_CODEC_H
