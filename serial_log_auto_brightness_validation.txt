@@ -1,0 +1,692 @@
+
+--- AUTO BRIGHTNESS VALIDATION LOG STARTED AT Sat Sep 12 21:38:14 2026 ---
+I (10269) RAM: internal free=88571 min=39812 largest=45056 | psram free=8266260 min=8251528 largest=8257536
+I (10559) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1960
+I (11299) HttpClient: HTTP connection closed
+I (11309) Ota: Current is the latest version
+I (11309) Ota: Running partition: ota_0
+I (11339) MQTT: Connecting to endpoint api.tenclass.net
+I (13419) MQTT: Connected to endpoint
+I (13419) Application: Activation done
+I (13419) SystemInfo: free sram: 86499 minimal sram: 39812
+I (13419) StateMachine: State: activating -> idle
+I (13429) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13429) wifi:Set ps type: 2, coexist: 0
+
+I (13439) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13439) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13449) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13449) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13549) AFE: AFE Version: (1MIC_V251128)
+I (13549) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13559) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13569) AFE: AFE Version: (1MIC_V251128)
+I (13569) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13579) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13589) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13599) AudioCodec: Set output enable to true
+I (13599) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13609) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13619) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13629) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13649) Adev_Codec: Open codec device OK
+I (13649) AudioCodec: Set input enable to true
+I (13649) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=44407 min=27252 largest=18432 | psram free=7517676 min=7483796 largest=7471104
+I (20269) RAM: internal free=48159 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (22739) SystemInfo: free sram: 50023 minimal sram: 27252
+I (25269) RAM: internal free=49683 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (30269) RAM: internal free=49915 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (32199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=226 => point.x=226, point.y=1 (top_bar=1)
+I (32239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=226 => point.x=226, point.y=1 (top_bar=1)
+I (32269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=226 => point.x=226, point.y=1 (top_bar=1)
+I (32329) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (32329) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (32749) SystemInfo: free sram: 50059 minimal sram: 27252
+I (35269) RAM: internal free=49727 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (35529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=121, raw_y=42 => point.x=42, point.y=199 (top_bar=0)
+I (35599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=121, raw_y=42 => point.x=42, point.y=199 (top_bar=0)
+I (35689) FreenoveFnk0104sBoard: TOUCH READ: raw_x=122, raw_y=42 => point.x=42, point.y=198 (top_bar=0)
+I (37449) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=158 => point.x=158, point.y=203 (top_bar=0)
+I (37509) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=158 => point.x=158, point.y=203 (top_bar=0)
+ESP_ERROR_CHECK failed: esp_err_t 0x1109 (ESP_ERR_NVS_KEY_TOO_LONG) at 0x420391ec
+file: "./main/settings.cc" line 63
+func: void Settings::SetInt(const std::string&, int32_t)
+expression: nvs_set_i32(nvs_handle_, key.c_str(), value)
+
+abort() was called at PC 0x4038783e on core 1
+
+
+Backtrace: 0x4038787d:0x3fcccb00 0x40387849:0x3fcccb20 0x403863f3:0x3fcccb40 0x4038783e:0x3fcccbb0 0x420391ec:0x3fcccbe0 0x42023146:0x3fcccc00 0x420231c2:0x3fcccc60 0x421131fb:0x3fcccc80 0x42103d5e:0x3fccccd0 0x42103e50:0x3fccccf0 0x4210f4fd:0x3fcccd30 0x4210fcdf:0x3fcccd60 0x4210ff6c:0x3fccce00 0x421104e5:0x3fccce90 0x421147bc:0x3fccceb0 0x420f96f5:0x3fccced0
+
+
+
+
+ELF file SHA256: f45dacb8e
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (33) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (34) octal_psram: density      : 0x03 (64 Mbit)
+I (35) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (44) octal_psram: VCC          : 0x01 (3V)
+I (48) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (57) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (62) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (67) octal_psram: DriveStrength: 0x00 (1/1)
+I (71) MSPI Timing: Enter psram timing tuning
+I (76) esp_psram: Found 8MB PSRAM device
+I (79) esp_psram: Speed: 80MHz
+I (82) cpu_start: Multicore app
+I (96) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (97) cpu_start: cpu freq: 240000000 Hz
+I (98) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (109) app_init: Compile time:     Sep 12 2026 21:35:12
+I (114) app_init: ELF file SHA256:  f45dacb8e...
+I (119) app_init: ESP-IDF:          6.1.0
+I (122) efuse_init: Min chip rev:     v0.0
+I (126) efuse_init: Max chip rev:     v0.99 
+I (130) efuse_init: Chip rev:         v0.2
+I (134) heap_init: Initializing. RAM available for dynamic allocation:
+I (140) heap_init: At 3FCAD130 len 0003C5E0 (241 KiB): RAM
+I (145) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (161) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (168) spi_flash: detected chip: generic
+I (171) spi_flash: flash io: qio
+I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=282187 min=184756 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (218) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1088) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1088) StorageManager: SD Card mounted successfully at /sdcard!
+I (1088) HomeAssistant: Initializing Home Assistant integration...
+I (1098) MCP: Add tool: homeassistant.call_service
+I (1098) MCP: Add tool: homeassistant.get_states
+I (1108) MCP: Add tool: homeassistant.set_config [user]
+I (1108) MCP: Add tool: radio.add_favorite
+I (1118) MCP: Add tool: radio.get_current
+I (1118) MCP: Add tool: radio.list_favorites
+I (1118) MCP: Add tool: radio.play_favorite
+I (1128) MCP: Add tool: radio.remove_favorite
+I (1128) MCP: Add tool: radio.search_stations
+I (1138) MCP: Add tool: radio.play_station
+I (1138) MCP: Add tool: radio.stop
+I (1138) MCP: Add tool: media.play_sd
+I (1148) MCP: Add tool: media.list_sd
+I (1148) MCP: Add tool: media.search_sd
+I (1148) MCP: Add tool: media.pause
+I (1158) MCP: Add tool: media.next
+I (1158) MCP: Add tool: media.previous
+I (1158) MCP: Add tool: media.stop
+I (1168) StateMachine: State: unknown -> starting
+W (1178) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1178) Es8311AudioCodec: Duplex channels created
+I (1178) Es8311AudioCodec: ES8311 software reset complete
+I (1188) ES8311: Work in Slave mode
+I (1198) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1198) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1208) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1238) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=202227 internal_largest=94208 dma_free=194455 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1248) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=200963 internal_largest=94208 dma_free=193191 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1278) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1288) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1348) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=185387 internal_largest=94208 dma_free=177615 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+E (1358) StorageManager: Failed to open directory: /sdcard/mp3
+I (1368) SdMusicPlayer: Scanning SD music directory /sdcard/music (5 total entries)...
+I (1368) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1388) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1398) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1418) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 5
+I (1438) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1448) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1458) RAM: [AFTER_LVGL_INIT] internal free=181583 min=84116 largest=94208 | psram free=8320216 min=8318480 largest=8257536
+I (1668) AudioCodec: Audio codec started
+I (1668) RAM: [AFTER_AUDIO_INIT] internal free=145427 min=47996 largest=94208 | psram free=8277712 min=8277712 largest=8257536
+I (1678) AppManager: Initializing Application Manager...
+I (1678) MCP: Add tool: self.get_device_status
+I (1678) MCP: Add tool: self.audio_speaker.set_volume
+I (1688) MCP: Add tool: self.screen.set_brightness
+I (1688) MCP: Add tool: self.screen.set_theme
+I (1698) MCP: Add tool: self.get_system_info [user]
+I (1698) MCP: Add tool: self.reboot [user]
+I (1708) MCP: Add tool: self.upgrade_firmware [user]
+I (1708) MCP: Add tool: self.screen.get_info [user]
+I (1708) MCP: Add tool: self.screen.snapshot [user]
+I (1718) MCP: Add tool: self.screen.preview_image [user]
+I (1718) MCP: Add tool: self.assets.set_download_url [user]
+I (1728) WifiManager: Initializing...
+I (1728) pp: pp rom version: e7ae62f
+I (1738) net80211: net80211 rom version: e7ae62f
+I (1748) wifi:wifi driver task: 3fce932c, prio:23, stack:6656, core=0
+I (1748) wifi:wifi firmware version: e12a754
+I (1748) wifi:wifi certification version: v7.0
+I (1758) wifi:config NVS flash: disabled
+I (1758) wifi:config nano formatting: disabled
+I (1758) wifi:Init data frame dynamic rx buffer num: 6
+I (1768) wifi:Init dynamic rx mgmt buffer num: 5
+I (1768) wifi:Init management short buffer num: 32
+I (1778) wifi:Init dynamic tx buffer num: 32
+I (1778) wifi:Init static tx FG buffer num: 2
+I (1778) wifi:Init static rx buffer size: 1600
+I (1788) wifi:Init static rx buffer num: 3
+I (1788) wifi:Init dynamic rx buffer num: 6
+I (1798) wifi_init: rx ba win: 3
+I (1798) wifi_init: accept mbox: 6
+I (1798) wifi_init: tcpip mbox: 16
+I (1808) wifi_init: udp mbox: 6
+I (1808) wifi_init: tcp mbox: 6
+I (1808) wifi_init: tcp tx win: 5760
+I (1808) wifi_init: tcp rx win: 5760
+I (1818) wifi_init: tcp mss: 1440
+I (1818) WifiManager: Initialized
+I (1818) WifiBoard: Starting WiFi connection attempt
+I (1828) WifiManager: Starting station
+I (1828) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1838) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1878) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1878) wifi:enable tsf
+I (1878) WifiBoard: WiFi scanning
+I (1908) RAM: [AFTER_XIAOZHI_INIT] internal free=111567 min=40100 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (3408) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=249 => point.x=249, point.y=1 (top_bar=1)
+I (3448) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=249 => point.x=249, point.y=1 (top_bar=1)
+I (3488) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (3488) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (4288) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -32, Channel: 7, Authmode: 3
+I (4288) WifiBoard: WiFi connecting to ZERG
+W (4298) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (4968) FreenoveFnk0104sBoard: TOUCH READ: raw_x=110, raw_y=158 => point.x=158, point.y=210 (top_bar=0)
+I (5008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=111, raw_y=158 => point.x=158, point.y=209 (top_bar=0)
+I (5058) FreenoveFnk0104sBoard: TOUCH READ: raw_x=111, raw_y=158 => point.x=158, point.y=209 (top_bar=0)
+I (5208) RAM: internal free=111135 min=40004 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (5818) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=151 => point.x=151, point.y=193 (top_bar=0)
+I (5868) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=151 => point.x=151, point.y=193 (top_bar=0)
+I (5928) FreenoveFnk0104sBoard: TOUCH READ: raw_x=127, raw_y=151 => point.x=151, point.y=193 (top_bar=0)
+ESP_ERROR_CHECK failed: esp_err_t 0x1109 (ESP_ERR_NVS_KEY_TOO_LONG) at 0x420391ec
+file: "./main/settings.cc" line 63
+func: void Settings::SetInt(const std::string&, int32_t)
+expression: nvs_set_i32(nvs_handle_, key.c_str(), value)
+
+abort() was called at PC 0x4038783e on core 1
+
+
+Backtrace: 0x4038787d:0x3fcccb00 0x40387849:0x3fcccb20 0x403863f3:0x3fcccb40 0x4038783e:0x3fcccbb0 0x420391ec:0x3fcccbe0 0x42023146:0x3fcccc00 0x420231c2:0x3fcccc60 0x421131fb:0x3fcccc80 0x42103d5e:0x3fccccd0 0x42103e50:0x3fccccf0 0x4210f4fd:0x3fcccd30 0x4210fcdf:0x3fcccd60 0x4210ff6c:0x3fccce00 0x421104e5:0x3fccce90 0x421147bc:0x3fccceb0 0x420f96f5:0x3fccced0
+
+
+
+
+ELF file SHA256: f45dacb8e
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (33) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (34) octal_psram: density      : 0x03 (64 Mbit)
+I (35) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (44) octal_psram: VCC          : 0x01 (3V)
+I (48) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (57) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (62) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (67) octal_psram: DriveStrength: 0x00 (1/1)
+I (71) MSPI Timing: Enter psram timing tuning
+I (76) esp_psram: Found 8MB PSRAM device
+I (79) esp_psram: Speed: 80MHz
+I (82) cpu_start: Multicore app
+I (96) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (97) cpu_start: cpu freq: 240000000 Hz
+I (98) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (109) app_init: Compile time:     Sep 12 2026 21:35:12
+I (114) app_init: ELF file SHA256:  f45dacb8e...
+I (119) app_init: ESP-IDF:          6.1.0
+I (122) efuse_init: Min chip rev:     v0.0
+I (126) efuse_init: Max chip rev:     v0.99 
+I (130) efuse_init: Chip rev:         v0.2
+I (134) heap_init: Initializing. RAM available for dynamic allocation:
+I (140) heap_init: At 3FCAD130 len 0003C5E0 (241 KiB): RAM
+I (145) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (161) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (168) spi_flash: detected chip: generic
+I (171) spi_flash: flash io: qio
+I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=282187 min=184756 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (218) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1088) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1088) StorageManager: SD Card mounted successfully at /sdcard!
+I (1088) HomeAssistant: Initializing Home Assistant integration...
+I (1098) MCP: Add tool: homeassistant.call_service
+I (1098) MCP: Add tool: homeassistant.get_states
+I (1108) MCP: Add tool: homeassistant.set_config [user]
+I (1108) MCP: Add tool: radio.add_favorite
+I (1118) MCP: Add tool: radio.get_current
+I (1118) MCP: Add tool: radio.list_favorites
+I (1118) MCP: Add tool: radio.play_favorite
+I (1128) MCP: Add tool: radio.remove_favorite
+I (1128) MCP: Add tool: radio.search_stations
+I (1138) MCP: Add tool: radio.play_station
+I (1138) MCP: Add tool: radio.stop
+I (1138) MCP: Add tool: media.play_sd
+I (1148) MCP: Add tool: media.list_sd
+I (1148) MCP: Add tool: media.search_sd
+I (1148) MCP: Add tool: media.pause
+I (1158) MCP: Add tool: media.next
+I (1158) MCP: Add tool: media.previous
+I (1158) MCP: Add tool: media.stop
+I (1168) StateMachine: State: unknown -> starting
+W (1178) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1178) Es8311AudioCodec: Duplex channels created
+I (1178) Es8311AudioCodec: ES8311 software reset complete
+I (1188) ES8311: Work in Slave mode
+I (1198) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1198) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1208) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1238) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=202227 internal_largest=94208 dma_free=194455 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1248) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=200963 internal_largest=94208 dma_free=193191 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1278) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1288) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1348) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=185387 internal_largest=94208 dma_free=177615 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+E (1358) StorageManager: Failed to open directory: /sdcard/mp3
+I (1368) SdMusicPlayer: Scanning SD music directory /sdcard/music (5 total entries)...
+I (1368) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1388) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1398) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1418) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 5
+I (1438) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1448) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1458) RAM: [AFTER_LVGL_INIT] internal free=181583 min=84116 largest=94208 | psram free=8320216 min=8318480 largest=8257536
+I (1668) AudioCodec: Audio codec started
+I (1668) RAM: [AFTER_AUDIO_INIT] internal free=145427 min=47996 largest=94208 | psram free=8277712 min=8277712 largest=8257536
+I (1668) AppManager: Initializing Application Manager...
+I (1678) MCP: Add tool: self.get_device_status
+I (1678) MCP: Add tool: self.audio_speaker.set_volume
+I (1688) MCP: Add tool: self.screen.set_brightness
+I (1688) MCP: Add tool: self.screen.set_theme
+I (1698) MCP: Add tool: self.get_system_info [user]
+I (1698) MCP: Add tool: self.reboot [user]
+I (1708) MCP: Add tool: self.upgrade_firmware [user]
+I (1708) MCP: Add tool: self.screen.get_info [user]
+I (1708) MCP: Add tool: self.screen.snapshot [user]
+I (1718) MCP: Add tool: self.screen.preview_image [user]
+I (1718) MCP: Add tool: self.assets.set_download_url [user]
+I (1728) WifiManager: Initializing...
+I (1728) pp: pp rom version: e7ae62f
+I (1738) net80211: net80211 rom version: e7ae62f
+I (1748) wifi:wifi driver task: 3fce9370, prio:23, stack:6656, core=0
+I (1748) wifi:wifi firmware version: e12a754
+I (1748) wifi:wifi certification version: v7.0
+I (1748) wifi:config NVS flash: disabled
+I (1758) wifi:config nano formatting: disabled
+I (1758) wifi:Init data frame dynamic rx buffer num: 6
+I (1768) wifi:Init dynamic rx mgmt buffer num: 5
+I (1768) wifi:Init management short buffer num: 32
+I (1778) wifi:Init dynamic tx buffer num: 32
+I (1778) wifi:Init static tx FG buffer num: 2
+I (1778) wifi:Init static rx buffer size: 1600
+I (1788) wifi:Init static rx buffer num: 3
+I (1788) wifi:Init dynamic rx buffer num: 6
+I (1798) wifi_init: rx ba win: 3
+I (1798) wifi_init: accept mbox: 6
+I (1798) wifi_init: tcpip mbox: 16
+I (1808) wifi_init: udp mbox: 6
+I (1808) wifi_init: tcp mbox: 6
+I (1808) wifi_init: tcp tx win: 5760
+I (1808) wifi_init: tcp rx win: 5760
+I (1818) wifi_init: tcp mss: 1440
+I (1818) WifiManager: Initialized
+I (1818) WifiBoard: Starting WiFi connection attempt
+I (1828) WifiManager: Starting station
+I (1828) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1838) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1878) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1878) wifi:enable tsf
+I (1878) WifiBoard: WiFi scanning
+I (1908) RAM: [AFTER_XIAOZHI_INIT] internal free=111455 min=40100 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (3528) FreenoveFnk0104sBoard: TOUCH READ: raw_x=307, raw_y=253 => point.x=253, point.y=13 (top_bar=1)
+I (3568) FreenoveFnk0104sBoard: TOUCH READ: raw_x=307, raw_y=253 => point.x=253, point.y=13 (top_bar=1)
+I (3608) FreenoveFnk0104sBoard: TOUCH READ: raw_x=307, raw_y=253 => point.x=253, point.y=13 (top_bar=1)
+I (3648) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (3648) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (4288) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -33, Channel: 7, Authmode: 3
+I (4288) WifiBoard: WiFi connecting to ZERG
+W (4298) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (4498) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=56 => point.x=56, point.y=195 (top_bar=0)
+I (4548) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=56 => point.x=56, point.y=195 (top_bar=0)
+I (5218) RAM: internal free=111183 min=39940 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (5508) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=164 => point.x=164, point.y=195 (top_bar=0)
+I (5558) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=164 => point.x=164, point.y=195 (top_bar=0)
+I (5598) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=164 => point.x=164, point.y=195 (top_bar=0)
+ESP_ERROR_CHECK failed: esp_err_t 0x1109 (ESP_ERR_NVS_KEY_TOO_LONG) at 0x420391ec
+file: "./main/settings.cc" line 63
+func: void Settings::SetInt(const std::string&, int32_t)
+expression: nvs_set_i32(nvs_handle_, key.c_str(), value)
+
+abort() was called at PC 0x4038783e on core 1
+
+
+Backtrace: 0x4038787d:0x3fcccb00 0x40387849:0x3fcccb20 0x403863f3:0x3fcccb40 0x4038783e:0x3fcccbb0 0x420391ec:0x3fcccbe0 0x42023146:0x3fcccc00 0x420231c2:0x3fcccc60 0x421131fb:0x3fcccc80 0x42103d5e:0x3fccccd0 0x42103e50:0x3fccccf0 0x4210f4fd:0x3fcccd30 0x4210fcdf:0x3fcccd60 0x4210ff6c:0x3fccce00 0x421104e5:0x3fccce90 0x421147bc:0x3fccceb0 0x420f96f5:0x3fccced0
+
+
+
+
+ELF file SHA256: f45dacb8e
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (33) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (34) octal_psram: density      : 0x03 (64 Mbit)
+I (35) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (44) octal_psram: VCC          : 0x01 (3V)
+I (48) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (57) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (62) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (67) octal_psram: DriveStrength: 0x00 (1/1)
+I (71) MSPI Timing: Enter psram timing tuning
+I (76) esp_psram: Found 8MB PSRAM device
+I (79) esp_psram: Speed: 80MHz
+I (82) cpu_start: Multicore app
+I (96) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (97) cpu_start: cpu freq: 240000000 Hz
+I (98) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (109) app_init: Compile time:     Sep 12 2026 21:35:12
+I (114) app_init: ELF file SHA256:  f45dacb8e...
+I (119) app_init: ESP-IDF:          6.1.0
+I (122) efuse_init: Min chip rev:     v0.0
+I (126) efuse_init: Max chip rev:     v0.99 
+I (130) efuse_init: Chip rev:         v0.2
+I (134) heap_init: Initializing. RAM available for dynamic allocation:
+I (140) heap_init: At 3FCAD130 len 0003C5E0 (241 KiB): RAM
+I (145) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (161) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (168) spi_flash: detected chip: generic
+I (171) spi_flash: flash io: qio
+I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=282187 min=184756 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (218) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1088) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1088) StorageManager: SD Card mounted successfully at /sdcard!
+I (1088) HomeAssistant: Initializing Home Assistant integration...
+I (1098) MCP: Add tool: homeassistant.call_service
+I (1098) MCP: Add tool: homeassistant.get_states
+I (1108) MCP: Add tool: homeassistant.set_config [user]
+I (1108) MCP: Add tool: radio.add_favorite
+I (1118) MCP: Add tool: radio.get_current
+I (1118) MCP: Add tool: radio.list_favorites
+I (1118) MCP: Add tool: radio.play_favorite
+I (1128) MCP: Add tool: radio.remove_favorite
+I (1128) MCP: Add tool: radio.search_stations
+I (1138) MCP: Add tool: radio.play_station
+I (1138) MCP: Add tool: radio.stop
+I (1138) MCP: Add tool: media.play_sd
+I (1148) MCP: Add tool: media.list_sd
+I (1148) MCP: Add tool: media.search_sd
+I (1148) MCP: Add tool: media.pause
+I (1158) MCP: Add tool: media.next
+I (1158) MCP: Add tool: media.previous
+I (1158) MCP: Add tool: media.stop
+I (1168) StateMachine: State: unknown -> starting
+W (1178) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1178) Es8311AudioCodec: Duplex channels created
+I (1178) Es8311AudioCodec: ES8311 software reset complete
+I (1188) ES8311: Work in Slave mode
+I (1198) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1198) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1208) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=208459 internal_largest=94208 dma_free=200687 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1238) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=202227 internal_largest=94208 dma_free=194455 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1248) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=200963 internal_largest=94208 dma_free=193191 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1278) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1288) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=193875 internal_largest=94208 dma_free=186103 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=185427 internal_largest=94208 dma_free=177655 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1348) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=185387 internal_largest=94208 dma_free=177615 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+E (1358) StorageManager: Failed to open directory: /sdcard/mp3
+I (1368) SdMusicPlayer: Scanning SD music directory /sdcard/music (5 total entries)...
+I (1368) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1388) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1398) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1418) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 5
+I (1438) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1448) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=181583 internal_largest=94208 dma_free=173811 dma_largest=94208 spiram_free=8320216 spiram_largest=8257536
+I (1458) RAM: [AFTER_LVGL_INIT] internal free=181583 min=84116 largest=94208 | psram free=8320216 min=8318480 largest=8257536
+I (1668) AudioCodec: Audio codec started
+I (1668) RAM: [AFTER_AUDIO_INIT] internal free=145427 min=47996 largest=94208 | psram free=8277712 min=8277712 largest=8257536
+I (1668) AppManager: Initializing Application Manager...
+I (1678) MCP: Add tool: self.get_device_status
+I (1678) MCP: Add tool: self.audio_speaker.set_volume
+I (1688) MCP: Add tool: self.screen.set_brightness
+I (1688) MCP: Add tool: self.screen.set_theme
+I (1698) MCP: Add tool: self.get_system_info [user]
+I (1698) MCP: Add tool: self.reboot [user]
+I (1708) MCP: Add tool: self.upgrade_firmware [user]
+I (1708) MCP: Add tool: self.screen.get_info [user]
+I (1708) MCP: Add tool: self.screen.snapshot [user]
+I (1718) MCP: Add tool: self.screen.preview_image [user]
+I (1718) MCP: Add tool: self.assets.set_download_url [user]
+I (1728) WifiManager: Initializing...
+I (1728) pp: pp rom version: e7ae62f
+I (1738) net80211: net80211 rom version: e7ae62f
+I (1748) wifi:wifi driver task: 3fce9370, prio:23, stack:6656, core=0
+I (1748) wifi:wifi firmware version: e12a754
+I (1748) wifi:wifi certification version: v7.0
+I (1748) wifi:config NVS flash: disabled
+I (1758) wifi:config nano formatting: disabled
+I (1758) wifi:Init data frame dynamic rx buffer num: 6
+I (1768) wifi:Init dynamic rx mgmt buffer num: 5
+I (1768) wifi:Init management short buffer num: 32
+I (1778) wifi:Init dynamic tx buffer num: 32
+I (1778) wifi:Init static tx FG buffer num: 2
+I (1778) wifi:Init static rx buffer size: 1600
+I (1788) wifi:Init static rx buffer num: 3
+I (1788) wifi:Init dynamic rx buffer num: 6
+I (1798) wifi_init: rx ba win: 3
+I (1798) wifi_init: accept mbox: 6
+I (1798) wifi_init: tcpip mbox: 16
+I (1808) wifi_init: udp mbox: 6
+I (1808) wifi_init: tcp mbox: 6
+I (1808) wifi_init: tcp tx win: 5760
+I (1808) wifi_init: tcp rx win: 5760
+I (1818) wifi_init: tcp mss: 1440
+I (1818) WifiManager: Initialized
+I (1818) WifiBoard: Starting WiFi connection attempt
+I (1828) WifiManager: Starting station
+I (1828) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1838) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1878) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1878) wifi:enable tsf
+I (1878) WifiBoard: WiFi scanning
+I (1908) RAM: [AFTER_XIAOZHI_INIT] internal free=111451 min=40100 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (2378) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=252 => point.x=252, point.y=1 (top_bar=1)
+I (2418) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=252 => point.x=252, point.y=1 (top_bar=1)
+I (2458) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (2458) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (3398) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=217 => point.x=217, point.y=189 (top_bar=0)
+I (3438) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=217 => point.x=217, point.y=189 (top_bar=0)
+I (3488) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=217 => point.x=217, point.y=189 (top_bar=0)
+I (3548) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=217 => point.x=217, point.y=189 (top_bar=0)
+ESP_ERROR_CHECK failed: esp_err_t 0x1109 (ESP_ERR_NVS_KEY_TOO_LONG) at 0x420391ec
+file: "./main/settings.cc" line 63
+func: void Settings::SetInt(const std::string&, int32_t)
+expression: nvs_set_i32(nvs_handle_, key.c_str(), value)
+
+abort() was called at PC 0x4038783e on core 1
+
+
+Backtrace: 0x4038787d:0x3fcccb00 0x40387849:0x3fcccb20 0x403863f3:0x3fcccb40 0x4038783e:0x3fcccbb0 0x420391ec:0x3fcccbe0 0x42023146:0x3fcccc00 0x420231aa:0x3fcccc60 0x421131fb:0x3fcccc80 0x42103d5e:0x3fccccd0 0x42103e50:0x3fccccf0 0x4210f4fd:0x3fcccd30 0x4210fcdf:0x3fcccd60 0x4210ff6c:0x3fccce00 0x421104e5:0x3fccce90 0x421147bc:0x3fccceb0 0x420f96f5:0x3fccced0
+
+
+
+
+ELF file SHA256: f45dacb8e
+
+Rebooting...
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (33) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (34) octal_psram: density      : 0x03 (64 Mbit)
+I (35) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (44) octal_psram: VCC          : 0x01 (3V)
+I (48) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (57) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (62) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (67) octal_psram: DriveStrength: 0x00 (1/1)
+I (71) MSPI Timing: Enter psram timing tuning
+I (76) esp_psram: Found 8MB PSRAM device
+I (79) esp_psram: Speed: 80MHz
+I (82) cpu_start: Multicore app
+I (96) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (97) cpu_start: cpu freq: 240000000 Hz
+I (98) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (109) app_init: Compile time:     Sep 12 2026 21:35:12
+I (114) app_init: ELF file SHA256:  f45dacb8e...
+I (119) app_init: ESP-IDF:          6.1.0
+I (122) efuse_init: Min chip rev:     v0.0
+I (126) efuse_init: Max chip rev:     v0.99 
+I (130) efuse_init: Chip rev:         v0.2
+I (134) heap_init: Initializing. RAM available for dynamic allocation:
+I (140) heap_init: At 3FCAD130 len 0003C5E0 (241 KiB): RAM
+I (145) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (161) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (168) spi_flash: detected chip: generic
+I (171) spi_flash: flash io: qio
+I (175) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=282187 min=184756 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (228) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5

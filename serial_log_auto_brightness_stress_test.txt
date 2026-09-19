@@ -1,0 +1,112 @@
+
+--- AUTO BRIGHTNESS DIAGNOSTICS STRESS TEST LOG STARTED AT Sat Sep 12 23:04:50 2026 ---
+I (10569) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1860
+I (11319) HttpClient: HTTP connection closed
+I (11319) Ota: Current is the latest version
+I (11319) Ota: Running partition: ota_0
+I (11329) MQTT: Connecting to endpoint api.tenclass.net
+I (13539) MQTT: Connected to endpoint
+I (13539) Application: Activation done
+I (13539) SystemInfo: free sram: 86179 minimal sram: 39812
+I (13539) StateMachine: State: activating -> idle
+I (13559) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13569) wifi:Set ps type: 2, coexist: 0
+
+I (13569) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13569) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13569) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13579) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13669) AFE: AFE Version: (1MIC_V251128)
+I (13679) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13679) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13689) AFE: AFE Version: (1MIC_V251128)
+I (13699) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13709) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13709) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13719) AudioCodec: Set output enable to true
+I (13729) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13729) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13739) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13749) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13769) Adev_Codec: Open codec device OK
+I (13779) AudioService: Resampling audio from 16000 to 24000
+I (13779) AudioCodec: Set input enable to true
+I (15269) RAM: internal free=44083 min=27252 largest=18432 | psram free=7517676 min=7483796 largest=7471104
+I (16499) FreenoveFnk0104sBoard: TOUCH READ: raw_x=287, raw_y=337 => point.x=337, point.y=33 (top_bar=1)
+W (16499) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (16549) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+W (16549) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE task=taskLVGL core=1 quick_settings_open_before=0
+W (16559) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+I (16569) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+W (16569) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+W (16579) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE done quick_settings_open_after=1
+I (18649) FreenoveFnk0104sBoard: TOUCH READ: raw_x=239, raw_y=314 => point.x=314, point.y=81 (top_bar=0)
+W (18649) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (18749) FreenoveFnk0104sBoard: TOUCH READ: raw_x=239, raw_y=314 => point.x=314, point.y=81 (top_bar=0)
+I (18829) FreenoveFnk0104sBoard: TOUCH READ: raw_x=237, raw_y=300 => point.x=300, point.y=83 (top_bar=0)
+I (18839) AudioCodec: Set output volume to 79
+I (19479) FreenoveFnk0104sBoard: TOUCH READ: raw_x=220, raw_y=312 => point.x=312, point.y=100 (top_bar=0)
+W (19479) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (19569) FreenoveFnk0104sBoard: TOUCH READ: raw_x=220, raw_y=308 => point.x=308, point.y=100 (top_bar=0)
+I (19629) FreenoveFnk0104sBoard: TOUCH READ: raw_x=220, raw_y=292 => point.x=292, point.y=100 (top_bar=0)
+I (19629) AudioCodec: Set output volume to 75
+I (19719) FreenoveFnk0104sBoard: TOUCH READ: raw_x=221, raw_y=275 => point.x=275, point.y=99 (top_bar=0)
+I (19729) AudioCodec: Set output volume to 67
+I (20239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=269 => point.x=269, point.y=93 (top_bar=0)
+W (20239) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (20269) RAM: internal free=47671 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (20329) FreenoveFnk0104sBoard: TOUCH READ: raw_x=223, raw_y=285 => point.x=285, point.y=97 (top_bar=0)
+I (20329) AudioCodec: Set output volume to 72
+I (21199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=268, raw_y=431 => point.x=431, point.y=52 (top_bar=0)
+W (21199) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+W (21299) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=1 nesting=1
+I (21299) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+W (21309) LcdDisplay: TOGGLE_QS exit open_after=0 nesting=0
+I (22739) SystemInfo: free sram: 49875 minimal sram: 27252
+I (25269) RAM: internal free=49407 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (27659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=56 => point.x=56, point.y=1 (top_bar=1)
+W (27659) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (27709) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+W (27719) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE task=taskLVGL core=1 quick_settings_open_before=0
+W (27719) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+I (27729) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+W (27729) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+W (27739) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE done quick_settings_open_after=1
+I (30269) RAM: internal free=49359 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (32789) SystemInfo: free sram: 49879 minimal sram: 27252
+I (35269) RAM: internal free=49547 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (40269) RAM: internal free=49839 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (42759) SystemInfo: free sram: 49883 minimal sram: 27252
+I (45269) RAM: internal free=49119 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (50269) RAM: internal free=49887 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (52749) SystemInfo: free sram: 49887 minimal sram: 27252
+I (55269) RAM: internal free=49039 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+W (57789) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+W (57789) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+I (57799) Backlight: Set brightness to 10
+W (57799) LcdDisplay: AUTO_DIM done dimmed_after=1
+I (60269) RAM: internal free=49883 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (62759) SystemInfo: free sram: 49887 minimal sram: 27252
+I (65269) RAM: internal free=49883 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (70079) FreenoveFnk0104sBoard: TOUCH READ: raw_x=277, raw_y=318 => point.x=318, point.y=43 (top_bar=1)
+W (70089) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+W (70089) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=75
+W (70099) Backlight: BACKLIGHT_REQUEST requested=75 permanent=0 task=taskLVGL core=1
+I (70109) Backlight: Set brightness to 75
+W (70109) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (70269) RAM: internal free=49555 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (70929) FreenoveFnk0104sBoard: TOUCH READ: raw_x=272, raw_y=427 => point.x=427, point.y=48 (top_bar=1)
+W (70929) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+W (71009) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=1 nesting=1
+I (71009) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+W (71009) LcdDisplay: TOGGLE_QS exit open_after=0 nesting=0
+I (72739) SystemInfo: free sram: 49883 minimal sram: 27252
+I (75269) RAM: internal free=49563 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (80269) RAM: internal free=49571 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (82749) SystemInfo: free sram: 49891 minimal sram: 27252
+I (85269) RAM: internal free=49571 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (90269) RAM: internal free=49891 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (92769) SystemInfo: free sram: 49891 minimal sram: 27252
+I (95269) RAM: internal free=49571 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104

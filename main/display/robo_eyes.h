@@ -185,6 +185,12 @@ public:
     bool laughToggle = true;
 
     bool sweat = false;
+    bool tears = false;
+    bool voicePulse = false;
+    bool winkActive = false;
+    bool winkLeft = false;
+    uint32_t winkTimer = 0;
+    int winkDuration = 350;
 
     void begin(lv_obj_t* canvas_obj, int width, int height, uint8_t fps) {
         adapter.canvas = canvas_obj;
@@ -301,6 +307,50 @@ public:
     void setHFlicker(bool flickerBit, uint8_t amplitude = 2) { hFlicker = flickerBit; hFlickerAmplitude = amplitude; }
     void setVFlicker(bool flickerBit, uint8_t amplitude = 4) { vFlicker = flickerBit; vFlickerAmplitude = amplitude; }
     void setSweat(bool sweatBit) { sweat = sweatBit; }
+    void setTears(bool tearsBit) { tears = tearsBit; }
+    void setVoicePulse(bool active) { voicePulse = active; }
+
+    void stopOneShotAnimations() {
+        confused = false;
+        confusedToggle = true;
+        laugh = false;
+        laughToggle = true;
+        winkActive = false;
+    }
+
+    void resetGeometry() {
+        eyeLwidthNext = eyeLwidthDefault;
+        eyeRwidthNext = eyeRwidthDefault;
+        eyeLheightNext = eyeLheightDefault;
+        eyeRheightNext = eyeRheightDefault;
+        eyeLborderRadiusNext = eyeLborderRadiusDefault;
+        eyeRborderRadiusNext = eyeRborderRadiusDefault;
+        spaceBetweenNext = spaceBetweenDefault;
+        cyclops = false;
+        eyeL_open = true;
+        eyeR_open = true;
+    }
+
+    void setTargetSize(int leftWidth, int leftHeight, int rightWidth, int rightHeight) {
+        eyeLwidthNext = leftWidth;
+        eyeLheightNext = leftHeight;
+        eyeRwidthNext = rightWidth;
+        eyeRheightNext = rightHeight;
+    }
+
+    void wink(bool left = false, int duration = 350) {
+        winkActive = true;
+        winkLeft = left;
+        winkDuration = duration;
+        winkTimer = lv_tick_get();
+        if (left) {
+            eyeL_open = false;
+            eyeLheightNext = 1;
+        } else {
+            eyeR_open = false;
+            eyeRheightNext = 1;
+        }
+    }
 
     void close() {
         eyeLheightNext = 1; eyeRheightNext = 1;
@@ -330,6 +380,25 @@ public:
     }
 
     void drawEyes(uint32_t now) {
+        if (winkActive && now >= winkTimer + static_cast<uint32_t>(winkDuration)) {
+            if (winkLeft) {
+                eyeL_open = true;
+                eyeLheightNext = eyeLheightDefault;
+            } else {
+                eyeR_open = true;
+                eyeRheightNext = eyeRheightDefault;
+            }
+            winkActive = false;
+        }
+
+        if (voicePulse && !winkActive && eyeL_open && eyeR_open) {
+            constexpr float kTwoPi = 6.28318530718f;
+            const float phase = static_cast<float>(now % 600) / 600.0f;
+            const int offset = static_cast<int>(3.0f * std::sin(phase * kTwoPi));
+            eyeLheightNext = eyeLheightDefault + offset;
+            eyeRheightNext = eyeRheightDefault + offset;
+        }
+
         // Curiosity sizing
         if (curious) {
             if (eyeLxNext <= 10) eyeLheightOffset = 8;
@@ -410,8 +479,8 @@ public:
             if (now >= idleAnimationTimer) {
                 int max_x = getScreenConstraint_X();
                 int max_y = getScreenConstraint_Y();
-                if (max_x > 0) eyeLxNext = rand() % max_x;
-                if (max_y > 0) eyeLyNext = rand() % max_y;
+                if (max_x > 0) eyeLxNext = max_x / 4 + rand() % std::max(1, max_x / 2);
+                if (max_y > 0) eyeLyNext = max_y / 4 + rand() % std::max(1, max_y / 2);
                 int var_sec = (idleIntervalVariation > 0) ? (rand() % idleIntervalVariation) : 0;
                 idleAnimationTimer = now + (idleInterval + var_sec) * 1000;
             }
@@ -449,6 +518,19 @@ public:
         if (tired)  { eyelidsTiredHeightNext = eyeLheightCurrent / 2; eyelidsAngryHeightNext = 0; } else { eyelidsTiredHeightNext = 0; }
         if (angry)  { eyelidsAngryHeightNext = eyeLheightCurrent / 2; eyelidsTiredHeightNext = 0; } else { eyelidsAngryHeightNext = 0; }
         if (happy)  { eyelidsHappyBottomOffsetNext = eyeLheightCurrent / 2; } else { eyelidsHappyBottomOffsetNext = 0; }
+
+        if (sweat) {
+            adapter.fillRoundRect(eyeRx + eyeRwidthCurrent + 5, eyeRy + 8, 5, 13, 3,
+                                  ROBOEYES_MAINCOLOR);
+        }
+        if (tears) {
+            adapter.fillRoundRect(eyeLx + eyeLwidthCurrent / 2 - 2,
+                                  eyeLy + eyeLheightCurrent + 3, 4, 14, 2,
+                                  ROBOEYES_MAINCOLOR);
+            adapter.fillRoundRect(eyeRx + eyeRwidthCurrent / 2 - 2,
+                                  eyeRy + eyeRheightCurrent + 3, 4, 14, 2,
+                                  ROBOEYES_MAINCOLOR);
+        }
 
         // Draw tired top eyelids
         eyelidsTiredHeight = (eyelidsTiredHeight + eyelidsTiredHeightNext) / 2;

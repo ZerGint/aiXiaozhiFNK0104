@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <memory>
 #include <functional>
+#include <string>
 
 #define PREVIEW_IMAGE_DURATION_MS 5000
 
@@ -36,6 +37,9 @@ protected:
     void* robo_eyes_buf_ = nullptr;
     RoboEyes robo_eyes_;
     lv_timer_t* robo_eyes_timer_ = nullptr;
+    int robo_eyes_runtime_state_ = -1;
+    bool robo_eyes_vad_speaking_ = false;
+    void UpdateRoboEyesRuntimeState();
     std::unique_ptr<LvglGif> gif_controller_ = nullptr;
     lv_obj_t* emoji_box_ = nullptr;
     lv_obj_t* chat_message_label_ = nullptr;
@@ -85,6 +89,9 @@ protected:
     bool media_radio_mode_ = false;
     MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;
+    char favorite_station_uuid_[65] = {};
+    bool favorite_station_cached_ = false;
+    bool favorite_station_is_favorite_ = false;
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
@@ -119,6 +126,8 @@ protected:
     void DestroyBootAnimation();
 #endif
     void UpdateServiceIndicators();
+    bool IsStationFavorite(const std::string& uuid);
+    void SetStationFavoriteCache(const std::string& uuid, bool is_favorite);
     void UpdateAutoBrightness();
     void UpdateAutoBrightnessControls();
     void SetAutoBrightnessEnabled(bool enabled);

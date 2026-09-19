@@ -1,0 +1,88 @@
+I (8459) esp_netif_handlers: sta ip: 192.168.31.99, mask: 255.255.255.0, gw: 192.168.31.1
+I (8459) WifiStation: Got IP: 192.168.31.99
+I (8459) WifiBoard: Connected to WiFi: ZERG
+I (8459) Application: Network connected
+I (8459) RAM: [AFTER_WIFI] internal free=99339 min=40020 largest=57344 | psram free=8271224 min=8271188 largest=8257536
+I (8469) StateMachine: State: starting -> activating
+I (8479) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (8479) Assets: The storage free size is 21120 KB
+I (8489) Assets: The partition size is 8192 KB
+I (8479) Weather: WEATHER_MEM internal_free=82279 largest_block=40960 psram_free=8271224
+I (8499) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (8499) Weather: WEATHER_HTTP_START
+I (8509) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (8639) Assets: The checksum calculation time is 142 ms
+I (8639) MODEL_LOADER: Successfully load srmodels
+I (8669) Assets: Refreshing display theme...
+I (8709) Ota: Current version: 2.4.2
+I (9319) HttpClient: Established new connection to api.weatherapi.com:443 protocol=https cost=810
+I (9599) LcdDisplay: BOOT_ANIM_EXIT reason=timeout elapsed_ms=8035
+E (9989) esp-tls-mbedtls: read error :-0x004C
+E (9989) EspSsl: SSL receive failed: -76
+I (9989) HttpClient: HTTP connection closed
+I (9989) Weather: WEATHER_HTTP_RESULT status=200 bytes=58362 elapsed_ms=1510
+I (9999) LcdDisplay: BOOT_ANIM_DESTROYED
+I (10019) Weather: WEATHER_PARSE_OK temp=18.9 code=1003 wind=7.1 tomorrow=12.3..20.3 code=1009 rain=77 day2=11.3..15.9 code=1063 rain=51
+I (10219) RAM: internal free=65659 min=39812 largest=31744 | psram free=8165208 min=8097168 largest=7995392
+I (10239) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (10469) Weather: WEATHER_CACHE_SAVED bytes=72
+I (10469) Weather: WEATHER_UPDATE_OK timestamp=1789839814
+I (10469) Weather: WEATHER_MEM internal_free=66775 largest_block=31744 psram_free=8165724
+I (12299) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=3590
+I (13049) HttpClient: HTTP connection closed
+I (13059) Ota: Current is the latest version
+I (13059) Ota: Running partition: ota_0
+I (13069) MQTT: Connecting to endpoint api.tenclass.net
+I (15219) RAM: internal free=76695 min=39812 largest=31744 | psram free=8265320 min=8097168 largest=8257536
+I (15369) Application: PROTOCOL_CONNECTED timestamp_ms=15203
+I (15369) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=15204
+I (15369) MQTT: Connected to endpoint
+I (15369) Application: Activation done
+I (15369) SystemInfo: free sram: 76787 minimal sram: 39812
+I (15379) StateMachine: State: activating -> idle
+I (15419) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (15419) wifi:Set ps type: 2, coexist: 0
+
+I (15419) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (15419) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (15429) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (15429) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (15519) AFE: AFE Version: (1MIC_V251128)
+I (15519) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15529) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (15539) AFE: AFE Version: (1MIC_V251128)
+I (15549) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15559) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (15559) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (15569) Application: CONNECTION_SOUND_START timestamp_ms=15406
+I (15579) AudioCodec: Set output enable to true
+I (15579) AudioCodec: Set input enable to true
+I (15579) AudioService: Resampling audio from 16000 to 48000
+I (15579) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15599) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15609) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15609) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15639) Adev_Codec: Open codec device OK
+I (20219) RAM: internal free=34479 min=22248 largest=18432 | psram free=7537800 min=7507960 largest=7471104
+I (24769) SystemInfo: free sram: 40551 minimal sram: 22248
+I (24949) Application: Wake word detected: Hey Kira (state: 3)
+I (24949) StateMachine: State: idle -> connecting
+I (24949) AfeAudioEngine: Encoded wake word into 0 packets in 1 ms
+I (24949) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (24959) wifi:Set ps type: 0, coexist: 0
+
+W (25069) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=72 target=72
+W (25069) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (25219) RAM: internal free=35891 min=22248 largest=18432 | psram free=7531536 min=7506956 largest=7471104
+I (25349) MQTT: Session ID: 075b0a0e
+I (25349) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (25349) wifi:Set ps type: 0, coexist: 0
+
+W (25349) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (25359) Application: Wake word detected: Hey Kira
+I (25359) StateMachine: State: connecting -> listening
+I (30219) RAM: internal free=34943 min=20200 largest=15872 | psram free=7528696 min=7506956 largest=7471104
+I (31159) Application: >> Как дела?
+I (31199) StateMachine: State: listening -> speaking

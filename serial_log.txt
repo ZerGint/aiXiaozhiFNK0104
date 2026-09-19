@@ -1,0 +1,886 @@
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:09:58 2026 ---
+I (30271) RAM: internal free=48063 min=27252 largest=18432 | psram free=7540596 min=7504220 largest=7471104
+I (32741) SystemInfo: free sram: 48379 minimal sram: 27252
+I (35271) RAM: internal free=47927 min=27252 largest=18432 | psram free=7540596 min=7504220 largest=7471104
+I (40271) RAM: internal free=48383 min=27252 largest=18432 | psram free=7540596 min=7504220 largest=7471104
+I (42741) SystemInfo: free sram: 48383 minimal sram: 27252
+I (45271) RAM: internal free=48071 min=27252 largest=18432 | psram free=7540596 min=7504220 largest=7471104
+I (48141) FreenoveFnk0104sBoard: TOUCH READ: raw_x=87, raw_y=40 => point.x=40, point.y=233 (top_bar=0)
+I (48211) FreenoveFnk0104sBoard: TOUCH READ: raw_x=87, raw_y=40 => point.x=40, point.y=233 (top_bar=0)
+I (48261) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=47767 internal_largest=18432 dma_free=39995 dma_largest=18432 spiram_free=7540596 spiram_largest=7471104
+I (50011) FreenoveFnk0104sBoard: TOUCH READ: raw_x=70, raw_y=436 => point.x=436, point.y=250 (top_bar=0)
+I (50061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=70, raw_y=436 => point.x=436, point.y=250 (top_bar=0)
+I (50111) RAM: [RADIO_STOP] internal free=47335 min=27252 largest=18432 | psram free=7540596 min=7504220 largest=7471104
+I (50111) AudioManager: Audio focus requested by source 2 (current 0)
+I (50121) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (50131) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/02 - 21 Guns.mp3
+I (50271) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (50271) RAM: internal free=40367 min=27252 largest=18432 | psram free=7495628 min=7495628 largest=7471104
+I (52701) FreenoveFnk0104sBoard: TOUCH READ: raw_x=4, raw_y=453 => point.x=453, point.y=316 (top_bar=0)
+I (52741) SystemInfo: free sram: 31879 minimal sram: 22380
+I (52741) FreenoveFnk0104sBoard: TOUCH READ: raw_x=5, raw_y=453 => point.x=453, point.y=315 (top_bar=0)
+I (54121) FreenoveFnk0104sBoard: TOUCH READ: raw_x=11, raw_y=447 => point.x=447, point.y=309 (top_bar=0)
+I (54171) FreenoveFnk0104sBoard: TOUCH READ: raw_x=11, raw_y=447 => point.x=447, point.y=309 (top_bar=0)
+I (54841) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=453 => point.x=453, point.y=293 (top_bar=0)
+I (54901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=453 => point.x=453, point.y=293 (top_bar=0)
+I (54951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=453 => point.x=453, point.y=293 (top_bar=0)
+I (55001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=25, raw_y=452 => point.x=452, point.y=295 (top_bar=0)
+I (55271) RAM: internal free=34931 min=22380 largest=17408 | psram free=7493320 min=7488704 largest=7471104
+I (55921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=415 => point.x=415, point.y=92 (top_bar=0)
+I (55961) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=415 => point.x=415, point.y=92 (top_bar=0)
+I (56031) RAM: [RADIO_STOP] internal free=32775 min=22380 largest=17408 | psram free=7493320 min=7488704 largest=7471104
+I (56051) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (56051) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/025-maksim_-_vesna.mp3
+I (56081) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (58341) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=203 => point.x=203, point.y=305 (top_bar=0)
+I (58401) FreenoveFnk0104sBoard: TOUCH READ: raw_x=16, raw_y=202 => point.x=202, point.y=304 (top_bar=0)
+I (58431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=18, raw_y=203 => point.x=203, point.y=302 (top_bar=0)
+I (58491) FreenoveFnk0104sBoard: TOUCH READ: raw_x=20, raw_y=206 => point.x=206, point.y=300 (top_bar=0)
+I (58531) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=211 => point.x=211, point.y=298 (top_bar=0)
+I (58591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=216 => point.x=216, point.y=297 (top_bar=0)
+I (58651) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=219 => point.x=219, point.y=297 (top_bar=0)
+I (58681) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=221 => point.x=221, point.y=297 (top_bar=0)
+I (58731) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=223 => point.x=223, point.y=297 (top_bar=0)
+I (58791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=226 => point.x=226, point.y=297 (top_bar=0)
+I (58851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=229 => point.x=229, point.y=297 (top_bar=0)
+I (58921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=23, raw_y=231 => point.x=231, point.y=297 (top_bar=0)
+I (59421) FreenoveFnk0104sBoard: TOUCH READ: raw_x=12, raw_y=204 => point.x=204, point.y=308 (top_bar=0)
+I (59451) FreenoveFnk0104sBoard: TOUCH READ: raw_x=12, raw_y=204 => point.x=204, point.y=308 (top_bar=0)
+I (59501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=12, raw_y=204 => point.x=204, point.y=308 (top_bar=0)
+I (59541) FreenoveFnk0104sBoard: TOUCH READ: raw_x=12, raw_y=206 => point.x=206, point.y=308 (top_bar=0)
+I (59591) FreenoveFnk0104sBoard: TOUCH READ: raw_x=13, raw_y=226 => point.x=226, point.y=307 (top_bar=0)
+I (60071) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=192 => point.x=192, point.y=320 (top_bar=0)
+I (60131) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=192 => point.x=192, point.y=320 (top_bar=0)
+I (60191) FreenoveFnk0104sBoard: TOUCH READ: raw_x=4, raw_y=205 => point.x=205, point.y=316 (top_bar=0)
+I (60231) FreenoveFnk0104sBoard: TOUCH READ: raw_x=6, raw_y=212 => point.x=212, point.y=314 (top_bar=0)
+I (60271) FreenoveFnk0104sBoard: TOUCH READ: raw_x=8, raw_y=216 => point.x=216, point.y=312 (top_bar=0)
+I (60271) RAM: internal free=33775 min=22380 largest=17408 | psram free=7493320 min=7461568 largest=7471104
+I (60321) FreenoveFnk0104sBoard: TOUCH READ: raw_x=10, raw_y=224 => point.x=224, point.y=310 (top_bar=0)
+I (60391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=16, raw_y=232 => point.x=232, point.y=304 (top_bar=0)
+I (60811) FreenoveFnk0104sBoard: TOUCH READ: raw_x=14, raw_y=202 => point.x=202, point.y=306 (top_bar=0)
+I (60851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=16, raw_y=206 => point.x=206, point.y=304 (top_bar=0)
+I (60891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=21, raw_y=219 => point.x=219, point.y=299 (top_bar=0)
+I (60931) FreenoveFnk0104sBoard: TOUCH READ: raw_x=25, raw_y=230 => point.x=230, point.y=295 (top_bar=0)
+I (60981) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=238 => point.x=238, point.y=292 (top_bar=0)
+I (61031) FreenoveFnk0104sBoard: TOUCH READ: raw_x=29, raw_y=243 => point.x=243, point.y=291 (top_bar=0)
+I (61061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=30, raw_y=246 => point.x=246, point.y=290 (top_bar=0)
+I (61131) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=249 => point.x=249, point.y=289 (top_bar=0)
+I (61171) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=251 => point.x=251, point.y=289 (top_bar=0)
+I (61391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=31, raw_y=192 => point.x=192, point.y=289 (top_bar=0)
+I (61431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=30, raw_y=192 => point.x=192, point.y=290 (top_bar=0)
+I (61501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=195 => point.x=195, point.y=293 (top_bar=0)
+I (61551) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=196 => point.x=196, point.y=293 (top_bar=0)
+I (61601) FreenoveFnk0104sBoard: TOUCH READ: raw_x=25, raw_y=211 => point.x=211, point.y=295 (top_bar=0)
+I (61611) AudioCodec: Set output volume to 50
+I (61661) FreenoveFnk0104sBoard: TOUCH READ: raw_x=25, raw_y=222 => point.x=222, point.y=295 (top_bar=0)
+I (61661) AudioCodec: Set output volume to 56
+I (61691) FreenoveFnk0104sBoard: TOUCH READ: raw_x=25, raw_y=228 => point.x=228, point.y=295 (top_bar=0)
+I (61701) AudioCodec: Set output volume to 59
+I (61781) FreenoveFnk0104sBoard: TOUCH READ: raw_x=26, raw_y=238 => point.x=238, point.y=294 (top_bar=0)
+I (61781) AudioCodec: Set output volume to 65
+I (61811) FreenoveFnk0104sBoard: TOUCH READ: raw_x=26, raw_y=241 => point.x=241, point.y=294 (top_bar=0)
+I (61811) AudioCodec: Set output volume to 66
+I (61851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=26, raw_y=243 => point.x=243, point.y=294 (top_bar=0)
+I (61861) AudioCodec: Set output volume to 68
+I (61901) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=246 => point.x=246, point.y=293 (top_bar=0)
+I (61901) AudioCodec: Set output volume to 69
+I (61951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=27, raw_y=247 => point.x=247, point.y=293 (top_bar=0)
+I (61951) AudioCodec: Set output volume to 70
+I (62041) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=249 => point.x=249, point.y=292 (top_bar=0)
+I (62051) AudioCodec: Set output volume to 71
+I (62081) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62121) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62181) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62221) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62281) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62331) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62371) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=28, raw_y=250 => point.x=250, point.y=292 (top_bar=0)
+I (62761) SystemInfo: free sram: 35175 minimal sram: 22380
+I (64641) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=203 => point.x=203, point.y=206 (top_bar=0)
+I (64681) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=203 => point.x=203, point.y=206 (top_bar=0)
+I (64731) SdMusicPlayer: Playback PAUSED
+I (65271) RAM: internal free=41747 min=22380 largest=18432 | psram free=7495628 min=7461568 largest=7471104
+I (65851) FreenoveFnk0104sBoard: TOUCH READ: raw_x=64, raw_y=307 => point.x=307, point.y=256 (top_bar=0)
+I (65891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=64, raw_y=307 => point.x=307, point.y=256 (top_bar=0)
+I (65951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=64, raw_y=307 => point.x=307, point.y=256 (top_bar=0)
+I (66051) AudioManager: Releasing audio focus from source 2
+I (66051) SdMusicPlayer: Player task stopped.
+I (66051) RAM: [RADIO_STOP] internal free=45003 min=22380 largest=18432 | psram free=7540596 min=7461568 largest=7471104
+I (70271) RAM: internal free=49831 min=22380 largest=18432 | psram free=7540596 min=7461568 largest=7471104
+I (72741) SystemInfo: free sram: 49699 minimal sram: 22380
+I (75271) RAM: internal free=49643 min=22380 largest=18432 | psram free=7540596 min=7461568 largest=7471104
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:16:55 2026 ---
+I (4349) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -41, Channel: 7, Authmode: 3
+I (4349) WifiBoard: WiFi connecting to ZERG
+W (4359) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5269) RAM: internal free=113099 min=39860 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (6829) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6829) wifi:state: init -> auth (0xb0)
+I (6839) wifi:state: auth -> assoc (0x0)
+I (6849) wifi:state: assoc -> run (0x10)
+I (6869) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6869) wifi:security: WPA2-PSK, phy: bgn, rssi: -41, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6879) wifi:pm start, type: 1
+
+I (6879) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6889) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6899) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (6919) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (8549) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8549) WifiStation: Got IP: 192.168.31.95
+I (8549) WifiBoard: Connected to WiFi: ZERG
+I (8579) Application: Network connected
+I (8579) RAM: [AFTER_WIFI] internal free=111939 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8579) StateMachine: State: starting -> activating
+I (8579) Assets: The storage free size is 21376 KB
+I (8589) Assets: The partition size is 8192 KB
+I (8699) Assets: The checksum calculation time is 112 ms
+I (8709) MODEL_LOADER: Successfully load srmodels
+I (8719) Assets: Refreshing display theme...
+W (8739) EmojiCollection: Emoji not found: robot_2
+I (8739) Ota: Current version: 2.4.2
+I (8769) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=91687 min=39812 largest=49152 | psram free=8260584 min=8251528 largest=8257536
+I (11319) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=2580
+I (12059) HttpClient: HTTP connection closed
+I (12069) Ota: Current is the latest version
+I (12069) Ota: Running partition: ota_0
+I (12089) MQTT: Connecting to endpoint api.tenclass.net
+I (14589) MQTT: Connected to endpoint
+I (14599) Application: Activation done
+I (14599) SystemInfo: free sram: 90047 minimal sram: 39812
+I (14599) StateMachine: State: activating -> idle
+I (14619) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (14619) wifi:Set ps type: 2, coexist: 0
+
+I (14619) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (14629) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (14629) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (14639) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (14729) AFE: AFE Version: (1MIC_V251128)
+I (14729) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14739) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (14749) AFE: AFE Version: (1MIC_V251128)
+I (14759) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14769) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14769) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (14779) AudioCodec: Set output enable to true
+I (14779) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14789) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14799) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14809) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14829) Adev_Codec: Open codec device OK
+I (14839) AudioCodec: Set input enable to true
+I (14839) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=48675 min=27252 largest=18432 | psram free=7531168 min=7531168 largest=7471104
+I (20269) RAM: internal free=45683 min=27252 largest=18432 | psram free=7522272 min=7483784 largest=7471104
+I (24149) FreenoveFnk0104sBoard: TOUCH READ: raw_x=91, raw_y=44 => point.x=44, point.y=229 (top_bar=0)
+I (24199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=91, raw_y=44 => point.x=44, point.y=229 (top_bar=0)
+I (24249) FreenoveFnk0104sBoard: TOUCH READ: raw_x=91, raw_y=44 => point.x=44, point.y=229 (top_bar=0)
+I (24299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=91, raw_y=44 => point.x=44, point.y=229 (top_bar=0)
+I (24339) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=50859 internal_largest=18432 dma_free=43087 dma_largest=18432 spiram_free=7540588 spiram_largest=7471104
+I (25269) RAM: internal free=51331 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (25579) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=403 => point.x=403, point.y=246 (top_bar=0)
+I (25619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=403 => point.x=403, point.y=246 (top_bar=0)
+I (25659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=74, raw_y=403 => point.x=403, point.y=246 (top_bar=0)
+I (25709) RAM: [RADIO_STOP] internal free=50851 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (25709) AudioManager: Audio focus requested by source 2 (current 0)
+I (25719) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (25719) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/02 - 21 Guns.mp3
+I (25739) SystemInfo: free sram: 43587 minimal sram: 27252
+W (25789) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (25789) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/02 - 21 Guns.mp3
+I (25869) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (29179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=408 => point.x=408, point.y=195 (top_bar=0)
+I (29219) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=408 => point.x=408, point.y=195 (top_bar=0)
+I (29279) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=408 => point.x=408, point.y=195 (top_bar=0)
+I (29329) RAM: [RADIO_STOP] internal free=35831 min=23664 largest=18432 | psram free=7493312 min=7483784 largest=7471104
+I (29339) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (29339) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (29359) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (29459) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (29459) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/028_Ангел-А - Мой герой.mp3
+I (30199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=398 => point.x=398, point.y=150 (top_bar=0)
+I (30239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=398 => point.x=398, point.y=150 (top_bar=0)
+I (30269) RAM: internal free=36127 min=23664 largest=18432 | psram free=7493312 min=7483784 largest=7471104
+I (30299) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=398 => point.x=398, point.y=150 (top_bar=0)
+I (30349) RAM: [RADIO_STOP] internal free=36375 min=23664 largest=18432 | psram free=7493312 min=7483784 largest=7471104
+I (30379) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (30379) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (30399) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (30499) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (30499) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (31409) FreenoveFnk0104sBoard: TOUCH READ: raw_x=14, raw_y=450 => point.x=450, point.y=306 (top_bar=0)
+I (31459) FreenoveFnk0104sBoard: TOUCH READ: raw_x=14, raw_y=450 => point.x=450, point.y=306 (top_bar=0)
+I (31499) FreenoveFnk0104sBoard: TOUCH READ: raw_x=14, raw_y=450 => point.x=450, point.y=306 (top_bar=0)
+I (32479) FreenoveFnk0104sBoard: TOUCH READ: raw_x=207, raw_y=386 => point.x=386, point.y=113 (top_bar=0)
+I (32529) RAM: [RADIO_STOP] internal free=36395 min=23664 largest=18432 | psram free=7493312 min=7483784 largest=7471104
+I (32549) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (32549) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/025-maksim_-_vesna.mp3
+W (32579) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (32579) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/025-maksim_-_vesna.mp3
+I (32579) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+I (34149) FreenoveFnk0104sBoard: TOUCH READ: raw_x=104, raw_y=210 => point.x=210, point.y=216 (top_bar=0)
+I (34199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=104, raw_y=210 => point.x=210, point.y=216 (top_bar=0)
+I (35269) RAM: internal free=36259 min=23664 largest=18432 | psram free=7493312 min=7463868 largest=7471104
+I (35469) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=210 => point.x=210, point.y=197 (top_bar=0)
+I (35529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=210 => point.x=210, point.y=197 (top_bar=0)
+I (35569) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=210 => point.x=210, point.y=197 (top_bar=0)
+I (35619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=210 => point.x=210, point.y=197 (top_bar=0)
+I (35659) SdMusicPlayer: Playback PAUSED
+I (35749) SystemInfo: free sram: 41723 minimal sram: 23664
+I (36269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=56, raw_y=311 => point.x=311, point.y=264 (top_bar=0)
+I (36309) FreenoveFnk0104sBoard: TOUCH READ: raw_x=56, raw_y=311 => point.x=311, point.y=264 (top_bar=0)
+I (36349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=56, raw_y=311 => point.x=311, point.y=264 (top_bar=0)
+I (36479) AudioManager: Releasing audio focus from source 2
+I (36479) SdMusicPlayer: Player task stopped.
+I (36479) RAM: [RADIO_STOP] internal free=48039 min=23664 largest=18432 | psram free=7540588 min=7463868 largest=7471104
+I (40269) RAM: internal free=52731 min=23664 largest=18432 | psram free=7540588 min=7463868 largest=7471104
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:21:08 2026 ---
+I (6829) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6829) wifi:state: init -> auth (0xb0)
+I (6839) wifi:state: auth -> assoc (0x0)
+I (6849) wifi:state: assoc -> run (0x10)
+I (6869) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6869) wifi:security: WPA2-PSK, phy: bgn, rssi: -35, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6869) wifi:pm start, type: 1
+
+I (6879) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6879) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6899) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6909) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8389) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8389) WifiStation: Got IP: 192.168.31.95
+I (8389) WifiBoard: Connected to WiFi: ZERG
+I (8419) Application: Network connected
+I (8419) RAM: [AFTER_WIFI] internal free=111991 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8419) StateMachine: State: starting -> activating
+I (8419) Assets: The storage free size is 21376 KB
+I (8429) Assets: The partition size is 8192 KB
+I (8539) Assets: The checksum calculation time is 112 ms
+I (8549) MODEL_LOADER: Successfully load srmodels
+I (8559) Assets: Refreshing display theme...
+W (8579) EmojiCollection: Emoji not found: robot_2
+I (8579) Ota: Current version: 2.4.2
+I (8589) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=88283 min=39812 largest=47104 | psram free=8266260 min=8251528 largest=8257536
+I (10609) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=2030
+I (11329) HttpClient: HTTP connection closed
+I (11329) Ota: Current is the latest version
+I (11329) Ota: Running partition: ota_0
+I (11359) MQTT: Connecting to endpoint api.tenclass.net
+I (13469) MQTT: Connected to endpoint
+I (13469) Application: Activation done
+I (13469) SystemInfo: free sram: 87995 minimal sram: 39812
+I (13469) StateMachine: State: activating -> idle
+I (13479) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13489) wifi:Set ps type: 2, coexist: 0
+
+I (13519) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13519) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13519) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13519) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13619) AFE: AFE Version: (1MIC_V251128)
+I (13619) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13629) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13639) AFE: AFE Version: (1MIC_V251128)
+I (13649) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13649) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13659) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13669) AudioCodec: Set output enable to true
+I (13669) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13679) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13689) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13699) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13719) Adev_Codec: Open codec device OK
+I (13729) AudioCodec: Set input enable to true
+I (13729) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=45519 min=27252 largest=18432 | psram free=7517676 min=7483796 largest=7471104
+I (20269) RAM: internal free=49983 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (20359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=39 => point.x=39, point.y=234 (top_bar=0)
+I (20419) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=39 => point.x=39, point.y=234 (top_bar=0)
+I (20469) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=39 => point.x=39, point.y=234 (top_bar=0)
+I (20509) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=49371 internal_largest=18432 dma_free=41599 dma_largest=18432 spiram_free=7540600 spiram_largest=7471104
+I (22089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=142, raw_y=403 => point.x=403, point.y=178 (top_bar=0)
+I (22129) RAM: [RADIO_STOP] internal free=50511 min=27252 largest=18432 | psram free=7540600 min=7483796 largest=7471104
+I (22139) AudioManager: Audio focus requested by source 2 (current 0)
+I (22149) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (22149) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (22169) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (22259) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (22259) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/028_Ангел-А - Мой герой.mp3
+W (22269) SdMusicPlayer: ARTWORK: file_size=3108345
+W (22269) SdMusicPlayer: ARTWORK: ID3 signature found version=2.3
+W (22269) SdMusicPlayer: ARTWORK: ID3 tag size=637
+W (22279) SdMusicPlayer: ARTWORK: frame id=USLT size=6
+W (22279) SdMusicPlayer: ARTWORK: frame id=TRCK size=3
+W (22289) SdMusicPlayer: ARTWORK: frame id=TALB size=1
+W (22289) SdMusicPlayer: ARTWORK: frame id=TYER size=1
+W (22289) SdMusicPlayer: ARTWORK: frame id=TCON size=1
+W (22299) SdMusicPlayer: ARTWORK: frame id=COMM size=5
+W (22309) SdMusicPlayer: ARTWORK: frame id=TCOM size=1
+W (22309) SdMusicPlayer: ARTWORK: frame id=TOPE size=1
+W (22309) SdMusicPlayer: ARTWORK: frame id=TCOP size=1
+W (22319) SdMusicPlayer: ARTWORK: frame id=WXXX size=2
+W (22319) SdMusicPlayer: ARTWORK: frame id=TENC size=1
+W (22329) SdMusicPlayer: ARTWORK: frame id=TXXX size=93
+W (22339) SdMusicPlayer: No embedded JPEG artwork in /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (22359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=402 => point.x=402, point.y=158 (top_bar=0)
+I (22419) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=402 => point.x=402, point.y=158 (top_bar=0)
+I (22469) RAM: [RADIO_STOP] internal free=36547 min=27252 largest=18432 | psram free=7493324 min=7483796 largest=7471104
+I (22489) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (22489) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (22509) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (22519) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (22519) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+W (22539) SdMusicPlayer: ARTWORK: file_size=3304019
+W (22539) SdMusicPlayer: ARTWORK: no ID3v2 tag
+I (22739) SystemInfo: free sram: 35591 minimal sram: 27252
+I (24329) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=399 => point.x=399, point.y=258 (top_bar=0)
+I (24399) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=399 => point.x=399, point.y=258 (top_bar=0)
+I (24449) FreenoveFnk0104sBoard: TOUCH READ: raw_x=62, raw_y=399 => point.x=399, point.y=258 (top_bar=0)
+I (25269) RAM: internal free=35611 min=27252 largest=18432 | psram free=7493324 min=7483796 largest=7471104
+I (25359) FreenoveFnk0104sBoard: TOUCH READ: raw_x=80, raw_y=395 => point.x=395, point.y=240 (top_bar=0)
+I (25419) FreenoveFnk0104sBoard: TOUCH READ: raw_x=80, raw_y=395 => point.x=395, point.y=240 (top_bar=0)
+I (25469) FreenoveFnk0104sBoard: TOUCH READ: raw_x=80, raw_y=395 => point.x=395, point.y=240 (top_bar=0)
+I (25519) FreenoveFnk0104sBoard: TOUCH READ: raw_x=80, raw_y=395 => point.x=395, point.y=240 (top_bar=0)
+I (25569) RAM: [RADIO_STOP] internal free=35095 min=27252 largest=18432 | psram free=7493324 min=7483796 largest=7471104
+I (25579) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (25579) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/02 - 21 Guns.mp3
+W (25609) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (25609) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/02 - 21 Guns.mp3
+I (25729) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (25749) SdMusicPlayer: ARTWORK: file_size=13075786
+W (25749) SdMusicPlayer: ARTWORK: ID3 signature found version=2.3
+W (25759) SdMusicPlayer: ARTWORK: ID3 tag size=4086
+W (25759) SdMusicPlayer: ARTWORK: frame id=TYER size=5
+W (25759) SdMusicPlayer: ARTWORK: frame id=TALB size=47
+W (25769) SdMusicPlayer: ARTWORK: frame id=TRCK size=2
+W (25769) SdMusicPlayer: ARTWORK: frame id=TCON size=5
+W (25779) SdMusicPlayer: No embedded JPEG artwork in /sdcard/music/02 - 21 Guns.mp3
+I (28349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=449 => point.x=449, point.y=320 (top_bar=0)
+I (28389) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=449 => point.x=449, point.y=320 (top_bar=0)
+I (28439) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=449 => point.x=449, point.y=320 (top_bar=0)
+I (28479) FreenoveFnk0104sBoard: TOUCH READ: raw_x=0, raw_y=449 => point.x=449, point.y=320 (top_bar=0)
+I (30269) RAM: internal free=34595 min=27252 largest=18432 | psram free=7493324 min=7483796 largest=7471104
+I (31399) FreenoveFnk0104sBoard: TOUCH READ: raw_x=1, raw_y=449 => point.x=449, point.y=319 (top_bar=0)
+I (31439) FreenoveFnk0104sBoard: TOUCH READ: raw_x=2, raw_y=449 => point.x=449, point.y=318 (top_bar=0)
+I (31499) FreenoveFnk0104sBoard: TOUCH READ: raw_x=2, raw_y=449 => point.x=449, point.y=318 (top_bar=0)
+I (32529) FreenoveFnk0104sBoard: TOUCH READ: raw_x=21, raw_y=455 => point.x=455, point.y=299 (top_bar=0)
+I (32599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=454 => point.x=454, point.y=298 (top_bar=0)
+I (32639) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=454 => point.x=454, point.y=298 (top_bar=0)
+I (32689) FreenoveFnk0104sBoard: TOUCH READ: raw_x=24, raw_y=454 => point.x=454, point.y=296 (top_bar=0)
+I (32739) SystemInfo: free sram: 35199 minimal sram: 27252
+I (33499) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=411 => point.x=411, point.y=91 (top_bar=0)
+I (33549) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=411 => point.x=411, point.y=91 (top_bar=0)
+I (33599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=411 => point.x=411, point.y=91 (top_bar=0)
+I (33669) RAM: [RADIO_STOP] internal free=36367 min=27252 largest=18432 | psram free=7493324 min=7483796 largest=7471104
+I (33679) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (33679) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/025-maksim_-_vesna.mp3
+W (33689) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (33689) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/025-maksim_-_vesna.mp3
+I (33709) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (33749) SdMusicPlayer: ARTWORK: file_size=7708160
+W (33749) SdMusicPlayer: ARTWORK: ID3 signature found version=2.3
+W (33759) SdMusicPlayer: ARTWORK: ID3 tag size=31158
+W (33779) SdMusicPlayer: ARTWORK: frame id=TALB size=19
+W (33779) SdMusicPlayer: ARTWORK: frame id=TOPE size=15
+W (33779) SdMusicPlayer: ARTWORK: frame id=TCOM size=27
+W (33779) SdMusicPlayer: ARTWORK: frame id=TCON size=9
+W (33789) SdMusicPlayer: ARTWORK: frame id=TYER size=11
+W (33789) SdMusicPlayer: ARTWORK: frame id=TRCK size=7
+W (33799) SdMusicPlayer: ARTWORK: frame id=PRIV size=3
+W (33799) SdMusicPlayer: ARTWORK: frame id=TZZZ size=33
+W (33799) SdMusicPlayer: ARTWORK: frame id=PRIV size=30
+W (33809) SdMusicPlayer: ARTWORK: frame id=PRIV size=955
+W (33809) SdMusicPlayer: ARTWORK: frame id=UITS size=544630130
+W (33819) SdMusicPlayer: ARTWORK: frame id=ISRC size=574503983
+W (33829) SdMusicPlayer: ARTWORK: frame id=UITS size=1044467785
+W (33829) SdMusicPlayer: ARTWORK: frame id=APIC size=28842
+W (33839) SdMusicPlayer: ARTWORK: frame id=APIC size=28842
+W (33839) SdMusicPlayer: No embedded JPEG artwork in /sdcard/music/025-maksim_-_vesna.mp3
+I (35269) RAM: internal free=36587 min=27252 largest=18432 | psram free=7493324 min=7463880 largest=7471104
+I (35829) FreenoveFnk0104sBoard: TOUCH READ: raw_x=107, raw_y=194 => point.x=194, point.y=213 (top_bar=0)
+I (35879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=107, raw_y=194 => point.x=194, point.y=213 (top_bar=0)
+I (35949) SdMusicPlayer: Playback PAUSED
+I (40269) RAM: internal free=44955 min=27252 largest=18432 | psram free=7495632 min=7463880 largest=7471104
+I (42759) SystemInfo: free sram: 45087 minimal sram: 27252
+I (45269) RAM: internal free=44775 min=27252 largest=18432 | psram free=7495632 min=7463880 largest=7471104
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:26:37 2026 ---
+I (6829) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6829) wifi:state: init -> auth (0xb0)
+I (6839) wifi:state: auth -> assoc (0x0)
+I (6849) wifi:state: assoc -> run (0x10)
+I (6869) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6869) wifi:security: WPA2-PSK, phy: bgn, rssi: -47, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6869) wifi:pm start, type: 1
+
+I (6879) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6889) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6899) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6899) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8319) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8319) WifiStation: Got IP: 192.168.31.95
+I (8319) WifiBoard: Connected to WiFi: ZERG
+I (8329) Application: Network connected
+I (8329) RAM: [AFTER_WIFI] internal free=111951 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8329) StateMachine: State: starting -> activating
+I (8339) Assets: The storage free size is 21376 KB
+I (8339) Assets: The partition size is 8192 KB
+I (8459) Assets: The checksum calculation time is 112 ms
+I (8459) MODEL_LOADER: Successfully load srmodels
+I (8479) Assets: Refreshing display theme...
+W (8489) EmojiCollection: Emoji not found: robot_2
+I (8499) Ota: Current version: 2.4.2
+I (8499) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10189) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1690
+I (10269) RAM: internal free=85827 min=39812 largest=38912 | psram free=8268260 min=8251528 largest=8257536
+I (10939) HttpClient: HTTP connection closed
+I (10949) Ota: Current is the latest version
+I (10949) Ota: Running partition: ota_0
+I (10959) MQTT: Connecting to endpoint api.tenclass.net
+I (13059) MQTT: Connected to endpoint
+I (13059) Application: Activation done
+I (13059) SystemInfo: free sram: 88303 minimal sram: 39812
+I (13059) StateMachine: State: activating -> idle
+I (13059) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13069) wifi:Set ps type: 2, coexist: 0
+
+I (13109) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13109) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13109) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13119) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13219) AFE: AFE Version: (1MIC_V251128)
+I (13219) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13229) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13239) AFE: AFE Version: (1MIC_V251128)
+I (13239) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13249) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13249) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13269) AudioCodec: Set output enable to true
+I (13269) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13279) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13279) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13289) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13319) Adev_Codec: Open codec device OK
+I (13319) AudioCodec: Set input enable to true
+I (13319) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=46471 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (20269) RAM: internal free=49083 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (22739) SystemInfo: free sram: 51459 minimal sram: 27252
+I (25269) RAM: internal free=51147 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (30269) RAM: internal free=51471 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (32739) SystemInfo: free sram: 51491 minimal sram: 27252
+I (35269) RAM: internal free=51491 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (35659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=36 => point.x=36, point.y=234 (top_bar=0)
+I (35719) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=36 => point.x=36, point.y=234 (top_bar=0)
+I (35759) FreenoveFnk0104sBoard: TOUCH READ: raw_x=86, raw_y=36 => point.x=36, point.y=234 (top_bar=0)
+I (35809) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=50987 internal_largest=18432 dma_free=43215 dma_largest=18432 spiram_free=7540596 spiram_largest=7471104
+I (38049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=472 => point.x=472, point.y=298 (top_bar=0)
+I (38089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=22, raw_y=472 => point.x=472, point.y=298 (top_bar=0)
+I (39049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=455 => point.x=455, point.y=305 (top_bar=0)
+I (39089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=455 => point.x=455, point.y=305 (top_bar=0)
+I (39139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=455 => point.x=455, point.y=305 (top_bar=0)
+I (39189) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=455 => point.x=455, point.y=305 (top_bar=0)
+I (39239) FreenoveFnk0104sBoard: TOUCH READ: raw_x=15, raw_y=455 => point.x=455, point.y=305 (top_bar=0)
+I (40269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=222, raw_y=421 => point.x=421, point.y=98 (top_bar=0)
+I (40269) RAM: internal free=52531 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (40319) FreenoveFnk0104sBoard: TOUCH READ: raw_x=222, raw_y=421 => point.x=421, point.y=98 (top_bar=0)
+I (40369) RAM: [RADIO_STOP] internal free=52327 min=27252 largest=18432 | psram free=7540596 min=7483792 largest=7471104
+I (40369) AudioManager: Audio focus requested by source 2 (current 0)
+I (40389) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (40389) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/025-maksim_-_vesna.mp3
+I (40429) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (40509) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (40509) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/025-maksim_-_vesna.mp3
+W (40529) SdMusicPlayer: ARTWORK: file_size=7708160
+W (40529) SdMusicPlayer: ARTWORK: ID3 signature found version=2.3
+W (40529) SdMusicPlayer: ARTWORK: ID3 tag size=31158
+W (40559) SdMusicPlayer: ARTWORK: frame offset=0 id=TALB size=19
+W (40559) SdMusicPlayer: ARTWORK: frame offset=29 id=TPE2 size=15
+W (40559) SdMusicPlayer: ARTWORK: frame offset=54 id=TPE1 size=15
+W (40569) SdMusicPlayer: ARTWORK: frame offset=79 id=TOPE size=15
+W (40569) SdMusicPlayer: ARTWORK: frame offset=104 id=TCOM size=27
+W (40579) SdMusicPlayer: ARTWORK: frame offset=141 id=TCON size=9
+W (40579) SdMusicPlayer: ARTWORK: frame offset=160 id=TYER size=11
+W (40589) SdMusicPlayer: ARTWORK: frame offset=181 id=TIT2 size=13
+W (40589) SdMusicPlayer: ARTWORK: frame offset=204 id=TRCK size=7
+W (40599) SdMusicPlayer: ARTWORK: frame offset=221 id=PRIV size=3
+W (40609) SdMusicPlayer: ARTWORK: frame offset=234 id=TZZZ size=33
+W (40619) SdMusicPlayer: ARTWORK: frame offset=277 id=PRIV size=30
+W (40619) SdMusicPlayer: ARTWORK: frame offset=317 id=PRIV size=955
+W (40619) SdMusicPlayer: ARTWORK: frame offset=1282 id=APIC size=28842
+W (40629) SdMusicPlayer: ARTWORK: APIC found size=28842
+W (40629) SdMusicPlayer: ARTWORK: APIC encoding=0 mime=image/png
+W (40639) SdMusicPlayer: ARTWORK: APIC picture_type=3
+W (40649) SdMusicPlayer: ARTWORK: APIC exists but JPEG SOI not found
+W (40649) SdMusicPlayer: No embedded JPEG artwork in /sdcard/music/025-maksim_-_vesna.mp3
+I (42739) SystemInfo: free sram: 38339 minimal sram: 23152
+I (45269) RAM: internal free=36919 min=23152 largest=18432 | psram free=7493320 min=7461568 largest=7471104
+I (50269) RAM: internal free=38251 min=23152 largest=18432 | psram free=7493320 min=7461568 largest=7471104
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:31:24 2026 ---
+I (4359) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -48, Channel: 7, Authmode: 3
+I (4359) WifiBoard: WiFi connecting to ZERG
+W (4359) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5269) RAM: internal free=112495 min=39944 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (6829) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6829) wifi:state: init -> auth (0xb0)
+I (6839) wifi:state: auth -> assoc (0x0)
+I (6849) wifi:state: assoc -> run (0x10)
+I (6869) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6869) wifi:security: WPA2-PSK, phy: bgn, rssi: -47, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6869) wifi:pm start, type: 1
+
+I (6879) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6879) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6889) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (6909) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (8439) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8439) WifiStation: Got IP: 192.168.31.95
+I (8439) WifiBoard: Connected to WiFi: ZERG
+I (8459) Application: Network connected
+I (8459) RAM: [AFTER_WIFI] internal free=111983 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8469) StateMachine: State: starting -> activating
+I (8469) Assets: The storage free size is 21376 KB
+I (8479) Assets: The partition size is 8192 KB
+I (8589) Assets: The checksum calculation time is 112 ms
+I (8599) MODEL_LOADER: Successfully load srmodels
+I (8639) Assets: Refreshing display theme...
+W (8649) EmojiCollection: Emoji not found: robot_2
+I (8649) Ota: Current version: 2.4.2
+I (8659) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=89867 min=39812 largest=47104 | psram free=8266260 min=8251528 largest=8257536
+I (10579) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1920
+I (11339) HttpClient: HTTP connection closed
+I (11349) Ota: Current is the latest version
+I (11349) Ota: Running partition: ota_0
+I (11359) MQTT: Connecting to endpoint api.tenclass.net
+I (13549) MQTT: Connected to endpoint
+I (13549) Application: Activation done
+I (13549) SystemInfo: free sram: 88511 minimal sram: 39812
+I (13549) StateMachine: State: activating -> idle
+I (13579) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13579) wifi:Set ps type: 2, coexist: 0
+
+I (13589) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13589) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13589) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13599) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13689) AFE: AFE Version: (1MIC_V251128)
+I (13689) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13699) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13709) AFE: AFE Version: (1MIC_V251128)
+I (13719) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13719) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13729) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13739) AudioCodec: Set output enable to true
+I (13739) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13749) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13759) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13769) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13789) Adev_Codec: Open codec device OK
+I (13789) AudioCodec: Set input enable to true
+I (13799) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=45667 min=27252 largest=18432 | psram free=7517676 min=7504224 largest=7471104
+I (20269) RAM: internal free=49563 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (22759) SystemInfo: free sram: 51587 minimal sram: 27252
+I (25269) RAM: internal free=51223 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (30269) RAM: internal free=51127 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (32749) SystemInfo: free sram: 51587 minimal sram: 27252
+I (35269) RAM: internal free=51271 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (40269) RAM: internal free=51283 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (42779) SystemInfo: free sram: 51599 minimal sram: 27252
+I (45269) RAM: internal free=51063 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (50269) RAM: internal free=51283 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (52769) SystemInfo: free sram: 51599 minimal sram: 27252
+I (55269) RAM: internal free=51599 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (60269) RAM: internal free=51271 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (62759) SystemInfo: free sram: 51603 minimal sram: 27252
+I (65269) RAM: internal free=51015 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (70269) RAM: internal free=51603 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (72739) SystemInfo: free sram: 51603 minimal sram: 27252
+I (75269) RAM: internal free=51287 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (80269) RAM: internal free=51143 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (82759) SystemInfo: free sram: 51603 minimal sram: 27252
+I (85269) RAM: internal free=51603 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (90269) RAM: internal free=51275 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (92749) SystemInfo: free sram: 51603 minimal sram: 27252
+I (95269) RAM: internal free=51291 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (100269) RAM: internal free=51287 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (102749) SystemInfo: free sram: 51603 minimal sram: 27252
+I (105269) RAM: internal free=51139 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (110269) RAM: internal free=51287 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (112769) SystemInfo: free sram: 51603 minimal sram: 27252
+I (115269) RAM: internal free=51603 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (120269) RAM: internal free=51275 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (122759) SystemInfo: free sram: 51603 minimal sram: 27252
+I (125269) RAM: internal free=51003 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (128929) FreenoveFnk0104sBoard: TOUCH READ: raw_x=96, raw_y=41 => point.x=41, point.y=224 (top_bar=0)
+I (128979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=96, raw_y=41 => point.x=41, point.y=224 (top_bar=0)
+I (129029) FreenoveFnk0104sBoard: TOUCH READ: raw_x=96, raw_y=41 => point.x=41, point.y=224 (top_bar=0)
+I (129069) FreenoveFnk0104sBoard: TOUCH READ: raw_x=96, raw_y=41 => point.x=41, point.y=224 (top_bar=0)
+I (129129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129219) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129259) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129309) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129339) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129389) FreenoveFnk0104sBoard: TOUCH READ: raw_x=94, raw_y=40 => point.x=40, point.y=226 (top_bar=0)
+I (129439) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=51015 internal_largest=18432 dma_free=43243 dma_largest=18432 spiram_free=7540600 spiram_largest=7471104
+I (130269) RAM: internal free=51491 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (131739) FreenoveFnk0104sBoard: TOUCH READ: raw_x=13, raw_y=454 => point.x=454, point.y=307 (top_bar=0)
+I (131779) FreenoveFnk0104sBoard: TOUCH READ: raw_x=13, raw_y=454 => point.x=454, point.y=307 (top_bar=0)
+I (131819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=13, raw_y=454 => point.x=454, point.y=307 (top_bar=0)
+I (132739) FreenoveFnk0104sBoard: TOUCH READ: raw_x=205, raw_y=390 => point.x=390, point.y=115 (top_bar=0)
+I (132749) SystemInfo: free sram: 53015 minimal sram: 27252
+I (132779) FreenoveFnk0104sBoard: TOUCH READ: raw_x=205, raw_y=390 => point.x=390, point.y=115 (top_bar=0)
+I (132819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=205, raw_y=390 => point.x=390, point.y=115 (top_bar=0)
+I (132869) RAM: [RADIO_STOP] internal free=52883 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (132879) AudioManager: Audio focus requested by source 2 (current 0)
+I (132889) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (132889) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/025-maksim_-_vesna.mp3
+I (132929) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (133019) SdMusicPlayer: === ARTWORK PARSER V2 ENTERED ===
+W (133019) SdMusicPlayer: ARTWORK: processing MP3 path=/sdcard/music/025-maksim_-_vesna.mp3
+W (133029) SdMusicPlayer: ARTWORK: file_size=7708160
+W (133029) SdMusicPlayer: ARTWORK: ID3 signature found version=2.3
+W (133029) SdMusicPlayer: ARTWORK: ID3 tag size=31158
+I (133059) SdMusicPlayer: Artwork PNG found in /sdcard/music/025-maksim_-_vesna.mp3 (29853 bytes)
+I (135269) RAM: internal free=36863 min=20964 largest=18432 | psram free=7315652 min=7151792 largest=7208960
+I (137789) FreenoveFnk0104sBoard: TOUCH READ: raw_x=120, raw_y=195 => point.x=195, point.y=200 (top_bar=0)
+I (137819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=120, raw_y=195 => point.x=195, point.y=200 (top_bar=0)
+I (137869) SdMusicPlayer: Playback PAUSED
+I (140269) RAM: internal free=44683 min=20964 largest=18432 | psram free=7317960 min=7151792 largest=7208960
+I (142739) SystemInfo: free sram: 44859 minimal sram: 20964
+I (145269) RAM: internal free=44859 min=20964 largest=18432 | psram free=7317960 min=7151792 largest=7208960
+I (146349) FreenoveFnk0104sBoard: TOUCH READ: raw_x=5, raw_y=357 => point.x=357, point.y=315 (top_bar=0)
+I (146379) FreenoveFnk0104sBoard: TOUCH READ: raw_x=5, raw_y=357 => point.x=357, point.y=315 (top_bar=0)
+
+--- SERIAL LOGGING STARTED AT Fri Sep 11 22:52:08 2026 ---
+I (4359) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -45, Channel: 7, Authmode: 3
+I (4359) WifiBoard: WiFi connecting to ZERG
+W (4389) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5269) RAM: internal free=112447 min=39884 largest=69632 | psram free=8272468 min=8272468 largest=8257536
+I (6859) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6859) wifi:state: init -> auth (0xb0)
+I (6859) wifi:state: auth -> assoc (0x0)
+I (6879) wifi:state: assoc -> run (0x10)
+I (6909) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6909) wifi:security: WPA2-PSK, phy: bgn, rssi: -45, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6909) wifi:pm start, type: 1
+
+I (6909) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6919) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6939) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6979) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8459) esp_netif_handlers: sta ip: 192.168.31.95, mask: 255.255.255.0, gw: 192.168.31.1
+I (8459) WifiStation: Got IP: 192.168.31.95
+I (8459) WifiBoard: Connected to WiFi: ZERG
+I (8459) Application: Network connected
+I (8459) RAM: [AFTER_WIFI] internal free=111931 min=39812 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8469) StateMachine: State: starting -> activating
+I (8479) Assets: The storage free size is 21376 KB
+I (8479) Assets: The partition size is 8192 KB
+I (8599) Assets: The checksum calculation time is 112 ms
+I (8599) MODEL_LOADER: Successfully load srmodels
+I (8629) Assets: Refreshing display theme...
+W (8649) EmojiCollection: Emoji not found: robot_2
+I (8649) Ota: Current version: 2.4.2
+I (8659) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=88819 min=39812 largest=45056 | psram free=8266260 min=8251528 largest=8257536
+I (10679) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=2030
+I (11399) HttpClient: HTTP connection closed
+I (11399) Ota: Current is the latest version
+I (11399) Ota: Running partition: ota_0
+I (11409) MQTT: Connecting to endpoint api.tenclass.net
+I (13639) MQTT: Connected to endpoint
+I (13649) Application: Activation done
+I (13649) SystemInfo: free sram: 87551 minimal sram: 39812
+I (13649) StateMachine: State: activating -> idle
+I (13669) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13679) wifi:Set ps type: 2, coexist: 0
+
+I (13679) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13679) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13679) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13689) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13779) AFE: AFE Version: (1MIC_V251128)
+I (13789) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13799) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (13809) AFE: AFE Version: (1MIC_V251128)
+I (13809) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13819) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (13819) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (13839) AudioCodec: Set output enable to true
+I (13839) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13849) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13849) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (13859) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (13889) Adev_Codec: Open codec device OK
+I (13889) AudioCodec: Set input enable to true
+I (13889) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=45499 min=27252 largest=18432 | psram free=7517676 min=7504224 largest=7471104
+I (15659) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=42 => point.x=42, point.y=146 (top_bar=0)
+I (15719) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=42 => point.x=42, point.y=146 (top_bar=0)
+I (15769) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=42 => point.x=42, point.y=146 (top_bar=0)
+I (15819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=174, raw_y=42 => point.x=42, point.y=146 (top_bar=0)
+I (15869) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=46127 internal_largest=18432 dma_free=38355 dma_largest=18432 spiram_free=7540600 spiram_largest=7471104
+I (19559) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=412 => point.x=412, point.y=163 (top_bar=0)
+I (19609) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=412 => point.x=412, point.y=163 (top_bar=0)
+I (19649) FreenoveFnk0104sBoard: TOUCH READ: raw_x=157, raw_y=412 => point.x=412, point.y=163 (top_bar=0)
+I (19709) RadioBrowser: Playing radio by station UUID: 01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+I (19709) RAM: [RADIO_START] internal free=45487 min=27252 largest=18432 | psram free=7540600 min=7503840 largest=7471104
+I (19719) InternetRadio: Radio current:
+name=Skyrock
+uuid=01b61e49-18bd-486d-b0e1-cb51cbaf9a6d
+codec=MP3
+bitrate=128
+country=France
+url=http://icecast.skyrock.net/s/natio_mp3_128k
+I (19729) InternetRadio: Radio stream startup: connecting
+I (19739) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=39011 internal_largest=18432 dma_free=31239 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (19749) AudioManager: Audio focus requested by source 3 (current 0)
+I (19759) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=39011 internal_largest=18432 dma_free=31239 dma_largest=18432 psram_free=7540600 psram_largest=7471104
+I (19769) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (19779) wifi:Set ps type: 0, coexist: 0
+
+I (19779) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (19789) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (20269) RAM: internal free=41163 min=27252 largest=18432 | psram free=7536500 min=7503840 largest=7471104
+I (20399) InternetRadio: Stream connected: status=200 content_type=unknown
+I (20399) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (20399) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (20409) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (20419) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=38943 internal_largest=18432 dma_free=31267 dma_largest=18432 psram_free=7511916 psram_largest=7471104
+I (20439) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (20439) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+W (20809) InternetRadio: [RADIO_HTTP_GAP] read_time=361 ms bytes=2048
+I (20809) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=37079 internal_largest=18432 dma_free=29307 dma_largest=18432 psram_free=7511916 psram_largest=7471104
+I (20829) InternetRadio: Received first stream data: bytes=2048
+I (20829) InternetRadio: First MP3 frame decoded: rate=48000 channels=2 bits=16 bytes=4608
+I (20839) RAM: [RADIO_PLAYING] internal free=33523 min=27252 largest=18432 | psram free=7485904 min=7485904 largest=7471104
+I (20849) AudioService: [RADIO_PCM] ptr=0x3c3fd474 size=1152 bytes PSRAM=YES (queue=1)
+I (20859) AudioService: [RADIO_PREBUFFER] buffering... current=24 ms target=1800 ms (queue=1)
+I (21059) AudioService: [RADIO_PCM] ptr=0x3c4064f0 size=1152 bytes PSRAM=YES (queue=32)
+I (21369) FreenoveFnk0104sBoard: TOUCH READ: raw_x=104, raw_y=428 => point.x=428, point.y=216 (top_bar=0)
+I (21379) AudioService: [RADIO_OUTPUT] queue=74 buffer=1776 ms pcm=24 ms write=0 ms wait_in_q=531 ms
+I (21909) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=890 ms
+I (22409) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=18 ms wait_in_q=1241 ms
+I (22739) SystemInfo: free sram: 26511 minimal sram: 17948
+I (22939) AudioService: [RADIO_OUTPUT] queue=75 buffer=1800 ms pcm=24 ms write=19 ms wait_in_q=1603 ms
+I (23029) FreenoveFnk0104sBoard: TOUCH READ: raw_x=119, raw_y=206 => point.x=206, point.y=201 (top_bar=0)
+I (23079) FreenoveFnk0104sBoard: TOUCH READ: raw_x=119, raw_y=206 => point.x=206, point.y=201 (top_bar=0)
+I (23139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=119, raw_y=206 => point.x=206, point.y=201 (top_bar=0)
+I (23469) AudioService: [RADIO_OUTPUT] queue=65 buffer=1560 ms pcm=24 ms write=19 ms wait_in_q=1800 ms
+I (23999) AudioService: [RADIO_OUTPUT] queue=43 buffer=1032 ms pcm=24 ms write=29 ms wait_in_q=1798 ms
+I (24499) AudioService: [RADIO_OUTPUT] queue=22 buffer=528 ms pcm=24 ms write=19 ms wait_in_q=1788 ms
+I (25009) AudioService: [RADIO_OUTPUT] queue=1 buffer=24 ms pcm=24 ms write=29 ms wait_in_q=1788 ms
+I (25269) RAM: internal free=26223 min=17948 largest=10240 | psram free=7485904 min=7394708 largest=7471104
+I (30269) RAM: internal free=26099 min=17948 largest=10240 | psram free=7485904 min=7394708 largest=7471104
+I (32109) Application: Wake word detected: Hey Kira (state: 3)
+I (32109) StateMachine: State: idle -> connecting
+I (32109) AfeAudioEngine: Encoded wake word into 0 packets in 1 ms
+I (32109) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (32119) wifi:Set ps type: 0, coexist: 0
+
+I (35269) RAM: internal free=22115 min=15128 largest=7680 | psram free=7461324 min=7394708 largest=7340032
+I (39049) FreenoveFnk0104sBoard: TOUCH READ: raw_x=225, raw_y=45 => point.x=45, point.y=95 (top_bar=0)
+I (39089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=225, raw_y=45 => point.x=45, point.y=95 (top_bar=0)
+I (39129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=225, raw_y=45 => point.x=45, point.y=95 (top_bar=0)
+I (39169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=225, raw_y=45 => point.x=45, point.y=95 (top_bar=0)
+I (39219) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=21407 internal_largest=7680 dma_free=13635 dma_largest=7168 spiram_free=7461324 spiram_largest=7340032
+I (40089) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=207 => point.x=207, point.y=176 (top_bar=0)
+I (40129) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=207 => point.x=207, point.y=176 (top_bar=0)
+I (40169) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=207 => point.x=207, point.y=176 (top_bar=0)
+I (40269) RAM: internal free=22243 min=15128 largest=7680 | psram free=7461324 min=7394708 largest=7340032
+E (42129) MQTT: Failed to receive server hello
+I (42129) StateMachine: State: connecting -> idle
+W (42129) Application: Alert [cancel] Ошибка: Тайм-аут ответа
+W (42159) EmojiCollection: Emoji not found: cancel
+I (42159) StateMachine: State: idle -> connecting
+I (42159) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (42159) wifi:Set ps type: 0, coexist: 0
+
+I (42539) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=218 => point.x=218, point.y=190 (top_bar=0)
+I (42599) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=218 => point.x=218, point.y=190 (top_bar=0)
+I (45269) RAM: internal free=20471 min=11664 largest=7680 | psram free=7461324 min=7394708 largest=7340032
+I (49179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=217 => point.x=217, point.y=176 (top_bar=0)
+I (49229) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=217 => point.x=217, point.y=176 (top_bar=0)
+I (49269) FreenoveFnk0104sBoard: TOUCH READ: raw_x=144, raw_y=217 => point.x=217, point.y=176 (top_bar=0)
+I (50269) RAM: internal free=20111 min=11664 largest=7680 | psram free=7461324 min=7394708 largest=7340032
+I (50619) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=42 => point.x=42, point.y=170 (top_bar=0)
+I (50669) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=42 => point.x=42, point.y=170 (top_bar=0)
+I (50729) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=42 => point.x=42, point.y=170 (top_bar=0)
+I (50769) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=19851 internal_largest=7680 dma_free=12079 dma_largest=3712 spiram_free=7461324 spiram_largest=7340032
+I (51729) FreenoveFnk0104sBoard: TOUCH READ: raw_x=53, raw_y=306 => point.x=306, point.y=267 (top_bar=0)
+I (51789) FreenoveFnk0104sBoard: TOUCH READ: raw_x=53, raw_y=306 => point.x=306, point.y=267 (top_bar=0)
+I (51819) FreenoveFnk0104sBoard: TOUCH READ: raw_x=53, raw_y=306 => point.x=306, point.y=267 (top_bar=0)
+I (51879) RAM: [RADIO_STOP] internal free=19559 min=11664 largest=7680 | psram free=7461324 min=7394708 largest=7340032
+I (51919) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (51919) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=0 (NONE (PERFORMANCE))
+I (51919) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=37123 internal_largest=8192 dma_free=29351 dma_largest=8192 psram_free=7516020 psram_largest=7340032
+I (51939) AudioManager: Releasing audio focus from source 3
+I (51949) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=37223 internal_largest=8192 dma_free=29451 dma_largest=8192 psram_free=7516020 psram_largest=7340032
+E (52169) MQTT: Failed to receive server hello
+I (52169) StateMachine: State: connecting -> idle
+W (52169) Application: Alert [cancel] Ошибка: Тайм-аут ответа
+W (52169) EmojiCollection: Emoji not found: cancel
+I (52179) StateMachine: State: idle -> connecting
+I (52179) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (52189) wifi:Set ps type: 0, coexist: 0
+
+I (53019) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=36 => point.x=36, point.y=87 (top_bar=0)
+I (53069) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=36 => point.x=36, point.y=87 (top_bar=0)
+I (53129) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=43055 internal_largest=13824 dma_free=35283 dma_largest=13824 spiram_free=7516020 spiram_largest=7340032
+I (53979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=207 => point.x=207, point.y=156 (top_bar=0)
+I (54029) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=207 => point.x=207, point.y=156 (top_bar=0)
+I (54069) FreenoveFnk0104sBoard: TOUCH READ: raw_x=164, raw_y=207 => point.x=207, point.y=156 (top_bar=0)
+I (55269) RAM: internal free=47307 min=11664 largest=13824 | psram free=7516020 min=7394708 largest=7340032
+I (58159) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=231 => point.x=231, point.y=181 (top_bar=0)
+I (58199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=231 => point.x=231, point.y=181 (top_bar=0)
+I (60269) RAM: internal free=47215 min=11664 largest=13824 | psram free=7516020 min=7394708 largest=7340032
+E (62189) MQTT: Failed to receive server hello
+I (62189) StateMachine: State: connecting -> idle
+W (62189) Application: Alert [cancel] Ошибка: Тайм-аут ответа
+W (62219) EmojiCollection: Emoji not found: cancel
+I (62219) StateMachine: State: idle -> connecting
+I (62219) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (62219) wifi:Set ps type: 0, coexist: 0
+
+E (62509) Dynamic Impl: mbedtls_ssl_fetch_input error=80
+E (62509) esp-tls-mbedtls: read error :-0x0050
+E (62509) transport_base: esp_tls_conn_read error, errno=Connection reset by peer
+E (62519) mqtt_client: esp_mqtt_handle_transport_read_error: transport_read() error: errno=104
+I (62529) esp_mqtt: MQTT error occurred: ESP_ERR_MBEDTLS_SSL_READ_FAILED
+E (62529) mqtt_client: mqtt_process_receive: mqtt_message_receive() returned -2
+I (62539) MQTT: MQTT disconnected, schedule reconnect in 60 seconds
+I (63809) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=221 => point.x=221, point.y=165 (top_bar=0)
+I (63879) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=221 => point.x=221, point.y=165 (top_bar=0)
+I (63919) FreenoveFnk0104sBoard: TOUCH READ: raw_x=155, raw_y=221 => point.x=221, point.y=165 (top_bar=0)
+I (65269) RAM: internal free=47971 min=11664 largest=13824 | psram free=7519520 min=7394708 largest=7340032
+I (70269) RAM: internal free=48315 min=11664 largest=13824 | psram free=7519520 min=7394708 largest=7340032
+E (72229) MQTT: Failed to receive server hello
+I (72229) StateMachine: State: connecting -> idle
+W (72229) Application: Alert [cancel] Ошибка: Тайм-аут ответа
+W (72259) EmojiCollection: Emoji not found: cancel
+I (72259) StateMachine: State: idle -> connecting
+I (72259) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (72269) wifi:Set ps type: 0, coexist: 0
+
+I (72269) MQTT: MQTT is not connected, try to connect now
+W (72269) MQTT: Mqtt client already started
+I (72549) MQTT: Connecting to endpoint api.tenclass.net

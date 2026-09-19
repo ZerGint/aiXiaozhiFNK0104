@@ -1,0 +1,580 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-09-19 20:20:37 ---
+I (877758) SystemInfo: free sram: 36939 minimal sram: 548
+I (880218) RAM: internal free=36519 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+I (885218) RAM: internal free=36939 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+I (887758) SystemInfo: free sram: 36839 minimal sram: 548
+I (890218) RAM: internal free=36939 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+I (895218) RAM: internal free=36939 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+I (897758) SystemInfo: free sram: 36939 minimal sram: 548
+I (900218) RAM: internal free=36939 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+I (905218) RAM: internal free=36711 min=548 largest=13312 | psram free=7499940 min=7236660 largest=7340032
+W (905598) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+W (906338) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (906408) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=36123 internal_largest=13312 dma_free=28351 dma_largest=13312 spiram_free=7499940 spiram_largest=7340032
+W (907658) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (907708) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=37335 internal_largest=16384 dma_free=29563 dma_largest=16384 spiram_free=7499940 spiram_largest=7340032
+I (907868) SystemInfo: free sram: 37903 minimal sram: 548
+I (910218) RAM: internal free=37915 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+W (910458) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (910508) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=37335 internal_largest=16384 dma_free=29563 dma_largest=16384 spiram_free=7499940 spiram_largest=7340032
+W (911438) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (911548) RAM: [RADIO_STOP] internal free=35891 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+W (913708) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (913758) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (913758) RAM: [RADIO_START] internal free=35747 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+I (913768) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (913778) InternetRadio: Radio stream startup: connecting
+I (913788) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=29831 internal_largest=10240 dma_free=22059 dma_largest=10240 psram_free=7499940 psram_largest=7340032
+I (913808) AudioManager: Audio focus requested by source 3 (current 0)
+I (913818) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=29851 internal_largest=10240 dma_free=22059 dma_largest=10240 psram_free=7499940 psram_largest=7340032
+I (913828) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (913828) wifi:Set ps type: 0, coexist: 0
+
+I (913838) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (913838) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (913918) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (915218) RAM: internal free=27947 min=548 largest=10240 | psram free=7475460 min=7236660 largest=7340032
+I (915238) InternetRadio: Stream connected: status=200 content_type=unknown
+I (915238) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (915248) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (915258) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (915258) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23843 internal_largest=8704 dma_free=16071 dma_largest=8704 psram_free=7447224 psram_largest=7340032
+I (915278) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (915278) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=5 dec_err=0 status=PLAYING
+I (915288) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=23843 internal_largest=8704 dma_free=16071 dma_largest=8704 psram_free=7447224 psram_largest=7340032
+I (915308) InternetRadio: Received first stream data: bytes=2048
+I (915318) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (915328) RAM: [RADIO_PLAYING] internal free=14799 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (915328) AudioCodec: Set output enable to true
+I (915338) AudioService: [RADIO_PCM] ptr=0x3c44f694 size=2508 bytes PSRAM=YES (queue=1)
+I (915348) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (915528) AudioService: [RADIO_PCM] ptr=0x3c462d10 size=2508 bytes PSRAM=YES (queue=32)
+I (915888) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (915908) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=551 ms
+E (916128) esp-aes: Failed to allocate memory
+E (916128) esp-tls-mbedtls: read error :-0x0084
+E (916128) transport_base: esp_tls_conn_read error, errno=Success
+E (916128) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (916348) esp-tls-mbedtls: read error :-0x7180
+E (916348) transport_base: esp_tls_conn_read error, errno=Success
+E (916348) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (916358) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (916428) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=934 ms
+I (916858) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (916928) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (916948) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1206 ms
+I (917478) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=27 ms wait_in_q=1607 ms
+I (917758) SystemInfo: free sram: 25863 minimal sram: 548
+I (918288) InternetRadio: Stream connected: status=200 content_type=unknown
+I (918288) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (918288) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (918308) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (918308) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=18623 internal_largest=7680 dma_free=10851 dma_largest=3456 psram_free=7447224 psram_largest=7340032
+I (918318) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (918338) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=6 dec_err=0 status=PLAYING
+I (918338) InternetRadio: Received first stream data: bytes=2048
+I (918348) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (918358) RAM: [RADIO_PLAYING] internal free=16635 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (918368) AudioService: [RADIO_PCM] ptr=0x3c44f694 size=2508 bytes PSRAM=YES (queue=1)
+I (918368) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (918558) AudioService: [RADIO_PCM] ptr=0x3c462d10 size=2508 bytes PSRAM=YES (queue=32)
+I (918918) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (918938) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=18 ms wait_in_q=550 ms
+I (919458) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=930 ms
+I (919978) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1209 ms
+E (920188) esp-aes: Failed to allocate memory
+E (920188) esp-tls-mbedtls: read error :-0x0084
+E (920188) transport_base: esp_tls_conn_read error, errno=Success
+E (920188) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+I (920218) RAM: internal free=18959 min=548 largest=7680 | psram free=7255640 min=7236660 largest=7208960
+E (920338) esp-tls-mbedtls: read error :-0x7180
+E (920338) transport_base: esp_tls_conn_read error, errno=Success
+E (920338) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (920338) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (920498) AudioService: [RADIO_OUTPUT] queue=54 buffer=1404 ms pcm=26 ms write=27 ms wait_in_q=1615 ms
+I (920848) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (920928) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (921028) AudioService: [RADIO_OUTPUT] queue=34 buffer=884 ms pcm=26 ms write=26 ms wait_in_q=1818 ms
+I (921548) AudioService: [RADIO_OUTPUT] queue=14 buffer=364 ms pcm=26 ms write=27 ms wait_in_q=1825 ms
+I (922338) InternetRadio: Stream connected: status=200 content_type=unknown
+I (922348) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (922348) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (922358) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (922368) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23863 internal_largest=8704 dma_free=16091 dma_largest=8704 psram_free=7447224 psram_largest=7340032
+I (922378) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (922388) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=7 dec_err=0 status=PLAYING
+I (922398) InternetRadio: Received first stream data: bytes=2048
+I (922408) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (922408) RAM: [RADIO_PLAYING] internal free=14811 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (922428) AudioService: [RADIO_PCM] ptr=0x3c44f694 size=2508 bytes PSRAM=YES (queue=1)
+I (922428) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (922608) AudioService: [RADIO_PCM] ptr=0x3c462d10 size=2508 bytes PSRAM=YES (queue=32)
+I (922958) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (922978) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=533 ms
+E (923198) esp-aes: Failed to allocate memory
+E (923198) esp-tls-mbedtls: read error :-0x0084
+E (923198) transport_base: esp_tls_conn_read error, errno=Success
+E (923208) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (923358) esp-tls-mbedtls: read error :-0x7180
+E (923358) transport_base: esp_tls_conn_read error, errno=Success
+E (923368) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (923368) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (923498) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=929 ms
+I (923878) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (923938) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (924028) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1207 ms
+I (924548) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=27 ms wait_in_q=1617 ms
+I (925218) RAM: internal free=28131 min=548 largest=10240 | psram free=7475460 min=7236660 largest=7340032
+I (925238) InternetRadio: Stream connected: status=200 content_type=unknown
+I (925238) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (925238) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (925258) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (925258) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23903 internal_largest=7680 dma_free=16131 dma_largest=5376 psram_free=7447224 psram_largest=7340032
+I (925268) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (925278) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=8 dec_err=0 status=PLAYING
+I (925288) InternetRadio: Received first stream data: bytes=2048
+I (925298) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (925308) RAM: [RADIO_PLAYING] internal free=18387 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (925318) AudioService: [RADIO_PCM] ptr=0x3c44e44c size=2508 bytes PSRAM=YES (queue=1)
+I (925318) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (925508) AudioService: [RADIO_PCM] ptr=0x3c4610c4 size=2508 bytes PSRAM=YES (queue=32)
+I (925928) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (925948) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=608 ms
+E (926178) esp-aes: Failed to allocate memory
+E (926178) esp-tls-mbedtls: read error :-0x0084
+E (926178) transport_base: esp_tls_conn_read error, errno=Success
+E (926178) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (926398) esp-aes: Failed to allocate memory
+E (926398) esp-tls-mbedtls: read error :-0x0084
+E (926398) transport_base: esp_tls_conn_read error, errno=Success
+E (926408) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (926408) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (926468) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=992 ms
+I (926918) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (926988) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (926988) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1206 ms
+I (927488) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=24 ms wait_in_q=1601 ms
+I (927758) SystemInfo: free sram: 24135 minimal sram: 548
+I (928158) InternetRadio: Stream connected: status=200 content_type=unknown
+I (928158) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (928168) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (928168) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (928188) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23791 internal_largest=7680 dma_free=16019 dma_largest=5376 psram_free=7447224 psram_largest=7340032
+I (928198) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (928198) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=9 dec_err=0 status=PLAYING
+I (928218) InternetRadio: Received first stream data: bytes=2048
+I (928218) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (928228) RAM: [RADIO_PLAYING] internal free=14747 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (928238) AudioService: [RADIO_PCM] ptr=0x3c44ed50 size=2508 bytes PSRAM=YES (queue=1)
+I (928248) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (928428) AudioService: [RADIO_PCM] ptr=0x3c4623cc size=2508 bytes PSRAM=YES (queue=32)
+I (928798) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (928818) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=562 ms
+I (929338) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=948 ms
+I (929868) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1212 ms
+I (930218) RAM: internal free=10827 min=548 largest=7680 | psram free=7237692 min=7236660 largest=7208960
+I (930358) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1599 ms
+I (930888) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1764 ms
+I (931408) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1821 ms
+I (931928) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1763 ms
+I (932448) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1820 ms
+I (932978) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=27 ms wait_in_q=1818 ms
+I (933328) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (933328) InternetRadio: [RADIO] buffer=1820 ms queue=70 underruns=0 reconnects=9 dec_err=0 status=PLAYING
+I (933498) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1824 ms
+I (934018) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=27 ms wait_in_q=1827 ms
+I (934538) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1820 ms
+I (935068) AudioService: [RADIO_OUTPUT] queue=68 buffer=1768 ms pcm=26 ms write=27 ms wait_in_q=1818 ms
+I (935218) RAM: internal free=10883 min=548 largest=7680 | psram free=7237692 min=7236660 largest=7208960
+I (935588) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1821 ms
+I (936108) AudioService: [RADIO_OUTPUT] queue=67 buffer=1742 ms pcm=26 ms write=27 ms wait_in_q=1813 ms
+E (936238) esp-aes: Failed to allocate memory
+E (936238) esp-tls-mbedtls: read error :-0x0084
+E (936238) transport_base: esp_tls_conn_read error, errno=Success
+E (936238) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (936398) esp-tls-mbedtls: read error :-0x7180
+E (936398) transport_base: esp_tls_conn_read error, errno=Success
+E (936398) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (936408) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (936628) AudioService: [RADIO_OUTPUT] queue=50 buffer=1300 ms pcm=26 ms write=27 ms wait_in_q=1816 ms
+I (936918) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (936988) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (937158) AudioService: [RADIO_OUTPUT] queue=30 buffer=780 ms pcm=26 ms write=27 ms wait_in_q=1818 ms
+I (937678) AudioService: [RADIO_OUTPUT] queue=10 buffer=260 ms pcm=26 ms write=27 ms wait_in_q=1821 ms
+I (937798) SystemInfo: free sram: 25823 minimal sram: 548
+I (938448) InternetRadio: Stream connected: status=200 content_type=unknown
+I (938448) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (938448) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (938458) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (938468) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23895 internal_largest=7680 dma_free=16123 dma_largest=3456 psram_free=7447224 psram_largest=7340032
+I (938478) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (938488) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=10 dec_err=0 status=PLAYING
+I (938498) InternetRadio: Received first stream data: bytes=2048
+I (938508) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (938508) RAM: [RADIO_PLAYING] internal free=14787 min=548 largest=5632 | psram free=7421212 min=7236660 largest=7340032
+I (938528) AudioService: [RADIO_PCM] ptr=0x3c44f694 size=2508 bytes PSRAM=YES (queue=1)
+I (938528) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (938728) AudioService: [RADIO_PCM] ptr=0x3c462d10 size=2508 bytes PSRAM=YES (queue=32)
+I (939118) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (939138) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=593 ms
+E (939368) esp-aes: Failed to allocate memory
+E (939368) esp-tls-mbedtls: read error :-0x0084
+E (939368) transport_base: esp_tls_conn_read error, errno=Success
+E (939368) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (939538) esp-tls-mbedtls: read error :-0x7180
+E (939538) transport_base: esp_tls_conn_read error, errno=Success
+E (939538) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (939548) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (939658) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=971 ms
+I (940048) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (940118) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (940178) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1212 ms
+I (940218) RAM: internal free=25367 min=548 largest=10240 | psram free=7397024 min=7236660 largest=7208960
+I (940708) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=27 ms wait_in_q=1609 ms
+I (941538) InternetRadio: Stream connected: status=200 content_type=unknown
+I (941548) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (941548) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (941558) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (941568) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=23911 internal_largest=7680 dma_free=16139 dma_largest=5376 psram_free=7447224 psram_largest=7340032
+I (941578) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (941588) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=11 dec_err=0 status=PLAYING
+I (941598) InternetRadio: Received first stream data: bytes=2048
+I (941598) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (941608) RAM: [RADIO_PLAYING] internal free=21923 min=548 largest=7680 | psram free=7421212 min=7236660 largest=7340032
+I (941628) AudioService: [RADIO_PCM] ptr=0x3c44f694 size=2508 bytes PSRAM=YES (queue=1)
+I (941628) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (941848) AudioService: [RADIO_PCM] ptr=0x3c462d10 size=2508 bytes PSRAM=YES (queue=32)
+I (942208) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (942228) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=17 ms wait_in_q=582 ms
+W (942428) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (942538) MediaPlayer: [RADIO_MANUAL_PAUSE] station=Душевное радио Минск 105.7 FM active_before=1
+I (942538) RAM: [RADIO_STOP] internal free=9751 min=548 largest=7680 | psram free=7237692 min=7236660 largest=7208960
+I (942548) AudioService: [RADIO_PCM] ptr=0x3c44ed90 size=2508 bytes PSRAM=YES (queue=1)
+I (942558) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=28895 internal_largest=8704 dma_free=21123 dma_largest=8704 psram_free=7497376 psram_largest=7340032
+I (942568) AudioManager: Releasing audio focus from source 3
+I (942568) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=28959 internal_largest=8704 dma_free=21187 dma_largest=8704 psram_free=7499940 psram_largest=7340032
+I (942588) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (942598) wifi:Set ps type: 2, coexist: 0
+
+I (942598) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (942608) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (942618) MediaPlayer: [RADIO_MANUAL_PAUSE_DONE] active=0
+W (943298) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (943338) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=35875 internal_largest=16384 dma_free=28103 dma_largest=16384 spiram_free=7499940 spiram_largest=7340032
+W (944298) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (944388) RAM: [RADIO_STOP] internal free=37199 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+I (945218) RAM: internal free=38271 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+W (946738) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (946828) RAM: [RADIO_STOP] internal free=37335 min=548 largest=16384 | psram free=7499940 min=7236660 largest=7340032
+W (946838) SdMusicPlayer: HEAP_CHECK PLAYER_LOOP_ENTER: PASS
+W (946838) SdMusicPlayer: MUSIC_CHECKPOINT PLAYER_LOOP_ENTER task=SdMusicPlayer internal_free=33023 internal_largest=12288 stack_hwm=2728
+I (946848) AudioManager: Audio focus requested by source 2 (current 0)
+W (946858) SdMusicPlayer: HEAP_CHECK AFTER_AUDIO_FOCUS: PASS
+W (946858) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_AUDIO_FOCUS task=SdMusicPlayer internal_free=33119 internal_largest=12288 stack_hwm=2664
+W (946878) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_REGISTER: PASS
+W (946878) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_REGISTER task=SdMusicPlayer internal_free=33119 internal_largest=12288 stack_hwm=2664
+I (946888) SdMusicPlayer: ▶ Playing file: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (946908) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (946908) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=33015 internal_largest=12288 stack_hwm=2664
+W (946928) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (946928) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=32571 internal_largest=12288 stack_hwm=2104
+I (946938) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (946948) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (946958) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (946968) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=32199 internal_largest=12288 stack_hwm=2104
+I (946978) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (946988) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (946988) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=29935 internal_largest=12288 stack_hwm=2104
+I (946998) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (947758) SystemInfo: free sram: 30483 minimal sram: 548
+I (950218) RAM: internal free=30475 min=548 largest=12288 | psram free=7435744 min=7236660 largest=7340032
+W (952218) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (952318) RAM: [RADIO_STOP] internal free=29543 min=548 largest=12288 | psram free=7435744 min=7236660 largest=7340032
+I (952338) SdMusicPlayer: ▶ Playing file: /sdcard/music/028_Ангел-А - Мой герой.mp3
+W (952338) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (952348) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=33015 internal_largest=12288 stack_hwm=2104
+W (952358) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (952358) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=32995 internal_largest=12288 stack_hwm=2104
+I (952378) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (952378) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+W (952388) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (952398) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=32723 internal_largest=12288 stack_hwm=2104
+I (952408) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (952418) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (952418) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=30559 internal_largest=12288 stack_hwm=2104
+I (952438) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+W (954458) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (954528) RAM: [RADIO_STOP] internal free=29579 min=548 largest=12288 | psram free=7435744 min=7236660 largest=7340032
+I (954558) SdMusicPlayer: ▶ Playing file: /sdcard/music/02 - 21 Guns.mp3
+W (954558) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (954558) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=32999 internal_largest=12288 stack_hwm=2104
+W (954568) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (954578) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=32919 internal_largest=12288 stack_hwm=2104
+I (954588) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (954588) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/02 - 21 Guns.mp3
+W (954598) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (954608) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=32687 internal_largest=12288 stack_hwm=2104
+I (954768) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (954768) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (954768) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=31083 internal_largest=12288 stack_hwm=2104
+I (954778) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (955218) RAM: internal free=29843 min=548 largest=12288 | psram free=7435744 min=7236660 largest=7340032
+I (957758) SystemInfo: free sram: 29999 minimal sram: 548
+I (960218) RAM: internal free=29947 min=548 largest=12288 | psram free=7435744 min=7236660 largest=7340032
+I (960498) Application: Wake word detected: Hey Kira (state: 3)
+I (960498) SdMusicPlayer: Playback PAUSED
+I (960508) StateMachine: State: idle -> connecting
+I (960508) AfeAudioEngine: Encoded wake word into 0 packets in 0 ms
+I (960528) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (960528) wifi:Set ps type: 0, coexist: 0
+
+W (960718) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=72 target=72
+W (960718) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (960898) MQTT: Session ID: 806c48f2
+I (960898) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (960898) wifi:Set ps type: 0, coexist: 0
+
+W (960898) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (960918) Application: Wake word detected: Hey Kira
+I (960918) StateMachine: State: connecting -> listening
+I (960928) AudioService: Resampling audio from 16000 to 48000
+I (963348) Application: >> Как дела?
+I (963388) StateMachine: State: listening -> speaking
+I (963898) Application: << Спасибо, что спросил! У меня всё отлично,
+I (963918) AudioService: Resampling audio from 24000 to 48000
+I (963918) FnkExternalI2s: AI_VOLUME user=23 effective=20 gain=1163
+I (965218) RAM: internal free=22999 min=548 largest=7680 | psram free=7436400 min=7236660 largest=7340032
+I (967028) Application: << рада поболтать с тобой. А как твои дела?
+I (970148) StateMachine: State: speaking -> listening
+I (970218) RAM: internal free=22895 min=548 largest=7680 | psram free=7436400 min=7236660 largest=7340032
+I (972638) Application: >> Пока.
+I (972648) StateMachine: State: listening -> speaking
+I (973158) Application: << Пока-пока!
+I (974058) StateMachine: State: speaking -> listening
+I (974078) MQTT: Received goodbye message, session_id: 806c48f2
+I (974078) MQTT: Closing audio channel, send_goodbye: 0
+I (974078) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (974078) wifi:Set ps type: 2, coexist: 0
+
+I (974088) StateMachine: State: listening -> idle
+I (974088) SdMusicPlayer: Playback RESUMED
+I (975218) RAM: internal free=27887 min=548 largest=10752 | psram free=7435232 min=7236660 largest=7340032
+W (978028) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (978138) SdMusicPlayer: Playback PAUSED
+W (978678) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (978848) AudioManager: Releasing audio focus from source 2
+I (978848) SdMusicPlayer: Player task stopped.
+I (978848) RAM: [RADIO_STOP] internal free=31643 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+W (979728) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (979858) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=35847 internal_largest=10752 dma_free=28075 dma_largest=10752 spiram_free=7499428 spiram_largest=7340032
+I (980218) RAM: internal free=35023 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+W (981348) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (981458) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (981458) RAM: [RADIO_START] internal free=32199 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+I (981468) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (981488) InternetRadio: Radio stream startup: connecting
+I (981488) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=25875 internal_largest=7680 dma_free=18103 dma_largest=4608 psram_free=7499428 psram_largest=7340032
+I (981508) AudioManager: Audio focus requested by source 3 (current 0)
+I (981508) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=25875 internal_largest=7680 dma_free=18103 dma_largest=4608 psram_free=7499428 psram_largest=7340032
+I (981528) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (981528) wifi:Set ps type: 0, coexist: 0
+
+I (981538) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (981548) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (981618) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (982748) InternetRadio: Stream connected: status=200 content_type=unknown
+I (982748) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (982748) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (982768) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (982768) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=21959 internal_largest=7680 dma_free=14187 dma_largest=4096 psram_free=7446712 psram_largest=7340032
+I (982778) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (982788) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=11 dec_err=0 status=PLAYING
+I (982808) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=14827 internal_largest=5632 dma_free=8851 dma_largest=1536 psram_free=7446712 psram_largest=7340032
+I (982808) InternetRadio: Received first stream data: bytes=2048
+I (982818) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (982828) RAM: [RADIO_PLAYING] internal free=12775 min=548 largest=3840 | psram free=7420700 min=7236660 largest=7340032
+I (982838) AudioService: [RADIO_PCM] ptr=0x3c44ed50 size=2508 bytes PSRAM=YES (queue=1)
+I (982848) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (983038) AudioService: [RADIO_PCM] ptr=0x3c4619c8 size=2508 bytes PSRAM=YES (queue=32)
+I (983388) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (983408) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=18 ms wait_in_q=551 ms
+E (983648) esp-aes: Failed to allocate memory
+E (983648) esp-tls-mbedtls: read error :-0x0084
+E (983648) transport_base: esp_tls_conn_read error, errno=Success
+E (983648) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+I (983758) SystemInfo: free sram: 16727 minimal sram: 548
+E (983868) esp-aes: Failed to allocate memory
+E (983868) esp-tls-mbedtls: read error :-0x0084
+E (983868) transport_base: esp_tls_conn_read error, errno=Success
+E (983868) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (983878) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (983928) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=930 ms
+I (984388) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (984448) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (984458) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1207 ms
+I (984958) AudioService: [RADIO_OUTPUT] queue=16 buffer=416 ms pcm=26 ms write=24 ms wait_in_q=1605 ms
+I (985218) RAM: internal free=22083 min=548 largest=7680 | psram free=7471872 min=7236660 largest=7208960
+I (985638) InternetRadio: Stream connected: status=200 content_type=unknown
+I (985638) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (985638) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (985658) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (985658) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=21919 internal_largest=7680 dma_free=14147 dma_largest=4096 psram_free=7446712 psram_largest=7340032
+I (985668) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (985688) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=12 dec_err=0 status=PLAYING
+I (985688) InternetRadio: Received first stream data: bytes=2048
+I (985698) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (985708) RAM: [RADIO_PLAYING] internal free=12743 min=548 largest=3840 | psram free=7420700 min=7236660 largest=7340032
+I (985718) AudioService: [RADIO_PCM] ptr=0x3c44ed50 size=2508 bytes PSRAM=YES (queue=1)
+I (985718) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (985958) AudioService: [RADIO_PCM] ptr=0x3c4619c8 size=2508 bytes PSRAM=YES (queue=32)
+I (986318) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (986338) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=602 ms
+E (986548) esp-aes: Failed to allocate memory
+E (986548) esp-tls-mbedtls: read error :-0x0084
+E (986548) transport_base: esp_tls_conn_read error, errno=Success
+E (986558) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (986718) esp-tls-mbedtls: read error :-0x7180
+E (986718) transport_base: esp_tls_conn_read error, errno=Success
+E (986718) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (986728) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (986858) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=938 ms
+I (987238) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (987308) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (987378) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1207 ms
+I (987908) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=27 ms wait_in_q=1608 ms
+I (988538) InternetRadio: Stream connected: status=200 content_type=unknown
+I (988538) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (988548) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (988548) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (988568) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=21751 internal_largest=7680 dma_free=13979 dma_largest=4096 psram_free=7446712 psram_largest=7340032
+I (988568) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (988578) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=13 dec_err=0 status=PLAYING
+I (988588) InternetRadio: Received first stream data: bytes=2048
+I (988598) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (988608) RAM: [RADIO_PLAYING] internal free=12551 min=548 largest=3840 | psram free=7420700 min=7236660 largest=7340032
+I (988618) AudioService: [RADIO_PCM] ptr=0x3c44ed50 size=2508 bytes PSRAM=YES (queue=1)
+I (988628) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (988828) AudioService: [RADIO_PCM] ptr=0x3c4619c8 size=2508 bytes PSRAM=YES (queue=32)
+I (989188) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (989208) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=18 ms wait_in_q=569 ms
+E (989398) esp-aes: Failed to allocate memory
+E (989398) esp-tls-mbedtls: read error :-0x0084
+E (989398) transport_base: esp_tls_conn_read error, errno=Success
+E (989408) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (989568) esp-tls-mbedtls: read error :-0x7180
+E (989568) transport_base: esp_tls_conn_read error, errno=Success
+E (989568) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (989568) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (989728) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=27 ms wait_in_q=954 ms
+I (990078) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (990148) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (990218) RAM: internal free=21723 min=548 largest=7680 | psram free=7390284 min=7236660 largest=7208960
+I (990248) AudioService: [RADIO_OUTPUT] queue=35 buffer=910 ms pcm=26 ms write=27 ms wait_in_q=1207 ms
+I (990768) AudioService: [RADIO_OUTPUT] queue=15 buffer=390 ms pcm=26 ms write=27 ms wait_in_q=1609 ms
+I (991438) InternetRadio: Stream connected: status=200 content_type=unknown
+I (991438) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (991448) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (991448) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (991458) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=22083 internal_largest=7680 dma_free=14311 dma_largest=4608 psram_free=7446712 psram_largest=7340032
+I (991468) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (991478) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=14 dec_err=0 status=PLAYING
+I (991488) InternetRadio: Received first stream data: bytes=2048
+I (991498) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (991508) RAM: [RADIO_PLAYING] internal free=14727 min=548 largest=5632 | psram free=7420700 min=7236660 largest=7340032
+I (991518) AudioService: [RADIO_PCM] ptr=0x3c44ed50 size=2508 bytes PSRAM=YES (queue=1)
+I (991518) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (991708) AudioService: [RADIO_PCM] ptr=0x3c4619c8 size=2508 bytes PSRAM=YES (queue=32)
+E (991908) esp-aes: Failed to allocate memory
+E (991918) esp-tls-mbedtls: read error :-0x0084
+E (991918) transport_base: esp_tls_conn_read error, errno=Success
+E (991918) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+E (992118) esp-aes: Failed to allocate memory
+E (992118) esp-tls-mbedtls: read error :-0x0084
+E (992118) transport_base: esp_tls_conn_read error, errno=Success
+E (992128) HTTP_CLIENT: transport_read: error - -1 | ESP_FAIL
+W (992128) InternetRadio: [RADIO_HTTP_ERROR] read returned -1
+I (992538) AudioService: [RADIO_PREBUFFER] buffering... current=962 ms target=1800 ms (queue=37)
+I (992638) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (992698) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (993558) AudioService: [RADIO_PREBUFFER] buffering... current=962 ms target=1800 ms (queue=37)
+I (993748) InternetRadio: Stream connected: status=200 content_type=unknown
+I (993748) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (993748) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (993758) SystemInfo: free sram: 21879 minimal sram: 548
+I (993758) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (993768) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=19551 internal_largest=7680 dma_free=11779 dma_largest=4096 psram_free=7351844 psram_largest=7208960
+I (993788) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (993798) InternetRadio: [RADIO] buffer=962 ms queue=37 underruns=0 reconnects=15 dec_err=0 status=PLAYING
+I (993808) InternetRadio: Received first stream data: bytes=2048
+I (993808) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (993818) RAM: [RADIO_PLAYING] internal free=10355 min=548 largest=3840 | psram free=7325832 min=7236660 largest=7208960
+I (994018) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (994038) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=20 ms wait_in_q=2504 ms
+I (994558) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=2890 ms
+W (994948) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (994978) FnkExternalI2s: MEDIA_FADE_START user=23 target_gain=1510 samples=33600
+I (994998) MediaPlayer: [RADIO_MANUAL_PAUSE] station=Душевное радио Минск 105.7 FM active_before=1
+I (995008) RAM: [RADIO_STOP] internal free=4275 min=548 largest=2048 | psram free=7237180 min=7236660 largest=7208960
+I (995018) AudioService: [RADIO_PCM] ptr=0x3c44d2cc size=2508 bytes PSRAM=YES (queue=1)
+I (995028) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=26963 internal_largest=7680 dma_free=19191 dma_largest=4608 psram_free=7496864 psram_largest=7208960
+I (995038) AudioManager: Releasing audio focus from source 3
+I (995038) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=27223 internal_largest=7680 dma_free=19451 dma_largest=4608 psram_free=7499428 psram_largest=7340032
+I (995058) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (995068) wifi:Set ps type: 2, coexist: 0
+
+I (995068) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (995078) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (995088) MediaPlayer: [RADIO_MANUAL_PAUSE_DONE] active=0
+I (995218) RAM: internal free=34343 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+W (995518) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=72
+I (995608) RAM: [RADIO_STOP] internal free=34111 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+I (1000218) RAM: internal free=35027 min=548 largest=10752 | psram free=7499428 min=7236660 largest=7340032
+I (1003758) SystemInfo: free sram: 34919 minimal sram: 548

@@ -1,0 +1,393 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2a (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (34) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (35) octal_psram: density      : 0x03 (64 Mbit)
+I (36) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (45) octal_psram: VCC          : 0x01 (3V)
+I (49) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (53) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (58) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (63) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (68) octal_psram: DriveStrength: 0x00 (1/1)
+I (72) MSPI Timing: Enter psram timing tuning
+I (77) esp_psram: Found 8MB PSRAM device
+I (80) esp_psram: Speed: 80MHz
+I (82) cpu_start: Multicore app
+I (97) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (98) cpu_start: cpu freq: 240000000 Hz
+I (99) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (110) app_init: Compile time:     Sep 17 2026 17:50:34
+I (115) app_init: ELF file SHA256:  2dd9bc27b...
+I (119) app_init: ESP-IDF:          6.1.0
+I (123) efuse_init: Min chip rev:     v0.0
+I (127) efuse_init: Max chip rev:     v0.99 
+I (131) efuse_init: Chip rev:         v0.2
+I (135) heap_init: Initializing. RAM available for dynamic allocation:
+I (141) heap_init: At 3FCAD270 len 0003C4A0 (241 KiB): RAM
+I (146) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (157) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (169) spi_flash: detected chip: generic
+I (172) spi_flash: flash io: qio
+I (176) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=281867 min=184436 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (228) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1098) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1098) StorageManager: SD Card mounted successfully at /sdcard!
+I (1098) HomeAssistant: Initializing Home Assistant integration...
+I (1108) MCP: Add tool: homeassistant.call_service
+I (1108) MCP: Add tool: homeassistant.get_states
+I (1118) MCP: Add tool: homeassistant.set_config [user]
+I (1118) MCP: Add tool: radio.add_favorite
+I (1128) MCP: Add tool: radio.get_current
+I (1128) MCP: Add tool: radio.list_favorites
+I (1128) MCP: Add tool: radio.play_favorite
+I (1138) MCP: Add tool: radio.remove_favorite
+I (1138) MCP: Add tool: radio.search_stations
+I (1148) MCP: Add tool: radio.play_station
+I (1148) MCP: Add tool: radio.stop
+I (1148) MCP: Add tool: media.play_sd
+I (1158) MCP: Add tool: media.list_sd
+I (1158) MCP: Add tool: media.search_sd
+I (1158) MCP: Add tool: media.pause
+I (1168) MCP: Add tool: media.next
+I (1168) MCP: Add tool: media.previous
+I (1168) MCP: Add tool: media.stop
+I (1178) StateMachine: State: unknown -> starting
+W (1188) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1188) Es8311AudioCodec: Duplex channels created
+I (1188) Es8311AudioCodec: ES8311 software reset complete
+I (1198) ES8311: Work in Slave mode
+I (1208) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1208) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+I (1208) FnkExternalI2s: I2S_PORT: 1
+I (1218) FnkExternalI2s: BCLK: GPIO2
+I (1218) FnkExternalI2s: WS: GPIO21
+I (1218) FnkExternalI2s: DATA: GPIO14
+I (1218) FnkExternalI2s: RATE: 48000
+I (1228) FnkExternalI2s: BITS: 16
+I (1228) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+I (1238) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=205927 internal_largest=94208 dma_free=198155 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1248) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=205927 internal_largest=94208 dma_free=198155 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1278) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=199695 internal_largest=94208 dma_free=191923 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1288) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=198431 internal_largest=94208 dma_free=190659 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1318) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=191343 internal_largest=94208 dma_free=183571 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1318) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=191343 internal_largest=94208 dma_free=183571 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1368) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=182895 internal_largest=94208 dma_free=175123 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1368) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=182895 internal_largest=94208 dma_free=175123 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1388) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=182855 internal_largest=94208 dma_free=175083 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+E (1398) StorageManager: Failed to open directory: /sdcard/mp3
+I (1408) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1428) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1438) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1448) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1448) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1458) SdMusicPlayer:  🎵 Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (1468) SdMusicPlayer:  🎵 Track found: /sdcard/music/красной нитью.mp3
+I (1468) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (1498) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=178739 internal_largest=94208 dma_free=170967 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1498) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=178739 internal_largest=94208 dma_free=170967 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1518) RAM: [AFTER_LVGL_INIT] internal free=178739 min=81272 largest=94208 | psram free=8319680 min=8317944 largest=8257536
+I (1718) AudioCodec: Audio codec started
+I (1728) RAM: [AFTER_AUDIO_INIT] internal free=142587 min=45156 largest=94208 | psram free=8277176 min=8277176 largest=8257536
+I (1728) AppManager: Initializing Application Manager...
+I (1728) MCP: Add tool: self.get_device_status
+I (1738) MCP: Add tool: self.audio_speaker.set_volume
+I (1738) MCP: Add tool: self.screen.set_brightness
+I (1748) MCP: Add tool: self.screen.set_theme
+I (1748) MCP: Add tool: self.get_system_info [user]
+I (1758) MCP: Add tool: self.reboot [user]
+I (1758) MCP: Add tool: self.upgrade_firmware [user]
+I (1758) MCP: Add tool: self.screen.get_info [user]
+I (1768) MCP: Add tool: self.screen.snapshot [user]
+I (1768) MCP: Add tool: self.screen.preview_image [user]
+I (1778) MCP: Add tool: self.assets.set_download_url [user]
+I (1778) WifiManager: Initializing...
+I (1788) pp: pp rom version: e7ae62f
+I (1788) net80211: net80211 rom version: e7ae62f
+I (1798) wifi:wifi driver task: 3fcb80e0, prio:23, stack:6656, core=0
+I (1798) wifi:wifi firmware version: e12a754
+I (1798) wifi:wifi certification version: v7.0
+I (1808) wifi:config NVS flash: disabled
+I (1808) wifi:config nano formatting: disabled
+I (1818) wifi:Init data frame dynamic rx buffer num: 6
+I (1818) wifi:Init dynamic rx mgmt buffer num: 5
+I (1828) wifi:Init management short buffer num: 32
+I (1828) wifi:Init dynamic tx buffer num: 32
+I (1828) wifi:Init static tx FG buffer num: 2
+I (1838) wifi:Init static rx buffer size: 1600
+I (1838) wifi:Init static rx buffer num: 3
+I (1848) wifi:Init dynamic rx buffer num: 6
+I (1848) wifi_init: rx ba win: 3
+I (1848) wifi_init: accept mbox: 6
+I (1858) wifi_init: tcpip mbox: 16
+I (1858) wifi_init: udp mbox: 6
+I (1858) wifi_init: tcp mbox: 6
+I (1868) wifi_init: tcp tx win: 5760
+I (1868) wifi_init: tcp rx win: 5760
+I (1868) wifi_init: tcp mss: 1440
+I (1878) WifiManager: Initialized
+I (1878) WifiBoard: Starting WiFi connection attempt
+I (1878) WifiManager: Starting station
+I (1888) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1888) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1928) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1928) wifi:enable tsf
+I (1928) WifiBoard: WiFi scanning
+I (1938) RAM: [AFTER_XIAOZHI_INIT] internal free=108683 min=40028 largest=65536 | psram free=8271932 min=8271932 largest=8257536
+I (4348) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -30, Channel: 7, Authmode: 3
+I (4348) WifiBoard: WiFi connecting to ZERG
+W (4378) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5208) RAM: internal free=108211 min=39900 largest=65536 | psram free=8271932 min=8271932 largest=8257536
+I (6848) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6848) wifi:state: init -> auth (0xb0)
+I (6858) wifi:state: auth -> assoc (0x0)
+I (6868) wifi:state: assoc -> run (0x10)
+I (6888) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6888) wifi:security: WPA2-PSK, phy: bgn, rssi: -30, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6888) wifi:pm start, type: 1
+
+I (6898) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6908) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6918) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6958) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8438) esp_netif_handlers: sta ip: 192.168.31.99, mask: 255.255.255.0, gw: 192.168.31.1
+I (8438) WifiStation: Got IP: 192.168.31.99
+I (8438) WifiBoard: Connected to WiFi: ZERG
+I (8458) Application: Network connected
+I (8458) RAM: [AFTER_WIFI] internal free=107551 min=39812 largest=65536 | psram free=8271224 min=8271188 largest=8257536
+I (8458) StateMachine: State: starting -> activating
+I (8458) Assets: The storage free size is 21376 KB
+I (8468) Assets: The partition size is 8192 KB
+I (8578) Assets: The checksum calculation time is 112 ms
+I (8588) MODEL_LOADER: Successfully load srmodels
+I (8598) Assets: Refreshing display theme...
+W (8618) EmojiCollection: Emoji not found: robot_2
+I (8618) Ota: Current version: 2.4.2
+I (8628) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10208) RAM: internal free=84099 min=39812 largest=40960 | psram free=8265724 min=8250992 largest=8257536
+I (12598) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=3970
+I (13418) HttpClient: HTTP connection closed
+I (13428) Ota: Current is the latest version
+I (13428) Ota: Running partition: ota_0
+I (13438) MQTT: Connecting to endpoint api.tenclass.net
+I (13788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=150, raw_y=34 => point.x=34, point.y=170 (top_bar=0)
+W (13788) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (13848) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=82599 internal_largest=40960 dma_free=74827 dma_largest=40960 spiram_free=8258620 spiram_largest=8257536
+I (14958) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=407 => point.x=407, point.y=203 (top_bar=0)
+W (14958) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (15008) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=407 => point.x=407, point.y=203 (top_bar=0)
+I (15048) FreenoveFnk0104sBoard: TOUCH READ: raw_x=117, raw_y=407 => point.x=407, point.y=203 (top_bar=0)
+I (15098) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (15108) RAM: [RADIO_START] internal free=81279 min=39812 largest=36864 | psram free=8263320 min=8248588 largest=8257536
+I (15108) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (15128) InternetRadio: Radio stream startup: connecting
+I (15128) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=74831 internal_largest=31744 dma_free=67059 dma_largest=31744 psram_free=8263320 psram_largest=8257536
+I (15148) AudioManager: Audio focus requested by source 3 (current 0)
+I (15148) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=74831 internal_largest=31744 dma_free=67059 dma_largest=31744 psram_free=8263320 psram_largest=8257536
+I (15168) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (15168) wifi:Set ps type: 0, coexist: 0
+
+I (15178) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (15188) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (15208) RAM: internal free=71707 min=39812 largest=31744 | psram free=8259220 min=8248588 largest=8126464
+I (15518) InternetRadio: Stream connected: status=200 content_type=unknown
+I (15518) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (15518) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (15528) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (15538) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=70367 internal_largest=31744 dma_free=62595 dma_largest=31744 psram_free=8236636 psram_largest=8126464
+I (15548) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (15558) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (15648) MQTT: Connected to endpoint
+I (15658) Application: Activation done
+I (15658) SystemInfo: free sram: 72435 minimal sram: 39812
+I (15658) StateMachine: State: activating -> idle
+I (15658) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (15658) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (15668) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=75419 internal_largest=31744 dma_free=67667 dma_largest=31744 psram_free=8236636 psram_largest=8126464
+I (15668) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (15678) InternetRadio: Received first stream data: bytes=2048
+I (15688) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+I (15698) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (15708) RAM: [RADIO_PLAYING] internal free=66787 min=39812 largest=31744 | psram free=8044888 min=8044888 largest=7995392
+I (15718) AudioCodec: Set output enable to true
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (15778) AFE: AFE Version: (1MIC_V251128)
+I (15788) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15788) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (15798) AFE: AFE Version: (1MIC_V251128)
+I (15808) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15818) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (15818) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (15828) AudioCodec: Set input enable to true
+I (15838) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15838) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15848) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15858) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15868) AudioService: Resampling audio from 16000 to 48000
+I (15868) MediaAudioOutput: Stateful media resampler: 44100 -> 48000 Hz, mono, quality=3, memory mode
+I (15878) AudioService: [RADIO_PCM] ptr=0x3c3a8970 size=2508 bytes PSRAM=YES (queue=2)
+I (15878) Adev_Codec: Open codec device OK
+I (15998) AudioService: [RADIO_PREBUFFER] buffering... current=390 ms target=1800 ms (queue=16)
+I (16148) AudioService: [RADIO_PCM] ptr=0x3c41b558 size=2508 bytes PSRAM=YES (queue=32)
+I (16478) FnkExternalI2s: MEDIA_FADE_START user=25 target_gain=1741 samples=33600
+I (16498) AudioService: [RADIO_OUTPUT] queue=71 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=594 ms
+W (16558) AudioService: [RADIO_OUTPUT_GAP] gap=60 ms expected_duration=26 ms queue=69 buffer=1794 ms wait_in_q=662 ms
+I (17028) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=981 ms
+I (17548) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1308 ms
+I (18068) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1663 ms
+I (18588) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1828 ms
+I (19118) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1818 ms
+I (19638) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1821 ms
+I (19788) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=357 => point.x=357, point.y=1 (top_bar=1)
+W (19788) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (19838) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=357 => point.x=357, point.y=1 (top_bar=1)
+I (19868) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+W (19868) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE task=taskLVGL core=1 quick_settings_open_before=0
+W (19878) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+I (19888) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+W (19888) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+W (19898) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE done quick_settings_open_after=1
+I (20158) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1823 ms
+I (20218) RAM: internal free=18423 min=4952 largest=7680 | psram free=7288460 min=7249136 largest=7208960
+I (20578) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (20578) InternetRadio: [RADIO] buffer=1820 ms queue=70 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (20678) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1826 ms
+I (20888) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+W (20888) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (20938) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+I (20978) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=179 => point.x=179, point.y=89 (top_bar=0)
+I (21068) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=205 => point.x=205, point.y=87 (top_bar=0)
+I (21078) AudioCodec: Set output volume to 35
+I (21138) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=226 => point.x=226, point.y=86 (top_bar=0)
+I (21148) AudioCodec: Set output volume to 45
+I (21198) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=241 => point.x=241, point.y=86 (top_bar=0)
+I (21208) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1819 ms
+I (21208) AudioCodec: Set output volume to 52
+I (21268) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=248 => point.x=248, point.y=86 (top_bar=0)
+I (21288) AudioCodec: Set output volume to 55
+I (21388) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=254 => point.x=254, point.y=86 (top_bar=0)
+I (21418) AudioCodec: Set output volume to 58
+I (21478) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=261 => point.x=261, point.y=86 (top_bar=0)
+I (21488) AudioCodec: Set output volume to 61
+I (21548) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=266 => point.x=266, point.y=86 (top_bar=0)
+I (21568) AudioCodec: Set output volume to 63
+I (21668) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=271 => point.x=271, point.y=86 (top_bar=0)
+I (21678) AudioCodec: Set output volume to 65
+I (21728) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1824 ms
+I (21728) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=272 => point.x=272, point.y=86 (top_bar=0)
+I (21758) AudioCodec: Set output volume to 66
+I (21828) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=274 => point.x=274, point.y=86 (top_bar=0)
+I (21828) AudioCodec: Set output volume to 67
+I (21928) FreenoveFnk0104sBoard: TOUCH READ: raw_x=234, raw_y=278 => point.x=278, point.y=86 (top_bar=0)
+I (21938) AudioCodec: Set output volume to 69
+I (21988) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=284 => point.x=284, point.y=87 (top_bar=0)
+I (22018) AudioCodec: Set output volume to 71
+I (22088) FreenoveFnk0104sBoard: TOUCH READ: raw_x=232, raw_y=290 => point.x=290, point.y=88 (top_bar=0)
+I (22098) AudioCodec: Set output volume to 74
+I (22198) FreenoveFnk0104sBoard: TOUCH READ: raw_x=231, raw_y=295 => point.x=295, point.y=89 (top_bar=0)
+I (22228) AudioCodec: Set output volume to 76
+I (22248) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1826 ms
+I (22288) FreenoveFnk0104sBoard: TOUCH READ: raw_x=230, raw_y=297 => point.x=297, point.y=90 (top_bar=0)
+I (22298) AudioCodec: Set output volume to 77
+I (22358) FreenoveFnk0104sBoard: TOUCH READ: raw_x=230, raw_y=299 => point.x=299, point.y=90 (top_bar=0)
+I (22378) AudioCodec: Set output volume to 78
+I (22478) FreenoveFnk0104sBoard: TOUCH READ: raw_x=230, raw_y=300 => point.x=300, point.y=90 (top_bar=0)
+I (22488) AudioCodec: Set output volume to 79
+I (22548) FreenoveFnk0104sBoard: TOUCH READ: raw_x=230, raw_y=302 => point.x=302, point.y=90 (top_bar=0)
+I (22568) AudioCodec: Set output volume to 80
+I (22638) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=303 => point.x=303, point.y=91 (top_bar=0)
+I (22708) FreenoveFnk0104sBoard: TOUCH READ: raw_x=229, raw_y=304 => point.x=304, point.y=91 (top_bar=0)
+I (22768) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=305 => point.x=305, point.y=92 (top_bar=0)
+I (22768) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1828 ms
+I (22768) AudioCodec: Set output volume to 81
+I (22818) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=306 => point.x=306, point.y=92 (top_bar=0)
+I (22848) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=307 => point.x=307, point.y=92 (top_bar=0)
+I (22908) AudioCodec: Set output volume to 82
+I (22978) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=310 => point.x=310, point.y=92 (top_bar=0)
+I (22978) AudioCodec: Set output volume to 83
+I (23078) FreenoveFnk0104sBoard: TOUCH READ: raw_x=228, raw_y=313 => point.x=313, point.y=92 (top_bar=0)
+I (23088) AudioCodec: Set output volume to 85
+I (23138) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=314 => point.x=314, point.y=93 (top_bar=0)
+I (23178) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=315 => point.x=315, point.y=93 (top_bar=0)
+I (23238) FreenoveFnk0104sBoard: TOUCH READ: raw_x=227, raw_y=316 => point.x=316, point.y=93 (top_bar=0)
+I (23248) AudioCodec: Set output volume to 86
+I (23298) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1821 ms
+I (23818) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1824 ms
+I (24338) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1816 ms
+I (24728) SystemInfo: free sram: 16259 minimal sram: 4952
+I (24858) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1823 ms
+I (25218) RAM: internal free=16059 min=4952 largest=7680 | psram free=7288716 min=7249136 largest=7208960
+I (25388) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1821 ms
+I (25608) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (25608) InternetRadio: [RADIO] buffer=1820 ms queue=70 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (25908) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1824 ms
+I (26428) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1826 ms
+I (26948) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1829 ms
+I (27478) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1828 ms
+I (27998) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1824 ms
+I (28348) FreenoveFnk0104sBoard: TOUCH READ: raw_x=272, raw_y=424 => point.x=424, point.y=48 (top_bar=1)
+W (28348) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (28408) FreenoveFnk0104sBoard: TOUCH READ: raw_x=272, raw_y=424 => point.x=424, point.y=48 (top_bar=1)
+I (28458) FreenoveFnk0104sBoard: TOUCH READ: raw_x=272, raw_y=424 => point.x=424, point.y=48 (top_bar=1)
+I (28508) FreenoveFnk0104sBoard: TOUCH READ: raw_x=272, raw_y=424 => point.x=424, point.y=48 (top_bar=1)
+I (28518) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1826 ms
+W (28588) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=1 nesting=1
+I (28588) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+W (28588) LcdDisplay: TOGGLE_QS exit open_after=0 nesting=0
+I (29038) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1828 ms
+I (29568) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1821 ms
+I (29628) FreenoveFnk0104sBoard: TOUCH READ: raw_x=306, raw_y=344 => point.x=344, point.y=14 (top_bar=1)
+W (29628) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (29688) FreenoveFnk0104sBoard: TOUCH READ: raw_x=307, raw_y=343 => point.x=343, point.y=13 (top_bar=1)
+I (29718) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+W (29718) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE task=taskLVGL core=1 quick_settings_open_before=0
+W (29728) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+I (29738) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+W (29738) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+W (29748) FreenoveFnk0104sBoard: TOP_BAR_BOARD_RELEASE done quick_settings_open_after=1
+I (30088) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1823 ms

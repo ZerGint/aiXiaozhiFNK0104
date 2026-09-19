@@ -1457,6 +1457,7 @@ void LcdDisplay::SetupUI() {
     DisableScroll(bottom_bar_);
     lv_obj_set_width(chat_message_label_, 238);
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_WRAP);
+    lv_obj_set_style_text_font(chat_message_label_, &font_noto_sans_radio_16_4, 0);
     lv_obj_set_style_text_color(chat_message_label_, kText, 0);
     auto weather = panel(ai_view_, 264, 0, 144, 276, kPanel2);
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
@@ -1554,10 +1555,14 @@ void LcdDisplay::SetupUI() {
                 uuid = browser.GetSelectedStationUuid();
         }
         if (!uuid.empty()) {
-            if (RadioStorage::GetInstance().ContainsFavoriteUuid(uuid))
-                RadioStorage::GetInstance().RemoveFavoriteUuid(uuid);
-            else
-                browser.AddFavoriteStation(uuid);
+            const bool was_favorite = display ? display->IsStationFavorite(uuid)
+                                              : RadioStorage::GetInstance().ContainsFavoriteUuid(uuid);
+            const std::string result = was_favorite ? RadioStorage::GetInstance().RemoveFavoriteUuid(uuid)
+                                                    : browser.AddFavoriteStation(uuid);
+            if (display && (result == "Station removed from favorites" ||
+                            result == "Station added to favorites")) {
+                display->SetStationFavoriteCache(uuid, !was_favorite);
+            }
         }
         if (display) {
             display->UpdateServiceIndicators();
@@ -1598,7 +1603,14 @@ void LcdDisplay::SetupUI() {
         if (!radio.IsPlaying() && !radio.IsPaused() && !sd.IsPlaying() && !sd.IsPaused() &&
             display && display->media_browser_mode_ == MediaBrowserMode::Radio) {
             auto& browser = RadioBrowser::GetInstance();
-            const auto uuid = browser.GetSelectedStationUuid();
+            auto uuid = browser.GetSelectedStationUuid();
+            if (uuid.empty()) {
+                RadioStationInfo first_station;
+                if (browser.GetFirstCatalogStation(first_station)) {
+                    uuid = first_station.stationuuid;
+                    browser.SetSelectedStationUuid(uuid);
+                }
+            }
             if (!uuid.empty()) browser.PlayStation("", "", uuid);
             return;
         }
@@ -1661,6 +1673,7 @@ void LcdDisplay::SetupUI() {
     service_timer_ = lv_timer_create([](lv_timer_t* timer) {
         auto self = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
         self->UpdateServiceIndicators();
+        self->UpdateRoboEyesRuntimeState();
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
         WeatherService::GetInstance().Tick();
         self->UpdateWeatherUI();
@@ -2076,19 +2089,25 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         ESP_LOGW(TAG, "SetEmotion('%s') called before SetupUI() - emotion will not be displayed!",
                  emotion);
     }
-    if (robo_eyes_canvas_ != nullptr && emotion != nullptr) {
+    if (robo_eyes_canvas_ != nullptr && robo_eyes_buf_ != nullptr && emotion != nullptr) {
         std::string emo(emotion);
         DisplayLockGuard lock(this);
         robo_eyes_.setSweat(false);
         robo_eyes_.setVFlicker(false, 0);
         robo_eyes_.setHFlicker(false, 0);
         robo_eyes_.setCuriosity(false);
+        robo_eyes_.setTears(false);
+        robo_eyes_.setVoicePulse(false);
+        robo_eyes_.setIdleMode(false);
+        robo_eyes_.stopOneShotAnimations();
+        robo_eyes_.resetGeometry();
 
         if (emo == "neutral" || emo == "idle" || emo == "robot_2") {
             robo_eyes_.setMood(ROBOEYES_DEFAULT);
-            robo_eyes_.setIdleMode(true, 2, 3);
+            robo_eyes_.setIdleMode(true, 4, 4);
             robo_eyes_.setPosition(ROBOEYES_CENTER);
-        } else if (emo == "happy" || emo == "joyful" || emo == "laughing") {
+        } else if (emo == "happy" || emo == "joyful" || emo == "laughing" ||
+                   emo == "funny") {
             robo_eyes_.setMood(ROBOEYES_HAPPY);
             robo_eyes_.anim_laugh();
         } else if (emo == "angry" || emo == "annoyed") {
@@ -2097,6 +2116,33 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         } else if (emo == "sleepy" || emo == "tired") {
             robo_eyes_.setMood(ROBOEYES_TIRED);
             robo_eyes_.setPosition(ROBOEYES_S);
+        } else if (emo == "sad" || emo == "crying") {
+            robo_eyes_.setMood(ROBOEYES_TIRED);
+            robo_eyes_.setPosition(ROBOEYES_S);
+            robo_eyes_.setTears(emo == "crying");
+        } else if (emo == "surprised" || emo == "shocked") {
+            robo_eyes_.setMood(ROBOEYES_DEFAULT);
+            robo_eyes_.setPosition(ROBOEYES_CENTER);
+            robo_eyes_.setTargetSize(68, 72, 68, 72);
+            if (emo == "shocked") robo_eyes_.anim_confused();
+        } else if (emo == "loving" || emo == "embarrassed" || emo == "delicious") {
+            robo_eyes_.setMood(ROBOEYES_HAPPY);
+            robo_eyes_.setPosition(emo == "embarrassed" ? ROBOEYES_SW : ROBOEYES_CENTER);
+            if (emo == "loving") robo_eyes_.setCuriosity(true);
+        } else if (emo == "confident" || emo == "cool") {
+            robo_eyes_.setMood(ROBOEYES_HAPPY);
+            robo_eyes_.setPosition(ROBOEYES_E);
+            robo_eyes_.setTargetSize(62, 55, 58, 48);
+            if (emo == "cool") robo_eyes_.wink(false, 450);
+        } else if (emo == "winking") {
+            robo_eyes_.setMood(ROBOEYES_HAPPY);
+            robo_eyes_.setPosition(ROBOEYES_CENTER);
+            robo_eyes_.wink(false, 500);
+        } else if (emo == "silly") {
+            robo_eyes_.setMood(ROBOEYES_DEFAULT);
+            robo_eyes_.setPosition(ROBOEYES_SE);
+            robo_eyes_.setTargetSize(68, 68, 52, 46);
+            robo_eyes_.anim_confused();
         } else if (emo == "thinking" || emo == "confused") {
             robo_eyes_.setMood(ROBOEYES_DEFAULT);
             robo_eyes_.anim_confused();
@@ -2107,11 +2153,16 @@ void LcdDisplay::SetEmotion(const char* emotion) {
             robo_eyes_.setCuriosity(true);
         } else if (emo == "speaking") {
             robo_eyes_.setMood(ROBOEYES_HAPPY);
-            robo_eyes_.setVFlicker(true, 3);
+            robo_eyes_.setPosition(ROBOEYES_CENTER);
+            robo_eyes_.setVoicePulse(true);
         } else {
             robo_eyes_.setMood(ROBOEYES_DEFAULT);
-            robo_eyes_.setIdleMode(true, 2, 3);
+            robo_eyes_.setIdleMode(true, 4, 4);
         }
+
+        // RoboEyes is the active FNK0104S emotion renderer. Avoid loading a hidden
+        // emoji or GIF behind its canvas.
+        return;
     }
     if (emoji_image_ == nullptr) {
         if (setup_ui_called_) {
@@ -2386,6 +2437,38 @@ void LcdDisplay::ToggleQuickSettings() {
     ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
 }
 
+void LcdDisplay::UpdateRoboEyesRuntimeState() {
+    if (robo_eyes_canvas_ == nullptr || robo_eyes_buf_ == nullptr) return;
+
+    auto& app = Application::GetInstance();
+    const auto state = app.GetDeviceState();
+    const bool vad_speaking = state == kDeviceStateListening && app.IsVoiceDetected();
+    if (robo_eyes_runtime_state_ == static_cast<int>(state) &&
+        robo_eyes_vad_speaking_ == vad_speaking) {
+        return;
+    }
+
+    robo_eyes_runtime_state_ = static_cast<int>(state);
+    robo_eyes_vad_speaking_ = vad_speaking;
+    switch (state) {
+        case kDeviceStateConnecting:
+            SetEmotion("thinking");
+            break;
+        case kDeviceStateListening:
+            SetEmotion(vad_speaking ? "surprised" : "listening");
+            break;
+        case kDeviceStateSpeaking:
+        case kDeviceStateNotifying:
+            SetEmotion("speaking");
+            break;
+        case kDeviceStateIdle:
+            SetEmotion("neutral");
+            break;
+        default:
+            break;
+    }
+}
+
 void LcdDisplay::RestoreSystemBrightness() {
     auto backlight = Board::GetInstance().GetBacklight();
     if (backlight == nullptr) {
@@ -2587,7 +2670,7 @@ void LcdDisplay::UpdateServiceIndicators() {
                     uuid = RadioBrowser::GetInstance().GetSelectedStationUuid();
             }
             lv_label_set_text(lv_obj_get_child(media_favorite_button_, 0),
-                              (!uuid.empty() && RadioStorage::GetInstance().ContainsFavoriteUuid(uuid)) ? "★" : "☆");
+                              IsStationFavorite(uuid) ? "★" : "☆");
             lv_obj_set_style_text_font(lv_obj_get_child(media_favorite_button_, 0), &font_noto_sans_symbols_star_20_4, 0);
         }
         else lv_obj_add_flag(media_favorite_button_, LV_OBJ_FLAG_HIDDEN);
@@ -2984,6 +3067,25 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         }
     }, LV_EVENT_CLICKED, this);
     UpdateAutoBrightnessControls();
+}
+
+bool LcdDisplay::IsStationFavorite(const std::string& uuid) {
+    if (uuid.empty()) {
+        favorite_station_cached_ = false;
+        favorite_station_uuid_[0] = '\0';
+        return false;
+    }
+    if (!favorite_station_cached_ || uuid != favorite_station_uuid_) {
+        SetStationFavoriteCache(uuid, RadioStorage::GetInstance().ContainsFavoriteUuid(uuid));
+    }
+    return favorite_station_is_favorite_;
+}
+
+void LcdDisplay::SetStationFavoriteCache(const std::string& uuid, bool is_favorite) {
+    std::strncpy(favorite_station_uuid_, uuid.c_str(), sizeof(favorite_station_uuid_) - 1);
+    favorite_station_uuid_[sizeof(favorite_station_uuid_) - 1] = '\0';
+    favorite_station_cached_ = !uuid.empty();
+    favorite_station_is_favorite_ = is_favorite;
 }
 
 void LcdDisplay::SetupMediaPlayerTab(lv_obj_t* parent) {

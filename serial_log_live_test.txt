@@ -1,0 +1,129 @@
+
+--- LIVE SERIAL LOG STARTED AT Sat Sep 12 22:13:47 2026 ---
+I (45221) RAM: internal free=49583 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (50221) RAM: internal free=49283 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (52721) SystemInfo: free sram: 49903 minimal sram: 27252
+I (55221) RAM: internal free=49903 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (58351) FreenoveFnk0104sBoard: TOUCH READ: raw_x=318, raw_y=255 => point.x=255, point.y=2 (top_bar=1)
+I (58391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=311, raw_y=256 => point.x=256, point.y=9 (top_bar=1)
+I (58441) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (58441) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (59891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=126, raw_y=218 => point.x=218, point.y=194 (top_bar=0)
+I (59951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=126, raw_y=218 => point.x=218, point.y=194 (top_bar=0)
+I (59991) FreenoveFnk0104sBoard: TOUCH READ: raw_x=126, raw_y=218 => point.x=218, point.y=194 (top_bar=0)
+I (60221) RAM: internal free=49903 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (60941) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=165 => point.x=165, point.y=189 (top_bar=0)
+I (60981) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=165 => point.x=165, point.y=189 (top_bar=0)
+I (61741) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=214 => point.x=214, point.y=195 (top_bar=0)
+I (61791) FreenoveFnk0104sBoard: TOUCH READ: raw_x=125, raw_y=214 => point.x=214, point.y=195 (top_bar=0)
+I (62131) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=167 => point.x=167, point.y=190 (top_bar=0)
+I (62191) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=167 => point.x=167, point.y=190 (top_bar=0)
+I (62671) FreenoveFnk0104sBoard: TOUCH READ: raw_x=128, raw_y=213 => point.x=213, point.y=192 (top_bar=0)
+I (62701) SystemInfo: free sram: 49431 minimal sram: 27252
+I (63681) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=60 => point.x=60, point.y=197 (top_bar=0)
+I (64451) FreenoveFnk0104sBoard: TOUCH READ: raw_x=123, raw_y=66 => point.x=66, point.y=197 (top_bar=0)
+I (65221) RAM: internal free=49487 min=27252 largest=18432 | psram free=7540588 min=7483784 largest=7471104
+I (65981) FreenoveFnk0104sBoard: TOUCH READ: raw_x=122, raw_y=163 => point.x=163, point.y=198 (top_bar=0)
+I (66951) FreenoveFnk0104sBoard: TOUCH READ: raw_x=276, raw_y=437 => point.x=437, point.y=44 (top_bar=1)
+I (67001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=276, raw_y=437 => point.x=437, point.y=44 (top_bar=1)
+I (67071) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (67801) FreenoveFnk0104sBoard: TOUCH READ: raw_x=91, raw_y=375 => point.x=375, point.y=229 (top_bar=0)
+I (68781) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=262 => point.x=262, point.y=187 (top_bar=0)
+I (68821) FreenoveFnk0104sBoard: TOUCH READ: raw_x=133, raw_y=262 => point.x=262, point.y=187 (top_bar=0)
+I (68871) StateMachine: State: idle -> connecting
+I (68891) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (68891) wifi:Set ps type: 0, coexist: 0
+
+I (69271) MQTT: Session ID: 46e821bf
+I (69271) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (69281) wifi:Set ps type: 0, coexist: 0
+
+I (69281) StateMachine: State: connecting -> listening
+I (70221) RAM: internal free=46343 min=27252 largest=18432 | psram free=7537748 min=7483784 largest=7471104
+I (70341) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=199 => point.x=199, point.y=158 (top_bar=0)
+I (70391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=199 => point.x=199, point.y=158 (top_bar=0)
+I (70431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=162, raw_y=199 => point.x=199, point.y=158 (top_bar=0)
+I (70471) MQTT: Closing audio channel, send_goodbye: 1
+I (70481) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (70481) wifi:Set ps type: 2, coexist: 0
+
+I (70501) StateMachine: State: listening -> idle
+I (71581) MQTT: Received goodbye message, session_id: 46e821bf
+I (71591) MQTT: Closing audio channel, send_goodbye: 0
+I (71591) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (71591) wifi:Set ps type: 2, coexist: 0
+
+I (72431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=36 => point.x=36, point.y=162 (top_bar=0)
+I (72481) FreenoveFnk0104sBoard: TOUCH READ: raw_x=158, raw_y=36 => point.x=36, point.y=162 (top_bar=0)
+I (72541) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=51023 internal_largest=18432 dma_free=43251 dma_largest=18432 spiram_free=7538260 spiram_largest=7471104
+I (73391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=79, raw_y=39 => point.x=39, point.y=241 (top_bar=0)
+I (73431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=79, raw_y=39 => point.x=39, point.y=241 (top_bar=0)
+I (73471) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=49459 internal_largest=18432 dma_free=41687 dma_largest=18432 spiram_free=7538260 spiram_largest=7471104
+I (73891) FreenoveFnk0104sBoard: TOUCH READ: raw_x=236, raw_y=32 => point.x=32, point.y=84 (top_bar=0)
+I (73951) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=50587 internal_largest=18432 dma_free=42815 dma_largest=18432 spiram_free=7538260 spiram_largest=7471104
+I (74771) FreenoveFnk0104sBoard: TOUCH READ: raw_x=296, raw_y=312 => point.x=312, point.y=24 (top_bar=1)
+I (74811) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (74811) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (75221) RAM: internal free=51295 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (76101) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=286 => point.x=286, point.y=141 (top_bar=0)
+I (76191) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=286 => point.x=286, point.y=141 (top_bar=0)
+I (76251) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=284 => point.x=284, point.y=141 (top_bar=0)
+I (76301) FreenoveFnk0104sBoard: TOUCH READ: raw_x=179, raw_y=279 => point.x=279, point.y=141 (top_bar=0)
+I (76351) Backlight: Set brightness to 72
+I (77301) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=276 => point.x=276, point.y=150 (top_bar=0)
+I (77361) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=276 => point.x=276, point.y=150 (top_bar=0)
+I (77421) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=280 => point.x=280, point.y=150 (top_bar=0)
+I (77521) FreenoveFnk0104sBoard: TOUCH READ: raw_x=170, raw_y=286 => point.x=286, point.y=150 (top_bar=0)
+I (77531) Backlight: Set brightness to 75
+I (79691) SystemInfo: free sram: 51615 minimal sram: 27252
+I (80221) RAM: internal free=51167 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (80401) FreenoveFnk0104sBoard: TOUCH READ: raw_x=128, raw_y=63 => point.x=63, point.y=192 (top_bar=0)
+I (80461) FreenoveFnk0104sBoard: TOUCH READ: raw_x=128, raw_y=63 => point.x=63, point.y=192 (top_bar=0)
+I (81501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=279, raw_y=432 => point.x=432, point.y=41 (top_bar=1)
+I (81561) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (82221) FreenoveFnk0104sBoard: TOUCH READ: raw_x=306, raw_y=257 => point.x=257, point.y=14 (top_bar=1)
+I (82261) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (82261) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (82961) FreenoveFnk0104sBoard: TOUCH READ: raw_x=132, raw_y=47 => point.x=47, point.y=188 (top_bar=0)
+I (83041) FreenoveFnk0104sBoard: TOUCH READ: raw_x=131, raw_y=47 => point.x=47, point.y=189 (top_bar=0)
+I (85221) RAM: internal free=51203 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (87001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=208, raw_y=430 => point.x=430, point.y=112 (top_bar=0)
+I (87041) FreenoveFnk0104sBoard: TOUCH READ: raw_x=222, raw_y=429 => point.x=429, point.y=98 (top_bar=0)
+I (87091) FreenoveFnk0104sBoard: TOUCH READ: raw_x=233, raw_y=429 => point.x=429, point.y=87 (top_bar=0)
+I (88251) FreenoveFnk0104sBoard: TOUCH READ: raw_x=250, raw_y=430 => point.x=430, point.y=70 (top_bar=0)
+I (88321) FreenoveFnk0104sBoard: TOUCH READ: raw_x=251, raw_y=429 => point.x=429, point.y=69 (top_bar=0)
+I (89391) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=431 => point.x=431, point.y=60 (top_bar=0)
+I (89431) FreenoveFnk0104sBoard: TOUCH READ: raw_x=260, raw_y=431 => point.x=431, point.y=60 (top_bar=0)
+I (89691) SystemInfo: free sram: 51615 minimal sram: 27252
+I (90001) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=430 => point.x=430, point.y=49 (top_bar=1)
+I (90061) FreenoveFnk0104sBoard: TOUCH READ: raw_x=271, raw_y=430 => point.x=430, point.y=49 (top_bar=1)
+I (90121) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (90221) RAM: internal free=50835 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (95221) RAM: internal free=51615 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (99701) SystemInfo: free sram: 51615 minimal sram: 27252
+I (100221) RAM: internal free=51615 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (105221) RAM: internal free=51291 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (109691) SystemInfo: free sram: 51615 minimal sram: 27252
+I (110221) RAM: internal free=51291 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (115221) RAM: internal free=51615 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (119701) SystemInfo: free sram: 51615 minimal sram: 27252
+I (120221) RAM: internal free=51147 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (120271) Backlight: Set brightness to 10
+I (121821) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=384 => point.x=384, point.y=190 (top_bar=0)
+I (121821) Backlight: Set brightness to 75
+I (121871) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=384 => point.x=384, point.y=190 (top_bar=0)
+I (121921) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=384 => point.x=384, point.y=190 (top_bar=0)
+I (123411) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=253 => point.x=253, point.y=1 (top_bar=1)
+I (123451) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=253 => point.x=253, point.y=1 (top_bar=1)
+I (123501) FreenoveFnk0104sBoard: TOUCH READ: raw_x=319, raw_y=253 => point.x=253, point.y=1 (top_bar=1)
+I (123541) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (123541) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (124271) FreenoveFnk0104sBoard: TOUCH READ: raw_x=279, raw_y=432 => point.x=432, point.y=41 (top_bar=1)
+I (124331) FreenoveFnk0104sBoard: TOUCH READ: raw_x=279, raw_y=432 => point.x=432, point.y=41 (top_bar=1)
+I (124411) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (125221) RAM: internal free=51615 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (129691) SystemInfo: free sram: 51635 minimal sram: 27252
+I (130221) RAM: internal free=51311 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (135221) RAM: internal free=51635 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104
+I (139731) SystemInfo: free sram: 51635 minimal sram: 27252
+I (140221) RAM: internal free=51599 min=27252 largest=18432 | psram free=7538260 min=7483784 largest=7471104

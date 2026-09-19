@@ -1,0 +1,86 @@
+
+--- AUTO BRIGHTNESS GATE TEST LOG STARTED AT Sat Sep 12 22:11:42 2026 ---
+I (8409) esp_netif_handlers: sta ip: 192.168.31.97, mask: 255.255.255.0, gw: 192.168.31.1
+I (8409) WifiStation: Got IP: 192.168.31.97
+I (8409) WifiBoard: Connected to WiFi: ZERG
+I (8429) Application: Network connected
+I (8429) RAM: [AFTER_WIFI] internal free=110411 min=39892 largest=69632 | psram free=8271760 min=8271724 largest=8257536
+I (8429) StateMachine: State: starting -> activating
+I (8429) Assets: The storage free size is 21376 KB
+I (8439) Assets: The partition size is 8192 KB
+I (8549) Assets: The checksum calculation time is 112 ms
+I (8559) MODEL_LOADER: Successfully load srmodels
+I (8569) Assets: Refreshing display theme...
+W (8589) EmojiCollection: Emoji not found: robot_2
+I (8589) Ota: Current version: 2.4.2
+I (8599) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10269) RAM: internal free=87303 min=39812 largest=45056 | psram free=8266260 min=8251528 largest=8257536
+I (10699) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=2110
+I (11449) HttpClient: HTTP connection closed
+I (11459) Ota: Current is the latest version
+I (11459) Ota: Running partition: ota_0
+I (11479) MQTT: Connecting to endpoint api.tenclass.net
+I (13869) MQTT: Connected to endpoint
+I (13869) Application: Activation done
+I (13869) SystemInfo: free sram: 87227 minimal sram: 39812
+I (13869) StateMachine: State: activating -> idle
+I (13889) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13889) wifi:Set ps type: 2, coexist: 0
+
+I (13889) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13889) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13899) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13899) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13999) AFE: AFE Version: (1MIC_V251128)
+I (13999) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14009) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (14019) AFE: AFE Version: (1MIC_V251128)
+I (14019) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14029) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14039) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (14049) AudioCodec: Set output enable to true
+I (14049) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14059) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14069) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14069) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14099) Adev_Codec: Open codec device OK
+I (14099) AudioCodec: Set input enable to true
+I (14099) AudioService: Resampling audio from 16000 to 24000
+I (15269) RAM: internal free=43975 min=27252 largest=18432 | psram free=7517664 min=7501072 largest=7471104
+I (20269) RAM: internal free=45343 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (24759) SystemInfo: free sram: 50043 minimal sram: 27252
+I (25269) RAM: internal free=50039 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (30269) RAM: internal free=50051 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (34739) SystemInfo: free sram: 50051 minimal sram: 27252
+I (35269) RAM: internal free=49731 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (40269) RAM: internal free=49731 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (44739) SystemInfo: free sram: 50051 minimal sram: 27252
+I (45269) RAM: internal free=49719 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (48139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=302, raw_y=238 => point.x=238, point.y=18 (top_bar=1)
+I (48179) FreenoveFnk0104sBoard: TOUCH READ: raw_x=302, raw_y=238 => point.x=238, point.y=18 (top_bar=1)
+I (48229) FreenoveFnk0104sBoard: TOP BAR TAP RELEASED! Opening Quick Settings...
+I (48229) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+I (49139) FreenoveFnk0104sBoard: TOUCH READ: raw_x=141, raw_y=216 => point.x=216, point.y=179 (top_bar=0)
+I (49199) FreenoveFnk0104sBoard: TOUCH READ: raw_x=139, raw_y=216 => point.x=216, point.y=181 (top_bar=0)
+I (49979) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=154 => point.x=154, point.y=202 (top_bar=0)
+I (50029) FreenoveFnk0104sBoard: TOUCH READ: raw_x=118, raw_y=154 => point.x=154, point.y=202 (top_bar=0)
+I (50269) RAM: internal free=49611 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (50519) FreenoveFnk0104sBoard: TOUCH READ: raw_x=114, raw_y=158 => point.x=158, point.y=206 (top_bar=0)
+I (51409) FreenoveFnk0104sBoard: TOUCH READ: raw_x=122, raw_y=152 => point.x=152, point.y=198 (top_bar=0)
+I (52209) FreenoveFnk0104sBoard: TOUCH READ: raw_x=130, raw_y=52 => point.x=52, point.y=190 (top_bar=0)
+I (53489) FreenoveFnk0104sBoard: TOUCH READ: raw_x=268, raw_y=415 => point.x=415, point.y=52 (top_bar=0)
+I (53549) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+I (54749) SystemInfo: free sram: 50015 minimal sram: 27252
+I (55269) RAM: internal free=49419 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (60269) RAM: internal free=49703 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (64749) SystemInfo: free sram: 50015 minimal sram: 27252
+I (65269) RAM: internal free=49703 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (70269) RAM: internal free=50015 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (74749) SystemInfo: free sram: 49923 minimal sram: 27252
+I (75269) RAM: internal free=49707 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (80269) RAM: internal free=49695 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104
+I (83739) Backlight: Set brightness to 10
+I (84739) SystemInfo: free sram: 50019 minimal sram: 27252
+I (85269) RAM: internal free=50019 min=27252 largest=18432 | psram free=7540588 min=7501072 largest=7471104

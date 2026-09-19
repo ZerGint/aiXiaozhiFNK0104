@@ -1,0 +1,299 @@
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x2b (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384aba
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xd14
+load:0x403cb700,len:0x2eb4
+entry 0x403c88f4
+I (34) octal_psram: vendor id    : 0x0d (AP)
+I (34) octal_psram: dev id       : 0x02 (generation 3)
+I (35) octal_psram: density      : 0x03 (64 Mbit)
+I (36) octal_psram: good-die     : 0x01 (Pass)
+I (40) octal_psram: Latency      : 0x01 (Fixed)
+I (45) octal_psram: VCC          : 0x01 (3V)
+I (49) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (54) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (58) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (63) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (68) octal_psram: DriveStrength: 0x00 (1/1)
+I (72) MSPI Timing: Enter psram timing tuning
+I (77) esp_psram: Found 8MB PSRAM device
+I (80) esp_psram: Speed: 80MHz
+I (83) cpu_start: Multicore app
+I (97) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (97) cpu_start: Pro cpu start user code
+I (98) cpu_start: cpu freq: 240000000 Hz
+I (99) app_init: Application information:
+I (102) app_init: Project name:     xiaozhi
+I (106) app_init: App version:      2.4.2
+I (110) app_init: Compile time:     Sep 17 2026 16:41:45
+I (115) app_init: ELF file SHA256:  2963d051c...
+I (119) app_init: ESP-IDF:          6.1.0
+I (123) efuse_init: Min chip rev:     v0.0
+I (127) efuse_init: Max chip rev:     v0.99 
+I (131) efuse_init: Chip rev:         v0.2
+I (135) heap_init: Initializing. RAM available for dynamic allocation:
+I (141) heap_init: At 3FCAD250 len 0003C4C0 (241 KiB): RAM
+I (146) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (157) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (169) spi_flash: detected chip: generic
+I (172) spi_flash: flash io: qio
+I (176) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=281899 min=184468 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (218) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (218) button: IoT Button Version: 4.2.0
+I (228) adc_battery_estimation: Use internal ADC unit
+I (228) st7796: version: 1.3.5
+I (228) st7796_general: LCD panel create success, version: 1.3.5
+I (458) Display: Power management not supported
+W (458) Settings: Namespace display is not open for writing
+I (618) LcdDisplay: Turning display on
+I (618) LcdDisplay: Initialize LVGL library
+I (618) LcdDisplay: Use 2MB of PSRAM for image cache
+I (618) LcdDisplay: Initialize LVGL port
+I (628) LcdDisplay: Adding LCD display
+I (628) LVGL: Starting LVGL task
+I (688) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (688) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (698) SD_HOST: src_freq_hz: 160000000
+W (1098) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1098) StorageManager: SD Card mounted successfully at /sdcard!
+I (1098) HomeAssistant: Initializing Home Assistant integration...
+I (1108) MCP: Add tool: homeassistant.call_service
+I (1108) MCP: Add tool: homeassistant.get_states
+I (1118) MCP: Add tool: homeassistant.set_config [user]
+I (1118) MCP: Add tool: radio.add_favorite
+I (1128) MCP: Add tool: radio.get_current
+I (1128) MCP: Add tool: radio.list_favorites
+I (1128) MCP: Add tool: radio.play_favorite
+I (1138) MCP: Add tool: radio.remove_favorite
+I (1138) MCP: Add tool: radio.search_stations
+I (1148) MCP: Add tool: radio.play_station
+I (1148) MCP: Add tool: radio.stop
+I (1148) MCP: Add tool: media.play_sd
+I (1158) MCP: Add tool: media.list_sd
+I (1158) MCP: Add tool: media.search_sd
+I (1158) MCP: Add tool: media.pause
+I (1168) MCP: Add tool: media.next
+I (1168) MCP: Add tool: media.previous
+I (1168) MCP: Add tool: media.stop
+I (1178) StateMachine: State: unknown -> starting
+W (1188) i2s_common: the rx channel on I2S0 is switched from master to slave for full-duplex mode
+I (1188) Es8311AudioCodec: Duplex channels created
+I (1188) Es8311AudioCodec: ES8311 software reset complete
+I (1198) ES8311: Work in Slave mode
+I (1208) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1208) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+I (1208) FnkExternalI2s: I2S_PORT: 1
+I (1218) FnkExternalI2s: BCLK: GPIO2
+I (1218) FnkExternalI2s: WS: GPIO21
+I (1218) FnkExternalI2s: DATA: GPIO14
+I (1218) FnkExternalI2s: RATE: 48000
+I (1228) FnkExternalI2s: BITS: 16
+I (1228) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+I (1238) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=205959 internal_largest=94208 dma_free=198187 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1248) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=205959 internal_largest=94208 dma_free=198187 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1278) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=199727 internal_largest=94208 dma_free=191955 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1288) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=198463 internal_largest=94208 dma_free=190691 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1318) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=191375 internal_largest=94208 dma_free=183603 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1318) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=191375 internal_largest=94208 dma_free=183603 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1368) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=182927 internal_largest=94208 dma_free=175155 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1368) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=182927 internal_largest=94208 dma_free=175155 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1388) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=182887 internal_largest=94208 dma_free=175115 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+E (1398) StorageManager: Failed to open directory: /sdcard/mp3
+I (1408) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (1408) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1428) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1438) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1448) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1448) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1458) SdMusicPlayer:  🎵 Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (1468) SdMusicPlayer:  🎵 Track found: /sdcard/music/красной нитью.mp3
+I (1468) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (1498) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=178771 internal_largest=94208 dma_free=170999 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1498) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=178771 internal_largest=94208 dma_free=170999 dma_largest=94208 spiram_free=8319680 spiram_largest=8257536
+I (1518) RAM: [AFTER_LVGL_INIT] internal free=178771 min=81304 largest=94208 | psram free=8319680 min=8317944 largest=8257536
+I (1728) AudioCodec: Audio codec started
+I (1728) RAM: [AFTER_AUDIO_INIT] internal free=142463 min=45032 largest=94208 | psram free=8277176 min=8277176 largest=8257536
+I (1728) AppManager: Initializing Application Manager...
+I (1738) MCP: Add tool: self.get_device_status
+I (1738) MCP: Add tool: self.audio_speaker.set_volume
+I (1738) MCP: Add tool: self.screen.set_brightness
+I (1748) MCP: Add tool: self.screen.set_theme
+I (1748) MCP: Add tool: self.get_system_info [user]
+I (1758) MCP: Add tool: self.reboot [user]
+I (1758) MCP: Add tool: self.upgrade_firmware [user]
+I (1768) MCP: Add tool: self.screen.get_info [user]
+I (1768) MCP: Add tool: self.screen.snapshot [user]
+I (1768) MCP: Add tool: self.screen.preview_image [user]
+I (1778) MCP: Add tool: self.assets.set_download_url [user]
+I (1788) WifiManager: Initializing...
+I (1788) pp: pp rom version: e7ae62f
+I (1788) net80211: net80211 rom version: e7ae62f
+I (1808) wifi:wifi driver task: 3fcb8050, prio:23, stack:6656, core=0
+I (1808) wifi:wifi firmware version: e12a754
+I (1808) wifi:wifi certification version: v7.0
+I (1808) wifi:config NVS flash: disabled
+I (1808) wifi:config nano formatting: disabled
+I (1818) wifi:Init data frame dynamic rx buffer num: 6
+I (1818) wifi:Init dynamic rx mgmt buffer num: 5
+I (1828) wifi:Init management short buffer num: 32
+I (1828) wifi:Init dynamic tx buffer num: 32
+I (1838) wifi:Init static tx FG buffer num: 2
+I (1838) wifi:Init static rx buffer size: 1600
+I (1838) wifi:Init static rx buffer num: 3
+I (1848) wifi:Init dynamic rx buffer num: 6
+I (1848) wifi_init: rx ba win: 3
+I (1848) wifi_init: accept mbox: 6
+I (1858) wifi_init: tcpip mbox: 16
+I (1858) wifi_init: udp mbox: 6
+I (1858) wifi_init: tcp mbox: 6
+I (1868) wifi_init: tcp tx win: 5760
+I (1868) wifi_init: tcp rx win: 5760
+I (1868) wifi_init: tcp mss: 1440
+I (1878) WifiManager: Initialized
+I (1878) WifiBoard: Starting WiFi connection attempt
+I (1878) WifiManager: Starting station
+I (1888) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (1888) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (1928) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (1928) wifi:enable tsf
+I (1938) WifiBoard: WiFi scanning
+I (1958) RAM: [AFTER_XIAOZHI_INIT] internal free=108663 min=40104 largest=65536 | psram free=8271932 min=8271932 largest=8257536
+I (4348) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -31, Channel: 7, Authmode: 3
+I (4348) WifiBoard: WiFi connecting to ZERG
+W (4348) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5208) RAM: internal free=108283 min=39944 largest=65536 | psram free=8271932 min=8271932 largest=8257536
+I (6818) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (6818) wifi:state: init -> auth (0xb0)
+I (6828) wifi:state: auth -> assoc (0x0)
+I (6828) wifi:state: assoc -> run (0x10)
+I (6858) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (6858) wifi:security: WPA2-PSK, phy: bgn, rssi: -29, cipher(pairwise:0x3, group:0x3), pmf:0
+I (6858) wifi:pm start, type: 1
+
+I (6868) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (6868) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (6888) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (6978) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8388) esp_netif_handlers: sta ip: 192.168.31.99, mask: 255.255.255.0, gw: 192.168.31.1
+I (8388) WifiStation: Got IP: 192.168.31.99
+I (8388) WifiBoard: Connected to WiFi: ZERG
+I (8398) Application: Network connected
+I (8398) RAM: [AFTER_WIFI] internal free=107607 min=39876 largest=65536 | psram free=8271224 min=8271188 largest=8257536
+I (8398) StateMachine: State: starting -> activating
+I (8408) Assets: The storage free size is 21376 KB
+I (8408) Assets: The partition size is 8192 KB
+I (8528) Assets: The checksum calculation time is 112 ms
+I (8528) MODEL_LOADER: Successfully load srmodels
+I (8548) Assets: Refreshing display theme...
+W (8568) EmojiCollection: Emoji not found: robot_2
+I (8568) Ota: Current version: 2.4.2
+I (8568) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10208) RAM: internal free=83879 min=39812 largest=40960 | psram free=8265724 min=8250992 largest=8257536
+I (10668) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=2100
+I (11398) HttpClient: HTTP connection closed
+I (11398) Ota: Current is the latest version
+I (11398) Ota: Running partition: ota_0
+I (11448) MQTT: Connecting to endpoint api.tenclass.net
+I (13838) MQTT: Connected to endpoint
+I (13838) Application: Activation done
+I (13838) SystemInfo: free sram: 83859 minimal sram: 39812
+I (13848) StateMachine: State: activating -> idle
+I (13848) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (13858) wifi:Set ps type: 2, coexist: 0
+
+I (13888) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (13888) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (13888) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (13888) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (13988) AFE: AFE Version: (1MIC_V251128)
+I (13988) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (13998) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (14008) AFE: AFE Version: (1MIC_V251128)
+I (14018) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14028) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14028) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (14038) AudioCodec: Set output enable to true
+I (14048) AudioService: Resampling audio from 16000 to 48000
+I (14048) AudioCodec: Set input enable to true
+I (14048) I2S_IF: STD: TX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14058) I2S_IF: STD: TX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14068) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14078) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14098) Adev_Codec: Open codec device OK
+I (14958) FreenoveFnk0104sBoard: TOUCH READ: raw_x=151, raw_y=34 => point.x=34, point.y=169 (top_bar=0)
+W (14968) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (15048) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=40203 internal_largest=18432 dma_free=32563 dma_largest=18432 spiram_free=7499252 spiram_largest=7471104
+I (15208) RAM: internal free=39231 min=27252 largest=18432 | psram free=7517312 min=7492080 largest=7471104
+I (16758) FreenoveFnk0104sBoard: TOUCH READ: raw_x=75, raw_y=412 => point.x=412, point.y=245 (top_bar=0)
+W (16758) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=62
+I (16818) FreenoveFnk0104sBoard: TOUCH READ: raw_x=75, raw_y=412 => point.x=412, point.y=245 (top_bar=0)
+I (16858) RadioBrowser: Playing radio by station UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (16868) RAM: [RADIO_START] internal free=39591 min=27252 largest=18432 | psram free=7540236 min=7492080 largest=7471104
+I (16868) InternetRadio: Radio current:
+name=Radius FM
+uuid=3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+codec=AAC+
+bitrate=192
+country=Belarus
+url=https://stream2.datacenter.by/radiusfm_main
+I (16888) InternetRadio: Radio stream startup: connecting
+I (16888) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=33087 internal_largest=18432 dma_free=25315 dma_largest=18432 psram_free=7540236 psram_largest=7471104
+I (16908) AudioManager: Audio focus requested by source 3 (current 0)
+I (16918) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=33087 internal_largest=18432 dma_free=25315 dma_largest=18432 psram_free=7540236 psram_largest=7471104
+I (16928) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (16938) wifi:Set ps type: 0, coexist: 0
+
+I (16938) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (16948) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (17038) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (17938) InternetRadio: [RADIO_REDIRECT] status=302 from=https://stream2.datacenter.by/radiusfm_main to=http://media2.datacenter.by:8002/radiusfm_main redirect=1
+I (17938) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (18128) InternetRadio: [RADIO_REDIRECT] followed successfully to http://media2.datacenter.by:8002/radiusfm_main
+I (18128) InternetRadio: Stream connected: status=200 content_type=unknown
+I (18138) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (18148) InternetRadio: Radio codec selection:
+station_codec=AAC+
+content_type=unknown
+selected_decoder=AAC
+I (18158) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (18168) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=26619 internal_largest=15872 dma_free=18847 dma_largest=15872 psram_free=7460980 psram_largest=7340032
+I (18178) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (18188) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (18198) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=26619 internal_largest=15872 dma_free=18847 dma_largest=15872 psram_free=7460980 psram_largest=7340032
+I (18208) InternetRadio: Received first stream data: bytes=2048
+I (18218) InternetRadio: First AAC frame decoded: rate=48000 channels=2 bits=16 bytes=4096
+I (18218) RAM: [RADIO_PLAYING] internal free=23075 min=19744 largest=12288 | psram free=7460980 min=7460980 largest=7340032
+I (18228) AudioService: [RADIO_PCM] ptr=0x3c403108 size=2048 bytes PSRAM=YES (queue=1)
+I (18238) AudioService: [RADIO_PREBUFFER] buffering... current=21 ms target=1800 ms (queue=1)
+I (18438) AudioService: [RADIO_PCM] ptr=0x3c412180 size=2048 bytes PSRAM=YES (queue=32)
+I (18838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=13 ms wait_in_q=588 ms
+I (19348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=920 ms
+I (19858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1272 ms
+I (20218) RAM: internal free=18695 min=10896 largest=7680 | psram free=7284892 min=7283860 largest=7208960
+I (20368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1610 ms
+I (20878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1834 ms
+I (21398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (21908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (22418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1833 ms
+I (22928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (23198) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (23198) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (23438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (23728) SystemInfo: free sram: 20459 minimal sram: 10684
+I (23958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (24468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (24978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (25218) RAM: internal free=16427 min=10684 largest=7680 | psram free=7286944 min=7283860 largest=7208960
