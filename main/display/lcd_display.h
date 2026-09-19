@@ -50,12 +50,14 @@ protected:
     lv_obj_t* volume_val_label_ = nullptr;
     lv_obj_t* brightness_val_label_ = nullptr;
     lv_obj_t* auto_brightness_button_ = nullptr;
+    lv_obj_t* auto_brightness_zero_button_ = nullptr;
     lv_obj_t* auto_brightness_timeout_label_ = nullptr;
     lv_obj_t* media_status_label_ = nullptr;
     lv_obj_t* media_title_label_ = nullptr;
     lv_obj_t* media_header_label_ = nullptr;
     bool quick_settings_open_ = false;
     bool auto_brightness_enabled_ = false;
+    bool auto_brightness_zero_enabled_ = false;
     bool auto_brightness_dimmed_ = false;
     bool ai_brightness_active_ = false;
     uint8_t auto_brightness_timeout_index_ = 2;
@@ -86,6 +88,20 @@ protected:
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    lv_obj_t* weather_city_label_ = nullptr;
+    lv_obj_t* weather_date_label_ = nullptr;
+    lv_obj_t* weather_temperature_label_ = nullptr;
+    lv_obj_t* weather_description_label_ = nullptr;
+    lv_obj_t* weather_wind_label_ = nullptr;
+    lv_obj_t* weather_icon_ = nullptr;
+    lv_obj_t* weather_forecast_icons_[2] = {};
+    lv_obj_t* weather_forecast_temp_labels_[2] = {};
+    lv_obj_t* weather_forecast_rain_labels_[2] = {};
+    lv_obj_t* weather_updated_label_ = nullptr;
+    lv_obj_t* weather_refresh_button_ = nullptr;
+    uint32_t weather_generation_ = UINT32_MAX;
+    bool weather_time_valid_ = false;
+    void UpdateWeatherUI();
     lv_obj_t* boot_overlay_ = nullptr;
     lv_obj_t* boot_ring_ = nullptr;
     lv_obj_t* boot_dot_ = nullptr;
@@ -106,6 +122,7 @@ protected:
     void UpdateAutoBrightness();
     void UpdateAutoBrightnessControls();
     void SetAutoBrightnessEnabled(bool enabled);
+    void SetAutoBrightnessZeroEnabled(bool enabled);
     void AdjustAutoBrightnessTimeout(int delta);
     void RestoreSystemBrightness();
 
@@ -129,6 +146,7 @@ public:
     void ToggleQuickSettings();
     void SwitchTab(int tab_index);
     void RegisterDisplayActivity(const char* source = "OTHER_UI");
+    bool WakeDisplayFromTouch();
 
     void InitializeLcdThemes();
     virtual bool Lock(int timeout_ms = 0) override;

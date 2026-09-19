@@ -70,9 +70,14 @@ public:
         uint8_t points = buf[0] & 0x0F;
         if (points == 0) return true;
 
-        touched = true;
         x = ((buf[1] & 0x0F) << 8) | buf[2];
         y = ((buf[3] & 0x0F) << 8) | buf[4];
+        if (points > 2 || x > 320 || y > 480) {
+            ESP_LOGD(TAG, "Ignoring invalid touch sample: points=%u x=%u y=%u", points, x, y);
+            return true;
+        }
+
+        touched = true;
         return true;
     }
 
@@ -124,37 +129,54 @@ private:
             static int16_t last_x = 0;
             static int16_t last_y = 0;
             static bool was_pressed = false;
-            static bool tap_was_top_bar = false;
+            static bool wake_only_gesture = false;
+            static uint8_t touch_confirm_count = 0;
+            static uint16_t candidate_x = 0;
+            static uint16_t candidate_y = 0;
 
             if (touched) {
-                data->state = LV_INDEV_STATE_PRESSED;
+                if (!was_pressed) {
+                    const uint16_t dx = raw_x > candidate_x ? raw_x - candidate_x
+                                                            : candidate_x - raw_x;
+                    const uint16_t dy = raw_y > candidate_y ? raw_y - candidate_y
+                                                            : candidate_y - raw_y;
+                    if (touch_confirm_count == 0 || dx > 12 || dy > 12) {
+                        candidate_x = raw_x;
+                        candidate_y = raw_y;
+                        touch_confirm_count = 1;
+                        data->state = LV_INDEV_STATE_RELEASED;
+                        data->point.x = last_x;
+                        data->point.y = last_y;
+                        return;
+                    }
+                    if (++touch_confirm_count < 2) {
+                        data->state = LV_INDEV_STATE_RELEASED;
+                        return;
+                    }
+                }
+
                 last_x = raw_y;
-                last_y = (raw_x >= 320) ? 0 : (320 - raw_x);
+                last_y = 320 - raw_x;
                 data->point.x = last_x;
                 data->point.y = last_y;
                 if (!was_pressed) {
                     was_pressed = true;
-                    tap_was_top_bar = (last_y <= 50);
+                    auto lcd = static_cast<LcdDisplay*>(self->GetDisplay());
+                    wake_only_gesture = lcd && lcd->WakeDisplayFromTouch();
                 }
-                ESP_LOGI(TAG, "TOUCH READ: raw_x=%d, raw_y=%d => point.x=%d, point.y=%d (top_bar=%d)", raw_x, raw_y, data->point.x, data->point.y, tap_was_top_bar);
+                data->state = wake_only_gesture ? LV_INDEV_STATE_RELEASED
+                                                : LV_INDEV_STATE_PRESSED;
+                ESP_LOGD(TAG, "TOUCH_READ raw_x=%u raw_y=%u point_x=%d point_y=%d",
+                         raw_x, raw_y, data->point.x, data->point.y);
             } else {
                 data->state = LV_INDEV_STATE_RELEASED;
                 data->point.x = last_x;
                 data->point.y = last_y;
                 if (was_pressed) {
                     was_pressed = false;
-                    auto lcd = static_cast<LcdDisplay*>(self->GetDisplay());
-                    if (lcd && !lcd->IsQuickSettingsOpen() && tap_was_top_bar && last_y <= 50) {
-                        ESP_LOGI(TAG, "TOP BAR TAP RELEASED! Opening Quick Settings...");
-                        ESP_LOGW(TAG,
-                                 "TOP_BAR_BOARD_RELEASE task=%s core=%u quick_settings_open_before=%d",
-                                 pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()),
-                                 lcd->IsQuickSettingsOpen());
-                        lcd->ToggleQuickSettings();
-                        ESP_LOGW(TAG, "TOP_BAR_BOARD_RELEASE done quick_settings_open_after=%d",
-                                 lcd->IsQuickSettingsOpen());
-                    }
+                    wake_only_gesture = false;
                 }
+                touch_confirm_count = 0;
             }
         });
         lv_indev_set_user_data(indev, this);

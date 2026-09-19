@@ -34,6 +34,9 @@
 #include "audio/audio_codec.h"
 #include "media/radio_browser.h"
 #include "media/sd_music_player.h"
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#include "weather/weather_service.h"
+#endif
 
 #define TAG "LcdDisplay"
 
@@ -132,12 +135,68 @@ static lv_obj_t* MakeButton(lv_obj_t* parent,
     return b;
 }
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+static lv_obj_t* WeatherShape(lv_obj_t* parent, int x, int y, int w, int h, lv_color_t color,
+                              int radius = 0) {
+    auto object = lv_obj_create(parent);
+    lv_obj_set_pos(object, x, y);
+    lv_obj_set_size(object, w, h);
+    lv_obj_set_style_pad_all(object, 0, 0);
+    lv_obj_set_style_border_width(object, 0, 0);
+    lv_obj_set_style_bg_color(object, color, 0);
+    lv_obj_set_style_bg_opa(object, LV_OPA_COVER, 0);
+    lv_obj_set_style_radius(object, radius, 0);
+    lv_obj_remove_flag(
+        object, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_CLICKABLE));
+    return object;
+}
+
+static void DrawWeatherIcon(lv_obj_t* root, WeatherIcon icon, bool large) {
+    lv_obj_clean(root);
+    const int scale = large ? 2 : 1;
+    const lv_color_t sun_color = lv_color_hex(0xFFD54F);
+    const lv_color_t cloud_color = lv_color_hex(0xD7E3EE);
+    const lv_color_t rain_color = lv_color_hex(0x42A5F5);
+    const lv_color_t storm_color = lv_color_hex(0xFFC107);
+    const lv_color_t snow_color = lv_color_hex(0xEAF6FF);
+    const lv_color_t fog_color = lv_color_hex(0x90A4AE);
+    if (icon == WeatherIcon::Clear || icon == WeatherIcon::PartlyCloudy) {
+        WeatherShape(root, 5 * scale, 3 * scale, 12 * scale, 12 * scale, sun_color,
+                     LV_RADIUS_CIRCLE);
+    }
+    if (icon == WeatherIcon::Cloudy || icon == WeatherIcon::PartlyCloudy ||
+        icon == WeatherIcon::Rain || icon == WeatherIcon::Storm || icon == WeatherIcon::Snow) {
+        WeatherShape(root, 4 * scale, 10 * scale, 22 * scale, 8 * scale, cloud_color,
+                     4 * scale);
+        WeatherShape(root, 8 * scale, 6 * scale, 10 * scale, 10 * scale, cloud_color,
+                     LV_RADIUS_CIRCLE);
+        WeatherShape(root, 15 * scale, 8 * scale, 9 * scale, 9 * scale, cloud_color,
+                     LV_RADIUS_CIRCLE);
+    }
+    if (icon == WeatherIcon::Fog) {
+        for (int i = 0; i < 3; ++i)
+            WeatherShape(root, (3 + i * 2) * scale, (6 + i * 6) * scale,
+                         (23 - i * 4) * scale, 2 * scale, fog_color, scale);
+    } else if (icon == WeatherIcon::Rain || icon == WeatherIcon::Storm) {
+        for (int i = 0; i < 3; ++i)
+            WeatherShape(root, (7 + i * 7) * scale, 21 * scale, 2 * scale,
+                         (icon == WeatherIcon::Storm && i == 1 ? 7 : 5) * scale,
+                         icon == WeatherIcon::Storm ? storm_color : rain_color, scale);
+    } else if (icon == WeatherIcon::Snow) {
+        for (int i = 0; i < 3; ++i)
+            WeatherShape(root, (7 + i * 7) * scale, 22 * scale, 3 * scale, 3 * scale,
+                         snow_color, LV_RADIUS_CIRCLE);
+    }
+}
+#endif
+
 }
 
 LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
 LV_FONT_DECLARE(BUILTIN_ICON_FONT);
 LV_FONT_DECLARE(font_material_symbols_30_4);
 LV_FONT_DECLARE(font_noto_emoji_30_4);
+LV_FONT_DECLARE(font_noto_sans_basic_30_4);
 LV_FONT_DECLARE(font_noto_sans_radio_16_4);
 LV_FONT_DECLARE(font_noto_sans_symbols_star_20_4);
 
@@ -660,13 +719,11 @@ void LcdDisplay::SetupUI() {
         auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         lv_event_code_t code = lv_event_get_code(e);
         ESP_LOGI(TAG, "TOP BAR EVENT DETECTED: code=%d", (int)code);
-        if (code == LV_EVENT_CLICKED || code == LV_EVENT_PRESSED || code == LV_EVENT_SHORT_CLICKED) {
+        if (code == LV_EVENT_CLICKED) {
             if (display) {
-                const char* event_name = code == LV_EVENT_PRESSED ? "PRESSED" :
-                                         code == LV_EVENT_SHORT_CLICKED ? "SHORT_CLICKED" : "CLICKED";
                 ESP_LOGW(TAG,
-                         "TOP_BAR_LVGL event=%s task=%s core=%u quick_settings_open_before=%d",
-                         event_name, pcTaskGetName(nullptr),
+                         "TOP_BAR_LVGL event=CLICKED task=%s core=%u quick_settings_open_before=%d",
+                         pcTaskGetName(nullptr),
                          static_cast<unsigned>(xPortGetCoreID()),
                          display->IsQuickSettingsOpen());
                 display->ToggleQuickSettings();
@@ -1402,9 +1459,59 @@ void LcdDisplay::SetupUI() {
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_color(chat_message_label_, kText, 0);
     auto weather = panel(ai_view_, 264, 0, 144, 276, kPanel2);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    auto weather_label = [&](const char* text, int x, int y, int w, lv_color_t color) {
+        auto object = label(weather, text, x, y, w, color);
+        lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
+        return object;
+    };
+    weather_city_label_ = weather_label(kFnkWeatherLocation.name, 8, 5, 128, kText);
+    weather_date_label_ = weather_label("--.--.----", 8, 25, 128, kMuted);
+    weather_icon_ = lv_obj_create(weather);
+    lv_obj_set_pos(weather_icon_, 6, 46);
+    lv_obj_set_size(weather_icon_, 58, 58);
+    lv_obj_set_style_bg_opa(weather_icon_, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(weather_icon_, 0, 0);
+    lv_obj_set_style_pad_all(weather_icon_, 0, 0);
+    DisableScroll(weather_icon_);
+    weather_temperature_label_ = weather_label("--°", 66, 55, 72, kText);
+    lv_obj_set_style_text_font(weather_temperature_label_, &font_noto_sans_basic_30_4, 0);
+    weather_description_label_ = weather_label("Получение погоды...", 8, 105, 128, kText);
+    weather_wind_label_ = weather_label("", 8, 125, 128, kMuted);
+    for (int i = 0; i < 2; ++i) {
+        const int x = 5 + i * 68;
+        auto card = panel(weather, x, 149, 65, 85, kCard);
+        weather_forecast_icons_[i] = lv_obj_create(weather);
+        lv_obj_set_pos(weather_forecast_icons_[i], x + 18, 157);
+        lv_obj_set_size(weather_forecast_icons_[i], 30, 30);
+        lv_obj_set_style_bg_opa(weather_forecast_icons_[i], LV_OPA_TRANSP, 0);
+        lv_obj_set_style_border_width(weather_forecast_icons_[i], 0, 0);
+        lv_obj_set_style_pad_all(weather_forecast_icons_[i], 0, 0);
+        DisableScroll(weather_forecast_icons_[i]);
+        weather_forecast_temp_labels_[i] = weather_label("-- / --", x + 2, 193, 61, kText);
+        lv_obj_set_style_text_font(weather_forecast_temp_labels_[i], LV_FONT_DEFAULT, 0);
+        lv_label_set_long_mode(weather_forecast_temp_labels_[i], LV_LABEL_LONG_DOT);
+        lv_obj_set_style_text_align(weather_forecast_temp_labels_[i], LV_TEXT_ALIGN_CENTER, 0);
+        weather_forecast_rain_labels_[i] = weather_label("--%", x + 2, 215, 61, kMuted);
+        lv_obj_set_style_text_font(weather_forecast_rain_labels_[i], LV_FONT_DEFAULT, 0);
+        lv_label_set_long_mode(weather_forecast_rain_labels_[i], LV_LABEL_LONG_DOT);
+        lv_obj_set_style_text_align(weather_forecast_rain_labels_[i], LV_TEXT_ALIGN_CENTER, 0);
+        (void)card;
+    }
+    weather_updated_label_ = weather_label("No weather data", 6, 250, 101, kMuted);
+    weather_refresh_button_ = button(weather, MATERIAL_SYMBOLS_REFRESH, 108, 238, 32, 32);
+    lv_obj_set_style_text_font(lv_obj_get_child(weather_refresh_button_, 0), &BUILTIN_ICON_FONT, 0);
+    lv_obj_add_event_cb(weather_refresh_button_, [](lv_event_t* event) {
+        auto self = static_cast<LcdDisplay*>(lv_event_get_user_data(event));
+        if (WeatherService::GetInstance().Refresh("manual")) self->UpdateWeatherUI();
+    }, LV_EVENT_CLICKED, this);
+    WeatherService::GetInstance().Initialize();
+    UpdateWeatherUI();
+#else
     label(weather, "Weather", 10, 12, 124, kText);
     label(weather, "--", 10, 68, 124, kText);
     label(weather, "No weather data", 10, 104, 124, kMuted);
+#endif
     LogUiMemory("UI_MEM_AFTER_AI_VIEW");
 
     LogUiMemory("UI_MEM_BEFORE_MEDIA_PAGE");
@@ -1554,6 +1661,10 @@ void LcdDisplay::SetupUI() {
     service_timer_ = lv_timer_create([](lv_timer_t* timer) {
         auto self = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
         self->UpdateServiceIndicators();
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+        WeatherService::GetInstance().Tick();
+        self->UpdateWeatherUI();
+#endif
     }, 250, this);
     LogUiMemory("UI_MEM_AFTER_SERVICE_TIMER");
     UpdateServiceIndicators();
@@ -1567,6 +1678,63 @@ void LcdDisplay::SetupUI() {
 #endif
 
 }
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::UpdateWeatherUI() {
+    if (!weather_city_label_) return;
+    const auto data = WeatherService::GetInstance().GetSnapshot();
+    const time_t now = time(nullptr);
+    const bool time_valid = now >= 1704067200;
+    if (data.generation == weather_generation_ && time_valid == weather_time_valid_) return;
+    weather_generation_ = data.generation;
+    weather_time_valid_ = time_valid;
+    if (weather_refresh_button_) {
+        if (data.request_active)
+            lv_obj_add_state(weather_refresh_button_, LV_STATE_DISABLED);
+        else
+            lv_obj_remove_state(weather_refresh_button_, LV_STATE_DISABLED);
+    }
+    if (!data.valid) {
+        lv_label_set_text(weather_temperature_label_, "--°");
+        lv_label_set_text(weather_description_label_,
+                          data.request_active ? "Получение погоды..." : "Нет данных");
+        lv_label_set_text(weather_wind_label_,
+                          data.last_request_failed ? "Нет соединения" : "");
+        lv_label_set_text(weather_updated_label_,
+                          data.request_active ? "Обновление..." : "Не обновлено");
+        ESP_LOGI(TAG, "WEATHER_UI_UPDATE valid=0 stale=0");
+        return;
+    }
+    char text[48];
+    WeatherService::FormatDate(time_valid ? now : data.last_successful_update, text, sizeof(text));
+    lv_label_set_text(weather_date_label_, text);
+    snprintf(text, sizeof(text), "%.0f°", data.current.temperature);
+    lv_label_set_text(weather_temperature_label_, text);
+    lv_label_set_text(weather_description_label_,
+                      WeatherService::DescriptionForCode(data.current.weather_code));
+    char direction[8];
+    WeatherService::FormatWindDirection(data.current.wind_direction, direction, sizeof(direction));
+    snprintf(text, sizeof(text), "%.1f м/с %s", data.current.wind_speed, direction);
+    lv_label_set_text(weather_wind_label_, text);
+    DrawWeatherIcon(weather_icon_, WeatherService::IconForCode(data.current.weather_code), true);
+    for (int i = 0; i < 2; ++i) {
+        const auto& day = data.days[i + 1];
+        DrawWeatherIcon(weather_forecast_icons_[i], WeatherService::IconForCode(day.weather_code),
+                        false);
+        snprintf(text, sizeof(text), "%.0f° / %.0f°", day.temp_min, day.temp_max);
+        lv_label_set_text(weather_forecast_temp_labels_[i], text);
+        snprintf(text, sizeof(text), "%u%%", day.precipitation_probability);
+        lv_label_set_text(weather_forecast_rain_labels_[i], text);
+    }
+    struct tm updated{};
+    localtime_r(&data.last_successful_update, &updated);
+    snprintf(text, sizeof(text), "%s%02d:%02d",
+             !data.refresh_deferred && (data.last_request_failed || data.stale) ? "! " : "",
+             updated.tm_hour, updated.tm_min);
+    lv_label_set_text(weather_updated_label_, text);
+    ESP_LOGI(TAG, "WEATHER_UI_UPDATE valid=1 stale=%d", data.stale || data.last_request_failed);
+}
+#endif
 
 void LcdDisplay::OnServerConnected() {
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
@@ -2251,15 +2419,50 @@ void LcdDisplay::RegisterDisplayActivity(const char* source) {
         RestoreSystemBrightness();
 }
 
+bool LcdDisplay::WakeDisplayFromTouch() {
+    if (!auto_brightness_enabled_ || !auto_brightness_zero_enabled_ ||
+        !auto_brightness_dimmed_) {
+        return false;
+    }
+
+    RegisterDisplayActivity("TOUCH_WAKE");
+    return true;
+}
+
 void LcdDisplay::UpdateAutoBrightnessControls() {
     if (auto_brightness_button_) {
         lv_obj_set_style_bg_color(auto_brightness_button_,
                                   auto_brightness_enabled_ ? kAccent : kCard, 0);
     }
+    if (auto_brightness_zero_button_) {
+        lv_obj_set_style_bg_color(
+            auto_brightness_zero_button_,
+            !auto_brightness_enabled_ ? lv_color_hex(0x334155)
+                                      : auto_brightness_zero_enabled_ ? kAccent : kCard,
+            0);
+        if (auto_brightness_enabled_) {
+            lv_obj_remove_state(auto_brightness_zero_button_, LV_STATE_DISABLED);
+        } else {
+            lv_obj_add_state(auto_brightness_zero_button_, LV_STATE_DISABLED);
+        }
+    }
     if (auto_brightness_timeout_label_) {
         lv_label_set_text(auto_brightness_timeout_label_,
                           kAutoBrightnessTimeoutLabels[auto_brightness_timeout_index_]);
     }
+}
+
+void LcdDisplay::SetAutoBrightnessZeroEnabled(bool enabled) {
+    if (!auto_brightness_enabled_ || auto_brightness_zero_enabled_ == enabled) {
+        RegisterDisplayActivity("AUTO_ZERO_SETTING");
+        return;
+    }
+
+    auto_brightness_zero_enabled_ = enabled;
+    Settings settings("display", true);
+    settings.SetBool("auto_dim_zero", enabled);
+    RegisterDisplayActivity("AUTO_ZERO_SETTING");
+    UpdateAutoBrightnessControls();
 }
 
 void LcdDisplay::SetAutoBrightnessEnabled(bool enabled) {
@@ -2327,7 +2530,7 @@ void LcdDisplay::UpdateAutoBrightness() {
                      "AUTO_DIM begin task=%s core=%u dimmed_before=%d backlight_current=%u",
                      pcTaskGetName(nullptr), static_cast<unsigned>(xPortGetCoreID()),
                      auto_brightness_dimmed_, static_cast<unsigned>(backlight->brightness()));
-            backlight->SetBrightness(10, false);
+            backlight->SetBrightness(auto_brightness_zero_enabled_ ? 0 : 10, false);
             auto_brightness_dimmed_ = true;
             ESP_LOGW(TAG, "AUTO_DIM done dimmed_after=%d", auto_brightness_dimmed_);
         }
@@ -2565,6 +2768,7 @@ void LcdDisplay::SwitchTab(int tab_index)
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     Settings settings("display");
     auto_brightness_enabled_ = settings.GetBool("auto_brightness", false);
+    auto_brightness_zero_enabled_ = settings.GetBool("auto_dim_zero", false);
     const int saved_timeout = settings.GetInt("auto_dim_time", kDefaultAutoBrightnessTimeoutIndex);
     auto_brightness_timeout_index_ = static_cast<uint8_t>(std::clamp(
         saved_timeout, 0, static_cast<int>(sizeof(kAutoBrightnessTimeoutMs) /
@@ -2763,6 +2967,22 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     };
     make_timeout_button(MATERIAL_SYMBOLS_KEYBOARD_ARROW_LEFT, 110, -1);
     make_timeout_button(MATERIAL_SYMBOLS_KEYBOARD_ARROW_RIGHT, 154, 1);
+
+    auto_brightness_zero_button_ = lv_btn_create(auto_row);
+    lv_obj_set_size(auto_brightness_zero_button_, 52, 38);
+    lv_obj_align(auto_brightness_zero_button_, LV_ALIGN_LEFT_MID, 208, 0);
+    lv_obj_set_style_radius(auto_brightness_zero_button_, 9, 0);
+    lv_obj_set_style_border_width(auto_brightness_zero_button_, 0, 0);
+    auto zero_label = lv_label_create(auto_brightness_zero_button_);
+    lv_label_set_text(zero_label, "0%");
+    lv_obj_set_style_text_color(zero_label, kText, 0);
+    lv_obj_center(zero_label);
+    lv_obj_add_event_cb(auto_brightness_zero_button_, [](lv_event_t* e) {
+        auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display) {
+            display->SetAutoBrightnessZeroEnabled(!display->auto_brightness_zero_enabled_);
+        }
+    }, LV_EVENT_CLICKED, this);
     UpdateAutoBrightnessControls();
 }
 

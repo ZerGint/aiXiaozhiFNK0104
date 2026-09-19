@@ -57,6 +57,10 @@ set(SOURCES "audio/audio_codec.cc"
             "managers/resource_manager.cc"
             )
 
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
+    list(APPEND SOURCES "weather/weather_service.cc")
+endif()
+
 set(INCLUDE_DIRS "." "display" "display/lvgl_display" "display/lvgl_display/jpg" "audio" "audio/demuxer" "protocols" "managers")
 
 # Add board common files
@@ -1131,12 +1135,17 @@ endif()
 set(TEXT_FONT_SIZE "${CMAKE_MATCH_1}")
 set(TEXT_FONT_BPP "${CMAKE_MATCH_2}")
 if(NOT CMAKE_BUILD_EARLY_EXPANSION)
+    set(WEATHER_API_KEY "$ENV{WEATHER_API_KEY}" CACHE STRING
+        "WeatherAPI.com key for the FNK0104S weather panel")
     target_compile_definitions(${COMPONENT_LIB}
                         PRIVATE BOARD_TYPE=\"${BOARD_TYPE}\" BOARD_NAME=\"${BOARD_NAME}\"
                         PRIVATE BOARD_MANUFACTURER=\"${BOARD_MANUFACTURER}\"
                         PRIVATE BUILTIN_TEXT_FONT=${BUILTIN_TEXT_FONT} BUILTIN_ICON_FONT=${BUILTIN_ICON_FONT}
                         PRIVATE TEXT_FONT_SIZE=${TEXT_FONT_SIZE} TEXT_FONT_BPP=${TEXT_FONT_BPP}
                         )
+    if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
+        target_compile_definitions(${COMPONENT_LIB} PRIVATE WEATHER_API_KEY=\"${WEATHER_API_KEY}\")
+    endif()
 endif()
 
 # Add generation rules

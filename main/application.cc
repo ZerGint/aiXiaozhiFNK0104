@@ -1,6 +1,9 @@
 #include "application.h"
 #include "assets.h"
 #include "assets/lang_config.h"
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#include "weather/weather_service.h"
+#endif
 #include "audio_codec.h"
 #include "board.h"
 #include "display.h"
@@ -137,10 +140,16 @@ void Application::Initialize() {
                 msg += data;
                 display->ShowNotification(msg.c_str(), 30000);
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_CONNECTED);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+                WeatherService::GetInstance().SetNetworkConnected(true);
+#endif
                 break;
             }
             case NetworkEvent::Disconnected:
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_DISCONNECTED);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+                WeatherService::GetInstance().SetNetworkConnected(false);
+#endif
                 break;
             case NetworkEvent::WifiConfigModeEnter:
                 // WiFi config mode enter is handled by WifiBoard internally
