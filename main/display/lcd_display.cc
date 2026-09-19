@@ -1363,8 +1363,18 @@ void LcdDisplay::SetupUI() {
     };
 
     lv_obj_set_flex_flow(top_bar_, LV_FLEX_FLOW_ROW);
+    auto fnk_top_bar_cb = [](lv_event_t* e) {
+        if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+            auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            if (display) display->ToggleQuickSettings();
+        }
+    };
     top_time_label_ = label(top_bar_, "--:--", 200, 8, 80, kText);
     lv_obj_set_style_text_align(top_time_label_, LV_TEXT_ALIGN_CENTER, 0);
+    // Child labels receive the touch hit-test before the parent top bar. Forward
+    // the complete top row to the same Quick Settings handler.
+    lv_obj_add_flag(top_time_label_, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_event_cb(top_time_label_, fnk_top_bar_cb, LV_EVENT_ALL, this);
     lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
     lv_obj_set_pos(network_label_, 12, 7);
     lv_obj_set_pos(top_time_label_, 200, 7);
@@ -1373,6 +1383,8 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_pad_all(top_status_group, 0, 0);
     lv_obj_set_layout(top_status_group, LV_LAYOUT_NONE);
     lv_obj_set_pos(top_status_group, 318, 5);
+    lv_obj_add_flag(top_status_group, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_event_cb(top_status_group, fnk_top_bar_cb, LV_EVENT_ALL, this);
     lv_obj_set_style_pad_all(top_status_group, 0, 0);
     lv_obj_remove_flag(top_status_group, static_cast<lv_obj_flag_t>(LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN_HOR | LV_OBJ_FLAG_SCROLL_CHAIN_VER));
     lv_obj_set_scrollbar_mode(top_status_group, LV_SCROLLBAR_MODE_OFF);
