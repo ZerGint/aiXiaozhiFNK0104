@@ -199,6 +199,11 @@ LV_FONT_DECLARE(font_noto_emoji_30_4);
 LV_FONT_DECLARE(font_noto_sans_basic_30_4);
 LV_FONT_DECLARE(font_noto_sans_radio_16_4);
 LV_FONT_DECLARE(font_noto_sans_symbols_star_20_4);
+LV_FONT_DECLARE(font_material_symbols_shuffle_20_4);
+
+namespace {
+constexpr const char* kProjectShuffleIcon = "\xEE\x81\x83"; // U+E043
+}
 
 void LcdDisplay::InitializeLcdThemes() {
     auto text_font = std::make_shared<LvglBuiltInFont>(&BUILTIN_TEXT_FONT);
@@ -1532,7 +1537,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_remove_flag(media_title_label_, LV_OBJ_FLAG_SCROLLABLE);
     lv_obj_set_scrollbar_mode(media_title_label_, LV_SCROLLBAR_MODE_OFF);
 
-    media_shuffle_button_ = button(media_center, MATERIAL_SYMBOLS_SHUFFLE, 20, 183, 40, 40);
+    media_shuffle_button_ = button(media_center, kProjectShuffleIcon, 20, 183, 40, 40);
     lv_obj_add_event_cb(media_shuffle_button_, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { auto& sd = SdMusicPlayer::GetInstance(); sd.SetShuffleEnabled(!sd.IsShuffleEnabled()); d->UpdateServiceIndicators(); } }, LV_EVENT_CLICKED, this);
     media_favorite_button_ = button(media_center, "★", 80, 183, 40, 40);
     lv_obj_set_style_text_font(lv_obj_get_child(media_favorite_button_, 0), &font_noto_sans_symbols_star_20_4, 0);
@@ -1638,6 +1643,7 @@ void LcdDisplay::SetupUI() {
     for (auto control : {media_prev, media_play, media_next, media_shuffle_button_, media_repeat_button_, media_stop_button_}) {
         lv_obj_set_style_text_font(lv_obj_get_child(control, 0), &BUILTIN_ICON_FONT, 0);
     }
+    lv_obj_set_style_text_font(lv_obj_get_child(media_shuffle_button_, 0), &font_material_symbols_shuffle_20_4, 0);
     auto volume_label = label(media_center, MATERIAL_SYMBOLS_VOLUME_UP, 12, 244, 30, kMuted);
     lv_obj_set_style_text_font(volume_label, &BUILTIN_ICON_FONT, 0);
     media_volume_slider_ = lv_slider_create(media_center);

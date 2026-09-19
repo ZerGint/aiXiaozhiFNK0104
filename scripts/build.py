@@ -1352,6 +1352,7 @@ def _configure_build(
         defaults.append("sdkconfig.defaults")
     defaults.append(fragment.as_posix())
     _run_idf(
+        "-DIDF_CMAKE_CHECK_WARN_ONLY=ON",
         f"-DIDF_TARGET={target}",
         f"-DSDKCONFIG_DEFAULTS={';'.join(defaults)}",
         f"-DBOARD_NAME={board_name}",

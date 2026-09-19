@@ -6,6 +6,10 @@ config OTA_URL
     help
         The application will access this URL to check for new firmwares and server address.
 
+config ESP_VIDEO_USE_CUSTOMIZED_ESP_H264_VERSION
+    bool
+    default n
+
 choice
     prompt "Flash Assets"
     default FLASH_DEFAULT_ASSETS if !USE_EMOTE_MESSAGE_STYLE
