@@ -46,7 +46,11 @@ Es8311AudioCodec::Es8311AudioCodec(void* i2c_master_handle, i2c_port_t i2c_port,
     es8311_codec_cfg_t es8311_cfg = {};
     es8311_cfg.ctrl_if = ctrl_if_;
     es8311_cfg.gpio_if = gpio_if_;
+#if CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+    es8311_cfg.codec_mode = ESP_CODEC_DEV_WORK_MODE_ADC;
+#else
     es8311_cfg.codec_mode = ESP_CODEC_DEV_WORK_MODE_BOTH;
+#endif
     es8311_cfg.pa_pin = pa_pin;
     es8311_cfg.use_mclk = use_mclk;
     es8311_cfg.hw_gain.pa_voltage = 5.0;
@@ -85,7 +89,7 @@ void Es8311AudioCodec::UpdateDeviceState() {
     const bool codec_output_enabled = UsesEs8311Output() && output_enabled_;
     if ((input_enabled_ || codec_output_enabled) && dev_ == nullptr) {
         esp_codec_dev_cfg_t dev_cfg = {
-            .dev_type = ESP_CODEC_DEV_TYPE_IN_OUT,
+            .dev_type = UsesEs8311Output() ? ESP_CODEC_DEV_TYPE_IN_OUT : ESP_CODEC_DEV_TYPE_IN,
             .codec_if = codec_if_,
             .data_if = data_if_,
         };
@@ -101,7 +105,9 @@ void Es8311AudioCodec::UpdateDeviceState() {
         };
         ESP_ERROR_CHECK(esp_codec_dev_open(dev_, &fs));
         ESP_ERROR_CHECK(esp_codec_dev_set_in_gain(dev_, input_gain_));
-        ESP_ERROR_CHECK(esp_codec_dev_set_out_vol(dev_, output_volume_));
+        if (codec_output_enabled) {
+            ESP_ERROR_CHECK(esp_codec_dev_set_out_vol(dev_, output_volume_));
+        }
     } else if (!input_enabled_ && !codec_output_enabled && dev_ != nullptr) {
         ESP_ERROR_CHECK(esp_codec_dev_close(dev_));
         esp_codec_dev_delete(dev_);
@@ -125,7 +131,11 @@ void Es8311AudioCodec::CreateDuplexChannels(gpio_num_t mclk, gpio_num_t bclk, gp
         .auto_clear_before_cb = false,
         .intr_priority = 0,
     };
+#if CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+    ESP_ERROR_CHECK(i2s_new_channel(&chan_cfg, nullptr, &rx_handle_));
+#else
     ESP_ERROR_CHECK(i2s_new_channel(&chan_cfg, &tx_handle_, &rx_handle_));
+#endif
 
     i2s_std_config_t std_cfg = {
         .clk_cfg = {
@@ -164,9 +174,13 @@ void Es8311AudioCodec::CreateDuplexChannels(gpio_num_t mclk, gpio_num_t bclk, gp
         }
     };
 
+#if !CONFIG_FNK_EXTERNAL_I2S_SPEAKER
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(tx_handle_, &std_cfg));
+#endif
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(rx_handle_, &std_cfg));
+#if !CONFIG_FNK_EXTERNAL_I2S_SPEAKER
     ESP_ERROR_CHECK(i2s_channel_enable(tx_handle_));
+#endif
     ESP_ERROR_CHECK(i2s_channel_enable(rx_handle_));
     ESP_LOGI(TAG, "Duplex channels created");
 }
