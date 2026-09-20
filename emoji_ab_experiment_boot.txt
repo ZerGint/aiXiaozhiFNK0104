@@ -1,0 +1,382 @@
+I (151) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (156) heap_init: At 600FE000 len 00001FD8 (7 KiB): RTCRAM
+I (162) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (169) spi_flash: detected chip: generic
+I (172) spi_flash: flash io: qio
+I (176) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (181) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (188) main_task: Started on CPU0
+I (188) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (198) main_task: Calling app_main()
+I (198) RAM: [BOOT] internal free=281739 min=184308 largest=122880 | psram free=8384896 min=8384896 largest=8257536
+I (208) DMA_TRACE: tag=BOOT internal_free=281739 internal_largest=122880 dma_free=273967 dma_largest=122880 internal_min=184308
+I (238) DMA_TRACE: tag=AFTER_NVS_INIT internal_free=279791 internal_largest=122880 dma_free=272019 dma_largest=122880 internal_min=182100
+I (238) DMA_TRACE: tag=AFTER_APP_SINGLETON internal_free=274715 internal_largest=122880 dma_free=266943 dma_largest=122880 internal_min=177284
+I (248) Board: UUID=f9b0aa09-0110-4c6b-96dd-614e70559a34 SKU=freenove-fnk0104s
+I (258) button: IoT Button Version: 4.2.0
+I (258) adc_battery_estimation: Use internal ADC unit
+I (268) st7796: version: 1.3.5
+I (268) st7796_general: LCD panel create success, version: 1.3.5
+I (488) Display: Power management not supported
+W (488) Settings: Namespace display is not open for writing
+I (648) LcdDisplay: Turning display on
+I (648) LcdDisplay: Initialize LVGL library
+I (648) LcdDisplay: Use 2MB of PSRAM for image cache
+I (648) LcdDisplay: Initialize LVGL port
+I (658) LcdDisplay: Adding LCD display
+I (658) LVGL: Starting LVGL task
+I (718) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (718) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+I (728) SD_HOST: src_freq_hz: 160000000
+W (1118) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1118) StorageManager: SD Card mounted successfully at /sdcard!
+I (1118) HomeAssistant: Initializing Home Assistant integration...
+I (1128) MCP: Add tool: homeassistant.call_service
+I (1128) MCP: Add tool: homeassistant.get_states
+I (1138) MCP: Add tool: homeassistant.set_config [user]
+I (1138) MCP: Add tool: radio.add_favorite
+I (1148) MCP: Add tool: radio.get_current
+I (1148) MCP: Add tool: radio.list_favorites
+I (1148) MCP: Add tool: radio.play_favorite
+I (1158) MCP: Add tool: radio.remove_favorite
+I (1158) MCP: Add tool: radio.search_stations
+I (1168) MCP: Add tool: radio.play_station
+I (1168) MCP: Add tool: radio.stop
+I (1168) MCP: Add tool: media.play_sd
+I (1178) MCP: Add tool: media.list_sd
+I (1178) MCP: Add tool: media.search_sd
+I (1178) MCP: Add tool: media.pause
+I (1188) MCP: Add tool: media.next
+I (1188) MCP: Add tool: media.previous
+I (1188) MCP: Add tool: media.stop
+I (1198) StateMachine: State: unknown -> starting
+I (1198) DMA_TRACE: tag=BEFORE_UI_SETUP internal_free=225003 internal_largest=94208 dma_free=217231 dma_largest=94208 internal_min=127092
+W (1208) DMA_TRACE: DMA_DROP tag=BEFORE_UI_SETUP previous_largest=122880 current_largest=94208 delta=-28672 previous_free=266943 current_free=217231 free_delta=-49712
+I (1228) Es8311AudioCodec: Duplex channels created
+I (1228) I2S_IF: Auto get out handle 0 from in handle 0x3c370748 when duplex mode
+I (1238) Es8311AudioCodec: ES8311 software reset complete
+I (1248) ES8311: Work in Slave mode
+I (1248) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1248) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+I (1258) FnkExternalI2s: I2S_PORT: 1
+I (1258) FnkExternalI2s: BCLK: GPIO2
+I (1258) FnkExternalI2s: WS: GPIO21
+I (1268) FnkExternalI2s: DATA: GPIO14
+I (1268) FnkExternalI2s: RATE: 48000
+I (1268) FnkExternalI2s: BITS: 16
+I (1278) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+I (1288) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=211583 internal_largest=94208 dma_free=203811 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1298) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=211583 internal_largest=94208 dma_free=203811 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1328) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=204779 internal_largest=94208 dma_free=197007 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1338) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=203203 internal_largest=94208 dma_free=195431 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1378) Weather: WEATHER_CACHE_LOADED timestamp=1789944557 bytes=72
+I (1378) Weather: WEATHER_INIT lat=54.3520 lon=18.6466 city=Гданьск
+I (1398) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (1398) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=189667 internal_largest=94208 dma_free=181895 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1408) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=189667 internal_largest=94208 dma_free=181895 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1448) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=181167 internal_largest=94208 dma_free=173395 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1458) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=181167 internal_largest=94208 dma_free=173395 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1468) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=181127 internal_largest=94208 dma_free=173355 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+E (1488) StorageManager: Failed to open directory: /sdcard/mp3
+I (1488) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (1498) SdMusicPlayer:  🎵 Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (1508) SdMusicPlayer:  🎵 Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (1518) SdMusicPlayer:  🎵 Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (1528) SdMusicPlayer:  🎵 Track found: /sdcard/music/02 - 21 Guns.mp3
+I (1538) SdMusicPlayer:  🎵 Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (1538) SdMusicPlayer:  🎵 Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (1548) SdMusicPlayer:  🎵 Track found: /sdcard/music/красной нитью.mp3
+I (1558) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (1578) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=177231 internal_largest=94208 dma_free=169459 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1588) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=177231 internal_largest=94208 dma_free=169459 dma_largest=94208 spiram_free=8320212 spiram_largest=8257536
+I (1608) LcdDisplay: BOOT_ANIM_START
+I (1608) DMA_TRACE: tag=AFTER_UI_SETUP internal_free=175795 internal_largest=94208 dma_free=168023 dma_largest=94208 internal_min=78364
+I (1618) RAM: [AFTER_LVGL_INIT] internal free=175663 min=77436 largest=94208 | psram free=8320212 min=8318476 largest=8257536
+I (1808) DMA_TRACE: tag=BEFORE_AUDIO_CODEC_GET internal_free=176967 internal_largest=94208 dma_free=169195 dma_largest=94208 internal_min=77436
+I (1808) DMA_TRACE: tag=AFTER_AUDIO_CODEC_GET internal_free=176967 internal_largest=94208 dma_free=169195 dma_largest=94208 internal_min=77436
+I (1828) DMA_TRACE: tag=BEFORE_AUDIO_SERVICE_INIT internal_free=176707 internal_largest=94208 dma_free=168935 dma_largest=94208 internal_min=77436
+I (1838) DMA_TRACE: tag=AUDIO_INIT_BEGIN internal_free=176899 internal_largest=94208 dma_free=169127 dma_largest=94208 internal_min=77436
+I (1848) DMA_TRACE: tag=AUDIO_BEFORE_CODEC_START internal_free=176899 internal_largest=94208 dma_free=169127 dma_largest=94208 internal_min=77436
+I (1858) AudioCodec: Audio codec started
+I (1868) DMA_TRACE: tag=AUDIO_AFTER_CODEC_START internal_free=176859 internal_largest=94208 dma_free=169087 dma_largest=94208 internal_min=77436
+I (1878) DMA_TRACE: tag=AUDIO_BEFORE_OPUS_DEC_OPEN internal_free=176999 internal_largest=94208 dma_free=169227 dma_largest=94208 internal_min=77436
+I (1898) DMA_TRACE: tag=AUDIO_AFTER_OPUS_DEC_OPEN internal_free=176931 internal_largest=94208 dma_free=169159 dma_largest=94208 internal_min=77436
+I (1908) DMA_TRACE: tag=AUDIO_BEFORE_OPUS_ENC_OPEN internal_free=176819 internal_largest=94208 dma_free=169047 dma_largest=94208 internal_min=77436
+I (1918) DMA_TRACE: tag=AUDIO_AFTER_OPUS_ENC_OPEN internal_free=176923 internal_largest=94208 dma_free=169151 dma_largest=94208 internal_min=77436
+I (1928) DMA_TRACE: tag=AUDIO_BEFORE_INPUT_RESAMPLER internal_free=176923 internal_largest=94208 dma_free=169151 dma_largest=94208 internal_min=77436
+I (1948) DMA_TRACE: tag=AUDIO_AFTER_INPUT_RESAMPLER internal_free=176219 internal_largest=94208 dma_free=168447 dma_largest=94208 internal_min=77436
+I (1958) DMA_TRACE: tag=AUDIO_BEFORE_ENGINE_CREATE internal_free=176415 internal_largest=94208 dma_free=168643 dma_largest=94208 internal_min=77436
+I (1968) DMA_TRACE: tag=AUDIO_AFTER_ENGINE_CREATE internal_free=175115 internal_largest=94208 dma_free=167343 dma_largest=94208 internal_min=77436
+I (1978) DMA_TRACE: tag=AUDIO_BEFORE_POWER_TIMER internal_free=174911 internal_largest=94208 dma_free=167139 dma_largest=94208 internal_min=77048
+I (1998) DMA_TRACE: tag=AUDIO_AFTER_POWER_TIMER internal_free=175079 internal_largest=94208 dma_free=167307 dma_largest=94208 internal_min=77048
+I (2008) DMA_TRACE: tag=AFTER_AUDIO_SERVICE_INIT internal_free=175079 internal_largest=94208 dma_free=167307 dma_largest=94208 internal_min=77048
+I (2018) DMA_TRACE: tag=BEFORE_AUDIO_SERVICE_START internal_free=174827 internal_largest=94208 dma_free=167055 dma_largest=94208 internal_min=76904
+I (2038) DMA_TRACE: tag=AUDIO_START_BEGIN internal_free=174603 internal_largest=94208 dma_free=167027 dma_largest=94208 internal_min=76904
+I (2048) DMA_TRACE: tag=AUDIO_AFTER_INPUT_OUTPUT_TASKS internal_free=164599 internal_largest=94208 dma_free=156827 dma_largest=94208 internal_min=67168
+I (2058) DMA_TRACE: tag=AUDIO_AFTER_OPUS_TASK internal_free=164219 internal_largest=94208 dma_free=156447 dma_largest=94208 internal_min=66344
+I (2068) DMA_TRACE: tag=AFTER_AUDIO_SERVICE_START internal_free=164175 internal_largest=94208 dma_free=156403 dma_largest=94208 internal_min=66344
+I (2088) RAM: [AFTER_AUDIO_INIT] internal free=164483 min=66344 largest=94208 | psram free=8253128 min=8253128 largest=8126464
+I (2248) DMA_TRACE: tag=AFTER_MEDIA_RATE_CONVERTER internal_free=162619 internal_largest=94208 dma_free=154863 dma_largest=94208 internal_min=65008
+I (2248) DMA_TRACE: tag=BEFORE_APP_MANAGER_INIT internal_free=162807 internal_largest=94208 dma_free=155035 dma_largest=94208 internal_min=65008
+I (2258) AppManager: Initializing Application Manager...
+I (2268) DMA_TRACE: tag=APP_MANAGER_INITIALIZE internal_free=163407 internal_largest=94208 dma_free=155635 dma_largest=94208 internal_min=65008
+I (2278) DMA_TRACE: tag=AFTER_APP_MANAGER_INIT internal_free=162819 internal_largest=94208 dma_free=155047 dma_largest=94208 internal_min=64540
+I (2288) MCP: Add tool: self.get_device_status
+I (2298) MCP: Add tool: self.audio_speaker.set_volume
+I (2298) MCP: Add tool: self.screen.set_brightness
+I (2308) MCP: Add tool: self.screen.set_theme
+I (2308) MCP: Add tool: self.get_system_info [user]
+I (2308) MCP: Add tool: self.reboot [user]
+I (2318) MCP: Add tool: self.upgrade_firmware [user]
+I (2318) MCP: Add tool: self.screen.get_info [user]
+I (2328) MCP: Add tool: self.screen.snapshot [user]
+I (2328) MCP: Add tool: self.screen.preview_image [user]
+I (2338) MCP: Add tool: self.assets.set_download_url [user]
+I (2338) DMA_TRACE: tag=AFTER_MCP_TOOLS internal_free=160399 internal_largest=94208 dma_free=152627 dma_largest=94208 internal_min=61712
+I (2348) DMA_TRACE: tag=BEFORE_START_NETWORK internal_free=160259 internal_largest=94208 dma_free=152471 dma_largest=94208 internal_min=61712
+I (2368) DMA_TRACE: tag=WIFI_BEFORE_MANAGER_INIT internal_free=159651 internal_largest=94208 dma_free=151879 dma_largest=94208 internal_min=61412
+I (2378) WifiManager: Initializing...
+I (2378) pp: pp rom version: e7ae62f
+I (2388) net80211: net80211 rom version: e7ae62f
+I (2398) wifi:wifi driver task: 3fce8fcc, prio:23, stack:6656, core=0
+I (2398) wifi:wifi firmware version: e12a754
+I (2398) wifi:wifi certification version: v7.0
+I (2398) wifi:config NVS flash: disabled
+I (2408) wifi:config nano formatting: disabled
+I (2408) wifi:Init data frame dynamic rx buffer num: 6
+I (2418) wifi:Init dynamic rx mgmt buffer num: 5
+I (2418) wifi:Init management short buffer num: 32
+I (2428) wifi:Init dynamic tx buffer num: 32
+I (2428) wifi:Init static tx FG buffer num: 2
+I (2428) wifi:Init static rx buffer size: 1600
+I (2438) wifi:Init static rx buffer num: 3
+I (2438) wifi:Init dynamic rx buffer num: 6
+I (2448) wifi_init: rx ba win: 3
+I (2448) wifi_init: accept mbox: 6
+I (2448) wifi_init: tcpip mbox: 16
+I (2458) wifi_init: udp mbox: 6
+I (2458) wifi_init: tcp mbox: 6
+I (2458) wifi_init: tcp tx win: 5760
+I (2458) wifi_init: tcp rx win: 5760
+I (2468) wifi_init: tcp mss: 1440
+I (2468) WifiManager: Initialized
+I (2468) DMA_TRACE: tag=WIFI_AFTER_MANAGER_INIT internal_free=131463 internal_largest=90112 dma_free=123675 dma_largest=90112 internal_min=40604
+W (2488) DMA_TRACE: DMA_DROP tag=WIFI_AFTER_MANAGER_INIT previous_largest=94208 current_largest=90112 delta=-4096 previous_free=151879 current_free=123675 free_delta=-28204
+I (2498) DMA_TRACE: tag=WIFI_BEFORE_STATION_START internal_free=132287 internal_largest=90112 dma_free=124515 dma_largest=90112 internal_min=40604
+I (2518) WifiBoard: Starting WiFi connection attempt
+I (2518) WifiManager: Starting station
+I (2518) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (2528) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (2568) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
+I (2638) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (2638) wifi:enable tsf
+I (2648) WifiBoard: WiFi scanning
+I (2648) DMA_TRACE: tag=WIFI_AFTER_STATION_START internal_free=129687 internal_largest=86016 dma_free=121803 dma_largest=86016 internal_min=40308
+W (2648) DMA_TRACE: DMA_DROP tag=WIFI_AFTER_STATION_START previous_largest=90112 current_largest=86016 delta=-4096 previous_free=124515 current_free=121803 free_delta=-2712
+I (2668) DMA_TRACE: tag=AFTER_START_NETWORK internal_free=128551 internal_largest=86016 dma_free=120779 dma_largest=86016 internal_min=40308
+I (2698) RAM: [AFTER_XIAOZHI_INIT] internal free=129395 min=40308 largest=86016 | psram free=8222280 min=8203456 largest=8126464
+I (3028) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1420
+I (5058) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -49, Channel: 7, Authmode: 3
+I (5058) WifiBoard: WiFi connecting to ZERG
+W (5108) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5228) RAM: internal free=129491 min=40248 largest=86016 | psram free=8222280 min=8203456 largest=8126464
+I (7568) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (7568) wifi:state: init -> auth (0xb0)
+I (7578) wifi:state: auth -> assoc (0x0)
+I (7588) wifi:state: assoc -> run (0x10)
+I (7608) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (7608) wifi:security: WPA2-PSK, phy: bgn, rssi: -48, cipher(pairwise:0x3, group:0x3), pmf:0
+I (7618) wifi:pm start, type: 1
+
+I (7618) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (7628) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (7648) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (7678) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (9138) esp_netif_handlers: sta ip: 192.168.31.99, mask: 255.255.255.0, gw: 192.168.31.1
+I (9138) WifiStation: Got IP: 192.168.31.99
+I (9138) WifiBoard: Connected to WiFi: ZERG
+I (9148) Application: Network connected
+I (9148) RAM: [AFTER_WIFI] internal free=128511 min=40108 largest=86016 | psram free=8221572 min=8203456 largest=8126464
+I (9158) DMA_TRACE: tag=AFTER_WIFI_IP internal_free=128511 internal_largest=86016 dma_free=120739 dma_largest=86016 internal_min=40108
+I (9168) StateMachine: State: starting -> activating
+I (9168) DMA_TRACE: tag=ACTIVATION_BEFORE_TASK_CREATE internal_free=127367 internal_largest=86016 dma_free=119595 dma_largest=86016 internal_min=40108
+I (9178) HEAPMAP: tag=HEAPMAP_BEFORE_ACTIVATION_TASK caps=INTERNAL|DMA free=119855 largest=86016 min_free=32336 allocated=271388 free_blocks=31
+I (9198) Application: ACTIVATION_TASK_CREATE_RESULT result=1 handle=0x3fcb5dac
+I (9198) DMA_TRACE: tag=ACTIVATION_TASK_ENTER internal_free=119315 internal_largest=77824 dma_free=111543 dma_largest=77824 internal_min=40108
+I (9198) DMA_TRACE: tag=ACTIVATION_AFTER_TASK_CREATE internal_free=120231 internal_largest=77824 dma_free=112459 dma_largest=77824 internal_min=40108
+W (9218) DMA_TRACE: DMA_DROP tag=ACTIVATION_TASK_ENTER previous_largest=86016 current_largest=77824 delta=-8192 previous_free=119595 current_free=111543 free_delta=-8052
+W (9228) DMA_TRACE: DMA_DROP tag=ACTIVATION_AFTER_TASK_CREATE previous_largest=86016 current_largest=77824 delta=-8192 previous_free=119595 current_free=112459 free_delta=-7136
+I (9238) TASK_TRACE: tag=ACTIVATION_TASK_ENTER handle=0x3fcb5dac name=activation stack_base=0x3fcb6404 stack_hwm=6972 state=0
+I (9258) TASK_TRACE: tag=ACTIVATION_AFTER_TASK_CREATE handle=0x3fcb5dac name=activation stack_base=0x3fcb6404 stack_hwm=6924 state=0
+I (9268) DMA_TRACE: tag=ACTIVATION_TASK_ENTER_STAGE internal_free=119315 internal_largest=77824 dma_free=111543 dma_largest=77824 internal_min=40108
+I (9278) HEAPMAP: tag=HEAPMAP_AFTER_ACTIVATION_TASK_CREATE caps=INTERNAL|DMA free=112459 largest=77824 min_free=32336 allocated=278792 free_blocks=33
+I (9298) DMA_TRACE: tag=ACTIVATION_BEFORE_OTA internal_free=120231 internal_largest=77824 dma_free=112459 dma_largest=77824 internal_min=40108
+I (9308) DMA_TRACE: tag=ACTIVATION_TASK_CREATED internal_free=119339 internal_largest=77824 dma_free=111567 dma_largest=77824 internal_min=40108
+I (9318) DMA_TRACE: tag=ACTIVATION_AFTER_OTA_CREATE internal_free=119135 internal_largest=77824 dma_free=111363 dma_largest=77824 internal_min=40108
+I (9348) DMA_TRACE: tag=ACTIVATION_BEFORE_ASSETS internal_free=118827 internal_largest=77824 dma_free=111055 dma_largest=77824 internal_min=40108
+I (9358) HEAPMAP: tag=HEAPMAP_BEFORE_ASSETS caps=INTERNAL|DMA free=111055 largest=77824 min_free=32336 allocated=280168 free_blocks=34
+I (9368) DMA_TRACE: tag=ASSETS_AFTER_STORAGE_INFO internal_free=118783 internal_largest=77824 dma_free=111011 dma_largest=77824 internal_min=40108
+I (9378) Assets: The storage free size is 21120 KB
+I (9388) Assets: The partition size is 8192 KB
+I (9388) DMA_TRACE: tag=ASSETS_BEFORE_PARTITION_MMAP internal_free=118743 internal_largest=77824 dma_free=110971 dma_largest=77824 internal_min=40108
+I (9408) DMA_TRACE: tag=ASSETS_AFTER_PARTITION_MMAP internal_free=118651 internal_largest=77824 dma_free=110879 dma_largest=77824 internal_min=40108
+I (9418) DMA_TRACE: tag=ASSETS_BEFORE_CHECKSUM internal_free=118103 internal_largest=73728 dma_free=110331 dma_largest=73728 internal_min=40108
+W (9428) DMA_TRACE: DMA_DROP tag=ASSETS_BEFORE_CHECKSUM previous_largest=77824 current_largest=73728 delta=-4096 previous_free=110879 current_free=110331 free_delta=-548
+I (9558) Assets: The checksum calculation time is 139 ms
+I (9558) DMA_TRACE: tag=ASSETS_AFTER_CHECKSUM internal_free=118691 internal_largest=77824 dma_free=110919 dma_largest=77824 internal_min=40108
+I (9568) DMA_TRACE: tag=ASSETS_BEFORE_ASSET_TABLE internal_free=118691 internal_largest=77824 dma_free=110919 dma_largest=77824 internal_min=40108
+I (9578) DMA_TRACE: tag=ASSETS_AFTER_ASSET_TABLE internal_free=117391 internal_largest=73728 dma_free=109619 dma_largest=73728 internal_min=40108
+W (9588) DMA_TRACE: DMA_DROP tag=ASSETS_AFTER_ASSET_TABLE previous_largest=77824 current_largest=73728 delta=-4096 previous_free=110919 current_free=109619 free_delta=-1300
+I (9608) DMA_TRACE: tag=ASSETS_ENTER internal_free=117343 internal_largest=73728 dma_free=109571 dma_largest=73728 internal_min=40108
+I (9618) HEAPMAP: tag=HEAPMAP_ASSETS_ENTER caps=INTERNAL|DMA free=109535 largest=73728 min_free=32336 allocated=281560 free_blocks=27
+I (9628) DMA_TRACE: tag=ASSETS_BEFORE_ROOT_PARSE internal_free=117343 internal_largest=73728 dma_free=109571 dma_largest=73728 internal_min=40108
+I (9638) DMA_TRACE: tag=ASSETS_AFTER_ROOT_PARSE internal_free=112451 internal_largest=69632 dma_free=104679 dma_largest=69632 internal_min=39812
+W (9648) DMA_TRACE: DMA_DROP tag=ASSETS_AFTER_ROOT_PARSE previous_largest=73728 current_largest=69632 delta=-4096 previous_free=109571 current_free=104679 free_delta=-4892
+I (9668) HEAPMAP: tag=HEAPMAP_BEFORE_SRMODEL caps=INTERNAL|DMA free=104679 largest=69632 min_free=32040 allocated=285740 free_blocks=2
+I (9678) DMA_TRACE: tag=ASSETS_BEFORE_SRMODEL_LOAD internal_free=112451 internal_largest=69632 dma_free=104679 dma_largest=69632 internal_min=39812
+I (9688) MODEL_LOADER: Successfully load srmodels
+I (9698) Assets: ASSETS_ALLOC owner=srmodel_load ptr=0x3fcb9aa4 asset_bytes=582103
+I (9708) DMA_TRACE: tag=ASSETS_AFTER_SRMODEL_LOAD internal_free=112059 internal_largest=69632 dma_free=104287 dma_largest=69632 internal_min=39812
+I (9718) HEAPMAP: tag=HEAPMAP_AFTER_SRMODEL caps=INTERNAL|DMA free=104287 largest=69632 min_free=32040 allocated=286068 free_blocks=2
+I (9728) DMA_TRACE: tag=ASSETS_BEFORE_FONT_CREATE internal_free=112023 internal_largest=69632 dma_free=104251 dma_largest=69632 internal_min=39812
+I (9738) Assets: ASSETS_ALLOC owner=text_font ptr=0x3fcb9c5c asset_bytes=1287460
+I (9748) DMA_TRACE: tag=ASSETS_AFTER_FONT_CREATE internal_free=111139 internal_largest=69632 dma_free=103367 dma_largest=69632 internal_min=39812
+I (9798) DMA_TRACE: tag=ASSETS_AFTER_FONT_APPLY internal_free=111147 internal_largest=69632 dma_free=103311 dma_largest=69632 internal_min=39812
+I (9798) DMA_TRACE: tag=ASSETS_BEFORE_EMOJI_COLLECTION internal_free=110039 internal_largest=69632 dma_free=102267 dma_largest=69632 internal_min=39812
+W (9818) Assets: EMOJI_AB_TEST: skipping runtime standard EmojiCollection; assets index unchanged
+I (9828) DMA_TRACE: tag=ASSETS_AFTER_EMOJI_COLLECTION_SKIPPED internal_free=110003 internal_largest=69632 dma_free=102231 dma_largest=69632 internal_min=39812
+I (9838) Assets: Refreshing display theme...
+I (9838) DMA_TRACE: tag=ASSETS_BEFORE_THEME_REFRESH internal_free=110039 internal_largest=69632 dma_free=102267 dma_largest=69632 internal_min=39812
+I (9888) DMA_TRACE: tag=ASSETS_AFTER_THEME_REFRESH internal_free=110039 internal_largest=69632 dma_free=102267 dma_largest=69632 internal_min=39812
+I (9888) DMA_TRACE: tag=ASSETS_AFTER_ROOT_DELETE internal_free=114931 internal_largest=69632 dma_free=107159 dma_largest=69632 internal_min=39812
+I (9898) DMA_TRACE: tag=ASSETS_EXIT internal_free=114931 internal_largest=69632 dma_free=107159 dma_largest=69632 internal_min=39812
+I (9908) HEAPMAP: tag=HEAPMAP_ASSETS_EXIT caps=INTERNAL|DMA free=107159 largest=69632 min_free=32040 allocated=283572 free_blocks=29
+I (9928) DMA_TRACE: tag=ACTIVATION_AFTER_ASSETS internal_free=114955 internal_largest=69632 dma_free=107183 dma_largest=69632 internal_min=39812
+I (9938) HEAPMAP: tag=HEAPMAP_AFTER_ASSETS caps=INTERNAL|DMA free=107219 largest=69632 min_free=32040 allocated=283520 free_blocks=30
+I (9948) DMA_TRACE: tag=BEFORE_OTA_CHECK internal_free=114991 internal_largest=69632 dma_free=107219 dma_largest=69632 internal_min=39812
+I (9958) Ota: Current version: 2.4.2
+I (9968) LcdDisplay: BOOT_ANIM_EXIT reason=timeout elapsed_ms=8355
+I (9968) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (9978) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (9978) Weather: WEATHER_MEM internal_free=101823 largest_block=59392 psram_free=8218688
+I (9988) Weather: WEATHER_HTTP_START
+I (10008) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (10228) RAM: internal free=95023 min=39812 largest=49152 | psram free=8194736 min=8194472 largest=8126464
+I (10738) LcdDisplay: BOOT_ANIM_DESTROYED
+I (11008) HttpClient: Established new connection to api.weatherapi.com:443 protocol=https cost=1010
+E (11588) esp-tls-mbedtls: read error :-0x004C
+E (11588) EspSsl: SSL receive failed: -76
+I (11588) HttpClient: HTTP connection closed
+I (11588) Weather: WEATHER_HTTP_RESULT status=200 bytes=59105 elapsed_ms=1604
+I (11608) Weather: WEATHER_PARSE_OK temp=12.5 code=1000 wind=6.3 tomorrow=11.8..16.7 code=1063 rain=59 day2=11.5..16.0 code=1063 rain=79
+I (11688) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (11778) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1810
+I (12058) Weather: WEATHER_CACHE_SAVED bytes=72
+I (12058) Weather: WEATHER_UPDATE_OK timestamp=1789944711
+I (12058) Weather: WEATHER_MEM internal_free=91875 largest_block=38912 psram_free=8121812
+I (12498) HttpClient: HTTP connection closed
+I (12498) Ota: Current is the latest version
+I (12508) Ota: Running partition: ota_0
+I (12508) DMA_TRACE: tag=AFTER_OTA_CHECK internal_free=116315 internal_largest=57344 dma_free=108543 dma_largest=57344 internal_min=39812
+W (12508) DMA_TRACE: DMA_DROP tag=AFTER_OTA_CHECK previous_largest=69632 current_largest=57344 delta=-12288 previous_free=107219 current_free=108543 free_delta=1324
+I (12528) DMA_TRACE: tag=ACTIVATION_BEFORE_PROTOCOL internal_free=116531 internal_largest=57344 dma_free=108759 dma_largest=57344 internal_min=39812
+I (12538) DMA_TRACE: tag=PROTOCOL_BEFORE_CREATE internal_free=116827 internal_largest=57344 dma_free=109055 dma_largest=57344 internal_min=39812
+I (12548) DMA_TRACE: tag=PROTOCOL_AFTER_CREATE internal_free=116203 internal_largest=57344 dma_free=108431 dma_largest=57344 internal_min=39812
+I (12568) DMA_TRACE: tag=PROTOCOL_BEFORE_START internal_free=116223 internal_largest=57344 dma_free=108451 dma_largest=57344 internal_min=39812
+I (12578) MQTT: Connecting to endpoint api.tenclass.net
+I (14648) DMA_TRACE: tag=PROTOCOL_ON_CONNECTED_CALLBACK internal_free=107267 internal_largest=57344 dma_free=99495 dma_largest=57344 internal_min=39812
+I (14648) Application: PROTOCOL_CONNECTED timestamp_ms=14488
+I (14658) MQTT: Connected to endpoint
+I (14658) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=14494
+I (14658) DMA_TRACE: tag=PROTOCOL_AFTER_START internal_free=108075 internal_largest=57344 dma_free=100303 dma_largest=57344 internal_min=39812
+I (14678) DMA_TRACE: tag=ACTIVATION_AFTER_PROTOCOL_CREATE internal_free=107979 internal_largest=57344 dma_free=100207 dma_largest=57344 internal_min=39812
+I (14688) DMA_TRACE: tag=ACTIVATION_BEFORE_FINISH internal_free=107979 internal_largest=57344 dma_free=100207 dma_largest=57344 internal_min=39812
+I (14698) Application: Activation done
+I (14708) DMA_TRACE: tag=ACTIVATION_LAST_REQUIRED_OPERATION internal_free=107979 internal_largest=57344 dma_free=100207 dma_largest=57344 internal_min=39812
+I (14708) DMA_TRACE: tag=ACTIVATION_DONE_BEFORE_IDLE internal_free=108303 internal_largest=57344 dma_free=100531 dma_largest=57344 internal_min=39812
+I (14718) DMA_TRACE: tag=ACTIVATION_BEFORE_TASK_DELETE internal_free=108303 internal_largest=57344 dma_free=100531 dma_largest=57344 internal_min=39812
+I (14738) SystemInfo: free sram: 107963 minimal sram: 39812
+I (14748) TASK_TRACE: tag=ACTIVATION_BEFORE_TASK_DELETE handle=0x3fcb5dac name=activation stack_base=0x3fcb6404 stack_hwm=4220 state=0
+I (14748) StateMachine: State: activating -> idle
+I (14768) HEAPMAP: tag=HEAPMAP_BEFORE_ACTIVATION_TASK_DELETE caps=INTERNAL|DMA free=99963 largest=57344 min_free=32040 allocated=290888 free_blocks=29
+I (14768) DMA_TRACE: tag=ACTIVATION_DONE_AFTER_IDLE internal_free=107963 internal_largest=57344 dma_free=100191 dma_largest=57344 internal_min=39812
+I (14778) DMA_TRACE: tag=ACTIVATION_DELETE_REQUESTED internal_free=107963 internal_largest=57344 dma_free=100191 dma_largest=57344 internal_min=39812
+I (14808) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (14818) wifi:Set ps type: 2, coexist: 0
+
+I (14848) DMA_TRACE: tag=FIRST_AI_BEFORE_AFE_INITIALIZE internal_free=117095 internal_largest=57344 dma_free=109323 dma_largest=57344 internal_min=39812
+I (14848) DMA_TRACE: tag=AFE_BEGIN internal_free=117095 internal_largest=57344 dma_free=109323 dma_largest=57344 internal_min=39812
+I (14858) DMA_TRACE: tag=AFE_BEFORE_OUTPUT_RESERVE internal_free=116499 internal_largest=57344 dma_free=108923 dma_largest=57344 internal_min=39812
+I (14878) DMA_TRACE: tag=AFE_AFTER_OUTPUT_RESERVE internal_free=114899 internal_largest=57344 dma_free=106931 dma_largest=57344 internal_min=39812
+I (14888) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (14888) AfeAudioEngine: Model 1: wn9_nihaoxiaozhi_tts
+I (14898) DMA_TRACE: tag=AFE_AFTER_MODEL_FILTER internal_free=115219 internal_largest=57344 dma_free=107447 dma_largest=57344 internal_min=39812
+I (14908) DMA_TRACE: tag=AFE_BEFORE_CONFIG_INIT internal_free=114851 internal_largest=57344 dma_free=107079 dma_largest=57344 internal_min=39812
+I (14918) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (14928) AFE_CONFIG: Set Second WakeNet Model: wn9_nihaoxiaozhi_tts
+I (14928) DMA_TRACE: tag=AFE_AFTER_CONFIG_INIT internal_free=115007 internal_largest=57344 dma_free=107235 dma_largest=57344 internal_min=39812
+I (14948) DMA_TRACE: tag=AFE_BEFORE_HANDLE_FROM_CONFIG internal_free=114687 internal_largest=57344 dma_free=106915 dma_largest=57344 internal_min=39812
+I (14958) DMA_TRACE: tag=AFE_AFTER_HANDLE_FROM_CONFIG internal_free=114687 internal_largest=57344 dma_free=106915 dma_largest=57344 internal_min=39812
+I (14968) HEAPMAP: tag=HEAPMAP_BEFORE_AFE_CREATE caps=INTERNAL|DMA free=107235 largest=57344 min_free=32040 allocated=283648 free_blocks=28
+W (14978) HEAP_TRACE: START tag=AFE_TRACE_START unavailable CONFIG_HEAP_TRACING_STANDALONE=0
+I (14988) DMA_TRACE: tag=AFE_BEFORE_AFE_CREATE internal_free=114355 internal_largest=57344 dma_free=106643 dma_largest=57344 internal_min=39812
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+MC Quantized wakenet9: wakenet9l_tts1h8_你好小智_3_0.631_0.635, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (15078) AFE: AFE Version: (1MIC_V251128)
+I (15088) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15088) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,wn9_nihaoxiaozhi_tts)| -> [output]
+I (15108) DMA_TRACE: tag=AFE_AFTER_AFE_CREATE internal_free=76611 internal_largest=32768 dma_free=68911 dma_largest=32768 internal_min=33340
+W (15118) DMA_TRACE: DMA_DROP tag=AFE_AFTER_AFE_CREATE previous_largest=57344 current_largest=32768 delta=-24576 previous_free=106643 current_free=68911 free_delta=-37732
+W (15128) HEAP_TRACE: STOP tag=AFE_TRACE_STOP unavailable CONFIG_HEAP_TRACING_STANDALONE=0
+I (15138) HEAPMAP: tag=HEAPMAP_AFTER_AFE_CREATE caps=INTERNAL|DMA free=69187 largest=32768 min_free=25568 allocated=320676 free_blocks=22
+I (15148) DMA_TRACE: tag=AFE_AFTER_CONFIG_FREE internal_free=77355 internal_largest=32768 dma_free=69583 dma_largest=32768 internal_min=33340
+I (15158) AFE: AFE Version: (1MIC_V251128)
+I (15168) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (15178) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (15178) DMA_TRACE: tag=AFE_PERSISTENT_READY internal_free=77139 internal_largest=32768 dma_free=69367 dma_largest=32768 internal_min=33340
+I (15188) DMA_TRACE: tag=AFE_BEFORE_PROCESSING_TASK internal_free=77355 internal_largest=32768 dma_free=69583 dma_largest=32768 internal_min=33340
+I (15208) DMA_TRACE: tag=AFE_AFTER_PROCESSING_TASK internal_free=72935 internal_largest=32768 dma_free=65163 dma_largest=32768 internal_min=33340
+I (15218) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (15228) RAM: internal free=73139 min=33340 largest=32768 | psram free=7508544 min=7508544 largest=7471104
+I (15238) DMA_TRACE: tag=AFE_INIT_DONE internal_free=73139 internal_largest=32768 dma_free=65367 dma_largest=32768 internal_min=33340
+I (15248) DMA_TRACE: tag=FIRST_AI_AFTER_AFE_INITIALIZE internal_free=72891 internal_largest=32768 dma_free=65119 dma_largest=32768 internal_min=33340
+I (15258) Application: CONNECTION_SOUND_START timestamp_ms=15098
+I (15268) DMA_TRACE: tag=CONNECTION_SOUND_START internal_free=72271 internal_largest=32768 dma_free=64499 dma_largest=32768 internal_min=33340
+I (15278) DMA_TRACE: tag=SOUND_BEFORE_OUTPUT_ENABLE internal_free=72271 internal_largest=32768 dma_free=64499 dma_largest=32768 internal_min=33340
+I (15288) AudioCodec: Set output enable to true
+I (15298) DMA_TRACE: tag=SOUND_AFTER_OUTPUT_ENABLE internal_free=72407 internal_largest=32768 dma_free=64635 dma_largest=32768 internal_min=33340
+I (15308) DMA_TRACE: tag=AUDIO_BEFORE_INPUT_ENABLE internal_free=70291 internal_largest=32768 dma_free=62519 dma_largest=32768 internal_min=33340
+I (15318) DMA_TRACE: tag=ACTIVATION_AFTER_TASK_DELETED internal_free=70367 internal_largest=32768 dma_free=62595 dma_largest=32768 internal_min=33340
+I (15318) AudioService: Resampling audio from 16000 to 48000
+I (15338) HEAPMAP: tag=HEAPMAP_AFTER_ACTIVATION_TASK_DELETED caps=INTERNAL|DMA free=62535 largest=32768 min_free=25568 allocated=327188 free_blocks=22
+I (15338) DMA_TRACE: tag=I2S_RX_BEFORE_ENABLE internal_free=70307 internal_largest=32768 dma_free=62535 dma_largest=32768 internal_min=33340
+I (15368) AudioCodec: Set input enable to true
+I (15368) I2S_IF: No paired data, current mode: record
+I (15378) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15388) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15408) Adev_Codec: Open codec device OK
+I (15408) DMA_TRACE: tag=I2S_RX_AFTER_ENABLE internal_free=72891 internal_largest=32768 dma_free=65119 dma_largest=32768 internal_min=33340
+I (15408) DMA_TRACE: tag=AUDIO_AFTER_INPUT_ENABLE internal_free=72891 internal_largest=32768 dma_free=65119 dma_largest=32768 internal_min=33340
+I (20228) RAM: internal free=69003 min=33340 largest=28672 | psram free=7488152 min=7458312 largest=7471104
+I (25228) RAM: internal free=74695 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (25258) SystemInfo: free sram: 74663 minimal sram: 33340
+I (30228) RAM: internal free=74383 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (32308) AudioCodec: Set output enable to false
+I (35228) RAM: internal free=74695 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (35278) SystemInfo: free sram: 74663 minimal sram: 33340
+I (40228) RAM: internal free=74695 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (45228) RAM: internal free=74695 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (45258) SystemInfo: free sram: 74663 minimal sram: 33340
+I (50228) RAM: internal free=74563 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (55228) RAM: internal free=74383 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (55288) SystemInfo: free sram: 74663 minimal sram: 33340
+I (60228) RAM: internal free=74695 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (65228) RAM: internal free=74687 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (65248) SystemInfo: free sram: 74655 minimal sram: 33340
+I (70228) RAM: internal free=74555 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (75228) RAM: internal free=74375 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (75278) SystemInfo: free sram: 74655 minimal sram: 33340
+I (80228) RAM: internal free=74375 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (85228) RAM: internal free=74523 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
+I (85268) SystemInfo: free sram: 74655 minimal sram: 33340
+I (90228) RAM: internal free=74687 min=33340 largest=32768 | psram free=7506468 min=7458312 largest=7471104
