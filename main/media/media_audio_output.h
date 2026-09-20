@@ -11,6 +11,8 @@ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples
 
 void BeginMediaPcmStream();
 
+void InitializeMediaRateConverterEarly(uint32_t source_rate = 44100, uint32_t target_rate = 48000);
+
 void EnsureMp3DecoderRegistered();
 
 #endif

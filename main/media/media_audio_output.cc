@@ -22,6 +22,29 @@ class MediaRateConverter {
 public:
     ~MediaRateConverter() { Close(); }
 
+    void InitializeEarly(uint32_t source_rate, uint32_t target_rate) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (handle_ != nullptr && source_rate_ == source_rate && target_rate_ == target_rate)
+            return;
+        Close();
+        esp_ae_rate_cvt_cfg_t config = {
+            .src_rate = source_rate,
+            .dest_rate = target_rate,
+            .channel = 1,
+            .bits_per_sample = 16,
+            .complexity = 3,
+            .perf_type = ESP_AE_RATE_CVT_PERF_TYPE_MEMORY,
+        };
+        const esp_ae_err_t result = esp_ae_rate_cvt_open(&config, &handle_);
+        if (result != ESP_AE_ERR_OK || handle_ == nullptr) {
+            ESP_LOGE(TAG, "Early media rate converter creation failed: %d", static_cast<int>(result));
+            handle_ = nullptr;
+            return;
+        }
+        source_rate_ = source_rate;
+        target_rate_ = target_rate;
+    }
+
     void ResetStream() {
         std::lock_guard<std::mutex> lock(mutex_);
         if (handle_ != nullptr)
@@ -32,7 +55,6 @@ public:
                  uint32_t target_rate, std::vector<int16_t>& output) {
         std::lock_guard<std::mutex> lock(mutex_);
         if (source_rate == target_rate) {
-            Close();
             output.assign(input, input + input_samples);
             return true;
         }
@@ -97,6 +119,10 @@ MediaRateConverter& GetMediaRateConverter() {
     return converter;
 }
 }  // namespace
+
+void InitializeMediaRateConverterEarly(uint32_t source_rate, uint32_t target_rate) {
+    GetMediaRateConverter().InitializeEarly(source_rate, target_rate);
+}
 
 void BeginMediaPcmStream() {
     GetMediaRateConverter().ResetStream();

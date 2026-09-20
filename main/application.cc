@@ -8,6 +8,7 @@
 #include "board.h"
 #include "display.h"
 #include "mcp_server.h"
+#include "media/media_audio_output.h"
 #include "media/media_player.h"
 #include "mqtt_protocol.h"
 #include "settings.h"
@@ -78,6 +79,7 @@ void Application::Initialize() {
     audio_service_.Initialize(codec);
     audio_service_.Start();
     SystemInfo::PrintRamSnapshot("AFTER_AUDIO_INIT");
+    InitializeMediaRateConverterEarly();
 
     AudioServiceCallbacks callbacks;
     callbacks.on_send_queue_available = [this]() {
