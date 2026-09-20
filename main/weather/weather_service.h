@@ -46,6 +46,8 @@ public:
     static WeatherService& GetInstance();
     void Initialize();
     void SetNetworkConnected(bool connected);
+    void SetApplicationIdle(bool idle);
+    void SetAudioReady(bool ready);
     void Tick();
     bool Refresh(const char* reason);
     WeatherData GetSnapshot() const;
@@ -66,6 +68,8 @@ private:
     WeatherData data_{};
     bool initialized_ = false;
     bool network_connected_ = false;
+    bool application_idle_ = false;
+    bool audio_ready_ = false;
     bool pending_refresh_ = false;
     bool time_wait_logged_ = false;
     uint32_t last_attempt_ms_ = 0;

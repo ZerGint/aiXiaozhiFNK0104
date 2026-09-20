@@ -33,6 +33,13 @@ constexpr char kCachePath[] = "/sdcard/weather_cache.dat";
 constexpr char kCacheTmpPath[] = "/sdcard/weather_cache.tmp";
 constexpr uint32_t kCacheMagic = 0x31544857;  // WTH1
 constexpr uint16_t kCacheVersion = 1;
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+constexpr UBaseType_t kWeatherTaskPriority = tskIDLE_PRIORITY + 1;
+constexpr bool kRequiresReadyGate = true;
+#else
+constexpr UBaseType_t kWeatherTaskPriority = 2;
+constexpr bool kRequiresReadyGate = false;
+#endif
 
 struct __attribute__((packed)) WeatherCacheDay {
     float temp_min;
@@ -202,18 +209,34 @@ void WeatherService::SetNetworkConnected(bool connected) {
     portEXIT_CRITICAL(&lock_);
 }
 
+void WeatherService::SetApplicationIdle(bool idle) {
+    portENTER_CRITICAL(&lock_);
+    application_idle_ = idle;
+    portEXIT_CRITICAL(&lock_);
+}
+
+void WeatherService::SetAudioReady(bool ready) {
+    portENTER_CRITICAL(&lock_);
+    audio_ready_ = ready;
+    portEXIT_CRITICAL(&lock_);
+}
+
 void WeatherService::Tick() {
     bool due = false;
     bool pending = false;
     bool has_data = false;
+    bool ready = false;
     bool log_wait = false;
     bool log_synced = false;
     const bool time_valid = IsTimeValid();
+    const bool radio_active = InternetRadioPlayer::GetInstance().IsActive();
     const uint32_t now = static_cast<uint32_t>(esp_timer_get_time() / 1000);
     portENTER_CRITICAL(&lock_);
     pending = pending_refresh_;
     has_data = data_.valid;
+    ready = !kRequiresReadyGate || (application_idle_ && audio_ready_);
     due = network_connected_ && time_valid && !data_.request_active &&
+          ready && !radio_active &&
           (pending || !data_.valid || now - last_attempt_ms_ >= kUpdateIntervalMs);
     if (network_connected_ && !time_valid && !time_wait_logged_) {
         time_wait_logged_ = true;
@@ -231,41 +254,38 @@ void WeatherService::Tick() {
 }
 
 bool WeatherService::Refresh(const char* reason) {
-    if (!IsTimeValid()) {
-        portENTER_CRITICAL(&lock_);
-        if (!network_connected_ || data_.request_active) {
-            portEXIT_CRITICAL(&lock_);
-            return false;
-        }
-        pending_refresh_ = true;
-        data_.refresh_deferred = true;
-        ++data_.generation;
-        portEXIT_CRITICAL(&lock_);
-        ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s waiting_for=time_sync", reason);
-        return true;
-    }
-    if (InternetRadioPlayer::GetInstance().IsActive()) {
-        portENTER_CRITICAL(&lock_);
-        if (!network_connected_ || data_.request_active) {
-            portEXIT_CRITICAL(&lock_);
-            return false;
-        }
-        if (pending_refresh_) {
-            portEXIT_CRITICAL(&lock_);
-            return true;
-        }
-        pending_refresh_ = true;
-        data_.refresh_deferred = true;
-        data_.last_request_failed = false;
-        ++data_.generation;
-        portEXIT_CRITICAL(&lock_);
-        ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s radio_active=1", reason);
-        return true;
-    }
+    const bool radio_active = InternetRadioPlayer::GetInstance().IsActive();
+    bool request_already_active = false;
+    const bool time_valid = IsTimeValid();
+
     portENTER_CRITICAL(&lock_);
-    if (!network_connected_ || data_.request_active) {
+    if (!network_connected_) {
         portEXIT_CRITICAL(&lock_);
         return false;
+    }
+
+    const bool safe = time_valid &&
+                      (!kRequiresReadyGate || (application_idle_ && audio_ready_)) &&
+                      !radio_active;
+    if (data_.request_active || !safe) {
+        if (!pending_refresh_) {
+            pending_refresh_ = true;
+            ++data_.generation;
+        }
+        data_.refresh_deferred = true;
+        data_.last_request_failed = false;
+        request_already_active = data_.request_active;
+        portEXIT_CRITICAL(&lock_);
+        if (request_already_active) {
+            ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s request_active=1", reason);
+        } else if (radio_active) {
+            ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s waiting_for=radio_idle", reason);
+        } else if (!time_valid) {
+            ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s waiting_for=time_sync", reason);
+        } else {
+            ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=%s waiting_for=ready_state", reason);
+        }
+        return true;
     }
     pending_refresh_ = false;
     data_.request_active = true;
@@ -273,10 +293,13 @@ bool WeatherService::Refresh(const char* reason) {
     last_attempt_ms_ = static_cast<uint32_t>(esp_timer_get_time() / 1000);
     ++data_.generation;
     portEXIT_CRITICAL(&lock_);
+
     ESP_LOGI(kTag, "WEATHER_REFRESH_REQUEST reason=%s", reason);
-    if (xTaskCreate(RefreshTask, "weather_http", 8192, this, 2, nullptr) != pdPASS) {
+    if (xTaskCreate(RefreshTask, "weather_http", 8192, this, kWeatherTaskPriority, nullptr) != pdPASS) {
         portENTER_CRITICAL(&lock_);
         data_.request_active = false;
+        pending_refresh_ = true;
+        data_.refresh_deferred = true;
         data_.last_request_failed = true;
         ++data_.generation;
         portEXIT_CRITICAL(&lock_);
@@ -293,6 +316,27 @@ void WeatherService::RefreshTask(void* arg) {
 }
 
 void WeatherService::RunRefresh() {
+    const bool radio_active = InternetRadioPlayer::GetInstance().IsActive();
+    const bool time_valid = IsTimeValid();
+    bool allowed = false;
+    portENTER_CRITICAL(&lock_);
+    allowed = network_connected_ &&
+              (!kRequiresReadyGate || (application_idle_ && audio_ready_)) && time_valid &&
+              !radio_active;
+    if (!allowed) {
+        data_.request_active = false;
+        if (!pending_refresh_) {
+            pending_refresh_ = true;
+            ++data_.generation;
+        }
+        data_.refresh_deferred = true;
+    }
+    portEXIT_CRITICAL(&lock_);
+    if (!allowed) {
+        ESP_LOGI(kTag, "WEATHER_REFRESH_DEFERRED reason=admission_changed");
+        return;
+    }
+
     const int64_t started = esp_timer_get_time();
     LogMemory();
     char url[512];
@@ -305,6 +349,7 @@ void WeatherService::RunRefresh() {
                  data_.valid);
         portENTER_CRITICAL(&lock_);
         data_.request_active = false;
+        data_.refresh_deferred = pending_refresh_;
         data_.last_request_failed = true;
         ++data_.generation;
         portEXIT_CRITICAL(&lock_);
@@ -379,11 +424,14 @@ void WeatherService::RunRefresh() {
 
     portENTER_CRITICAL(&lock_);
     const bool had_cache = data_.valid;
+    const bool rerun_pending = pending_refresh_;
     if (parsed.valid) {
         parsed.generation = data_.generation + 1;
+        parsed.refresh_deferred = rerun_pending;
         data_ = parsed;
     } else {
         data_.request_active = false;
+        data_.refresh_deferred = rerun_pending;
         data_.last_request_failed = true;
         data_.stale = data_.valid;
         ++data_.generation;

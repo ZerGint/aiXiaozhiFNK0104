@@ -1028,6 +1028,9 @@ void Application::HandleStateChangedEvent() {
     auto display = board.GetDisplay();
     auto led = board.GetLed();
     led->OnStateChanged();
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    WeatherService::GetInstance().SetApplicationIdle(new_state == kDeviceStateIdle);
+#endif
 
     switch (new_state) {
         case kDeviceStateUnknown:
@@ -1038,6 +1041,10 @@ void Application::HandleStateChangedEvent() {
             display->SetEmotion("neutral");  // Then set emotion (wechat mode checks child count)
             audio_service_.EnableVoiceProcessing(false);
             audio_service_.EnableWakeWordDetection(true);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+            WeatherService::GetInstance().SetAudioReady(
+                audio_service_.IsWakeWordRunning() || audio_service_.IsAudioProcessorRunning());
+#endif
             break;
         case kDeviceStateConnecting:
             display->SetStatus(Lang::Strings::CONNECTING);
