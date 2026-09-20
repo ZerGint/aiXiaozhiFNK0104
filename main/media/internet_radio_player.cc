@@ -12,6 +12,7 @@
 
 #include <esp_crt_bundle.h>
 #include <esp_http_client.h>
+#include <esp_heap_caps.h>
 #include <esp_log.h>
 #include <esp_timer.h>
 #include <esp_wifi.h>
@@ -30,7 +31,6 @@
 namespace {
 constexpr EventBits_t kStartupBitReady = (1 << 0);
 constexpr EventBits_t kStartupBitFailed = (1 << 1);
-
 std::string ResolveRedirectUrl(const std::string& current_url, const std::string& location) {
     if (location.empty())
         return "";
@@ -206,8 +206,9 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         }
         ESP_LOGI(TAG, "Radio stream startup: connecting");
         TaskHandle_t new_task_handle = nullptr;
-        if (xTaskCreatePinnedToCore(TaskFunction, "InternetRadio", 6144, attempt, 3,
-                                    &new_task_handle, 1) != pdPASS) {
+        if (xTaskCreatePinnedToCoreWithCaps(TaskFunction, "InternetRadio", 6144, attempt, 3,
+                                            &new_task_handle, 1,
+                                            MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT) != pdPASS) {
             delete attempt;
             playing_ = false;
             task_handle_.store(nullptr);
@@ -295,7 +296,7 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
         }
     }
     delete attempt;
-    vTaskDelete(nullptr);
+    vTaskDeleteWithCaps(nullptr);
 }
 
 void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
