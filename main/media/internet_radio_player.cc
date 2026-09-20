@@ -244,6 +244,11 @@ void InternetRadioPlayer::Stop() {
         }
     }
     Application::GetInstance().GetAudioService().ResetDecoder();
+    const bool playback_drained =
+        Application::GetInstance().GetAudioService().WaitForPlaybackDrained(std::chrono::seconds(3));
+    if (!playback_drained) {
+        ESP_LOGE(TAG, "Radio stop timed out waiting for playback drain");
+    }
     if (xTaskGetCurrentTaskHandle() != task) {
         for (int i = 0; completed_generation_.load() != wait_generation && i < 300; ++i)
             vTaskDelay(pdMS_TO_TICKS(10));

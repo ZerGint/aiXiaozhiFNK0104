@@ -1004,6 +1004,13 @@ void AudioService::ResetDecoder() {
     }
 }
 
+bool AudioService::WaitForPlaybackDrained(std::chrono::milliseconds timeout) {
+    std::unique_lock<std::mutex> lock(audio_queue_mutex_);
+    return playback_drain_cv_.wait_for(lock, timeout, [this]() {
+        return IsPlaybackDrainedLocked();
+    });
+}
+
 bool AudioService::IsPlaybackDrainedLocked() const {
     return audio_decode_queue_.empty() && audio_playback_queue_.empty() && !decode_in_flight_ &&
            !output_in_flight_;
@@ -1014,6 +1021,7 @@ bool AudioService::MarkPlaybackDrainedLocked() {
         return false;
     }
     playback_drained_notified_ = true;
+    playback_drain_cv_.notify_all();
     return true;
 }
 
