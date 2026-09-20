@@ -1017,11 +1017,14 @@ bool AudioService::IsPlaybackDrainedLocked() const {
 }
 
 bool AudioService::MarkPlaybackDrainedLocked() {
-    if (!IsPlaybackDrainedLocked() || playback_drained_notified_) {
+    if (!IsPlaybackDrainedLocked()) {
+        return false;
+    }
+    playback_drain_cv_.notify_all();
+    if (playback_drained_notified_) {
         return false;
     }
     playback_drained_notified_ = true;
-    playback_drain_cv_.notify_all();
     return true;
 }
 
