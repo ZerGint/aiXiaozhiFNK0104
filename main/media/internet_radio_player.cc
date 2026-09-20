@@ -3,6 +3,7 @@
 #include "application.h"
 #include "assets/lang_config.h"
 #include "audio_codec.h"
+#include "audio_service.h"
 #include "audio_manager.h"
 #include "board.h"
 #include "media_audio_output.h"
@@ -491,7 +492,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             break;
         }
         BeginMediaPcmStream();
-        std::vector<uint8_t> in(2048);
+        std::vector<uint8_t, PsramAllocator<uint8_t>> in(2048);
         std::vector<uint8_t> out(16384);
         std::vector<uint8_t> pending(in.size() * 4);
         LogRadioMemory(TAG, "RADIO_AFTER_BUFFERS");
