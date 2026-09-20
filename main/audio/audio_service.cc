@@ -1,4 +1,6 @@
 #include "audio_service.h"
+
+#include <esp_heap_caps.h>
 #include <esp_log.h>
 #include <algorithm>
 #include <cstring>
@@ -166,13 +168,14 @@ void AudioService::Start() {
 #endif
 
     /* Start the opus codec task */
-    xTaskCreate(
+    xTaskCreateWithCaps(
         [](void* arg) {
             AudioService* audio_service = (AudioService*)arg;
             audio_service->OpusCodecTask();
-            vTaskDelete(NULL);
+            vTaskDeleteWithCaps(NULL);
         },
-        "opus_codec", 2048 * 12, this, 2, &opus_codec_task_handle_);
+        "opus_codec", 2048 * 12, this, 2, &opus_codec_task_handle_,
+        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
 }
 
 void AudioService::Stop() {

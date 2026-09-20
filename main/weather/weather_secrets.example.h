@@ -1,0 +1,3 @@
+#pragma once
+
+#define WEATHER_API_KEY "PUT_YOUR_WEATHERAPI_KEY_HERE"

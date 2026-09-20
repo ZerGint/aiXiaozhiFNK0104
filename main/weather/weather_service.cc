@@ -1,5 +1,7 @@
 #include "weather_service.h"
 
+#include "weather_secrets.h"
+
 #include "board.h"
 #include "media/internet_radio_player.h"
 #include "media/radio_json_framer.h"
@@ -67,10 +69,6 @@ uint32_t CacheChecksum(const void* data, size_t size) {
 bool IsTimeValid() {
     return time(nullptr) >= kMinimumValidTime;
 }
-
-#ifndef WEATHER_API_KEY
-#define WEATHER_API_KEY ""
-#endif
 
 void LogMemory() {
     ESP_LOGI(kTag, "WEATHER_MEM internal_free=%u largest_block=%u psram_free=%u",
