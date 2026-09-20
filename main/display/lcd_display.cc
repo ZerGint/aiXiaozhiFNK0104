@@ -35,6 +35,7 @@
 #include "media/radio_browser.h"
 #include "media/sd_music_player.h"
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#include <wifi_manager.h>
 #include "weather/weather_service.h"
 #endif
 
@@ -549,6 +550,21 @@ LcdDisplay::~LcdDisplay() {
 bool LcdDisplay::Lock(int timeout_ms) { return lvgl_port_lock(timeout_ms); }
 
 void LcdDisplay::Unlock() { lvgl_port_unlock(); }
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::UpdateStatusBar(bool update_all) {
+    LvglDisplay::UpdateStatusBar(update_all);
+
+    if (network_ip_label_ == nullptr) {
+        return;
+    }
+
+    const std::string ip_address = WifiManager::GetInstance().GetIpAddress();
+    DisplayLockGuard lock(this);
+    lv_label_set_text(network_ip_label_,
+                      ip_address.empty() ? "--.--.--.--" : ip_address.c_str());
+}
+#endif
 
 #if CONFIG_USE_WECHAT_MESSAGE_STYLE
 void LcdDisplay::SetupUI() {
@@ -1377,6 +1393,13 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_event_cb(top_time_label_, fnk_top_bar_cb, LV_EVENT_ALL, this);
     lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
     lv_obj_set_pos(network_label_, 12, 7);
+    network_ip_label_ = lv_label_create(top_bar_);
+    lv_label_set_text(network_ip_label_, "--.--.--.--");
+    lv_obj_set_width(network_ip_label_, 150);
+    lv_label_set_long_mode(network_ip_label_, LV_LABEL_LONG_DOT);
+    lv_obj_set_style_text_font(network_ip_label_, LV_FONT_DEFAULT, 0);
+    lv_obj_set_style_text_color(network_ip_label_, kText, 0);
+    lv_obj_set_pos(network_ip_label_, 40, 8);
     lv_obj_set_pos(top_time_label_, 200, 7);
     auto top_status_group = lv_obj_get_parent(battery_label_);
     lv_obj_set_size(top_status_group, 160, 34);

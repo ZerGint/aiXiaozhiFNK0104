@@ -71,6 +71,9 @@ protected:
     lv_obj_t* nav_status_[3] = {};
     lv_obj_t* nav_activity_[3] = {};
     lv_obj_t* top_time_label_ = nullptr;
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    lv_obj_t* network_ip_label_ = nullptr;
+#endif
     lv_obj_t* top_volume_value_label_ = nullptr;
     lv_obj_t* top_battery_value_label_ = nullptr;
     lv_obj_t* ai_view_ = nullptr;
@@ -173,6 +176,9 @@ public:
     virtual void ClearChatMessages() override;
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image) override;
     virtual void SetupUI() override;
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    virtual void UpdateStatusBar(bool update_all = false) override;
+#endif
     virtual void OnServerConnected() override;
     // Add theme switching function
     virtual void SetTheme(Theme* theme) override;
