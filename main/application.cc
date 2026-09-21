@@ -2,6 +2,7 @@
 #include "assets.h"
 #include "assets/lang_config.h"
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#include "boards/freenove-fnk0104s/home_assistant_settings_server.h"
 #include "weather/weather_service.h"
 #endif
 #include "audio_codec.h"
@@ -151,6 +152,7 @@ void Application::Initialize() {
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_DISCONNECTED);
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
                 WeatherService::GetInstance().SetNetworkConnected(false);
+                Schedule([]() { HomeAssistantSettingsServer::GetInstance().Stop(); });
 #endif
                 break;
             case NetworkEvent::WifiConfigModeEnter:

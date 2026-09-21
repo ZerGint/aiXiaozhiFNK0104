@@ -7,6 +7,7 @@
 
 HomeAssistant::HomeAssistant() {
     Settings settings("ha", false);
+    std::lock_guard<std::mutex> lock(config_mutex_);
     url_ = settings.GetString("url", "");
     token_ = settings.GetString("token", "");
 }
@@ -14,18 +15,39 @@ HomeAssistant::HomeAssistant() {
 void HomeAssistant::Initialize() {
     ESP_LOGI(TAG, "Initializing Home Assistant integration...");
     Settings settings("ha", false);
-    url_ = settings.GetString("url", "");
-    token_ = settings.GetString("token", "");
+    {
+        std::lock_guard<std::mutex> lock(config_mutex_);
+        url_ = settings.GetString("url", "");
+        token_ = settings.GetString("token", "");
+    }
     RegisterMcpTools();
 }
 
 void HomeAssistant::SetConfig(const std::string& url, const std::string& token) {
-    url_ = url;
-    token_ = token;
-    Settings settings("ha", true);
-    settings.SetString("url", url_);
-    settings.SetString("token", token_);
-    ESP_LOGI(TAG, "Home Assistant configuration saved: URL=%s", url_.c_str());
+    {
+        std::lock_guard<std::mutex> lock(config_mutex_);
+        url_ = url;
+        token_ = token;
+        Settings settings("ha", true);
+        settings.SetString("url", url_);
+        settings.SetString("token", token_);
+    }
+    ESP_LOGI(TAG, "Home Assistant configuration saved: URL=%s", url.c_str());
+}
+
+HomeAssistant::ConfigSnapshot HomeAssistant::GetConfigSnapshot() const {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    return {url_, token_};
+}
+
+std::string HomeAssistant::GetUrl() const {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    return url_;
+}
+
+bool HomeAssistant::IsConfigured() const {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    return !url_.empty() && !token_.empty();
 }
 
 static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
@@ -39,16 +61,21 @@ static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
 }
 
 std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, const std::string& path, const std::string& post_data) {
-    if (!IsConfigured()) {
+    return PerformHttpRequest(method, path, post_data, GetConfigSnapshot());
+}
+
+std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, const std::string& path,
+                                              const std::string& post_data, const ConfigSnapshot& config) {
+    if (config.url.empty() || config.token.empty()) {
         return "{\"error\": \"Home Assistant URL or Token is not configured. Use homeassistant.set_config tool first.\"}";
     }
 
-    std::string base_url = url_;
+    std::string base_url = config.url;
     if (!base_url.empty() && base_url.back() == '/') {
         base_url.pop_back();
     }
 
-    auto try_request = [this, method, path, post_data](const std::string& target_url) -> std::pair<esp_err_t, std::string> {
+    auto try_request = [method, path, post_data, token = config.token](const std::string& target_url) -> std::pair<esp_err_t, std::string> {
         std::string full_url = target_url + path;
         std::string response_body;
 
@@ -68,7 +95,7 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
             return {ESP_FAIL, "{\"error\": \"Failed to initialize HTTP client\"}"};
         }
 
-        std::string auth_header = "Bearer " + token_;
+        std::string auth_header = "Bearer " + token;
         esp_http_client_set_header(client, "Authorization", auth_header.c_str());
         esp_http_client_set_header(client, "Content-Type", "application/json");
 
@@ -126,15 +153,35 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
 }
 
 std::string HomeAssistant::TestConnection() {
-    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/");
+    auto config = GetConfigSnapshot();
+    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/", "", config);
     if (res.find("API running") != std::string::npos || res.find("message") != std::string::npos) {
         return "OK";
     }
-    std::string res_cfg = PerformHttpRequest(HTTP_METHOD_GET, "/api/config");
+    std::string res_cfg = PerformHttpRequest(HTTP_METHOD_GET, "/api/config", "", config);
     if (res_cfg.find("location_name") != std::string::npos || res_cfg.find("version") != std::string::npos) {
         return "OK";
     }
     return res;
+}
+
+bool HomeAssistant::TestConnectionForConfig(const ConfigSnapshot& config) {
+    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/", "", config);
+    if (res.find("API running") != std::string::npos || res.find("message") != std::string::npos) {
+        return true;
+    }
+
+    std::string res_cfg = PerformHttpRequest(HTTP_METHOD_GET, "/api/config", "", config);
+    return res_cfg.find("location_name") != std::string::npos || res_cfg.find("version") != std::string::npos;
+}
+
+bool HomeAssistant::TestConnection(const std::string& url, const std::string& token) {
+    auto saved = GetConfigSnapshot();
+    ConfigSnapshot candidate = {
+        url.empty() ? saved.url : url,
+        token.empty() ? saved.token : token,
+    };
+    return TestConnectionForConfig(candidate);
 }
 
 std::string HomeAssistant::CallService(const std::string& domain, const std::string& service, const std::string& entity_id, const std::string& data_json) {

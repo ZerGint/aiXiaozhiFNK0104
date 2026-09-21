@@ -73,6 +73,7 @@ protected:
     lv_obj_t* top_time_label_ = nullptr;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_t* network_ip_label_ = nullptr;
+    lv_obj_t* ha_settings_button_ = nullptr;
 #endif
     lv_obj_t* top_volume_value_label_ = nullptr;
     lv_obj_t* top_battery_value_label_ = nullptr;

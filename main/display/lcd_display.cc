@@ -36,6 +36,7 @@
 #include "media/sd_music_player.h"
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 #include <wifi_manager.h>
+#include "boards/freenove-fnk0104s/home_assistant_settings_server.h"
 #include "weather/weather_service.h"
 #endif
 
@@ -563,6 +564,10 @@ void LcdDisplay::UpdateStatusBar(bool update_all) {
     DisplayLockGuard lock(this);
     lv_label_set_text(network_ip_label_,
                       ip_address.empty() ? "--.--.--.--" : ip_address.c_str());
+    if (ha_settings_button_ != nullptr) {
+        lv_obj_set_style_bg_color(ha_settings_button_,
+                                  HomeAssistantSettingsServer::GetInstance().IsRunning() ? kAccent : kCard, 0);
+    }
 }
 #endif
 
@@ -1395,11 +1400,48 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_pos(network_label_, 12, 7);
     network_ip_label_ = lv_label_create(top_bar_);
     lv_label_set_text(network_ip_label_, "--.--.--.--");
-    lv_obj_set_width(network_ip_label_, 150);
+    lv_obj_set_width(network_ip_label_, 120);
     lv_label_set_long_mode(network_ip_label_, LV_LABEL_LONG_DOT);
     lv_obj_set_style_text_font(network_ip_label_, LV_FONT_DEFAULT, 0);
     lv_obj_set_style_text_color(network_ip_label_, kText, 0);
     lv_obj_set_pos(network_ip_label_, 40, 8);
+    ha_settings_button_ = lv_btn_create(top_bar_);
+    lv_obj_set_size(ha_settings_button_, 28, 28);
+    lv_obj_set_pos(ha_settings_button_, 164, 3);
+    lv_obj_set_style_radius(ha_settings_button_, 6, 0);
+    lv_obj_set_style_border_width(ha_settings_button_, 0, 0);
+    lv_obj_set_style_shadow_width(ha_settings_button_, 0, 0);
+    lv_obj_set_style_bg_color(ha_settings_button_, kCard, 0);
+    lv_obj_set_style_bg_opa(ha_settings_button_, LV_OPA_COVER, 0);
+    auto ha_settings_icon = lv_label_create(ha_settings_button_);
+    lv_label_set_text(ha_settings_icon, MATERIAL_SYMBOLS_SETTINGS);
+    lv_obj_set_style_text_font(ha_settings_icon, lvgl_theme->icon_font()->font(), 0);
+    lv_obj_set_style_text_color(ha_settings_icon, kText, 0);
+    lv_obj_center(ha_settings_icon);
+    lv_obj_add_event_cb(ha_settings_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display == nullptr) return;
+        auto& server = HomeAssistantSettingsServer::GetInstance();
+        if (server.IsRunning()) {
+            server.Stop();
+            lv_obj_set_style_bg_color(display->ha_settings_button_, kCard, 0);
+            display->ShowNotification("HA Settings OFF");
+            return;
+        }
+        if (!WifiManager::GetInstance().IsConnected()) {
+            display->ShowNotification("Wi-Fi is not connected");
+            return;
+        }
+        server.Start();
+        if (server.IsRunning()) {
+            lv_obj_set_style_bg_color(display->ha_settings_button_, kAccent, 0);
+            std::string message = "HA Settings\nhttp://" + WifiManager::GetInstance().GetIpAddress() + "/";
+            display->ShowNotification(message, 5000);
+        } else {
+            display->ShowNotification("HA Settings unavailable");
+        }
+    }, LV_EVENT_CLICKED, this);
     lv_obj_set_pos(top_time_label_, 200, 7);
     auto top_status_group = lv_obj_get_parent(battery_label_);
     lv_obj_set_size(top_status_group, 160, 34);
