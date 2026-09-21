@@ -27,7 +27,7 @@ constexpr char kIndexHtml[] = R"HTML(<!doctype html>
 </style></head><body><main>
 <h1>FNK0104S</h1><p>Home Assistant Settings</p>
 <form id="form"><label for="url">Home Assistant URL</label>
-<input id="url" name="url" type="url" placeholder="http://192.168.1.100:8123" autocomplete="url" required>
+<input id="url" name="url" type="text" inputmode="url" placeholder="http://192.168.1.100:8123" autocomplete="url" required>
 <label for="token">Long-Lived Access Token</label>
 <input id="token" name="token" type="password" placeholder="Leave blank to keep the current token" autocomplete="new-password">
 <div class="buttons"><button id="test" type="button" class="secondary">Test connection</button><button id="save" type="submit">Save</button></div>

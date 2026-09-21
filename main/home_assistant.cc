@@ -71,6 +71,9 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
     }
 
     std::string base_url = config.url;
+    if (base_url.find("://") == std::string::npos) {
+        base_url = "http://" + base_url;
+    }
     if (!base_url.empty() && base_url.back() == '/') {
         base_url.pop_back();
     }
