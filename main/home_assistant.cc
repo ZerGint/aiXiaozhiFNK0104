@@ -26,8 +26,12 @@ void HomeAssistant::Initialize() {
 void HomeAssistant::SetConfig(const std::string& url, const std::string& token) {
     {
         std::lock_guard<std::mutex> lock(config_mutex_);
+        const bool unchanged = url_ == url && token_ == token;
         url_ = url;
         token_ = token;
+        if (!unchanged) {
+            connection_verified_ = false;
+        }
         Settings settings("ha", true);
         settings.SetString("url", url_);
         settings.SetString("token", token_);
@@ -48,6 +52,11 @@ std::string HomeAssistant::GetUrl() const {
 bool HomeAssistant::IsConfigured() const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return !url_.empty() && !token_.empty();
+}
+
+bool HomeAssistant::IsConnectionVerified() const {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    return connection_verified_;
 }
 
 static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
@@ -78,7 +87,7 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
         base_url.pop_back();
     }
 
-    auto try_request = [method, path, post_data, token = config.token](const std::string& target_url) -> std::pair<esp_err_t, std::string> {
+    auto try_request = [this, method, path, post_data, token = config.token](const std::string& target_url) -> std::pair<esp_err_t, std::string> {
         std::string full_url = target_url + path;
         std::string response_body;
 
@@ -111,6 +120,10 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
         esp_http_client_cleanup(client);
 
         if (err == ESP_OK && (status_code >= 200 && status_code < 300)) {
+            {
+                std::lock_guard<std::mutex> lock(config_mutex_);
+                connection_verified_ = true;
+            }
             ESP_LOGI(TAG, "HTTP %s %s -> Status: %d, Response Len: %d",
                      method == HTTP_METHOD_POST ? "POST" : "GET", full_url.c_str(), status_code, (int)response_body.length());
             return {ESP_OK, response_body};

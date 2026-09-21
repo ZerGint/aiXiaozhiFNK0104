@@ -564,9 +564,18 @@ void LcdDisplay::UpdateStatusBar(bool update_all) {
     DisplayLockGuard lock(this);
     lv_label_set_text(network_ip_label_,
                       ip_address.empty() ? "--.--.--.--" : ip_address.c_str());
+    if (ha_status_label_ != nullptr) {
+        lv_label_set_text(ha_status_label_,
+                          HomeAssistant::GetInstance().IsConnectionVerified() ? "HA" : "");
+    }
     if (ha_settings_button_ != nullptr) {
         lv_obj_set_style_bg_color(ha_settings_button_,
                                   HomeAssistantSettingsServer::GetInstance().IsRunning() ? kAccent : kCard, 0);
+        auto* caption = lv_obj_get_child(ha_settings_button_, 0);
+        if (caption != nullptr) {
+            lv_label_set_text(caption,
+                              HomeAssistantSettingsServer::GetInstance().IsRunning() ? "HA WEB ON" : "HA WEB OFF");
+        }
     }
 }
 #endif
@@ -1405,43 +1414,8 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_text_font(network_ip_label_, LV_FONT_DEFAULT, 0);
     lv_obj_set_style_text_color(network_ip_label_, kText, 0);
     lv_obj_set_pos(network_ip_label_, 40, 8);
-    ha_settings_button_ = lv_btn_create(top_bar_);
-    lv_obj_set_size(ha_settings_button_, 28, 28);
-    lv_obj_set_pos(ha_settings_button_, 164, 3);
-    lv_obj_set_style_radius(ha_settings_button_, 6, 0);
-    lv_obj_set_style_border_width(ha_settings_button_, 0, 0);
-    lv_obj_set_style_shadow_width(ha_settings_button_, 0, 0);
-    lv_obj_set_style_bg_color(ha_settings_button_, kCard, 0);
-    lv_obj_set_style_bg_opa(ha_settings_button_, LV_OPA_COVER, 0);
-    auto ha_settings_icon = lv_label_create(ha_settings_button_);
-    lv_label_set_text(ha_settings_icon, MATERIAL_SYMBOLS_SETTINGS);
-    lv_obj_set_style_text_font(ha_settings_icon, lvgl_theme->icon_font()->font(), 0);
-    lv_obj_set_style_text_color(ha_settings_icon, kText, 0);
-    lv_obj_center(ha_settings_icon);
-    lv_obj_add_event_cb(ha_settings_button_, [](lv_event_t* e) {
-        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
-        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display == nullptr) return;
-        auto& server = HomeAssistantSettingsServer::GetInstance();
-        if (server.IsRunning()) {
-            server.Stop();
-            lv_obj_set_style_bg_color(display->ha_settings_button_, kCard, 0);
-            display->ShowNotification("HA Settings OFF");
-            return;
-        }
-        if (!WifiManager::GetInstance().IsConnected()) {
-            display->ShowNotification("Wi-Fi is not connected");
-            return;
-        }
-        server.Start();
-        if (server.IsRunning()) {
-            lv_obj_set_style_bg_color(display->ha_settings_button_, kAccent, 0);
-            std::string message = "HA Settings\nhttp://" + WifiManager::GetInstance().GetIpAddress() + "/";
-            display->ShowNotification(message, 5000);
-        } else {
-            display->ShowNotification("HA Settings unavailable");
-        }
-    }, LV_EVENT_CLICKED, this);
+    ha_status_label_ = label(top_bar_, "", 164, 8, 28, kAccent);
+    lv_obj_set_style_text_align(ha_status_label_, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_set_pos(top_time_label_, 200, 7);
     auto top_status_group = lv_obj_get_parent(battery_label_);
     lv_obj_set_size(top_status_group, 160, 34);
@@ -2931,6 +2905,28 @@ void LcdDisplay::SwitchTab(int tab_index)
     lv_obj_move_foreground(top_bar_);
 }
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::ToggleHomeAssistantSettingsServer() {
+    auto& server = HomeAssistantSettingsServer::GetInstance();
+    if (server.IsRunning()) {
+        server.Stop();
+        ShowNotification("HA Settings OFF");
+        return;
+    }
+    if (!WifiManager::GetInstance().IsConnected()) {
+        ShowNotification("Wi-Fi is not connected");
+        return;
+    }
+    server.Start();
+    if (server.IsRunning()) {
+        std::string message = "HA Settings\nhttp://" + WifiManager::GetInstance().GetIpAddress() + "/";
+        ShowNotification(message, 5000);
+    } else {
+        ShowNotification("HA Settings unavailable");
+    }
+}
+#endif
+
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     Settings settings("display");
     auto_brightness_enabled_ = settings.GetBool("auto_brightness", false);
@@ -2951,7 +2947,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }
 
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 210);
+    lv_obj_set_size(quick_settings_panel_, 440, 260);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -3150,6 +3146,38 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         }
     }, LV_EVENT_CLICKED, this);
     UpdateAutoBrightnessControls();
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    // Home Assistant settings server stays hidden until Quick Settings is opened.
+    lv_obj_t* ha_row = lv_obj_create(quick_settings_panel_);
+    lv_obj_set_size(ha_row, 416, 45);
+    lv_obj_align(ha_row, LV_ALIGN_TOP_MID, 0, 195);
+    lv_obj_set_style_bg_opa(ha_row, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(ha_row, 0, 0);
+    lv_obj_set_style_pad_all(ha_row, 0, 0);
+    lv_obj_remove_flag(ha_row, LV_OBJ_FLAG_SCROLLABLE);
+
+    auto* ha_title = lv_label_create(ha_row);
+    lv_label_set_text(ha_title, "Home Assistant");
+    lv_obj_set_style_text_color(ha_title, kText, 0);
+    lv_obj_align(ha_title, LV_ALIGN_LEFT_MID, 10, 0);
+
+    ha_settings_button_ = lv_btn_create(ha_row);
+    lv_obj_set_size(ha_settings_button_, 150, 40);
+    lv_obj_align(ha_settings_button_, LV_ALIGN_RIGHT_MID, -4, 0);
+    lv_obj_set_style_radius(ha_settings_button_, 10, 0);
+    lv_obj_set_style_bg_color(ha_settings_button_, kCard, 0);
+    lv_obj_set_style_border_width(ha_settings_button_, 0, 0);
+    auto* ha_caption = lv_label_create(ha_settings_button_);
+    lv_label_set_text(ha_caption, "HA WEB OFF");
+    lv_obj_set_style_text_color(ha_caption, kText, 0);
+    lv_obj_center(ha_caption);
+    lv_obj_add_event_cb(ha_settings_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
+    }, LV_EVENT_CLICKED, this);
+#endif
 }
 
 bool LcdDisplay::IsStationFavorite(const std::string& uuid) {

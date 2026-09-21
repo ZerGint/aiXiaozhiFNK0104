@@ -33,6 +33,7 @@ public:
     ConfigSnapshot GetConfigSnapshot() const;
     std::string GetUrl() const;
     bool IsConfigured() const;
+    bool IsConnectionVerified() const;
 
 private:
     HomeAssistant();
@@ -40,6 +41,7 @@ private:
 
     std::string url_;
     std::string token_;
+    bool connection_verified_ = false;
     mutable std::mutex config_mutex_;
 
     std::string PerformHttpRequest(esp_http_client_method_t method, const std::string& path, const std::string& post_data = "");
