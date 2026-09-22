@@ -236,6 +236,10 @@ void InternetRadioPlayer::Stop() {
     TaskHandle_t task = nullptr;
     {
         std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+        if (!playing_ && task_handle_.load() == nullptr && cleanup_complete_.load()) {
+            ESP_LOGI(TAG, "RADIO_STOP_FAST_NOOP");
+            return;
+        }
         stop_requested_ = true;
         generation_.fetch_add(1);
         paused_ = false;
