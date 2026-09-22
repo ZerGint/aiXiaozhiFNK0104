@@ -1,7 +1,10 @@
 #include "home_assistant.h"
+#include <wifi_manager.h>
 #include <esp_crt_bundle.h>
 #include <esp_log.h>
 #include <cJSON.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #define TAG "HomeAssistant"
 
@@ -57,6 +60,34 @@ bool HomeAssistant::IsConfigured() const {
 bool HomeAssistant::IsConnectionVerified() const {
     std::lock_guard<std::mutex> lock(config_mutex_);
     return connection_verified_;
+}
+
+void HomeAssistant::MarkConnectionLost() {
+    std::lock_guard<std::mutex> lock(config_mutex_);
+    connection_verified_ = false;
+}
+
+void HomeAssistant::CheckConnectionAsync() {
+    if (!WifiManager::GetInstance().IsConnected() || !IsConfigured() || IsConnectionVerified()) {
+        return;
+    }
+
+    if (connection_check_running_.exchange(true)) {
+        return;
+    }
+
+    if (xTaskCreate(&HomeAssistant::ConnectionCheckTask, "ha_check", 4096, this, 2, nullptr) != pdPASS) {
+        connection_check_running_.store(false);
+        ESP_LOGW(TAG, "Unable to start background Home Assistant connection check");
+    }
+}
+
+void HomeAssistant::ConnectionCheckTask(void* arg) {
+    auto* self = static_cast<HomeAssistant*>(arg);
+    const bool connected = self->TestConnection() == "OK";
+    ESP_LOGI(TAG, "Background connection check: %s", connected ? "connected" : "failed");
+    self->connection_check_running_.store(false);
+    vTaskDelete(nullptr);
 }
 
 static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {

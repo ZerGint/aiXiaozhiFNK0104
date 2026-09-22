@@ -573,8 +573,7 @@ void LcdDisplay::UpdateStatusBar(bool update_all) {
                                   HomeAssistantSettingsServer::GetInstance().IsRunning() ? kAccent : kCard, 0);
         auto* caption = lv_obj_get_child(ha_settings_button_, 0);
         if (caption != nullptr) {
-            lv_label_set_text(caption,
-                              HomeAssistantSettingsServer::GetInstance().IsRunning() ? "HA WEB ON" : "HA WEB OFF");
+            lv_label_set_text(caption, "Web portal");
         }
     }
 }
@@ -2910,7 +2909,7 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
     auto& server = HomeAssistantSettingsServer::GetInstance();
     if (server.IsRunning()) {
         server.Stop();
-        ShowNotification("HA Settings OFF");
+        ShowNotification("Web portal OFF");
         return;
     }
     if (!WifiManager::GetInstance().IsConnected()) {
@@ -2919,15 +2918,26 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
     }
     server.Start();
     if (server.IsRunning()) {
-        std::string message = "HA Settings\nhttp://" + WifiManager::GetInstance().GetIpAddress() + "/";
+        std::string message = "Web portal\nhttp://" + WifiManager::GetInstance().GetIpAddress() + "/";
         ShowNotification(message, 5000);
     } else {
-        ShowNotification("HA Settings unavailable");
+        ShowNotification("Web portal unavailable");
     }
 }
 #endif
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
+    auto set_quick_settings_font = [](lv_obj_t* object, bool title = false) {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+        // Use the existing Cyrillic-capable 20 px font and scale regular
+        // controls to the requested 18 px visual size. The title stays 20 px.
+        lv_obj_set_style_text_font(object, &font_noto_sans_basic_20_4, 0);
+        lv_obj_set_style_transform_scale(object, title ? 256 : 230, 0);
+#else
+        lv_obj_set_style_text_font(object, LV_FONT_DEFAULT, 0);
+#endif
+    };
+
     Settings settings("display");
     auto_brightness_enabled_ = settings.GetBool("auto_brightness", false);
     auto_brightness_zero_enabled_ = settings.GetBool("auto_dim_zero", false);
@@ -2970,6 +2980,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
 
     lv_obj_t* title = lv_label_create(header);
     lv_label_set_text(title, "Настройки");
+    set_quick_settings_font(title, true);
     lv_obj_set_style_text_color(title, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(title, LV_ALIGN_LEFT_MID, 10, 0);
 
@@ -2980,6 +2991,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_bg_color(close_btn, lv_color_hex(0x173B4D), 0);
     lv_obj_t* close_label = lv_label_create(close_btn);
     lv_label_set_text(close_label, "X");
+    set_quick_settings_font(close_label);
     lv_obj_set_style_text_color(close_label, lv_color_hex(0xFFFFFF), 0);
     lv_obj_center(close_label);
 
@@ -2997,11 +3009,11 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_pad_all(vol_row, 0, 0);
     lv_obj_remove_flag(vol_row, LV_OBJ_FLAG_SCROLLABLE);
 
-    lv_obj_t* vol_icon = lv_label_create(vol_row);
-    lv_label_set_text(vol_icon, MATERIAL_SYMBOLS_VOLUME_UP);
-    lv_obj_set_style_text_font(vol_icon, &BUILTIN_ICON_FONT, 0);
-    lv_obj_set_style_text_color(vol_icon, lv_color_hex(0xAAAAAA), 0);
-    lv_obj_align(vol_icon, LV_ALIGN_LEFT_MID, 10, 0);
+    lv_obj_t* vol_label = lv_label_create(vol_row);
+    lv_label_set_text(vol_label, "Звук");
+    set_quick_settings_font(vol_label);
+    lv_obj_set_style_text_color(vol_label, lv_color_hex(0xAAAAAA), 0);
+    lv_obj_align(vol_label, LV_ALIGN_LEFT_MID, 10, 0);
 
     volume_slider_ = lv_slider_create(vol_row);
     lv_obj_set_size(volume_slider_, 220, 16);
@@ -3016,6 +3028,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
 
     volume_val_label_ = lv_label_create(vol_row);
     lv_label_set_text_fmt(volume_val_label_, "%d%%", cur_vol);
+    set_quick_settings_font(volume_val_label_);
     lv_obj_set_style_text_color(volume_val_label_, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(volume_val_label_, LV_ALIGN_LEFT_MID, 330, 0);
 
@@ -3043,6 +3056,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_label_set_text(bright_icon, "Экран");
     lv_obj_set_width(bright_icon, 100);
     lv_obj_set_style_pad_left(bright_icon, 4, 0);
+    set_quick_settings_font(bright_icon);
     lv_obj_set_style_text_color(bright_icon, lv_color_hex(0xAAAAAA), 0);
     lv_obj_align(bright_icon, LV_ALIGN_LEFT_MID, 0, 0);
 
@@ -3059,6 +3073,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
 
     brightness_val_label_ = lv_label_create(bright_row);
     lv_label_set_text_fmt(brightness_val_label_, "%d%%", cur_bright);
+    set_quick_settings_font(brightness_val_label_);
     lv_obj_set_style_text_color(brightness_val_label_, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(brightness_val_label_, LV_ALIGN_LEFT_MID, 330, 0);
 
@@ -3099,6 +3114,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
 
     auto_brightness_timeout_label_ = lv_label_create(auto_row);
     lv_obj_set_size(auto_brightness_timeout_label_, 52, 40);
+    set_quick_settings_font(auto_brightness_timeout_label_);
     lv_obj_set_style_text_color(auto_brightness_timeout_label_, kText, 0);
     lv_obj_set_style_text_align(auto_brightness_timeout_label_, LV_TEXT_ALIGN_CENTER, 0);
     lv_obj_align(auto_brightness_timeout_label_, LV_ALIGN_LEFT_MID, 50, 0);
@@ -3137,6 +3153,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_border_width(auto_brightness_zero_button_, 0, 0);
     auto zero_label = lv_label_create(auto_brightness_zero_button_);
     lv_label_set_text(zero_label, "0%");
+    set_quick_settings_font(zero_label);
     lv_obj_set_style_text_color(zero_label, kText, 0);
     lv_obj_center(zero_label);
     lv_obj_add_event_cb(auto_brightness_zero_button_, [](lv_event_t* e) {
@@ -3157,19 +3174,15 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_pad_all(ha_row, 0, 0);
     lv_obj_remove_flag(ha_row, LV_OBJ_FLAG_SCROLLABLE);
 
-    auto* ha_title = lv_label_create(ha_row);
-    lv_label_set_text(ha_title, "Home Assistant");
-    lv_obj_set_style_text_color(ha_title, kText, 0);
-    lv_obj_align(ha_title, LV_ALIGN_LEFT_MID, 10, 0);
-
     ha_settings_button_ = lv_btn_create(ha_row);
     lv_obj_set_size(ha_settings_button_, 150, 40);
-    lv_obj_align(ha_settings_button_, LV_ALIGN_RIGHT_MID, -4, 0);
+    lv_obj_align(ha_settings_button_, LV_ALIGN_LEFT_MID, 10, 0);
     lv_obj_set_style_radius(ha_settings_button_, 10, 0);
     lv_obj_set_style_bg_color(ha_settings_button_, kCard, 0);
     lv_obj_set_style_border_width(ha_settings_button_, 0, 0);
     auto* ha_caption = lv_label_create(ha_settings_button_);
-    lv_label_set_text(ha_caption, "HA WEB OFF");
+    lv_label_set_text(ha_caption, "Web portal");
+    set_quick_settings_font(ha_caption);
     lv_obj_set_style_text_color(ha_caption, kText, 0);
     lv_obj_center(ha_caption);
     lv_obj_add_event_cb(ha_settings_button_, [](lv_event_t* e) {
