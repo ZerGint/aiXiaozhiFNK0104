@@ -173,6 +173,20 @@ public:
     int idleInterval = 2;
     int idleIntervalVariation = 3;
     uint32_t idleAnimationTimer = 0;
+    uint32_t idleGazeHoldTimer = 0;
+    uint32_t idleGazeReturnTimer = 0;
+    uint32_t idleFaceTimer = 0;
+    uint32_t idleFaceReturnTimer = 0;
+    uint8_t idleGazePhase = 0;
+
+    int faceOffsetXCurrent = 0;
+    int faceOffsetYCurrent = 0;
+    int faceOffsetXNext = 0;
+    int faceOffsetYNext = 0;
+    int eyeGazeOffsetXCurrent = 0;
+    int eyeGazeOffsetYCurrent = 0;
+    int eyeGazeOffsetXNext = 0;
+    int eyeGazeOffsetYNext = 0;
 
     bool confused = false;
     uint32_t confusedAnimationTimer = 0;
@@ -186,7 +200,8 @@ public:
 
     bool sweat = false;
     bool tears = false;
-    bool voicePulse = false;
+    int mouthLevelCurrent = 0;
+    int mouthLevelNext = 0;
     bool winkActive = false;
     bool winkLeft = false;
     uint32_t winkTimer = 0;
@@ -300,6 +315,16 @@ public:
         idle = active;
         idleInterval = interval;
         idleIntervalVariation = variation;
+        idleAnimationTimer = 0;
+        idleGazeHoldTimer = 0;
+        idleGazeReturnTimer = 0;
+        idleFaceTimer = 0;
+        idleFaceReturnTimer = 0;
+        idleGazePhase = 0;
+        faceOffsetXCurrent = faceOffsetYCurrent = 0;
+        faceOffsetXNext = faceOffsetYNext = 0;
+        eyeGazeOffsetXCurrent = eyeGazeOffsetYCurrent = 0;
+        eyeGazeOffsetXNext = eyeGazeOffsetYNext = 0;
     }
 
     void setCuriosity(bool curiousBit) { curious = curiousBit; }
@@ -308,7 +333,7 @@ public:
     void setVFlicker(bool flickerBit, uint8_t amplitude = 4) { vFlicker = flickerBit; vFlickerAmplitude = amplitude; }
     void setSweat(bool sweatBit) { sweat = sweatBit; }
     void setTears(bool tearsBit) { tears = tearsBit; }
-    void setVoicePulse(bool active) { voicePulse = active; }
+    void setMouthLevel(uint8_t level) { mouthLevelNext = std::clamp(static_cast<int>(level), 0, 100); }
 
     void stopOneShotAnimations() {
         confused = false;
@@ -379,6 +404,64 @@ public:
         drawEyes(now);
     }
 
+    static int randomRange(int min_value, int max_value) {
+        const int span = max_value - min_value + 1;
+        return min_value + (span > 1 ? rand() % span : 0);
+    }
+
+    static int approach(int current, int target, int divisor) {
+        if (current == target) return current;
+        int step = (target - current) / divisor;
+        if (step == 0) step = target > current ? 1 : -1;
+        return current + step;
+    }
+
+    void updateIdleOffsets(uint32_t now) {
+        // Keep most idle time near the neutral center. Gaze is a short pulse;
+        // face motion is rarer, smaller, and intentionally slower.
+        if (idleGazePhase == 0) {
+            if (idleGazeHoldTimer == 0) {
+                idleGazeHoldTimer = now + 2500 + randomRange(0, 2500);
+            } else if (now >= idleGazeHoldTimer) {
+                eyeGazeOffsetXNext = randomRange(-5, 5);
+                eyeGazeOffsetYNext = randomRange(-3, 3);
+                idleGazeHoldTimer = now + 800 + randomRange(0, 1000);
+                idleGazePhase = 1;
+            }
+        } else if (idleGazePhase == 1) {
+            if (now >= idleGazeHoldTimer) {
+                eyeGazeOffsetXNext = 0;
+                eyeGazeOffsetYNext = 0;
+                idleGazeReturnTimer = now + 800 + randomRange(0, 1000);
+                idleGazePhase = 2;
+            }
+        } else if (now >= idleGazeReturnTimer) {
+            eyeGazeOffsetXCurrent = eyeGazeOffsetYCurrent = 0;
+            eyeGazeOffsetXNext = eyeGazeOffsetYNext = 0;
+            idleGazeReturnTimer = 0;
+            idleGazeHoldTimer = now + 2500 + randomRange(0, 2500);
+            idleGazePhase = 0;
+        }
+
+        if (idleFaceTimer == 0) {
+            idleFaceTimer = now + 4000 + randomRange(0, 4000);
+        } else if (idleFaceReturnTimer == 0 && now >= idleFaceTimer) {
+            faceOffsetXNext = randomRange(-3, 3);
+            faceOffsetYNext = randomRange(-2, 2);
+            idleFaceReturnTimer = now + 1200 + randomRange(0, 1200);
+            idleFaceTimer = now + 4000 + randomRange(0, 4000);
+        } else if (idleFaceReturnTimer != 0 && now >= idleFaceReturnTimer) {
+            faceOffsetXNext = 0;
+            faceOffsetYNext = 0;
+            idleFaceReturnTimer = 0;
+        }
+
+        eyeGazeOffsetXCurrent = approach(eyeGazeOffsetXCurrent, eyeGazeOffsetXNext, 2);
+        eyeGazeOffsetYCurrent = approach(eyeGazeOffsetYCurrent, eyeGazeOffsetYNext, 2);
+        faceOffsetXCurrent = approach(faceOffsetXCurrent, faceOffsetXNext, 4);
+        faceOffsetYCurrent = approach(faceOffsetYCurrent, faceOffsetYNext, 4);
+    }
+
     void drawEyes(uint32_t now) {
         if (winkActive && now >= winkTimer + static_cast<uint32_t>(winkDuration)) {
             if (winkLeft) {
@@ -391,13 +474,23 @@ public:
             winkActive = false;
         }
 
-        if (voicePulse && !winkActive && eyeL_open && eyeR_open) {
-            constexpr float kTwoPi = 6.28318530718f;
-            const float phase = static_cast<float>(now % 600) / 600.0f;
-            const int offset = static_cast<int>(3.0f * std::sin(phase * kTwoPi));
-            eyeLheightNext = eyeLheightDefault + offset;
-            eyeRheightNext = eyeRheightDefault + offset;
+        if (idle) {
+            updateIdleOffsets(now);
+        } else {
+            faceOffsetXCurrent = faceOffsetYCurrent = 0;
+            faceOffsetXNext = faceOffsetYNext = 0;
+            eyeGazeOffsetXCurrent = eyeGazeOffsetYCurrent = 0;
+            eyeGazeOffsetXNext = eyeGazeOffsetYNext = 0;
         }
+
+        const int maxX = std::max(0, getScreenConstraint_X());
+        const int maxY = std::max(0, getScreenConstraint_Y());
+        const int targetEyeLx = std::clamp(
+            eyeLxNext + faceOffsetXCurrent + eyeGazeOffsetXCurrent, 0, maxX);
+        const int targetEyeLy = std::clamp(
+            eyeLyNext + faceOffsetYCurrent + eyeGazeOffsetYCurrent, 0, maxY);
+        eyeRxNext = targetEyeLx + eyeLwidthCurrent + spaceBetweenCurrent;
+        eyeRyNext = targetEyeLy;
 
         // Curiosity sizing
         if (curious) {
@@ -428,11 +521,9 @@ public:
         eyeRwidthCurrent = (eyeRwidthCurrent + eyeRwidthNext) / 2;
         spaceBetweenCurrent = (spaceBetweenCurrent + spaceBetweenNext) / 2;
 
-        eyeLx = (eyeLx + eyeLxNext) / 2;
-        eyeLy = (eyeLy + eyeLyNext) / 2;
+        eyeLx = (eyeLx + targetEyeLx) / 2;
+        eyeLy = (eyeLy + targetEyeLy) / 2;
 
-        eyeRxNext = eyeLxNext + eyeLwidthCurrent + spaceBetweenCurrent;
-        eyeRyNext = eyeLyNext;
         eyeRx = (eyeRx + eyeRxNext) / 2;
         eyeRy = (eyeRy + eyeRyNext) / 2;
 
@@ -474,18 +565,6 @@ public:
             }
         }
 
-        // Idle animation
-        if (idle) {
-            if (now >= idleAnimationTimer) {
-                int max_x = getScreenConstraint_X();
-                int max_y = getScreenConstraint_Y();
-                if (max_x > 0) eyeLxNext = max_x / 4 + rand() % std::max(1, max_x / 2);
-                if (max_y > 0) eyeLyNext = max_y / 4 + rand() % std::max(1, max_y / 2);
-                int var_sec = (idleIntervalVariation > 0) ? (rand() % idleIntervalVariation) : 0;
-                idleAnimationTimer = now + (idleInterval + var_sec) * 1000;
-            }
-        }
-
         // Flicker offsets
         if (hFlicker) {
             if (hFlickerAlternate) { eyeLx += hFlickerAmplitude; eyeRx += hFlickerAmplitude; }
@@ -518,6 +597,16 @@ public:
         if (tired)  { eyelidsTiredHeightNext = eyeLheightCurrent / 2; eyelidsAngryHeightNext = 0; } else { eyelidsTiredHeightNext = 0; }
         if (angry)  { eyelidsAngryHeightNext = eyeLheightCurrent / 2; eyelidsTiredHeightNext = 0; } else { eyelidsAngryHeightNext = 0; }
         if (happy)  { eyelidsHappyBottomOffsetNext = eyeLheightCurrent / 2; } else { eyelidsHappyBottomOffsetNext = 0; }
+
+        mouthLevelCurrent = (mouthLevelCurrent * 3 + mouthLevelNext) / 4;
+        const int mouthWidth = 18 + mouthLevelCurrent / 8;
+        const int mouthHeight = 2 + mouthLevelCurrent / 10;
+        const int mouthX = std::clamp((screenWidth - mouthWidth) / 2 + faceOffsetXCurrent,
+                                      0, std::max(0, screenWidth - mouthWidth));
+        const int mouthY = std::clamp(screenHeight - 14 - mouthHeight / 2 + faceOffsetYCurrent,
+                                      0, std::max(0, screenHeight - mouthHeight));
+        adapter.fillRoundRect(mouthX, mouthY, mouthWidth, mouthHeight,
+                              std::max(1, mouthHeight / 2), ROBOEYES_MAINCOLOR);
 
         if (sweat) {
             adapter.fillRoundRect(eyeRx + eyeRwidthCurrent + 5, eyeRy + 8, 5, 13, 3,

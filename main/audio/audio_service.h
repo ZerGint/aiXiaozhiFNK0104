@@ -175,6 +175,9 @@ public:
     bool IsAudioProcessorRunning() const {
         return xEventGroupGetBits(event_group_) & AS_EVENT_AUDIO_PROCESSOR_RUNNING;
     }
+    // Lock-free level of the most recently submitted AI speech PCM frame.
+    // Returns zero after a short inactivity window.
+    uint8_t GetAiSpeechLevel() const;
     bool IsAfeWakeWord();
 
     void EnableWakeWordDetection(bool enable);
@@ -263,6 +266,8 @@ private:
 #endif
     std::atomic<bool> service_stopped_{true};
     std::atomic<bool> audio_input_need_warmup_{false};
+    std::atomic<uint8_t> ai_speech_level_{0};
+    std::atomic<uint32_t> ai_speech_level_updated_ms_{0};
 
     esp_timer_handle_t audio_power_timer_ = nullptr;
     std::chrono::steady_clock::time_point last_input_time_;

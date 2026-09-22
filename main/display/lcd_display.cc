@@ -1157,9 +1157,9 @@ void LcdDisplay::SetupUI() {
         robo_eyes_.begin(robo_eyes_canvas_, 240, 120, 30);
         robo_eyes_.adapter.setColors(lvgl_theme->background_color(), lv_color_hex(0x00F0FF));
         robo_eyes_timer_ = lv_timer_create([](lv_timer_t* t) {
-            RoboEyes* re = static_cast<RoboEyes*>(lv_timer_get_user_data(t));
-            if (re) re->update();
-        }, 33, &robo_eyes_);
+            auto* self = static_cast<LcdDisplay*>(lv_timer_get_user_data(t));
+            if (self) self->UpdateRoboEyesAnimation();
+        }, 33, this);
         lv_obj_add_flag(emoji_label_, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(robo_eyes_canvas_, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_add_event_cb(robo_eyes_canvas_, [](lv_event_t* e) {
@@ -2153,7 +2153,7 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         robo_eyes_.setHFlicker(false, 0);
         robo_eyes_.setCuriosity(false);
         robo_eyes_.setTears(false);
-        robo_eyes_.setVoicePulse(false);
+        robo_eyes_.setMouthLevel(0);
         robo_eyes_.setIdleMode(false);
         robo_eyes_.stopOneShotAnimations();
         robo_eyes_.resetGeometry();
@@ -2210,7 +2210,6 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         } else if (emo == "speaking") {
             robo_eyes_.setMood(ROBOEYES_HAPPY);
             robo_eyes_.setPosition(ROBOEYES_CENTER);
-            robo_eyes_.setVoicePulse(true);
         } else {
             robo_eyes_.setMood(ROBOEYES_DEFAULT);
             robo_eyes_.setIdleMode(true, 4, 4);
@@ -2301,6 +2300,17 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         lv_obj_add_flag(emoji_label_, LV_OBJ_FLAG_HIDDEN);
     }
 #endif
+}
+
+void LcdDisplay::UpdateRoboEyesAnimation() {
+    if (robo_eyes_canvas_ == nullptr || robo_eyes_buf_ == nullptr) return;
+
+    const auto state = Application::GetInstance().GetDeviceState();
+    const bool ai_speaking = state == kDeviceStateSpeaking || state == kDeviceStateNotifying;
+    const uint8_t level =
+        ai_speaking ? Application::GetInstance().GetAudioService().GetAiSpeechLevel() : 0;
+    robo_eyes_.setMouthLevel(level);
+    robo_eyes_.update();
 }
 
 void LcdDisplay::SetTheme(Theme* theme) {

@@ -39,6 +39,7 @@ protected:
     lv_timer_t* robo_eyes_timer_ = nullptr;
     int robo_eyes_runtime_state_ = -1;
     bool robo_eyes_vad_speaking_ = false;
+    void UpdateRoboEyesAnimation();
     void UpdateRoboEyesRuntimeState();
     std::unique_ptr<LvglGif> gif_controller_ = nullptr;
     lv_obj_t* emoji_box_ = nullptr;

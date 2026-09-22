@@ -123,6 +123,8 @@ void AudioService::Initialize(AudioCodec* codec) {
 
 void AudioService::Start() {
     service_stopped_.store(false);
+    ai_speech_level_.store(0, std::memory_order_relaxed);
+    ai_speech_level_updated_ms_.store(0, std::memory_order_release);
     xEventGroupClearBits(event_group_, AS_EVENT_AUDIO_TESTING_RUNNING | AS_EVENT_WAKE_WORD_RUNNING |
                                            AS_EVENT_AUDIO_PROCESSOR_RUNNING |
                                            AS_EVENT_AUDIO_INPUT_STOP_REQUEST);
@@ -181,6 +183,8 @@ void AudioService::Start() {
 void AudioService::Stop() {
     esp_timer_stop(audio_power_timer_);
     service_stopped_.store(true);
+    ai_speech_level_.store(0, std::memory_order_relaxed);
+    ai_speech_level_updated_ms_.store(0, std::memory_order_release);
     xEventGroupSetBits(event_group_, AS_EVENT_AUDIO_TESTING_RUNNING | AS_EVENT_WAKE_WORD_RUNNING |
                                          AS_EVENT_AUDIO_PROCESSOR_RUNNING);
 
@@ -430,6 +434,26 @@ void AudioService::AudioOutputTask() {
         }
 
         codec_->SetOutputSource(task->output_source, task->stream_start);
+
+        if (task->output_source == AudioOutputSource::kAiSpeech) {
+            uint64_t sum_abs = 0;
+            const int16_t* pcm = task->GetPcmData();
+            const size_t sample_count = task->GetPcmSize();
+            for (size_t i = 0; i < sample_count; ++i) {
+                const int32_t sample = pcm[i];
+                sum_abs += static_cast<uint32_t>(sample < 0 ? -sample : sample);
+            }
+            const uint32_t mean_abs = sample_count > 0
+                                           ? static_cast<uint32_t>(sum_abs / sample_count)
+                                           : 0;
+            const uint32_t level = std::min<uint32_t>(
+                100, (mean_abs * 160U + 16383U) / 32768U);
+            ai_speech_level_.store(static_cast<uint8_t>(level), std::memory_order_relaxed);
+            ai_speech_level_updated_ms_.store(
+                static_cast<uint32_t>(esp_timer_get_time() / 1000), std::memory_order_release);
+        } else {
+            ai_speech_level_.store(0, std::memory_order_relaxed);
+        }
 
         if (task->is_radio) {
             uint64_t now_us = esp_timer_get_time();
@@ -985,6 +1009,8 @@ bool AudioService::IsPlaybackIdle() {
 }
 
 void AudioService::ResetDecoder() {
+    ai_speech_level_.store(0, std::memory_order_relaxed);
+    ai_speech_level_updated_ms_.store(0, std::memory_order_release);
     bool notify_drained = false;
     {
         std::lock_guard<std::mutex> lock(audio_queue_mutex_);
@@ -1005,6 +1031,15 @@ void AudioService::ResetDecoder() {
     if (notify_drained && callbacks_.on_playback_drained) {
         callbacks_.on_playback_drained();
     }
+}
+
+uint8_t AudioService::GetAiSpeechLevel() const {
+    const uint32_t updated_ms = ai_speech_level_updated_ms_.load(std::memory_order_acquire);
+    const uint32_t now_ms = static_cast<uint32_t>(esp_timer_get_time() / 1000);
+    if (updated_ms == 0 || now_ms - updated_ms > 220) {
+        return 0;
+    }
+    return ai_speech_level_.load(std::memory_order_relaxed);
 }
 
 bool AudioService::WaitForPlaybackDrained(std::chrono::milliseconds timeout) {
