@@ -2929,10 +2929,10 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     auto set_quick_settings_font = [](lv_obj_t* object, bool title = false) {
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
-        // Use the existing Cyrillic-capable 20 px font and scale regular
-        // controls to the requested 18 px visual size. The title stays 20 px.
-        lv_obj_set_style_text_font(object, &font_noto_sans_basic_20_4, 0);
-        lv_obj_set_style_transform_scale(object, title ? 256 : 230, 0);
+        // The radio font contains the complete Cyrillic range, including Э.
+        // Scale its 16 px glyphs to the requested 20 px title / 18 px controls.
+        lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
+        lv_obj_set_style_transform_scale(object, title ? 320 : 288, 0);
 #else
         lv_obj_set_style_text_font(object, LV_FONT_DEFAULT, 0);
 #endif
@@ -3012,7 +3012,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_t* vol_label = lv_label_create(vol_row);
     lv_label_set_text(vol_label, "Звук");
     set_quick_settings_font(vol_label);
-    lv_obj_set_style_text_color(vol_label, lv_color_hex(0xAAAAAA), 0);
+    lv_obj_set_style_text_color(vol_label, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(vol_label, LV_ALIGN_LEFT_MID, 10, 0);
 
     volume_slider_ = lv_slider_create(vol_row);
@@ -3057,7 +3057,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_width(bright_icon, 100);
     lv_obj_set_style_pad_left(bright_icon, 4, 0);
     set_quick_settings_font(bright_icon);
-    lv_obj_set_style_text_color(bright_icon, lv_color_hex(0xAAAAAA), 0);
+    lv_obj_set_style_text_color(bright_icon, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(bright_icon, LV_ALIGN_LEFT_MID, 0, 0);
 
     brightness_slider_ = lv_slider_create(bright_row);
