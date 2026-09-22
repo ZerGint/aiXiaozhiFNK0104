@@ -43,6 +43,7 @@ public:
 private:
     MediaPlayer() = default;
     std::atomic<bool> paused_for_voice_{false};
+    std::atomic<bool> sd_paused_for_voice_{false};
     std::atomic<bool> paused_by_user_{false};
     RadioStationInfo radio_station_for_voice_;
     RadioStationInfo radio_station_for_manual_pause_;
