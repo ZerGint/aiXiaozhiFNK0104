@@ -23,6 +23,7 @@ CHANNELS = {
     "new_ota": "ota",
     "feat-fnk0104s-aec-upstream": "aec",
 }
+BETA_CHANNELS = {"ota", "aec", "ui", "radio", "audio", "memory", "anime"}
 
 
 def branch_name() -> str:
@@ -71,9 +72,15 @@ def main() -> int:
         require_branch(branch, {"FINAL"})
         target = next_final(version)
     else:
-        require_branch(branch, {"new_ota"})
-        if args.channel not in {"ota", "ui", "radio", "audio", "memory", "anime"}:
-            raise SystemExit("--next-beta requires explicit --channel from ota/ui/radio/audio/memory/anime")
+        require_branch(branch, set(CHANNELS))
+        expected_channel = CHANNELS[branch]
+        if args.channel not in BETA_CHANNELS:
+            raise SystemExit("--next-beta requires explicit --channel from ota/aec/ui/radio/audio/memory/anime")
+        if args.channel != expected_channel:
+            raise SystemExit(
+                f"branch {branch!r} maps to beta channel {expected_channel!r}; "
+                f"got {args.channel!r}"
+            )
         target = next_beta(version, args.channel)
 
     print(f"{format_version(version)} -> {format_version(target)}")
