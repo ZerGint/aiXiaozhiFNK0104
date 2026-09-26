@@ -638,12 +638,11 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
     } else {
         special_mouth_ = SpecialMouth::None;
     }
-    eye_smile_visible_ = emotion_ == FaceEmotion::Happy ||
-                         emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
+    eye_smile_visible_ = emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
     ApplyEyeVisibility();
     SetTearsVisible(emotion_ == FaceEmotion::Crying);
-    SetFaceOverlays(emotion_ == FaceEmotion::Happy || emotion_ == FaceEmotion::Laughing ||
-                        emotion_ == FaceEmotion::Love || emotion_ == FaceEmotion::Shy,
+    SetFaceOverlays(emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love ||
+                        emotion_ == FaceEmotion::Shy,
                     emotion_ == FaceEmotion::Love, emotion_ == FaceEmotion::Angry,
                     emotion_ == FaceEmotion::Happy || emotion_ == FaceEmotion::Laughing ||
                         emotion_ == FaceEmotion::Playful,
@@ -854,8 +853,14 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
     frame = std::clamp(frame, 0, kEyelidFrameCount - 1);
     blink_frame_ = frame;
     for (int candidate = 0; candidate < kEyelidFrameCount; ++candidate) {
-        if (!eye_smile_visible_ && !blinking_ && !winking_ &&
-            reaction_state_ == ReactionState::None && candidate == frame) {
+        // During a wink this helper is called for each eye explicitly. Keep
+        // the requested frame visible even though the global winking_ flag is
+        // set; suppressing it here made both eyelids disappear.
+        const bool explicit_wink_frame = winking_;
+        if ((explicit_wink_frame ||
+             (!eye_smile_visible_ && !blinking_ &&
+              reaction_state_ == ReactionState::None)) &&
+            candidate == frame) {
             lv_obj_remove_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
         } else {
             lv_obj_add_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
