@@ -68,6 +68,9 @@ private:
     static constexpr int kCanvasHeight = 240;
     static constexpr int kEyelidFrameCount = 5;
     static constexpr int kMouthFrameCount = 5;
+    static constexpr int kSadMouthFrameCount = 4;
+    static constexpr int kAngryMouthFrameCount = 4;
+    static constexpr int kHappyMouthFrameCount = 4;
     // 28 ms per step; frame 4 is held for two steps (56 ms).
     static constexpr int kBlinkSequence[] = {0, 1, 2, 3, 4, 4, 3, 2, 1, 0};
 
@@ -78,7 +81,9 @@ private:
     lv_obj_t* eye_smile_[2] = {};
     lv_obj_t* brow_[2] = {};
     lv_obj_t* mouth_[kMouthFrameCount] = {};
-    lv_obj_t* sad_mouth_ = nullptr;
+    lv_obj_t* sad_mouth_[kSadMouthFrameCount] = {};
+    lv_obj_t* angry_mouth_frames_[kAngryMouthFrameCount] = {};
+    lv_obj_t* happy_mouth_frames_[kHappyMouthFrameCount] = {};
     lv_obj_t* angry_mouth_ = nullptr;
     lv_obj_t* crying_mouth_ = nullptr;
     lv_obj_t* open_smile_mouth_ = nullptr;
@@ -92,7 +97,7 @@ private:
     lv_obj_t* sweat_[2] = {};
     lv_obj_t* base_ = nullptr;
     lv_obj_t* eye_white_[2] = {};
-    lv_img_dsc_t descriptors_[40] = {};
+    lv_img_dsc_t descriptors_[56] = {};
     size_t descriptor_count_ = 0;
 
     int screen_width_ = 0;
@@ -193,6 +198,7 @@ private:
     void FinishReaction(uint32_t now_ms);
     void UpdateEmotionDemo(uint32_t now_ms);
     int ExpressionMouthFrame() const;
+    int SpeechMouthFrame(uint8_t level) const;
     static FaceExpression ExpressionFor(FaceEmotion emotion);
     static uint32_t RandomRange(uint32_t min_value, uint32_t max_value);
     static int Interpolate(int from, int to, uint32_t elapsed, uint32_t duration);

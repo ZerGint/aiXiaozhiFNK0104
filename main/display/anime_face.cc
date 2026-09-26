@@ -35,7 +35,18 @@ DECLARE_ASSET(anime_mouth_1_small_png)
 DECLARE_ASSET(anime_mouth_2_medium_png)
 DECLARE_ASSET(anime_mouth_3_wide_png)
 DECLARE_ASSET(anime_mouth_4_o_png)
-DECLARE_ASSET(anime_mouth_sad_png)
+DECLARE_ASSET(anime_mouth_sad_closed_png)
+DECLARE_ASSET(anime_mouth_sad_small_png)
+DECLARE_ASSET(anime_mouth_sad_medium_png)
+DECLARE_ASSET(anime_mouth_sad_wide_png)
+DECLARE_ASSET(anime_mouth_angry_closed_png)
+DECLARE_ASSET(anime_mouth_angry_small_png)
+DECLARE_ASSET(anime_mouth_angry_medium_png)
+DECLARE_ASSET(anime_mouth_angry_wide_png)
+DECLARE_ASSET(anime_mouth_happy_closed_png)
+DECLARE_ASSET(anime_mouth_happy_small_png)
+DECLARE_ASSET(anime_mouth_happy_medium_png)
+DECLARE_ASSET(anime_mouth_happy_wide_png)
 DECLARE_ASSET(anime_mouth_angry_png)
 DECLARE_ASSET(anime_mouth_crying_png)
 DECLARE_ASSET(anime_mouth_open_smile_png)
@@ -108,10 +119,22 @@ const Asset kMouth[] = {
     ASSET(anime_mouth_2_medium_png), ASSET(anime_mouth_3_wide_png),
     ASSET(anime_mouth_4_o_png),
 };
+const Asset kSadMouth[] = {
+    ASSET(anime_mouth_sad_closed_png), ASSET(anime_mouth_sad_small_png),
+    ASSET(anime_mouth_sad_medium_png), ASSET(anime_mouth_sad_wide_png),
+};
+const Asset kAngryMouth[] = {
+    ASSET(anime_mouth_angry_closed_png), ASSET(anime_mouth_angry_small_png),
+    ASSET(anime_mouth_angry_medium_png), ASSET(anime_mouth_angry_wide_png),
+};
+const Asset kHappyMouth[] = {
+    ASSET(anime_mouth_happy_closed_png), ASSET(anime_mouth_happy_small_png),
+    ASSET(anime_mouth_happy_medium_png), ASSET(anime_mouth_happy_wide_png),
+};
 const Asset kSpecialMouth[] = {
-    ASSET(anime_mouth_sad_png), ASSET(anime_mouth_angry_png),
-    ASSET(anime_mouth_crying_png), ASSET(anime_mouth_open_smile_png),
-    ASSET(anime_mouth_tongue_png), ASSET(anime_mouth_yawn_png),
+    ASSET(anime_mouth_angry_png), ASSET(anime_mouth_crying_png),
+    ASSET(anime_mouth_open_smile_png), ASSET(anime_mouth_tongue_png),
+    ASSET(anime_mouth_yawn_png),
 };
 const Asset kTear[] = {ASSET(anime_tear_left_png), ASSET(anime_tear_right_png)};
 const Asset kBlush[] = {ASSET(anime_blush_left_png), ASSET(anime_blush_right_png)};
@@ -188,6 +211,33 @@ int AnimeFace::ExpressionMouthFrame() const {
     }
 }
 
+int AnimeFace::SpeechMouthFrame(uint8_t level) const {
+    if (special_mouth_ == SpecialMouth::Sad || special_mouth_ == SpecialMouth::Angry ||
+        special_mouth_ == SpecialMouth::OpenSmile) {
+        if (level >= 66) return 3;
+        if (level >= 36) return 2;
+        return 1;
+    }
+
+    // The generic wide frame is a smiling mouth. Keep it for positive
+    // emotions, but use flat/round phoneme shapes for sad, angry and other
+    // non-positive expressions so speaking does not erase their mood.
+    if (emotion_ == FaceEmotion::Happy || emotion_ == FaceEmotion::Laughing ||
+        emotion_ == FaceEmotion::Love || emotion_ == FaceEmotion::Playful) {
+        if (level >= 66) return 3;
+        if (level >= 36) return 2;
+        return 1;
+    }
+
+    // Keep the emotion-specific closed mouth during quiet speech frames. The
+    // open frames below are deliberately neutral so they do not turn a sad
+    // or angry face into a smile while the voice is active.
+    if (special_mouth_ != SpecialMouth::None && level < 36) return 0;
+    if (level >= 66) return 4;
+    if (level >= 36) return 2;
+    return 1;
+}
+
 uint32_t AnimeFace::RandomRange(uint32_t min_value, uint32_t max_value) {
     if (max_value <= min_value) return min_value;
     return min_value + static_cast<uint32_t>(std::rand()) % (max_value - min_value + 1);
@@ -216,9 +266,18 @@ void AnimeFace::SetImagePosition(lv_obj_t* object, int x, int y) {
 }
 
 void AnimeFace::ApplyMouthVisibility() {
+    const bool using_emotion_frames = special_mouth_ == SpecialMouth::Sad ||
+                                      special_mouth_ == SpecialMouth::Angry ||
+                                      special_mouth_ == SpecialMouth::OpenSmile;
     for (int candidate = 0; candidate < kMouthFrameCount; ++candidate) {
-        const bool show_normal_mouth = speech_mouth_rendering_ || winking_ ||
-                                       special_mouth_ == SpecialMouth::None;
+        const bool show_emotion_mouth_during_speech =
+            speech_mouth_rendering_ && mouth_frame_ == 0 &&
+            special_mouth_ != SpecialMouth::None;
+        const bool show_normal_mouth =
+            !show_emotion_mouth_during_speech &&
+            (speech_mouth_rendering_ || winking_ ||
+             special_mouth_ == SpecialMouth::None) &&
+            !using_emotion_frames;
         const bool show = show_normal_mouth && candidate == mouth_frame_;
         if (show) {
             lv_obj_remove_flag(mouth_[candidate], LV_OBJ_FLAG_HIDDEN);
@@ -226,43 +285,60 @@ void AnimeFace::ApplyMouthVisibility() {
             lv_obj_add_flag(mouth_[candidate], LV_OBJ_FLAG_HIDDEN);
         }
     }
-    if (sad_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::Sad) {
-            lv_obj_remove_flag(sad_mouth_, LV_OBJ_FLAG_HIDDEN);
+    for (int candidate = 0; candidate < kAngryMouthFrameCount; ++candidate) {
+        const bool show = !winking_ && special_mouth_ == SpecialMouth::Angry &&
+                          candidate == mouth_frame_;
+        if (show) {
+            lv_obj_remove_flag(angry_mouth_frames_[candidate], LV_OBJ_FLAG_HIDDEN);
         } else {
-            lv_obj_add_flag(sad_mouth_, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(angry_mouth_frames_[candidate], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    for (int candidate = 0; candidate < kHappyMouthFrameCount; ++candidate) {
+        const bool show = !winking_ && special_mouth_ == SpecialMouth::OpenSmile &&
+                          candidate == mouth_frame_;
+        if (show) {
+            lv_obj_remove_flag(happy_mouth_frames_[candidate], LV_OBJ_FLAG_HIDDEN);
+        } else {
+            lv_obj_add_flag(happy_mouth_frames_[candidate], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    for (int candidate = 0; candidate < kSadMouthFrameCount; ++candidate) {
+        if (sad_mouth_[candidate] != nullptr) {
+            const bool show = !winking_ && special_mouth_ == SpecialMouth::Sad &&
+                              candidate == mouth_frame_;
+            if (show) {
+                lv_obj_remove_flag(sad_mouth_[candidate], LV_OBJ_FLAG_HIDDEN);
+            } else {
+                lv_obj_add_flag(sad_mouth_[candidate], LV_OBJ_FLAG_HIDDEN);
+            }
         }
     }
     if (angry_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::Angry) {
-            lv_obj_remove_flag(angry_mouth_, LV_OBJ_FLAG_HIDDEN);
-        } else {
-            lv_obj_add_flag(angry_mouth_, LV_OBJ_FLAG_HIDDEN);
-        }
+        lv_obj_add_flag(angry_mouth_, LV_OBJ_FLAG_HIDDEN);
     }
     if (crying_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::Crying) {
+        if (!winking_ && special_mouth_ == SpecialMouth::Crying &&
+            (!speech_mouth_rendering_ || mouth_frame_ == 0)) {
             lv_obj_remove_flag(crying_mouth_, LV_OBJ_FLAG_HIDDEN);
         } else {
             lv_obj_add_flag(crying_mouth_, LV_OBJ_FLAG_HIDDEN);
         }
     }
     if (open_smile_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::OpenSmile) {
-            lv_obj_remove_flag(open_smile_mouth_, LV_OBJ_FLAG_HIDDEN);
-        } else {
-            lv_obj_add_flag(open_smile_mouth_, LV_OBJ_FLAG_HIDDEN);
-        }
+        lv_obj_add_flag(open_smile_mouth_, LV_OBJ_FLAG_HIDDEN);
     }
     if (tongue_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::Tongue) {
+        if (!winking_ && special_mouth_ == SpecialMouth::Tongue &&
+            (!speech_mouth_rendering_ || mouth_frame_ == 0)) {
             lv_obj_remove_flag(tongue_mouth_, LV_OBJ_FLAG_HIDDEN);
         } else {
             lv_obj_add_flag(tongue_mouth_, LV_OBJ_FLAG_HIDDEN);
         }
     }
     if (yawn_mouth_ != nullptr) {
-        if (!speech_mouth_rendering_ && special_mouth_ == SpecialMouth::Yawn) {
+        if (!winking_ && special_mouth_ == SpecialMouth::Yawn &&
+            (!speech_mouth_rendering_ || mouth_frame_ == 0)) {
             lv_obj_remove_flag(yawn_mouth_, LV_OBJ_FLAG_HIDDEN);
         } else {
             lv_obj_add_flag(yawn_mouth_, LV_OBJ_FLAG_HIDDEN);
@@ -484,23 +560,35 @@ bool AnimeFace::Initialize(lv_obj_t* parent, int screen_width, int screen_height
         SetImagePosition(mouth_[frame], kMouthX, kMouthY);
     }
 
-    sad_mouth_ = lv_image_create(root_);
-    SetImage(sad_mouth_, kSpecialMouth[0].data, kSpecialMouth[0].size);
-    SetImagePosition(sad_mouth_, kMouthX, kMouthY);
+    for (int frame = 0; frame < kSadMouthFrameCount; ++frame) {
+        sad_mouth_[frame] = lv_image_create(root_);
+        SetImage(sad_mouth_[frame], kSadMouth[frame].data, kSadMouth[frame].size);
+        SetImagePosition(sad_mouth_[frame], kMouthX, kMouthY);
+    }
+    for (int frame = 0; frame < kAngryMouthFrameCount; ++frame) {
+        angry_mouth_frames_[frame] = lv_image_create(root_);
+        SetImage(angry_mouth_frames_[frame], kAngryMouth[frame].data, kAngryMouth[frame].size);
+        SetImagePosition(angry_mouth_frames_[frame], kMouthX, kMouthY);
+    }
+    for (int frame = 0; frame < kHappyMouthFrameCount; ++frame) {
+        happy_mouth_frames_[frame] = lv_image_create(root_);
+        SetImage(happy_mouth_frames_[frame], kHappyMouth[frame].data, kHappyMouth[frame].size);
+        SetImagePosition(happy_mouth_frames_[frame], kMouthX, kMouthY);
+    }
     angry_mouth_ = lv_image_create(root_);
-    SetImage(angry_mouth_, kSpecialMouth[1].data, kSpecialMouth[1].size);
+    SetImage(angry_mouth_, kSpecialMouth[0].data, kSpecialMouth[0].size);
     SetImagePosition(angry_mouth_, kMouthX, kMouthY);
     crying_mouth_ = lv_image_create(root_);
-    SetImage(crying_mouth_, kSpecialMouth[2].data, kSpecialMouth[2].size);
+    SetImage(crying_mouth_, kSpecialMouth[1].data, kSpecialMouth[1].size);
     SetImagePosition(crying_mouth_, kMouthX, kMouthY);
     open_smile_mouth_ = lv_image_create(root_);
-    SetImage(open_smile_mouth_, kSpecialMouth[3].data, kSpecialMouth[3].size);
+    SetImage(open_smile_mouth_, kSpecialMouth[2].data, kSpecialMouth[2].size);
     SetImagePosition(open_smile_mouth_, kMouthX, kMouthY);
     tongue_mouth_ = lv_image_create(root_);
-    SetImage(tongue_mouth_, kSpecialMouth[4].data, kSpecialMouth[4].size);
+    SetImage(tongue_mouth_, kSpecialMouth[3].data, kSpecialMouth[3].size);
     SetImagePosition(tongue_mouth_, kMouthX, kMouthY);
     yawn_mouth_ = lv_image_create(root_);
-    SetImage(yawn_mouth_, kSpecialMouth[5].data, kSpecialMouth[5].size);
+    SetImage(yawn_mouth_, kSpecialMouth[4].data, kSpecialMouth[4].size);
     SetImagePosition(yawn_mouth_, kMouthX, kMouthY);
 
     for (int eye = 0; eye < 2; ++eye) {
@@ -955,13 +1043,7 @@ void AnimeFace::UpdateMouth(uint32_t now_ms) {
                                    speech_level_target_ >= kOpenThreshold);
     int desired_frame = expression_mouth_frame_;
     if (speech_rendering) {
-        if (speech_level_current_ >= 66) {
-            desired_frame = 3;
-        } else if (speech_level_current_ >= 36) {
-            desired_frame = 2;
-        } else {
-            desired_frame = 1;
-        }
+        desired_frame = SpeechMouthFrame(speech_level_current_);
     }
     const bool was_speech_mouth_rendering = speech_mouth_rendering_;
     if (speech_mouth_rendering_ && !speech_rendering) {
