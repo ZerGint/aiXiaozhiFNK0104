@@ -39,9 +39,9 @@ Experiment: до отложенного Weather после AFE/input largest blo
 
 ## Artifacts
 
-- [control capture](weather_lifecycle_control_2min.txt), SHA-256 `4747D14C6DE063A6C257ECCFF50D276ABC9866C37D1366639895833E3A7D431B`;
-- [experiment capture](weather_lifecycle_experiment_final_2min.txt), SHA-256 `6DBB4E13638E474198DC4E453406FD337A76732648BB8A991B075BE110EE0D16`;
-- [final production smoke capture](weather_lifecycle_final_smoke.txt), SHA-256 `70232E0324CA2F2CB6D8409137EF42DDC95815CA895B1E48BB78A88EEDD4634C`;
+- [control capture](../../logs/archive/weather_lifecycle_control_2min.txt), SHA-256 `4747D14C6DE063A6C257ECCFF50D276ABC9866C37D1366639895833E3A7D431B`;
+- [experiment capture](../../logs/archive/weather_lifecycle_experiment_final_2min.txt), SHA-256 `6DBB4E13638E474198DC4E453406FD337A76732648BB8A991B075BE110EE0D16`;
+- [final production smoke capture](../../logs/archive/weather_lifecycle_final_smoke.txt), SHA-256 `70232E0324CA2F2CB6D8409137EF42DDC95815CA895B1E48BB78A88EEDD4634C`;
 - final experiment `build/xiaozhi.bin`, 3,619,760 B, SHA-256 `476FF011EAAC03A17B7F27D15D7D3A97EA1DD0E7D20DA7D811FB8424E573BF1E`;
 - identical `build/generated_assets.bin`, 1,955,326 B, SHA-256 `6A21B322E49370C0072301EC471960289802B368388EC1ABF10BCC2F93013722`.
 

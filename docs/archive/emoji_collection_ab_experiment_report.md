@@ -55,8 +55,8 @@ Both 90-second captures reached Wi-Fi, Weather HTTP 200, MQTT `PROTOCOL_CONNECTE
 
 Logs:
 
-- [Control capture](/F:/FNK0104AI/aiXiaozhiFNK0104/emoji_ab_control_boot.txt)
-- [Experiment capture](/F:/FNK0104AI/aiXiaozhiFNK0104/emoji_ab_experiment_boot.txt)
+- [Control capture](../../logs/archive/emoji_ab_control_boot.txt)
+- [Experiment capture](../../logs/archive/emoji_ab_experiment_boot.txt)
 
 ## Conclusion
 
