@@ -211,6 +211,7 @@ esp_err_t Ota::CheckVersion() {
     }
 
     has_new_version_ = false;
+    force_update_ = false;
     cJSON *firmware = cJSON_GetObjectItem(root, "firmware");
     if (cJSON_IsObject(firmware)) {
         cJSON *version = cJSON_GetObjectItem(firmware, "version");
@@ -233,6 +234,7 @@ esp_err_t Ota::CheckVersion() {
             // If the force flag is set to 1, the given version is forced to be installed
             cJSON *force = cJSON_GetObjectItem(firmware, "force");
             if (cJSON_IsNumber(force) && force->valueint == 1) {
+                force_update_ = true;
                 has_new_version_ = true;
             }
         }

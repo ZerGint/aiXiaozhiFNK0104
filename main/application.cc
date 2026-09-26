@@ -511,10 +511,15 @@ void Application::CheckNewVersion() {
         retry_delay = 10;  // Reset retry delay
 
         if (ota_->HasNewVersion()) {
-            if (UpgradeFirmware(ota_->GetFirmwareUrl(), ota_->GetFirmwareVersion())) {
-                return;  // This line will never be reached after reboot
+            if (ota_->IsForceUpdate()) {
+                ESP_LOGW(TAG,
+                         "CUSTOM_OTA_GUARD: forced update requested by server; automatic install blocked");
+            } else {
+                ESP_LOGW(TAG,
+                         "CUSTOM_OTA_GUARD: update available current=%s server=%s automatic install blocked",
+                         ota_->GetCurrentVersion().c_str(), ota_->GetFirmwareVersion().c_str());
             }
-            // If upgrade failed, continue to normal operation
+            // Keep version checking and activation, but never install a server-selected image here.
         }
 
         // No new version, mark the current version as valid
@@ -1257,7 +1262,17 @@ void Application::Reboot() {
     esp_restart();
 }
 
-bool Application::UpgradeFirmware(const std::string& url, const std::string& version) {
+bool Application::UpgradeFirmware(const std::string& url, const std::string& version,
+                                  bool local_approval) {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    if (!local_approval) {
+        ESP_LOGW(TAG,
+                 "CUSTOM_OTA_GUARD: local approval required; automatic/manual install blocked url=%s",
+                 url.c_str());
+        return false;
+    }
+#endif
+
     auto& board = Board::GetInstance();
     auto display = board.GetDisplay();
 
