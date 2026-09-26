@@ -328,7 +328,7 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
     // The LVGL task must remain in internal RAM: it can run while Wi-Fi/TLS
     // or audio code temporarily disables the flash cache, when PSRAM stacks
     // are not safe to access.
-    port_cfg.task_stack = 12288;
+    port_cfg.task_stack = 9216;
 #endif
 #if CONFIG_SOC_CPU_CORES_NUM > 1
     port_cfg.task_affinity = 1;
