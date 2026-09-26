@@ -8,6 +8,7 @@
 #endif
 #include "audio_codec.h"
 #include "board.h"
+#include "custom_ota_policy.h"
 #include "display.h"
 #include "mcp_server.h"
 #include "media/media_audio_output.h"
@@ -394,6 +395,16 @@ void Application::ActivationTask() {
 
     // Initialize the protocol
     InitializeProtocol();
+
+    // Run custom staging outside the activation task's 8 KiB stack. The
+    // policy gate runs before any manifest request for non-stable builds.
+    xTaskCreate(
+        [](void*) {
+            CustomOtaPolicy::ReportStagedUpdate();
+            CustomOtaPolicy::StageStableUpdate();
+            vTaskDelete(nullptr);
+        },
+        "custom_ota", 12288, nullptr, 1, nullptr);
 
     // Signal completion to main loop
     xEventGroupSetBits(event_group_, MAIN_EVENT_ACTIVATION_DONE);
