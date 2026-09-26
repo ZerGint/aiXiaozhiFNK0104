@@ -3,7 +3,11 @@
 
 #include "gif/lvgl_gif.h"
 #include "lvgl_display.h"
+#if CONFIG_FNK_ANIME_FACE_POC
+#include "anime_face.h"
+#else
 #include "robo_eyes.h"
+#endif
 
 #include <esp_lcd_panel_io.h>
 #include <esp_lcd_panel_ops.h>
@@ -33,6 +37,14 @@ protected:
     lv_obj_t* preview_image_ = nullptr;
     lv_obj_t* emoji_label_ = nullptr;
     lv_obj_t* emoji_image_ = nullptr;
+#if CONFIG_FNK_ANIME_FACE_POC
+    AnimeFace anime_face_;
+    lv_timer_t* anime_face_timer_ = nullptr;
+    lv_obj_t* anime_face_root_ = nullptr;
+    lv_obj_t* anime_face_touch_ = nullptr;
+    void UpdateAnimeFaceAnimation();
+    void UpdateAnimeFaceRuntimeState();
+#else
     lv_obj_t* robo_eyes_canvas_ = nullptr;
     void* robo_eyes_buf_ = nullptr;
     RoboEyes robo_eyes_;
@@ -41,6 +53,7 @@ protected:
     bool robo_eyes_vad_speaking_ = false;
     void UpdateRoboEyesAnimation();
     void UpdateRoboEyesRuntimeState();
+#endif
     std::unique_ptr<LvglGif> gif_controller_ = nullptr;
     lv_obj_t* emoji_box_ = nullptr;
     lv_obj_t* chat_message_label_ = nullptr;
@@ -178,6 +191,8 @@ protected:
 public:
     ~LcdDisplay();
     virtual void SetEmotion(const char* emotion) override;
+    virtual void PlayReaction(FaceReaction reaction,
+                              FaceReactionSource source = FaceReactionSource::Unknown) override;
     virtual void SetChatMessage(const char* role, const char* content) override;
     virtual void ClearChatMessages() override;
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image) override;

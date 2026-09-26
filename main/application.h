@@ -36,6 +36,7 @@
 #define MAIN_EVENT_STOP_LISTENING       (1 << 11)
 #define MAIN_EVENT_STATE_CHANGED        (1 << 12)
 #define MAIN_EVENT_PLAYBACK_DRAINED     (1 << 13)
+#define MAIN_EVENT_TOGGLE_CHAT_POPUP    (1 << 14)
 
 
 enum AecMode {
@@ -94,7 +95,7 @@ public:
      * Toggle chat state (event-based, thread-safe)
      * Sends MAIN_EVENT_TOGGLE_CHAT to be handled in Run()
      */
-    void ToggleChatState();
+    void ToggleChatState(bool play_popup_sound = false);
 
     /**
      * Start listening (event-based, thread-safe)
@@ -158,7 +159,7 @@ private:
 
     // Event handlers
     void HandleStateChangedEvent();
-    void HandleToggleChatEvent();
+    void HandleToggleChatEvent(bool play_popup_sound = false);
     void HandleStartListeningEvent();
     void HandleStopListeningEvent();
     void HandleNetworkConnectedEvent();

@@ -1,0 +1,502 @@
+{
+  "canvas": [
+    240,
+    240
+  ],
+  "coordinates": "screen left/right; zero-based pixel coordinates",
+  "assets": {
+    "base_240.png": {
+      "xy": [
+        0,
+        0
+      ],
+      "size": [
+        240,
+        240
+      ]
+    },
+    "eyes/eye_white_left.png": {
+      "xy": [
+        56,
+        101
+      ],
+      "size": [
+        41,
+        38
+      ]
+    },
+    "eyes/iris_left.png": {
+      "xy": [
+        60,
+        99
+      ],
+      "size": [
+        41,
+        42
+      ],
+      "padding": [
+        5,
+        3
+      ]
+    },
+    "eyes/eye_white_right.png": {
+      "xy": [
+        143,
+        101
+      ],
+      "size": [
+        41,
+        38
+      ]
+    },
+    "eyes/iris_right.png": {
+      "xy": [
+        139,
+        99
+      ],
+      "size": [
+        41,
+        42
+      ],
+      "padding": [
+        5,
+        3
+      ]
+    },
+    "eyes/eyelid_left_0.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_left_1.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_left_2.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_left_3.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_left_4.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_right_0.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_right_1.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_right_2.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_right_3.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eyelid_right_4.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "mouth/mouth_0_closed.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_1_small.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_2_medium.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_3_wide.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_4_o.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "brows/brow_left.png": {
+      "xy": [
+        47,
+        69
+      ],
+      "size": [
+        56,
+        23
+      ]
+    },
+    "brows/brow_right.png": {
+      "xy": [
+        137,
+        69
+      ],
+      "size": [
+        56,
+        23
+      ]
+    },
+    "mouth/mouth_sad.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_angry.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "tears/tear_left.png": {
+      "xy": [
+        63,
+        137
+      ],
+      "size": [
+        12,
+        18
+      ]
+    },
+    "tears/tear_right.png": {
+      "xy": [
+        165,
+        137
+      ],
+      "size": [
+        12,
+        18
+      ]
+    },
+    "blush/blush_left.png": {
+      "xy": [
+        57,
+        139
+      ],
+      "size": [
+        30,
+        16
+      ]
+    },
+    "blush/blush_right.png": {
+      "xy": [
+        153,
+        139
+      ],
+      "size": [
+        30,
+        16
+      ]
+    },
+    "effects/sweat_left.png": {
+      "xy": [
+        43,
+        92
+      ],
+      "size": [
+        12,
+        22
+      ]
+    },
+    "effects/sweat_right.png": {
+      "xy": [
+        185,
+        92
+      ],
+      "size": [
+        12,
+        22
+      ]
+    },
+    "effects/heart.png": {
+      "xy": [
+        30,
+        58
+      ],
+      "size": [
+        18,
+        18
+      ]
+    },
+    "effects/sparkle.png": {
+      "xy": [
+        193,
+        125
+      ],
+      "size": [
+        16,
+        20
+      ]
+    },
+    "effects/irritation.png": {
+      "xy": [
+        175,
+        66
+      ],
+      "size": [
+        18,
+        18
+      ]
+    },
+    "eyes/eye_smile_left.png": {
+      "xy": [
+        44,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "eyes/eye_smile_right.png": {
+      "xy": [
+        138,
+        88
+      ],
+      "size": [
+        58,
+        56
+      ]
+    },
+    "mouth/mouth_open_smile.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_crying.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_yawn.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    },
+    "mouth/mouth_tongue.png": {
+      "xy": [
+        103,
+        155
+      ],
+      "size": [
+        34,
+        22
+      ]
+    }
+  },
+  "compositing_order": [
+    "base",
+    "eye_white",
+    "iris clipped to eye_white alpha",
+    "eyelid",
+    "mouth",
+    "brows",
+    "tears (optional)",
+    "blush and emotion effects (optional)"
+  ],
+  "iris_travel": {
+    "dx": [
+      -4,
+      4
+    ],
+    "dy": [
+      0,
+      0
+    ]
+  },
+  "eyelid_frames": [
+    0,
+    0.25,
+    0.5,
+    0.85,
+    1
+  ],
+  "brow_dy": [
+    -1,
+    1
+  ],
+  "emotion_presets": {
+    "sad": {
+      "mouth": "mouth/mouth_sad.png",
+      "tears": false
+    },
+    "crying": {
+      "mouth": "mouth/mouth_sad.png",
+      "tears": true
+    },
+    "angry": {
+      "mouth": "mouth/mouth_angry.png",
+      "tears": false
+    }
+  },
+  "tear_animation": {
+    "dy": [
+      0,
+      4
+    ],
+    "opacity": [
+      0,
+      255
+    ],
+    "note": "Draw after all face layers. Tears never replace the eye assets."
+  },
+  "smile_lids": "Replace eyelid layer with eye_smile_left/right; keep eye_white and iris underneath.",
+  "additional_emotion_presets": {
+    "shy": {
+      "mouth": "mouth_0_closed.png",
+      "blush": true
+    },
+    "happy": {
+      "mouth": "mouth_open_smile.png",
+      "smile": true,
+      "blush": true,
+      "sparkle": true
+    },
+    "love": {
+      "mouth": "mouth_open_smile.png",
+      "smile": true,
+      "blush": true,
+      "heart": true
+    },
+    "nervous": {
+      "mouth": "mouth_crying.png",
+      "sweat": true
+    },
+    "angry": {
+      "mouth": "mouth_angry.png",
+      "irritation": true
+    },
+    "crying": {
+      "mouth": "mouth_crying.png",
+      "tears": true
+    },
+    "playful": {
+      "mouth": "mouth_tongue.png",
+      "sparkle": true
+    },
+    "yawn": {
+      "mouth": "mouth_yawn.png",
+      "lid": 2
+    }
+  }
+}

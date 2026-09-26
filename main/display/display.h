@@ -2,6 +2,7 @@
 #define DISPLAY_H
 
 #include "emoji_collection.h"
+#include "face_reaction.h"
 #include "text_glyph.h"
 
 #ifndef CONFIG_USE_EMOTE_MESSAGE_STYLE
@@ -38,6 +39,8 @@ public:
     virtual void ShowNotification(const char* notification, int duration_ms = 3000);
     virtual void ShowNotification(const std::string& notification, int duration_ms = 3000);
     virtual void SetEmotion(const char* emotion);
+    virtual void PlayReaction(FaceReaction reaction,
+                              FaceReactionSource source = FaceReactionSource::Unknown) {}
     virtual void SetChatMessage(const char* role, const char* content);
     virtual void ClearChatMessages();
     virtual void SetTheme(Theme* theme);

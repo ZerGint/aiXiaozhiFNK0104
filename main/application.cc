@@ -206,6 +206,7 @@ void Application::Run() {
         MAIN_EVENT_SCHEDULE | MAIN_EVENT_SEND_AUDIO | MAIN_EVENT_WAKE_WORD_DETECTED |
         MAIN_EVENT_VAD_CHANGE | MAIN_EVENT_CLOCK_TICK | MAIN_EVENT_ERROR |
         MAIN_EVENT_NETWORK_CONNECTED | MAIN_EVENT_NETWORK_DISCONNECTED | MAIN_EVENT_TOGGLE_CHAT |
+        MAIN_EVENT_TOGGLE_CHAT_POPUP |
         MAIN_EVENT_START_LISTENING | MAIN_EVENT_STOP_LISTENING | MAIN_EVENT_ACTIVATION_DONE |
         MAIN_EVENT_STATE_CHANGED | MAIN_EVENT_PLAYBACK_DRAINED;
 
@@ -251,7 +252,7 @@ void Application::Run() {
         }
 
         if (bits & MAIN_EVENT_TOGGLE_CHAT) {
-            HandleToggleChatEvent();
+            HandleToggleChatEvent((bits & MAIN_EVENT_TOGGLE_CHAT_POPUP) != 0);
         }
 
         if (bits & MAIN_EVENT_START_LISTENING) {
@@ -789,7 +790,13 @@ void Application::DismissAlert() {
     }
 }
 
-void Application::ToggleChatState() { xEventGroupSetBits(event_group_, MAIN_EVENT_TOGGLE_CHAT); }
+void Application::ToggleChatState(bool play_popup_sound) {
+    EventBits_t bits = MAIN_EVENT_TOGGLE_CHAT;
+    if (play_popup_sound) {
+        bits |= MAIN_EVENT_TOGGLE_CHAT_POPUP;
+    }
+    xEventGroupSetBits(event_group_, bits);
+}
 
 void Application::StartListening() { xEventGroupSetBits(event_group_, MAIN_EVENT_START_LISTENING); }
 
@@ -808,7 +815,7 @@ void Application::StopVoiceInteractionForMedia() {
     }
 }
 
-void Application::HandleToggleChatEvent() {
+void Application::HandleToggleChatEvent(bool play_popup_sound) {
     auto state = GetDeviceState();
 
     if (state == kDeviceStateNotifying) {
@@ -836,6 +843,13 @@ void Application::HandleToggleChatEvent() {
 
     if (state == kDeviceStateIdle) {
         ListeningMode mode = GetDefaultListeningMode();
+        if (play_popup_sound) {
+            // The tap path uses the same popup cue as wake-word activation.
+            // Set this in the main task so the flag is consumed by
+            // StartListeningAudio() after the decoder/voice path is ready.
+            play_popup_on_listening_ = true;
+            ESP_LOGI(TAG, "TOUCH_WAKE_POPUP_QUEUED");
+        }
         MediaPlayer::GetInstance().PauseForVoice();
         if (!protocol_->IsAudioChannelOpened()) {
             SetDeviceState(kDeviceStateConnecting);
@@ -935,6 +949,8 @@ void Application::HandleWakeWordDetectedEvent() {
     auto state = GetDeviceState();
     auto wake_word = audio_service_.GetLastWakeWord();
     ESP_LOGI(TAG, "Wake word detected: %s (state: %d)", wake_word.c_str(), (int)state);
+    Board::GetInstance().GetDisplay()->PlayReaction(FaceReaction::WakeAttention,
+                                                     FaceReactionSource::WakeWord);
 
     if (state == kDeviceStateIdle) {
         BeginWakeWordInvoke(wake_word);

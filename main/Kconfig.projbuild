@@ -10,6 +10,22 @@ config ESP_VIDEO_USE_CUSTOMIZED_ESP_H264_VERSION
     bool
     default n
 
+config FNK_ANIME_FACE_POC
+    bool "Enable layered anime face PoC"
+    default n
+    help
+        Enable the experimental layered anime face renderer for the
+        Freenove FNK0104S display. Keep disabled for production builds.
+
+config FNK_ANIME_FACE_EMOTION_DEMO
+    bool "Enable AnimeFace emotion demo"
+    default n
+    depends on FNK_ANIME_FACE_POC
+    help
+        Cycle through the experimental AnimeFace emotion set for five seconds
+        per expression. Keep disabled unless a visual hardware demo is being
+        recorded.
+
 choice
     prompt "Flash Assets"
     default FLASH_DEFAULT_ASSETS if !USE_EMOTE_MESSAGE_STYLE
