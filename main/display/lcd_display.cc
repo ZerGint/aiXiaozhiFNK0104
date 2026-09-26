@@ -11,6 +11,7 @@
 
 #include "home_assistant.h"
 #include <esp_err.h>
+#include <esp_app_desc.h>
 #include <esp_log.h>
 #include <esp_heap_caps.h>
 #include <esp_lvgl_port.h>
@@ -1549,6 +1550,11 @@ void LcdDisplay::SetupUI() {
         lv_obj_set_style_border_width(obj, 1, 0);
         lv_obj_set_style_border_color(obj, i == 0 ? kAccent : kBorder, 0);
     }
+    firmware_version_label_ = label(nav, "", 2, 252, 60, kMuted);
+    lv_label_set_text_fmt(firmware_version_label_, "v%s", esp_app_get_description()->version);
+    lv_obj_set_style_text_font(firmware_version_label_, LV_FONT_DEFAULT, 0);
+    lv_obj_set_style_text_align(firmware_version_label_, LV_TEXT_ALIGN_CENTER, 0);
+    lv_label_set_long_mode(firmware_version_label_, LV_LABEL_LONG_DOT);
     ai_view_ = panel(screen, 66, 38, 408, 276, kBg);
     lv_obj_set_style_border_width(ai_view_, 0, 0);
     auto ai_center = panel(ai_view_, 0, 0, 258, 276, lv_color_black());

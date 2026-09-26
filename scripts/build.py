@@ -11,6 +11,11 @@ from pathlib import Path
 from typing import Any, Optional
 from pathlib import Path
 
+try:
+    from firmware_version import load_version, format_version
+except ImportError:
+    from scripts.firmware_version import load_version, format_version
+
 # Switch to project root directory
 os.chdir(Path(__file__).resolve().parent.parent)
 
@@ -47,12 +52,8 @@ def _emit_build_stage(stage: str) -> None:
 
 
 def get_project_version() -> Optional[str]:
-    """Read set(PROJECT_VER "x.y.z") from root CMakeLists.txt"""
-    with Path("CMakeLists.txt").open(encoding='utf-8') as f:
-        for line in f:
-            if line.startswith("set(PROJECT_VER"):
-                return line.split("\"")[1]
-    return None
+    """Read the single firmware version source used by CMake and releases."""
+    return format_version(load_version(Path("firmware_version.json")))
 
 def _get_idf_command() -> list[str]:
     """Get the command used to invoke the active ESP-IDF."""
