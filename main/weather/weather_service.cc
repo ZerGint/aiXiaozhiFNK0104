@@ -1,11 +1,7 @@
 #include "weather_service.h"
 
-#include "weather_secrets.h"
-
 #include "board.h"
 #include "media/internet_radio_player.h"
-#include "media/radio_json_framer.h"
-
 #include <cJSON.h>
 #include <esp_heap_caps.h>
 #include <esp_log.h>
@@ -14,14 +10,12 @@
 #include <freertos/task.h>
 
 #include <cstdio>
-#include <cctype>
 #include <cerrno>
 #include <cmath>
 #include <cstddef>
 #include <cstring>
 #include <memory>
 #include <string>
-#include <string_view>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -33,6 +27,7 @@ constexpr char kCachePath[] = "/sdcard/weather_cache.dat";
 constexpr char kCacheTmpPath[] = "/sdcard/weather_cache.tmp";
 constexpr uint32_t kCacheMagic = 0x31544857;  // WTH1
 constexpr uint16_t kCacheVersion = 1;
+constexpr uint32_t kWeatherTaskStackBytes = 8192;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 constexpr UBaseType_t kWeatherTaskPriority = tskIDLE_PRIORITY + 1;
 constexpr bool kRequiresReadyGate = true;
@@ -77,10 +72,15 @@ bool IsTimeValid() {
     return time(nullptr) >= kMinimumValidTime;
 }
 
-void LogMemory() {
-    ESP_LOGI(kTag, "WEATHER_MEM internal_free=%u largest_block=%u psram_free=%u",
+void LogMemory(const char* phase) {
+    ESP_LOGI(kTag,
+             "WEATHER_MEM phase=%s internal_free=%u internal_min=%u largest_block=%u psram_free=%u",
+             phase,
              static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
-             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(
+                 heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(
+                 heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
              static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)));
 }
 
@@ -91,93 +91,77 @@ bool JsonNumber(cJSON* parent, const char* key, double& value) {
     return true;
 }
 
-bool ConditionCode(cJSON* parent, double& value) {
-    auto condition = cJSON_GetObjectItemCaseSensitive(parent, "condition");
-    return cJSON_IsObject(condition) && JsonNumber(condition, "code", value);
-}
-
-std::string_view JsonMember(std::string_view input, std::string_view key, char opener,
-                            char closer) {
-    bool in_string = false;
-    bool escaped = false;
-    size_t string_begin = 0;
-    for (size_t pos = 0; pos < input.size(); ++pos) {
-        const char c = input[pos];
-        if (in_string) {
-            if (escaped) {
-                escaped = false;
-            } else if (c == '\\') {
-                escaped = true;
-            } else if (c == '"') {
-                in_string = false;
-                if (input.substr(string_begin, pos - string_begin) != key) continue;
-                size_t value = pos + 1;
-                while (value < input.size() &&
-                       std::isspace(static_cast<unsigned char>(input[value]))) {
-                    ++value;
-                }
-                if (value == input.size() || input[value++] != ':') continue;
-                while (value < input.size() &&
-                       std::isspace(static_cast<unsigned char>(input[value]))) {
-                    ++value;
-                }
-                if (value == input.size() || input[value] != opener) continue;
-
-                int depth = 1;
-                bool value_string = false;
-                bool value_escaped = false;
-                for (size_t end = value + 1; end < input.size(); ++end) {
-                    const char value_char = input[end];
-                    if (value_string) {
-                        if (value_escaped) value_escaped = false;
-                        else if (value_char == '\\') value_escaped = true;
-                        else if (value_char == '"') value_string = false;
-                    } else if (value_char == '"') {
-                        value_string = true;
-                    } else if (value_char == opener) {
-                        ++depth;
-                    } else if (value_char == closer && --depth == 0) {
-                        return input.substr(value, end - value + 1);
-                    }
-                }
-                return {};
-            }
-            continue;
-        }
-        if (c == '"') {
-            in_string = true;
-            string_begin = pos + 1;
-        }
-    }
-    return {};
-}
-
-bool ParseCurrent(std::string_view object, WeatherCurrent& current) {
-    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
-        cJSON_ParseWithLength(object.data(), object.size()), &cJSON_Delete);
-    double temp = 0, code = 0, wind = 0, direction = 0, is_day = 0;
-    if (!cJSON_IsObject(json.get()) || !JsonNumber(json.get(), "temp_c", temp) ||
-        !ConditionCode(json.get(), code) || !JsonNumber(json.get(), "wind_kph", wind) ||
-        !JsonNumber(json.get(), "wind_degree", direction) ||
-        !JsonNumber(json.get(), "is_day", is_day)) {
-        return false;
-    }
-    current = {static_cast<float>(temp), static_cast<float>(wind / 3.6),
-               static_cast<uint16_t>(direction), static_cast<uint16_t>(code), is_day != 0};
+bool JsonArrayNumber(cJSON* parent, const char* key, size_t index, double& value) {
+    auto array = cJSON_GetObjectItemCaseSensitive(parent, key);
+    auto item = cJSON_IsArray(array) ? cJSON_GetArrayItem(array, static_cast<int>(index)) : nullptr;
+    if (!cJSON_IsNumber(item)) return false;
+    value = item->valuedouble;
     return true;
 }
 
-bool ParseDay(std::string_view object, WeatherDay& day) {
-    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
-        cJSON_ParseWithLength(object.data(), object.size()), &cJSON_Delete);
-    double min = 0, max = 0, code = 0, rain = 0;
-    if (!cJSON_IsObject(json.get()) || !JsonNumber(json.get(), "mintemp_c", min) ||
-        !JsonNumber(json.get(), "maxtemp_c", max) || !ConditionCode(json.get(), code) ||
-        !JsonNumber(json.get(), "daily_chance_of_rain", rain)) {
+uint16_t MapOpenMeteoCode(uint16_t code) {
+    switch (code) {
+        case 0: return 1000;                         // clear
+        case 1:
+        case 2: return 1003;                         // partly cloudy
+        case 3: return 1009;                         // overcast
+        case 45:
+        case 48: return 1030;                        // fog
+        case 51:
+        case 53:
+        case 55:
+        case 56:
+        case 57: return 1150;                        // drizzle
+        case 61:
+        case 63:
+        case 80:
+        case 81: return 1183;                        // rain/showers
+        case 65:
+        case 82: return 1195;                        // heavy rain/showers
+        case 71:
+        case 73:
+        case 75:
+        case 77:
+        case 85:
+        case 86: return 1066;                        // snow
+        case 95:
+        case 96:
+        case 99: return 1087;                        // thunderstorm
+        default: return 1009;
+    }
+}
+
+bool ParseOpenMeteoResponse(cJSON* root, WeatherData& parsed) {
+    auto current = cJSON_GetObjectItemCaseSensitive(root, "current");
+    auto daily = cJSON_GetObjectItemCaseSensitive(root, "daily");
+    if (!cJSON_IsObject(current) || !cJSON_IsObject(daily)) return false;
+
+    double temp = 0, code = 0, wind = 0, direction = 0, is_day = 0;
+    if (!JsonNumber(current, "temperature_2m", temp) ||
+        !JsonNumber(current, "weather_code", code) ||
+        !JsonNumber(current, "wind_speed_10m", wind) ||
+        !JsonNumber(current, "wind_direction_10m", direction) ||
+        !JsonNumber(current, "is_day", is_day)) {
         return false;
     }
-    day = {static_cast<float>(min), static_cast<float>(max), static_cast<uint16_t>(code),
-           static_cast<uint8_t>(rain)};
+    if (code < 0 || code > UINT16_MAX || direction < 0 || direction > UINT16_MAX) return false;
+
+    parsed.current = {static_cast<float>(temp), static_cast<float>(wind),
+                      static_cast<uint16_t>(direction),
+                      MapOpenMeteoCode(static_cast<uint16_t>(code)), is_day != 0};
+    for (size_t i = 0; i < 3; ++i) {
+        double min = 0, max = 0, daily_code = 0, rain = 0;
+        if (!JsonArrayNumber(daily, "temperature_2m_min", i, min) ||
+            !JsonArrayNumber(daily, "temperature_2m_max", i, max) ||
+            !JsonArrayNumber(daily, "weather_code", i, daily_code) ||
+            !JsonArrayNumber(daily, "precipitation_probability_max", i, rain) ||
+            daily_code < 0 || daily_code > UINT16_MAX || rain < 0 || rain > 100) {
+            return false;
+        }
+        parsed.days[i] = {static_cast<float>(min), static_cast<float>(max),
+                          MapOpenMeteoCode(static_cast<uint16_t>(daily_code)),
+                          static_cast<uint8_t>(rain)};
+    }
     return true;
 }
 }  // namespace
@@ -295,7 +279,9 @@ bool WeatherService::Refresh(const char* reason) {
     portEXIT_CRITICAL(&lock_);
 
     ESP_LOGI(kTag, "WEATHER_REFRESH_REQUEST reason=%s", reason);
-    if (xTaskCreate(RefreshTask, "weather_http", 8192, this, kWeatherTaskPriority, nullptr) != pdPASS) {
+    LogMemory("before_task_create");
+    if (xTaskCreate(RefreshTask, "weather_http", kWeatherTaskStackBytes, this,
+                    kWeatherTaskPriority, nullptr) != pdPASS) {
         portENTER_CRITICAL(&lock_);
         data_.request_active = false;
         pending_refresh_ = true;
@@ -311,7 +297,19 @@ bool WeatherService::Refresh(const char* reason) {
 }
 
 void WeatherService::RefreshTask(void* arg) {
-    static_cast<WeatherService*>(arg)->RunRefresh();
+    LogMemory("after_task_create");
+    auto* service = static_cast<WeatherService*>(arg);
+    service->RunRefresh();
+    // ESP-IDF 6.1 on ESP32-S3 reports uxTaskGetStackHighWaterMark() in bytes.
+    const uint32_t unused_bytes = static_cast<uint32_t>(uxTaskGetStackHighWaterMark(nullptr));
+    const uint32_t max_used_bytes = unused_bytes < kWeatherTaskStackBytes
+                                        ? kWeatherTaskStackBytes - unused_bytes
+                                        : 0;
+    ESP_LOGI(kTag,
+             "WEATHER_STACK configured_bytes=%u unused_bytes=%u max_used_bytes=%u",
+             static_cast<unsigned>(kWeatherTaskStackBytes), static_cast<unsigned>(unused_bytes),
+             static_cast<unsigned>(max_used_bytes));
+    LogMemory("after_run_before_delete");
     vTaskDelete(nullptr);
 }
 
@@ -338,23 +336,15 @@ void WeatherService::RunRefresh() {
     }
 
     const int64_t started = esp_timer_get_time();
-    LogMemory();
+    LogMemory("run_start");
     char url[512];
     snprintf(url, sizeof(url),
-             "https://api.weatherapi.com/v1/forecast.json?key=%s&q=%.4f,%.4f&days=3&"
-             "aqi=no&alerts=no&lang=ru",
-             WEATHER_API_KEY, kFnkWeatherLocation.latitude, kFnkWeatherLocation.longitude);
-    if (WEATHER_API_KEY[0] == '\0') {
-        ESP_LOGE(kTag, "WEATHER_UPDATE_FAILED reason=missing_api_key keeping_cached_data=%d",
-                 data_.valid);
-        portENTER_CRITICAL(&lock_);
-        data_.request_active = false;
-        data_.refresh_deferred = pending_refresh_;
-        data_.last_request_failed = true;
-        ++data_.generation;
-        portEXIT_CRITICAL(&lock_);
-        return;
-    }
+             "https://api.open-meteo.com/v1/forecast?latitude=%.4f&longitude=%.4f&"
+             "current=temperature_2m,weather_code,wind_speed_10m,wind_direction_10m,is_day&"
+             "daily=temperature_2m_min,temperature_2m_max,weather_code,"
+             "precipitation_probability_max&forecast_days=3&timezone=auto&wind_speed_unit=ms",
+             kFnkWeatherLocation.latitude, kFnkWeatherLocation.longitude);
+    LogMemory("before_http");
     ESP_LOGI(kTag, "WEATHER_HTTP_START");
     auto network = Board::GetInstance().GetNetwork();
     auto http = network ? network->CreateHttp(0) : nullptr;
@@ -379,6 +369,7 @@ void WeatherService::RunRefresh() {
                     }
                     body.append(chunk, static_cast<size_t>(bytes_read));
                 }
+                LogMemory("after_http_body");
                 if (!failure) failure = bytes_read < 0 ? "read_error" : nullptr;
             } else {
                 failure = status == 200 ? "response_too_large" : "http_status";
@@ -388,28 +379,21 @@ void WeatherService::RunRefresh() {
     }
     ESP_LOGI(kTag, "WEATHER_HTTP_RESULT status=%d bytes=%u elapsed_ms=%lld", status,
              static_cast<unsigned>(body.size()), (esp_timer_get_time() - started) / 1000);
+    ESP_LOGI(kTag, "OPEN_METEO_BODY_BYTES=%u", static_cast<unsigned>(body.size()));
 
     WeatherData parsed{};
     if (!failure) {
-        const std::string_view response(body);
-        const auto current = JsonMember(response, "current", '{', '}');
-        const auto forecast_days = JsonMember(response, "forecastday", '[', ']');
-        int day_index = 0;
-        bool ok = !current.empty() && !forecast_days.empty() &&
-                  ParseCurrent(current, parsed.current) &&
-                  ForEachJsonObject(forecast_days, [&](std::string_view forecast_day) {
-                      if (day_index >= 3) return true;
-                      const auto day = JsonMember(forecast_day, "day", '{', '}');
-                      if (day.empty() || !ParseDay(day, parsed.days[day_index])) return false;
-                      ++day_index;
-                      return true;
-                  }) &&
-                  day_index == 3;
+        LogMemory("before_json_parse");
+        std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
+            cJSON_ParseWithLength(body.data(), body.size()), &cJSON_Delete);
+        LogMemory("after_json_parse");
+        const bool ok = json && ParseOpenMeteoResponse(json.get(), parsed);
+        LogMemory("after_extract");
         if (ok) {
             parsed.valid = true;
             parsed.last_successful_update = time(nullptr);
             ESP_LOGI(kTag,
-                     "WEATHER_PARSE_OK temp=%.1f code=%u wind=%.1f tomorrow=%.1f..%.1f "
+                     "WEATHER_PARSE_OK provider=open_meteo temp=%.1f code=%u wind=%.1f tomorrow=%.1f..%.1f "
                      "code=%u rain=%u day2=%.1f..%.1f code=%u rain=%u",
                      parsed.current.temperature, parsed.current.weather_code,
                      parsed.current.wind_speed, parsed.days[1].temp_min, parsed.days[1].temp_max,
@@ -420,6 +404,9 @@ void WeatherService::RunRefresh() {
             failure = "invalid_json";
             ESP_LOGE(kTag, "WEATHER_PARSE_ERROR reason=%s", failure);
         }
+        json.reset();
+        std::string().swap(body);
+        LogMemory("after_body_release");
     }
 
     portENTER_CRITICAL(&lock_);
@@ -445,7 +432,7 @@ void WeatherService::RunRefresh() {
         ESP_LOGE(kTag, "WEATHER_UPDATE_FAILED reason=%s keeping_cached_data=%d",
                  failure ? failure : "unknown", had_cache);
     }
-    LogMemory();
+    LogMemory("after_update");
 }
 
 bool WeatherService::LoadCache() {
