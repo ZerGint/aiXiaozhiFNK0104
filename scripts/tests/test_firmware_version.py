@@ -1,6 +1,14 @@
 import unittest
 
-from scripts.firmware_version import Comparison, compare_versions, format_version, parse_version
+from scripts.firmware_version import (
+    Comparison,
+    compare_versions,
+    format_version,
+    next_beta,
+    next_final,
+    next_stable,
+    parse_version,
+)
 
 
 class FirmwareVersionTests(unittest.TestCase):
@@ -22,6 +30,17 @@ class FirmwareVersionTests(unittest.TestCase):
     def test_invalid_version(self):
         with self.assertRaises(ValueError):
             parse_version("1.1.beta")
+
+    def test_release_transitions_and_descriptor_length(self):
+        version = parse_version("1.1.0")
+        self.assertEqual(format_version(next_final(version)), "1.1.1")
+        self.assertEqual(format_version(next_stable(version)), "1.2.0")
+        self.assertEqual(format_version(next_beta(version, "ota")), "1.1.0_beta_ota_1")
+        self.assertEqual(
+            format_version(next_beta(parse_version("1.1.0_beta_ota_1"), "ota")),
+            "1.1.0_beta_ota_2",
+        )
+        self.assertLess(len("1.12.34_beta_ota_123"), 32)
 
 
 if __name__ == "__main__":
