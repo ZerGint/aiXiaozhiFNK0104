@@ -3,7 +3,7 @@
 
 #include "gif/lvgl_gif.h"
 #include "lvgl_display.h"
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 #include "anime_face.h"
 #else
 #include "robo_eyes.h"
@@ -37,7 +37,7 @@ protected:
     lv_obj_t* preview_image_ = nullptr;
     lv_obj_t* emoji_label_ = nullptr;
     lv_obj_t* emoji_image_ = nullptr;
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     AnimeFace anime_face_;
     lv_timer_t* anime_face_timer_ = nullptr;
     lv_obj_t* anime_face_root_ = nullptr;

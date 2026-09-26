@@ -322,7 +322,7 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
     ESP_LOGI(TAG, "Initialize LVGL port");
     lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
     port_cfg.task_priority = 1;
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     // The layered face uses LVGL's PNG image decoder for several persistent
     // image objects. Keep the 12 KiB stack required for image composition.
     // The LVGL task must remain in internal RAM: it can run while Wi-Fi/TLS
@@ -489,7 +489,7 @@ LcdDisplay::~LcdDisplay() {
     DestroyBootAnimation();
 #endif
     if (service_timer_) lv_timer_delete(service_timer_);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     if (anime_face_timer_) {
         lv_timer_delete(anime_face_timer_);
         anime_face_timer_ = nullptr;
@@ -1148,7 +1148,7 @@ void LcdDisplay::SetupUI() {
 
     /* Bottom layer: emoji_box_ - centered display */
     emoji_box_ = lv_obj_create(screen);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_size(emoji_box_, 240, 240);
 #else
     lv_obj_set_size(emoji_box_, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
@@ -1168,8 +1168,8 @@ void LcdDisplay::SetupUI() {
     lv_obj_center(emoji_image_);
     lv_obj_add_flag(emoji_image_, LV_OBJ_FLAG_HIDDEN);
 
-#if CONFIG_FNK_ANIME_FACE_POC
-    /* Layered anime face PoC. All image sources are persistent embedded PNGs. */
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    /* Production AnimeFace. All image sources are persistent embedded PNGs. */
     anime_face_root_ = emoji_box_;
     if (anime_face_.Initialize(anime_face_root_, width_, height_)) {
         anime_face_root_ = anime_face_.Root();
@@ -1350,8 +1350,8 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);  // Hide until there is content
 #endif
 
-#if CONFIG_FNK_ANIME_FACE_POC
-    // The PoC uses a compact opaque subtitle strip over the lower face.
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    // AnimeFace uses a compact opaque subtitle strip over the lower face.
     lv_obj_set_size(bottom_bar_, 248, 34);
     lv_obj_set_style_bg_color(bottom_bar_, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(bottom_bar_, LV_OPA_COVER, 0);
@@ -1555,17 +1555,17 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(ai_center, 2, 0);
     lv_obj_set_style_border_color(ai_center, kPanel2, 0);
     lv_obj_set_parent(emoji_box_, ai_center);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_size(emoji_box_, 240, 240);
 #else
     lv_obj_set_size(emoji_box_, 240, 120);
 #endif
     lv_obj_center(emoji_box_);
-#if !CONFIG_FNK_ANIME_FACE_POC
+#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     robo_eyes_.adapter.setColors(lv_color_black(), lv_color_hex(0x00F0FF));
 #endif
     DisableScroll(emoji_box_);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     // Use a dedicated transparent hit layer above the face. Child image
     // objects are not clickable, and parent bubbling is unreliable after the
     // avatar is reparented into ai_center.
@@ -1590,14 +1590,14 @@ void LcdDisplay::SetupUI() {
     }
 #endif
     lv_obj_set_parent(bottom_bar_, ai_center);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_size(bottom_bar_, 248, 34);
 #else
     lv_obj_set_size(bottom_bar_, 248, 64);
 #endif
     lv_obj_align(bottom_bar_, LV_ALIGN_BOTTOM_LEFT, 0, -4);
     lv_obj_set_style_pad_all(bottom_bar_, 4, 0);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_style_bg_color(bottom_bar_, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(bottom_bar_, LV_OPA_COVER, 0);
     lv_obj_set_style_border_width(bottom_bar_, 1, 0);
@@ -1607,14 +1607,14 @@ void LcdDisplay::SetupUI() {
 #endif
     DisableScroll(bottom_bar_);
     lv_obj_set_width(chat_message_label_, 238);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_height(chat_message_label_, 26);
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_SCROLL_CIRCULAR);
 #else
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_WRAP);
 #endif
     lv_obj_set_style_text_font(chat_message_label_, &font_noto_sans_radio_16_4, 0);
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_style_text_color(chat_message_label_, lv_color_white(), 0);
 #else
     lv_obj_set_style_text_color(chat_message_label_, kText, 0);
@@ -1834,7 +1834,7 @@ void LcdDisplay::SetupUI() {
     service_timer_ = lv_timer_create([](lv_timer_t* timer) {
         auto self = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
         self->UpdateServiceIndicators();
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
         self->UpdateAnimeFaceRuntimeState();
 #else
         self->UpdateRoboEyesRuntimeState();
@@ -2221,7 +2221,7 @@ void LcdDisplay::SetChatMessage(const char* role, const char* content) {
     lv_anim_delete(chat_message_label_, nullptr);
     lv_label_set_text(chat_message_label_, content);
     // Show bottom_bar_ only when there is content (and subtitle is not globally hidden)
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     if (bottom_bar_ != nullptr) {
         if (content == nullptr || content[0] == '\0' || hide_subtitle_) {
             lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
@@ -2265,7 +2265,7 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         ESP_LOGW(TAG, "SetEmotion('%s') called before SetupUI() - emotion will not be displayed!",
                  emotion);
     }
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     if (anime_face_root_ != nullptr) {
         if (emotion == nullptr) {
             ESP_LOGI(TAG, "ANIME_EMOTION_EXTERNAL_IGNORED name=null");
@@ -2526,7 +2526,7 @@ void LcdDisplay::SetEmotion(const char* emotion) {
 #endif
 }
 
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 void LcdDisplay::UpdateAnimeFaceAnimation() {
     if (!anime_face_.IsInitialized()) return;
     const uint32_t now_ms = lv_tick_get();
@@ -2559,7 +2559,7 @@ void LcdDisplay::UpdateAnimeFaceAnimation() {
 #endif
 
 void LcdDisplay::PlayReaction(FaceReaction reaction, FaceReactionSource source) {
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     if (!anime_face_.IsInitialized()) return;
     anime_face_.PlayReaction(reaction, source);
     return;
@@ -2569,7 +2569,7 @@ void LcdDisplay::PlayReaction(FaceReaction reaction, FaceReactionSource source) 
 #endif
 }
 
-#if !CONFIG_FNK_ANIME_FACE_POC
+#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 void LcdDisplay::UpdateRoboEyesAnimation() {
     if (robo_eyes_canvas_ == nullptr || robo_eyes_buf_ == nullptr) return;
 
@@ -2713,7 +2713,7 @@ void LcdDisplay::SetTheme(Theme* theme) {
         lv_obj_set_style_text_color(emoji_label_, lvgl_theme->text_color(), 0);
     }
 
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     // Keep the AnimeFace subtitle strip opaque and black across theme changes.
     if (chat_message_label_ != nullptr) {
         lv_obj_set_style_text_color(chat_message_label_, lv_color_white(), 0);
@@ -2785,7 +2785,7 @@ void LcdDisplay::ToggleQuickSettings() {
     ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
 }
 
-#if CONFIG_FNK_ANIME_FACE_POC
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 void LcdDisplay::UpdateAnimeFaceRuntimeState() {
     if (!anime_face_.IsInitialized()) return;
     const auto state = Application::GetInstance().GetDeviceState();

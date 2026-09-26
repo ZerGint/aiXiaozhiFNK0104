@@ -1126,7 +1126,7 @@ idf_component_register(SRCS ${SOURCES}
                         ${MAIN_PRIV_REQUIRES_EXTRA}
                     )
 
-if(CONFIG_FNK_ANIME_FACE_POC)
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
     target_sources(${COMPONENT_LIB} PRIVATE "display/anime_face.cc")
     target_add_binary_data(${COMPONENT_LIB} "${PROJECT_DIR}/anime_face_assets/base_240.png" BINARY RENAME_TO anime_base_240_png)
     target_add_binary_data(${COMPONENT_LIB} "${PROJECT_DIR}/anime_face_assets/eyes/eye_white_left.png" BINARY RENAME_TO anime_eye_white_left_png)

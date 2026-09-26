@@ -11,11 +11,12 @@ config ESP_VIDEO_USE_CUSTOMIZED_ESP_H264_VERSION
     default n
 
 config FNK_ANIME_FACE_POC
-    bool "Enable layered anime face PoC"
+    bool "Enable legacy layered anime face PoC compatibility"
     default n
     help
-        Enable the experimental layered anime face renderer for the
-        Freenove FNK0104S display. Keep disabled for production builds.
+        Legacy compatibility flag for the layered AnimeFace implementation.
+        Production FNK0104S builds select AnimeFace from the board type;
+        this option no longer controls production source or asset inclusion.
 
 config FNK_ANIME_FACE_EMOTION_DEMO
     bool "Enable AnimeFace emotion demo"
