@@ -324,10 +324,11 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
     port_cfg.task_priority = 1;
 #if CONFIG_FNK_ANIME_FACE_POC
     // The layered face uses LVGL's PNG image decoder for several persistent
-    // image objects. Keep the 12 KiB stack required for image composition,
-    // but place its stack storage in PSRAM to preserve internal RAM.
+    // image objects. Keep the 12 KiB stack required for image composition.
+    // The LVGL task must remain in internal RAM: it can run while Wi-Fi/TLS
+    // or audio code temporarily disables the flash cache, when PSRAM stacks
+    // are not safe to access.
     port_cfg.task_stack = 12288;
-    port_cfg.task_stack_caps = MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT;
 #endif
 #if CONFIG_SOC_CPU_CORES_NUM > 1
     port_cfg.task_affinity = 1;
