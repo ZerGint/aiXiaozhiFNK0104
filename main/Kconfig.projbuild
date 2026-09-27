@@ -6,6 +6,14 @@ config OTA_URL
     help
         The application will access this URL to check for new firmwares and server address.
 
+config CUSTOM_OTA_DEV_REQUEST_UPDATE
+    bool "One-shot DEV custom OTA request trigger"
+    default n
+    help
+        Enable the hardware-acceptance-only trigger that writes known stable
+        update metadata to NVS and reboots into the minimal updater.
+        Keep disabled for production builds.
+
 config ESP_VIDEO_USE_CUSTOMIZED_ESP_H264_VERSION
     bool
     default n

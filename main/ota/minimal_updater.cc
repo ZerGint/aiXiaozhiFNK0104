@@ -28,6 +28,7 @@ constexpr char kBoardKey[] = "board";
 constexpr char kChipKey[] = "chip";
 constexpr char kSizeKey[] = "size";
 constexpr char kAttemptKey[] = "attempt";
+constexpr char kDevRequestConsumedKey[] = "dev_triggered";
 constexpr size_t kReasonLimit = 64;
 constexpr size_t kVersionLimit = 32;
 constexpr size_t kUrlLimit = 256;
@@ -99,6 +100,29 @@ bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata) {
                    nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::UPDATE_REQUESTED)) == ESP_OK &&
                    nvs_set_u32(handle, kAttemptKey, 0) == ESP_OK;
     if (success) success = nvs_commit(handle) == ESP_OK;
+    nvs_close(handle);
+    return success;
+}
+
+bool ReadDevRequestConsumed(bool* consumed) {
+    if (!consumed) return false;
+    *consumed = false;
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READONLY, &handle) != ESP_OK) return true;
+    uint8_t raw = 0;
+    const esp_err_t result = nvs_get_u8(handle, kDevRequestConsumedKey, &raw);
+    nvs_close(handle);
+    if (result == ESP_ERR_NVS_NOT_FOUND) return true;
+    if (result != ESP_OK) return false;
+    *consumed = raw != 0;
+    return true;
+}
+
+bool MarkDevRequestConsumed() {
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
+    const bool success = nvs_set_u8(handle, kDevRequestConsumedKey, 1) == ESP_OK &&
+                         nvs_commit(handle) == ESP_OK;
     nvs_close(handle);
     return success;
 }

@@ -19,6 +19,7 @@
 #include <array>
 #include <cstdio>
 #include <cstring>
+#include <memory>
 #include <sys/stat.h>
 #include <strings.h>
 #include <utility>
@@ -112,13 +113,18 @@ bool ComputeFileSha256(const char* path, std::array<uint8_t, 32>* digest) {
     if (!file) return false;
     psa_hash_operation_t operation = PSA_HASH_OPERATION_INIT;
     bool success = psa_hash_setup(&operation, PSA_ALG_SHA_256) == PSA_SUCCESS;
-    std::array<uint8_t, kIoBufferSize> buffer{};
+    std::unique_ptr<uint8_t[]> buffer(new (std::nothrow) uint8_t[kIoBufferSize]);
+    if (!buffer) {
+        fclose(file);
+        psa_hash_abort(&operation);
+        return false;
+    }
     while (success) {
-        const size_t count = fread(buffer.data(), 1, buffer.size(), file);
+        const size_t count = fread(buffer.get(), 1, kIoBufferSize, file);
         if (count > 0) {
-            success = psa_hash_update(&operation, buffer.data(), count) == PSA_SUCCESS;
+            success = psa_hash_update(&operation, buffer.get(), count) == PSA_SUCCESS;
         }
-        if (count < buffer.size()) {
+        if (count < kIoBufferSize) {
             success = success && feof(file);
             break;
         }
@@ -188,14 +194,19 @@ bool FetchGithubManifest(NetworkInterface* network, std::string* manifest) {
     }
     std::string github_response;
     github_response.reserve(content_length);
-    std::array<char, 2048> chunk{};
+    std::unique_ptr<char[]> chunk(new (std::nothrow) char[2048]);
+    if (!chunk) {
+        http->Close();
+        ESP_LOGW(kTag, "OTA_MANIFEST_REJECTED reason=alloc");
+        return false;
+    }
     int bytes_read = 0;
-    while ((bytes_read = http->Read(chunk.data(), chunk.size())) > 0) {
+    while ((bytes_read = http->Read(chunk.get(), 2048)) > 0) {
         if (github_response.size() + static_cast<size_t>(bytes_read) > kGithubResponseLimit) {
             bytes_read = -1;
             break;
         }
-        github_response.append(chunk.data(), static_cast<size_t>(bytes_read));
+        github_response.append(chunk.get(), static_cast<size_t>(bytes_read));
     }
     http->Close();
     if (bytes_read < 0 || github_response.empty() || github_response.size() != content_length ||
@@ -384,15 +395,22 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
     FILE* output = fopen(kFirmwareTmp, "wb");
     psa_hash_operation_t sha_operation = PSA_HASH_OPERATION_INIT;
     bool success = output && psa_hash_setup(&sha_operation, PSA_ALG_SHA_256) == PSA_SUCCESS;
-    std::array<char, kIoBufferSize> buffer{};
+    std::unique_ptr<char[]> buffer(new (std::nothrow) char[kIoBufferSize]);
+    if (!buffer) {
+        if (output) fclose(output);
+        psa_hash_abort(&sha_operation);
+        cJSON_Delete(root);
+        ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=alloc");
+        return false;
+    }
     size_t total = 0;
     int last_percent = -1;
     while (success) {
-        const int count = firmware_http->Read(buffer.data(), buffer.size());
+        const int count = firmware_http->Read(buffer.get(), kIoBufferSize);
         if (count < 0) { success = false; break; }
         if (count == 0) break;
-        success = fwrite(buffer.data(), 1, count, output) == static_cast<size_t>(count) &&
-                  psa_hash_update(&sha_operation, reinterpret_cast<uint8_t*>(buffer.data()), count) == PSA_SUCCESS;
+        success = fwrite(buffer.get(), 1, count, output) == static_cast<size_t>(count) &&
+                  psa_hash_update(&sha_operation, reinterpret_cast<uint8_t*>(buffer.get()), count) == PSA_SUCCESS;
         total += static_cast<size_t>(count);
         const int percent = static_cast<int>(total * 100 / expected_size);
         if (percent / 5 != last_percent / 5) {
@@ -550,6 +568,51 @@ bool RequestFirmwareInstall() {
     ESP_LOGI(kTag, "OTA_UPDATE_REQUESTED version=%s", g_stable_update_metadata.version);
     esp_restart();
     return true;
+}
+
+bool TriggerDevUpdateRequestOnce() {
+#if CONFIG_CUSTOM_OTA_DEV_REQUEST_UPDATE
+    bool consumed = false;
+    if (!MinimalUpdater::ReadDevRequestConsumed(&consumed)) {
+        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=read_guard");
+        return false;
+    }
+    if (consumed) {
+        ESP_LOGI(kTag, "DEV_OTA_REQUEST_TRIGGER skipped=consumed");
+        return false;
+    }
+
+    g_stable_update_metadata = {};
+    g_stable_update_metadata.update_available = true;
+    strncpy(g_stable_update_metadata.version, "1.1.0",
+            sizeof(g_stable_update_metadata.version) - 1);
+    g_stable_update_metadata.size = 3809616;
+    constexpr char kDevSha256[] =
+        "a42c59fa6408a0a4b85bd1291cdee7d12dc1dd16c995e66db81417537e3df045";
+    static_assert(sizeof(kDevSha256) <= sizeof(g_stable_update_metadata.sha256));
+    memcpy(g_stable_update_metadata.sha256, kDevSha256, sizeof(kDevSha256));
+    strncpy(g_stable_update_metadata.url,
+            "https://raw.githubusercontent.com/ZerGint/FNK0104s_xiaozhi_update/main/firmware/stable/1.1.0/fnk0104s-firmware.bin",
+            sizeof(g_stable_update_metadata.url) - 1);
+    strncpy(g_stable_update_metadata.board, "freenove-fnk0104s",
+            sizeof(g_stable_update_metadata.board) - 1);
+    strncpy(g_stable_update_metadata.chip, "esp32s3",
+            sizeof(g_stable_update_metadata.chip) - 1);
+
+    if (!MinimalUpdater::MarkDevRequestConsumed()) {
+        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=write_guard");
+        return false;
+    }
+    ESP_LOGI(kTag, "DEV_OTA_REQUEST_TRIGGER version=%s", g_stable_update_metadata.version);
+    ESP_LOGI(kTag, "DEV_OTA_REQUEST_METADATA size=%u sha256=%s",
+             static_cast<unsigned>(g_stable_update_metadata.size),
+             g_stable_update_metadata.sha256);
+    if (!RequestFirmwareInstall()) {
+        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=request");
+        return false;
+    }
+#endif
+    return false;
 }
 
 }  // namespace CustomOtaPolicy

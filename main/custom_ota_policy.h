@@ -29,6 +29,7 @@ bool CheckForStableUpdate();
 bool IsUpdateAvailable();
 const StableUpdateMetadata& GetStableUpdateMetadata();
 bool RequestFirmwareInstall();
+bool TriggerDevUpdateRequestOnce();
 void ReportStagedUpdate();
 
 }  // namespace CustomOtaPolicy

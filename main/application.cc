@@ -381,6 +381,10 @@ void Application::HandleActivationDoneEvent() {
         ESP_LOGI(TAG, "CONNECTION_SOUND_START timestamp_ms=%lld", esp_timer_get_time() / 1000);
         audio_service_.PlaySound(Lang::Sounds::OGG_SUCCESS);
     });
+
+#if CONFIG_CUSTOM_OTA_DEV_REQUEST_UPDATE
+    CustomOtaPolicy::TriggerDevUpdateRequestOnce();
+#endif
 }
 
 void Application::ActivationTask() {

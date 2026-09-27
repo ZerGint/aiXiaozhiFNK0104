@@ -16,6 +16,8 @@ enum class State : uint8_t {
 
 bool ReadState(State* state);
 bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata);
+bool ReadDevRequestConsumed(bool* consumed);
+bool MarkDevRequestConsumed();
 bool MarkState(State state, const char* reason, const char* version);
 
 // Called immediately after NVS initialization and before Board/Application.
