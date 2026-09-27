@@ -147,10 +147,6 @@ void Application::Initialize() {
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_CONNECTED);
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
                 WeatherService::GetInstance().SetNetworkConnected(true);
-                // WifiBoard emits Connected only after DHCP has supplied an IP.
-                // Probe configured Home Assistant asynchronously so the network
-                // callback and LVGL task are not held by HTTP/TLS timeouts.
-                HomeAssistant::GetInstance().CheckConnectionAsync();
 #endif
                 break;
             }

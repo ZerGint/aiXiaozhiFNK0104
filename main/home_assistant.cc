@@ -1,10 +1,7 @@
 #include "home_assistant.h"
-#include <wifi_manager.h>
 #include <esp_crt_bundle.h>
 #include <esp_log.h>
 #include <cJSON.h>
-#include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
 
 #define TAG "HomeAssistant"
 
@@ -67,29 +64,6 @@ void HomeAssistant::MarkConnectionLost() {
     connection_verified_ = false;
 }
 
-void HomeAssistant::CheckConnectionAsync() {
-    if (!WifiManager::GetInstance().IsConnected() || !IsConfigured() || IsConnectionVerified()) {
-        return;
-    }
-
-    if (connection_check_running_.exchange(true)) {
-        return;
-    }
-
-    if (xTaskCreate(&HomeAssistant::ConnectionCheckTask, "ha_check", 4096, this, 2, nullptr) != pdPASS) {
-        connection_check_running_.store(false);
-        ESP_LOGW(TAG, "Unable to start background Home Assistant connection check");
-    }
-}
-
-void HomeAssistant::ConnectionCheckTask(void* arg) {
-    auto* self = static_cast<HomeAssistant*>(arg);
-    const bool connected = self->TestConnection() == "OK";
-    ESP_LOGI(TAG, "Background connection check: %s", connected ? "connected" : "failed");
-    self->connection_check_running_.store(false);
-    vTaskDelete(nullptr);
-}
-
 static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
     if (evt->event_id == HTTP_EVENT_ON_DATA) {
         std::string* response_body = static_cast<std::string*>(evt->user_data);
@@ -101,12 +75,19 @@ static esp_err_t _http_event_handler(esp_http_client_event_t *evt) {
 }
 
 std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, const std::string& path, const std::string& post_data) {
-    return PerformHttpRequest(method, path, post_data, GetConfigSnapshot());
+    return PerformHttpRequest(method, path, post_data, GetConfigSnapshot(), false);
 }
 
 std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, const std::string& path,
-                                              const std::string& post_data, const ConfigSnapshot& config) {
+                                              const std::string& post_data, const ConfigSnapshot& config,
+                                              bool allow_endpoint_fallback) {
+    std::lock_guard<std::mutex> request_lock(request_mutex_);
+    ESP_LOGI(TAG, "HA_REQUEST_START method=%s path=%s",
+             method == HTTP_METHOD_POST ? "POST" : "GET", path.c_str());
+
     if (config.url.empty() || config.token.empty()) {
+        ESP_LOGW(TAG, "HA_REQUEST_ERROR reason=not_configured");
+        ESP_LOGI(TAG, "HA_REQUEST_END result=not_configured");
         return "{\"error\": \"Home Assistant URL or Token is not configured. Use homeassistant.set_config tool first.\"}";
     }
 
@@ -135,6 +116,7 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
 
         esp_http_client_handle_t client = esp_http_client_init(&config);
         if (!client) {
+            ESP_LOGE(TAG, "HA_REQUEST_ERROR reason=client_init_failed");
             return {ESP_FAIL, "{\"error\": \"Failed to initialize HTTP client\"}"};
         }
 
@@ -149,6 +131,7 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
         esp_err_t err = esp_http_client_perform(client);
         int status_code = esp_http_client_get_status_code(client);
         esp_http_client_cleanup(client);
+        ESP_LOGI(TAG, "HA_HTTP_CLEANUP_DONE");
 
         if (err == ESP_OK && (status_code >= 200 && status_code < 300)) {
             {
@@ -160,7 +143,12 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
             return {ESP_OK, response_body};
         }
 
-        ESP_LOGE(TAG, "HTTP Request to %s failed: err=%s (%d), status=%d", full_url.c_str(), esp_err_to_name(err), err, status_code);
+        {
+            std::lock_guard<std::mutex> lock(config_mutex_);
+            connection_verified_ = false;
+        }
+        ESP_LOGE(TAG, "HA_REQUEST_ERROR url=%s err=%s (%d) status=%d",
+                 full_url.c_str(), esp_err_to_name(err), err, status_code);
         return {err, "{\"error\": \"Request to " + full_url + " failed with status " + std::to_string(status_code) + "\","
                     "\"esp_err\": \"" + std::string(esp_err_to_name(err)) + "\","
                     "\"status_code\": " + std::to_string(status_code) + "}"};
@@ -168,7 +156,15 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
 
     // First attempt with configured URL
     auto [err, res] = try_request(base_url);
-    if (err == ESP_OK) return res;
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "HA_REQUEST_END result=success");
+        return res;
+    }
+
+    if (!allow_endpoint_fallback) {
+        ESP_LOGI(TAG, "HA_REQUEST_END result=error");
+        return res;
+    }
 
     // Retry with port :8123 if omitted in base_url (e.g. http://192.168.31.19 -> http://192.168.31.19:8123)
     size_t proto_end = base_url.find("://");
@@ -178,7 +174,10 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
             std::string url_with_port = base_url + ":8123";
             ESP_LOGW(TAG, "Retrying Home Assistant request with port 8123: %s", url_with_port.c_str());
             auto [p_err, p_res] = try_request(url_with_port);
-            if (p_err == ESP_OK) return p_res;
+            if (p_err == ESP_OK) {
+                ESP_LOGI(TAG, "HA_REQUEST_END result=success");
+                return p_res;
+            }
         }
     }
 
@@ -193,33 +192,24 @@ std::string HomeAssistant::PerformHttpRequest(esp_http_client_method_t method, c
     if (alt_url != base_url) {
         ESP_LOGW(TAG, "Retrying Home Assistant request with alternate protocol: %s", alt_url.c_str());
         auto [alt_err, alt_res] = try_request(alt_url);
-        if (alt_err == ESP_OK) return alt_res;
+        if (alt_err == ESP_OK) {
+            ESP_LOGI(TAG, "HA_REQUEST_END result=success");
+            return alt_res;
+        }
     }
 
-    return res;
-}
-
-std::string HomeAssistant::TestConnection() {
-    auto config = GetConfigSnapshot();
-    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/", "", config);
-    if (res.find("API running") != std::string::npos || res.find("message") != std::string::npos) {
-        return "OK";
-    }
-    std::string res_cfg = PerformHttpRequest(HTTP_METHOD_GET, "/api/config", "", config);
-    if (res_cfg.find("location_name") != std::string::npos || res_cfg.find("version") != std::string::npos) {
-        return "OK";
-    }
+    ESP_LOGI(TAG, "HA_REQUEST_END result=error");
     return res;
 }
 
 bool HomeAssistant::TestConnectionForConfig(const ConfigSnapshot& config) {
-    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/", "", config);
+    // This is an explicit user-initiated test, so endpoint fallback is allowed
+    // once here. Normal MCP requests use the configured URL exactly.
+    std::string res = PerformHttpRequest(HTTP_METHOD_GET, "/api/", "", config, true);
     if (res.find("API running") != std::string::npos || res.find("message") != std::string::npos) {
         return true;
     }
-
-    std::string res_cfg = PerformHttpRequest(HTTP_METHOD_GET, "/api/config", "", config);
-    return res_cfg.find("location_name") != std::string::npos || res_cfg.find("version") != std::string::npos;
+    return false;
 }
 
 bool HomeAssistant::TestConnection(const std::string& url, const std::string& token) {
