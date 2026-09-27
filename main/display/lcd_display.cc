@@ -3314,12 +3314,12 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
 #endif
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
-    auto set_quick_settings_font = [](lv_obj_t* object, bool title = false) {
+    auto set_quick_settings_font = [](lv_obj_t* object) {
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
         // The radio font contains the complete Cyrillic range, including Э.
-        // Scale its 16 px glyphs to the requested 20 px title / 18 px controls.
+        // Keep every Quick Settings label at its native 16 px size.
         lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
-        lv_obj_set_style_transform_scale(object, title ? 320 : 288, 0);
+        lv_obj_set_style_transform_scale(object, LV_SCALE_NONE, 0);
 #else
         lv_obj_set_style_text_font(object, LV_FONT_DEFAULT, 0);
 #endif
@@ -3367,7 +3367,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
 
     lv_obj_t* title = lv_label_create(header);
     lv_label_set_text(title, "Настройки");
-    set_quick_settings_font(title, true);
+    set_quick_settings_font(title);
     lv_obj_set_style_text_color(title, lv_color_hex(0xFFFFFF), 0);
     lv_obj_align(title, LV_ALIGN_LEFT_MID, 10, 0);
 
