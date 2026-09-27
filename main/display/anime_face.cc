@@ -241,13 +241,6 @@ int AnimeFace::EyelidRestFrame() const {
                                                               : base_eyelid_frame_;
 }
 
-int AnimeFace::HappyEyeFrameForSpeech() const {
-    if (application_state_ != ApplicationState::Speaking) return 0;
-    // The first intermediate keeps the eyes open during active speech; the
-    // second is a softer half-closed pose for pauses and quiet syllables.
-    return speech_level_current_ >= 36 ? 1 : 2;
-}
-
 int AnimeFace::SpeechMouthFrame(uint8_t level) const {
     if (special_mouth_ == SpecialMouth::Sad || special_mouth_ == SpecialMouth::Angry ||
         special_mouth_ == SpecialMouth::OpenSmile) {
@@ -384,7 +377,10 @@ void AnimeFace::ApplyMouthVisibility() {
 }
 
 void AnimeFace::ApplyEyeVisibility() {
-    const bool show_smile = eye_smile_visible_ && !blinking_ && !winking_ &&
+    // Happy/laughing/loving emotions own the eyelid layer, including while a
+    // blink is in progress. This prevents a generic eyelid blink from cutting
+    // through the smile-eye assets.
+    const bool show_smile = eye_smile_visible_ && !winking_ &&
                             reaction_state_ == ReactionState::None;
     for (int eye = 0; eye < 2; ++eye) {
         for (int candidate = 0; candidate < kEyelidFrameCount; ++candidate) {
@@ -720,7 +716,6 @@ void AnimeFace::SetApplicationState(ApplicationState state) {
         speech_mouth_rendering_ = false;
         next_mouth_ms_ = speech_state_enter_ms_;
         SetMouthFrame(expression_mouth_frame_);
-        happy_eye_frame_ = HappyEyeFrameForSpeech();
         if (!blinking_ && !winking_) {
             SetEyelidFrame(EyelidRestFrame());
         } else {
@@ -740,7 +735,6 @@ void AnimeFace::SetApplicationState(ApplicationState state) {
                      static_cast<unsigned>(last_speech_pcm_ms_));
         }
         SetMouthFrame(expression_mouth_frame_);
-        happy_eye_frame_ = HappyEyeFrameForSpeech();
         if (!blinking_ && !winking_) {
             SetEyelidFrame(EyelidRestFrame());
         } else {
@@ -784,7 +778,13 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
     }
     eye_smile_visible_ = emotion_ == FaceEmotion::Happy ||
                           emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
-    happy_eye_frame_ = HappyEyeFrameForSpeech();
+    // Happy rests open. Laughing rests slightly closed; love starts closed
+    // and uses its own periodic opening sequence.
+    const bool laughing_smile = emotion_ == FaceEmotion::Laughing;
+    const bool love_smile = emotion_ == FaceEmotion::Love;
+    happy_eye_frame_ = eye_smile_visible_
+                           ? (love_smile ? 0 : (laughing_smile ? 2 : 1))
+                           : 0;
     ApplyEyeVisibility();
     SetTearsVisible(emotion_ == FaceEmotion::Crying);
     SetFaceOverlays(emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love ||
@@ -1014,7 +1014,7 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
     }
     for (int smile_frame = 0; smile_frame < kHappyEyeFrameCount; ++smile_frame) {
         if (eye_smile_[eye][smile_frame] != nullptr) {
-            if (eye_smile_visible_ && !blinking_ && !winking_ &&
+            if (eye_smile_visible_ && !winking_ &&
                 reaction_state_ == ReactionState::None && smile_frame == happy_eye_frame_) {
                 lv_obj_remove_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
             } else {
@@ -1027,8 +1027,14 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
 void AnimeFace::StartBlink(uint32_t now_ms) {
     blinking_ = true;
     blink_started_ms_ = now_ms;
-    blink_frame_ = EyelidRestFrame();
-    SetEyelidFrame(EyelidRestFrame());
+    if (eye_smile_visible_) {
+        happy_eye_frame_ = emotion_ == FaceEmotion::Love ? 0 :
+                           (emotion_ == FaceEmotion::Laughing ? 2 : 1);
+        ApplyEyeVisibility();
+    } else {
+        blink_frame_ = EyelidRestFrame();
+        SetEyelidFrame(EyelidRestFrame());
+    }
     ESP_LOGI(TAG, "ANIME_FACE_BLINK start gaze_x=%d", gaze_x_);
 }
 
@@ -1094,14 +1100,6 @@ void AnimeFace::UpdateMouth(uint32_t now_ms) {
         speech_level_current_ = static_cast<uint8_t>(speech_level_current_ - std::max<uint8_t>(1, delta / 3));
     }
 
-    if (eye_smile_visible_) {
-        const int desired_happy_eye_frame = HappyEyeFrameForSpeech();
-        if (desired_happy_eye_frame != happy_eye_frame_) {
-            happy_eye_frame_ = desired_happy_eye_frame;
-            ApplyEyeVisibility();
-        }
-    }
-
     if (now_ms < next_mouth_ms_) return;
     constexpr uint8_t kOpenThreshold = 12;
     constexpr uint8_t kCloseThreshold = 7;
@@ -1145,6 +1143,34 @@ void AnimeFace::UpdateBlink(uint32_t now_ms) {
     }
     const uint32_t elapsed = now_ms - blink_started_ms_;
     int sequence_index = static_cast<int>(elapsed / 28);
+    if (eye_smile_visible_) {
+        const int* blink_sequence = kHappyEyeBlinkSequence;
+        size_t blink_sequence_length = sizeof(kHappyEyeBlinkSequence) /
+                                        sizeof(kHappyEyeBlinkSequence[0]);
+        const bool laughing_smile = emotion_ == FaceEmotion::Laughing;
+        const bool love_smile = emotion_ == FaceEmotion::Love;
+        if (laughing_smile) {
+            blink_sequence = kLaughingSmileBlinkSequence;
+            blink_sequence_length = sizeof(kLaughingSmileBlinkSequence) /
+                                    sizeof(kLaughingSmileBlinkSequence[0]);
+        } else if (love_smile) {
+            blink_sequence = kLoveSmileBlinkSequence;
+            blink_sequence_length = sizeof(kLoveSmileBlinkSequence) /
+                                    sizeof(kLoveSmileBlinkSequence[0]);
+        }
+        if (sequence_index >= static_cast<int>(blink_sequence_length)) {
+            blinking_ = false;
+            happy_eye_frame_ = love_smile ? 0 : (laughing_smile ? 2 : 1);
+            ApplyEyeVisibility();
+            next_blink_ms_ = now_ms + RandomRange(3000, 7000);
+            ESP_LOGI(TAG, "ANIME_FACE_BLINK complete gaze_x=%d next_ms=%u", gaze_x_,
+                     static_cast<unsigned>(next_blink_ms_ - now_ms));
+            return;
+        }
+        happy_eye_frame_ = blink_sequence[sequence_index];
+        ApplyEyeVisibility();
+        return;
+    }
     const int rest_frame = EyelidRestFrame();
     const int sequence_length = rest_frame == 2 ? 6 : (rest_frame == 1 ? 8 : 10);
     if (sequence_index >= sequence_length) {

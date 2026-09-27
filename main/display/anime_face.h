@@ -74,6 +74,13 @@ private:
     static constexpr int kHappyEyeFrameCount = 3;
     // 28 ms per step; frame 4 is held for two steps (56 ms).
     static constexpr int kBlinkSequence[] = {0, 1, 2, 3, 4, 4, 3, 2, 1, 0};
+    // Smile-eye blink uses only the smile assets. Frame 1 is open,
+    // frame 0 is closed, and frame 2 is slightly closed.
+    static constexpr int kHappyEyeBlinkSequence[] = {1, 2, 0, 0, 2, 1};
+    // Laughing stays in a strongly squinted pose; frame 2 and the closed
+    // frame alternate. Love periodically opens fully and returns closed.
+    static constexpr int kLaughingSmileBlinkSequence[] = {2, 0, 0, 2};
+    static constexpr int kLoveSmileBlinkSequence[] = {0, 2, 1, 1, 2, 0};
 
     lv_obj_t* root_ = nullptr;
     lv_obj_t* iris_clip_[2] = {};
@@ -202,7 +209,6 @@ private:
     int ExpressionMouthFrame() const;
     int SpeakingEyelidFrame() const;
     int EyelidRestFrame() const;
-    int HappyEyeFrameForSpeech() const;
     int SpeechMouthFrame(uint8_t level) const;
     static FaceExpression ExpressionFor(FaceEmotion emotion);
     static uint32_t RandomRange(uint32_t min_value, uint32_t max_value);
