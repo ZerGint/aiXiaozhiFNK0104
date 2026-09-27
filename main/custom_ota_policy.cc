@@ -77,6 +77,52 @@ bool HexDigestEquals(const char* expected, const std::array<uint8_t, 32>& digest
     return strcasecmp(actual, expected) == 0;
 }
 
+bool RemoveStagingPath(const char* path, const char* name, bool allow_missing = true) {
+    errno = 0;
+    if (unlink(path) == 0) {
+        ESP_LOGI(kTag, "OTA_STAGE_REMOVE path=%s result=0 errno=0", name);
+        return true;
+    }
+    const int error = errno;
+    const bool missing = error == ENOENT;
+    ESP_LOGW(kTag, "OTA_STAGE_REMOVE path=%s result=-1 errno=%d error=%s", name, error,
+             strerror(error));
+    return allow_missing && missing;
+}
+
+bool RenameStagingPath(const char* from, const char* to, const char* name) {
+    errno = 0;
+    if (rename(from, to) == 0) {
+        ESP_LOGI(kTag, "OTA_STAGE_RENAME path=%s result=0 errno=0", name);
+        return true;
+    }
+    const int error = errno;
+    ESP_LOGE(kTag, "OTA_STAGE_RENAME path=%s result=-1 errno=%d error=%s", name, error,
+             strerror(error));
+    return false;
+}
+
+bool RecoverTemporaryStagingFiles() {
+    struct TemporaryFile {
+        const char* path;
+        const char* name;
+    };
+    constexpr TemporaryFile files[] = {
+        {kFirmwareTmp, "firmware.tmp"},
+        {kStagedInfoTmp, "staged-info.tmp"},
+        {kManifestTmp, "manifest.tmp"},
+    };
+    bool success = true;
+    for (const auto& file : files) {
+        struct stat info {};
+        if (stat(file.path, &info) != 0) continue;
+        ESP_LOGW(kTag, "OTA_STALE_STAGE_DETECTED file=%s kind=tmp", file.name);
+        success = RemoveStagingPath(file.path, file.name) && success;
+    }
+    if (success) ESP_LOGI(kTag, "OTA_STALE_STAGE_CLEANUP result=pass");
+    return success;
+}
+
 bool IsHexDigest(const char* value) {
     if (!value || strlen(value) != 64) return false;
     for (size_t index = 0; index < 64; ++index) {
@@ -525,28 +571,54 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
         return false;
     }
 
+    if (!RecoverTemporaryStagingFiles()) {
+        cJSON_Delete(root);
+        ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=stale_tmp_cleanup");
+        return false;
+    }
+
     struct stat staged_info {};
-    if (stat(kStagedInfoPath, &staged_info) == 0) {
+    struct stat firmware_info {};
+    const bool has_staged_info = stat(kStagedInfoPath, &staged_info) == 0;
+    const bool has_firmware = stat(kFirmwarePath, &firmware_info) == 0;
+    bool existing_stage_matches = false;
+    const char* stale_reason = nullptr;
+    if (has_staged_info && has_firmware) {
         FILE* staged_file = fopen(kStagedInfoPath, "rb");
         char staged_data[512] = {};
         const size_t staged_count = staged_file ? fread(staged_data, 1, sizeof(staged_data) - 1, staged_file) : 0;
         if (staged_file) fclose(staged_file);
         cJSON* staged_root = cJSON_ParseWithLength(staged_data, staged_count);
         cJSON* staged_version = staged_root ? cJSON_GetObjectItem(staged_root, "version") : nullptr;
+        cJSON* staged_size = staged_root ? cJSON_GetObjectItem(staged_root, "size") : nullptr;
         cJSON* staged_sha = staged_root ? cJSON_GetObjectItem(staged_root, "sha256") : nullptr;
-        struct stat firmware_info {};
-        const bool already_present = staged_root && stat(kFirmwarePath, &firmware_info) == 0 &&
-                                      static_cast<size_t>(firmware_info.st_size) == expected_size &&
-                                      cJSON_IsString(staged_version) && cJSON_IsString(staged_sha) &&
+        const bool metadata_matches = staged_root && cJSON_IsString(staged_version) &&
+                                      cJSON_IsNumber(staged_size) &&
+                                      staged_size->valuedouble == static_cast<double>(expected_size) &&
+                                      cJSON_IsString(staged_sha) &&
                                       strcmp(staged_version->valuestring, version->valuestring) == 0 &&
-                                      strcasecmp(staged_sha->valuestring, sha->valuestring) == 0;
-        if (already_present) {
+                                      strcasecmp(staged_sha->valuestring, sha->valuestring) == 0 &&
+                                      static_cast<size_t>(firmware_info.st_size) == expected_size;
+        std::array<uint8_t, 32> existing_digest{};
+        const bool file_matches = metadata_matches &&
+                                   ComputeFileSha256(kFirmwarePath, &existing_digest) &&
+                                   HexDigestEquals(sha->valuestring, existing_digest);
+        existing_stage_matches = file_matches;
+        stale_reason = file_matches ? nullptr : (metadata_matches ? "sha256_mismatch" : "metadata_mismatch");
+        if (file_matches) {
             ESP_LOGI(kTag, "OTA_STAGE_ALREADY_PRESENT version=%s size=%u", version->valuestring, expected_size);
             cJSON_Delete(staged_root);
             cJSON_Delete(root);
             return true;
         }
-        cJSON_Delete(staged_root);
+        if (staged_root) cJSON_Delete(staged_root);
+    } else if (has_staged_info || has_firmware) {
+        stale_reason = has_staged_info ? "metadata_without_firmware" : "firmware_without_metadata";
+    }
+    const bool stale_stage_detected = (has_staged_info || has_firmware) && !existing_stage_matches;
+    if (stale_stage_detected) {
+        ESP_LOGW(kTag, "OTA_STALE_STAGE_DETECTED firmware=%d metadata=%d reason=%s", has_firmware,
+                 has_staged_info, stale_reason ? stale_reason : "unknown");
     }
 
     LogMemory("BEFORE_DOWNLOAD");
@@ -629,14 +701,43 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
     FILE* staged_file = fopen(kStagedInfoTmp, "wb");
     success = staged_text && staged_file && fwrite(staged_text, 1, strlen(staged_text), staged_file) == strlen(staged_text);
     if (staged_file) { fflush(staged_file); fclose(staged_file); }
-    if (success) success = rename(kFirmwareTmp, kFirmwarePath) == 0 && rename(kStagedInfoTmp, kStagedInfoPath) == 0;
+    if (success) {
+        // FAT/VFS does not guarantee rename-over-existing.  Remove only after
+        // the new temporary image has passed all verification above.
+        success = RemoveStagingPath(kFirmwarePath, "firmware.bin") &&
+                  RenameStagingPath(kFirmwareTmp, kFirmwarePath, "firmware.tmp->firmware.bin");
+    }
+    if (success) {
+        struct stat committed_info {};
+        errno = 0;
+        const int stat_result = stat(kFirmwarePath, &committed_info);
+        const int stat_error = errno;
+        success = stat_result == 0 &&
+                  static_cast<size_t>(committed_info.st_size) == expected_size;
+        if (!success) {
+            ESP_LOGE(kTag, "OTA_STAGE_COMMIT_VERIFY path=firmware.bin result=%d errno=%d error=%s",
+                     stat_result, stat_error, strerror(stat_error));
+        }
+    }
+    if (success) {
+        success = RemoveStagingPath(kStagedInfoPath, "staged-info.json") &&
+                  RenameStagingPath(kStagedInfoTmp, kStagedInfoPath,
+                                    "staged-info.tmp->staged-info.json");
+        if (success && stale_stage_detected) {
+            ESP_LOGI(kTag, "OTA_STALE_STAGE_CLEANUP result=pass");
+        }
+    }
     if (staged_text) free(staged_text);
     const std::string committed_version = version->valuestring;
     const std::string committed_sha = sha->valuestring;
     cJSON_Delete(staged);
     cJSON_Delete(root);
     if (success) {
-        rename(kManifestTmp, kManifestPath);
+        if (!RemoveStagingPath(kManifestPath, "manifest.json") ||
+            !RenameStagingPath(kManifestTmp, kManifestPath, "manifest.tmp->manifest.json")) {
+            ESP_LOGE(kTag, "OTA_STAGE_FAILED reason=manifest_commit");
+            return false;
+        }
         ESP_LOGI(kTag, "OTA_STAGE_COMMIT state=staged");
         std::array<uint8_t, 32> readback_digest{};
         const bool readback_ok = ComputeFileSha256(kFirmwarePath, &readback_digest);
@@ -648,6 +749,8 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
         }
         ESP_LOGI(kTag, "OTA_STAGE_STAGED version=%s size=%u", committed_version.c_str(), expected_size);
         LogMemory("AFTER_STAGE");
+    } else {
+        ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=atomic_commit");
     }
     return success;
 }

@@ -1,6 +1,8 @@
 import base64
+import hashlib
 import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -65,6 +67,50 @@ def post_update_policy(version_match: bool, partition_match: bool, selftest_pass
     result["cleaned"] = True
     result["state"] = "IDLE"
     return result
+
+
+def stage_file_names(root: Path):
+    return {
+        "firmware": root / "firmware.bin",
+        "firmware_tmp": root / "firmware.tmp",
+        "metadata": root / "staged-info.json",
+        "metadata_tmp": root / "staged-info.tmp",
+    }
+
+
+def recover_tmp_files(root: Path) -> None:
+    files = stage_file_names(root)
+    for key in ("firmware_tmp", "metadata_tmp"):
+        files[key].unlink(missing_ok=True)
+
+
+def existing_stage_matches(root: Path, version: str, payload: bytes) -> bool:
+    files = stage_file_names(root)
+    if not files["firmware"].is_file() or not files["metadata"].is_file():
+        return False
+    metadata = json.loads(files["metadata"].read_text(encoding="utf-8"))
+    digest = hashlib.sha256(files["firmware"].read_bytes()).hexdigest()
+    return (metadata.get("version") == version and metadata.get("size") == len(payload)
+            and metadata.get("sha256") == hashlib.sha256(payload).hexdigest()
+            and files["firmware"].stat().st_size == len(payload) and digest == metadata["sha256"])
+
+
+def atomic_stage_replace(root: Path, version: str, payload: bytes,
+                         fail_remove: bool = False) -> bool:
+    files = stage_file_names(root)
+    digest = hashlib.sha256(payload).hexdigest()
+    files["firmware_tmp"].write_bytes(payload)
+    files["metadata_tmp"].write_text(
+        json.dumps({"state": "staged", "version": version, "size": len(payload),
+                    "sha256": digest}),
+        encoding="utf-8")
+    if fail_remove:
+        return False
+    files["firmware"].unlink(missing_ok=True)
+    files["firmware_tmp"].replace(files["firmware"])
+    files["metadata"].unlink(missing_ok=True)
+    files["metadata_tmp"].replace(files["metadata"])
+    return True
 
 
 class CustomOtaPolicyTests(unittest.TestCase):
@@ -167,6 +213,60 @@ class CustomOtaPolicyTests(unittest.TestCase):
                 self.assertEqual(result["state"], state)
                 self.assertEqual(result["marked_valid"], marked_valid)
                 self.assertEqual(result["cleaned"], cleaned)
+
+    def test_stale_staging_state_matrix(self):
+        payload = b"new-image"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            files = stage_file_names(root)
+
+            # A: clean directory, B/H: temporary leftovers are bounded and removed.
+            self.assertTrue(atomic_stage_replace(root, "1.1.1", payload))
+            self.assertTrue(existing_stage_matches(root, "1.1.1", payload))
+            files["firmware_tmp"].write_bytes(b"stale")
+            files["metadata_tmp"].write_text("stale", encoding="utf-8")
+            recover_tmp_files(root)
+            self.assertFalse(files["firmware_tmp"].exists())
+            self.assertFalse(files["metadata_tmp"].exists())
+
+            # C: matching final is already present and requires no download.
+            self.assertTrue(existing_stage_matches(root, "1.1.1", payload))
+
+            # D/G: invalid or different-version final is replaced only after verification.
+            files["firmware"].write_bytes(b"old-image")
+            self.assertFalse(existing_stage_matches(root, "1.1.1", payload))
+            self.assertTrue(atomic_stage_replace(root, "1.1.1", payload))
+            files["metadata"].write_text(
+                json.dumps({"version": "1.0.0", "size": len(payload),
+                            "sha256": hashlib.sha256(payload).hexdigest()}),
+                encoding="utf-8")
+            self.assertFalse(existing_stage_matches(root, "1.1.1", payload))
+            self.assertTrue(atomic_stage_replace(root, "1.1.1", payload))
+
+            # E/F: orphan final or metadata is repaired by the next commit.
+            files["metadata"].unlink()
+            self.assertTrue(atomic_stage_replace(root, "1.1.1", payload))
+            files["firmware"].unlink()
+            self.assertTrue(atomic_stage_replace(root, "1.1.1", payload))
+
+            # A remove/replace failure stops staging before install.
+            files["firmware"].unlink()
+            files["firmware"].mkdir()
+            self.assertFalse(atomic_stage_replace(root, "1.1.2", payload, fail_remove=True))
+
+    def test_stale_recovery_and_updater_reentry_contract(self):
+        root = Path(__file__).parents[2]
+        policy = (root / "main" / "custom_ota_policy.cc").read_text(encoding="utf-8")
+        updater = (root / "main" / "ota" / "minimal_updater.cc").read_text(encoding="utf-8")
+        for marker in (
+            "OTA_STALE_STAGE_DETECTED", "OTA_STALE_STAGE_CLEANUP",
+            "OTA_STAGE_REMOVE", "OTA_STAGE_RENAME", "firmware.tmp->firmware.bin",
+            "staged-info.tmp->staged-info.json", "OTA_STAGE_FAILED reason=atomic_commit",
+        ):
+            self.assertIn(marker, policy)
+        self.assertIn("OTA_MINIMAL_REBOOT_AFTER_FAILURE", updater)
+        self.assertIn("OTA_MINIMAL_ALREADY_ENTERED", updater)
+        self.assertIn('return FailAndReboot("stage")', updater)
 
     def test_github_contents_fixture_decodes_manifest(self):
         manifest = decode_github_contents_response(FIXTURE.read_bytes())

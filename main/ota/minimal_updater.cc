@@ -355,10 +355,24 @@ bool ValidatePendingUpdate() {
     return true;
 }
 
+bool FailAndReboot(const char* reason) {
+    MarkState(State::FAILED, reason, nullptr);
+    ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=%s", reason ? reason : "unknown");
+    ESP_LOGI(kTag, "OTA_MINIMAL_REBOOT_AFTER_FAILURE reason=%s", reason ? reason : "unknown");
+    esp_restart();
+    return true;
+}
+
 bool RunIfRequested() {
+    static bool entered = false;
     State state = State::IDLE;
     ReadState(&state);
     if (state != State::UPDATE_REQUESTED && state != State::STAGED) return false;
+    if (entered) {
+        ESP_LOGE(kTag, "OTA_MINIMAL_ALREADY_ENTERED");
+        return true;
+    }
+    entered = true;
 
     ESP_LOGI(kTag, "OTA_MINIMAL_MODE_ENTER state=%s",
              state == State::STAGED ? "STAGED" : "UPDATE_REQUESTED");
@@ -367,52 +381,40 @@ bool RunIfRequested() {
     LogMemory("BOOT");
     if (state == State::UPDATE_REQUESTED) {
         if (!MarkState(State::STAGING, "staging", nullptr)) {
-            ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=state_staging");
-            return false;
+            return FailAndReboot("state_staging");
         }
         if (!ConnectWifi()) {
-            MarkState(State::FAILED, "wifi", nullptr);
-            ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=wifi");
-            return false;
+            return FailAndReboot("wifi");
         }
         ESP_LOGI(kTag, "OTA_MINIMAL_WIFI_CONNECTED");
         LogMemory("WIFI");
     }
     if (!StorageManager::GetInstance().InitializeSdCard()) {
-        MarkState(State::FAILED, "sd_mount", nullptr);
-        ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=sd_mount");
-        return false;
+        return FailAndReboot("sd_mount");
     }
     if (state == State::UPDATE_REQUESTED) {
         EspNetwork network;
         LogMemory("BEFORE_DOWNLOAD");
         const bool staged = CustomOtaPolicy::StageStableUpdateOnNetwork(&network);
         if (!staged) {
-            MarkState(State::FAILED, "stage", nullptr);
-            ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=stage");
-            return false;
+            return FailAndReboot("stage");
         }
         LogMemory("AFTER_STAGE");
         ESP_LOGI(kTag, "OTA_MINIMAL_STACK unused_bytes=%u",
                  static_cast<unsigned>(uxTaskGetStackHighWaterMark(nullptr) * sizeof(StackType_t)));
         if (!MarkState(State::STAGED, "staged", nullptr)) {
-            ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=state_staged");
-            return false;
+            return FailAndReboot("state_staged");
         }
     }
 
     ESP_LOGI(kTag, "OTA_INSTALL_REQUESTED");
     if (!MarkState(State::INSTALL_REQUESTED, "install_requested", nullptr) ||
         !MarkState(State::INSTALLING, "installing", nullptr)) {
-        MarkState(State::FAILED, "state_installing", nullptr);
-        ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=state_installing");
-        return false;
+        return FailAndReboot("state_installing");
     }
     LogMemory("BEFORE_INSTALL");
     if (!CustomOtaPolicy::InstallStagedUpdate()) {
-        MarkState(State::FAILED, "install", nullptr);
-        ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=install");
-        return false;
+        return FailAndReboot("install");
     }
     LogMemory("AFTER_INSTALL");
     ESP_LOGI(kTag, "OTA_MINIMAL_STACK unused_bytes=%u",
@@ -420,9 +422,7 @@ bool RunIfRequested() {
     if (!MarkState(State::PENDING_VERIFY, "pending_verify", nullptr)) {
         const esp_partition_t* running = esp_ota_get_running_partition();
         if (running) esp_ota_set_boot_partition(running);
-        MarkState(State::FAILED, "state_pending_verify", nullptr);
-        ESP_LOGE(kTag, "OTA_MINIMAL_FAILED reason=state_pending_verify");
-        return false;
+        return FailAndReboot("state_pending_verify");
     }
     ESP_LOGI(kTag, "OTA_INSTALL_PENDING_VERIFY reboot=1");
     esp_restart();
