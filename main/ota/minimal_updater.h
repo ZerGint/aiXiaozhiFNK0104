@@ -1,0 +1,25 @@
+#pragma once
+
+#include <cstdint>
+
+#include "custom_ota_policy.h"
+
+namespace MinimalUpdater {
+
+enum class State : uint8_t {
+    IDLE = 0,
+    UPDATE_REQUESTED = 1,
+    STAGING = 2,
+    STAGED = 3,
+    FAILED = 4,
+};
+
+bool ReadState(State* state);
+bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata);
+bool MarkState(State state, const char* reason, const char* version);
+
+// Called immediately after NVS initialization and before Board/Application.
+// Returns true only when the boot must remain in minimal updater mode.
+bool RunIfRequested();
+
+}  // namespace MinimalUpdater

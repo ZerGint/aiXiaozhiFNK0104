@@ -8,15 +8,13 @@
 #include <freertos/task.h>
 
 #include "application.h"
+#include "ota/minimal_updater.h"
 #include "system_info.h"
 
 #define TAG "main"
 
 extern "C" void app_main(void)
 {
-    SystemInfo::PrintRamSnapshot("BOOT");
-    SystemInfo::StartPeriodicRamLog();
-
     // Initialize NVS flash for WiFi configuration
     esp_err_t ret = nvs_flash_init();
     if (ret == ESP_ERR_NVS_NO_FREE_PAGES || ret == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -25,6 +23,17 @@ extern "C" void app_main(void)
         ret = nvs_flash_init();
     }
     ESP_ERROR_CHECK(ret);
+
+    // A requested update is handled before Board/Application creation.  The
+    // minimal path never constructs display, audio, LVGL, or protocol objects.
+    if (MinimalUpdater::RunIfRequested()) {
+        while (true) {
+            vTaskDelay(pdMS_TO_TICKS(1000));
+        }
+    }
+
+    SystemInfo::PrintRamSnapshot("BOOT");
+    SystemInfo::StartPeriodicRamLog();
 
     // Initialize and run the application
     auto& app = Application::GetInstance();

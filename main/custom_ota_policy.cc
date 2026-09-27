@@ -1,14 +1,17 @@
 #include "custom_ota_policy.h"
 
+#include "ota/minimal_updater.h"
+
 #include "board.h"
 #include "system_info.h"
 
 #include <cJSON.h>
+#include <esp_app_desc.h>
 #include <esp_app_format.h>
 #include <esp_heap_caps.h>
 #include <esp_log.h>
-#include <esp_ota_ops.h>
 #include <esp_partition.h>
+#include <esp_system.h>
 #include <mbedtls/base64.h>
 #include <psa/crypto.h>
 
@@ -19,6 +22,11 @@
 #include <sys/stat.h>
 #include <strings.h>
 #include <utility>
+
+namespace CustomOtaPolicy {
+bool IsValidRemoteStableVersion(const char* version);
+int CompareStableVersions(const char* left, const char* right);
+}  // namespace CustomOtaPolicy
 
 namespace {
 
@@ -128,6 +136,10 @@ void LogMemory(const char* point) {
              heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
              heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
              heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
+    ESP_LOGI(kTag, "OTA_MINIMAL_MEM_%s internal=%u largest=%u psram=%u", point,
+             heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
+             heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
 }
 
 bool DecodeGithubManifest(const std::string& response, std::string* manifest) {
@@ -195,6 +207,53 @@ bool FetchGithubManifest(NetworkInterface* network, std::string* manifest) {
     return true;
 }
 
+struct StableManifestFields {
+    cJSON* root = nullptr;
+    cJSON* version = nullptr;
+    cJSON* url = nullptr;
+    cJSON* size = nullptr;
+    cJSON* sha256 = nullptr;
+    cJSON* board = nullptr;
+    cJSON* chip = nullptr;
+};
+
+bool ParseStableManifest(const std::string& manifest, const char* current_version,
+                         bool enforce_current_version, StableManifestFields* fields) {
+    if (!fields) return false;
+    *fields = {};
+    fields->root = cJSON_ParseWithLength(manifest.data(), manifest.size());
+    cJSON* firmware = fields->root ? cJSON_GetObjectItem(fields->root, "firmware") : nullptr;
+    fields->version = firmware ? cJSON_GetObjectItem(firmware, "version") : nullptr;
+    fields->url = firmware ? cJSON_GetObjectItem(firmware, "url") : nullptr;
+    fields->size = firmware ? cJSON_GetObjectItem(firmware, "size") : nullptr;
+    fields->sha256 = firmware ? cJSON_GetObjectItem(firmware, "sha256") : nullptr;
+    fields->board = firmware ? cJSON_GetObjectItem(firmware, "board") : nullptr;
+    fields->chip = firmware ? cJSON_GetObjectItem(firmware, "chip") : nullptr;
+    cJSON* schema = fields->root ? cJSON_GetObjectItem(fields->root, "schema") : nullptr;
+    cJSON* channel = fields->root ? cJSON_GetObjectItem(fields->root, "channel") : nullptr;
+    const bool current_version_ok = !enforce_current_version ||
+                                    (current_version && cJSON_IsString(fields->version) &&
+                                     CustomOtaPolicy::CompareStableVersions(current_version,
+                                                                            fields->version->valuestring) < 0);
+    const bool valid = fields->root && cJSON_IsNumber(schema) && schema->valueint == 1 &&
+                       cJSON_IsString(channel) && strcmp(channel->valuestring, "stable") == 0 &&
+                       cJSON_IsString(fields->version) &&
+                       CustomOtaPolicy::IsValidRemoteStableVersion(fields->version->valuestring) &&
+                       cJSON_IsNumber(fields->size) && fields->size->valuedouble > 0.0 &&
+                       fields->size->valuedouble == static_cast<double>(fields->size->valueint) &&
+                       cJSON_IsString(fields->sha256) && IsHexDigest(fields->sha256->valuestring) &&
+                       cJSON_IsString(fields->url) && strncmp(fields->url->valuestring, "https://", 8) == 0 &&
+                       cJSON_IsString(fields->board) && strcmp(fields->board->valuestring, "freenove-fnk0104s") == 0 &&
+                       cJSON_IsString(fields->chip) && strcmp(fields->chip->valuestring, "esp32s3") == 0 &&
+                       current_version_ok;
+    if (!valid) {
+        cJSON_Delete(fields->root);
+        *fields = {};
+        return false;
+    }
+    return true;
+}
+
 }  // namespace
 
 namespace CustomOtaPolicy {
@@ -239,8 +298,8 @@ void ReportStagedUpdate() {
     cJSON_Delete(root);
 }
 
-bool StageStableUpdateImpl(const esp_app_desc_t* descriptor, bool enforce_current_version) {
-    auto network = Board::GetInstance().GetNetwork();
+bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* descriptor,
+                           bool enforce_current_version) {
     if (!network) return false;
     mkdir(kUpdateDir, 0775);
     LogMemory("BEFORE_MANIFEST");
@@ -257,40 +316,31 @@ bool StageStableUpdateImpl(const esp_app_desc_t* descriptor, bool enforce_curren
     }
     fclose(manifest_file);
 
-    cJSON* root = cJSON_ParseWithLength(manifest.data(), manifest.size());
-    cJSON* firmware = root ? cJSON_GetObjectItem(root, "firmware") : nullptr;
-    cJSON* version = firmware ? cJSON_GetObjectItem(firmware, "version") : nullptr;
-    cJSON* url = firmware ? cJSON_GetObjectItem(firmware, "url") : nullptr;
-    cJSON* size_item = firmware ? cJSON_GetObjectItem(firmware, "size") : nullptr;
-    cJSON* sha = firmware ? cJSON_GetObjectItem(firmware, "sha256") : nullptr;
-    cJSON* board = firmware ? cJSON_GetObjectItem(firmware, "board") : nullptr;
-    cJSON* chip = firmware ? cJSON_GetObjectItem(firmware, "chip") : nullptr;
-    cJSON* schema_item = root ? cJSON_GetObjectItem(root, "schema") : nullptr;
-    cJSON* channel = root ? cJSON_GetObjectItem(root, "channel") : nullptr;
-    const int schema = cJSON_IsNumber(schema_item) ? schema_item->valueint : 0;
-    const bool valid = root && schema == 1 && cJSON_IsString(version) &&
-                       cJSON_IsString(url) && cJSON_IsNumber(size_item) && cJSON_IsString(sha) &&
-                       cJSON_IsString(board) && cJSON_IsString(chip) &&
-                       cJSON_IsString(channel) && strcmp(channel->valuestring, "stable") == 0 &&
-                       IsValidRemoteStableVersion(version->valuestring) &&
-                       strcmp(board->valuestring, "freenove-fnk0104s") == 0 &&
-                       strcmp(chip->valuestring, "esp32s3") == 0 &&
-                       size_item->valuedouble > 0.0 &&
-                       size_item->valuedouble == static_cast<double>(size_item->valueint) &&
-                       strncmp(url->valuestring, "https://", 8) == 0 &&
-                       (!enforce_current_version ||
-                        CompareStableVersions(descriptor->version, version->valuestring) < 0) &&
-                       IsHexDigest(sha->valuestring);
-    if (!valid) {
-        cJSON_Delete(root);
+    StableManifestFields fields;
+    if (!ParseStableManifest(manifest, descriptor ? descriptor->version : nullptr,
+                             enforce_current_version, &fields)) {
         ESP_LOGW(kTag, "OTA_MANIFEST_REJECTED reason=validation");
         return false;
     }
+    cJSON* root = fields.root;
+    cJSON* version = fields.version;
+    cJSON* url = fields.url;
+    cJSON* size_item = fields.size;
+    cJSON* sha = fields.sha256;
+    cJSON* board = fields.board;
+    cJSON* chip = fields.chip;
     ESP_LOGI(kTag, "OTA_MANIFEST_VALID version=%s size=%u", version->valuestring,
              static_cast<unsigned>(size_item->valuedouble));
-    const auto* partition = esp_ota_get_next_update_partition(nullptr);
     const size_t expected_size = static_cast<size_t>(size_item->valuedouble);
-    if (!partition || expected_size == 0 || expected_size > partition->size) {
+    size_t largest_app_partition = 0;
+    esp_partition_iterator_t partition_it = esp_partition_find(ESP_PARTITION_TYPE_APP,
+                                                               ESP_PARTITION_SUBTYPE_ANY, nullptr);
+    while (partition_it) {
+        const esp_partition_t* candidate = esp_partition_get(partition_it);
+        largest_app_partition = std::max(largest_app_partition, static_cast<size_t>(candidate->size));
+        partition_it = esp_partition_next(partition_it);
+    }
+    if (largest_app_partition == 0 || expected_size == 0 || expected_size > largest_app_partition) {
         cJSON_Delete(root);
         ESP_LOGW(kTag, "OTA_MANIFEST_REJECTED reason=partition_size");
         return false;
@@ -365,6 +415,7 @@ bool StageStableUpdateImpl(const esp_app_desc_t* descriptor, bool enforce_curren
     LogMemory("MIN_DOWNLOAD");
     const bool sha_matches = success && HexDigestEquals(sha->valuestring, digest);
     if (sha_matches) ESP_LOGI(kTag, "OTA_SHA256_VERIFY manifest_match=pass");
+    LogMemory("BEFORE_VERIFY");
     const bool image_valid = sha_matches && ValidateImageHeader(kFirmwareTmp, version->valuestring);
     if (image_valid) {
         ESP_LOGI(kTag, "OTA_IMAGE_VERIFY status=pass");
@@ -375,6 +426,7 @@ bool StageStableUpdateImpl(const esp_app_desc_t* descriptor, bool enforce_curren
         ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=verify");
         return false;
     }
+    LogMemory("MIN_VERIFY");
     LogMemory("AFTER_VERIFY");
     cJSON* staged = cJSON_CreateObject();
     cJSON_AddNumberToObject(staged, "schema", 1);
@@ -420,7 +472,12 @@ bool StageStableUpdate() {
         ESP_LOGI(kTag, "OTA_POLICY_SKIP_NON_STABLE_VERSION current=%s", descriptor->version);
         return false;
     }
-    return StageStableUpdateImpl(descriptor, true);
+    return StageStableUpdateImpl(Board::GetInstance().GetNetwork(), descriptor, true);
+}
+
+bool StageStableUpdateOnNetwork(NetworkInterface* network) {
+    const auto* descriptor = esp_app_get_description();
+    return network && descriptor && StageStableUpdateImpl(network, descriptor, false);
 }
 
 bool CheckForStableUpdate() {
@@ -436,18 +493,17 @@ bool CheckForStableUpdate() {
     ESP_LOGI(kTag, "OTA_MANIFEST_HTTP_REQUEST url=%s", kManifestUrl);
     std::string manifest;
     if (!FetchGithubManifest(network, &manifest)) return false;
-    cJSON* root = cJSON_ParseWithLength(manifest.data(), manifest.size());
-    cJSON* firmware = root ? cJSON_GetObjectItem(root, "firmware") : nullptr;
-    cJSON* version = firmware ? cJSON_GetObjectItem(firmware, "version") : nullptr;
-    cJSON* size = firmware ? cJSON_GetObjectItem(firmware, "size") : nullptr;
-    cJSON* sha = firmware ? cJSON_GetObjectItem(firmware, "sha256") : nullptr;
-    cJSON* url = firmware ? cJSON_GetObjectItem(firmware, "url") : nullptr;
-    const bool parsed = cJSON_IsString(version) && IsValidRemoteStableVersion(version->valuestring);
-    if (!parsed) {
-        cJSON_Delete(root);
+    StableManifestFields fields;
+    if (!ParseStableManifest(manifest, descriptor->version, false, &fields)) {
         ESP_LOGW(kTag, "OTA_DISCOVERY_REJECTED reason=version");
         return false;
     }
+    cJSON* version = fields.version;
+    cJSON* size = fields.size;
+    cJSON* sha = fields.sha256;
+    cJSON* url = fields.url;
+    cJSON* board = fields.board;
+    cJSON* chip = fields.chip;
     strncpy(g_stable_update_metadata.version, version->valuestring,
             sizeof(g_stable_update_metadata.version) - 1);
     if (cJSON_IsNumber(size) && size->valuedouble > 0.0) {
@@ -461,12 +517,16 @@ bool CheckForStableUpdate() {
         strncpy(g_stable_update_metadata.url, url->valuestring,
                 sizeof(g_stable_update_metadata.url) - 1);
     }
+    strncpy(g_stable_update_metadata.board, board->valuestring,
+            sizeof(g_stable_update_metadata.board) - 1);
+    strncpy(g_stable_update_metadata.chip, chip->valuestring,
+            sizeof(g_stable_update_metadata.chip) - 1);
     ESP_LOGI(kTag, "OTA_VERSION_PARSE status=pass version=%s", g_stable_update_metadata.version);
     g_stable_update_metadata.update_available =
         CompareStableVersions(descriptor->version, g_stable_update_metadata.version) < 0;
     ESP_LOGI(kTag, "OTA_UPDATE_AVAILABLE value=%d version=%s", g_stable_update_metadata.update_available,
              g_stable_update_metadata.version);
-    cJSON_Delete(root);
+    cJSON_Delete(fields.root);
     return g_stable_update_metadata.update_available;
 }
 
@@ -476,6 +536,20 @@ bool IsUpdateAvailable() {
 
 const StableUpdateMetadata& GetStableUpdateMetadata() {
     return g_stable_update_metadata;
+}
+
+bool RequestFirmwareInstall() {
+    if (!g_stable_update_metadata.update_available) {
+        ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=no_update");
+        return false;
+    }
+    if (!MinimalUpdater::WriteUpdateRequest(g_stable_update_metadata)) {
+        ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=nvs");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_UPDATE_REQUESTED version=%s", g_stable_update_metadata.version);
+    esp_restart();
+    return true;
 }
 
 }  // namespace CustomOtaPolicy

@@ -39,6 +39,8 @@ class CustomOtaPolicyTests(unittest.TestCase):
         root = Path(__file__).parents[2]
         source = (root / "main" / "custom_ota_policy.cc").read_text(encoding="utf-8")
         application = (root / "main" / "application.cc").read_text(encoding="utf-8")
+        main = (root / "main" / "main.cc").read_text(encoding="utf-8")
+        updater = (root / "main" / "ota" / "minimal_updater.cc").read_text(encoding="utf-8")
         self.assertIn("OTA_POLICY_SKIP_NON_STABLE_VERSION", source)
         self.assertIn("OTA_MANIFEST_HTTP_REQUEST", source)
         self.assertIn("OTA_STAGE_STAGED", source)
@@ -53,6 +55,13 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertIn("CheckForStableUpdate", application)
         self.assertNotIn('"custom_ota"', application)
         self.assertNotIn("StageStableUpdate", application)
+        self.assertLess(main.index("MinimalUpdater::RunIfRequested"), main.index("Application::GetInstance"))
+        self.assertIn('constexpr char kNamespace[] = "ota_sd"', updater)
+        self.assertIn('LogMemory("BEFORE_DOWNLOAD")', updater + source)
+        self.assertIn('LogMemory("MIN_VERIFY")', source)
+        self.assertIn("StageStableUpdateOnNetwork", updater)
+        self.assertNotIn("xTaskCreate", updater)
+        self.assertNotIn("esp_ota_", updater)
 
     def test_github_contents_fixture_decodes_manifest(self):
         manifest = decode_github_contents_response(FIXTURE.read_bytes())

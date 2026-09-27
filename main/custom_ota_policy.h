@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <string>
 
+class NetworkInterface;
+
 namespace CustomOtaPolicy {
 
 struct StableUpdateMetadata {
@@ -12,6 +14,8 @@ struct StableUpdateMetadata {
     uint32_t size = 0;
     char sha256[65] = {};
     char url[256] = {};
+    char board[32] = {};
+    char chip[16] = {};
 };
 
 bool IsStrictStableVersion(const char* version);
@@ -20,9 +24,11 @@ bool IsValidRemoteStableVersion(const char* version);
 int CompareStableVersions(const char* left, const char* right);
 
 bool StageStableUpdate();
+bool StageStableUpdateOnNetwork(NetworkInterface* network);
 bool CheckForStableUpdate();
 bool IsUpdateAvailable();
 const StableUpdateMetadata& GetStableUpdateMetadata();
+bool RequestFirmwareInstall();
 void ReportStagedUpdate();
 
 }  // namespace CustomOtaPolicy
