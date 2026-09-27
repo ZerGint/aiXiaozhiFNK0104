@@ -2799,8 +2799,29 @@ void LcdDisplay::StartOtaCheck() {
     if (ota_check_button_label_) lv_label_set_text(ota_check_button_label_, "Проверка...");
     ESP_LOGI(TAG, "OTA_UI_CHECK_TAP");
     Application::GetInstance().Schedule([this]() {
+        auto& radio = InternetRadioPlayer::GetInstance();
+        auto& media_player = MediaPlayer::GetInstance();
+        const bool radio_was_playing = radio.IsPlaying();
+        if (radio_was_playing) {
+            // Reuse the voice-interruption lifecycle. Stop() synchronously
+            // waits for the stream task, decoder, audio focus, and HTTP
+            // client to be released before the OTA request starts.
+            media_player.PauseForVoice();
+        }
+
         const bool available = CustomOtaPolicy::CheckForStableUpdate();
         const std::string version = CustomOtaPolicy::GetStableUpdateMetadata().version;
+
+        // Resume only when the voice-pause state still belongs to the radio
+        // that was playing before this check. A user stop or another media
+        // transition clears that state and must not be undone here.
+        if (radio_was_playing) {
+            RadioStationInfo paused_station;
+            if (media_player.GetRadioStationPausedForVoice(paused_station)) {
+                media_player.PlayForVoice();
+            }
+        }
+
         Application::GetInstance().Schedule([this, available, version]() {
             SetOtaUpdateAvailable(available, version.c_str());
             ota_check_in_progress_ = false;

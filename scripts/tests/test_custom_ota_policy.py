@@ -99,6 +99,17 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertNotIn("StageStableUpdateOnNetwork", display)
         self.assertNotIn("esp_restart", display.split("StartOtaCheck", 1)[1].split("SetOtaUpdateAvailable", 1)[0])
 
+    def test_radio_update_check_reuses_voice_interruption_path(self):
+        root = Path(__file__).parents[2]
+        display = (root / "main" / "display" / "lcd_display.cc").read_text(encoding="utf-8")
+        check = display.split("void LcdDisplay::StartOtaCheck()", 1)[1].split(
+            "void LcdDisplay::SetOtaUpdateAvailable", 1
+        )[0]
+        self.assertIn("radio.IsPlaying()", check)
+        self.assertIn("media_player.PauseForVoice()", check)
+        self.assertIn("media_player.PlayForVoice()", check)
+        self.assertNotIn("TogglePlayPause()", check)
+
     def test_github_contents_fixture_decodes_manifest(self):
         manifest = decode_github_contents_response(FIXTURE.read_bytes())
         self.assertEqual(manifest["firmware"]["version"], "1.1.0")
