@@ -12,6 +12,10 @@ enum class State : uint8_t {
     STAGING = 2,
     STAGED = 3,
     FAILED = 4,
+    INSTALL_REQUESTED = 5,
+    INSTALLING = 6,
+    PENDING_VERIFY = 7,
+    VALIDATED = 8,
 };
 
 bool ReadState(State* state);

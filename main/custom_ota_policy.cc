@@ -10,6 +10,7 @@
 #include <esp_app_format.h>
 #include <esp_heap_caps.h>
 #include <esp_log.h>
+#include <esp_ota_ops.h>
 #include <esp_partition.h>
 #include <esp_system.h>
 #include <mbedtls/base64.h>
@@ -307,6 +308,151 @@ void ReportStagedUpdate() {
              cJSON_IsString(version) ? version->valuestring : "unknown",
              cJSON_IsNumber(size) ? static_cast<long long>(size->valuedouble) : 0LL);
     cJSON_Delete(root);
+}
+
+bool InstallStagedUpdate() {
+    struct stat staged_info {};
+    struct stat firmware_info {};
+    if (stat(kStagedInfoPath, &staged_info) != 0 || stat(kFirmwarePath, &firmware_info) != 0) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=staged_file_missing");
+        return false;
+    }
+    if (firmware_info.st_size <= 0 || static_cast<size_t>(firmware_info.st_size) > UINT32_MAX) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=staged_size");
+        return false;
+    }
+
+    FILE* metadata_file = fopen(kStagedInfoPath, "rb");
+    if (!metadata_file || staged_info.st_size <= 0 || staged_info.st_size > 1024) {
+        if (metadata_file) fclose(metadata_file);
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=metadata_size");
+        return false;
+    }
+    std::string metadata(static_cast<size_t>(staged_info.st_size), '\0');
+    const size_t metadata_read = fread(metadata.data(), 1, metadata.size(), metadata_file);
+    fclose(metadata_file);
+    if (metadata_read != metadata.size()) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=metadata_read");
+        return false;
+    }
+
+    cJSON* root = cJSON_ParseWithLength(metadata.data(), metadata.size());
+    cJSON* schema = root ? cJSON_GetObjectItem(root, "schema") : nullptr;
+    cJSON* state = root ? cJSON_GetObjectItem(root, "state") : nullptr;
+    cJSON* version = root ? cJSON_GetObjectItem(root, "version") : nullptr;
+    cJSON* image_version = root ? cJSON_GetObjectItem(root, "image_version") : nullptr;
+    cJSON* size = root ? cJSON_GetObjectItem(root, "size") : nullptr;
+    cJSON* sha = root ? cJSON_GetObjectItem(root, "sha256") : nullptr;
+    cJSON* board = root ? cJSON_GetObjectItem(root, "board") : nullptr;
+    cJSON* chip = root ? cJSON_GetObjectItem(root, "chip") : nullptr;
+    cJSON* project = root ? cJSON_GetObjectItem(root, "image_project") : nullptr;
+    const bool metadata_valid = root && cJSON_IsNumber(schema) && schema->valueint == 1 &&
+                                cJSON_IsString(state) && strcmp(state->valuestring, "staged") == 0 &&
+                                cJSON_IsString(version) && IsValidRemoteStableVersion(version->valuestring) &&
+                                cJSON_IsString(image_version) &&
+                                strcmp(image_version->valuestring, version->valuestring) == 0 &&
+                                cJSON_IsNumber(size) && size->valuedouble > 0.0 &&
+                                size->valuedouble == static_cast<double>(size->valueint) &&
+                                size->valueint == firmware_info.st_size && cJSON_IsString(sha) &&
+                                IsHexDigest(sha->valuestring) && cJSON_IsString(board) &&
+                                strcmp(board->valuestring, "freenove-fnk0104s") == 0 &&
+                                cJSON_IsString(chip) && strcmp(chip->valuestring, "esp32s3") == 0 &&
+                                cJSON_IsString(project) && strcmp(project->valuestring, "xiaozhi") == 0;
+    if (!metadata_valid) {
+        if (root) cJSON_Delete(root);
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=metadata_validation");
+        return false;
+    }
+    const std::string staged_version = version->valuestring;
+    const std::string staged_sha = sha->valuestring;
+    const uint32_t staged_size = static_cast<uint32_t>(size->valueint);
+    cJSON_Delete(root);
+
+    std::array<uint8_t, 32> digest{};
+    if (!ComputeFileSha256(kFirmwarePath, &digest) || !HexDigestEquals(staged_sha.c_str(), digest)) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=sha256");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_INSTALL_SHA256_VERIFY status=pass");
+    if (!ValidateImageHeader(kFirmwarePath, staged_version.c_str())) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=image_header");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_INSTALL_IMAGE_VERIFY status=pass version=%s chip=esp32s3 project=xiaozhi",
+             staged_version.c_str());
+
+    const esp_partition_t* running = esp_ota_get_running_partition();
+    const esp_partition_t* boot = esp_ota_get_boot_partition();
+    const esp_partition_t* target = running ? esp_ota_get_next_update_partition(running) : nullptr;
+    if (!running || !boot || !target || target == running || target->type != ESP_PARTITION_TYPE_APP ||
+        target->size < staged_size) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=partition_safety");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_INSTALL_PARTITIONS running=%s boot=%s target=%s target_address=0x%lx target_size=%lu",
+             running->label, boot->label, target->label, static_cast<unsigned long>(target->address),
+             static_cast<unsigned long>(target->size));
+    ESP_LOGI(kTag, "OTA_INSTALL_TARGET_INACTIVE yes");
+
+    FILE* firmware = fopen(kFirmwarePath, "rb");
+    if (!firmware) {
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=firmware_open");
+        return false;
+    }
+    std::unique_ptr<uint8_t[]> buffer(new (std::nothrow) uint8_t[kIoBufferSize]);
+    if (!buffer) {
+        fclose(firmware);
+        ESP_LOGW(kTag, "OTA_INSTALL_REJECTED reason=buffer_alloc");
+        return false;
+    }
+    esp_ota_handle_t handle = 0;
+    esp_err_t err = esp_ota_begin(target, staged_size, &handle);
+    if (err != ESP_OK) {
+        fclose(firmware);
+        ESP_LOGE(kTag, "OTA_INSTALL_FAILED reason=ota_begin err=%s", esp_err_to_name(err));
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_INSTALL_OTA_BEGIN status=pass");
+    size_t written = 0;
+    int last_percent = -1;
+    while (written < staged_size) {
+        const size_t want = std::min(kIoBufferSize, static_cast<size_t>(staged_size) - written);
+        const size_t count = fread(buffer.get(), 1, want, firmware);
+        if (count != want || esp_ota_write(handle, buffer.get(), count) != ESP_OK) {
+            fclose(firmware);
+            esp_ota_abort(handle);
+            ESP_LOGE(kTag, "OTA_INSTALL_FAILED reason=ota_write written=%u expected=%u",
+                     static_cast<unsigned>(written), static_cast<unsigned>(staged_size));
+            return false;
+        }
+        written += count;
+        const int percent = static_cast<int>(written * 100 / staged_size);
+        if (percent / 5 != last_percent / 5) {
+            last_percent = percent;
+            ESP_LOGI(kTag, "OTA_INSTALL_PROGRESS written=%u total=%u percent=%d",
+                     static_cast<unsigned>(written), static_cast<unsigned>(staged_size), percent);
+        }
+    }
+    fclose(firmware);
+    if (written != staged_size || esp_ota_end(handle) != ESP_OK) {
+        ESP_LOGE(kTag, "OTA_INSTALL_FAILED reason=ota_end written=%u expected=%u",
+                 static_cast<unsigned>(written), static_cast<unsigned>(staged_size));
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_INSTALL_OTA_END status=pass bytes=%u", static_cast<unsigned>(written));
+    err = esp_ota_set_boot_partition(target);
+    if (err != ESP_OK) {
+        ESP_LOGE(kTag, "OTA_INSTALL_FAILED reason=set_boot err=%s", esp_err_to_name(err));
+        return false;
+    }
+    const esp_partition_t* boot_after = esp_ota_get_boot_partition();
+    if (!boot_after || boot_after->address != target->address) {
+        ESP_LOGE(kTag, "OTA_INSTALL_FAILED reason=boot_verify");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_BOOT_PARTITION_SET from=%s to=%s", boot->label, boot_after->label);
+    ESP_LOGI(kTag, "OTA_INSTALL_SUCCESS version=%s", staged_version.c_str());
+    return true;
 }
 
 bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* descriptor,

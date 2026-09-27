@@ -55,7 +55,7 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertTrue(discovery_result("1.2.0", "1.1.0", True))
         self.assertTrue(discovery_result("1.1.0_beta_ota_1", "1.1.0", True))
 
-    def test_policy_has_no_install_path(self):
+    def test_policy_has_separate_staged_install_path(self):
         root = Path(__file__).parents[2]
         source = (root / "main" / "custom_ota_policy.cc").read_text(encoding="utf-8")
         application = (root / "main" / "application.cc").read_text(encoding="utf-8")
@@ -68,10 +68,10 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertIn("application/vnd.github+json", source)
         self.assertIn("X-GitHub-Api-Version", source)
         self.assertNotIn("raw.githubusercontent.com/ZerGint/FNK0104s_xiaozhi_update/main/ota/stable.json", source)
-        self.assertNotIn("esp_ota_begin", source)
-        self.assertNotIn("esp_ota_write", source)
-        self.assertNotIn("esp_ota_end", source)
-        self.assertNotIn("esp_ota_set_boot_partition", source)
+        self.assertIn("esp_ota_begin", source)
+        self.assertIn("esp_ota_write", source)
+        self.assertIn("esp_ota_end", source)
+        self.assertIn("esp_ota_set_boot_partition", source)
         self.assertIn("CheckForStableUpdate", application)
         self.assertNotIn('"custom_ota"', application)
         self.assertNotIn("StageStableUpdate", application)
@@ -81,7 +81,8 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertIn('LogMemory("MIN_VERIFY")', source)
         self.assertIn("StageStableUpdateOnNetwork", updater)
         self.assertNotIn("xTaskCreate", updater)
-        self.assertNotIn("esp_ota_", updater)
+        self.assertIn("CustomOtaPolicy::InstallStagedUpdate", updater)
+        self.assertIn("PENDING_VERIFY", updater)
 
     def test_github_contents_fixture_decodes_manifest(self):
         manifest = decode_github_contents_response(FIXTURE.read_bytes())
