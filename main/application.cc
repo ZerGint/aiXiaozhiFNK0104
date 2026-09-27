@@ -382,9 +382,6 @@ void Application::HandleActivationDoneEvent() {
         audio_service_.PlaySound(Lang::Sounds::OGG_SUCCESS);
     });
 
-#if CONFIG_CUSTOM_OTA_DEV_REQUEST_UPDATE
-    CustomOtaPolicy::TriggerDevUpdateRequestOnce();
-#endif
 }
 
 void Application::ActivationTask() {
@@ -396,15 +393,6 @@ void Application::ActivationTask() {
 
     // Check for new firmware version
     CheckNewVersion();
-
-    // Discovery only: normal runtime never downloads or stages a firmware.
-    const bool stable_update_available = CustomOtaPolicy::CheckForStableUpdate();
-    const std::string stable_update_version =
-        CustomOtaPolicy::GetStableUpdateMetadata().version;
-    auto display = Board::GetInstance().GetDisplay();
-    Schedule([display, stable_update_available, stable_update_version]() {
-        display->SetOtaUpdateAvailable(stable_update_available, stable_update_version.c_str());
-    });
 
     // Initialize the protocol
     InitializeProtocol();

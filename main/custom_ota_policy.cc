@@ -77,52 +77,6 @@ bool HexDigestEquals(const char* expected, const std::array<uint8_t, 32>& digest
     return strcasecmp(actual, expected) == 0;
 }
 
-bool RemoveStagingPath(const char* path, const char* name, bool allow_missing = true) {
-    errno = 0;
-    if (unlink(path) == 0) {
-        ESP_LOGI(kTag, "OTA_STAGE_REMOVE path=%s result=0 errno=0", name);
-        return true;
-    }
-    const int error = errno;
-    const bool missing = error == ENOENT;
-    ESP_LOGW(kTag, "OTA_STAGE_REMOVE path=%s result=-1 errno=%d error=%s", name, error,
-             strerror(error));
-    return allow_missing && missing;
-}
-
-bool RenameStagingPath(const char* from, const char* to, const char* name) {
-    errno = 0;
-    if (rename(from, to) == 0) {
-        ESP_LOGI(kTag, "OTA_STAGE_RENAME path=%s result=0 errno=0", name);
-        return true;
-    }
-    const int error = errno;
-    ESP_LOGE(kTag, "OTA_STAGE_RENAME path=%s result=-1 errno=%d error=%s", name, error,
-             strerror(error));
-    return false;
-}
-
-bool RecoverTemporaryStagingFiles() {
-    struct TemporaryFile {
-        const char* path;
-        const char* name;
-    };
-    constexpr TemporaryFile files[] = {
-        {kFirmwareTmp, "firmware.tmp"},
-        {kStagedInfoTmp, "staged-info.tmp"},
-        {kManifestTmp, "manifest.tmp"},
-    };
-    bool success = true;
-    for (const auto& file : files) {
-        struct stat info {};
-        if (stat(file.path, &info) != 0) continue;
-        ESP_LOGW(kTag, "OTA_STALE_STAGE_DETECTED file=%s kind=tmp", file.name);
-        success = RemoveStagingPath(file.path, file.name) && success;
-    }
-    if (success) ESP_LOGI(kTag, "OTA_STALE_STAGE_CLEANUP result=pass");
-    return success;
-}
-
 bool IsHexDigest(const char* value) {
     if (!value || strlen(value) != 64) return false;
     for (size_t index = 0; index < 64; ++index) {
@@ -571,56 +525,6 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
         return false;
     }
 
-    if (!RecoverTemporaryStagingFiles()) {
-        cJSON_Delete(root);
-        ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=stale_tmp_cleanup");
-        return false;
-    }
-
-    struct stat staged_info {};
-    struct stat firmware_info {};
-    const bool has_staged_info = stat(kStagedInfoPath, &staged_info) == 0;
-    const bool has_firmware = stat(kFirmwarePath, &firmware_info) == 0;
-    bool existing_stage_matches = false;
-    const char* stale_reason = nullptr;
-    if (has_staged_info && has_firmware) {
-        FILE* staged_file = fopen(kStagedInfoPath, "rb");
-        char staged_data[512] = {};
-        const size_t staged_count = staged_file ? fread(staged_data, 1, sizeof(staged_data) - 1, staged_file) : 0;
-        if (staged_file) fclose(staged_file);
-        cJSON* staged_root = cJSON_ParseWithLength(staged_data, staged_count);
-        cJSON* staged_version = staged_root ? cJSON_GetObjectItem(staged_root, "version") : nullptr;
-        cJSON* staged_size = staged_root ? cJSON_GetObjectItem(staged_root, "size") : nullptr;
-        cJSON* staged_sha = staged_root ? cJSON_GetObjectItem(staged_root, "sha256") : nullptr;
-        const bool metadata_matches = staged_root && cJSON_IsString(staged_version) &&
-                                      cJSON_IsNumber(staged_size) &&
-                                      staged_size->valuedouble == static_cast<double>(expected_size) &&
-                                      cJSON_IsString(staged_sha) &&
-                                      strcmp(staged_version->valuestring, version->valuestring) == 0 &&
-                                      strcasecmp(staged_sha->valuestring, sha->valuestring) == 0 &&
-                                      static_cast<size_t>(firmware_info.st_size) == expected_size;
-        std::array<uint8_t, 32> existing_digest{};
-        const bool file_matches = metadata_matches &&
-                                   ComputeFileSha256(kFirmwarePath, &existing_digest) &&
-                                   HexDigestEquals(sha->valuestring, existing_digest);
-        existing_stage_matches = file_matches;
-        stale_reason = file_matches ? nullptr : (metadata_matches ? "sha256_mismatch" : "metadata_mismatch");
-        if (file_matches) {
-            ESP_LOGI(kTag, "OTA_STAGE_ALREADY_PRESENT version=%s size=%u", version->valuestring, expected_size);
-            cJSON_Delete(staged_root);
-            cJSON_Delete(root);
-            return true;
-        }
-        if (staged_root) cJSON_Delete(staged_root);
-    } else if (has_staged_info || has_firmware) {
-        stale_reason = has_staged_info ? "metadata_without_firmware" : "firmware_without_metadata";
-    }
-    const bool stale_stage_detected = (has_staged_info || has_firmware) && !existing_stage_matches;
-    if (stale_stage_detected) {
-        ESP_LOGW(kTag, "OTA_STALE_STAGE_DETECTED firmware=%d metadata=%d reason=%s", has_firmware,
-                 has_staged_info, stale_reason ? stale_reason : "unknown");
-    }
-
     LogMemory("BEFORE_DOWNLOAD");
     ESP_LOGI(kTag, "OTA_DOWNLOAD_START url=%s", url->valuestring);
     auto firmware_http = network->CreateHttp(0);
@@ -701,12 +605,7 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
     FILE* staged_file = fopen(kStagedInfoTmp, "wb");
     success = staged_text && staged_file && fwrite(staged_text, 1, strlen(staged_text), staged_file) == strlen(staged_text);
     if (staged_file) { fflush(staged_file); fclose(staged_file); }
-    if (success) {
-        // FAT/VFS does not guarantee rename-over-existing.  Remove only after
-        // the new temporary image has passed all verification above.
-        success = RemoveStagingPath(kFirmwarePath, "firmware.bin") &&
-                  RenameStagingPath(kFirmwareTmp, kFirmwarePath, "firmware.tmp->firmware.bin");
-    }
+    if (success) success = rename(kFirmwareTmp, kFirmwarePath) == 0;
     if (success) {
         struct stat committed_info {};
         errno = 0;
@@ -720,12 +619,7 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
         }
     }
     if (success) {
-        success = RemoveStagingPath(kStagedInfoPath, "staged-info.json") &&
-                  RenameStagingPath(kStagedInfoTmp, kStagedInfoPath,
-                                    "staged-info.tmp->staged-info.json");
-        if (success && stale_stage_detected) {
-            ESP_LOGI(kTag, "OTA_STALE_STAGE_CLEANUP result=pass");
-        }
+        success = rename(kStagedInfoTmp, kStagedInfoPath) == 0;
     }
     if (staged_text) free(staged_text);
     const std::string committed_version = version->valuestring;
@@ -733,8 +627,7 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
     cJSON_Delete(staged);
     cJSON_Delete(root);
     if (success) {
-        if (!RemoveStagingPath(kManifestPath, "manifest.json") ||
-            !RenameStagingPath(kManifestTmp, kManifestPath, "manifest.tmp->manifest.json")) {
+        if (rename(kManifestTmp, kManifestPath) != 0) {
             ESP_LOGE(kTag, "OTA_STAGE_FAILED reason=manifest_commit");
             return false;
         }
@@ -755,18 +648,33 @@ bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* desc
     return success;
 }
 
-bool StageStableUpdate() {
-    const auto* descriptor = esp_app_get_description();
-    if (!ShouldCheckForUpdates(descriptor->version)) {
-        ESP_LOGI(kTag, "OTA_POLICY_SKIP_NON_STABLE_VERSION current=%s", descriptor->version);
-        return false;
-    }
-    return StageStableUpdateImpl(Board::GetInstance().GetNetwork(), descriptor, true);
-}
-
 bool StageStableUpdateOnNetwork(NetworkInterface* network) {
     const auto* descriptor = esp_app_get_description();
     return network && descriptor && StageStableUpdateImpl(network, descriptor, false);
+}
+
+bool ClearUpdateDirectory() {
+    mkdir(kUpdateDir, 0775);
+    ESP_LOGI(kTag, "OTA_UPDATE_DIR_CLEAR_START path=%s", kUpdateDir);
+    struct CleanupFile {
+        const char* path;
+        const char* name;
+    };
+    constexpr CleanupFile files[] = {
+        {kFirmwarePath, "firmware.bin"},       {kFirmwareTmp, "firmware.tmp"},
+        {kStagedInfoPath, "staged-info.json"}, {kStagedInfoTmp, "staged-info.tmp"},
+        {kManifestPath, "manifest.json"},     {kManifestTmp, "manifest.tmp"},
+    };
+    bool success = true;
+    for (const auto& file : files) {
+        errno = 0;
+        const bool removed = unlink(file.path) == 0 || errno == ENOENT;
+        ESP_LOGI(kTag, "OTA_UPDATE_DIR_CLEAR_FILE path=%s result=%s", file.name,
+                 removed ? "pass" : "fail");
+        success = success && removed;
+    }
+    ESP_LOGI(kTag, "OTA_UPDATE_DIR_CLEAR_DONE result=%s", success ? "pass" : "fail");
+    return success;
 }
 
 bool CheckForStableUpdate() {
@@ -848,51 +756,6 @@ bool RequestFirmwareInstall() {
     ESP_LOGI(kTag, "OTA_UPDATE_REQUESTED version=%s", g_stable_update_metadata.version);
     esp_restart();
     return true;
-}
-
-bool TriggerDevUpdateRequestOnce() {
-#if CONFIG_CUSTOM_OTA_DEV_REQUEST_UPDATE
-    bool consumed = false;
-    if (!MinimalUpdater::ReadDevRequestConsumed(&consumed)) {
-        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=read_guard");
-        return false;
-    }
-    if (consumed) {
-        ESP_LOGI(kTag, "DEV_OTA_REQUEST_TRIGGER skipped=consumed");
-        return false;
-    }
-
-    g_stable_update_metadata = {};
-    g_stable_update_metadata.update_available = true;
-    strncpy(g_stable_update_metadata.version, "1.1.0",
-            sizeof(g_stable_update_metadata.version) - 1);
-    g_stable_update_metadata.size = 3809616;
-    constexpr char kDevSha256[] =
-        "a42c59fa6408a0a4b85bd1291cdee7d12dc1dd16c995e66db81417537e3df045";
-    static_assert(sizeof(kDevSha256) <= sizeof(g_stable_update_metadata.sha256));
-    memcpy(g_stable_update_metadata.sha256, kDevSha256, sizeof(kDevSha256));
-    strncpy(g_stable_update_metadata.url,
-            "https://raw.githubusercontent.com/ZerGint/FNK0104s_xiaozhi_update/main/firmware/stable/1.1.0/fnk0104s-firmware.bin",
-            sizeof(g_stable_update_metadata.url) - 1);
-    strncpy(g_stable_update_metadata.board, "freenove-fnk0104s",
-            sizeof(g_stable_update_metadata.board) - 1);
-    strncpy(g_stable_update_metadata.chip, "esp32s3",
-            sizeof(g_stable_update_metadata.chip) - 1);
-
-    if (!MinimalUpdater::MarkDevRequestConsumed()) {
-        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=write_guard");
-        return false;
-    }
-    ESP_LOGI(kTag, "DEV_OTA_REQUEST_TRIGGER version=%s", g_stable_update_metadata.version);
-    ESP_LOGI(kTag, "DEV_OTA_REQUEST_METADATA size=%u sha256=%s",
-             static_cast<unsigned>(g_stable_update_metadata.size),
-             g_stable_update_metadata.sha256);
-    if (!RequestFirmwareInstall()) {
-        ESP_LOGE(kTag, "DEV_OTA_REQUEST_TRIGGER failed=request");
-        return false;
-    }
-#endif
-    return false;
 }
 
 }  // namespace CustomOtaPolicy

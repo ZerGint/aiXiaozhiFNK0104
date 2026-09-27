@@ -23,13 +23,12 @@ bool ShouldCheckForUpdates(const char* current_version);
 bool IsValidRemoteStableVersion(const char* version);
 int CompareStableVersions(const char* left, const char* right);
 
-bool StageStableUpdate();
 bool StageStableUpdateOnNetwork(NetworkInterface* network);
+bool ClearUpdateDirectory();
 bool CheckForStableUpdate();
 bool IsUpdateAvailable();
 const StableUpdateMetadata& GetStableUpdateMetadata();
 bool RequestFirmwareInstall();
-bool TriggerDevUpdateRequestOnce();
 void ReportStagedUpdate();
 // Removes staged firmware and metadata only after the new app has been
 // validated and marked boot-valid.

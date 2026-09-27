@@ -2792,6 +2792,24 @@ void LcdDisplay::ToggleQuickSettings() {
     ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
 }
 
+void LcdDisplay::StartOtaCheck() {
+    if (ota_check_in_progress_) return;
+    ota_check_in_progress_ = true;
+    if (ota_check_button_) lv_obj_add_state(ota_check_button_, LV_STATE_DISABLED);
+    if (ota_check_button_label_) lv_label_set_text(ota_check_button_label_, "Проверка...");
+    ESP_LOGI(TAG, "OTA_UI_CHECK_TAP");
+    Application::GetInstance().Schedule([this]() {
+        const bool available = CustomOtaPolicy::CheckForStableUpdate();
+        const std::string version = CustomOtaPolicy::GetStableUpdateMetadata().version;
+        Application::GetInstance().Schedule([this, available, version]() {
+            SetOtaUpdateAvailable(available, version.c_str());
+            ota_check_in_progress_ = false;
+            if (ota_check_button_) lv_obj_clear_state(ota_check_button_, LV_STATE_DISABLED);
+            if (ota_check_button_label_) lv_label_set_text(ota_check_button_label_, "Проверить");
+        });
+    });
+}
+
 void LcdDisplay::SetOtaUpdateAvailable(bool available, const char* version) {
     DisplayLockGuard lock(this);
     if (!ota_update_row_ || !quick_settings_panel_) return;
@@ -2802,27 +2820,19 @@ void LcdDisplay::SetOtaUpdateAvailable(bool available, const char* version) {
                        strcmp(metadata.version, version) == 0 && metadata.size > 0 &&
                        metadata.sha256[0] != '\0' && metadata.url[0] != '\0' &&
                        metadata.board[0] != '\0' && metadata.chip[0] != '\0';
-    if (!valid) {
-        lv_obj_add_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_set_height(quick_settings_panel_, 260);
-        ota_install_requested_ = false;
-        if (ota_update_button_) {
-            lv_obj_clear_state(ota_update_button_, LV_STATE_DISABLED);
-        }
-        if (ota_update_button_label_) lv_label_set_text(ota_update_button_label_, "Обновить");
-        ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW visible=0");
-        return;
-    }
-
-    lv_label_set_text_fmt(ota_update_version_label_, "Доступно обновление %s", version);
     lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
-    // The existing four rows retain their positions and touch areas. The
-    // bounded extra row fits below them on the 480x320 FNK0104s display.
     lv_obj_set_height(quick_settings_panel_, 310);
     ota_install_requested_ = false;
-    lv_obj_clear_state(ota_update_button_, LV_STATE_DISABLED);
+    if (valid) {
+        lv_label_set_text_fmt(ota_update_version_label_, "Доступно %s", version);
+        lv_obj_clear_state(ota_update_button_, LV_STATE_DISABLED);
+        ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW status=available version=%s", version);
+    } else {
+        lv_label_set_text(ota_update_version_label_, available ? "Обновление отклонено" : "Установлена актуальная версия");
+        lv_obj_add_state(ota_update_button_, LV_STATE_DISABLED);
+        ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW status=up_to_date");
+    }
     lv_label_set_text(ota_update_button_label_, "Обновить");
-    ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW visible=1 version=%s", version);
 }
 
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
@@ -3313,7 +3323,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }
 
     quick_settings_panel_ = lv_obj_create(parent);
-    lv_obj_set_size(quick_settings_panel_, 440, 260);
+    lv_obj_set_size(quick_settings_panel_, 440, 310);
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -3548,9 +3558,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }, LV_EVENT_CLICKED, this);
 #endif
 
-    // OTA discovery action. It is hidden until the normal-runtime discovery
-    // pass has reported a complete, newer manifest. No network work starts
-    // when Quick Settings is opened.
+    // OTA actions are explicit. Opening Quick Settings never performs network work.
     ota_update_row_ = lv_obj_create(quick_settings_panel_);
     lv_obj_set_size(ota_update_row_, 416, 45);
     lv_obj_align(ota_update_row_, LV_ALIGN_TOP_MID, 0, 245);
@@ -3558,18 +3566,34 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     lv_obj_set_style_border_width(ota_update_row_, 0, 0);
     lv_obj_set_style_pad_all(ota_update_row_, 0, 0);
     lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_SCROLLABLE);
-    lv_obj_add_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
 
     ota_update_version_label_ = lv_label_create(ota_update_row_);
-    lv_label_set_text(ota_update_version_label_, "Доступно обновление");
-    lv_obj_set_width(ota_update_version_label_, 270);
+    lv_label_set_text(ota_update_version_label_, "Обновление не проверялось");
+    lv_obj_set_width(ota_update_version_label_, 170);
     lv_label_set_long_mode(ota_update_version_label_, LV_LABEL_LONG_DOT);
     set_quick_settings_font(ota_update_version_label_);
     lv_obj_set_style_text_color(ota_update_version_label_, kText, 0);
     lv_obj_align(ota_update_version_label_, LV_ALIGN_LEFT_MID, 4, 0);
 
+    ota_check_button_ = lv_btn_create(ota_update_row_);
+    lv_obj_set_size(ota_check_button_, 104, 40);
+    lv_obj_align(ota_check_button_, LV_ALIGN_LEFT_MID, 178, 0);
+    lv_obj_set_style_radius(ota_check_button_, 10, 0);
+    lv_obj_set_style_bg_color(ota_check_button_, kCard, 0);
+    ota_check_button_label_ = lv_label_create(ota_check_button_);
+    lv_label_set_text(ota_check_button_label_, "Проверить");
+    set_quick_settings_font(ota_check_button_label_);
+    lv_obj_set_style_text_color(ota_check_button_label_, kText, 0);
+    lv_obj_center(ota_check_button_label_);
+    lv_obj_add_event_cb(ota_check_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display) display->StartOtaCheck();
+    }, LV_EVENT_CLICKED, this);
+
     ota_update_button_ = lv_btn_create(ota_update_row_);
-    lv_obj_set_size(ota_update_button_, 118, 40);
+    lv_obj_set_size(ota_update_button_, 108, 40);
     lv_obj_align(ota_update_button_, LV_ALIGN_RIGHT_MID, -4, 0);
     lv_obj_set_style_radius(ota_update_button_, 10, 0);
     lv_obj_set_style_bg_color(ota_update_button_, kAccent, 0);
@@ -3579,6 +3603,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     set_quick_settings_font(ota_update_button_label_);
     lv_obj_set_style_text_color(ota_update_button_label_, kBg, 0);
     lv_obj_center(ota_update_button_label_);
+    lv_obj_add_state(ota_update_button_, LV_STATE_DISABLED);
     lv_obj_add_event_cb(ota_update_button_, [](lv_event_t* e) {
         if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
         auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));

@@ -72,9 +72,12 @@ protected:
     lv_obj_t* auto_brightness_timeout_label_ = nullptr;
     lv_obj_t* ota_update_row_ = nullptr;
     lv_obj_t* ota_update_version_label_ = nullptr;
+    lv_obj_t* ota_check_button_ = nullptr;
+    lv_obj_t* ota_check_button_label_ = nullptr;
     lv_obj_t* ota_update_button_ = nullptr;
     lv_obj_t* ota_update_button_label_ = nullptr;
     bool ota_install_requested_ = false;
+    bool ota_check_in_progress_ = false;
     lv_obj_t* media_status_label_ = nullptr;
     lv_obj_t* media_title_label_ = nullptr;
     lv_obj_t* media_header_label_ = nullptr;
@@ -181,6 +184,7 @@ protected:
 
 public:
     void ToggleQuickSettings();
+    void StartOtaCheck();
     void SetOtaUpdateAvailable(bool available, const char* version) override;
     void SwitchTab(int tab_index);
     void RegisterDisplayActivity(const char* source = "OTHER_UI");
