@@ -2,6 +2,7 @@
 
 #include "custom_ota_policy.h"
 #include "managers/storage_manager.h"
+#include "ota/minimal_ota_display.h"
 
 #include <esp_heap_caps.h>
 #include <esp_log.h>
@@ -170,6 +171,8 @@ bool RunIfRequested() {
 
     ESP_LOGI(kTag, "OTA_MINIMAL_MODE_ENTER state=%s",
              state == State::STAGED ? "STAGED" : "UPDATE_REQUESTED");
+    MinimalOtaDisplay display;
+    display.Init();
     LogMemory("BOOT");
     if (state == State::UPDATE_REQUESTED) {
         if (!MarkState(State::STAGING, "staging", nullptr)) {
