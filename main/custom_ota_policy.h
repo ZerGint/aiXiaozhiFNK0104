@@ -31,6 +31,9 @@ const StableUpdateMetadata& GetStableUpdateMetadata();
 bool RequestFirmwareInstall();
 bool TriggerDevUpdateRequestOnce();
 void ReportStagedUpdate();
+// Removes staged firmware and metadata only after the new app has been
+// validated and marked boot-valid.
+bool CleanupStagedFiles();
 // Installs the already verified SD staged image into the ESP-IDF selected
 // inactive OTA partition.  This function never changes the boot partition
 // until all staged-image checks and esp_ota_end() have succeeded.

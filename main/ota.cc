@@ -1,4 +1,5 @@
 #include "ota.h"
+#include "ota/minimal_updater.h"
 #include "system_info.h"
 #include "settings.h"
 #include "assets/lang_config.h"
@@ -247,6 +248,10 @@ esp_err_t Ota::CheckVersion() {
 }
 
 void Ota::MarkCurrentVersionValid() {
+    if (MinimalUpdater::IsValidationPendingOrFailed()) {
+        ESP_LOGW(TAG, "OTA_POST_UPDATE_MARK_VALID_DEFERRED pending custom validation");
+        return;
+    }
     auto partition = esp_ota_get_running_partition();
     if (strcmp(partition->label, "factory") == 0) {
         ESP_LOGI(TAG, "Running from factory partition, skipping");

@@ -6,6 +6,7 @@
 #include "system_info.h"
 
 #include <cJSON.h>
+#include <errno.h>
 #include <esp_app_desc.h>
 #include <esp_app_format.h>
 #include <esp_heap_caps.h>
@@ -22,6 +23,7 @@
 #include <cstring>
 #include <memory>
 #include <sys/stat.h>
+#include <unistd.h>
 #include <strings.h>
 #include <utility>
 
@@ -308,6 +310,26 @@ void ReportStagedUpdate() {
              cJSON_IsString(version) ? version->valuestring : "unknown",
              cJSON_IsNumber(size) ? static_cast<long long>(size->valuedouble) : 0LL);
     cJSON_Delete(root);
+}
+
+bool CleanupStagedFiles() {
+    struct CleanupFile {
+        const char* path;
+        const char* name;
+    };
+    constexpr CleanupFile files[] = {
+        {kFirmwarePath, "firmware.bin"},       {kStagedInfoPath, "staged-info.json"},
+        {kFirmwareTmp, "firmware.tmp"},        {kStagedInfoTmp, "staged-info.tmp"},
+        {kManifestPath, "manifest.json"},      {kManifestTmp, "manifest.tmp"},
+    };
+
+    bool success = true;
+    for (const auto& file : files) {
+        const bool removed = unlink(file.path) == 0 || errno == ENOENT;
+        ESP_LOGI(kTag, "OTA_CLEANUP_FILE %s status=%s", file.name, removed ? "pass" : "fail");
+        success = success && removed;
+    }
+    return success;
 }
 
 bool InstallStagedUpdate() {

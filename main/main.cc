@@ -32,11 +32,14 @@ extern "C" void app_main(void)
         }
     }
 
+    MinimalUpdater::ReportPendingVerification();
+
     SystemInfo::PrintRamSnapshot("BOOT");
     SystemInfo::StartPeriodicRamLog();
 
     // Initialize and run the application
     auto& app = Application::GetInstance();
     app.Initialize();
+    MinimalUpdater::ValidatePendingUpdate();
     app.Run();  // This function runs the main event loop and never returns
 }

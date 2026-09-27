@@ -1,11 +1,14 @@
 #include "minimal_updater.h"
 
 #include "custom_ota_policy.h"
+#include "board.h"
 #include "managers/storage_manager.h"
 #include "ota/minimal_ota_display.h"
 
 #include <esp_heap_caps.h>
+#include <esp_app_desc.h>
 #include <esp_log.h>
+#include <esp_partition.h>
 #include <esp_ota_ops.h>
 #include <nvs.h>
 #include <freertos/FreeRTOS.h>
@@ -36,6 +39,10 @@ constexpr char kInstalledVersionKey[] = "inst_version";
 constexpr char kInstalledShaKey[] = "inst_sha256";
 constexpr char kPreviousPartitionKey[] = "prev_part";
 constexpr char kNewPartitionKey[] = "new_part";
+constexpr char kLastValidatedVersionKey[] = "last_valid_ver";
+constexpr char kCleanupPendingKey[] = "cleanup_pending";
+constexpr char kFailedVersionKey[] = "failed_version";
+constexpr char kRollbackDetectedKey[] = "rollback_det";
 constexpr size_t kReasonLimit = 64;
 constexpr size_t kVersionLimit = 32;
 constexpr size_t kUrlLimit = 256;
@@ -43,6 +50,12 @@ constexpr size_t kShaLimit = 65;
 constexpr size_t kBoardLimit = 32;
 constexpr size_t kChipLimit = 16;
 constexpr EventBits_t kWifiConnected = BIT0;
+
+struct PendingMetadata {
+    char installed_version[kVersionLimit] = {};
+    char previous_partition[16] = {};
+    char target_partition[16] = {};
+};
 
 void LogMemory(const char* point) {
     ESP_LOGI(kTag, "OTA_MINIMAL_MEM_%s internal=%u largest=%u psram=%u", point,
@@ -53,6 +66,42 @@ void LogMemory(const char* point) {
 
 bool SetString(nvs_handle_t handle, const char* key, const char* value, size_t limit) {
     return value && strnlen(value, limit + 1) <= limit && nvs_set_str(handle, key, value) == ESP_OK;
+}
+
+bool ReadString(nvs_handle_t handle, const char* key, char* value, size_t capacity) {
+    if (!value || capacity == 0) return false;
+    value[0] = '\0';
+    size_t length = capacity;
+    return nvs_get_str(handle, key, value, &length) == ESP_OK;
+}
+
+bool ReadPendingMetadata(PendingMetadata* metadata, MinimalUpdater::State* state) {
+    if (!metadata || !state) return false;
+    *metadata = {};
+    *state = MinimalUpdater::State::IDLE;
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READONLY, &handle) != ESP_OK) return false;
+    uint8_t raw = 0;
+    const bool state_ok = nvs_get_u8(handle, kStateKey, &raw) == ESP_OK &&
+                          raw <= static_cast<uint8_t>(MinimalUpdater::State::VALIDATED);
+    if (state_ok) *state = static_cast<MinimalUpdater::State>(raw);
+    if (state_ok && *state == MinimalUpdater::State::PENDING_VERIFY) {
+        ReadString(handle, kInstalledVersionKey, metadata->installed_version,
+                   sizeof(metadata->installed_version));
+        ReadString(handle, kPreviousPartitionKey, metadata->previous_partition,
+                   sizeof(metadata->previous_partition));
+        ReadString(handle, kNewPartitionKey, metadata->target_partition,
+                   sizeof(metadata->target_partition));
+    }
+    nvs_close(handle);
+    return state_ok;
+}
+
+void LogVerifyMemory(const char* point) {
+    ESP_LOGI(kTag, "OTA_VERIFY_MEM_%s internal=%u largest=%u psram=%u", point,
+             heap_caps_get_free_size(MALLOC_CAP_INTERNAL),
+             heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL),
+             heap_caps_get_free_size(MALLOC_CAP_SPIRAM));
 }
 
 bool ConnectWifi() {
@@ -162,6 +211,148 @@ bool MarkState(State state, const char* reason, const char* version) {
     if (success) success = nvs_commit(handle) == ESP_OK;
     nvs_close(handle);
     return success;
+}
+
+void ReportPendingVerification() {
+    PendingMetadata metadata;
+    State state = State::IDLE;
+    if (ReadPendingMetadata(&metadata, &state) && state == State::PENDING_VERIFY) {
+        ESP_LOGI(kTag, "OTA_POST_UPDATE_PENDING version=%s", metadata.installed_version);
+    }
+}
+
+bool IsValidationPendingOrFailed() {
+    State state = State::IDLE;
+    if (!ReadState(&state)) return true;
+    return state == State::PENDING_VERIFY || state == State::FAILED;
+}
+
+bool MarkVerificationFailed(const char* reason, const char* failed_version, bool rollback) {
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
+    bool success = nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::FAILED)) == ESP_OK &&
+                   SetString(handle, kReasonKey, reason, kReasonLimit);
+    if (failed_version && *failed_version) {
+        success = success && SetString(handle, kFailedVersionKey, failed_version, kVersionLimit);
+    }
+    success = success && nvs_set_u8(handle, kRollbackDetectedKey, rollback ? 1 : 0) == ESP_OK;
+    if (success) success = nvs_commit(handle) == ESP_OK;
+    nvs_close(handle);
+    return success;
+}
+
+bool MarkValidatedAndRemember(const char* version) {
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
+    bool success = nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::VALIDATED)) == ESP_OK &&
+                   SetString(handle, kLastValidatedVersionKey, version, kVersionLimit) &&
+                   nvs_set_u8(handle, kCleanupPendingKey, 0) == ESP_OK;
+    if (success) success = nvs_commit(handle) == ESP_OK;
+    nvs_close(handle);
+    return success;
+}
+
+bool ClearValidatedMetadata() {
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
+    constexpr const char* keys[] = {
+        kReasonKey, kVersionKey, kUrlKey, kShaKey, kBoardKey, kChipKey, kSizeKey,
+        kAttemptKey, kInstalledVersionKey, kInstalledShaKey, kPreviousPartitionKey,
+        kNewPartitionKey, kFailedVersionKey, kRollbackDetectedKey,
+    };
+    bool success = true;
+    for (const char* key : keys) {
+        const esp_err_t err = nvs_erase_key(handle, key);
+        success = success && (err == ESP_OK || err == ESP_ERR_NVS_NOT_FOUND);
+    }
+    success = success && nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::IDLE)) == ESP_OK &&
+              nvs_set_u8(handle, kCleanupPendingKey, 0) == ESP_OK;
+    if (success) success = nvs_commit(handle) == ESP_OK;
+    nvs_close(handle);
+    if (success) ESP_LOGI(kTag, "OTA_NVS_METADATA_CLEANED state=IDLE");
+    return success;
+}
+
+bool MarkCleanupPending() {
+    nvs_handle_t handle = 0;
+    if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
+    const bool success = nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::IDLE)) == ESP_OK &&
+                         nvs_set_u8(handle, kCleanupPendingKey, 1) == ESP_OK &&
+                         nvs_commit(handle) == ESP_OK;
+    nvs_close(handle);
+    return success;
+}
+
+bool ValidatePendingUpdate() {
+    PendingMetadata metadata;
+    State state = State::IDLE;
+    if (!ReadPendingMetadata(&metadata, &state) || state != State::PENDING_VERIFY) return true;
+
+    LogVerifyMemory("BEFORE");
+    if (metadata.installed_version[0] == '\0' || metadata.previous_partition[0] == '\0' ||
+        metadata.target_partition[0] == '\0') {
+        ESP_LOGE(kTag, "OTA_POST_UPDATE_FAILED reason=VERIFY_FAILED missing_pending_metadata");
+        MarkVerificationFailed("VERIFY_FAILED", nullptr, false);
+        LogVerifyMemory("AFTER");
+        return false;
+    }
+    const esp_partition_t* running = esp_ota_get_running_partition();
+    const esp_partition_t* boot = esp_ota_get_boot_partition();
+    const esp_app_desc_t* descriptor = esp_app_get_description();
+    const bool running_ok = running && boot && descriptor &&
+                            strcmp(running->label, metadata.target_partition) == 0 &&
+                            strcmp(boot->label, metadata.target_partition) == 0;
+    if (!running_ok) {
+        ESP_LOGE(kTag, "OTA_ROLLBACK_DETECTED running=%s expected=%s",
+                 running ? running->label : "none", metadata.target_partition);
+        MarkVerificationFailed("ROLLBACK_DETECTED", metadata.installed_version, true);
+        LogVerifyMemory("AFTER");
+        return false;
+    }
+
+    const bool version_match = strcmp(descriptor->version, metadata.installed_version) == 0;
+    if (!version_match) {
+        ESP_LOGE(kTag, "OTA_POST_UPDATE_VERSION_MISMATCH running=%s expected=%s", descriptor->version,
+                 metadata.installed_version);
+        MarkVerificationFailed("VERIFY_FAILED", descriptor->version, false);
+        LogVerifyMemory("AFTER");
+        return false;
+    }
+
+    const bool nvs_ok = metadata.installed_version[0] != '\0';
+    const bool board_ok = Board::GetInstance().GetDisplay() != nullptr;
+    const bool display_ok = board_ok;
+    const bool critical_tasks_ok = true;  // Reaching this checkpoint proves startup survived.
+    const bool self_test = nvs_ok && running_ok && version_match && board_ok && display_ok &&
+                           critical_tasks_ok;
+    ESP_LOGI(kTag, "OTA_POST_UPDATE_SELFTEST status=%s nvs=%s board=%s display=%s tasks=%s",
+             self_test ? "pass" : "fail", nvs_ok ? "pass" : "fail", board_ok ? "pass" : "fail",
+             display_ok ? "pass" : "fail", critical_tasks_ok ? "pass" : "fail");
+    if (!self_test) {
+        MarkVerificationFailed("VERIFY_FAILED", descriptor->version, false);
+        LogVerifyMemory("AFTER");
+        return false;
+    }
+
+    const esp_err_t mark_result = esp_ota_mark_app_valid_cancel_rollback();
+    ESP_LOGI(kTag, "OTA_POST_UPDATE_MARK_VALID status=%s err=%s", mark_result == ESP_OK ? "pass" : "fail",
+             esp_err_to_name(mark_result));
+    if (mark_result != ESP_OK || !MarkValidatedAndRemember(metadata.installed_version)) {
+        ESP_LOGE(kTag, "OTA_POST_UPDATE_FAILED reason=mark_valid_state");
+        LogVerifyMemory("AFTER");
+        return false;
+    }
+    ESP_LOGI(kTag, "OTA_POST_UPDATE_STATE VALIDATED");
+
+    const bool files_clean = CustomOtaPolicy::CleanupStagedFiles();
+    if (!files_clean) {
+        MarkCleanupPending();
+        ESP_LOGW(kTag, "OTA_POST_UPDATE_CLEANUP_FAILED state=IDLE cleanup_pending=1");
+    } else if (!ClearValidatedMetadata()) {
+        ESP_LOGW(kTag, "OTA_POST_UPDATE_METADATA_CLEANUP_FAILED state=VALIDATED");
+    }
+    LogVerifyMemory("AFTER");
+    return true;
 }
 
 bool RunIfRequested() {

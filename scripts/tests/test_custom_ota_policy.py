@@ -40,6 +40,33 @@ def decode_github_contents_response(response: bytes) -> dict:
     return json.loads(decoded)
 
 
+def post_update_policy(version_match: bool, partition_match: bool, selftest_pass: bool,
+                       mark_valid_pass: bool, cleanup_pass: bool) -> dict:
+    """Small host model of the post-update state machine's safety contract."""
+    result = {"state": "PENDING_VERIFY", "marked_valid": False, "cleaned": False}
+    if not partition_match:
+        result["state"] = "FAILED"
+        result["reason"] = "ROLLBACK_DETECTED"
+        return result
+    if not version_match or not selftest_pass:
+        result["state"] = "FAILED"
+        result["reason"] = "VERIFY_FAILED"
+        return result
+    if not mark_valid_pass:
+        result["state"] = "FAILED"
+        result["reason"] = "MARK_VALID_FAILED"
+        return result
+    result["marked_valid"] = True
+    result["state"] = "VALIDATED"
+    if not cleanup_pass:
+        result["state"] = "IDLE"
+        result["cleanup_pending"] = True
+        return result
+    result["cleaned"] = True
+    result["state"] = "IDLE"
+    return result
+
+
 class CustomOtaPolicyTests(unittest.TestCase):
     def test_stable_versions_are_numeric_triplets_only(self):
         self.assertTrue(is_strict_stable_version("1.1.0"))
@@ -83,6 +110,63 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertNotIn("xTaskCreate", updater)
         self.assertIn("CustomOtaPolicy::InstallStagedUpdate", updater)
         self.assertIn("PENDING_VERIFY", updater)
+
+    def test_post_update_lifecycle_contract_and_ordering(self):
+        root = Path(__file__).parents[2]
+        main = (root / "main" / "main.cc").read_text(encoding="utf-8")
+        ota = (root / "main" / "ota.cc").read_text(encoding="utf-8")
+        updater = (root / "main" / "ota" / "minimal_updater.cc").read_text(encoding="utf-8")
+        policy = (root / "main" / "custom_ota_policy.cc").read_text(encoding="utf-8")
+        for marker in (
+            "OTA_POST_UPDATE_PENDING", "OTA_POST_UPDATE_SELFTEST",
+            "OTA_POST_UPDATE_MARK_VALID", "OTA_POST_UPDATE_STATE VALIDATED",
+            "OTA_ROLLBACK_DETECTED", "OTA_POST_UPDATE_VERSION_MISMATCH",
+            "OTA_NVS_METADATA_CLEANED",
+        ):
+            self.assertIn(marker, updater)
+        self.assertIn('LogVerifyMemory("BEFORE")', updater)
+        self.assertIn('LogVerifyMemory("AFTER")', updater)
+        self.assertIn("CleanupStagedFiles", updater)
+        self.assertIn("OTA_CLEANUP_FILE", policy)
+        self.assertLess(main.index("Application::GetInstance"),
+                        main.index("MinimalUpdater::ValidatePendingUpdate"))
+        self.assertLess(main.index("MinimalUpdater::ValidatePendingUpdate"), main.index("app.Run"))
+        validate = updater[updater.index("bool ValidatePendingUpdate") :]
+        self.assertLess(validate.index("esp_ota_mark_app_valid_cancel_rollback"),
+                        validate.index("CustomOtaPolicy::CleanupStagedFiles"))
+        self.assertLess(validate.index("CustomOtaPolicy::CleanupStagedFiles"),
+                        validate.index("ClearValidatedMetadata"))
+        guard = ota.index("MinimalUpdater::IsValidationPendingOrFailed")
+        mark = ota.index("esp_ota_mark_app_valid_cancel_rollback")
+        self.assertLess(guard, mark)
+
+    def test_post_update_failure_injection_policy(self):
+        cases = (
+            ("partition rollback", dict(version_match=True, partition_match=False,
+                                         selftest_pass=True, mark_valid_pass=True,
+                                         cleanup_pass=True), "FAILED", False, False),
+            ("version mismatch", dict(version_match=False, partition_match=True,
+                                       selftest_pass=True, mark_valid_pass=True,
+                                       cleanup_pass=True), "FAILED", False, False),
+            ("self test failure", dict(version_match=True, partition_match=True,
+                                        selftest_pass=False, mark_valid_pass=True,
+                                        cleanup_pass=True), "FAILED", False, False),
+            ("mark valid failure", dict(version_match=True, partition_match=True,
+                                         selftest_pass=True, mark_valid_pass=False,
+                                         cleanup_pass=True), "FAILED", False, False),
+            ("cleanup failure", dict(version_match=True, partition_match=True,
+                                      selftest_pass=True, mark_valid_pass=True,
+                                      cleanup_pass=False), "IDLE", True, False),
+            ("successful validation", dict(version_match=True, partition_match=True,
+                                            selftest_pass=True, mark_valid_pass=True,
+                                            cleanup_pass=True), "IDLE", True, True),
+        )
+        for name, inputs, state, marked_valid, cleaned in cases:
+            with self.subTest(name=name):
+                result = post_update_policy(**inputs)
+                self.assertEqual(result["state"], state)
+                self.assertEqual(result["marked_valid"], marked_valid)
+                self.assertEqual(result["cleaned"], cleaned)
 
     def test_github_contents_fixture_decodes_manifest(self):
         manifest = decode_github_contents_response(FIXTURE.read_bytes())
