@@ -371,6 +371,9 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
         ESP_LOGE(TAG, "Failed to add display");
         return;
     }
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+    lv_display_add_event_cb(display_, LcdDisplay::OnBootDisplayEvent, LV_EVENT_ALL, this);
+#endif
 
     if (offset_x != 0 || offset_y != 0) {
         lv_display_set_offset(display_, offset_x, offset_y);
@@ -1865,6 +1868,44 @@ void LcdDisplay::SetupUI() {
 }
 
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::NotifyBootContentChanged() {
+    DisplayLockGuard lock(this);
+    if (boot_overlay_ == nullptr) {
+        return;
+    }
+
+    // SetupUI may already have produced a frame before the initial assets,
+    // theme, and system message are installed. Make the boot overlay wait for
+    // the next complete render/flush pair so that the first exposed frame is
+    // the final initial UI instead of an intermediate one.
+    boot_frame_rendered_ = false;
+    boot_frame_flushed_ = false;
+    lv_obj_invalidate(lv_screen_active());
+    ESP_LOGI(TAG, "BOOT_ANIM_CONTENT_INVALIDATED");
+}
+
+void LcdDisplay::OnBootDisplayEvent(lv_event_t* event) {
+    auto* self = static_cast<LcdDisplay*>(lv_event_get_user_data(event));
+    if (self == nullptr || self->boot_overlay_ == nullptr) {
+        return;
+    }
+
+    const lv_event_code_t code = lv_event_get_code(event);
+    if (code == LV_EVENT_REFR_READY) {
+        if (!self->boot_frame_rendered_) {
+            self->boot_frame_rendered_ = true;
+            ESP_LOGI(TAG, "BOOT_ANIM_FRAME_RENDERED elapsed_ms=%lu",
+                     static_cast<unsigned long>(lv_tick_get() - self->boot_animation_started_ms_));
+        }
+    } else if (code == LV_EVENT_FLUSH_WAIT_FINISH && self->boot_frame_rendered_) {
+        if (!self->boot_frame_flushed_) {
+            self->boot_frame_flushed_ = true;
+            ESP_LOGI(TAG, "BOOT_ANIM_FRAME_FLUSHED elapsed_ms=%lu",
+                     static_cast<unsigned long>(lv_tick_get() - self->boot_animation_started_ms_));
+        }
+    }
+}
+
 void LcdDisplay::UpdateWeatherUI() {
     if (!weather_city_label_) return;
     const auto data = WeatherService::GetInstance().GetSnapshot();
@@ -1975,6 +2016,9 @@ void LcdDisplay::StartBootAnimation() {
     boot_min_wait_logged_ = false;
     boot_intro_logged_ = false;
     boot_exiting_ = false;
+    boot_frame_rendered_ = false;
+    boot_frame_flushed_ = false;
+    lv_obj_invalidate(screen);
     boot_animation_timer_ = lv_timer_create(
         [](lv_timer_t* timer) {
             auto display = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
@@ -2009,15 +2053,18 @@ void LcdDisplay::UpdateBootAnimation() {
         boot_min_wait_logged_ = true;
     }
 
+    const bool local_frame_ready = boot_frame_rendered_ && boot_frame_flushed_;
     if (!boot_exiting_ &&
-        ((connected && elapsed >= kBootMinimumDisplayMs) || elapsed >= kBootMaximumDisplayMs)) {
+        ((local_frame_ready && elapsed >= kBootMinimumDisplayMs) ||
+         elapsed >= kBootMaximumDisplayMs)) {
         boot_exiting_ = true;
         boot_exit_started_ms_ = now;
         for (int i = 0; i < kBootBarCount; ++i) {
             boot_exit_bar_heights_[i] = lv_obj_get_height(boot_bars_[i]);
         }
-        ESP_LOGI(TAG, "BOOT_ANIM_EXIT reason=%s elapsed_ms=%lu",
-                 connected ? "connected" : "timeout", static_cast<unsigned long>(elapsed));
+        const char* exit_reason = local_frame_ready ? "local_frame_ready" : "timeout";
+        ESP_LOGI(TAG, "BOOT_ANIM_EXIT reason=%s elapsed_ms=%lu", exit_reason,
+                 static_cast<unsigned long>(elapsed));
     }
 
     if (boot_exiting_) {
@@ -2028,10 +2075,16 @@ void LcdDisplay::UpdateBootAnimation() {
         }
         const int progress = exit_elapsed * 255 / kBootExitDurationMs;
         const int ring_size = 120 + exit_elapsed * 40 / kBootExitDurationMs;
-        lv_obj_set_style_opa(boot_overlay_, 255 - progress, 0);
+        // Keep the black backdrop opaque until the overlay is deleted. Fading
+        // the parent exposed the underlying UI through a translucent layer,
+        // which looked like a dim first render followed by a sharp redraw.
+        const int child_opa = 255 - progress;
+        lv_obj_set_style_opa(boot_ring_, child_opa, 0);
+        lv_obj_set_style_opa(boot_dot_, child_opa, 0);
         lv_obj_set_size(boot_ring_, ring_size, ring_size);
         lv_obj_center(boot_ring_);
         for (int i = 0; i < kBootBarCount; ++i) {
+            lv_obj_set_style_opa(boot_bars_[i], child_opa, 0);
             lv_obj_set_height(boot_bars_[i],
                               std::max(4, boot_exit_bar_heights_[i] * (255 - progress) / 255));
             lv_obj_align(boot_bars_[i], LV_ALIGN_CENTER, kBootBarXOffsets[i], 0);

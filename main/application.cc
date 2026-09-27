@@ -73,9 +73,17 @@ void Application::Initialize() {
     // Setup the display
     auto display = board.GetDisplay();
     display->SetupUI();
+    // Apply the bundled assets before the first visible UI frame.  Activation may
+    // re-apply them after an asset download, but a normal boot should not rebuild
+    // the screen after the startup overlay has already been removed.
+    auto& assets = Assets::GetInstance();
+    if (assets.partition_valid()) {
+        assets_applied_ = assets.Apply();
+    }
     SystemInfo::PrintRamSnapshot("AFTER_LVGL_INIT");
     // Print board name/version info
     display->SetChatMessage("system", SystemInfo::GetUserAgent().c_str());
+    display->NotifyBootContentChanged();
 
     // Setup the audio service
     auto codec = board.GetAudioCodec();
@@ -416,6 +424,7 @@ void Application::CheckAssetsVersion() {
     Settings settings("assets", true);
     // Check if there is a new assets need to be downloaded
     std::string download_url = settings.GetString("download_url");
+    bool assets_downloaded = false;
 
     if (!download_url.empty()) {
         settings.EraseKey("download_url");
@@ -449,10 +458,15 @@ void Application::CheckAssetsVersion() {
             SetDeviceState(kDeviceStateActivating);
             return;
         }
+        assets_downloaded = true;
     }
 
-    // Apply assets
-    assets.Apply();
+    // Apply assets.  The normal boot path already applied the current partition
+    // before the UI became visible; apply again only when a new partition was
+    // downloaded or the early apply failed.
+    if (!assets_applied_ || assets_downloaded) {
+        assets_applied_ = assets.Apply();
+    }
     display->SetChatMessage("system", "");
     display->SetEmotion("robot_2");
 }

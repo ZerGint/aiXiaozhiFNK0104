@@ -149,6 +149,9 @@ protected:
     bool boot_min_wait_logged_ = false;
     bool boot_intro_logged_ = false;
     bool boot_exiting_ = false;
+    bool boot_frame_rendered_ = false;
+    bool boot_frame_flushed_ = false;
+    static void OnBootDisplayEvent(lv_event_t* event);
     void StartBootAnimation();
     void UpdateBootAnimation();
     void DestroyBootAnimation();
@@ -208,6 +211,7 @@ public:
     virtual void ClearChatMessages() override;
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image) override;
     virtual void SetupUI() override;
+    virtual void NotifyBootContentChanged() override;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     virtual void UpdateStatusBar(bool update_all = false) override;
 #endif

@@ -53,6 +53,10 @@ public:
     virtual void ClearTextGlyphs() {}
     virtual void SetEmojiCollection(std::shared_ptr<EmojiCollection>) {}
     virtual void SetupUI() { setup_ui_called_ = true; }
+    // Notify a display that the initial content changed while the startup
+    // presentation is still active. Displays with a startup overlay can use
+    // this to wait for a fresh, fully rendered frame before dismissing it.
+    virtual void NotifyBootContentChanged() {}
     virtual void OnServerConnected() {}
 
     inline int width() const { return width_; }
