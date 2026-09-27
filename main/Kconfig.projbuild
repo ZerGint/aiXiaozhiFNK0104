@@ -14,6 +14,15 @@ config CUSTOM_OTA_DEV_REQUEST_UPDATE
         update metadata to NVS and reboots into the minimal updater.
         Keep disabled for production builds.
 
+config CUSTOM_OTA_ACCEPT_ANY_STABLE_FOR_TEST
+    bool "Development-only accept any valid stable manifest"
+    default n
+    help
+        DEVELOPMENT ONLY. MUST BE DISABLED BEFORE MERGING OTA INTO FINAL.
+        Permit discovery from beta builds and accept any newer/older valid
+        stable manifest for hardware acceptance. This does not download,
+        stage, or flash firmware in normal runtime.
+
 config ESP_VIDEO_USE_CUSTOMIZED_ESP_H264_VERSION
     bool
     default n

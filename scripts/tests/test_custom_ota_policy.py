@@ -15,6 +15,18 @@ def is_strict_stable_version(value: str) -> bool:
     return bool(VERSION_RE.fullmatch(value))
 
 
+def compare_triplets(left: str, right: str) -> int:
+    left_parts = tuple(int(part) for part in left.split("."))
+    right_parts = tuple(int(part) for part in right.split("."))
+    return (left_parts > right_parts) - (left_parts < right_parts)
+
+
+def discovery_result(current: str, remote: str, test_mode: bool) -> bool:
+    if not is_strict_stable_version(remote):
+        return False
+    return test_mode or compare_triplets(remote, current) > 0
+
+
 def decode_github_contents_response(response: bytes) -> dict:
     if len(response) > GITHUB_RESPONSE_LIMIT:
         raise ValueError("outer response too large")
@@ -34,6 +46,14 @@ class CustomOtaPolicyTests(unittest.TestCase):
         self.assertTrue(is_strict_stable_version("0.0.0"))
         for value in ("1.1.0_beta_ota_1", "v1.1.0", "1.1", "1.1.0+build", ""):
             self.assertFalse(is_strict_stable_version(value))
+
+    def test_production_and_test_discovery_ordering(self):
+        self.assertFalse(discovery_result("1.1.0", "1.1.0", False))
+        self.assertTrue(discovery_result("1.1.0", "1.1.1", False))
+        self.assertFalse(discovery_result("1.2.0", "1.1.0", False))
+        self.assertTrue(discovery_result("1.1.0", "1.1.0", True))
+        self.assertTrue(discovery_result("1.2.0", "1.1.0", True))
+        self.assertTrue(discovery_result("1.1.0_beta_ota_1", "1.1.0", True))
 
     def test_policy_has_no_install_path(self):
         root = Path(__file__).parents[2]

@@ -501,10 +501,14 @@ bool StageStableUpdateOnNetwork(NetworkInterface* network) {
 bool CheckForStableUpdate() {
     g_stable_update_metadata = {};
     const auto* descriptor = esp_app_get_description();
+#if CONFIG_CUSTOM_OTA_ACCEPT_ANY_STABLE_FOR_TEST
+    ESP_LOGW(kTag, "OTA_TEST_MODE_ENABLED");
+#else
     if (!ShouldCheckForUpdates(descriptor->version)) {
         ESP_LOGI(kTag, "OTA_POLICY_SKIP_NON_STABLE_VERSION current=%s", descriptor->version);
         return false;
     }
+#endif
     auto network = Board::GetInstance().GetNetwork();
     if (!network) return false;
     ESP_LOGI(kTag, "OTA_DISCOVERY_START");
@@ -540,8 +544,13 @@ bool CheckForStableUpdate() {
     strncpy(g_stable_update_metadata.chip, chip->valuestring,
             sizeof(g_stable_update_metadata.chip) - 1);
     ESP_LOGI(kTag, "OTA_VERSION_PARSE status=pass version=%s", g_stable_update_metadata.version);
+#if CONFIG_CUSTOM_OTA_ACCEPT_ANY_STABLE_FOR_TEST
+    g_stable_update_metadata.update_available = true;
+    ESP_LOGI(kTag, "OTA_TEST_ACCEPT_ANY_STABLE version=%s", g_stable_update_metadata.version);
+#else
     g_stable_update_metadata.update_available =
         CompareStableVersions(descriptor->version, g_stable_update_metadata.version) < 0;
+#endif
     ESP_LOGI(kTag, "OTA_UPDATE_AVAILABLE value=%d version=%s", g_stable_update_metadata.update_available,
              g_stable_update_metadata.version);
     cJSON_Delete(fields.root);

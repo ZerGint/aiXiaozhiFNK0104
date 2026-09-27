@@ -32,6 +32,7 @@
 
 #include "board.h"
 #include "application.h"
+#include "custom_ota_policy.h"
 #include "audio/audio_codec.h"
 #include "media/radio_browser.h"
 #include "media/sd_music_player.h"
@@ -2791,6 +2792,39 @@ void LcdDisplay::ToggleQuickSettings() {
     ESP_LOGW(TAG, "TOGGLE_QS exit open_after=%d nesting=%d", quick_settings_open_, after);
 }
 
+void LcdDisplay::SetOtaUpdateAvailable(bool available, const char* version) {
+    DisplayLockGuard lock(this);
+    if (!ota_update_row_ || !quick_settings_panel_) return;
+
+    const auto& metadata = CustomOtaPolicy::GetStableUpdateMetadata();
+    const bool valid = available && version != nullptr && version[0] != '\0' &&
+                       CustomOtaPolicy::IsUpdateAvailable() && metadata.version[0] != '\0' &&
+                       strcmp(metadata.version, version) == 0 && metadata.size > 0 &&
+                       metadata.sha256[0] != '\0' && metadata.url[0] != '\0' &&
+                       metadata.board[0] != '\0' && metadata.chip[0] != '\0';
+    if (!valid) {
+        lv_obj_add_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_height(quick_settings_panel_, 260);
+        ota_install_requested_ = false;
+        if (ota_update_button_) {
+            lv_obj_clear_state(ota_update_button_, LV_STATE_DISABLED);
+        }
+        if (ota_update_button_label_) lv_label_set_text(ota_update_button_label_, "Обновить");
+        ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW visible=0");
+        return;
+    }
+
+    lv_label_set_text_fmt(ota_update_version_label_, "Доступно обновление %s", version);
+    lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
+    // The existing four rows retain their positions and touch areas. The
+    // bounded extra row fits below them on the 480x320 FNK0104s display.
+    lv_obj_set_height(quick_settings_panel_, 310);
+    ota_install_requested_ = false;
+    lv_obj_clear_state(ota_update_button_, LV_STATE_DISABLED);
+    lv_label_set_text(ota_update_button_label_, "Обновить");
+    ESP_LOGI(TAG, "OTA_UI_UPDATE_ROW visible=1 version=%s", version);
+}
+
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 void LcdDisplay::UpdateAnimeFaceRuntimeState() {
     if (!anime_face_.IsInitialized()) return;
@@ -3513,6 +3547,61 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
     }, LV_EVENT_CLICKED, this);
 #endif
+
+    // OTA discovery action. It is hidden until the normal-runtime discovery
+    // pass has reported a complete, newer manifest. No network work starts
+    // when Quick Settings is opened.
+    ota_update_row_ = lv_obj_create(quick_settings_panel_);
+    lv_obj_set_size(ota_update_row_, 416, 45);
+    lv_obj_align(ota_update_row_, LV_ALIGN_TOP_MID, 0, 245);
+    lv_obj_set_style_bg_opa(ota_update_row_, LV_OPA_TRANSP, 0);
+    lv_obj_set_style_border_width(ota_update_row_, 0, 0);
+    lv_obj_set_style_pad_all(ota_update_row_, 0, 0);
+    lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_SCROLLABLE);
+    lv_obj_add_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
+
+    ota_update_version_label_ = lv_label_create(ota_update_row_);
+    lv_label_set_text(ota_update_version_label_, "Доступно обновление");
+    lv_obj_set_width(ota_update_version_label_, 270);
+    lv_label_set_long_mode(ota_update_version_label_, LV_LABEL_LONG_DOT);
+    set_quick_settings_font(ota_update_version_label_);
+    lv_obj_set_style_text_color(ota_update_version_label_, kText, 0);
+    lv_obj_align(ota_update_version_label_, LV_ALIGN_LEFT_MID, 4, 0);
+
+    ota_update_button_ = lv_btn_create(ota_update_row_);
+    lv_obj_set_size(ota_update_button_, 118, 40);
+    lv_obj_align(ota_update_button_, LV_ALIGN_RIGHT_MID, -4, 0);
+    lv_obj_set_style_radius(ota_update_button_, 10, 0);
+    lv_obj_set_style_bg_color(ota_update_button_, kAccent, 0);
+    lv_obj_set_style_border_width(ota_update_button_, 0, 0);
+    ota_update_button_label_ = lv_label_create(ota_update_button_);
+    lv_label_set_text(ota_update_button_label_, "Обновить");
+    set_quick_settings_font(ota_update_button_label_);
+    lv_obj_set_style_text_color(ota_update_button_label_, kBg, 0);
+    lv_obj_center(ota_update_button_label_);
+    lv_obj_add_event_cb(ota_update_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (!display || display->ota_install_requested_ ||
+            !CustomOtaPolicy::IsUpdateAvailable()) {
+            return;
+        }
+        const auto& metadata = CustomOtaPolicy::GetStableUpdateMetadata();
+        if (metadata.version[0] == '\0' || metadata.size == 0 || metadata.sha256[0] == '\0' ||
+            metadata.url[0] == '\0' || metadata.board[0] == '\0' || metadata.chip[0] == '\0') {
+            ESP_LOGW(TAG, "OTA_UI_INSTALL_REJECTED reason=invalid_metadata");
+            return;
+        }
+        display->ota_install_requested_ = true;
+        lv_obj_add_state(display->ota_update_button_, LV_STATE_DISABLED);
+        lv_label_set_text(display->ota_update_button_label_, "Перезагрузка...");
+        ESP_LOGI(TAG, "OTA_UI_INSTALL_TAP version=%s", metadata.version);
+        if (!CustomOtaPolicy::RequestFirmwareInstall()) {
+            display->ota_install_requested_ = false;
+            lv_obj_clear_state(display->ota_update_button_, LV_STATE_DISABLED);
+            lv_label_set_text(display->ota_update_button_label_, "Обновить");
+        }
+    }, LV_EVENT_CLICKED, this);
 }
 
 bool LcdDisplay::IsStationFavorite(const std::string& uuid) {

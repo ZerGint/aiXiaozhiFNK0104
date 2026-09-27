@@ -46,6 +46,8 @@ public:
     virtual void SetTheme(Theme* theme);
     virtual Theme* GetTheme() { return current_theme_; }
     virtual void UpdateStatusBar(bool update_all = false);
+    // Optional OTA discovery state for displays that expose an update action.
+    virtual void SetOtaUpdateAvailable(bool available, const char* version) {}
     virtual void SetPowerSaveMode(bool on);
     virtual bool AddTextGlyphs(const std::vector<TextGlyph>& glyphs, uint8_t bpp) { return false; }
     virtual void ClearTextGlyphs() {}
