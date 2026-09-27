@@ -71,6 +71,7 @@ private:
     static constexpr int kSadMouthFrameCount = 4;
     static constexpr int kAngryMouthFrameCount = 4;
     static constexpr int kHappyMouthFrameCount = 4;
+    static constexpr int kHappyEyeFrameCount = 3;
     // 28 ms per step; frame 4 is held for two steps (56 ms).
     static constexpr int kBlinkSequence[] = {0, 1, 2, 3, 4, 4, 3, 2, 1, 0};
 
@@ -78,7 +79,7 @@ private:
     lv_obj_t* iris_clip_[2] = {};
     lv_obj_t* iris_[2] = {};
     lv_obj_t* eyelid_[2][kEyelidFrameCount] = {};
-    lv_obj_t* eye_smile_[2] = {};
+    lv_obj_t* eye_smile_[2][kHappyEyeFrameCount] = {};
     lv_obj_t* brow_[2] = {};
     lv_obj_t* mouth_[kMouthFrameCount] = {};
     lv_obj_t* sad_mouth_[kSadMouthFrameCount] = {};
@@ -142,6 +143,7 @@ private:
     bool tears_visible_ = false;
     uint32_t tear_motion_started_ms_ = 0;
     bool eye_smile_visible_ = false;
+    int happy_eye_frame_ = 0;
     bool blush_visible_ = false;
     bool heart_visible_ = false;
     bool irritation_visible_ = false;
@@ -198,6 +200,9 @@ private:
     void FinishReaction(uint32_t now_ms);
     void UpdateEmotionDemo(uint32_t now_ms);
     int ExpressionMouthFrame() const;
+    int SpeakingEyelidFrame() const;
+    int EyelidRestFrame() const;
+    int HappyEyeFrameForSpeech() const;
     int SpeechMouthFrame(uint8_t level) const;
     static FaceExpression ExpressionFor(FaceEmotion emotion);
     static uint32_t RandomRange(uint32_t min_value, uint32_t max_value);

@@ -28,6 +28,10 @@ DECLARE_ASSET(anime_eyelid_right_3_png)
 DECLARE_ASSET(anime_eyelid_right_4_png)
 DECLARE_ASSET(anime_eye_smile_left_png)
 DECLARE_ASSET(anime_eye_smile_right_png)
+DECLARE_ASSET(anime_eye_smile_left_1_png)
+DECLARE_ASSET(anime_eye_smile_right_1_png)
+DECLARE_ASSET(anime_eye_smile_left_2_png)
+DECLARE_ASSET(anime_eye_smile_right_2_png)
 DECLARE_ASSET(anime_brow_left_png)
 DECLARE_ASSET(anime_brow_right_png)
 DECLARE_ASSET(anime_mouth_0_closed_png)
@@ -112,7 +116,12 @@ const Asset kEyelid[][5] = {
      ASSET(anime_eyelid_right_2_png), ASSET(anime_eyelid_right_3_png),
      ASSET(anime_eyelid_right_4_png)},
 };
-const Asset kEyeSmile[] = {ASSET(anime_eye_smile_left_png), ASSET(anime_eye_smile_right_png)};
+const Asset kEyeSmile[][3] = {
+    {ASSET(anime_eye_smile_left_png), ASSET(anime_eye_smile_left_1_png),
+     ASSET(anime_eye_smile_left_2_png)},
+    {ASSET(anime_eye_smile_right_png), ASSET(anime_eye_smile_right_1_png),
+     ASSET(anime_eye_smile_right_2_png)},
+};
 const Asset kBrow[] = {ASSET(anime_brow_left_png), ASSET(anime_brow_right_png)};
 const Asset kMouth[] = {
     ASSET(anime_mouth_0_closed_png), ASSET(anime_mouth_1_small_png),
@@ -209,6 +218,34 @@ int AnimeFace::ExpressionMouthFrame() const {
     case MouthExpression::Closed:
     default: return 0;
     }
+}
+
+int AnimeFace::SpeakingEyelidFrame() const {
+    // Keep positive emotions visible while the face is talking. The full
+    // curved smile eyelid is an idle/laugh pose and reads as closed eyes over
+    // a long speech segment.
+    switch (emotion_) {
+    case FaceEmotion::Happy:
+    case FaceEmotion::Playful:
+        return 1;
+    case FaceEmotion::Laughing:
+    case FaceEmotion::Love:
+        return 2;
+    default:
+        return base_eyelid_frame_;
+    }
+}
+
+int AnimeFace::EyelidRestFrame() const {
+    return application_state_ == ApplicationState::Speaking ? SpeakingEyelidFrame()
+                                                              : base_eyelid_frame_;
+}
+
+int AnimeFace::HappyEyeFrameForSpeech() const {
+    if (application_state_ != ApplicationState::Speaking) return 0;
+    // The first intermediate keeps the eyes open during active speech; the
+    // second is a softer half-closed pose for pauses and quiet syllables.
+    return speech_level_current_ >= 36 ? 1 : 2;
 }
 
 int AnimeFace::SpeechMouthFrame(uint8_t level) const {
@@ -358,11 +395,13 @@ void AnimeFace::ApplyEyeVisibility() {
                 lv_obj_add_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
             }
         }
-        if (eye_smile_[eye] != nullptr) {
-            if (show_smile) {
-                lv_obj_remove_flag(eye_smile_[eye], LV_OBJ_FLAG_HIDDEN);
-            } else {
-                lv_obj_add_flag(eye_smile_[eye], LV_OBJ_FLAG_HIDDEN);
+        for (int smile_frame = 0; smile_frame < kHappyEyeFrameCount; ++smile_frame) {
+            if (eye_smile_[eye][smile_frame] != nullptr) {
+                if (show_smile && smile_frame == happy_eye_frame_) {
+                    lv_obj_remove_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
+                } else {
+                    lv_obj_add_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
+                }
             }
         }
     }
@@ -545,9 +584,12 @@ bool AnimeFace::Initialize(lv_obj_t* parent, int screen_width, int screen_height
             SetImagePosition(eyelid_[eye][frame], kEyelidX[eye], kEyelidY);
         }
 
-        eye_smile_[eye] = lv_image_create(root_);
-        SetImage(eye_smile_[eye], kEyeSmile[eye].data, kEyeSmile[eye].size);
-        SetImagePosition(eye_smile_[eye], kEyelidX[eye], kEyelidY);
+        for (int smile_frame = 0; smile_frame < kHappyEyeFrameCount; ++smile_frame) {
+            eye_smile_[eye][smile_frame] = lv_image_create(root_);
+            SetImage(eye_smile_[eye][smile_frame], kEyeSmile[eye][smile_frame].data,
+                     kEyeSmile[eye][smile_frame].size);
+            SetImagePosition(eye_smile_[eye][smile_frame], kEyelidX[eye], kEyelidY);
+        }
 
         brow_[eye] = lv_image_create(root_);
         SetImage(brow_[eye], kBrow[eye].data, kBrow[eye].size);
@@ -614,6 +656,7 @@ bool AnimeFace::Initialize(lv_obj_t* parent, int screen_width, int screen_height
     SetImagePosition(sparkle_, kSparkleX, kSparkleY);
 
     eye_smile_visible_ = false;
+    happy_eye_frame_ = 0;
     SetEyelidFrame(0);
     special_mouth_ = SpecialMouth::None;
     SetTearsVisible(false);
@@ -644,6 +687,7 @@ void AnimeFace::SetNeutral() {
     base_eyelid_frame_ = expression_.base_eyelid_frame;
     special_mouth_ = SpecialMouth::None;
     eye_smile_visible_ = false;
+    happy_eye_frame_ = 0;
     ApplyEyeVisibility();
     SetTearsVisible(false);
     SetFaceOverlays(false, false, false, false, false);
@@ -676,6 +720,12 @@ void AnimeFace::SetApplicationState(ApplicationState state) {
         speech_mouth_rendering_ = false;
         next_mouth_ms_ = speech_state_enter_ms_;
         SetMouthFrame(expression_mouth_frame_);
+        happy_eye_frame_ = HappyEyeFrameForSpeech();
+        if (!blinking_ && !winking_) {
+            SetEyelidFrame(EyelidRestFrame());
+        } else {
+            ApplyEyeVisibility();
+        }
         ESP_LOGI(TAG, "SPEAKING_STATE_ENTER t=%u",
                  static_cast<unsigned>(speech_state_enter_ms_));
     } else if (previous == ApplicationState::Speaking) {
@@ -690,6 +740,12 @@ void AnimeFace::SetApplicationState(ApplicationState state) {
                      static_cast<unsigned>(last_speech_pcm_ms_));
         }
         SetMouthFrame(expression_mouth_frame_);
+        happy_eye_frame_ = HappyEyeFrameForSpeech();
+        if (!blinking_ && !winking_) {
+            SetEyelidFrame(EyelidRestFrame());
+        } else {
+            ApplyEyeVisibility();
+        }
         if (was_speech_mouth_rendering) {
             ESP_LOGI(TAG, "MOUTH_CLOSED t=%u", static_cast<unsigned>(lv_tick_get()));
             ESP_LOGI(TAG, "ANIME_FACE_MOUTH: stop");
@@ -726,7 +782,9 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
     } else {
         special_mouth_ = SpecialMouth::None;
     }
-    eye_smile_visible_ = emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
+    eye_smile_visible_ = emotion_ == FaceEmotion::Happy ||
+                          emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
+    happy_eye_frame_ = HappyEyeFrameForSpeech();
     ApplyEyeVisibility();
     SetTearsVisible(emotion_ == FaceEmotion::Crying);
     SetFaceOverlays(emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love ||
@@ -744,7 +802,7 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
     gaze_started_ms_ = lv_tick_get();
     gaze_transition_ms_ = 160;
     gaze_hold_until_ms_ = gaze_started_ms_ + 900;
-    if (!blinking_) SetEyelidFrame(base_eyelid_frame_);
+    if (!blinking_ && !winking_) SetEyelidFrame(EyelidRestFrame());
     if (!speech_mouth_rendering_ &&
         (application_state_ != ApplicationState::Speaking || speech_level_current_ <= 7)) {
         SetMouthFrame(expression_mouth_frame_);
@@ -774,7 +832,7 @@ void AnimeFace::PlayWink(bool left_eye, uint32_t duration_ms) {
     const int wink_eye = wink_left_eye_ ? 0 : 1;
     const int open_eye = wink_left_eye_ ? 1 : 0;
     SetEyelidFrameForEye(wink_eye, 0);
-    SetEyelidFrameForEye(open_eye, base_eyelid_frame_);
+    SetEyelidFrameForEye(open_eye, EyelidRestFrame());
     if (application_state_ != ApplicationState::Speaking && !speech_mouth_rendering_) {
         SetMouthFrame(0);
         SetWinkMouthPose(0, 0);
@@ -820,7 +878,7 @@ void AnimeFace::FinishReaction(uint32_t now_ms) {
     reaction_mouth_logged_ = false;
     SetBrowPose(application_state_);
     UpdateBrowTransition();
-    if (!blinking_) SetEyelidFrame(base_eyelid_frame_);
+    if (!blinking_) SetEyelidFrame(EyelidRestFrame());
 
     // Listening owns a centered gaze. Idle may resume its random gaze only after
     // a short hold, so the attention reaction does not snap away on its last frame.
@@ -954,12 +1012,14 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
             lv_obj_add_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
         }
     }
-    if (eye_smile_[eye] != nullptr) {
-        if (eye_smile_visible_ && !blinking_ && !winking_ &&
-            reaction_state_ == ReactionState::None) {
-            lv_obj_remove_flag(eye_smile_[eye], LV_OBJ_FLAG_HIDDEN);
-        } else {
-            lv_obj_add_flag(eye_smile_[eye], LV_OBJ_FLAG_HIDDEN);
+    for (int smile_frame = 0; smile_frame < kHappyEyeFrameCount; ++smile_frame) {
+        if (eye_smile_[eye][smile_frame] != nullptr) {
+            if (eye_smile_visible_ && !blinking_ && !winking_ &&
+                reaction_state_ == ReactionState::None && smile_frame == happy_eye_frame_) {
+                lv_obj_remove_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
+            } else {
+                lv_obj_add_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
+            }
         }
     }
 }
@@ -967,8 +1027,8 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
 void AnimeFace::StartBlink(uint32_t now_ms) {
     blinking_ = true;
     blink_started_ms_ = now_ms;
-    blink_frame_ = base_eyelid_frame_;
-    SetEyelidFrame(base_eyelid_frame_);
+    blink_frame_ = EyelidRestFrame();
+    SetEyelidFrame(EyelidRestFrame());
     ESP_LOGI(TAG, "ANIME_FACE_BLINK start gaze_x=%d", gaze_x_);
 }
 
@@ -1034,6 +1094,14 @@ void AnimeFace::UpdateMouth(uint32_t now_ms) {
         speech_level_current_ = static_cast<uint8_t>(speech_level_current_ - std::max<uint8_t>(1, delta / 3));
     }
 
+    if (eye_smile_visible_) {
+        const int desired_happy_eye_frame = HappyEyeFrameForSpeech();
+        if (desired_happy_eye_frame != happy_eye_frame_) {
+            happy_eye_frame_ = desired_happy_eye_frame;
+            ApplyEyeVisibility();
+        }
+    }
+
     if (now_ms < next_mouth_ms_) return;
     constexpr uint8_t kOpenThreshold = 12;
     constexpr uint8_t kCloseThreshold = 7;
@@ -1077,20 +1145,20 @@ void AnimeFace::UpdateBlink(uint32_t now_ms) {
     }
     const uint32_t elapsed = now_ms - blink_started_ms_;
     int sequence_index = static_cast<int>(elapsed / 28);
-    const int sequence_length = base_eyelid_frame_ == 2 ? 6 :
-                                (base_eyelid_frame_ == 1 ? 8 : 10);
+    const int rest_frame = EyelidRestFrame();
+    const int sequence_length = rest_frame == 2 ? 6 : (rest_frame == 1 ? 8 : 10);
     if (sequence_index >= sequence_length) {
         blinking_ = false;
-        SetEyelidFrame(base_eyelid_frame_);
+        SetEyelidFrame(rest_frame);
         next_blink_ms_ = now_ms + RandomRange(3000, 7000);
         ESP_LOGI(TAG, "ANIME_FACE_BLINK complete gaze_x=%d next_ms=%u", gaze_x_,
                  static_cast<unsigned>(next_blink_ms_ - now_ms));
         return;
     }
-    if (base_eyelid_frame_ == 2) {
+    if (rest_frame == 2) {
         static constexpr int kSleepyBlink[] = {2, 3, 4, 4, 3, 2};
         SetEyelidFrame(kSleepyBlink[sequence_index]);
-    } else if (base_eyelid_frame_ == 1) {
+    } else if (rest_frame == 1) {
         static constexpr int kRelaxedBlink[] = {1, 2, 3, 4, 4, 3, 2, 1};
         SetEyelidFrame(kRelaxedBlink[sequence_index]);
     } else {
@@ -1133,7 +1201,7 @@ void AnimeFace::UpdateWink(uint32_t now_ms) {
     }
     if (elapsed < wink_duration_ms_) {
         const uint32_t opening_elapsed = elapsed - close_ms - hold_ms;
-        const int frame = Interpolate(kEyelidFrameCount - 1, base_eyelid_frame_,
+        const int frame = Interpolate(kEyelidFrameCount - 1, EyelidRestFrame(),
                                       opening_elapsed, std::max<uint32_t>(1, open_ms));
         SetEyelidFrameForEye(wink_eye, frame);
         if (mouth_available) {
@@ -1146,7 +1214,7 @@ void AnimeFace::UpdateWink(uint32_t now_ms) {
         return;
     }
 
-    SetEyelidFrameForEye(wink_eye, base_eyelid_frame_);
+    SetEyelidFrameForEye(wink_eye, EyelidRestFrame());
     SetWinkMouthPose(0, 0);
     winking_ = false;
     ApplyEyeVisibility();
