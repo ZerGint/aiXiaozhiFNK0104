@@ -72,6 +72,7 @@ private:
     static constexpr int kAngryMouthFrameCount = 4;
     static constexpr int kHappyMouthFrameCount = 4;
     static constexpr int kHappyEyeFrameCount = 3;
+    static constexpr int kAngryEyeFrameCount = 4;
     // 28 ms per step; frame 4 is held for two steps (56 ms).
     static constexpr int kBlinkSequence[] = {0, 1, 2, 3, 4, 4, 3, 2, 1, 0};
     // Smile-eye blink uses only the smile assets. Frame 1 is open,
@@ -87,6 +88,7 @@ private:
     lv_obj_t* iris_[2] = {};
     lv_obj_t* eyelid_[2][kEyelidFrameCount] = {};
     lv_obj_t* eye_smile_[2][kHappyEyeFrameCount] = {};
+    lv_obj_t* angry_eye_[2][kAngryEyeFrameCount] = {};
     lv_obj_t* brow_[2] = {};
     lv_obj_t* mouth_[kMouthFrameCount] = {};
     lv_obj_t* sad_mouth_[kSadMouthFrameCount] = {};
@@ -103,9 +105,10 @@ private:
     lv_obj_t* irritation_ = nullptr;
     lv_obj_t* sparkle_ = nullptr;
     lv_obj_t* sweat_[2] = {};
+    lv_obj_t* horn_[2] = {};
     lv_obj_t* base_ = nullptr;
     lv_obj_t* eye_white_[2] = {};
-    lv_img_dsc_t descriptors_[56] = {};
+    lv_img_dsc_t descriptors_[64] = {};
     size_t descriptor_count_ = 0;
 
     int screen_width_ = 0;
@@ -151,11 +154,14 @@ private:
     uint32_t tear_motion_started_ms_ = 0;
     bool eye_smile_visible_ = false;
     int happy_eye_frame_ = 0;
+    bool angry_eye_visible_ = false;
+    int angry_eye_frame_ = 0;
     bool blush_visible_ = false;
     bool heart_visible_ = false;
     bool irritation_visible_ = false;
     bool sparkle_visible_ = false;
     bool sweat_visible_ = false;
+    bool horns_visible_ = false;
     uint32_t next_mouth_ms_ = 0;
     bool mouth_animating_ = false;
     uint8_t speech_level_target_ = 0;
@@ -194,6 +200,7 @@ private:
     void ApplyMouthVisibility();
     void SetTearsVisible(bool visible);
     void UpdateTears(uint32_t now_ms);
+    void SetHornsVisible(bool visible);
     void SetFaceOverlays(bool blush, bool heart, bool irritation, bool sparkle, bool sweat);
     void SetBrowPose(ApplicationState state);
     void UpdateBrowTransition();

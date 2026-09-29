@@ -32,6 +32,14 @@ DECLARE_ASSET(anime_eye_smile_left_1_png)
 DECLARE_ASSET(anime_eye_smile_right_1_png)
 DECLARE_ASSET(anime_eye_smile_left_2_png)
 DECLARE_ASSET(anime_eye_smile_right_2_png)
+DECLARE_ASSET(anime_eye_angry2_blink_left_1_png)
+DECLARE_ASSET(anime_eye_angry2_blink_left_2_png)
+DECLARE_ASSET(anime_eye_angry2_blink_left_3_png)
+DECLARE_ASSET(anime_eye_angry2_blink_left_4_png)
+DECLARE_ASSET(anime_eye_angry2_blink_right_1_png)
+DECLARE_ASSET(anime_eye_angry2_blink_right_2_png)
+DECLARE_ASSET(anime_eye_angry2_blink_right_3_png)
+DECLARE_ASSET(anime_eye_angry2_blink_right_4_png)
 DECLARE_ASSET(anime_brow_left_png)
 DECLARE_ASSET(anime_brow_right_png)
 DECLARE_ASSET(anime_mouth_0_closed_png)
@@ -65,6 +73,8 @@ DECLARE_ASSET(anime_effect_irritation_png)
 DECLARE_ASSET(anime_effect_sparkle_png)
 DECLARE_ASSET(anime_effect_sweat_left_png)
 DECLARE_ASSET(anime_effect_sweat_right_png)
+DECLARE_ASSET(anime_effect_horn_left_png)
+DECLARE_ASSET(anime_effect_horn_right_png)
 
 namespace {
 constexpr char TAG[] = "AnimeFace";
@@ -85,6 +95,8 @@ constexpr int kIrisX[] = {60, 139};
 constexpr int kIrisY = 99;
 constexpr int kEyelidX[] = {44, 138};
 constexpr int kEyelidY = 88;
+constexpr int kHornX[] = {30, 188};
+constexpr int kHornY = 42;
 constexpr int kBrowX[] = {47, 137};
 constexpr int kBrowY = 69;
 constexpr int kMouthX = 103;
@@ -122,6 +134,16 @@ const Asset kEyeSmile[][3] = {
     {ASSET(anime_eye_smile_right_png), ASSET(anime_eye_smile_right_1_png),
      ASSET(anime_eye_smile_right_2_png)},
 };
+const Asset kAngryEye[][4] = {
+    {ASSET(anime_eye_angry2_blink_left_1_png),
+     ASSET(anime_eye_angry2_blink_left_2_png),
+     ASSET(anime_eye_angry2_blink_left_3_png),
+     ASSET(anime_eye_angry2_blink_left_4_png)},
+    {ASSET(anime_eye_angry2_blink_right_1_png),
+     ASSET(anime_eye_angry2_blink_right_2_png),
+     ASSET(anime_eye_angry2_blink_right_3_png),
+     ASSET(anime_eye_angry2_blink_right_4_png)},
+};
 const Asset kBrow[] = {ASSET(anime_brow_left_png), ASSET(anime_brow_right_png)};
 const Asset kMouth[] = {
     ASSET(anime_mouth_0_closed_png), ASSET(anime_mouth_1_small_png),
@@ -151,6 +173,7 @@ const Asset kSweat[] = {ASSET(anime_effect_sweat_left_png), ASSET(anime_effect_s
 const Asset kHeart = ASSET(anime_effect_heart_png);
 const Asset kIrritation = ASSET(anime_effect_irritation_png);
 const Asset kSparkle = ASSET(anime_effect_sparkle_png);
+const Asset kHorn[] = {ASSET(anime_effect_horn_left_png), ASSET(anime_effect_horn_right_png)};
 
 void LogMemory(const char* marker) {
     ESP_LOGI(TAG,
@@ -382,9 +405,11 @@ void AnimeFace::ApplyEyeVisibility() {
     // through the smile-eye assets.
     const bool show_smile = eye_smile_visible_ && !winking_ &&
                             reaction_state_ == ReactionState::None;
+    const bool show_angry = angry_eye_visible_ && !winking_ &&
+                            reaction_state_ == ReactionState::None;
     for (int eye = 0; eye < 2; ++eye) {
         for (int candidate = 0; candidate < kEyelidFrameCount; ++candidate) {
-            const bool show = !show_smile && candidate == blink_frame_;
+            const bool show = !show_smile && !show_angry && candidate == blink_frame_;
             if (show) {
                 lv_obj_remove_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
             } else {
@@ -397,6 +422,15 @@ void AnimeFace::ApplyEyeVisibility() {
                     lv_obj_remove_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
                 } else {
                     lv_obj_add_flag(eye_smile_[eye][smile_frame], LV_OBJ_FLAG_HIDDEN);
+                }
+            }
+        }
+        for (int angry_frame = 0; angry_frame < kAngryEyeFrameCount; ++angry_frame) {
+            if (angry_eye_[eye][angry_frame] != nullptr) {
+                if (show_angry && angry_frame == angry_eye_frame_) {
+                    lv_obj_remove_flag(angry_eye_[eye][angry_frame], LV_OBJ_FLAG_HIDDEN);
+                } else {
+                    lv_obj_add_flag(angry_eye_[eye][angry_frame], LV_OBJ_FLAG_HIDDEN);
                 }
             }
         }
@@ -587,6 +621,13 @@ bool AnimeFace::Initialize(lv_obj_t* parent, int screen_width, int screen_height
             SetImagePosition(eye_smile_[eye][smile_frame], kEyelidX[eye], kEyelidY);
         }
 
+        for (int angry_frame = 0; angry_frame < kAngryEyeFrameCount; ++angry_frame) {
+            angry_eye_[eye][angry_frame] = lv_image_create(root_);
+            SetImage(angry_eye_[eye][angry_frame], kAngryEye[eye][angry_frame].data,
+                     kAngryEye[eye][angry_frame].size);
+            SetImagePosition(angry_eye_[eye][angry_frame], kEyelidX[eye], kEyelidY);
+        }
+
         brow_[eye] = lv_image_create(root_);
         SetImage(brow_[eye], kBrow[eye].data, kBrow[eye].size);
         SetImagePosition(brow_[eye], kBrowX[eye], kBrowY);
@@ -650,12 +691,20 @@ bool AnimeFace::Initialize(lv_obj_t* parent, int screen_width, int screen_height
     sparkle_ = lv_image_create(root_);
     SetImage(sparkle_, kSparkle.data, kSparkle.size);
     SetImagePosition(sparkle_, kSparkleX, kSparkleY);
+    for (int eye = 0; eye < 2; ++eye) {
+        horn_[eye] = lv_image_create(root_);
+        SetImage(horn_[eye], kHorn[eye].data, kHorn[eye].size);
+        SetImagePosition(horn_[eye], kHornX[eye], kHornY);
+    }
 
     eye_smile_visible_ = false;
     happy_eye_frame_ = 0;
+    angry_eye_visible_ = false;
+    angry_eye_frame_ = 0;
     SetEyelidFrame(0);
     special_mouth_ = SpecialMouth::None;
     SetTearsVisible(false);
+    SetHornsVisible(false);
     SetFaceOverlays(false, false, false, false, false);
     SetMouthFrame(0);
     SetBrowPose(ApplicationState::Idle);
@@ -684,8 +733,11 @@ void AnimeFace::SetNeutral() {
     special_mouth_ = SpecialMouth::None;
     eye_smile_visible_ = false;
     happy_eye_frame_ = 0;
+    angry_eye_visible_ = false;
+    angry_eye_frame_ = 0;
     ApplyEyeVisibility();
     SetTearsVisible(false);
+    SetHornsVisible(false);
     SetFaceOverlays(false, false, false, false, false);
     application_state_ = ApplicationState::Idle;
     mouth_animating_ = false;
@@ -778,6 +830,8 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
     }
     eye_smile_visible_ = emotion_ == FaceEmotion::Happy ||
                           emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love;
+    angry_eye_visible_ = emotion_ == FaceEmotion::Angry;
+    angry_eye_frame_ = 0;
     // Happy rests open. Laughing rests slightly closed; love starts closed
     // and uses its own periodic opening sequence.
     const bool laughing_smile = emotion_ == FaceEmotion::Laughing;
@@ -787,6 +841,7 @@ void AnimeFace::SetEmotion(FaceEmotion emotion) {
                            : 0;
     ApplyEyeVisibility();
     SetTearsVisible(emotion_ == FaceEmotion::Crying);
+    SetHornsVisible(angry_eye_visible_);
     SetFaceOverlays(emotion_ == FaceEmotion::Laughing || emotion_ == FaceEmotion::Love ||
                         emotion_ == FaceEmotion::Shy,
                     emotion_ == FaceEmotion::Love, emotion_ == FaceEmotion::Angry,
@@ -1006,6 +1061,7 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
         if ((explicit_wink_frame ||
              (!eye_smile_visible_ && !blinking_ &&
               reaction_state_ == ReactionState::None)) &&
+            !angry_eye_visible_ &&
             candidate == frame) {
             lv_obj_remove_flag(eyelid_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
         } else {
@@ -1022,12 +1078,24 @@ void AnimeFace::SetEyelidFrameForEye(int eye, int frame) {
             }
         }
     }
+    const int angry_frame = std::min(frame, kAngryEyeFrameCount - 1);
+    for (int candidate = 0; candidate < kAngryEyeFrameCount; ++candidate) {
+        if (angry_eye_[eye][candidate] != nullptr &&
+            angry_eye_visible_ && winking_ && candidate == angry_frame) {
+            lv_obj_remove_flag(angry_eye_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
+        } else if (angry_eye_[eye][candidate] != nullptr) {
+            lv_obj_add_flag(angry_eye_[eye][candidate], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
 }
 
 void AnimeFace::StartBlink(uint32_t now_ms) {
     blinking_ = true;
     blink_started_ms_ = now_ms;
-    if (eye_smile_visible_) {
+    if (angry_eye_visible_) {
+        angry_eye_frame_ = 0;
+        ApplyEyeVisibility();
+    } else if (eye_smile_visible_) {
         happy_eye_frame_ = emotion_ == FaceEmotion::Love ? 0 :
                            (emotion_ == FaceEmotion::Laughing ? 2 : 1);
         ApplyEyeVisibility();
@@ -1036,6 +1104,18 @@ void AnimeFace::StartBlink(uint32_t now_ms) {
         SetEyelidFrame(EyelidRestFrame());
     }
     ESP_LOGI(TAG, "ANIME_FACE_BLINK start gaze_x=%d", gaze_x_);
+}
+
+void AnimeFace::SetHornsVisible(bool visible) {
+    horns_visible_ = visible;
+    for (lv_obj_t* object : horn_) {
+        if (object == nullptr) continue;
+        if (horns_visible_) {
+            lv_obj_remove_flag(object, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            lv_obj_add_flag(object, LV_OBJ_FLAG_HIDDEN);
+        }
+    }
 }
 
 void AnimeFace::UpdateGaze(uint32_t now_ms) {
@@ -1143,6 +1223,23 @@ void AnimeFace::UpdateBlink(uint32_t now_ms) {
     }
     const uint32_t elapsed = now_ms - blink_started_ms_;
     int sequence_index = static_cast<int>(elapsed / 28);
+    if (angry_eye_visible_) {
+        static constexpr int kAngryEyeBlinkSequence[] = {0, 1, 2, 3, 3, 2, 1, 0};
+        constexpr int kSequenceLength =
+            sizeof(kAngryEyeBlinkSequence) / sizeof(kAngryEyeBlinkSequence[0]);
+        if (sequence_index >= kSequenceLength) {
+            blinking_ = false;
+            angry_eye_frame_ = 0;
+            ApplyEyeVisibility();
+            next_blink_ms_ = now_ms + RandomRange(3000, 7000);
+            ESP_LOGI(TAG, "ANIME_FACE_BLINK complete gaze_x=%d next_ms=%u", gaze_x_,
+                     static_cast<unsigned>(next_blink_ms_ - now_ms));
+            return;
+        }
+        angry_eye_frame_ = kAngryEyeBlinkSequence[sequence_index];
+        ApplyEyeVisibility();
+        return;
+    }
     if (eye_smile_visible_) {
         const int* blink_sequence = kHappyEyeBlinkSequence;
         size_t blink_sequence_length = sizeof(kHappyEyeBlinkSequence) /
