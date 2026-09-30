@@ -1,0 +1,7 @@
+config.json
+jobs.json
+generated/
+logs/
+.venv/
+__pycache__/
+*.pyc

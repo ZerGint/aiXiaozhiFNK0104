@@ -1,0 +1,5 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+requests>=2.31,<3
+gradio_client>=1.10,<2
+pydantic>=2.7,<3
