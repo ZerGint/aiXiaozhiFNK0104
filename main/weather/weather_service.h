@@ -51,6 +51,7 @@ public:
     void Tick();
     bool Refresh(const char* reason);
     WeatherData GetSnapshot() const;
+    void RegisterMcpTool();
 
     static WeatherIcon IconForCode(int code);
     static const char* DescriptionForCode(int code);

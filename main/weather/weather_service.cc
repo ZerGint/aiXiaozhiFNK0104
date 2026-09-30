@@ -1,6 +1,7 @@
 #include "weather_service.h"
 
 #include "board.h"
+#include "mcp_server.h"
 #include "media/internet_radio_player.h"
 #include <cJSON.h>
 #include <esp_heap_caps.h>
@@ -171,6 +172,49 @@ const WeatherLocation kFnkWeatherLocation = {54.3520f, 18.6466f, "Гданьск
 WeatherService& WeatherService::GetInstance() {
     static WeatherService instance;
     return instance;
+}
+
+void WeatherService::RegisterMcpTool() {
+    McpServer::GetInstance().AddTool(
+        "weather.get_current",
+        "Returns the current weather data already cached by this device and shown in its weather UI. "
+        "Use it when the user asks about the current local weather. This tool does not perform a new "
+        "internet request or refresh the weather data; use the returned timestamp and age to describe "
+        "how current the result is.",
+        PropertyList(),
+        [this](const PropertyList&) -> ReturnValue {
+            const WeatherData data = GetSnapshot();
+            if (!data.valid) {
+                ESP_LOGI(kTag, "WEATHER_MCP_CALL valid=0");
+                cJSON* result = cJSON_CreateObject();
+                cJSON_AddBoolToObject(result, "valid", false);
+                cJSON_AddStringToObject(result, "reason", "weather_not_available");
+                return result;
+            }
+
+            const time_t now = time(nullptr);
+            const int64_t age_seconds =
+                now >= data.last_successful_update ? now - data.last_successful_update : 0;
+            const bool stale = data.stale || data.last_request_failed;
+            ESP_LOGI(kTag, "WEATHER_MCP_CALL valid=1 stale=%d age_seconds=%lld",
+                     stale ? 1 : 0, static_cast<long long>(age_seconds));
+
+            cJSON* result = cJSON_CreateObject();
+            cJSON_AddBoolToObject(result, "valid", true);
+            cJSON_AddStringToObject(result, "location", kFnkWeatherLocation.name);
+            cJSON_AddNumberToObject(result, "temperature_c", data.current.temperature);
+            cJSON_AddNumberToObject(result, "wind_speed_mps", data.current.wind_speed);
+            cJSON_AddNumberToObject(result, "wind_direction_deg", data.current.wind_direction);
+            cJSON_AddNumberToObject(result, "weather_code", data.current.weather_code);
+            cJSON_AddStringToObject(result, "condition",
+                                    DescriptionForCode(data.current.weather_code));
+            cJSON_AddBoolToObject(result, "is_day", data.current.is_day);
+            cJSON_AddNumberToObject(result, "updated_at",
+                                    static_cast<double>(data.last_successful_update));
+            cJSON_AddNumberToObject(result, "age_seconds", static_cast<double>(age_seconds));
+            cJSON_AddBoolToObject(result, "stale", stale);
+            return result;
+        });
 }
 
 void WeatherService::Initialize() {

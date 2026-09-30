@@ -19,6 +19,7 @@
 #include "home_assistant.h"
 #include "storage_manager.h"
 #include "media/radio_browser.h"
+#include "weather/weather_service.h"
 
 #include <esp_log.h>
 #include <driver/i2c_master.h>
@@ -292,6 +293,7 @@ private:
         StorageManager::GetInstance().InitializeSdCard();
         HomeAssistant::GetInstance().Initialize();
         RadioBrowser::GetInstance().RegisterMcpTools();
+        WeatherService::GetInstance().RegisterMcpTool();
     }
 
 public:
