@@ -1,6 +1,7 @@
 config.json
 jobs.json
 generated/
+library/
 logs/
 .venv/
 __pycache__/

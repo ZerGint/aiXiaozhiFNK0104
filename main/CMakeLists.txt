@@ -65,6 +65,7 @@ set(SOURCES "audio/audio_codec.cc"
 
 if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
     list(APPEND SOURCES "weather/weather_service.cc")
+    list(APPEND SOURCES "music/music_bridge_client.cc" "music/music_service.cc")
 endif()
 
 set(INCLUDE_DIRS "." "display" "display/lvgl_display" "display/lvgl_display/jpg" "audio" "audio/demuxer" "protocols" "managers")
@@ -1097,6 +1098,7 @@ endif()
 if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
     list(APPEND MAIN_PRIV_REQUIRES_EXTRA
         esp_http_server
+        mdns
     )
 endif()
 idf_component_register(SRCS ${SOURCES}

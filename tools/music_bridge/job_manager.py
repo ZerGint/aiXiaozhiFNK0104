@@ -9,7 +9,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Callable
 
+from mutagen.id3 import COMM, ID3, TALB, TCON, TIT2, TPE1, TXXX, USLT
+from mutagen.mp3 import MP3
+
 from .config import BridgeConfig
+from .library import MusicLibrary, track_filename
 from .models import JobRecord, JobStatus
 from .wangp_client import WanGPClient
 
@@ -18,10 +22,15 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+DEFAULT_ARTIST = "Kira AI"
+DEFAULT_ALBUM = "AI Generated"
+
+
 class JobManager:
     def __init__(self, config: BridgeConfig):
         self.config = config
         self.client = WanGPClient(config.wan_gp_url, config.poll_interval_sec)
+        self.library = MusicLibrary(config.library_dir)
         self._jobs: dict[str, JobRecord] = {}
         self._lock = threading.RLock()
         self._queue: queue.Queue[str | None] = queue.Queue()
@@ -53,7 +62,14 @@ class JobManager:
         temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
         temporary.replace(self.config.jobs_path)
 
-    def create(self, title: str, style: str, lyrics: str, provider: str) -> JobRecord:
+    def create(
+        self,
+        title: str,
+        style: str,
+        lyrics: str,
+        provider: str,
+        duration_seconds: int | None = None,
+    ) -> JobRecord:
         if provider.lower() != "yue2":
             raise ValueError("Only provider 'yue2' is supported")
         now = utc_now()
@@ -63,6 +79,7 @@ class JobManager:
             style=style,
             lyrics=lyrics,
             provider="yue2",
+            duration_seconds=duration_seconds,
             created_at=now,
             updated_at=now,
         )
@@ -102,7 +119,10 @@ class JobManager:
             self._queue.task_done()
 
     def _process(self, job: JobRecord) -> None:
+        if job.status is JobStatus.READY and self.audio_path(job.job_id) is not None:
+            return
         try:
+            duration_seconds = job.duration_seconds or self.config.audio_duration
             self._update(job, status=JobStatus.SUBMITTING, progress="Applying YuE2 settings")
 
             def progress(text: str) -> None:
@@ -113,7 +133,7 @@ class JobManager:
                 style=job.style,
                 lyrics=job.lyrics,
                 submission_id=f"bridge_{job.job_id}",
-                duration_seconds=self.config.audio_duration,
+                duration_seconds=duration_seconds,
                 timeout=self.config.generation_timeout_sec,
                 callback=progress,
             )
@@ -124,19 +144,51 @@ class JobManager:
             self._update(job, wan_gp_gallery_id=str(item.get("id", "")), wav_path=str(wav_path))
 
             self._update(job, status=JobStatus.CONVERTING, progress="Converting WAV to MP3")
-            mp3_path = self.config.generated_dir / f"{job.job_id}.mp3"
-            self._convert(wav_path, mp3_path)
-            size = mp3_path.stat().st_size
+            # Keep the .mp3 suffix because ffmpeg infers the output muxer
+            # from the final extension.  A name ending in .mp3.tmp is
+            # treated as an unknown output format on Windows.
+            temporary_mp3 = self.config.generated_dir / f".{job.job_id}.tmp.mp3"
+            self._convert(wav_path, temporary_mp3)
+            size = temporary_mp3.stat().st_size
             if size <= 0:
                 raise RuntimeError("ffmpeg produced an empty MP3")
+            technical = self._tag_and_inspect(job, temporary_mp3)
+            filename = track_filename(job.title, job.job_id)
+            final_path = self.config.library_dir / filename
+            temporary_mp3.replace(final_path)
+            ready_at = utc_now()
+            track = {
+                "id": job.job_id,
+                "title": job.title,
+                "style": job.style,
+                "lyrics": job.lyrics,
+                "provider": job.provider,
+                "duration_seconds": duration_seconds,
+                "filename": filename,
+                "format": "mp3",
+                "size": size,
+                "duration": technical["duration"],
+                "sample_rate": technical["sample_rate"],
+                "channels": technical["channels"],
+                "bitrate": technical["bitrate"],
+                "created_at": job.created_at,
+                "ready_at": ready_at,
+            }
+            if self.config.keep_wav:
+                track["source_wav"] = str(wav_path)
+            self.library.upsert(track)
             if not self.config.keep_wav:
                 wav_path.unlink(missing_ok=True)
             self._update(
                 job,
                 status=JobStatus.READY,
                 progress="Ready",
-                mp3_path=str(mp3_path),
+                mp3_path=str(final_path),
                 mp3_size=size,
+                mp3_duration=technical["duration"],
+                filename=filename,
+                ready_at=ready_at,
+                sidecar_path=str(self.config.library_dir / f"{Path(filename).stem}.json"),
             )
         except Exception as error:  # worker must keep serving the API
             self._update(job, status=JobStatus.FAILED, progress="", error=str(error))
@@ -153,6 +205,29 @@ class JobManager:
         result = subprocess.run(command, capture_output=True, text=True, timeout=300)
         if result.returncode != 0:
             raise RuntimeError(f"ffmpeg failed: {result.stderr[-1000:]}")
+
+    def _tag_and_inspect(self, job: JobRecord, mp3_path: Path) -> dict[str, float | int | None]:
+        tags = ID3()
+        tags.add(TIT2(encoding=3, text=job.title))
+        tags.add(TPE1(encoding=3, text=DEFAULT_ARTIST))
+        tags.add(TALB(encoding=3, text=DEFAULT_ALBUM))
+        tags.add(TCON(encoding=3, text=DEFAULT_ALBUM))
+        tags.add(COMM(encoding=3, lang="und", desc="", text="Generated with YuE2"))
+        tags.add(TXXX(encoding=3, desc="JOB_ID", text=job.job_id))
+        tags.add(TXXX(encoding=3, desc="PROVIDER", text=job.provider))
+        tags.add(TXXX(encoding=3, desc="STYLE", text=job.style))
+        if job.lyrics.strip():
+            tags.add(USLT(encoding=3, lang="und", desc="", text=job.lyrics))
+        tags.save(mp3_path)
+
+        audio = MP3(mp3_path)
+        info = audio.info
+        return {
+            "duration": float(info.length) if info.length is not None else None,
+            "sample_rate": int(info.sample_rate) if info.sample_rate else 0,
+            "channels": int(info.channels) if info.channels else 0,
+            "bitrate": int(info.bitrate) if info.bitrate else 0,
+        }
 
     def shutdown(self) -> None:
         self._stop.set()

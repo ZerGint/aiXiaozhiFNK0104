@@ -1,0 +1,51 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <string>
+
+struct MusicGenerateResult {
+    bool success = false;
+    std::string job_id;
+    std::string status;
+    std::string error;
+};
+
+struct MusicJobStatus {
+    bool success = false;
+    std::string job_id;
+    std::string status;
+    std::string title;
+    std::string progress;
+    std::string audio_url;
+    std::string format;
+    size_t size = 0;
+    std::string error;
+};
+
+class MusicBridgeClient {
+public:
+    static constexpr size_t kMaxUrlLength = 256;
+    static constexpr size_t kMaxJobIdLength = 64;
+    static constexpr uint32_t kRequestTimeoutMs = 8000;
+
+    bool Submit(const std::string& base_url,
+                const std::string& title,
+                const std::string& style,
+                const std::string& lyrics,
+                const std::string& provider,
+                int duration_seconds,
+                MusicGenerateResult& result) const;
+    bool GetJob(const std::string& base_url,
+                const std::string& job_id,
+                MusicJobStatus& result) const;
+    bool Health(const std::string& base_url, std::string& error) const;
+
+private:
+    bool Request(const std::string& url,
+                 int method,
+                 const std::string& post_data,
+                 int& status_code,
+                 std::string& response_body,
+                 std::string& error) const;
+};

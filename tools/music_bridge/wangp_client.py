@@ -53,6 +53,23 @@ class WanGPClient:
         if values.get("song_variant") != "YuE2":
             raise WanGPError(f"WanGP did not select YuE2: {values!r}")
 
+    def reset_deepy_session(self) -> None:
+        """Start the next bridge request with an empty Deepy conversation.
+
+        HybridService keeps the assistant transcript globally.  Without an
+        explicit reset, every bridge request adds the previous lyrics and
+        tool traces to the next model context until Deepy rejects the turn
+        because the context window is full.  The reset affects chat/session
+        state only; the global media gallery remains available for result
+        attribution.
+        """
+        response = self.http.post(
+            self.base_url + "/deepy/deepy_api/control",
+            json={"action": "reset", "payload": {}},
+            timeout=120,
+        )
+        response.raise_for_status()
+
     @staticmethod
     def _args(request_text: str, submission_id: str, duration_seconds: int) -> list[Any]:
         # This is the one place where the Gradio argument ordering is kept.
@@ -101,6 +118,10 @@ class WanGPClient:
         timeout: int,
         callback: ProgressCallback | None = None,
     ) -> dict[str, Any]:
+        # Keep each device request independent.  The bridge and the browser
+        # share HybridService's Deepy transcript, so retaining old turns can
+        # exhaust the assistant context window before YuE2 is called.
+        self.reset_deepy_session()
         before = self.state()
         previous_ids = {
             str(item.get("id"))
@@ -111,9 +132,20 @@ class WanGPClient:
         cursor = int(before.get("cursor", 0))
 
         self.set_yue2(duration_seconds)
+        # HybridService accepts the Gradio request but does not apply the
+        # per-call separate_requests_with_empty_line flag. Its persisted
+        # default is true, so blank lines would turn one bridge request into
+        # multiple queued assistant turns and multiple songs. Keep the
+        # complete lyrics in one non-empty-line request instead.
+        single_request_lyrics = "\n".join(
+            line.strip() for line in str(lyrics or "").splitlines() if line.strip()
+        )
         text = (
-            f"Generate one song with the YuE2 backend. Title: {title}. "
-            f"Lyrics: {lyrics}. Music style: {style}. "
+            f"Generate one vocal song with the YuE2 backend. Use YuE2 "
+            f"melody-and-chords vocal composition (model_mode=0), not YuE2 "
+            f"Instrumental. Sing the supplied lyrics exactly in their original "
+            f"language; do not return an instrumental-only track. Title: {title}. "
+            f"Lyrics: {single_request_lyrics}. Music style: {style}. "
             f"Use a maximum duration of {duration_seconds} seconds and return the generated audio."
         )
         gradio = Client(self.base_url + "/")

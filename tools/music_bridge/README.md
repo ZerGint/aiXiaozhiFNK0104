@@ -22,6 +22,10 @@ tools\music_bridge\run_bridge.bat
 ```
 
 The bridge listens on `0.0.0.0:8765`. WanGP remains on `127.0.0.1:7860`.
+At startup it advertises `_fnk-music._tcp.local.` through Python `zeroconf`
+with the instance `FNK Music Bridge` and small `version`, `api`, and `path`
+TXT properties. The advertisement is removed on clean shutdown. FNK still
+verifies `/health` before using a discovered endpoint.
 
 ## API
 
@@ -39,6 +43,8 @@ $body = @{
   style = "synthwave, female vocal, atmospheric"
   lyrics = "[Verse] ... [Chorus] ..."
   provider = "yue2"
+  # Optional override; omit to use the 320-second default.
+  duration_seconds = 90
 } | ConvertTo-Json
 Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8765/generate -ContentType application/json -Body $body
 ```
@@ -55,6 +61,36 @@ When the status is `ready`, download the MP3:
 Invoke-WebRequest http://127.0.0.1:8765/jobs/<job_id>/audio -OutFile .\song.mp3
 ```
 
+The bridge keeps the finished tracks in `tools/music_bridge/library/`. The
+MP3 filename is `<sanitized AI title> [<first 8 characters of job_id>].mp3`.
+The title is preserved exactly in `TIT2`; the default artist is `Kira AI`, the
+album and genre are `AI Generated`, and the comment is `Generated with YuE2`.
+The bridge also writes `TXXX:JOB_ID`, `TXXX:PROVIDER`, `TXXX:STYLE`, and the
+original lyrics in `USLT` when lyrics are present. Illegal Windows/FAT
+filename characters are removed while Unicode and Cyrillic are preserved.
+Identical titles remain separate because the job ID suffix is unique.
+
+Each READY track has a matching UTF-8 JSON sidecar with full bridge metadata,
+including lyrics and technical audio information. `library.json` in the same
+directory is a lightweight index. Sidecar and index updates use a temporary
+file followed by an atomic replace. Repeating an update for the same job ID
+replaces the existing entry instead of adding a duplicate.
+
+Library read endpoints:
+
+```text
+GET /library
+GET /library/<job_id>
+GET /library/<job_id>/audio
+```
+
+The existing `GET /jobs/<job_id>/audio` remains job-ID based and serves the
+same final library MP3. The bridge does not automatically rename old files in
+`generated/`; legacy migration can use the persisted `jobs.json` title and job
+ID, then apply the same tagging and sidecar flow. Existing legacy files are
+left untouched unless migrated explicitly. WAV files are deleted after a
+successful MP3 conversion by default; set `keep_wav` to `true` for diagnostics.
+
 Supported statuses are `queued`, `submitting`, `generating`, `converting`, `ready`, and `failed`.
 
 ## Architecture and safety
@@ -65,13 +101,21 @@ Before submitting, the bridge records existing YuE2 audio gallery IDs. It accept
 
 Because WanGP is running with HybridService, the bridge first calls `/deepy/deepy_api/settings` with `song_variant: YuE2`. Passing `default_song` through the Gradio endpoint alone is insufficient. The bridge also sets `separate_requests_with_empty_line` to `false`.
 
+Before submitting a bridge request it resets the active Deepy conversation
+through `/deepy/deepy_api/control`. HybridService keeps the transcript global;
+without this reset, old lyrics and tool traces eventually fill the assistant
+context window and the generation fails before YuE2 starts. The reset clears
+chat context but leaves WanGP's media gallery intact, so the bridge can still
+identify the newly generated audio item.
+
 The WAV is streamed into `tools/music_bridge/generated/<job_id>.wav`, checked for a RIFF header, then converted with ffmpeg to a 48 kHz stereo MP3 at 160 kbps. The default is to remove the WAV after successful conversion. Set `keep_wav` to `true` in `config.json` to retain it.
 
-Runtime files are intentionally ignored: `config.json`, `jobs.json`, `generated/`, `logs/`, and a bridge-local virtual environment.
+Runtime files are intentionally ignored: `config.json`, `jobs.json`, `generated/`,
+`library/`, `logs/`, and a bridge-local virtual environment.
 
 ## Configuration
 
-Copy `config.example.json` to `config.json` only when overrides are needed. If it is absent, built-in defaults are used. The test configuration can set `audio_duration` to `10`; normal use defaults to 30 seconds.
+Copy `config.example.json` to `config.json` only when overrides are needed. If it is absent, built-in defaults are used. The test configuration can set `audio_duration` to `10`; normal use defaults to 320 seconds. A request may override it with `duration_seconds` from 1 through 600. YuE2 treats this as a maximum, so a short value can end during the instrumental intro before vocals begin.
 
 The bridge is structured for a future PyInstaller build, for example:
 

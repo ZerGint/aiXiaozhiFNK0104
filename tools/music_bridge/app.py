@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
@@ -7,18 +8,25 @@ from fastapi.responses import FileResponse
 
 from .config import BridgeConfig
 from .job_manager import JobManager
+from .mdns_advertiser import MdnsAdvertiser
 from .models import GenerateRequest, JobStatus
 
 
 config = BridgeConfig.load()
 manager: JobManager | None = None
+mdns: MdnsAdvertiser | None = None
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
-    global manager
+    global manager, mdns
     manager = JobManager(config)
+    mdns = MdnsAdvertiser(config.listen_port)
+    await asyncio.to_thread(mdns.start)
     yield
+    if mdns is not None:
+        await asyncio.to_thread(mdns.stop)
+        mdns = None
     manager.shutdown()
     manager = None
 
@@ -51,7 +59,13 @@ def health() -> dict:
 def generate(request: GenerateRequest) -> dict:
     current = get_manager()
     try:
-        job = current.create(request.title, request.style, request.lyrics, request.provider)
+        job = current.create(
+            request.title,
+            request.style,
+            request.lyrics,
+            request.provider,
+            request.duration_seconds,
+        )
     except ValueError as error:
         raise HTTPException(422, str(error)) from error
     return {"accepted": True, "job_id": job.job_id, "status": job.status.value}
@@ -84,7 +98,31 @@ def job_audio(job_id: str) -> FileResponse:
         if job.status is JobStatus.FAILED:
             raise HTTPException(500, job.error or "Generation failed")
         raise HTTPException(409, "Audio is not ready")
-    return FileResponse(path, media_type="audio/mpeg", filename=f"{job_id}.mp3")
+    return FileResponse(path, media_type="audio/mpeg", filename=job.filename or path.name)
+
+
+@app.get("/library")
+def library() -> list[dict]:
+    # Keep the collection response bounded for clients running on the device.
+    return get_manager().library.list_tracks()[:200]
+
+
+@app.get("/library/{track_id}")
+def library_track(track_id: str) -> dict:
+    track = get_manager().library.get(track_id)
+    if track is None:
+        raise HTTPException(404, "Unknown library track")
+    return track
+
+
+@app.get("/library/{track_id}/audio")
+def library_audio(track_id: str) -> FileResponse:
+    current = get_manager()
+    track = current.library.get(track_id)
+    path = current.library.audio_path(track_id)
+    if track is None or path is None:
+        raise HTTPException(404, "Unknown library track")
+    return FileResponse(path, media_type="audio/mpeg", filename=str(track.get("filename", path.name)))
 
 
 if __name__ == "__main__":

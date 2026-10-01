@@ -20,6 +20,7 @@
 #include "storage_manager.h"
 #include "media/radio_browser.h"
 #include "weather/weather_service.h"
+#include "music/music_service.h"
 
 #include <esp_log.h>
 #include <driver/i2c_master.h>
@@ -294,6 +295,7 @@ private:
         HomeAssistant::GetInstance().Initialize();
         RadioBrowser::GetInstance().RegisterMcpTools();
         WeatherService::GetInstance().RegisterMcpTool();
+        MusicService::GetInstance().Initialize();
     }
 
 public:

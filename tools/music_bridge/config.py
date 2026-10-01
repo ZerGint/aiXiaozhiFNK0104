@@ -22,7 +22,9 @@ class BridgeConfig:
     listen_port: int = 8765
     generation_timeout_sec: int = 1800
     poll_interval_sec: float = 2.0
-    audio_duration: int = 30
+    # YuE2 treats this as an upper bound.  A 30-second cap can end during
+    # the instrumental intro before the first sung section.
+    audio_duration: int = 320
     mp3_bitrate: str = "160k"
     keep_wav: bool = False
     wan_gp_root: Path = DEFAULT_WANGP_ROOT
@@ -30,6 +32,10 @@ class BridgeConfig:
     @property
     def generated_dir(self) -> Path:
         return BRIDGE_DIR / "generated"
+
+    @property
+    def library_dir(self) -> Path:
+        return BRIDGE_DIR / "library"
 
     @property
     def logs_dir(self) -> Path:
@@ -54,7 +60,7 @@ class BridgeConfig:
             listen_port=int(values.get("listen_port", 8765)),
             generation_timeout_sec=int(values.get("generation_timeout_sec", 1800)),
             poll_interval_sec=float(values.get("poll_interval_sec", 2.0)),
-            audio_duration=int(values.get("audio_duration", 30)),
+            audio_duration=int(values.get("audio_duration", 320)),
             mp3_bitrate=str(values.get("mp3_bitrate", "160k")),
             keep_wav=bool(values.get("keep_wav", False)),
             wan_gp_root=root,
