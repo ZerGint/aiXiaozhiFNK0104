@@ -36,6 +36,7 @@ class JobManager:
         self._queue: queue.Queue[str | None] = queue.Queue()
         self._stop = threading.Event()
         self._load()
+        self._repair_ready_job_sizes()
         self._worker = threading.Thread(target=self._run, name="music-bridge-worker", daemon=True)
         self._worker.start()
 
@@ -91,11 +92,45 @@ class JobManager:
 
     def get(self, job_id: str) -> JobRecord | None:
         with self._lock:
-            return self._jobs.get(job_id)
+            job = self._jobs.get(job_id)
+            if job is not None and self._repair_job_size_locked(job):
+                self._save()
+            return job
 
     def all(self) -> list[JobRecord]:
         with self._lock:
+            changed = False
+            for job in self._jobs.values():
+                changed = self._repair_job_size_locked(job) or changed
+            if changed:
+                self._save()
             return list(self._jobs.values())
+
+    def _repair_job_size_locked(self, job: JobRecord) -> bool:
+        if job.status is not JobStatus.READY:
+            return False
+        path = Path(job.mp3_path) if job.mp3_path else None
+        if path is None or not path.is_file():
+            path = self.library.audio_path(job.job_id)
+        if path is None:
+            return False
+        try:
+            actual_size = path.stat().st_size
+        except OSError:
+            return False
+        if job.mp3_size == actual_size:
+            return False
+        job.mp3_size = actual_size
+        job.updated_at = utc_now()
+        return True
+
+    def _repair_ready_job_sizes(self) -> None:
+        with self._lock:
+            changed = False
+            for job in self._jobs.values():
+                changed = self._repair_job_size_locked(job) or changed
+            if changed:
+                self._save()
 
     def _update(self, job: JobRecord, **changes: object) -> None:
         with self._lock:
@@ -149,13 +184,16 @@ class JobManager:
             # treated as an unknown output format on Windows.
             temporary_mp3 = self.config.generated_dir / f".{job.job_id}.tmp.mp3"
             self._convert(wav_path, temporary_mp3)
-            size = temporary_mp3.stat().st_size
-            if size <= 0:
+            pre_tag_size = temporary_mp3.stat().st_size
+            if pre_tag_size <= 0:
                 raise RuntimeError("ffmpeg produced an empty MP3")
             technical = self._tag_and_inspect(job, temporary_mp3)
             filename = track_filename(job.title, job.job_id)
             final_path = self.config.library_dir / filename
             temporary_mp3.replace(final_path)
+            final_size = final_path.stat().st_size
+            if final_size <= 0:
+                raise RuntimeError("final MP3 is empty")
             ready_at = utc_now()
             track = {
                 "id": job.job_id,
@@ -166,7 +204,7 @@ class JobManager:
                 "duration_seconds": duration_seconds,
                 "filename": filename,
                 "format": "mp3",
-                "size": size,
+                "size": final_size,
                 "duration": technical["duration"],
                 "sample_rate": technical["sample_rate"],
                 "channels": technical["channels"],
@@ -184,7 +222,7 @@ class JobManager:
                 status=JobStatus.READY,
                 progress="Ready",
                 mp3_path=str(final_path),
-                mp3_size=size,
+                mp3_size=final_size,
                 mp3_duration=technical["duration"],
                 filename=filename,
                 ready_at=ready_at,

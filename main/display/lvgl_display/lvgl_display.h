@@ -24,6 +24,8 @@ public:
     virtual void SetStatus(const char* status);
     virtual void ShowNotification(const char* notification, int duration_ms = 3000);
     virtual void ShowNotification(const std::string& notification, int duration_ms = 3000);
+    void ShowGeneratedDownloadProgress(const char* title, int percent) override;
+    void HideGeneratedDownloadProgress() override;
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image);
     virtual void UpdateStatusBar(bool update_all = false);
     virtual void SetPowerSaveMode(bool on);
@@ -43,6 +45,10 @@ protected:
     lv_obj_t* battery_label_ = nullptr;
     lv_obj_t* low_battery_popup_ = nullptr;
     lv_obj_t* low_battery_label_ = nullptr;
+    lv_obj_t* generated_download_overlay_ = nullptr;
+    lv_obj_t* generated_download_title_ = nullptr;
+    lv_obj_t* generated_download_bar_ = nullptr;
+    lv_obj_t* generated_download_percent_ = nullptr;
 
     const char* battery_icon_ = nullptr;
     const char* network_icon_ = nullptr;

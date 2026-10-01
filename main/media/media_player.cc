@@ -4,6 +4,7 @@
 #include "internet_radio_player.h"
 #include "radio_browser.h"
 #include "sd_music_player.h"
+#include "music/music_service.h"
 
 #include <esp_log.h>
 #include <cJSON.h>
@@ -21,7 +22,52 @@ MediaPlayer& MediaPlayer::GetInstance() {
 
 void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
 
+bool MediaPlayer::PrepareGeneratedPlaylist(std::string& err_msg) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        err_msg = "generated_download_busy";
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=generated_prepare");
+        return false;
+    }
+    // This method is also used by tab navigation. Browsing a different list
+    // must not stop radio, SD playback, or an active voice interaction;
+    // explicit PlayGenerated() performs the source switch through PlaySd().
+    SdMusicPlayer::GetInstance().ScanGeneratedPlaylist();
+    return true;
+}
+
+bool MediaPlayer::PrepareSdPlaylist(std::string& err_msg) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        err_msg = "generated_download_busy";
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=sd_prepare");
+        return false;
+    }
+    ScanSd();
+    return true;
+}
+
+bool MediaPlayer::PlayGenerated(const std::string& query, std::string& err_msg) {
+    if (query.empty()) {
+        err_msg = "query_required";
+        return false;
+    }
+    if (!PrepareGeneratedPlaylist(err_msg))
+        return false;
+    bool ambiguous = false;
+    const int index = SdMusicPlayer::GetInstance().FindTrack(query, ambiguous);
+    if (index < 0) {
+        err_msg = ambiguous ? "ambiguous_generated_track" : "generated_track_not_found";
+        return false;
+    }
+    SdMusicPlayer::GetInstance().SetSelectedTrackIndex(index);
+    PlaySd(index);
+    return true;
+}
+
 void MediaPlayer::PlaySd(int index) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=sd");
+        return;
+    }
     {
         std::lock_guard<std::mutex> lock(voice_mutex_);
         paused_for_voice_ = false;
@@ -140,6 +186,11 @@ bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title,
 bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_msg,
                             std::function<void()> on_startup_ready,
                             std::function<void()> on_startup_failed, bool emit_failure_bip) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        err_msg = "generated_download_busy";
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=radio");
+        return false;
+    }
     bool restore_voice_pause = false;
     bool restore_manual_pause = false;
     RadioStationInfo voice_station;
@@ -179,6 +230,10 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
 }
 
 void MediaPlayer::TogglePlayPause() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=toggle");
+        return;
+    }
     auto& radio = InternetRadioPlayer::GetInstance();
 
     // A user action during a voice-interrupted Radio session cancels the
@@ -333,6 +388,10 @@ void MediaPlayer::PlayForVoice() {
 }
 
 void MediaPlayer::Next() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=next");
+        return;
+    }
     paused_for_voice_ = false;
     sd_paused_for_voice_ = false;
     {
@@ -347,6 +406,10 @@ void MediaPlayer::Next() {
 }
 
 void MediaPlayer::Prev() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=previous");
+        return;
+    }
     paused_for_voice_ = false;
     sd_paused_for_voice_ = false;
     {

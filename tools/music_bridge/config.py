@@ -3,12 +3,30 @@ from __future__ import annotations
 import json
 import os
 import shutil
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 
-BRIDGE_DIR = Path(__file__).resolve().parent
+def _bridge_dir() -> Path:
+    """Select persistent bridge data when running from a PyInstaller EXE."""
+    source_dir = Path(__file__).resolve().parent
+    if not getattr(sys, "frozen", False):
+        return source_dir
+
+    executable_dir = Path(sys.executable).resolve().parent
+    candidates = (
+        executable_dir,
+        executable_dir.parent / "tools" / "music_bridge",
+    )
+    for candidate in candidates:
+        if (candidate / "library").is_dir() or (candidate / "config.json").is_file():
+            return candidate
+    return executable_dir
+
+
+BRIDGE_DIR = _bridge_dir()
 DEFAULT_WANGP_URL = "http://127.0.0.1:7860"
 DEFAULT_WANGP_ROOT = Path(
     r"F:\games setup\StabilityMatrix-win-x64\Data\Packages\Wan2GP"

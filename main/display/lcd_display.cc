@@ -1503,9 +1503,12 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_margin_left(top_battery_value_label_, 10, 0);
     auto nav = panel(screen, 0, 38, 64, 276, kNav);
     LogUiMemory("UI_MEM_AFTER_COMMON_SHELL");
-    const char* names[] = {"AI", "", ""};
-    for (int i = 0; i < 3; ++i) {
-        auto obj = button(nav, names[i], 4, 4 + i * 78, 56, 72);
+    const char* names[] = {"AI", "", "", "GEN"};
+    constexpr int nav_button_height = 56;
+    constexpr int nav_button_spacing = 4;
+    for (int i = 0; i < 4; ++i) {
+        auto obj = button(nav, names[i], 4, 4 + i * (nav_button_height + nav_button_spacing),
+                          56, nav_button_height);
         nav_buttons_[i] = obj;
         // Code-native icons avoid depending on missing font glyphs.
         auto stroke = [&](int x, int y, int w, int h, int radius = 0) {
@@ -1514,25 +1517,25 @@ void LcdDisplay::SetupUI() {
             lv_obj_remove_flag(part, LV_OBJ_FLAG_CLICKABLE);
         };
         if (i == 2) { // Double musical note.
-            stroke(17, 10, 3, 22);
-            stroke(33, 10, 3, 22);
-            stroke(17, 10, 19, 4);
-            stroke(10, 28, 10, 7, 4);
-            stroke(26, 28, 10, 7, 4);
+            stroke(17, 7, 3, 19);
+            stroke(33, 7, 3, 19);
+            stroke(17, 7, 19, 4);
+            stroke(10, 23, 10, 7, 4);
+            stroke(26, 23, 10, 7, 4);
         } else if (i == 1) { // Radio receiver and aerial.
-            auto receiver = panel(obj, 12, 17, 32, 21, kCard);
+            auto receiver = panel(obj, 12, 14, 32, 19, kCard);
             lv_obj_set_style_border_width(receiver, 2, 0);
             lv_obj_set_style_border_color(receiver, kText, 0);
             lv_obj_set_style_radius(receiver, 4, 0);
             lv_obj_remove_flag(receiver, LV_OBJ_FLAG_CLICKABLE);
-            stroke(17, 7, 3, 10);
-            stroke(17, 22, 8, 10, 4);
-            stroke(29, 22, 10, 2);
-            stroke(29, 28, 10, 2);
+            stroke(17, 5, 3, 9);
+            stroke(17, 19, 8, 9, 4);
+            stroke(29, 19, 10, 2);
+            stroke(29, 25, 10, 2);
         }
 
-        lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 8);
-        nav_status_[i] = label(obj, "", 2, 44, 50, kMuted);
+        lv_obj_align(lv_obj_get_child(obj, 0), LV_ALIGN_TOP_MID, 0, 6);
+        nav_status_[i] = label(obj, "", 2, 28, 50, kMuted);
         lv_obj_set_style_text_align(nav_status_[i], LV_TEXT_ALIGN_CENTER, 0);
         if (i > 0) {
             nav_activity_[i] = lv_obj_create(obj);
@@ -1541,7 +1544,7 @@ void LcdDisplay::SetupUI() {
             lv_obj_set_style_bg_color(nav_activity_[i], kAccent, 0);
             lv_obj_set_style_bg_opa(nav_activity_[i], LV_OPA_COVER, 0);
             lv_obj_set_style_border_width(nav_activity_[i], 0, 0);
-            lv_obj_align(nav_activity_[i], LV_ALIGN_BOTTOM_MID, 0, -4);
+            lv_obj_align(nav_activity_[i], LV_ALIGN_BOTTOM_MID, 0, -3);
             lv_obj_add_flag(nav_activity_[i], LV_OBJ_FLAG_HIDDEN);
         }
         lv_obj_set_user_data(obj, reinterpret_cast<void*>(static_cast<intptr_t>(i)));
@@ -1549,7 +1552,7 @@ void LcdDisplay::SetupUI() {
             auto self = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
             auto target = static_cast<lv_obj_t*>(lv_event_get_target(e));
             int index = static_cast<int>(reinterpret_cast<intptr_t>(lv_obj_get_user_data(target)));
-            self->SwitchTab(index == 0 ? 0 : index == 1 ? 2 : 1);
+            self->SwitchTab(index == 0 ? 0 : index == 1 ? 2 : index == 2 ? 1 : 3);
         }, LV_EVENT_CLICKED, this);
         lv_obj_set_style_border_width(obj, 1, 0);
         lv_obj_set_style_border_color(obj, i == 0 ? kAccent : kBorder, 0);
@@ -1836,8 +1839,8 @@ void LcdDisplay::SetupUI() {
     radio_page_label_ = label(media_right, "1 / 1", 48, 246, 48, kText);
     auto prev_page = button(media_right, "<", 6, 238, 32, 32);
     auto next_page = button(media_right, ">", 106, 238, 32, 32);
-    lv_obj_add_event_cb(prev_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { int& page = d->media_browser_mode_ == MediaBrowserMode::Player ? d->player_page_ : d->radio_page_; if (page > 0) --page; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
-    lv_obj_add_event_cb(next_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { if (d->media_browser_mode_ == MediaBrowserMode::Player) ++d->player_page_; else ++d->radio_page_; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
+    lv_obj_add_event_cb(prev_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { int& page = d->media_browser_mode_ == MediaBrowserMode::Radio ? d->radio_page_ : d->player_page_; if (page > 0) --page; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
+    lv_obj_add_event_cb(next_page, [](lv_event_t* e) { auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e)); if (d) { if (d->media_browser_mode_ == MediaBrowserMode::Radio) ++d->radio_page_; else ++d->player_page_; d->RefreshRadioCatalogPage(); } }, LV_EVENT_CLICKED, this);
     lv_obj_add_flag(media_root, LV_OBJ_FLAG_HIDDEN);
     LogUiMemory("UI_MEM_AFTER_MEDIA_PAGE");
     LogUiMemory("UI_MEM_BEFORE_SERVICE_TIMER");
@@ -2164,8 +2167,13 @@ void LcdDisplay::DestroyBootAnimation() {
 void LcdDisplay::RefreshRadioCatalogPage() {
     if (!radio_list_panel_) return;
     if (media_list_title_label_)
-        lv_label_set_text(media_list_title_label_, media_browser_mode_ == MediaBrowserMode::Player ? "Player" : "Radio");
-    if (media_browser_mode_ == MediaBrowserMode::Player) {
+        lv_label_set_text(media_list_title_label_, media_browser_mode_ == MediaBrowserMode::Radio
+                                                     ? "Radio"
+                                                     : media_browser_mode_ == MediaBrowserMode::Generated
+                                                         ? "Generated"
+                                                         : "Player");
+    if (media_browser_mode_ == MediaBrowserMode::Player ||
+        media_browser_mode_ == MediaBrowserMode::Generated) {
         const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
         constexpr int rows_per_page = 4;
         const int pages = std::max(1, (static_cast<int>(tracks.size()) + rows_per_page - 1) / rows_per_page);
@@ -2186,11 +2194,25 @@ void LcdDisplay::RefreshRadioCatalogPage() {
             lv_label_set_text(name, display.c_str()); lv_obj_set_style_text_font(name, &font_noto_sans_radio_16_4, 0);
             lv_obj_set_width(name, 120); lv_obj_set_height(name, 20); lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
             lv_obj_align(name, LV_ALIGN_LEFT_MID, 2, 0);
-            lv_obj_add_event_cb(card, [](lv_event_t* e) {
+            if (media_browser_mode_ == MediaBrowserMode::Generated) {
+                auto* query = new std::string(display);
+                lv_obj_add_event_cb(card, [](lv_event_t* e) {
+                    auto* query = static_cast<std::string*>(lv_event_get_user_data(e));
+                    if (lv_event_get_code(e) == LV_EVENT_DELETE) {
+                        delete query;
+                    } else if (lv_event_get_code(e) == LV_EVENT_CLICKED && query != nullptr) {
+                        std::string error;
+                        if (!MediaPlayer::GetInstance().PlayGenerated(*query, error))
+                            ESP_LOGW(TAG, "Generated playback rejected: %s", error.c_str());
+                    }
+                }, LV_EVENT_ALL, query);
+            } else {
+                lv_obj_add_event_cb(card, [](lv_event_t* e) {
                 if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
                 const int index = static_cast<int>(reinterpret_cast<intptr_t>(lv_event_get_user_data(e)));
                 auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(index); MediaPlayer::GetInstance().PlaySd(index);
-            }, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(index)));
+                }, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(index)));
+            }
         }
         if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", player_page_ + 1, pages);
         return;
@@ -3122,7 +3144,7 @@ void LcdDisplay::UpdateServiceIndicators() {
     auto& sd = SdMusicPlayer::GetInstance();
     auto& radio = InternetRadioPlayer::GetInstance();
     static int sd_scan_attempts = 0;
-    if (sd.GetPlaylist().empty() && (sd_scan_attempts % 20 == 0)) {
+    if (!sd.IsGeneratedPlaylist() && sd.GetPlaylist().empty() && (sd_scan_attempts % 20 == 0)) {
         MediaPlayer::GetInstance().ScanSd();
     }
     ++sd_scan_attempts;
@@ -3242,8 +3264,13 @@ void LcdDisplay::UpdateServiceIndicators() {
     const auto state = Application::GetInstance().GetDeviceState();
     const char* ai_state = state == kDeviceStateListening ? "Listen" :
                            state == kDeviceStateSpeaking ? "Speak" : "Ready";
-    const char* states[] = {ai_state, radio_state, player_state};
-    for (int i = 0; i < 3; ++i) {
+    const bool generated_playback = sd.IsGeneratedPlayback();
+    const char* generated_state = generated_playback
+                                      ? (sd.IsPlaying() ? "Playing" : "Paused")
+                                      : "";
+    const char* states[] = {ai_state, radio_state,
+                            generated_playback ? "" : player_state, generated_state};
+    for (int i = 0; i < 4; ++i) {
         if (!nav_status_[i]) continue;
         if (strcmp(lv_label_get_text(nav_status_[i]), states[i]) != 0) {
             lv_label_set_text(nav_status_[i], states[i]);
@@ -3296,8 +3323,20 @@ void LcdDisplay::SwitchTab(int tab_index)
     DisplayLockGuard lock(this);
 
     current_tab_index_ = tab_index;
-    media_browser_mode_ = (tab_index == 2) ? MediaBrowserMode::Radio : MediaBrowserMode::Player;
+    media_browser_mode_ = (tab_index == 2) ? MediaBrowserMode::Radio
+                                             : (tab_index == 3 ? MediaBrowserMode::Generated
+                                                               : MediaBrowserMode::Player);
     media_radio_mode_ = (media_browser_mode_ == MediaBrowserMode::Radio);
+    if (media_browser_mode_ == MediaBrowserMode::Generated) {
+        std::string error;
+        if (!MediaPlayer::GetInstance().PrepareGeneratedPlaylist(error))
+            ESP_LOGW(TAG, "Generated browser rejected: %s", error.c_str());
+    } else if (media_browser_mode_ == MediaBrowserMode::Player &&
+               SdMusicPlayer::GetInstance().IsGeneratedPlaylist()) {
+        std::string error;
+        if (!MediaPlayer::GetInstance().PrepareSdPlaylist(error))
+            ESP_LOGW(TAG, "SD browser rejected: %s", error.c_str());
+    }
     if (media_favorite_button_) {
         if (media_radio_mode_) {
             lv_obj_remove_flag(media_favorite_button_, LV_OBJ_FLAG_HIDDEN);
@@ -3316,7 +3355,7 @@ void LcdDisplay::SwitchTab(int tab_index)
 
     /* navigation highlight */
 
-    for (int i = 0; i < 3; ++i)
+    for (int i = 0; i < 4; ++i)
     {
         if (!nav_buttons_[i])
             continue;
@@ -3324,7 +3363,8 @@ void LcdDisplay::SwitchTab(int tab_index)
         bool selected =
             (tab_index == 0 && i == 0) ||
             (tab_index == 1 && i == 2) ||
-            (tab_index == 2 && i == 1);
+            (tab_index == 2 && i == 1) ||
+            (tab_index == 3 && i == 3);
 
         lv_obj_set_style_bg_color(
             nav_buttons_[i],

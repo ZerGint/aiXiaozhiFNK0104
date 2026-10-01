@@ -27,6 +27,24 @@ with the instance `FNK Music Bridge` and small `version`, `api`, and `path`
 TXT properties. The advertisement is removed on clean shutdown. FNK still
 verifies `/health` before using a discovered endpoint.
 
+## Desktop player
+
+`run_desktop.bat` starts the same bridge API together with a small Windows
+player window. The window lists ready MP3 files from `library/` and provides
+Play, Stop, and Refresh buttons. Minimizing the window hides it in the
+notification area; the tray menu restores it, stops playback, or exits the
+bridge cleanly.
+
+The desktop shell uses the existing bridge library and API. It does not add
+another generation queue or change the ESP32 protocol. Build a standalone
+Windows executable from a full CPython installation with Tcl/Tk support:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\music_bridge\build_desktop_exe.ps1
+```
+
+The resulting `dist\FNKMusicBridge.exe` is a portable one-file executable.
+
 ## API
 
 Health:

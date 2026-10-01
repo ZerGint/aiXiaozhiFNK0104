@@ -5,3 +5,6 @@ gradio_client>=1.10,<2
 pydantic>=2.7,<3
 zeroconf>=0.136,<1
 mutagen>=1.47,<2
+Pillow>=10,<12
+pygame>=2.5,<3
+pystray>=0.19,<1

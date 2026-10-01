@@ -1,10 +1,10 @@
 #pragma once
 
-#include <array>
 #include <cstdint>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <mutex>
+#include <atomic>
 #include <string>
 
 #include "music_bridge_client.h"
@@ -12,7 +12,6 @@
 
 class MusicService {
 public:
-    static constexpr size_t kMaxTrackedJobs = 4;
     static constexpr size_t kMaxTitleLength = 96;
     static constexpr size_t kMaxStyleLength = 256;
     static constexpr size_t kMaxLyricsLength = 2048;
@@ -26,6 +25,13 @@ public:
     void RegisterMcpTools();
     bool SetBridgeUrl(const std::string& url, std::string& error);
     std::string GetBridgeUrl() const;
+    bool CanStartGeneratedDownload() const;
+    bool TryBeginGeneratedDownload();
+    void EndGeneratedDownload();
+    bool IsGeneratedDownloadBusy() const { return generated_download_busy_.load(); }
+    void BeginVoiceConversation();
+    bool IsGenerationFollowupBlocked() const;
+    void BlockGenerationFollowups();
 
 private:
     struct PendingJob {
@@ -33,12 +39,15 @@ private:
         std::string job_id;
         std::string title;
         std::string status;
-        std::string progress;
-        std::string audio_url;
-        std::string format;
         size_t size = 0;
+        double duration = 0;
+        std::string filename;
+        std::string download_status;
+        std::string local_filename;
+        size_t downloaded_size = 0;
+        uint32_t download_attempts = 0;
+        int64_t next_download_at = 0;
         std::string error;
-        int64_t updated_at = 0;
     };
 
     MusicService() = default;
@@ -51,15 +60,23 @@ private:
     void InvalidateRuntimeUrl(const std::string& url);
     bool HasPendingJobsLocked() const;
     void LoadState();
-    void PersistLocked();
+    bool PersistLocked();
     bool AddPendingJob(const MusicGenerateResult& generated, const std::string& title);
     void ApplyStatus(const MusicJobStatus& status);
+    void LoadLocalIndex();
+    void ProcessReadyDownloads();
+    bool DownloadReadyJob(const PendingJob& job);
+    void RecordDownloadFailure(const std::string& job_id, const std::string& reason);
+    bool NetworkSafeForDownload() const;
+    const char* DownloadBlockReason(bool include_gate = true) const;
+    void ShowDownloadOverlay(const char* title, int percent);
+    void HideDownloadOverlay();
+    static bool SafeFilename(const std::string& remote, const std::string& job_id, std::string& output);
     PendingJob FindJobLocked(const std::string& job_id) const;
     PendingJob FindLatestJobLocked() const;
     static bool IsTerminal(const std::string& status);
     static bool ValidateText(const std::string& value, size_t max_length);
     static bool NormalizeUrl(const std::string& input, std::string& output);
-    static cJSON* JobToJson(const PendingJob& job);
     static std::string ErrorResult(const std::string& error);
     static std::string GenerateResultJson(const MusicGenerateResult& result);
     static std::string StatusResultJson(const PendingJob& job);
@@ -69,7 +86,10 @@ private:
     std::string runtime_bridge_url_;
     int64_t last_discovery_attempt_ms_ = 0;
     bool mdns_initialized_ = false;
-    std::array<PendingJob, kMaxTrackedJobs> jobs_{};
+    PendingJob job_{};
     TaskHandle_t poll_task_ = nullptr;
     bool initialized_ = false;
+    std::atomic<bool> generated_download_busy_{false};
+    bool generation_followup_blocked_ = false;
+    std::string last_deferred_reason_;
 };

@@ -38,6 +38,9 @@ public:
     virtual void SetStatus(const char* status);
     virtual void ShowNotification(const char* notification, int duration_ms = 3000);
     virtual void ShowNotification(const std::string& notification, int duration_ms = 3000);
+    // Optional generated-music download progress overlay. Non-LVGL displays ignore it.
+    virtual void ShowGeneratedDownloadProgress(const char* title, int percent) {}
+    virtual void HideGeneratedDownloadProgress() {}
     virtual void SetEmotion(const char* emotion);
     virtual void PlayReaction(FaceReaction reaction,
                               FaceReactionSource source = FaceReactionSource::Unknown) {}

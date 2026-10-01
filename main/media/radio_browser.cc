@@ -797,8 +797,8 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "media.play_sd",
-        "Play a music track from the SD card. Use query to match artist or title in the filename. "
-        "If using index, it is one-based: 1 means the first track.",
+        "Play a music track from the regular SD music library. Use query to match artist or title in the filename. "
+        "If using index, it is one-based: 1 means the first track. This tool does not search or play generated music under /sdcard/generated_music; never fall back to Home Assistant for generated songs. Generated-music playback has no dedicated tool yet.",
         PropertyList({
            Property("index", kPropertyTypeInteger, -1),
            Property("query", kPropertyTypeString, std::string(""))

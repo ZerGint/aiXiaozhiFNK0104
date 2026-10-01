@@ -3,7 +3,11 @@
 #include <cJSON.h>
 #include <esp_crt_bundle.h>
 #include <esp_http_client.h>
+#include <esp_heap_caps.h>
 #include <esp_log.h>
+
+#include <cstdio>
+#include <unistd.h>
 
 #include <algorithm>
 #include <cctype>
@@ -12,6 +16,8 @@ namespace {
 
 constexpr char kTag[] = "MusicBridge";
 constexpr size_t kMaxResponseBytes = 8192;
+constexpr size_t kDownloadChunkSize = 16 * 1024;
+constexpr uint32_t kDownloadTimeoutMs = 15000;
 
 struct ResponseContext {
     std::string body;
@@ -56,8 +62,23 @@ size_t JsonSize(const cJSON* root, const char* name) {
     return static_cast<size_t>(item->valuedouble);
 }
 
+double JsonDouble(const cJSON* root, const char* name) {
+    const cJSON* item = cJSON_GetObjectItemCaseSensitive(root, name);
+    return cJSON_IsNumber(item) && item->valuedouble >= 0 ? item->valuedouble : 0;
+}
+
 void SetError(std::string& destination, const std::string& value) {
     destination = value.substr(0, 240);
+}
+
+void LogDiagnosticMemory(const char* stage) {
+    ESP_LOGI(kTag,
+             "MUSIC_DIAG MEM stage=%s internal_free=%u internal_largest=%u internal_min=%u psram_free=%u",
+             stage,
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)));
 }
 
 } // namespace
@@ -208,6 +229,8 @@ bool MusicBridgeClient::GetJob(const std::string& base_url,
     result.audio_url = JsonString(response, "audio_url");
     result.format = JsonString(response, "format");
     result.size = JsonSize(response, "size");
+    result.duration = JsonDouble(response, "duration");
+    result.filename = JsonString(response, "filename");
     result.error = JsonString(response, "error");
     if (!IsSafeJobId(result.job_id) || result.status.empty()) {
         result = {};
@@ -217,6 +240,152 @@ bool MusicBridgeClient::GetJob(const std::string& base_url,
     }
     result.success = true;
     cJSON_Delete(response);
+    return true;
+}
+
+bool MusicBridgeClient::DownloadAudio(const std::string& base_url,
+                                      const std::string& job_id,
+                                      size_t expected_size,
+                                      const std::string& output_path,
+                                      size_t& downloaded_size,
+                                      std::string& error,
+                                      const std::function<void(size_t, size_t)>& progress) const {
+    downloaded_size = 0;
+    error.clear();
+    if (!IsSafeJobId(job_id)) {
+        error = "invalid_job_id";
+        return false;
+    }
+
+    FILE* output = fopen(output_path.c_str(), "wb");
+    if (output == nullptr) {
+        ESP_LOGW(kTag, "MUSIC_DIAG FILE_OPEN_FAIL job_id=%s path=%s", job_id.c_str(), output_path.c_str());
+        error = "open_output_failed";
+        return false;
+    }
+
+    esp_http_client_config_t config = {};
+    const std::string url = TrimTrailingSlash(base_url) + "/jobs/" + job_id + "/audio";
+    config.url = url.c_str();
+    config.method = HTTP_METHOD_GET;
+    config.timeout_ms = kDownloadTimeoutMs;
+    config.buffer_size = 4096;
+    config.crt_bundle_attach = esp_crt_bundle_attach;
+    config.skip_cert_common_name_check = true;
+    esp_http_client_handle_t client = esp_http_client_init(&config);
+    if (client == nullptr) {
+        ESP_LOGW(kTag, "MUSIC_DIAG HTTP_FAIL job_id=%s reason=http_client_init_failed", job_id.c_str());
+        fclose(output);
+        unlink(output_path.c_str());
+        error = "http_client_init_failed";
+        return false;
+    }
+
+    esp_err_t request_error = esp_http_client_open(client, 0);
+    if (request_error == ESP_OK) request_error = esp_http_client_fetch_headers(client) < 0 ? ESP_FAIL : ESP_OK;
+    const int status_code = esp_http_client_get_status_code(client);
+    const int64_t content_length = esp_http_client_get_content_length(client);
+    if (request_error == ESP_OK && status_code == 200) {
+        LogDiagnosticMemory("after_http_open");
+        ESP_LOGI(kTag, "MUSIC_DIAG HTTP_HEADERS job_id=%s content_length=%lld expected_size=%u", job_id.c_str(),
+                 static_cast<long long>(content_length), static_cast<unsigned>(expected_size));
+    }
+    if (request_error != ESP_OK || status_code != 200) {
+        error = request_error != ESP_OK ? esp_err_to_name(request_error)
+                                        : "http_status_" + std::to_string(status_code);
+        ESP_LOGW(kTag, "MUSIC_DIAG HTTP_FAIL job_id=%s reason=%s", job_id.c_str(), error.c_str());
+        esp_http_client_close(client);
+        esp_http_client_cleanup(client);
+        fclose(output);
+        unlink(output_path.c_str());
+        return false;
+    }
+    if (content_length > 0 && expected_size > 0 && static_cast<size_t>(content_length) != expected_size) {
+        ESP_LOGW(kTag, "MUSIC_DIAG SIZE_MISMATCH job_id=%s content_length=%lld expected_size=%u", job_id.c_str(),
+                 static_cast<long long>(content_length), static_cast<unsigned>(expected_size));
+        error = "content_length_mismatch";
+        esp_http_client_close(client);
+        esp_http_client_cleanup(client);
+        fclose(output);
+        unlink(output_path.c_str());
+        return false;
+    }
+
+    void* buffer = heap_caps_malloc(kDownloadChunkSize, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
+    if (buffer == nullptr) buffer = heap_caps_malloc(kDownloadChunkSize, MALLOC_CAP_8BIT);
+    if (buffer == nullptr) {
+        ESP_LOGW(kTag, "MUSIC_DIAG DOWNLOAD_FAIL job_id=%s reason=buffer_alloc", job_id.c_str());
+        error = "download_buffer_alloc_failed";
+        esp_http_client_close(client);
+        esp_http_client_cleanup(client);
+        fclose(output);
+        unlink(output_path.c_str());
+        return false;
+    }
+    ESP_LOGI(kTag, "MUSIC_DIAG BUFFER_ALLOC size=%u ptr=%p location=%s", static_cast<unsigned>(kDownloadChunkSize),
+             buffer, esp_ptr_external_ram(buffer) ? "PSRAM" : "INTERNAL");
+    LogDiagnosticMemory("after_download_buffer_alloc");
+
+    bool success = true;
+    bool midpoint_logged = false;
+    size_t next_progress = 2 * 1024 * 1024;
+    for (;;) {
+        const int read = esp_http_client_read(client, static_cast<char*>(buffer), kDownloadChunkSize);
+        if (read < 0) {
+            error = "http_read_failed";
+            success = false;
+            break;
+        }
+        if (read == 0) break;
+        const size_t written = fwrite(buffer, 1, static_cast<size_t>(read), output);
+        downloaded_size += written;
+        if (written != static_cast<size_t>(read)) {
+            error = "sd_write_failed";
+            success = false;
+            break;
+        }
+        if (progress) {
+            const size_t total = content_length > 0 ? static_cast<size_t>(content_length) : expected_size;
+            progress(downloaded_size, total);
+        }
+        if (!midpoint_logged && expected_size > 0 && downloaded_size * 2 >= expected_size) {
+            midpoint_logged = true;
+            LogDiagnosticMemory("mid_download");
+        }
+        if (downloaded_size >= next_progress) {
+            ESP_LOGI(kTag, "MUSIC_DOWNLOAD_PROGRESS id=%s bytes=%u", job_id.c_str(),
+                     static_cast<unsigned>(downloaded_size));
+            next_progress += 2 * 1024 * 1024;
+        }
+    }
+    LogDiagnosticMemory("after_download_complete");
+    ESP_LOGI(kTag, "MUSIC_DIAG DOWNLOAD_BYTES job_id=%s downloaded_bytes=%u content_length=%lld expected_size=%u",
+             job_id.c_str(), static_cast<unsigned>(downloaded_size), static_cast<long long>(content_length),
+             static_cast<unsigned>(expected_size));
+    ESP_LOGI(kTag, "MUSIC_DIAG BUFFER_FREE ptr=%p", buffer);
+    free(buffer);
+    LogDiagnosticMemory("after_download_buffer_free");
+    esp_http_client_close(client);
+    esp_http_client_cleanup(client);
+    const bool flushed = fflush(output) == 0;
+    const bool closed = fclose(output) == 0;
+    const bool size_match = downloaded_size > 0 &&
+                            (content_length <= 0 || downloaded_size == static_cast<size_t>(content_length)) &&
+                            (expected_size == 0 || downloaded_size == expected_size);
+    ESP_LOGI(kTag, "MUSIC_DIAG SIZE_VALIDATION job_id=%s result=%s final_downloaded=%u content_length=%lld expected_size=%u",
+             job_id.c_str(), success && flushed && closed && size_match ? "PASS" : "FAIL",
+             static_cast<unsigned>(downloaded_size), static_cast<long long>(content_length),
+             static_cast<unsigned>(expected_size));
+    LogDiagnosticMemory("after_file_close");
+    if (!success || !flushed || !closed || !size_match) {
+        if (!success && error == "http_read_failed") {
+            ESP_LOGW(kTag, "MUSIC_DIAG HTTP_FAIL job_id=%s reason=%s", job_id.c_str(), error.c_str());
+        }
+        if (!size_match) ESP_LOGW(kTag, "MUSIC_DIAG SIZE_MISMATCH job_id=%s", job_id.c_str());
+        if (error.empty()) error = "download_size_mismatch";
+        unlink(output_path.c_str());
+        return false;
+    }
     return true;
 }
 

@@ -5,7 +5,8 @@
         {
             "name": "freenove-fnk0104s",
             "sdkconfig_append": [
-                "CONFIG_FNK_EXTERNAL_I2S_SPEAKER=y"
+                "CONFIG_FNK_EXTERNAL_I2S_SPEAKER=y",
+                "CONFIG_PARTITION_TABLE_CUSTOM_FILENAME=\"partitions/v2/16m_fnk0104s.csv\""
             ]
         }
     ]

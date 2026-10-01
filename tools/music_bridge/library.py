@@ -70,10 +70,9 @@ class MusicLibrary:
             for track in tracks:
                 if isinstance(track, dict) and str(track.get("id", "")):
                     self._tracks[str(track["id"])] = dict(track)
-            return
         except (OSError, ValueError, TypeError, json.JSONDecodeError):
-            pass
-        self._rebuild_from_sidecars()
+            self._rebuild_from_sidecars()
+        self._repair_all_sizes()
 
     def _rebuild_from_sidecars(self) -> None:
         for sidecar in self.root.glob("*.json"):
@@ -103,6 +102,54 @@ class MusicLibrary:
         )
         _atomic_json(self.index_path, {"version": 1, "tracks": tracks})
 
+    def _repair_track_size_locked(self, track_id: str) -> bool:
+        track = self._tracks.get(track_id)
+        if not track:
+            return False
+        filename = str(track.get("filename", ""))
+        if not filename:
+            return False
+        path = self.root / filename
+        try:
+            actual_size = path.stat().st_size
+        except OSError:
+            return False
+        try:
+            recorded_size = int(track.get("size", -1))
+        except (TypeError, ValueError):
+            recorded_size = -1
+        changed = recorded_size != actual_size
+        if changed:
+            repaired = dict(track)
+            repaired["size"] = actual_size
+            self._tracks[track_id] = repaired
+
+        sidecar = self.root / f"{Path(filename).stem}.json"
+        try:
+            full = json.loads(sidecar.read_text(encoding="utf-8"))
+            if isinstance(full, dict):
+                try:
+                    sidecar_size = int(full.get("size", -1))
+                except (TypeError, ValueError):
+                    sidecar_size = -1
+                if sidecar_size != actual_size:
+                    full["size"] = actual_size
+                    _atomic_json(sidecar, full)
+                    changed = True
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            # The index remains repairable even when an optional sidecar is
+            # missing or malformed.
+            pass
+        return changed
+
+    def _repair_all_sizes(self) -> None:
+        with self._lock:
+            changed = False
+            for track_id in self._tracks:
+                changed = self._repair_track_size_locked(track_id) or changed
+            if changed:
+                self._write_index()
+
     def upsert(self, track: dict[str, Any]) -> None:
         track_id = str(track["id"])
         with self._lock:
@@ -112,6 +159,11 @@ class MusicLibrary:
 
     def list_tracks(self) -> list[dict[str, Any]]:
         with self._lock:
+            changed = False
+            for track_id in self._tracks:
+                changed = self._repair_track_size_locked(track_id) or changed
+            if changed:
+                self._write_index()
             tracks = sorted(
                 self._tracks.values(),
                 key=lambda item: str(item.get("created_at", "")),
@@ -124,6 +176,9 @@ class MusicLibrary:
             track = self._tracks.get(track_id)
             if not track:
                 return None
+            if self._repair_track_size_locked(track_id):
+                self._write_index()
+                track = self._tracks[track_id]
             filename = str(track.get("filename", ""))
             sidecar = self.root / f"{Path(filename).stem}.json"
             try:

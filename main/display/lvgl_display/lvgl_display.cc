@@ -112,6 +112,9 @@ void LvglDisplay::ClearTextGlyphs() {
 }
 
 LvglDisplay::~LvglDisplay() {
+    if (generated_download_overlay_ != nullptr) {
+        lv_obj_del(generated_download_overlay_);
+    }
     if (notification_timer_ != nullptr) {
         esp_timer_stop(notification_timer_);
         esp_timer_delete(notification_timer_);
@@ -137,6 +140,51 @@ LvglDisplay::~LvglDisplay() {
     }
     if (pm_lock_ != nullptr) {
         esp_pm_lock_delete(pm_lock_);
+    }
+}
+
+void LvglDisplay::ShowGeneratedDownloadProgress(const char* title, int percent) {
+    DisplayLockGuard lock(this);
+    if (!setup_ui_called_) return;
+    if (generated_download_overlay_ == nullptr) {
+        auto screen = lv_screen_active();
+        generated_download_overlay_ = lv_obj_create(screen);
+        lv_obj_set_size(generated_download_overlay_, LV_HOR_RES * 0.86, 92);
+        lv_obj_center(generated_download_overlay_);
+        lv_obj_set_style_radius(generated_download_overlay_, 14, 0);
+        lv_obj_set_style_bg_color(generated_download_overlay_, lv_color_hex(0x20252B), 0);
+        lv_obj_set_style_bg_opa(generated_download_overlay_, LV_OPA_90, 0);
+        lv_obj_set_style_border_width(generated_download_overlay_, 1, 0);
+        lv_obj_set_style_border_color(generated_download_overlay_, lv_color_hex(0x55C2FF), 0);
+        lv_obj_set_style_pad_all(generated_download_overlay_, 10, 0);
+        lv_obj_clear_flag(generated_download_overlay_, LV_OBJ_FLAG_SCROLLABLE);
+
+        generated_download_title_ = lv_label_create(generated_download_overlay_);
+        lv_obj_align(generated_download_title_, LV_ALIGN_TOP_MID, 0, 0);
+        lv_obj_set_width(generated_download_title_, LV_HOR_RES * 0.78);
+        lv_obj_set_style_text_align(generated_download_title_, LV_TEXT_ALIGN_CENTER, 0);
+        lv_obj_set_style_text_color(generated_download_title_, lv_color_white(), 0);
+
+        generated_download_bar_ = lv_bar_create(generated_download_overlay_);
+        lv_obj_set_size(generated_download_bar_, LV_HOR_RES * 0.70, 12);
+        lv_obj_align(generated_download_bar_, LV_ALIGN_CENTER, 0, 10);
+        lv_bar_set_range(generated_download_bar_, 0, 100);
+
+        generated_download_percent_ = lv_label_create(generated_download_overlay_);
+        lv_obj_align(generated_download_percent_, LV_ALIGN_BOTTOM_MID, 0, 0);
+        lv_obj_set_style_text_color(generated_download_percent_, lv_color_white(), 0);
+    }
+    lv_label_set_text(generated_download_title_, title != nullptr ? title : "Downloading song");
+    percent = percent < 0 ? 0 : (percent > 100 ? 100 : percent);
+    lv_bar_set_value(generated_download_bar_, percent, LV_ANIM_OFF);
+    lv_label_set_text_fmt(generated_download_percent_, "%d%%", percent);
+    lv_obj_clear_flag(generated_download_overlay_, LV_OBJ_FLAG_HIDDEN);
+}
+
+void LvglDisplay::HideGeneratedDownloadProgress() {
+    DisplayLockGuard lock(this);
+    if (generated_download_overlay_ != nullptr) {
+        lv_obj_add_flag(generated_download_overlay_, LV_OBJ_FLAG_HIDDEN);
     }
 }
 

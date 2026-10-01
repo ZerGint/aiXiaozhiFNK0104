@@ -12,6 +12,7 @@
 #include <simple_dec/esp_audio_simple_dec.h>
 #include <simple_dec/esp_audio_simple_dec_default.h>
 #include <algorithm>
+#include <cctype>
 #include <cstdio>
 #include <cstring>
 #include <random>
@@ -53,40 +54,105 @@ SdMusicPlayer::SdMusicPlayer() {}
 
 SdMusicPlayer::~SdMusicPlayer() { Stop(); }
 
-void SdMusicPlayer::ScanPlaylist() {
+void SdMusicPlayer::ScanDirectory(const char* directory, PlaylistSource source, bool include_wav) {
     std::lock_guard<std::mutex> lock(mutex_);
+    const bool playback_active = is_playing_.load();
+    const std::string active_path = active_track_path_;
     playlist_.clear();
+    playlist_source_ = source;
+    current_index_ = 0;
+    selected_index_ = -1;
+    shuffle_order_.clear();
+    shuffle_position_ = -1;
 
-    const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC",
-                           "/sdcard"};
-
-    for (auto p : paths) {
-        auto files = StorageManager::GetInstance().ListDirectory(p);
-        if (!files.empty()) {
-            ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", p,
-                     (int)files.size());
-            for (const auto& name : files) {
-                std::string lower_name = name;
-                for (auto& c : lower_name)
-                    c = tolower((unsigned char)c);
-                if (lower_name.rfind(".wav") != std::string::npos ||
-                    lower_name.rfind(".mp3") != std::string::npos) {
-                    std::string full_path = std::string(p) + "/" + name;
-                    playlist_.push_back(full_path);
-                    ESP_LOGI(TAG, " 🎵 Track found: %s", full_path.c_str());
-                }
-            }
-            if (!playlist_.empty()) {
-                break;
-            }
+    auto files = StorageManager::GetInstance().ListDirectory(directory);
+    std::sort(files.begin(), files.end());
+    ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", directory,
+             static_cast<int>(files.size()));
+    for (const auto& name : files) {
+        std::string lower_name = name;
+        for (auto& c : lower_name)
+            c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        const bool is_mp3 = lower_name.size() >= 4 &&
+                            lower_name.compare(lower_name.size() - 4, 4, ".mp3") == 0;
+        const bool is_wav = lower_name.size() >= 4 &&
+                            lower_name.compare(lower_name.size() - 4, 4, ".wav") == 0;
+        if (is_mp3 || (include_wav && is_wav)) {
+            std::string full_path = std::string(directory) + "/" + name;
+            playlist_.push_back(full_path);
+            ESP_LOGI(TAG, "Track found: %s", full_path.c_str());
         }
     }
+    if (playback_active && !active_path.empty()) {
+        const auto active_it = std::find(playlist_.begin(), playlist_.end(), active_path);
+        if (active_it != playlist_.end()) {
+            current_index_ = static_cast<int>(active_it - playlist_.begin());
+            selected_index_ = current_index_;
+        }
+        // Keep playback_playlist_ and playback_source_ unchanged. The tab
+        // switch only changes the list shown by the browser.
+    }
+}
 
+void SdMusicPlayer::ScanPlaylist() {
+    const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC",
+                           "/sdcard"};
+    for (auto path : paths) {
+        auto files = StorageManager::GetInstance().ListDirectory(path);
+        if (files.empty())
+            continue;
+        ScanDirectory(path, PlaylistSource::Normal, true);
+        if (!playlist_.empty())
+            break;
+    }
     ESP_LOGI(TAG, "ScanPlaylist complete. Total tracks found: %d", (int)playlist_.size());
 }
 
+void SdMusicPlayer::ScanGeneratedPlaylist() {
+    ScanDirectory("/sdcard/generated_music", PlaylistSource::Generated, false);
+    ESP_LOGI(TAG, "ScanGeneratedPlaylist complete. Total tracks found: %d",
+             static_cast<int>(playlist_.size()));
+}
+
+int SdMusicPlayer::FindTrack(const std::string& query, bool& ambiguous) const {
+    std::lock_guard<std::mutex> lock(mutex_);
+    ambiguous = false;
+    if (query.empty() || playlist_source_ != PlaylistSource::Generated)
+        return -1;
+
+    std::string needle = query;
+    std::transform(needle.begin(), needle.end(), needle.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    int contains_match = -1;
+    int contains_count = 0;
+    for (size_t i = 0; i < playlist_.size(); ++i) {
+        std::string title = playlist_[i];
+        const size_t slash = title.find_last_of('/');
+        if (slash != std::string::npos)
+            title.erase(0, slash + 1);
+        std::string lower_title = title;
+        std::transform(lower_title.begin(), lower_title.end(), lower_title.begin(),
+                       [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+        if (lower_title == needle)
+            return static_cast<int>(i);
+        if (lower_title.find(needle) != std::string::npos) {
+            contains_match = static_cast<int>(i);
+            ++contains_count;
+        }
+    }
+    if (contains_count == 1)
+        return contains_match;
+    ambiguous = contains_count > 1;
+    return -1;
+}
 std::string SdMusicPlayer::GetCurrentTrackName() const {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (is_playing_ && !active_track_path_.empty()) {
+        const size_t last_slash = active_track_path_.find_last_of('/');
+        return last_slash == std::string::npos ? active_track_path_
+                                               : active_track_path_.substr(last_slash + 1);
+    }
     if (current_index_ >= 0 && current_index_ < (int)playlist_.size()) {
         std::string full = playlist_[current_index_];
         size_t last_slash = full.find_last_of('/');
@@ -184,6 +250,11 @@ void SdMusicPlayer::Play(int index) {
             index = 0;
         current_index_ = index;
         selected_index_ = index;
+        playback_playlist_ = playlist_;
+        playback_index_ = index;
+        active_track_path_ = playlist_[index];
+        playback_source_ = playlist_source_;
+        stop_after_current_track_ = false;
     }
 
     if (is_playing_) {
@@ -232,6 +303,13 @@ void SdMusicPlayer::Prev() {
 }
 
 void SdMusicPlayer::Stop() {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        active_track_path_.clear();
+        playback_playlist_.clear();
+        playback_index_ = 0;
+        stop_after_current_track_ = false;
+    }
     if (is_playing_ || task_handle_ != nullptr) {
         stop_requested_ = true;
         is_paused_ = false;
@@ -268,10 +346,16 @@ void SdMusicPlayer::PlayerLoop() {
         std::string filepath;
         {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (current_index_ < 0 || current_index_ >= (int)playlist_.size()) {
+            if (!active_track_path_.empty()) {
+                filepath = active_track_path_;
+            } else if (playback_index_ >= 0 &&
+                       playback_index_ < static_cast<int>(playback_playlist_.size())) {
+                filepath = playback_playlist_[playback_index_];
+            } else if (current_index_ >= 0 && current_index_ < (int)playlist_.size()) {
+                filepath = playlist_[current_index_];
+            } else {
                 break;
             }
-            filepath = playlist_[current_index_];
         }
 
         ESP_LOGI(TAG, "▶ Playing file: %s", filepath.c_str());
@@ -408,8 +492,9 @@ void SdMusicPlayer::PlayerLoop() {
             fclose(f);
             vTaskDelay(pdMS_TO_TICKS(500));
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!playlist_.empty()) {
-                current_index_ = (current_index_ + 1) % playlist_.size();
+            if (!playback_playlist_.empty()) {
+                playback_index_ = (playback_index_ + 1) % playback_playlist_.size();
+                active_track_path_ = playback_playlist_[playback_index_];
             }
             continue;
         }
@@ -421,8 +506,8 @@ void SdMusicPlayer::PlayerLoop() {
 
         if (!skip_requested_) {
             std::lock_guard<std::mutex> lock(mutex_);
-            if (!playlist_.empty()) {
-                if (shuffle_enabled_ && shuffle_order_.size() == playlist_.size()) {
+            if (!playback_playlist_.empty()) {
+                if (shuffle_enabled_ && shuffle_order_.size() == playback_playlist_.size()) {
                     if (shuffle_position_ + 1 >= static_cast<int>(shuffle_order_.size())) {
                         if (!repeat_enabled_) {
                             stop_requested_ = true;
@@ -432,18 +517,24 @@ void SdMusicPlayer::PlayerLoop() {
                     } else {
                         ++shuffle_position_;
                     }
-                    current_index_ = shuffle_order_[shuffle_position_];
+                    playback_index_ = shuffle_order_[shuffle_position_];
                 } else if (!shuffle_enabled_ && repeat_enabled_ &&
-                           current_index_ + 1 >= static_cast<int>(playlist_.size())) {
-                    current_index_ = 0;
+                           playback_index_ + 1 >= static_cast<int>(playback_playlist_.size())) {
+                    playback_index_ = 0;
                 } else if (!shuffle_enabled_ &&
-                           current_index_ + 1 >= static_cast<int>(playlist_.size())) {
+                           playback_index_ + 1 >= static_cast<int>(playback_playlist_.size())) {
                     stop_requested_ = true;
                     continue;
                 } else {
-                    ++current_index_;
+                    ++playback_index_;
                 }
-                selected_index_ = current_index_;
+                active_track_path_ = playback_playlist_[playback_index_];
+                const auto visible_it =
+                    std::find(playlist_.begin(), playlist_.end(), active_track_path_);
+                if (visible_it != playlist_.end()) {
+                    current_index_ = static_cast<int>(visible_it - playlist_.begin());
+                    selected_index_ = current_index_;
+                }
             } else {
                 break;
             }

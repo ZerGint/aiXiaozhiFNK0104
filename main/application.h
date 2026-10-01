@@ -110,6 +110,11 @@ public:
     void StopListening();
     void StopVoiceInteractionForMedia();
 
+    // End the current server conversation after its final TTS response. This
+    // is used by asynchronous actions such as music generation that must not
+    // immediately reopen listening and continue the same request.
+    void EndConversationAfterSpeech();
+
     void Reboot();
     void WakeWordInvoke(const std::string& wake_word);
     bool UpgradeFirmware(const std::string& url, const std::string& version = "",
@@ -155,6 +160,7 @@ private:
     bool assets_applied_ = false;
     bool play_popup_on_listening_ = false;  // Flag to play popup sound after state changes to listening
     bool pending_listening_start_ = false;  // Waiting for playback to drain before starting listening (auto mode)
+    bool end_conversation_after_speech_ = false;
     int clock_ticks_ = 0;
     TaskHandle_t activation_task_handle_ = nullptr;
 

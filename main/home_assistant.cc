@@ -397,6 +397,7 @@ void HomeAssistant::RegisterMcpTools() {
 
     mcp.AddTool("homeassistant.call_service",
         "Call any Home Assistant service to control smart home devices, run scripts, or pour drinks from Smart Naliwator Dispenser.\n"
+        "NEVER use Home Assistant to search for or play generated music. Generated songs use the local generated-music/Music Bridge flow; if dedicated generated playback is unavailable, report that instead of calling media_player.\n"
         "IMPORTANT: If a device is physically turned off or unavailable, CallService will return an UNAVAILABLE error. If you receive an UNAVAILABLE error, DO NOT attempt to pour or control! Tell the user: 'Устройство (или наливатор) сейчас отключено или не в сети'!\n"
         "CRITICAL FOR NALIWATOR DISPENSER (наливатор / рюмки / налей):\n"
         "1) SAY FIRST to user: 'Наливаю X мл в N-ю рюмку...'\n"

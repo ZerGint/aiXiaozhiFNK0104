@@ -13,7 +13,10 @@ public:
     static MediaPlayer& GetInstance();
 
     void ScanSd();
+    bool PrepareGeneratedPlaylist(std::string& err_msg);
+    bool PrepareSdPlaylist(std::string& err_msg);
     void PlaySd(int index = -1);
+    bool PlayGenerated(const std::string& query, std::string& err_msg);
     std::string ListSdTracks() const;
     int FindSdTrack(const std::string& query) const;
     std::string SearchSdTracks(const std::string& artist, const std::string& genre, int limit) const;

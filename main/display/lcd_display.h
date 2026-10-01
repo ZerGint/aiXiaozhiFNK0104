@@ -19,7 +19,7 @@
 
 #define PREVIEW_IMAGE_DURATION_MS 5000
 
-enum class MediaBrowserMode { Player, Radio };
+enum class MediaBrowserMode { Player, Radio, Generated };
 enum class ActiveMediaSource { None, Player, Radio };
 
 class LcdDisplay : public LvglDisplay {
@@ -89,10 +89,10 @@ protected:
     uint8_t auto_brightness_timeout_index_ = 2;
     uint32_t last_display_activity_ms_ = 0;
 
-    lv_obj_t* nav_buttons_[3] = {};
+    lv_obj_t* nav_buttons_[4] = {};
     lv_obj_t* firmware_version_label_ = nullptr;
-    lv_obj_t* nav_status_[3] = {};
-    lv_obj_t* nav_activity_[3] = {};
+    lv_obj_t* nav_status_[4] = {};
+    lv_obj_t* nav_activity_[4] = {};
     lv_obj_t* top_time_label_ = nullptr;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_t* network_ip_label_ = nullptr;

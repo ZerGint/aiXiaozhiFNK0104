@@ -11,6 +11,7 @@
 #include "custom_ota_policy.h"
 #include "display.h"
 #include "mcp_server.h"
+#include "music/music_service.h"
 #include "media/media_audio_output.h"
 #include "media/media_player.h"
 #include "mqtt_protocol.h"
@@ -611,6 +612,9 @@ void Application::InitializeProtocol() {
     protocol_->OnAudioChannelClosed([this, &board]() {
         board.SetPowerSaveLevel(PowerSaveLevel::LOW_POWER);
         Schedule([this]() {
+            // A channel close without the expected TTS stop must not leave a
+            // stale generation-completion flag for the next conversation.
+            end_conversation_after_speech_ = false;
             auto display = Board::GetInstance().GetDisplay();
             display->SetChatMessage("system", "");
             SetDeviceState(kDeviceStateIdle);
@@ -670,7 +674,13 @@ void Application::InitializeProtocol() {
             } else if (strcmp(state->valuestring, "stop") == 0) {
                 Schedule([this]() {
                     if (GetDeviceState() == kDeviceStateSpeaking) {
-                        if (listening_mode_ == kListeningModeManualStop) {
+                        if (end_conversation_after_speech_) {
+                            end_conversation_after_speech_ = false;
+                            if (protocol_ && protocol_->IsAudioChannelOpened()) {
+                                protocol_->CloseAudioChannel();
+                            }
+                            SetDeviceState(kDeviceStateIdle);
+                        } else if (listening_mode_ == kListeningModeManualStop) {
                             SetDeviceState(kDeviceStateIdle);
                         } else {
                             SetDeviceState(kDeviceStateListening);
@@ -832,7 +842,21 @@ void Application::StopVoiceInteractionForMedia() {
     }
 }
 
+void Application::EndConversationAfterSpeech() {
+    // Keep the current conversation open until the final TTS stop event so
+    // every sentence in the acknowledgement can be played. The stop event
+    // then closes the channel and returns the device to idle.
+    end_conversation_after_speech_ = true;
+    pending_listening_start_ = false;
+    ESP_LOGI(TAG, "CONVERSATION_END_AFTER_SPEECH requested");
+}
+
 void Application::HandleToggleChatEvent(bool play_popup_sound) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=toggle");
+        return;
+    }
+    MusicService::GetInstance().BeginVoiceConversation();
     auto state = GetDeviceState();
 
     if (state == kDeviceStateNotifying) {
@@ -905,6 +929,11 @@ void Application::ContinueOpenAudioChannel(ListeningMode mode) {
 }
 
 void Application::HandleStartListeningEvent() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=start");
+        return;
+    }
+    MusicService::GetInstance().BeginVoiceConversation();
     auto state = GetDeviceState();
 
     if (state == kDeviceStateNotifying) {
@@ -959,6 +988,11 @@ void Application::HandleStopListeningEvent() {
 }
 
 void Application::HandleWakeWordDetectedEvent() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=wake");
+        return;
+    }
+    MusicService::GetInstance().BeginVoiceConversation();
     if (!protocol_) {
         return;
     }
@@ -975,6 +1009,9 @@ void Application::HandleWakeWordDetectedEvent() {
         StopNotification();
         BeginWakeWordInvoke(wake_word);
     } else if (state == kDeviceStateSpeaking || state == kDeviceStateListening) {
+        // A new explicit interaction supersedes a pending end-of-conversation
+        // request from an earlier assistant response.
+        end_conversation_after_speech_ = false;
         AbortSpeaking(kAbortReasonWakeWordDetected);
         // Clear send queue to avoid sending residues to server
         while (audio_service_.PopPacketFromSendQueue())
@@ -1276,6 +1313,10 @@ void Application::Reboot() {
 
 bool Application::UpgradeFirmware(const std::string& url, const std::string& version,
                                   bool local_approval) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGW(TAG, "OTA_START_DEFERRED reason=generated_download_busy");
+        return false;
+    }
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     if (!local_approval) {
         ESP_LOGW(TAG,

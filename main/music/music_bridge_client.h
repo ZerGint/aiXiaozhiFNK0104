@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <functional>
 
 struct MusicGenerateResult {
     bool success = false;
@@ -20,6 +21,8 @@ struct MusicJobStatus {
     std::string audio_url;
     std::string format;
     size_t size = 0;
+    double duration = 0;
+    std::string filename;
     std::string error;
 };
 
@@ -39,6 +42,13 @@ public:
     bool GetJob(const std::string& base_url,
                 const std::string& job_id,
                 MusicJobStatus& result) const;
+    bool DownloadAudio(const std::string& base_url,
+                       const std::string& job_id,
+                       size_t expected_size,
+                       const std::string& output_path,
+                       size_t& downloaded_size,
+                       std::string& error,
+                       const std::function<void(size_t, size_t)>& progress = {}) const;
     bool Health(const std::string& base_url, std::string& error) const;
 
 private:

@@ -4,5 +4,7 @@ generated/
 library/
 logs/
 .venv/
+.venv_platformio/
 __pycache__/
 *.pyc
+*.spec
