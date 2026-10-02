@@ -74,6 +74,12 @@ class MusicLibrary:
             self._rebuild_from_sidecars()
         self._repair_all_sizes()
 
+    def reload(self) -> None:
+        """Reload the index so another bridge component's changes are visible."""
+        with self._lock:
+            self._tracks.clear()
+            self._load()
+
     def _rebuild_from_sidecars(self) -> None:
         for sidecar in self.root.glob("*.json"):
             if sidecar == self.index_path:

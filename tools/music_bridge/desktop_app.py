@@ -35,12 +35,15 @@ class BridgeDesktopApp:
         self.tray: pystray.Icon | None = None
         self._restoring = False
         self._closing = False
+        self._refresh_after_id: str | None = None
+        self._track_signature: tuple[tuple[str, str, int, str], ...] = ()
 
         self.status = tk.StringVar(value="Готово")
         self._build_ui()
         self._load_tracks()
         self._start_server()
         self._start_tray()
+        self._schedule_track_refresh()
         self.root.bind("<Unmap>", self._on_unmap)
 
     def _build_ui(self) -> None:
@@ -73,25 +76,43 @@ class BridgeDesktopApp:
         ttk.Button(controls, text="Stop", command=self.stop_playback).pack(
             side=tk.LEFT, padx=(0, 6)
         )
-        ttk.Button(controls, text="Обновить", command=self._load_tracks).pack(side=tk.RIGHT)
+        ttk.Button(controls, text="\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c", command=self._load_tracks).pack(side=tk.RIGHT)
         ttk.Label(frame, textvariable=self.status, foreground="#555").pack(
             anchor=tk.W, pady=(8, 0)
         )
 
     def _load_tracks(self) -> None:
+        # The API worker owns a separate MusicLibrary instance and updates the
+        # same persistent index when a generation completes. Reload before
+        # reading so newly generated tracks appear in this window.
+        self.library.reload()
         selected = self.track_list.curselection() if hasattr(self, "track_list") else ()
         selected_id = self.tracks[selected[0]].get("id") if selected else None
-        self.tracks = []
-        if hasattr(self, "track_list"):
-            self.track_list.delete(0, tk.END)
+        tracks: list[dict] = []
 
         for track in self.library.list_tracks():
             track_id = str(track.get("id", ""))
             if not track_id or self.library.audio_path(track_id) is None:
                 continue
-            self.tracks.append(track)
-            title = str(track.get("title") or track.get("filename") or track_id)
-            self.track_list.insert(tk.END, title)
+            tracks.append(track)
+
+        signature = tuple(
+            (
+                str(track.get("id", "")),
+                str(track.get("filename", "")),
+                int(track.get("size", 0) or 0),
+                str(track.get("ready_at", "")),
+            )
+            for track in tracks
+        )
+        self.tracks = tracks
+        if signature != self._track_signature and hasattr(self, "track_list"):
+            self.track_list.delete(0, tk.END)
+            for track in tracks:
+                track_id = str(track.get("id", ""))
+                title = str(track.get("title") or track.get("filename") or track_id)
+                self.track_list.insert(tk.END, title)
+            self._track_signature = signature
 
         if selected_id:
             for index, track in enumerate(self.tracks):
@@ -99,7 +120,20 @@ class BridgeDesktopApp:
                     self.track_list.selection_set(index)
                     self.track_list.see(index)
                     break
-        self.status.set(f"Треков: {len(self.tracks)}")
+        self.status.set(f"\u0422\u0440\u0435\u043a\u043e\u0432: {len(self.tracks)}")
+
+    def _schedule_track_refresh(self) -> None:
+        if not self._closing:
+            self._refresh_after_id = self.root.after(3000, self._auto_refresh_tracks)
+
+    def _auto_refresh_tracks(self) -> None:
+        self._refresh_after_id = None
+        if self._closing:
+            return
+        try:
+            self._load_tracks()
+        finally:
+            self._schedule_track_refresh()
 
     def _start_server(self) -> None:
         uvicorn_config = uvicorn.Config(
@@ -191,6 +225,9 @@ class BridgeDesktopApp:
         if self._closing:
             return
         self._closing = True
+        if self._refresh_after_id is not None:
+            self.root.after_cancel(self._refresh_after_id)
+            self._refresh_after_id = None
         self.stop_playback()
         if self.tray is not None:
             self.tray.stop()
