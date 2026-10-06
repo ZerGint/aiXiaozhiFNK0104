@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 #include <functional>
+#include <vector>
 
 struct MusicGenerateResult {
     bool success = false;
@@ -26,6 +27,16 @@ struct MusicJobStatus {
     std::string error;
 };
 
+struct MusicLibraryTrack {
+    std::string id;
+    std::string title;
+    std::string filename;
+    std::string provider;
+    std::string created_at;
+    size_t size = 0;
+    double duration = 0;
+};
+
 class MusicBridgeClient {
 public:
     static constexpr size_t kMaxUrlLength = 256;
@@ -42,6 +53,13 @@ public:
     bool GetJob(const std::string& base_url,
                 const std::string& job_id,
                 MusicJobStatus& result) const;
+    bool ListLibrary(const std::string& base_url,
+                     std::vector<MusicLibraryTrack>& result,
+                     std::string& error) const;
+    bool GetLibraryTrack(const std::string& base_url,
+                         const std::string& track_id,
+                         MusicLibraryTrack& result,
+                         std::string& error) const;
     bool DownloadAudio(const std::string& base_url,
                        const std::string& job_id,
                        size_t expected_size,
@@ -49,6 +67,13 @@ public:
                        size_t& downloaded_size,
                        std::string& error,
                        const std::function<void(size_t, size_t)>& progress = {}) const;
+    bool DownloadLibraryAudio(const std::string& base_url,
+                              const std::string& track_id,
+                              size_t expected_size,
+                              const std::string& output_path,
+                              size_t& downloaded_size,
+                              std::string& error,
+                              const std::function<void(size_t, size_t)>& progress = {}) const;
     bool Health(const std::string& base_url, std::string& error) const;
 
 private:
@@ -58,4 +83,11 @@ private:
                  int& status_code,
                  std::string& response_body,
                  std::string& error) const;
+    bool DownloadAudioEndpoint(const std::string& url,
+                               const std::string& id,
+                               size_t expected_size,
+                               const std::string& output_path,
+                               size_t& downloaded_size,
+                               std::string& error,
+                               const std::function<void(size_t, size_t)>& progress) const;
 };

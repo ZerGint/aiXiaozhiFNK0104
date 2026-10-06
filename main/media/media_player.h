@@ -30,6 +30,11 @@ public:
     void TogglePlayPause();
     void PauseForVoice();
     void PlayForVoice();
+    // Pause the currently active local source for a generated-music download.
+    // This has separate ownership from voice interruption and restores only
+    // playback that was actually running when the transaction began.
+    void PauseForGeneratedDownload();
+    void ResumeAfterGeneratedDownload();
     void Next();
     void Prev();
     void Stop();
@@ -48,8 +53,11 @@ private:
     std::atomic<bool> paused_for_voice_{false};
     std::atomic<bool> sd_paused_for_voice_{false};
     std::atomic<bool> paused_by_user_{false};
+    bool generated_download_sd_paused_ = false;
+    bool generated_download_radio_paused_ = false;
     RadioStationInfo radio_station_for_voice_;
     RadioStationInfo radio_station_for_manual_pause_;
+    RadioStationInfo radio_station_for_generated_download_;
     mutable std::mutex voice_mutex_;
 };
 

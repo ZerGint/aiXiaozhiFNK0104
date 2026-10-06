@@ -16,6 +16,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -41,6 +42,9 @@ public:
     // Optional generated-music download progress overlay. Non-LVGL displays ignore it.
     virtual void ShowGeneratedDownloadProgress(const char* title, int percent) {}
     virtual void HideGeneratedDownloadProgress() {}
+    // Optional one-shot confirmation for a generated track that is ready on the bridge.
+    // Displays without a UI simply leave the job awaiting explicit confirmation.
+    virtual void ShowGeneratedReadyPrompt(const char* title, std::function<void(bool)> callback) {}
     virtual void SetEmotion(const char* emotion);
     virtual void PlayReaction(FaceReaction reaction,
                               FaceReactionSource source = FaceReactionSource::Unknown) {}

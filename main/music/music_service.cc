@@ -283,6 +283,7 @@ void MusicService::LoadState() {
     {
         std::lock_guard<std::mutex> lock(mutex_);
         job_ = {};
+        download_requested_ = false;
         if (valid && exists) {
             job_.active = true;
             job_.job_id = Bounded(persisted.job_id, MusicBridgeClient::kMaxJobIdLength);
@@ -300,8 +301,11 @@ void MusicService::LoadState() {
             if (job_.status == "ready" && job_.download_status == "local") job_.status = "local";
             if (job_.status == "downloading") {
                 job_.status = "ready";
-                job_.download_status = "pending";
+                job_.download_status = "not_downloaded";
                 job_.next_download_at = 0;
+            }
+            if (job_.status == "ready" && job_.download_status.empty()) {
+                job_.download_status = "not_downloaded";
             }
         }
     }
@@ -347,13 +351,15 @@ bool MusicService::IsTerminal(const std::string& status) {
 
 bool MusicService::HasPendingJobsLocked() const {
     if (!job_.active || IsTerminal(job_.status)) return false;
+    if (job_.status == "ready") return download_requested_;
     return job_.status == "queued" || job_.status == "submitting" || job_.status == "generating" ||
-           job_.status == "ready" || job_.status == "downloading";
+           job_.status == "downloading";
 }
 
 bool MusicService::AddPendingJob(const MusicGenerateResult& generated, const std::string& title) {
     std::lock_guard<std::mutex> lock(mutex_);
     job_ = {};
+    download_requested_ = false;
     job_.active = true;
     job_.job_id = generated.job_id;
     job_.title = Bounded(title, kMaxTitleLength);
@@ -366,29 +372,230 @@ bool MusicService::AddPendingJob(const MusicGenerateResult& generated, const std
 }
 
 void MusicService::ApplyStatus(const MusicJobStatus& status) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    if (!job_.active || job_.job_id != status.job_id) return;
-    const std::string old_status = job_.status;
-    job_.status = Bounded(status.status, 32);
-    if (!status.title.empty()) job_.title = Bounded(status.title, kMaxTitleLength);
-    job_.size = status.size;
-    job_.duration = status.duration;
-    job_.filename = Bounded(status.filename, 160);
-    job_.error = Bounded(status.error, 240);
-    if (job_.status == "ready" && job_.download_status.empty()) job_.download_status = "pending";
-    PersistLocked();
-    ESP_LOGI(kTag, "MUSIC_JOB_UPDATE job_id=%s status=%s", job_.job_id.c_str(), job_.status.c_str());
-    if (old_status != job_.status) {
-        ESP_LOGI(kTag, "MUSIC_DIAG JOB_STATE job_id=%s old=%s new=%s", job_.job_id.c_str(),
-                 old_status.c_str(), job_.status.c_str());
-        if (IsTerminal(job_.status)) {
-            ESP_LOGI(kTag, "MUSIC_DIAG JOBS_TERMINAL job_id=%s status=%s", job_.job_id.c_str(),
-                     job_.status.c_str());
+    PendingJob ready_prompt;
+    bool show_ready_prompt = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!job_.active || job_.job_id != status.job_id) return;
+        const std::string old_status = job_.status;
+        job_.status = Bounded(status.status, 32);
+        if (!status.title.empty()) job_.title = Bounded(status.title, kMaxTitleLength);
+        job_.size = status.size;
+        job_.duration = status.duration;
+        job_.filename = Bounded(status.filename, 160);
+        job_.error = Bounded(status.error, 240);
+        if (job_.status == "ready" && job_.download_status.empty()) job_.download_status = "not_downloaded";
+        PersistLocked();
+        ESP_LOGI(kTag, "MUSIC_JOB_UPDATE job_id=%s status=%s", job_.job_id.c_str(), job_.status.c_str());
+        if (old_status != job_.status) {
+            ESP_LOGI(kTag, "MUSIC_DIAG JOB_STATE job_id=%s old=%s new=%s", job_.job_id.c_str(),
+                     old_status.c_str(), job_.status.c_str());
+            if (IsTerminal(job_.status)) {
+                ESP_LOGI(kTag, "MUSIC_DIAG JOBS_TERMINAL job_id=%s status=%s", job_.job_id.c_str(),
+                         job_.status.c_str());
+            }
+        }
+        if (job_.status == "ready" && job_.download_status != "local") {
+            if (old_status != "ready" && prompt_shown_job_id_ != job_.job_id) {
+                prompt_shown_job_id_ = job_.job_id;
+                ready_prompt = job_;
+                show_ready_prompt = true;
+                ESP_LOGI(kTag, "MUSIC_READY_PROMPT_SHOW job_id=%s", job_.job_id.c_str());
+            }
+            ESP_LOGI(kTag, "MUSIC_DOWNLOAD_PENDING id=%s", job_.job_id.c_str());
         }
     }
-    if (job_.status == "ready" && job_.download_status != "local") {
-        ESP_LOGI(kTag, "MUSIC_DOWNLOAD_PENDING id=%s", job_.job_id.c_str());
+    if (show_ready_prompt) {
+        Application::GetInstance().Schedule([this, ready_prompt]() { ShowReadyPrompt(ready_prompt); });
     }
+}
+
+void MusicService::ShowReadyPrompt(const PendingJob& prompt) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!job_.active || job_.job_id != prompt.job_id || job_.status != "ready" ||
+            job_.download_status == "local") {
+            return;
+        }
+    }
+    auto display = Board::GetInstance().GetDisplay();
+    if (display == nullptr) return;
+    display->ShowGeneratedReadyPrompt(prompt.title.c_str(), [this, job_id = prompt.job_id](bool confirmed) {
+        if (confirmed) {
+            ConfirmGeneratedDownload(job_id);
+        } else {
+            DeclineGeneratedDownload(job_id);
+        }
+    });
+}
+
+void MusicService::ConfirmGeneratedDownload(const std::string& job_id) {
+    bool accepted = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (job_.active && job_.job_id == job_id && job_.status == "ready" &&
+            job_.download_status != "local") {
+            download_requested_ = true;
+            job_.download_status = "pending";
+            job_.next_download_at = 0;
+            job_.error.clear();
+            PersistLocked();
+            accepted = true;
+        }
+    }
+    if (accepted) {
+        ESP_LOGI(kTag, "MUSIC_READY_PROMPT_CONFIRM job_id=%s", job_id.c_str());
+        EnsurePollTask();
+    }
+}
+
+void MusicService::DeclineGeneratedDownload(const std::string& job_id) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (!job_.active || job_.job_id != job_id || job_.status != "ready" ||
+        job_.download_status == "local") {
+        return;
+    }
+    download_requested_ = false;
+    job_.download_status = "not_downloaded";
+    job_.next_download_at = 0;
+    job_.error.clear();
+    PersistLocked();
+    ESP_LOGI(kTag, "MUSIC_READY_PROMPT_DECLINE job_id=%s", job_id.c_str());
+}
+
+bool MusicService::RequestGeneratedDownload(const std::string& requested_job_id, std::string& error) {
+    error.clear();
+    std::string job_id;
+    bool accepted = false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        job_id = requested_job_id.empty() ? job_.job_id : requested_job_id;
+        if (!job_.active || job_.job_id != job_id) {
+            error = "generation_not_found";
+        } else if (job_.status == "local" || job_.download_status == "local") {
+            error = "already_local";
+        } else if (job_.status != "ready") {
+            error = "generation_not_ready";
+        } else if (generated_download_busy_.load()) {
+            error = "generated_download_busy";
+        } else {
+            download_requested_ = true;
+            job_.download_status = "pending";
+            job_.next_download_at = 0;
+            job_.error.clear();
+            PersistLocked();
+            accepted = true;
+        }
+    }
+    if (!accepted) return false;
+    ESP_LOGI(kTag, "MUSIC_READY_PROMPT_CONFIRM source=ai job_id=%s", job_id.c_str());
+    EnsurePollTask();
+    Application::GetInstance().EndConversationAfterSpeech();
+    return true;
+}
+
+std::string MusicService::SearchBridgeLibrary(const std::string& query, std::string& error) {
+    const std::string url = ResolveBridgeUrl();
+    if (url.empty()) {
+        error = "generator_unavailable";
+        return {};
+    }
+    MusicBridgeClient client;
+    std::vector<MusicLibraryTrack> tracks;
+    if (!client.ListLibrary(url, tracks, error)) return {};
+
+    auto lower_ascii = [](std::string value) {
+        std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
+            return static_cast<char>(std::tolower(ch));
+        });
+        return value;
+    };
+    const std::string needle = lower_ascii(query);
+    cJSON* result = cJSON_CreateObject();
+    cJSON_AddBoolToObject(result, "success", true);
+    cJSON_AddStringToObject(result, "source", "music_bridge_library");
+    cJSON_AddStringToObject(result, "query", query.c_str());
+    cJSON* items = cJSON_CreateArray();
+    size_t returned = 0;
+    for (const auto& track : tracks) {
+        const std::string haystack = lower_ascii(track.title + " " + track.filename + " " + track.id);
+        if (!needle.empty() && haystack.find(needle) == std::string::npos) continue;
+        cJSON* item = cJSON_CreateObject();
+        cJSON_AddStringToObject(item, "track_id", track.id.c_str());
+        cJSON_AddStringToObject(item, "title", track.title.c_str());
+        cJSON_AddStringToObject(item, "filename", track.filename.c_str());
+        if (track.size > 0) cJSON_AddNumberToObject(item, "size", static_cast<double>(track.size));
+        if (track.duration > 0) cJSON_AddNumberToObject(item, "duration", track.duration);
+        if (!track.created_at.empty()) cJSON_AddStringToObject(item, "created_at", track.created_at.c_str());
+        cJSON_AddItemToArray(items, item);
+        if (++returned >= 20) break;
+    }
+    cJSON_AddNumberToObject(result, "count", static_cast<double>(returned));
+    cJSON_AddItemToObject(result, "tracks", items);
+    char* rendered = cJSON_PrintUnformatted(result);
+    cJSON_Delete(result);
+    if (rendered == nullptr) {
+        error = "out_of_memory";
+        return {};
+    }
+    std::string output(rendered);
+    cJSON_free(rendered);
+    return output;
+}
+
+bool MusicService::RequestLibraryDownload(const std::string& track_id, std::string& error) {
+    error.clear();
+    if (track_id.empty()) {
+        error = "track_id_required";
+        return false;
+    }
+    if (!StorageManager::GetInstance().IsSdCardMounted()) {
+        error = "sd_card_required_for_download";
+        return false;
+    }
+    if (IsGeneratedDownloadBusy()) {
+        error = "generated_download_busy";
+        return false;
+    }
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (job_.active && !IsTerminal(job_.status)) {
+            error = "generation_or_download_in_progress";
+            return false;
+        }
+    }
+    const std::string url = ResolveBridgeUrl();
+    if (url.empty()) {
+        error = "generator_unavailable";
+        return false;
+    }
+    MusicBridgeClient client;
+    MusicLibraryTrack track;
+    if (!client.GetLibraryTrack(url, track_id, track, error)) return false;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        job_ = {};
+        job_.active = true;
+        job_.job_id = track.id;
+        job_.title = Bounded(track.title, kMaxTitleLength);
+        job_.status = "ready";
+        job_.size = track.size;
+        job_.duration = track.duration;
+        job_.filename = Bounded(track.filename, 160);
+        job_.download_status = "pending";
+        job_.library_source = true;
+        download_requested_ = true;
+        if (!PersistLocked()) {
+            job_ = {};
+            download_requested_ = false;
+            error = "generation_state_persist_failed";
+            return false;
+        }
+    }
+    ESP_LOGI(kTag, "MUSIC_LIBRARY_DOWNLOAD_REQUEST track_id=%s title=%s", track.id.c_str(), track.title.c_str());
+    EnsurePollTask();
+    Application::GetInstance().EndConversationAfterSpeech();
+    return true;
 }
 
 bool MusicService::SafeFilename(const std::string& remote,
@@ -477,8 +684,6 @@ const char* MusicService::DownloadBlockReason(bool include_gate) const {
     const DeviceState state = Application::GetInstance().GetDeviceState();
     if (state == kDeviceStateUpgrading) return "ota";
     if (state != kDeviceStateIdle) return "ai";
-    if (InternetRadioPlayer::GetInstance().IsActive()) return "radio";
-    if (MediaPlayer::GetInstance().IsPlaying()) return "media";
     if (include_gate && IsGeneratedDownloadBusy()) return "gate";
     return nullptr;
 }
@@ -542,8 +747,17 @@ void MusicService::RecordDownloadFailure(const std::string& job_id, const std::s
 }
 
 bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!download_requested_ || !job_.active || job_.job_id != snapshot.job_id || job_.status != "ready") {
+            return false;
+        }
+    }
     if (!CanStartGeneratedDownload()) {
         const char* reason = DownloadBlockReason();
+        if (reason != nullptr && strcmp(reason, "ai") == 0) {
+            ESP_LOGI(kTag, "MUSIC_DOWNLOAD_WAIT_AI job_id=%s", snapshot.job_id.c_str());
+        }
         ESP_LOGI(kTag, "MUSIC_DOWNLOAD_DEFERRED reason=%s job_id=%s", reason != nullptr ? reason : "state_changed",
                  snapshot.job_id.c_str());
         return false;
@@ -590,6 +804,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         if (!job_.active || job_.job_id != snapshot.job_id) return;
         job_.status = "local";
         job_.download_status = "local";
+        download_requested_ = false;
         job_.local_filename = filename;
         job_.downloaded_size = size;
         job_.download_attempts = 0;
@@ -643,11 +858,14 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         return false;
     }
     bool gate_claimed = true;
-    auto release_gate = [&]() {
+    auto finish_transaction = [&](const char* result) {
         if (gate_claimed) {
             HideDownloadOverlay();
+            MediaPlayer::GetInstance().ResumeAfterGeneratedDownload();
             EndGeneratedDownload();
             gate_claimed = false;
+            LogDiagnosticMemory("after_restore");
+            ESP_LOGI(kTag, "MUSIC_DOWNLOAD_TRANSACTION_DONE result=%s", result);
         }
     };
     // The download gate is already claimed above. Re-check only external
@@ -656,9 +874,13 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
     if (external_block_reason != nullptr) {
         const char* reason = external_block_reason;
         ESP_LOGI(kTag, "MUSIC_DOWNLOAD_DEFERRED reason=%s", reason != nullptr ? reason : "state_changed");
-        release_gate();
+        finish_transaction("deferred");
         return false;
     }
+    ESP_LOGI(kTag, "MUSIC_DOWNLOAD_QUIESCE_BEGIN job_id=%s", snapshot.job_id.c_str());
+    MediaPlayer::GetInstance().PauseForGeneratedDownload();
+    ESP_LOGI(kTag, "MUSIC_DOWNLOAD_QUIESCE_READY job_id=%s", snapshot.job_id.c_str());
+    vTaskDelay(1);
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (job_.active && job_.job_id == snapshot.job_id) {
@@ -682,8 +904,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
     int last_percent = -1;
     int64_t last_ui_ms = 0;
     bool mid_download_logged = false;
-    const bool success = client.DownloadAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded, error,
-                                              [&](size_t bytes, size_t total) {
+    const auto progress = [&](size_t bytes, size_t total) {
                                                   if (total == 0) return;
                                                   if (!mid_download_logged && bytes > 0) {
                                                       LogDiagnosticMemory("mid_download");
@@ -699,25 +920,32 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                                                       if (display != nullptr) display->ShowGeneratedDownloadProgress("Скачивание песни", percent);
                                                       ESP_LOGI(kTag, "MUSIC_UI DOWNLOAD_PROGRESS percent=%d", percent);
                                                   }
-                                              });
+                                              };
+    const bool success = snapshot.library_source
+                             ? client.DownloadLibraryAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded,
+                                                           error, progress)
+                             : client.DownloadAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded, error,
+                                                    progress);
     LogMemory("after_download");
     LogDiagnosticMemory("after_download_complete");
     if (!success) {
         unlink(temp_path.c_str());
         ESP_LOGW(kTag, "MUSIC_DIAG DOWNLOAD_FAIL reason=%s job_id=%s", error.c_str(), snapshot.job_id.c_str());
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (job_.active && job_.job_id == snapshot.job_id) {
-            ++job_.download_attempts;
-            const uint32_t delay = std::min<uint32_t>(kDownloadRetryMaxSec, kDownloadRetryBaseSec << std::min<uint32_t>(job_.download_attempts - 1, 4));
-            job_.next_download_at = static_cast<int64_t>(time(nullptr)) + delay;
-            job_.status = "ready";
-            job_.download_status = "failed";
-            job_.downloaded_size = downloaded;
-            job_.error = Bounded(error, 240);
-            PersistLocked();
-            ESP_LOGW(kTag, "MUSIC_DOWNLOAD_FAIL id=%s reason=%s retry_sec=%u", snapshot.job_id.c_str(), error.c_str(), static_cast<unsigned>(delay));
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (job_.active && job_.job_id == snapshot.job_id) {
+                ++job_.download_attempts;
+                const uint32_t delay = std::min<uint32_t>(kDownloadRetryMaxSec, kDownloadRetryBaseSec << std::min<uint32_t>(job_.download_attempts - 1, 4));
+                job_.next_download_at = static_cast<int64_t>(time(nullptr)) + delay;
+                job_.status = "ready";
+                job_.download_status = "failed";
+                job_.downloaded_size = downloaded;
+                job_.error = Bounded(error, 240);
+                PersistLocked();
+                ESP_LOGW(kTag, "MUSIC_DOWNLOAD_FAIL id=%s reason=%s retry_sec=%u", snapshot.job_id.c_str(), error.c_str(), static_cast<unsigned>(delay));
+            }
         }
-        release_gate();
+        finish_transaction("http_failure");
         return false;
     }
     ShowDownloadOverlay("Скачивание песни", 100);
@@ -728,15 +956,17 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         ESP_LOGW(kTag, "MUSIC_DIAG FINAL_RENAME_FAIL job_id=%s error=%s", snapshot.job_id.c_str(), strerror(errno));
         unlink(temp_path.c_str());
         error = "final_rename_failed";
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (job_.active && job_.job_id == snapshot.job_id) {
-            job_.status = "ready";
-            job_.download_status = "failed";
-            job_.error = error;
-            job_.next_download_at = static_cast<int64_t>(time(nullptr)) + kDownloadRetryBaseSec;
-            PersistLocked();
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (job_.active && job_.job_id == snapshot.job_id) {
+                job_.status = "ready";
+                job_.download_status = "failed";
+                job_.error = error;
+                job_.next_download_at = static_cast<int64_t>(time(nullptr)) + kDownloadRetryBaseSec;
+                PersistLocked();
+            }
         }
-        release_gate();
+        finish_transaction("rename_failure");
         return false;
     }
     struct stat final_stat = {};
@@ -744,7 +974,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         ESP_LOGW(kTag, "MUSIC_DIAG LOCAL_CHECK_FAIL job_id=%s path=%s", snapshot.job_id.c_str(), final_path.c_str());
         ESP_LOGW(kTag, "MUSIC_DIAG DOWNLOAD_FAIL reason=final_file_check job_id=%s", snapshot.job_id.c_str());
         unlink(final_path.c_str());
-        release_gate();
+        finish_transaction("file_check_failure");
         return false;
     }
     ESP_LOGI(kTag, "MUSIC_DIAG FINAL_RENAME job_id=%s final_path=%s final_size=%u", snapshot.job_id.c_str(),
@@ -753,6 +983,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
 
     std::string evicted_filename;
     bool already_indexed = false;
+    bool gmdb_commit_failed = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         std::vector<GeneratedMusicRecord> records;
@@ -790,18 +1021,20 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                     job_.next_download_at = static_cast<int64_t>(time(nullptr)) + kDownloadRetryBaseSec;
                     PersistLocked();
                 }
-                release_gate();
-                return false;
+                gmdb_commit_failed = true;
             }
-            ESP_LOGI(kTag, "MUSIC_DIAG GMDB_COMMIT old_count=%u new_count=%u appended=1 evicted=%s",
-                     static_cast<unsigned>(old_count), static_cast<unsigned>(records.size()),
-                     evicted_filename.empty() ? "none" : evicted_filename.c_str());
-            LogDiagnosticMemory("after_gmdb_commit");
+            if (!gmdb_commit_failed) {
+                ESP_LOGI(kTag, "MUSIC_DIAG GMDB_COMMIT old_count=%u new_count=%u appended=1 evicted=%s",
+                         static_cast<unsigned>(old_count), static_cast<unsigned>(records.size()),
+                         evicted_filename.empty() ? "none" : evicted_filename.c_str());
+                LogDiagnosticMemory("after_gmdb_commit");
+            }
         }
 
-        if (job_.active && job_.job_id == snapshot.job_id) {
+        if (!gmdb_commit_failed && job_.active && job_.job_id == snapshot.job_id) {
             job_.status = "local";
             job_.download_status = "local";
+            download_requested_ = false;
             job_.local_filename = filename;
             job_.downloaded_size = static_cast<size_t>(final_stat.st_size);
             job_.download_attempts = 0;
@@ -811,6 +1044,10 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
             ESP_LOGI(kTag, "MUSIC_DIAG JOBS_TERMINAL job_id=%s status=local", job_.job_id.c_str());
         }
     }
+    if (gmdb_commit_failed) {
+        finish_transaction("gmdb_failure");
+        return false;
+    }
     if (already_indexed) {
         ESP_LOGI(kTag, "MUSIC_CACHE_DUPLICATE filename=%s", filename.c_str());
         ESP_LOGI(kTag, "MUSIC_DIAG READY_ALREADY_LOCAL job_id=%s filename=%s", snapshot.job_id.c_str(), filename.c_str());
@@ -819,7 +1056,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         ESP_LOGI(kTag, "MUSIC_DIAG STATUS_LOCAL job_id=%s status=%s download_status=local downloaded=%u local_filename=%s",
                  snapshot.job_id.c_str(), snapshot.status.c_str(), static_cast<unsigned>(final_stat.st_size), filename.c_str());
         LogDiagnosticMemory("after_download_return");
-        release_gate();
+        finish_transaction("success");
         return true;
     }
 
@@ -840,7 +1077,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
              snapshot.job_id.c_str(), snapshot.status.c_str(), static_cast<unsigned>(final_stat.st_size), filename.c_str());
     ESP_LOGI(kTag, "MUSIC_DOWNLOAD_DONE id=%s bytes=%u path=%s", snapshot.job_id.c_str(), static_cast<unsigned>(final_stat.st_size), final_path.c_str());
     LogDiagnosticMemory("after_download_return");
-    release_gate();
+    finish_transaction("success");
     return true;
 }
 
@@ -862,7 +1099,7 @@ void MusicService::ProcessReadyDownloads() {
     const int64_t now = static_cast<int64_t>(time(nullptr));
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (job_.active && job_.status == "ready" && job_.download_status != "local" &&
+        if (download_requested_ && job_.active && job_.status == "ready" && job_.download_status != "local" &&
             job_.download_status != "downloading" && job_.next_download_at <= now) candidate = job_;
     }
     if (candidate.active) {
@@ -989,9 +1226,13 @@ std::string MusicService::StatusResultJson(const PendingJob& job) {
     if (job.duration > 0) cJSON_AddNumberToObject(root, "duration", job.duration);
     if (!job.error.empty()) cJSON_AddStringToObject(root, "error", job.error.c_str());
     if (!job.download_status.empty() || job.status == "ready" || job.status == "local") {
-        const std::string download_status = job.download_status.empty() ? "pending" : job.download_status;
+        const std::string download_status = job.download_status.empty()
+                                                ? (job.status == "ready" ? "not_downloaded" : "pending")
+                                                : job.download_status;
         cJSON_AddStringToObject(root, "download_status", download_status.c_str());
         cJSON_AddBoolToObject(root, "downloaded", download_status == "local");
+        cJSON_AddBoolToObject(root, "awaiting_confirmation",
+                              job.status == "ready" && download_status == "not_downloaded");
         if (!job.local_filename.empty()) cJSON_AddStringToObject(root, "local_filename", job.local_filename.c_str());
     }
     char* rendered = cJSON_PrintUnformatted(root);
@@ -1073,7 +1314,7 @@ void MusicService::RegisterMcpTools() {
     PropertyList status_properties({Property("job_id", kPropertyTypeString, std::string(""))});
     mcp.AddTool(
         "music.generation_status",
-        "Report the status of the single current generation stored on SD. Use the optional job_id from music.generate when the user asks whether it is ready; do not regenerate a song because it is still generating. Generated music must not be searched or played through Home Assistant.",
+        "Report the status of the single current generation stored on SD. Call this once when the user asks for status, using the optional job_id from music.generate. Do not poll repeatedly in the same conversation and do not say almost ready, converting, or wait if the bridge already reports ready. If status is generating, report that it is still generating and stop. If status is ready with download_status not_downloaded, report that the track is ready and that the device asks for download confirmation. If status is local, report that it is available locally. Do not regenerate a song because it is still generating. Generated music must not be searched or played through Home Assistant.",
         status_properties,
         [this](const PropertyList& properties) -> ReturnValue {
             if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
@@ -1081,6 +1322,59 @@ void MusicService::RegisterMcpTools() {
             std::lock_guard<std::mutex> lock(mutex_);
             const PendingJob job = requested.empty() ? FindLatestJobLocked() : FindJobLocked(requested);
             return StatusResultJson(job);
+        });
+
+    PropertyList download_ready_properties({Property("job_id", kPropertyTypeString, std::string(""))});
+    mcp.AddTool(
+        "music.download_ready",
+        "Start one download of a generated song that is already ready on the Music Bridge but is not local. Use this once when the user explicitly asks to download or retry the ready track; an omitted job_id means the current generation. The tool returns immediately, ends the voice turn, and the device continues the normal background download with its progress dialog. Do not poll or call another music tool in the same turn.",
+        download_ready_properties,
+        [this](const PropertyList& properties) -> ReturnValue {
+            if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
+            std::string error;
+            const std::string job_id = properties["job_id"].value<std::string>();
+            if (!RequestGeneratedDownload(job_id, error)) return ErrorResult(error);
+            std::string accepted_id = job_id;
+            if (accepted_id.empty()) {
+                std::lock_guard<std::mutex> lock(mutex_);
+                accepted_id = job_.job_id;
+            }
+            cJSON* result = cJSON_CreateObject();
+            cJSON_AddBoolToObject(result, "accepted", true);
+            cJSON_AddStringToObject(result, "status", "download_queued");
+            cJSON_AddStringToObject(result, "job_id", accepted_id.c_str());
+            cJSON_AddStringToObject(result, "message", "Download started in the background.");
+            return result;
+        });
+
+    PropertyList search_library_properties({Property("query", kPropertyTypeString, std::string(""))});
+    mcp.AddTool(
+        "music.search_library",
+        "Search the Music Bridge library on the computer for already generated tracks. Use this when the user asks for an older bridge track by title or filename. This is the bridge library, not the device SD index; return the matching track_id values and ask which one to download if there are multiple matches.",
+        search_library_properties,
+        [this](const PropertyList& properties) -> ReturnValue {
+            if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
+            std::string error;
+            const std::string output = SearchBridgeLibrary(properties["query"].value<std::string>(), error);
+            if (output.empty()) return ErrorResult(error.empty() ? "library_search_failed" : error);
+            return output;
+        });
+
+    PropertyList download_library_properties({Property("track_id", kPropertyTypeString)});
+    mcp.AddTool(
+        "music.download_library",
+        "Download one existing track from the Music Bridge library to /sdcard/generated_music. Call music.search_library first when the user names a track but does not provide its track_id. This starts the same background transaction and progress dialog as a generated-track download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
+        download_library_properties,
+        [this](const PropertyList& properties) -> ReturnValue {
+            if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
+            std::string error;
+            if (!RequestLibraryDownload(properties["track_id"].value<std::string>(), error)) return ErrorResult(error);
+            cJSON* result = cJSON_CreateObject();
+            cJSON_AddBoolToObject(result, "accepted", true);
+            cJSON_AddStringToObject(result, "status", "download_queued");
+            cJSON_AddStringToObject(result, "track_id", properties["track_id"].value<std::string>().c_str());
+            cJSON_AddStringToObject(result, "message", "Library download started in the background.");
+            return result;
         });
 
     PropertyList play_generated_properties({Property("query", kPropertyTypeString)});

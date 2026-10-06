@@ -387,6 +387,68 @@ void MediaPlayer::PlayForVoice() {
     }
 }
 
+void MediaPlayer::PauseForGeneratedDownload() {
+    auto& radio = InternetRadioPlayer::GetInstance();
+    RadioStationInfo radio_station;
+    bool pause_radio = false;
+    bool pause_sd = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (generated_download_sd_paused_ || generated_download_radio_paused_) return;
+        // A download is admitted only while AI is idle. Existing voice/user
+        // ownership therefore wins and must not be overwritten here.
+        if (paused_for_voice_.load() || paused_by_user_.load()) return;
+        if (radio.IsActive()) {
+            radio_station = radio.GetCurrentStation();
+            pause_radio = !radio_station.url_resolved.empty();
+            generated_download_radio_paused_ = pause_radio;
+            radio_station_for_generated_download_ = radio_station;
+        } else if (SdMusicPlayer::GetInstance().IsPlaying()) {
+            pause_sd = true;
+            generated_download_sd_paused_ = true;
+        }
+    }
+    if (pause_radio) {
+        ESP_LOGI(TAG, "[MUSIC_DOWNLOAD_STOP_RADIO] station=%s", radio_station.name.c_str());
+        radio.Stop();
+    } else if (pause_sd) {
+        ESP_LOGI(TAG, "[MUSIC_DOWNLOAD_PAUSE_MEDIA] source=%s",
+                 SdMusicPlayer::GetInstance().IsGeneratedPlayback() ? "generated" : "sd");
+        SdMusicPlayer::GetInstance().TogglePlayPause();
+    }
+}
+
+void MediaPlayer::ResumeAfterGeneratedDownload() {
+    RadioStationInfo radio_station;
+    bool resume_radio = false;
+    bool resume_sd = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        resume_radio = generated_download_radio_paused_;
+        resume_sd = generated_download_sd_paused_;
+        radio_station = radio_station_for_generated_download_;
+        generated_download_radio_paused_ = false;
+        generated_download_sd_paused_ = false;
+        radio_station_for_generated_download_ = {};
+    }
+    if (resume_radio && !radio_station.url_resolved.empty()) {
+        std::string error;
+        ESP_LOGI(TAG, "[MUSIC_DOWNLOAD_RESTORE_RADIO] station=%s", radio_station.name.c_str());
+        if (!InternetRadioPlayer::GetInstance().Play(radio_station, error)) {
+            ESP_LOGW(TAG, "[MUSIC_DOWNLOAD_RESTORE_RADIO_FAIL] station=%s error=%s",
+                     radio_station.name.c_str(), error.c_str());
+        }
+    } else if (resume_sd) {
+        ESP_LOGI(TAG, "[MUSIC_DOWNLOAD_RESTORE_MEDIA] source=%s",
+                 SdMusicPlayer::GetInstance().IsGeneratedPlayback() ? "generated" : "sd");
+        if (!SdMusicPlayer::GetInstance().IsPlaying() && !SdMusicPlayer::GetInstance().IsPaused()) {
+            SdMusicPlayer::GetInstance().TogglePlayPause();
+        } else if (SdMusicPlayer::GetInstance().IsPaused()) {
+            SdMusicPlayer::GetInstance().TogglePlayPause();
+        }
+    }
+}
+
 void MediaPlayer::Next() {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=next");

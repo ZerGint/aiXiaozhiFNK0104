@@ -29,6 +29,9 @@ public:
     bool TryBeginGeneratedDownload();
     void EndGeneratedDownload();
     bool IsGeneratedDownloadBusy() const { return generated_download_busy_.load(); }
+    void ConfirmGeneratedDownload(const std::string& job_id);
+    void DeclineGeneratedDownload(const std::string& job_id);
+    bool RequestGeneratedDownload(const std::string& job_id, std::string& error);
     void BeginVoiceConversation();
     bool IsGenerationFollowupBlocked() const;
     void BlockGenerationFollowups();
@@ -48,6 +51,7 @@ private:
         uint32_t download_attempts = 0;
         int64_t next_download_at = 0;
         std::string error;
+        bool library_source = false;
     };
 
     MusicService() = default;
@@ -66,6 +70,9 @@ private:
     void LoadLocalIndex();
     void ProcessReadyDownloads();
     bool DownloadReadyJob(const PendingJob& job);
+    void ShowReadyPrompt(const PendingJob& job);
+    std::string SearchBridgeLibrary(const std::string& query, std::string& error);
+    bool RequestLibraryDownload(const std::string& track_id, std::string& error);
     void RecordDownloadFailure(const std::string& job_id, const std::string& reason);
     bool NetworkSafeForDownload() const;
     const char* DownloadBlockReason(bool include_gate = true) const;
@@ -91,5 +98,7 @@ private:
     bool initialized_ = false;
     std::atomic<bool> generated_download_busy_{false};
     bool generation_followup_blocked_ = false;
+    bool download_requested_ = false;
+    std::string prompt_shown_job_id_;
     std::string last_deferred_reason_;
 };

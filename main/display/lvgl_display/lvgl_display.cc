@@ -112,6 +112,10 @@ void LvglDisplay::ClearTextGlyphs() {
 }
 
 LvglDisplay::~LvglDisplay() {
+    generated_ready_callback_ = {};
+    if (generated_ready_popup_ != nullptr) {
+        lv_obj_del(generated_ready_popup_);
+    }
     if (generated_download_overlay_ != nullptr) {
         lv_obj_del(generated_download_overlay_);
     }
@@ -141,6 +145,63 @@ LvglDisplay::~LvglDisplay() {
     if (pm_lock_ != nullptr) {
         esp_pm_lock_delete(pm_lock_);
     }
+}
+
+void LvglDisplay::ShowGeneratedReadyPrompt(const char* title, std::function<void(bool)> callback) {
+    DisplayLockGuard lock(this);
+    if (!setup_ui_called_) return;
+
+    if (generated_ready_popup_ == nullptr) {
+        auto screen = lv_screen_active();
+        generated_ready_popup_ = lv_obj_create(screen);
+        lv_obj_set_size(generated_ready_popup_, LV_HOR_RES * 0.90, 128);
+        lv_obj_center(generated_ready_popup_);
+        lv_obj_set_style_radius(generated_ready_popup_, 14, 0);
+        lv_obj_set_style_bg_color(generated_ready_popup_, lv_color_hex(0x20252B), 0);
+        lv_obj_set_style_bg_opa(generated_ready_popup_, LV_OPA_90, 0);
+        lv_obj_set_style_border_width(generated_ready_popup_, 1, 0);
+        lv_obj_set_style_border_color(generated_ready_popup_, lv_color_hex(0x55C2FF), 0);
+        lv_obj_set_style_pad_all(generated_ready_popup_, 10, 0);
+        lv_obj_clear_flag(generated_ready_popup_, LV_OBJ_FLAG_SCROLLABLE);
+
+        generated_ready_title_ = lv_label_create(generated_ready_popup_);
+        lv_obj_set_width(generated_ready_title_, LV_HOR_RES * 0.78);
+        lv_obj_align(generated_ready_title_, LV_ALIGN_TOP_MID, 0, 2);
+        lv_obj_set_style_text_align(generated_ready_title_, LV_TEXT_ALIGN_CENTER, 0);
+        lv_obj_set_style_text_color(generated_ready_title_, lv_color_white(), 0);
+
+        auto make_button = [this](const char* text, lv_align_t align, int x) {
+            lv_obj_t* button = lv_btn_create(generated_ready_popup_);
+            lv_obj_set_size(button, 88, 42);
+            // Keep the buttons inside the panel instead of letting their lower
+            // edge touch or clip against the dialog frame.
+            lv_obj_align(button, align, x, -8);
+            lv_obj_t* label = lv_label_create(button);
+            lv_label_set_text(label, text);
+            lv_obj_center(label);
+            lv_obj_add_event_cb(button,
+                                [](lv_event_t* event) {
+                                    auto* display = static_cast<LvglDisplay*>(lv_event_get_user_data(event));
+                                    if (display == nullptr) return;
+                                    const bool confirmed = lv_event_get_target(event) == display->generated_ready_yes_button_;
+                                    auto callback = std::move(display->generated_ready_callback_);
+                                    lv_obj_add_flag(display->generated_ready_popup_, LV_OBJ_FLAG_HIDDEN);
+                                    if (callback) callback(confirmed);
+                                },
+                                LV_EVENT_CLICKED, this);
+            return button;
+        };
+        generated_ready_no_button_ = make_button("Нет", LV_ALIGN_BOTTOM_LEFT, 4);
+        generated_ready_yes_button_ = make_button("Скачать", LV_ALIGN_BOTTOM_RIGHT, -4);
+    }
+
+    std::string prompt = "Трек готов. Скачать?";
+    if (title != nullptr && title[0] != '\0') {
+        prompt = std::string(title) + "\nСкачать?";
+    }
+    lv_label_set_text(generated_ready_title_, prompt.c_str());
+    generated_ready_callback_ = std::move(callback);
+    lv_obj_clear_flag(generated_ready_popup_, LV_OBJ_FLAG_HIDDEN);
 }
 
 void LvglDisplay::ShowGeneratedDownloadProgress(const char* title, int percent) {
