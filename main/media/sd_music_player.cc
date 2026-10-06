@@ -5,6 +5,7 @@
 #include "board.h"
 #include "media/media_audio_output.h"
 #include "storage_manager.h"
+#include "music/generated_music_storage.h"
 
 #include <esp_heap_caps.h>
 #include <esp_log.h>
@@ -16,10 +17,13 @@
 #include <cstdio>
 #include <cstring>
 #include <random>
+#include <unistd.h>
 
 #define TAG "SdMusicPlayer"
 
 namespace {
+constexpr char kGeneratedMusicIndex[] = "/sdcard/generated_music/library.dat";
+constexpr char kGeneratedMusicIndexTmp[] = "/sdcard/generated_music/library.tmp";
 void CheckMusicHeap(const char* checkpoint) {
     const bool ok = heap_caps_check_integrity_all(true);
     ESP_LOGW(TAG, "HEAP_CHECK %s: %s", checkpoint, ok ? "PASS" : "FAIL");
@@ -35,6 +39,29 @@ void LogMusicRuntime(const char* checkpoint) {
              static_cast<unsigned>(uxTaskGetStackHighWaterMark(nullptr)));
 }
 }  // namespace
+
+bool SdMusicPlayer::DeleteTrack(int index, std::string& error) {
+    error.clear();
+    std::string path;
+    PlaylistSource source;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (index < 0 || index >= static_cast<int>(playlist_.size())) { error = "track_not_found"; return false; }
+        path = playlist_[index]; source = playlist_source_;
+        if (is_playing_ && active_track_path_ == path) { error = "track_is_playing"; return false; }
+    }
+    if (unlink(path.c_str()) != 0) { error = "track_delete_failed"; return false; }
+    if (source == PlaylistSource::Generated) {
+        std::vector<GeneratedMusicRecord> records;
+        if (!GeneratedMusicStorage::Load(kGeneratedMusicIndex, records, error)) return false;
+        const std::string filename = path.substr(path.find_last_of('/') + 1);
+        records.erase(std::remove_if(records.begin(), records.end(), [&](const auto& r) { return r.filename == filename; }), records.end());
+        if (!GeneratedMusicStorage::SaveAtomic(kGeneratedMusicIndex, kGeneratedMusicIndexTmp, records, error)) return false;
+        ScanGeneratedPlaylist();
+    } else ScanPlaylist();
+    ESP_LOGI(TAG, "Track deleted: %s", path.c_str());
+    return true;
+}
 
 struct ChunkHeader {
     char id[4];

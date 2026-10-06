@@ -46,6 +46,46 @@
 
 namespace {
 
+struct DeletePromptData {
+    LcdDisplay* display;
+    int index;
+    lv_obj_t* box;
+};
+
+static void CloseDeletePrompt(DeletePromptData* data) {
+    if (data && data->box) lv_obj_delete(data->box);
+    delete data;
+}
+
+static void DeletePromptEvent(lv_event_t* event) {
+    auto* data = static_cast<DeletePromptData*>(lv_event_get_user_data(event));
+    if (!data || lv_event_get_code(event) != LV_EVENT_CLICKED) return;
+    const auto* label = static_cast<lv_obj_t*>(lv_event_get_target(event));
+    const char* text = lv_label_get_text(lv_obj_get_child(label, 0));
+    if (text && std::strcmp(text, "Да") == 0) {
+        std::string error;
+        if (!SdMusicPlayer::GetInstance().DeleteTrack(data->index, error))
+            ESP_LOGW(TAG, "Track delete rejected: %s", error.c_str());
+        else if (data->display) data->display->RefreshMediaListForDelete();
+    }
+    CloseDeletePrompt(data);
+}
+
+static void ShowDeletePrompt(LcdDisplay* display, int index, const char* name) {
+    auto* box = lv_obj_create(lv_layer_top());
+    lv_obj_set_size(box, 300, 130); lv_obj_center(box);
+    lv_obj_set_style_bg_color(box, lv_color_black(), 0);
+    lv_obj_set_style_border_width(box, 2, 0);
+    auto* text = lv_label_create(box); lv_label_set_text_fmt(text, "Удалить трек?\n%.32s", name); lv_obj_align(text, LV_ALIGN_TOP_MID, 0, 12);
+    auto* yes = lv_btn_create(box); lv_obj_set_size(yes, 90, 38); lv_obj_align(yes, LV_ALIGN_BOTTOM_LEFT, 35, -12);
+    auto* yl = lv_label_create(yes); lv_label_set_text(yl, "Да"); lv_obj_center(yl);
+    auto* no = lv_btn_create(box); lv_obj_set_size(no, 90, 38); lv_obj_align(no, LV_ALIGN_BOTTOM_RIGHT, -35, -12);
+    auto* nl = lv_label_create(no); lv_label_set_text(nl, "Нет"); lv_obj_center(nl);
+    auto* data = new DeletePromptData{display, index, box};
+    lv_obj_add_event_cb(yes, DeletePromptEvent, LV_EVENT_CLICKED, data);
+    lv_obj_add_event_cb(no, DeletePromptEvent, LV_EVENT_CLICKED, data);
+}
+
 static void LogUiMemory(const char* marker) {
     ESP_LOGI(TAG, "%s internal_free=%u internal_largest=%u dma_free=%u dma_largest=%u spiram_free=%u spiram_largest=%u", marker,
              (unsigned)heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT),
@@ -2194,25 +2234,28 @@ void LcdDisplay::RefreshRadioCatalogPage() {
             lv_label_set_text(name, display.c_str()); lv_obj_set_style_text_font(name, &font_noto_sans_radio_16_4, 0);
             lv_obj_set_width(name, 120); lv_obj_set_height(name, 20); lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
             lv_obj_align(name, LV_ALIGN_LEFT_MID, 2, 0);
-            if (media_browser_mode_ == MediaBrowserMode::Generated) {
-                auto* query = new std::string(display);
-                lv_obj_add_event_cb(card, [](lv_event_t* e) {
-                    auto* query = static_cast<std::string*>(lv_event_get_user_data(e));
-                    if (lv_event_get_code(e) == LV_EVENT_DELETE) {
-                        delete query;
-                    } else if (lv_event_get_code(e) == LV_EVENT_CLICKED && query != nullptr) {
-                        std::string error;
-                        if (!MediaPlayer::GetInstance().PlayGenerated(*query, error))
-                            ESP_LOGW(TAG, "Generated playback rejected: %s", error.c_str());
+            auto* item = new std::pair<LcdDisplay*, int>(this, index);
+            lv_obj_add_event_cb(card, [](lv_event_t* e) {
+                auto* item = static_cast<std::pair<LcdDisplay*, int>*>(lv_event_get_user_data(e));
+                if (!item) return;
+                if (lv_event_get_code(e) == LV_EVENT_DELETE) { delete item; return; }
+                if (lv_event_get_code(e) == LV_EVENT_LONG_PRESSED) {
+                    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
+                    if (item->first && item->second >= 0 && item->second < static_cast<int>(list.size())) {
+                        std::string name = list[item->second];
+                        const size_t slash = name.find_last_of('/'); if (slash != std::string::npos) name.erase(0, slash + 1);
+                        ShowDeletePrompt(item->first, item->second, name.c_str());
                     }
-                }, LV_EVENT_ALL, query);
-            } else {
-                lv_obj_add_event_cb(card, [](lv_event_t* e) {
-                if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
-                const int index = static_cast<int>(reinterpret_cast<intptr_t>(lv_event_get_user_data(e)));
-                auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(index); MediaPlayer::GetInstance().PlaySd(index);
-                }, LV_EVENT_CLICKED, reinterpret_cast<void*>(static_cast<intptr_t>(index)));
-            }
+                } else if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+                    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
+                    if (item->second < 0 || item->second >= static_cast<int>(list.size())) return;
+                    auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(item->second);
+                    if (item->first && item->first->media_browser_mode_ == MediaBrowserMode::Generated) {
+                        std::string error;
+                        if (!MediaPlayer::GetInstance().PlayGenerated(list[item->second], error)) ESP_LOGW(TAG, "Generated playback rejected: %s", error.c_str());
+                    } else MediaPlayer::GetInstance().PlaySd(item->second);
+                }
+            }, LV_EVENT_ALL, item);
         }
         if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", player_page_ + 1, pages);
         return;

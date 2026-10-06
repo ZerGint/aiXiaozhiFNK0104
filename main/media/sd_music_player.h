@@ -58,6 +58,7 @@ public:
     void Next();
     void Prev();
     void Stop();
+    bool DeleteTrack(int index, std::string& error);
 
 private:
     SdMusicPlayer();

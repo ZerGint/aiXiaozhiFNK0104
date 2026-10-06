@@ -190,6 +190,7 @@ public:
     void StartOtaCheck();
     void SetOtaUpdateAvailable(bool available, const char* version) override;
     void SwitchTab(int tab_index);
+    void RefreshMediaListForDelete() { RefreshRadioCatalogPage(); }
     void RegisterDisplayActivity(const char* source = "OTHER_UI");
     bool WakeDisplayFromTouch();
 
