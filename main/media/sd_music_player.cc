@@ -89,8 +89,12 @@ void SdMusicPlayer::ScanDirectory(const char* directory, PlaylistSource source, 
     playlist_source_ = source;
     current_index_ = 0;
     selected_index_ = -1;
-    shuffle_order_.clear();
-    shuffle_position_ = -1;
+    // A tab refresh must not invalidate the shuffle sequence used by the
+    // active playback snapshot. Rebuild it only when no playback is active.
+    if (!playback_active) {
+        shuffle_order_.clear();
+        shuffle_position_ = -1;
+    }
 
     auto files = StorageManager::GetInstance().ListDirectory(directory);
     std::sort(files.begin(), files.end());

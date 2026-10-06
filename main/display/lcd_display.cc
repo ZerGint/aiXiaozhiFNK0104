@@ -58,7 +58,7 @@ static void TrackLongPressTimer(lv_timer_t* timer) {
     auto* item = static_cast<TrackItemData*>(lv_timer_get_user_data(timer));
     if (!item) return;
     item->timer = nullptr;
-    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
+    const auto& list = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
     if (item->index >= 0 && item->index < static_cast<int>(list.size())) {
         std::string name = list[item->index]; const size_t slash = name.find_last_of('/');
         if (slash != std::string::npos) name.erase(0, slash + 1);
@@ -1844,7 +1844,7 @@ void LcdDisplay::SetupUI() {
         }
         if (!radio.IsPlaying() && !radio.IsPaused() && !sd.IsPlaying() && !sd.IsPaused() &&
             display && display->media_browser_mode_ == MediaBrowserMode::Player) {
-            auto& tracks = sd.GetPlaylist();
+            const auto tracks = sd.GetPlaylistSnapshot();
             int index = sd.GetSelectedTrackIndex();
             if (index < 0 || index >= static_cast<int>(tracks.size())) index = tracks.empty() ? -1 : 0;
             if (index >= 0) {
@@ -2229,7 +2229,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
                                                          : "Player");
     if (media_browser_mode_ == MediaBrowserMode::Player ||
         media_browser_mode_ == MediaBrowserMode::Generated) {
-        const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
+        const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
         constexpr int rows_per_page = 4;
         const int pages = std::max(1, (static_cast<int>(tracks.size()) + rows_per_page - 1) / rows_per_page);
         player_page_ = std::clamp(player_page_, 0, pages - 1);
@@ -2259,7 +2259,7 @@ void LcdDisplay::RefreshRadioCatalogPage() {
                 } else if (lv_event_get_code(e) == LV_EVENT_RELEASED) {
                     if (item->timer) { lv_timer_delete(item->timer); item->timer = nullptr; }
                 } else if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
-                    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
+                    const auto& list = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
                     if (item->index < 0 || item->index >= static_cast<int>(list.size())) return;
                     auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(item->index);
                     if (item->display && item->display->media_browser_mode_ == MediaBrowserMode::Generated) {
@@ -3199,7 +3199,7 @@ void LcdDisplay::UpdateServiceIndicators() {
     auto& sd = SdMusicPlayer::GetInstance();
     auto& radio = InternetRadioPlayer::GetInstance();
     static int sd_scan_attempts = 0;
-    if (!sd.IsGeneratedPlaylist() && sd.GetPlaylist().empty() && (sd_scan_attempts % 20 == 0)) {
+    if (!sd.IsGeneratedPlaylist() && sd.GetPlaylistSnapshot().empty() && (sd_scan_attempts % 20 == 0)) {
         MediaPlayer::GetInstance().ScanSd();
     }
     ++sd_scan_attempts;
@@ -3278,7 +3278,7 @@ void LcdDisplay::UpdateServiceIndicators() {
                     }
                     title = preview.name.empty() ? "--" : preview.name;
                 } else {
-                    const auto& tracks = sd.GetPlaylist();
+                    const auto tracks = sd.GetPlaylistSnapshot();
                     int index = sd.GetSelectedTrackIndex();
                     if (index < 0 || index >= static_cast<int>(tracks.size())) {
                         index = tracks.empty() ? -1 : 0;
@@ -3302,7 +3302,7 @@ void LcdDisplay::UpdateServiceIndicators() {
     }
     static int last_track_count = -1;
     static MediaBrowserMode last_browser_mode = MediaBrowserMode::Radio;
-    const int track_count = static_cast<int>(sd.GetPlaylist().size());
+    const int track_count = static_cast<int>(sd.GetPlaylistSnapshot().size());
     if (track_count != last_track_count || media_browser_mode_ != last_browser_mode) {
         last_track_count = track_count; last_browser_mode = media_browser_mode_;
         RefreshRadioCatalogPage();

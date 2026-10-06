@@ -84,7 +84,7 @@ void MediaPlayer::PlaySd(int index) {
 }
 
 std::string MediaPlayer::ListSdTracks() const {
-    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
+    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
     if (result == nullptr)
         return "[]";
@@ -114,7 +114,7 @@ std::string MediaPlayer::SearchSdTracks(const std::string& artist, const std::st
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> result(cJSON_CreateArray(), &cJSON_Delete);
     if (result == nullptr)
         return "[]";
-    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
+    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
     for (size_t i = 0; i < tracks.size() && cJSON_GetArraySize(result.get()) < limit; ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
@@ -150,7 +150,7 @@ int MediaPlayer::FindSdTrack(const std::string& query) const {
     std::string needle = query;
     std::transform(needle.begin(), needle.end(), needle.begin(),
                    [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
-    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylist();
+    const auto& tracks = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
     for (size_t i = 0; i < tracks.size(); ++i) {
         std::string title = tracks[i];
         const size_t slash = title.find_last_of('/');
