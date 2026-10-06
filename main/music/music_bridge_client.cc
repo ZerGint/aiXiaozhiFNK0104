@@ -282,6 +282,32 @@ bool MusicBridgeClient::ListLibrary(const std::string& base_url,
     return true;
 }
 
+bool MusicBridgeClient::ListUserLibrary(const std::string& base_url,
+                                        std::vector<MusicLibraryTrack>& result,
+                                        std::string& error) const {
+    result.clear();
+    error.clear();
+    int status_code = 0;
+    std::string body;
+    if (!Request(TrimTrailingSlash(base_url) + "/user-library", HTTP_METHOD_GET, "", status_code, body, error)) {
+        return false;
+    }
+    cJSON* response = cJSON_ParseWithLength(body.data(), body.size());
+    if (response == nullptr || !cJSON_IsArray(response)) {
+        if (response) cJSON_Delete(response);
+        error = "invalid_user_library_response";
+        return false;
+    }
+    const cJSON* item = nullptr;
+    cJSON_ArrayForEach(item, response) {
+        MusicLibraryTrack track;
+        if (ParseLibraryTrack(item, track)) result.push_back(std::move(track));
+        if (result.size() >= 200) break;
+    }
+    cJSON_Delete(response);
+    return true;
+}
+
 bool MusicBridgeClient::GetLibraryTrack(const std::string& base_url,
                                         const std::string& track_id,
                                         MusicLibraryTrack& result,
@@ -304,6 +330,29 @@ bool MusicBridgeClient::GetLibraryTrack(const std::string& base_url,
     return valid;
 }
 
+bool MusicBridgeClient::GetUserLibraryTrack(const std::string& base_url,
+                                            const std::string& track_id,
+                                            MusicLibraryTrack& result,
+                                            std::string& error) const {
+    result = {};
+    error.clear();
+    if (!IsSafeJobId(track_id)) {
+        error = "invalid_track_id";
+        return false;
+    }
+    int status_code = 0;
+    std::string body;
+    if (!Request(TrimTrailingSlash(base_url) + "/user-library/" + track_id, HTTP_METHOD_GET, "", status_code, body,
+                 error)) {
+        return false;
+    }
+    cJSON* response = cJSON_ParseWithLength(body.data(), body.size());
+    const bool valid = response != nullptr && ParseLibraryTrack(response, result);
+    if (response) cJSON_Delete(response);
+    if (!valid) error = "invalid_user_library_track";
+    return valid;
+}
+
 bool MusicBridgeClient::DownloadAudio(const std::string& base_url,
                                       const std::string& job_id,
                                       size_t expected_size,
@@ -323,6 +372,17 @@ bool MusicBridgeClient::DownloadLibraryAudio(const std::string& base_url,
                                              std::string& error,
                                              const std::function<void(size_t, size_t)>& progress) const {
     return DownloadAudioEndpoint(TrimTrailingSlash(base_url) + "/library/" + track_id + "/audio", track_id,
+                                 expected_size, output_path, downloaded_size, error, progress);
+}
+
+bool MusicBridgeClient::DownloadUserLibraryAudio(const std::string& base_url,
+                                                 const std::string& track_id,
+                                                 size_t expected_size,
+                                                 const std::string& output_path,
+                                                 size_t& downloaded_size,
+                                                 std::string& error,
+                                                 const std::function<void(size_t, size_t)>& progress) const {
+    return DownloadAudioEndpoint(TrimTrailingSlash(base_url) + "/user-library/" + track_id + "/audio", track_id,
                                  expected_size, output_path, downloaded_size, error, progress);
 }
 

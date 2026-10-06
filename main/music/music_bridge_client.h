@@ -60,6 +60,13 @@ public:
                          const std::string& track_id,
                          MusicLibraryTrack& result,
                          std::string& error) const;
+    bool ListUserLibrary(const std::string& base_url,
+                         std::vector<MusicLibraryTrack>& result,
+                         std::string& error) const;
+    bool GetUserLibraryTrack(const std::string& base_url,
+                             const std::string& track_id,
+                             MusicLibraryTrack& result,
+                             std::string& error) const;
     bool DownloadAudio(const std::string& base_url,
                        const std::string& job_id,
                        size_t expected_size,
@@ -74,6 +81,13 @@ public:
                               size_t& downloaded_size,
                               std::string& error,
                               const std::function<void(size_t, size_t)>& progress = {}) const;
+    bool DownloadUserLibraryAudio(const std::string& base_url,
+                                  const std::string& track_id,
+                                  size_t expected_size,
+                                  const std::string& output_path,
+                                  size_t& downloaded_size,
+                                  std::string& error,
+                                  const std::function<void(size_t, size_t)>& progress = {}) const;
     bool Health(const std::string& base_url, std::string& error) const;
 
 private:

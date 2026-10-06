@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+tools/music_bridge/ffmpeg/ffmpeg.exe filter=lfs diff=lfs merge=lfs -text
+FNKMusicBridge/ffmpeg/ffmpeg.exe filter=lfs diff=lfs merge=lfs -text

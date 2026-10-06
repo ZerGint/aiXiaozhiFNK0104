@@ -1,11 +1,8 @@
-{
-  "wan_gp_url": "http://127.0.0.1:7860",
-  "wan_gp_root": "F:\\games setup\\StabilityMatrix-win-x64\\Data\\Packages\\Wan2GP",
-  "listen_host": "0.0.0.0",
-  "listen_port": 8765,
-  "generation_timeout_sec": 1800,
-  "poll_interval_sec": 2,
-  "audio_duration": 320,
-  "mp3_bitrate": "160k",
-  "keep_wav": false
+﻿{
+    "listen_host":  "0.0.0.0",
+    "listen_port":  8765,
+    "mp3_bitrate":  "160k",
+    "keep_wav":  false,
+    "active_provider":  "yue2",
+    "volume_percent":  70
 }

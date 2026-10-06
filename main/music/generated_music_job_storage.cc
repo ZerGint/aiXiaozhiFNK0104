@@ -80,6 +80,7 @@ bool Encode(const GeneratedMusicJobRecord& record, std::string& out) {
     Put64(payload, record.downloaded_size);
     Put32(payload, record.download_attempts);
     Put64(payload, static_cast<uint64_t>(record.next_download_at));
+    payload.push_back(record.user_library_source ? 1 : 0);
     if (payload.size() > kMaxFileSize - kHeaderSize) return false;
     out.assign(kMagic, 4);
     Put16(out, GeneratedMusicJobStorage::kVersion);
@@ -110,7 +111,12 @@ bool Decode(const uint8_t* data, size_t size, GeneratedMusicJobRecord& record) {
     if (!Get32(data, size, pos, duration) || !Get64(data, size, pos, record.downloaded_size) ||
         !Get32(data, size, pos, record.download_attempts)) return false;
     uint64_t next_download = 0;
-    if (!Get64(data, size, pos, next_download) || pos != size) return false;
+    if (!Get64(data, size, pos, next_download)) return false;
+    if (pos < size) {
+        if (size - pos != 1 || data[pos] > 1) return false;
+        record.user_library_source = data[pos++] != 0;
+    }
+    if (pos != size) return false;
     record.duration_seconds = duration;
     record.next_download_at = static_cast<int64_t>(next_download);
     return !record.job_id.empty() && !record.status.empty();

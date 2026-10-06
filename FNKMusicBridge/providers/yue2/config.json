@@ -1,0 +1,6 @@
+{
+  "wan_gp_url": "http://127.0.0.1:7860",
+  "generation_timeout_sec": 1800,
+  "poll_interval_sec": 2,
+  "audio_duration": 320
+}

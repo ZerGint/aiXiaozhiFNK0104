@@ -16,6 +16,7 @@ struct GeneratedMusicJobRecord {
     uint64_t downloaded_size = 0;
     uint32_t download_attempts = 0;
     int64_t next_download_at = 0;
+    bool user_library_source = false;
 };
 
 class GeneratedMusicJobStorage {

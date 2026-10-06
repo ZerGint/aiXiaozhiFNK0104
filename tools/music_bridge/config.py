@@ -21,12 +21,19 @@ def _bridge_dir() -> Path:
         executable_dir.parent / "tools" / "music_bridge",
     )
     for candidate in candidates:
-        if (candidate / "library").is_dir() or (candidate / "config.json").is_file():
+        if (
+            (candidate / "data" / "library").is_dir()
+            or (candidate / "config" / "config.json").is_file()
+            or (candidate / "library").is_dir()
+            or (candidate / "config.json").is_file()
+        ):
             return candidate
     return executable_dir
 
 
 BRIDGE_DIR = _bridge_dir()
+CONFIG_DIR = BRIDGE_DIR / "config" if (BRIDGE_DIR / "config").is_dir() else BRIDGE_DIR
+DATA_DIR = BRIDGE_DIR / "data" if (BRIDGE_DIR / "data").is_dir() else BRIDGE_DIR
 DEFAULT_WANGP_URL = "http://127.0.0.1:7860"
 DEFAULT_WANGP_ROOT = Path(
     r"F:\games setup\StabilityMatrix-win-x64\Data\Packages\Wan2GP"
@@ -46,27 +53,41 @@ class BridgeConfig:
     mp3_bitrate: str = "160k"
     keep_wav: bool = False
     wan_gp_root: Path = DEFAULT_WANGP_ROOT
+    active_provider: str = "yue2"
+    volume_percent: int = 70
 
     @property
     def generated_dir(self) -> Path:
-        return BRIDGE_DIR / "generated"
+        return DATA_DIR / "generated"
 
     @property
     def library_dir(self) -> Path:
-        return BRIDGE_DIR / "library"
+        return DATA_DIR / "library"
+
+    @property
+    def user_music_dir(self) -> Path:
+        return DATA_DIR / "music_library"
 
     @property
     def logs_dir(self) -> Path:
-        return BRIDGE_DIR / "logs"
+        return DATA_DIR / "logs"
 
     @property
     def jobs_path(self) -> Path:
-        return BRIDGE_DIR / "jobs.json"
+        return DATA_DIR / "jobs.json"
+
+    @property
+    def providers_dir(self) -> Path:
+        return BRIDGE_DIR / "providers"
+
+    @property
+    def config_path(self) -> Path:
+        return CONFIG_DIR / "config.json"
 
     @classmethod
     def load(cls) -> "BridgeConfig":
         values: dict[str, Any] = {}
-        config_path = BRIDGE_DIR / "config.json"
+        config_path = CONFIG_DIR / "config.json"
         if config_path.is_file():
             # PowerShell 5 writes UTF-8 JSON with a BOM by default.
             with config_path.open("r", encoding="utf-8-sig") as handle:
@@ -82,12 +103,46 @@ class BridgeConfig:
             mp3_bitrate=str(values.get("mp3_bitrate", "160k")),
             keep_wav=bool(values.get("keep_wav", False)),
             wan_gp_root=root,
+            active_provider=str(values.get("active_provider", "yue2")).strip().lower() or "yue2",
+            volume_percent=max(0, min(100, int(values.get("volume_percent", 70)))),
         )
+
+    def save_active_provider(self, provider_id: str) -> None:
+        """Persist the provider selected in the desktop window."""
+        values: dict[str, Any] = {}
+        if self.config_path.is_file():
+            with self.config_path.open("r", encoding="utf-8-sig") as handle:
+                values = json.load(handle)
+        values["active_provider"] = provider_id
+        self.config_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.config_path.with_suffix(".json.tmp")
+        temporary.write_text(
+            json.dumps(values, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        temporary.replace(self.config_path)
+
+    def save_volume_percent(self, volume_percent: int) -> None:
+        """Persist the desktop player's volume without changing other settings."""
+        values: dict[str, Any] = {}
+        if self.config_path.is_file():
+            with self.config_path.open("r", encoding="utf-8-sig") as handle:
+                values = json.load(handle)
+        values["volume_percent"] = max(0, min(100, int(volume_percent)))
+        self.config_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.config_path.with_suffix(".json.tmp")
+        temporary.write_text(
+            json.dumps(values, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        temporary.replace(self.config_path)
 
     def find_ffmpeg(self) -> str | None:
         configured = os.environ.get("MUSIC_BRIDGE_FFMPEG")
         candidates = [configured] if configured else []
         candidates += [
+            str(BRIDGE_DIR / "ffmpeg" / "ffmpeg.exe"),
+            str(BRIDGE_DIR / "ffmpeg" / "ffmpeg"),
             shutil.which("ffmpeg"),
             str(self.wan_gp_root / "ffmpeg_bins" / "ffmpeg.exe"),
             str(self.wan_gp_root / "ffmpeg_bins" / "ffmpeg"),

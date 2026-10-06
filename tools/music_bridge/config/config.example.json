@@ -1,0 +1,8 @@
+﻿{
+    "listen_host":  "0.0.0.0",
+    "listen_port":  8765,
+    "mp3_bitrate":  "160k",
+    "keep_wav":  false,
+    "active_provider":  "yue2",
+    "volume_percent":  70
+}

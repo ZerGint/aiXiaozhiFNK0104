@@ -19,7 +19,7 @@ class GenerateRequest(BaseModel):
     title: str = Field(min_length=1, max_length=256)
     style: str = Field(min_length=1, max_length=4000)
     lyrics: str = Field(min_length=1, max_length=100_000)
-    provider: str = Field(default="yue2", min_length=1, max_length=32)
+    provider: str = Field(default="default", min_length=1, max_length=32)
     duration_seconds: int | None = Field(default=None, ge=1, le=600)
 
 
@@ -28,7 +28,7 @@ class JobRecord(BaseModel):
     title: str
     style: str
     lyrics: str
-    provider: str = "yue2"
+    provider: str = "default"
     duration_seconds: int | None = None
     created_at: str
     updated_at: str

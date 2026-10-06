@@ -15,7 +15,7 @@ public:
     static constexpr size_t kMaxTitleLength = 96;
     static constexpr size_t kMaxStyleLength = 256;
     static constexpr size_t kMaxLyricsLength = 2048;
-    static constexpr size_t kMaxProviderLength = 16;
+    static constexpr size_t kMaxProviderLength = 32;
     static constexpr uint32_t kPollIntervalMs = 20000;
     static constexpr uint32_t kDiscoveryRetryIntervalMs = 30000;
 
@@ -52,6 +52,7 @@ private:
         int64_t next_download_at = 0;
         std::string error;
         bool library_source = false;
+        bool user_library_source = false;
     };
 
     MusicService() = default;
@@ -72,7 +73,8 @@ private:
     bool DownloadReadyJob(const PendingJob& job);
     void ShowReadyPrompt(const PendingJob& job);
     std::string SearchBridgeLibrary(const std::string& query, std::string& error);
-    bool RequestLibraryDownload(const std::string& track_id, std::string& error);
+    std::string SearchUserBridgeLibrary(const std::string& query, std::string& error);
+    bool RequestLibraryDownload(const std::string& track_id, bool user_library, std::string& error);
     void RecordDownloadFailure(const std::string& job_id, const std::string& reason);
     bool NetworkSafeForDownload() const;
     const char* DownloadBlockReason(bool include_gate = true) const;

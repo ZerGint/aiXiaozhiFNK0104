@@ -25,6 +25,7 @@
 #include "managers/storage_manager.h"
 #include "media/internet_radio_player.h"
 #include "media/media_player.h"
+#include "media/sd_music_player.h"
 #include "settings.h"
 #include "board.h"
 
@@ -35,6 +36,7 @@ constexpr char kNamespace[] = "music";
 constexpr char kBridgeUrlKey[] = "bridge_url";
 constexpr uint32_t kPollTaskStackBytes = 4096;
 constexpr char kGeneratedMusicDir[] = "/sdcard/generated_music";
+constexpr char kUserMusicDir[] = "/sdcard/music";
 constexpr char kGeneratedMusicIndex[] = "/sdcard/generated_music/library.dat";
 constexpr char kGeneratedMusicIndexTmp[] = "/sdcard/generated_music/library.tmp";
 constexpr char kGeneratedMusicJobs[] = "/sdcard/generated_music/jobs.dat";
@@ -298,6 +300,7 @@ void MusicService::LoadState() {
             job_.download_attempts = persisted.download_attempts;
             job_.next_download_at = persisted.next_download_at;
             job_.error = Bounded(persisted.error, 240);
+            job_.user_library_source = persisted.user_library_source;
             if (job_.status == "ready" && job_.download_status == "local") job_.status = "local";
             if (job_.status == "downloading") {
                 job_.status = "ready";
@@ -334,6 +337,7 @@ bool MusicService::PersistLocked() {
     record.downloaded_size = job_.downloaded_size;
     record.download_attempts = job_.download_attempts;
     record.next_download_at = job_.next_download_at;
+    record.user_library_source = job_.user_library_source;
     std::string error;
     if (!GeneratedMusicJobStorage::SaveAtomic(kGeneratedMusicJobs, kGeneratedMusicJobsTmp, record, error)) {
         ESP_LOGW(kTag, "MUSIC_DIAG JOBS_WRITE job_id=%s status=%s result=FAIL error=%s", job_.job_id.c_str(),
@@ -513,7 +517,7 @@ std::string MusicService::SearchBridgeLibrary(const std::string& query, std::str
     const std::string needle = lower_ascii(query);
     cJSON* result = cJSON_CreateObject();
     cJSON_AddBoolToObject(result, "success", true);
-    cJSON_AddStringToObject(result, "source", "music_bridge_library");
+    cJSON_AddStringToObject(result, "source", "music_bridge_generated_library");
     cJSON_AddStringToObject(result, "query", query.c_str());
     cJSON* items = cJSON_CreateArray();
     size_t returned = 0;
@@ -543,7 +547,55 @@ std::string MusicService::SearchBridgeLibrary(const std::string& query, std::str
     return output;
 }
 
-bool MusicService::RequestLibraryDownload(const std::string& track_id, std::string& error) {
+std::string MusicService::SearchUserBridgeLibrary(const std::string& query, std::string& error) {
+    const std::string url = ResolveBridgeUrl();
+    if (url.empty()) {
+        error = "generator_unavailable";
+        return {};
+    }
+    MusicBridgeClient client;
+    std::vector<MusicLibraryTrack> tracks;
+    if (!client.ListUserLibrary(url, tracks, error)) return {};
+    auto lower_ascii = [](std::string value) {
+        std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
+            return static_cast<char>(std::tolower(ch));
+        });
+        return value;
+    };
+    const std::string needle = lower_ascii(query);
+    cJSON* result = cJSON_CreateObject();
+    cJSON_AddBoolToObject(result, "success", true);
+    cJSON_AddStringToObject(result, "source", "music_bridge_user_library");
+    cJSON_AddStringToObject(result, "query", query.c_str());
+    cJSON* items = cJSON_CreateArray();
+    size_t returned = 0;
+    for (const auto& track : tracks) {
+        const std::string haystack = lower_ascii(track.title + " " + track.filename + " " + track.id);
+        if (!needle.empty() && haystack.find(needle) == std::string::npos) continue;
+        cJSON* item = cJSON_CreateObject();
+        cJSON_AddStringToObject(item, "track_id", track.id.c_str());
+        cJSON_AddStringToObject(item, "title", track.title.c_str());
+        cJSON_AddStringToObject(item, "filename", track.filename.c_str());
+        cJSON_AddStringToObject(item, "library", "user");
+        if (track.size > 0) cJSON_AddNumberToObject(item, "size", static_cast<double>(track.size));
+        if (track.duration > 0) cJSON_AddNumberToObject(item, "duration", track.duration);
+        cJSON_AddItemToArray(items, item);
+        if (++returned >= 20) break;
+    }
+    cJSON_AddNumberToObject(result, "count", static_cast<double>(returned));
+    cJSON_AddItemToObject(result, "tracks", items);
+    char* rendered = cJSON_PrintUnformatted(result);
+    cJSON_Delete(result);
+    if (rendered == nullptr) {
+        error = "out_of_memory";
+        return {};
+    }
+    std::string output(rendered);
+    cJSON_free(rendered);
+    return output;
+}
+
+bool MusicService::RequestLibraryDownload(const std::string& track_id, bool user_library, std::string& error) {
     error.clear();
     if (track_id.empty()) {
         error = "track_id_required";
@@ -571,7 +623,8 @@ bool MusicService::RequestLibraryDownload(const std::string& track_id, std::stri
     }
     MusicBridgeClient client;
     MusicLibraryTrack track;
-    if (!client.GetLibraryTrack(url, track_id, track, error)) return false;
+    if (user_library ? !client.GetUserLibraryTrack(url, track_id, track, error)
+                     : !client.GetLibraryTrack(url, track_id, track, error)) return false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         job_ = {};
@@ -584,6 +637,7 @@ bool MusicService::RequestLibraryDownload(const std::string& track_id, std::stri
         job_.filename = Bounded(track.filename, 160);
         job_.download_status = "pending";
         job_.library_source = true;
+        job_.user_library_source = user_library;
         download_requested_ = true;
         if (!PersistLocked()) {
             job_ = {};
@@ -592,7 +646,8 @@ bool MusicService::RequestLibraryDownload(const std::string& track_id, std::stri
             return false;
         }
     }
-    ESP_LOGI(kTag, "MUSIC_LIBRARY_DOWNLOAD_REQUEST track_id=%s title=%s", track.id.c_str(), track.title.c_str());
+    ESP_LOGI(kTag, "MUSIC_LIBRARY_DOWNLOAD_REQUEST source=%s track_id=%s title=%s",
+             user_library ? "user" : "generated", track.id.c_str(), track.title.c_str());
     EnsurePollTask();
     Application::GetInstance().EndConversationAfterSpeech();
     return true;
@@ -777,7 +832,8 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         RecordDownloadFailure(snapshot.job_id, "unsafe_filename");
         return false;
     }
-    const std::string final_path = std::string(kGeneratedMusicDir) + "/" + filename;
+    const char* target_dir = snapshot.user_library_source ? kUserMusicDir : kGeneratedMusicDir;
+    const std::string final_path = std::string(target_dir) + "/" + filename;
     const std::string temp_path = final_path + ".part";
 
     struct stat final_check = {};
@@ -788,7 +844,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
     {
         std::vector<GeneratedMusicRecord> diagnostic_records;
         std::string diagnostic_error;
-        if (GeneratedMusicStorage::Load(kGeneratedMusicIndex, diagnostic_records, diagnostic_error)) {
+        if (!snapshot.user_library_source && GeneratedMusicStorage::Load(kGeneratedMusicIndex, diagnostic_records, diagnostic_error)) {
             gmdb_contains = std::any_of(diagnostic_records.begin(), diagnostic_records.end(), [&](const auto& record) {
                 return record.filename == filename;
             });
@@ -823,8 +879,9 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
             existing_local = true;
             existing_size = static_cast<size_t>(existing_stat.st_size);
         } else {
+            mkdir(target_dir, 0775);
             struct statvfs space = {};
-            if (statvfs(kGeneratedMusicDir, &space) == 0) {
+            if (statvfs(target_dir, &space) == 0) {
                 const uint64_t available = static_cast<uint64_t>(space.f_bavail) * space.f_frsize;
                 if (available < static_cast<uint64_t>(snapshot.size) + kDownloadSafetyMargin) {
                     ESP_LOGI(kTag, "MUSIC_DIAG DOWNLOAD_DECISION job_id=%s action=error", snapshot.job_id.c_str());
@@ -835,7 +892,6 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                     return false;
                 }
             }
-            mkdir(kGeneratedMusicDir, 0775);
             unlink(temp_path.c_str());
         }
     }
@@ -921,7 +977,10 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                                                       ESP_LOGI(kTag, "MUSIC_UI DOWNLOAD_PROGRESS percent=%d", percent);
                                                   }
                                               };
-    const bool success = snapshot.library_source
+    const bool success = snapshot.user_library_source
+                             ? client.DownloadUserLibraryAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded,
+                                                              error, progress)
+                         : snapshot.library_source
                              ? client.DownloadLibraryAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded,
                                                            error, progress)
                              : client.DownloadAudio(url, snapshot.job_id, snapshot.size, temp_path, downloaded, error,
@@ -980,6 +1039,30 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
     ESP_LOGI(kTag, "MUSIC_DIAG FINAL_RENAME job_id=%s final_path=%s final_size=%u", snapshot.job_id.c_str(),
              final_path.c_str(), static_cast<unsigned>(final_stat.st_size));
     LogDiagnosticMemory("after_final_rename");
+
+    if (snapshot.user_library_source) {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if (job_.active && job_.job_id == snapshot.job_id) {
+                job_.status = "local";
+                job_.download_status = "local";
+                download_requested_ = false;
+                job_.local_filename = filename;
+                job_.downloaded_size = static_cast<size_t>(final_stat.st_size);
+                job_.download_attempts = 0;
+                job_.next_download_at = 0;
+                job_.error.clear();
+                PersistLocked();
+            }
+        }
+        SdMusicPlayer::GetInstance().ScanPlaylist();
+        ESP_LOGI(kTag, "MUSIC_USER_LIBRARY_LOCAL path=%s", final_path.c_str());
+        ESP_LOGI(kTag, "MUSIC_DOWNLOAD_DONE id=%s bytes=%u path=%s", snapshot.job_id.c_str(),
+                 static_cast<unsigned>(final_stat.st_size), final_path.c_str());
+        LogDiagnosticMemory("after_download_return");
+        finish_transaction("success");
+        return true;
+    }
 
     std::string evicted_filename;
     bool already_indexed = false;
@@ -1249,12 +1332,12 @@ void MusicService::RegisterMcpTools() {
         Property("title", kPropertyTypeString),
         Property("style", kPropertyTypeString),
         Property("lyrics", kPropertyTypeString),
-        Property("provider", kPropertyTypeString, std::string("yue2")),
+        Property("provider", kPropertyTypeString, std::string("default")),
         Property("duration_seconds", kPropertyTypeInteger, 320, 0, 600),
     });
     mcp.AddTool(
         "music.generate",
-        "Start one asynchronous song generation. The device automatically discovers and checks the local music service; do not ask the user for network details. Write the title, concise style, and complete lyrics yourself, call this once, then tell the user that generation has started and they should wait. This completes the current request: after a successful call, do not call music.generation_status, music.play_generated, media tools, or any other music tool in the same turn, and do not start another generation. Wait for the user to ask later whether it is ready. duration_seconds defaults to 320 seconds when omitted; set it only when the user explicitly requests another duration. Generated music must stay in the local generated-music/Music Bridge flow and must never be routed to Home Assistant for playback or search.",
+        "Start one asynchronous song generation. The device automatically discovers and checks the local music service; do not ask the user for network details. Write the title, concise style, and complete lyrics yourself, call this once, then tell the user that generation has started and they should wait. Formatting rule: write the style description in English. In lyrics, use English section labels such as [Verse], [Chorus], [Bridge], [Intro], and [Outro]. Keep the title and lyric text in the user's requested language and do not translate them. This completes the current request: after a successful call, do not call music.generation_status, music.play_generated, media tools, or any other music tool in the same turn, and do not start another generation. Wait for the user to ask later whether it is ready. duration_seconds defaults to 320 seconds when omitted; set it only when the user explicitly requests another duration. Leave provider as default unless the user explicitly names a configured provider; the Music Bridge selects its active provider. Generated music must stay in the local generated-music/Music Bridge flow and must never be routed to Home Assistant for playback or search.",
         generate_properties,
         [this](const PropertyList& properties) -> ReturnValue {
             const std::string title = properties["title"].value<std::string>();
@@ -1266,7 +1349,12 @@ void MusicService::RegisterMcpTools() {
                 !ValidateText(lyrics, kMaxLyricsLength)) {
                 return ErrorResult("invalid_title_style_or_lyrics_length");
             }
-            if (provider != "yue2") return ErrorResult("unsupported_provider");
+            if (provider.empty() || provider.size() > kMaxProviderLength ||
+                !std::all_of(provider.begin(), provider.end(), [](unsigned char ch) {
+                    return std::islower(ch) || std::isdigit(ch) || ch == '_' || ch == '-';
+                })) {
+                return ErrorResult("invalid_provider");
+            }
             if (IsGeneratedDownloadBusy()) {
                 ESP_LOGI(kTag, "MUSIC_GENERATE_BLOCKED reason=generated_download_busy");
                 return ErrorResult("generated_download_busy");
@@ -1350,7 +1438,7 @@ void MusicService::RegisterMcpTools() {
     PropertyList search_library_properties({Property("query", kPropertyTypeString, std::string(""))});
     mcp.AddTool(
         "music.search_library",
-        "Search the Music Bridge library on the computer for already generated tracks. Use this when the user asks for an older bridge track by title or filename. This is the bridge library, not the device SD index; return the matching track_id values and ask which one to download if there are multiple matches.",
+        "Search the Music Bridge generated library on the computer for tracks previously created by a provider. Use this for an older generated track by title or filename. This is separate from the user music library and the device SD index; return matching track_id values and ask which one to download if there are multiple matches.",
         search_library_properties,
         [this](const PropertyList& properties) -> ReturnValue {
             if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
@@ -1363,17 +1451,48 @@ void MusicService::RegisterMcpTools() {
     PropertyList download_library_properties({Property("track_id", kPropertyTypeString)});
     mcp.AddTool(
         "music.download_library",
-        "Download one existing track from the Music Bridge library to /sdcard/generated_music. Call music.search_library first when the user names a track but does not provide its track_id. This starts the same background transaction and progress dialog as a generated-track download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
+        "Download one existing generated track from the Music Bridge generated library to /sdcard/generated_music. Call music.search_library first when the user names a track but does not provide its track_id. This starts the same background transaction and progress dialog as a generated-track download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
         download_library_properties,
         [this](const PropertyList& properties) -> ReturnValue {
             if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
             std::string error;
-            if (!RequestLibraryDownload(properties["track_id"].value<std::string>(), error)) return ErrorResult(error);
+            if (!RequestLibraryDownload(properties["track_id"].value<std::string>(), false, error)) return ErrorResult(error);
             cJSON* result = cJSON_CreateObject();
             cJSON_AddBoolToObject(result, "accepted", true);
             cJSON_AddStringToObject(result, "status", "download_queued");
             cJSON_AddStringToObject(result, "track_id", properties["track_id"].value<std::string>().c_str());
             cJSON_AddStringToObject(result, "message", "Library download started in the background.");
+            return result;
+        });
+
+    PropertyList search_user_library_properties({Property("query", kPropertyTypeString, std::string(""))});
+    mcp.AddTool(
+        "music.search_user_library",
+        "Search MP3 files placed by the user in the Music Bridge data/music_library folder. This is separate from the generated library. Return matching track_id values; user-library tracks are ordinary music and will be copied to /sdcard/music for the regular player.",
+        search_user_library_properties,
+        [this](const PropertyList& properties) -> ReturnValue {
+            if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
+            std::string error;
+            const std::string output = SearchUserBridgeLibrary(properties["query"].value<std::string>(), error);
+            if (output.empty()) return ErrorResult(error.empty() ? "user_library_search_failed" : error);
+            return output;
+        });
+
+    PropertyList download_user_library_properties({Property("track_id", kPropertyTypeString)});
+    mcp.AddTool(
+        "music.download_user_library",
+        "Download one MP3 from the Music Bridge user music library to /sdcard/music, where it becomes available to the ordinary player. Call music.search_user_library first when the user gives a title without track_id. This starts the background download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
+        download_user_library_properties,
+        [this](const PropertyList& properties) -> ReturnValue {
+            if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
+            std::string error;
+            if (!RequestLibraryDownload(properties["track_id"].value<std::string>(), true, error)) return ErrorResult(error);
+            cJSON* result = cJSON_CreateObject();
+            cJSON_AddBoolToObject(result, "accepted", true);
+            cJSON_AddStringToObject(result, "status", "download_queued");
+            cJSON_AddStringToObject(result, "track_id", properties["track_id"].value<std::string>().c_str());
+            cJSON_AddStringToObject(result, "destination", "/sdcard/music");
+            cJSON_AddStringToObject(result, "message", "User music download started in the background.");
             return result;
         });
 

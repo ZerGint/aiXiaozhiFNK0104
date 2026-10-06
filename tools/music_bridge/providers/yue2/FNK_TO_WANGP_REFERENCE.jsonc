@@ -1,0 +1,47 @@
+{
+  // Справочник команд, которые мост отправляет WangP.
+  // Изменение этого файла само по себе не меняет работу EXE.
+  // Логика запросов находится внутри собранного FNKMusicBridge.exe.
+
+  "health": {
+    "method": "GET",
+    "path": "/config",
+    "purpose": "Проверка доступности WangP"
+  },
+
+  "reset_deepy_session": {
+    "method": "POST",
+    "path": "/deepy/deepy_api/control",
+    "json": {
+      "action": "reset",
+      "payload": {}
+    }
+  },
+
+  "select_yue2": {
+    "method": "POST",
+    "path": "/deepy/deepy_api/settings",
+    "json": {
+      "song_variant": "YuE2",
+      "audio_duration": "<duration_seconds>",
+      "use_template_properties": true,
+      "seed": -1
+    }
+  },
+
+  "generate_gradio_call": {
+    "api_name": "/ask_ai_with_ui_settings",
+    "prompt_template": "Generate one vocal song with the YuE2 backend. Use YuE2 melody-and-chords vocal composition (model_mode=0), not YuE2 Instrumental. Sing the supplied lyrics exactly in their original language; do not return an instrumental-only track. Title: <title>. Lyrics: <lyrics>. Music style: <style>. Use a maximum duration of <duration_seconds> seconds and return the generated audio.",
+    "important_arguments": {
+      "song_variant": "YuE2",
+      "duration_seconds": "<duration_seconds>",
+      "submission_id": "bridge_<job_id>"
+    }
+  },
+
+  "result_polling": {
+    "method": "GET",
+    "path": "/deepy/deepy_api/state",
+    "condition": "Новый gallery item с kind=audio и summary.model_type=yue2"
+  }
+}

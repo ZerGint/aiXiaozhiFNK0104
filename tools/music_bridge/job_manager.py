@@ -15,6 +15,7 @@ from mutagen.mp3 import MP3
 from .config import BridgeConfig
 from .library import MusicLibrary, track_filename
 from .models import JobRecord, JobStatus
+from .providers import ProviderProcessClient, ProviderRegistry
 from .wangp_client import WanGPClient
 
 
@@ -27,9 +28,17 @@ DEFAULT_ALBUM = "AI Generated"
 
 
 class JobManager:
-    def __init__(self, config: BridgeConfig):
+    def __init__(self, config: BridgeConfig, providers: ProviderRegistry | None = None):
         self.config = config
-        self.client = WanGPClient(config.wan_gp_url, config.poll_interval_sec)
+        self.providers = providers or ProviderRegistry(config)
+        self.provider_client = ProviderProcessClient(self.providers, config)
+        # Keep the small in-process client available for older host-side tests
+        # and source checkouts that predate the provider directory.
+        self.client = (
+            WanGPClient(config.wan_gp_url, config.poll_interval_sec)
+            if not hasattr(config, "providers_dir")
+            else None
+        )
         self.library = MusicLibrary(config.library_dir)
         self._jobs: dict[str, JobRecord] = {}
         self._lock = threading.RLock()
@@ -71,15 +80,14 @@ class JobManager:
         provider: str,
         duration_seconds: int | None = None,
     ) -> JobRecord:
-        if provider.lower() != "yue2":
-            raise ValueError("Only provider 'yue2' is supported")
+        selected = self.providers.resolve(provider)
         now = utc_now()
         job = JobRecord(
             job_id=uuid.uuid4().hex,
             title=title,
             style=style,
             lyrics=lyrics,
-            provider="yue2",
+            provider=selected.provider_id,
             duration_seconds=duration_seconds,
             created_at=now,
             updated_at=now,
@@ -157,26 +165,57 @@ class JobManager:
         if job.status is JobStatus.READY and self.audio_path(job.job_id) is not None:
             return
         try:
-            duration_seconds = job.duration_seconds or self.config.audio_duration
-            self._update(job, status=JobStatus.SUBMITTING, progress="Applying YuE2 settings")
+            provider = None
+            if self.client is not None:
+                duration_seconds = job.duration_seconds or self.config.audio_duration
+                timeout_seconds = self.config.generation_timeout_sec
+                self._update(job, status=JobStatus.SUBMITTING, progress="Starting YuE2")
+            else:
+                provider = self.providers.resolve(job.provider)
+                duration_seconds = job.duration_seconds or self.providers.default_duration(provider)
+                timeout_seconds = self.providers.timeout_seconds(provider)
+                self._update(
+                    job,
+                    status=JobStatus.SUBMITTING,
+                    progress=f"Starting {provider.name}",
+                )
 
             def progress(text: str) -> None:
                 self._update(job, status=JobStatus.GENERATING, progress=text)
 
-            item = self.client.submit_yue2(
-                title=job.title,
-                style=job.style,
-                lyrics=job.lyrics,
-                submission_id=f"bridge_{job.job_id}",
-                duration_seconds=duration_seconds,
-                timeout=self.config.generation_timeout_sec,
-                callback=progress,
-            )
             wav_path = self.config.generated_dir / f"{job.job_id}.wav"
             self.config.generated_dir.mkdir(parents=True, exist_ok=True)
-            self._update(job, status=JobStatus.GENERATING, progress="Downloading WAV")
-            self.client.download_audio(item, wav_path)
-            self._update(job, wan_gp_gallery_id=str(item.get("id", "")), wav_path=str(wav_path))
+            if self.client is not None:
+                item = self.client.submit_yue2(
+                    title=job.title,
+                    style=job.style,
+                    lyrics=job.lyrics,
+                    submission_id=f"bridge_{job.job_id}",
+                    duration_seconds=duration_seconds,
+                    timeout=timeout_seconds,
+                    callback=progress,
+                )
+                self._update(job, status=JobStatus.GENERATING, progress="Downloading WAV")
+                self.client.download_audio(item, wav_path)
+            else:
+                assert provider is not None
+                item = self.provider_client.generate(
+                    provider,
+                    title=job.title,
+                    style=job.style,
+                    lyrics=job.lyrics,
+                    job_id=job.job_id,
+                    duration_seconds=duration_seconds,
+                    timeout=timeout_seconds,
+                    output_path=wav_path,
+                    callback=progress,
+                )
+                self._update(job, status=JobStatus.GENERATING, progress="Provider audio ready")
+            self._update(
+                job,
+                wan_gp_gallery_id=str(item.get("external_id") or item.get("id") or ""),
+                wav_path=str(wav_path),
+            )
 
             self._update(job, status=JobStatus.CONVERTING, progress="Converting WAV to MP3")
             # Keep the .mp3 suffix because ffmpeg infers the output muxer

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -10,17 +11,22 @@ from .config import BridgeConfig
 from .job_manager import JobManager
 from .mdns_advertiser import MdnsAdvertiser
 from .models import GenerateRequest, JobStatus
+from .providers import ProviderRegistry
+from .user_library import UserMusicLibrary
 
 
 config = BridgeConfig.load()
 manager: JobManager | None = None
 mdns: MdnsAdvertiser | None = None
+provider_registry = ProviderRegistry(config)
+user_library = UserMusicLibrary(config.user_music_dir)
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     global manager, mdns
-    manager = JobManager(config)
+    provider_registry.refresh()
+    manager = JobManager(config, provider_registry)
     mdns = MdnsAdvertiser(config.listen_port)
     await asyncio.to_thread(mdns.start)
     yield
@@ -43,16 +49,44 @@ def get_manager() -> JobManager:
 @app.get("/health")
 def health() -> dict:
     current = get_manager()
-    connected = current.client.health()
+    active_provider = current.providers.active()
+    connected = active_provider is not None and current.provider_client.health(active_provider)
+    provider_url = (
+        current.providers.setting(active_provider, "wan_gp_url", config.wan_gp_url)
+        if active_provider is not None
+        else config.wan_gp_url
+    )
     return {
         "ok": connected,
+        "bridge": "ready" if connected else "no_provider",
         "wan_gp": "connected" if connected else "unavailable",
-        "wan_gp_url": config.wan_gp_url,
+        "wan_gp_url": provider_url,
+        "active_provider": provider_registry.active_id,
         "active_jobs": sum(
             1 for job in current.all()
             if job.status in {JobStatus.SUBMITTING, JobStatus.GENERATING, JobStatus.CONVERTING}
         ),
-    } if connected else {"ok": False, "wan_gp": "unavailable"}
+    } if connected else {
+        "ok": False,
+        "bridge": "no_provider",
+        "wan_gp": "unavailable",
+        "active_provider": provider_registry.active_id,
+    }
+
+
+@app.get("/providers")
+def providers() -> list[dict]:
+    provider_registry.refresh()
+    return provider_registry.public()
+
+
+@app.post("/providers/{provider_id}/select")
+def select_provider(provider_id: str) -> dict:
+    try:
+        selected = provider_registry.select(provider_id)
+    except ValueError as error:
+        raise HTTPException(404, str(error)) from error
+    return {"selected": selected.public(active=True)}
 
 
 @app.post("/generate", status_code=202)
@@ -123,6 +157,29 @@ def library_audio(track_id: str) -> FileResponse:
     if track is None or path is None:
         raise HTTPException(404, "Unknown library track")
     return FileResponse(path, media_type="audio/mpeg", filename=str(track.get("filename", path.name)))
+
+
+@app.get("/user-library")
+def user_music_library(query: str = "") -> list[dict]:
+    """List MP3 files supplied by the user in data/music_library."""
+    return user_library.list_tracks(query=query)[:200]
+
+
+@app.get("/user-library/{track_id}")
+def user_music_library_track(track_id: str) -> dict:
+    track = user_library.get(track_id)
+    if track is None:
+        raise HTTPException(404, "Unknown user library track")
+    return track
+
+
+@app.get("/user-library/{track_id}/audio")
+def user_music_library_audio(track_id: str) -> FileResponse:
+    track = user_library.get(track_id)
+    path = user_library.audio_path(track_id)
+    if track is None or path is None:
+        raise HTTPException(404, "Unknown user library track")
+    return FileResponse(path, media_type="audio/mpeg", filename=Path(str(track.get("filename", path.name))).name)
 
 
 if __name__ == "__main__":

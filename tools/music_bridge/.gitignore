@@ -3,6 +3,12 @@ jobs.json
 generated/
 library/
 logs/
+config/config.json
+data/jobs.json
+data/generated/
+data/library/
+data/logs/
+data/music_library/*.mp3
 .venv/
 .venv_platformio/
 __pycache__/

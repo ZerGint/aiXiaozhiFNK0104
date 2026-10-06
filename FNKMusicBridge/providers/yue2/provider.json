@@ -1,0 +1,13 @@
+{
+  "id": "yue2",
+  "name": "WanGP YuE2",
+  "version": "1.0",
+  "adapter": "Yue2Provider.exe",
+  "config": "config.json",
+  "capabilities": {
+    "lyrics": true,
+    "style": true,
+    "duration": true,
+    "vocal": true
+  }
+}

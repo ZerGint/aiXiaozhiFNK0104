@@ -1,12 +1,15 @@
 # FNK Music Bridge
 
-Host-side Windows bridge for generating YuE2 songs through an already-running local WanGP instance. It does not modify the ESP32 firmware and does not expose WanGP itself outside localhost.
+Host-side Windows bridge for generating songs through external provider
+adapters. The default `yue2` provider talks to an already-running local WanGP
+instance. The bridge does not expose WanGP itself outside localhost.
 
 ## Prerequisites
 
 - WanGP running at `http://127.0.0.1:7860`.
 - A Python 3.10+ environment for the bridge.
-- `ffmpeg` in `PATH`, or WanGP's `ffmpeg_bins` directory. The bridge does not download executables.
+- For a source checkout, `ffmpeg` in `PATH` or WanGP's `ffmpeg_bins` directory is enough.
+  The distributable `FNKMusicBridge` folder includes its own `ffmpeg/ffmpeg.exe`.
 
 Install dependencies from the repository root:
 
@@ -30,13 +33,18 @@ verifies `/health` before using a discovered endpoint.
 ## Desktop player
 
 `run_desktop.bat` starts the same bridge API together with a small Windows
-player window. The window lists ready MP3 files from `library/` and provides
-Play, Stop, and Refresh buttons. Minimizing the window hides it in the
+player window. The window lists ready MP3 files from `data/library/` and provides
+Play, Stop, and Refresh buttons. The right panel shows the latest generation
+request (title, lyrics, style, duration, status, and current progress) and
+refreshes while the bridge worker runs. Minimizing the window hides it in the
 notification area; the tray menu restores it, stops playback, or exits the
 bridge cleanly.
 
-The desktop shell uses the existing bridge library and API. It does not add
-another generation queue or change the ESP32 protocol. Build a standalone
+Selecting a row updates the right panel with that track's metadata and
+sidecar text. The player also has a seek bar and a volume slider; the volume
+is saved in `config/config.json` as `volume_percent`. The desktop shell uses
+the existing bridge library and API. It does not add another generation queue
+or change the ESP32 protocol. Build a standalone
 Windows executable from a full CPython installation with Tcl/Tk support:
 
 ```powershell
@@ -44,6 +52,26 @@ powershell -ExecutionPolicy Bypass -File tools\music_bridge\build_desktop_exe.ps
 ```
 
 The resulting `dist\FNKMusicBridge.exe` is a portable one-file executable.
+
+## Providers
+
+Provider adapters are external executables under `providers/<id>/`. The bridge
+discovers folders containing a valid `provider.json` and an existing adapter
+executable. The desktop window exposes discovered providers in a dropdown; the
+selected provider is stored as `active_provider` in `config/config.json`.
+
+The included `providers/yue2/Yue2Provider.exe` contains the WanGP YuE2
+integration. Its WanGP URL and polling settings are in that provider's own
+`config.json`. A new provider can be installed by copying its complete folder;
+the main bridge EXE does not need to be rebuilt.
+
+`providers/other_provider/README_RU.md` documents the adapter protocol and the
+required manifest fields. An adapter receives one JSON request on stdin and
+returns line-delimited JSON progress/result events on stdout. It must write a
+WAV file to the requested output path.
+
+The distributable package also contains `ffmpeg/ffmpeg.exe`. The bridge checks
+this bundled copy before PATH and the legacy WanGP `ffmpeg_bins` location.
 
 ## API
 
@@ -79,7 +107,7 @@ When the status is `ready`, download the MP3:
 Invoke-WebRequest http://127.0.0.1:8765/jobs/<job_id>/audio -OutFile .\song.mp3
 ```
 
-The bridge keeps the finished tracks in `tools/music_bridge/library/`. The
+The bridge keeps the finished tracks in `data/library/`. The
 MP3 filename is `<sanitized AI title> [<first 8 characters of job_id>].mp3`.
 The title is preserved exactly in `TIT2`; the default artist is `Kira AI`, the
 album and genre are `AI Generated`, and the comment is `Generated with YuE2`.
@@ -126,14 +154,15 @@ context window and the generation fails before YuE2 starts. The reset clears
 chat context but leaves WanGP's media gallery intact, so the bridge can still
 identify the newly generated audio item.
 
-The WAV is streamed into `tools/music_bridge/generated/<job_id>.wav`, checked for a RIFF header, then converted with ffmpeg to a 48 kHz stereo MP3 at 160 kbps. The default is to remove the WAV after successful conversion. Set `keep_wav` to `true` in `config.json` to retain it.
+The WAV is streamed into `data/generated/<job_id>.wav`, checked for a RIFF header, then converted with ffmpeg to a 48 kHz stereo MP3 at 160 kbps. The default is to remove the WAV after successful conversion. Set `keep_wav` to `true` in `config/config.json` to retain it.
 
-Runtime files are intentionally ignored: `config.json`, `jobs.json`, `generated/`,
-`library/`, `logs/`, and a bridge-local virtual environment.
+Runtime files are intentionally ignored: `config/config.json`, `data/jobs.json`,
+`data/generated/`, `data/library/`, `data/logs/`, and a bridge-local virtual
+environment. The source Python scripts remain in this directory.
 
 ## Configuration
 
-Copy `config.example.json` to `config.json` only when overrides are needed. If it is absent, built-in defaults are used. The test configuration can set `audio_duration` to `10`; normal use defaults to 320 seconds. A request may override it with `duration_seconds` from 1 through 600. YuE2 treats this as a maximum, so a short value can end during the instrumental intro before vocals begin.
+Copy `config.example.json` to `config/config.json` only when bridge overrides are needed. Provider connection and generation defaults belong to `providers/<id>/config.json`; for Yue2 these are `wan_gp_url`, `generation_timeout_sec`, `poll_interval_sec`, and `audio_duration`. A request may override the duration with `duration_seconds` from 1 through 600. YuE2 treats this as a maximum, so a short value can end during the instrumental intro before vocals begin.
 
 The bridge is structured for a future PyInstaller build, for example:
 
