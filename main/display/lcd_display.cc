@@ -45,6 +45,15 @@
 
 #define TAG "LcdDisplay"
 
+LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
+LV_FONT_DECLARE(BUILTIN_ICON_FONT);
+LV_FONT_DECLARE(font_material_symbols_30_4);
+LV_FONT_DECLARE(font_noto_emoji_30_4);
+LV_FONT_DECLARE(font_noto_sans_basic_30_4);
+LV_FONT_DECLARE(font_noto_sans_radio_16_4);
+LV_FONT_DECLARE(font_noto_sans_symbols_star_20_4);
+LV_FONT_DECLARE(font_material_symbols_shuffle_20_4);
+
 namespace {
 
 struct DeletePromptData {
@@ -53,11 +62,19 @@ struct DeletePromptData {
     lv_obj_t* box;
 };
 static void ShowDeletePrompt(LcdDisplay* display, int index, const char* name);
-struct TrackItemData { LcdDisplay* display; int index; lv_timer_t* timer = nullptr; };
+struct TrackItemData {
+    LcdDisplay* display;
+    int index;
+    lv_timer_t* timer = nullptr;
+    bool suppress_click = false;
+};
 static void TrackLongPressTimer(lv_timer_t* timer) {
     auto* item = static_cast<TrackItemData*>(lv_timer_get_user_data(timer));
     if (!item) return;
     item->timer = nullptr;
+    // The release following a long press still produces LV_EVENT_CLICKED.
+    // Consume that event so opening the delete prompt never starts playback.
+    item->suppress_click = true;
     const auto& list = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
     if (item->index >= 0 && item->index < static_cast<int>(list.size())) {
         std::string name = list[item->index]; const size_t slash = name.find_last_of('/');
@@ -91,11 +108,28 @@ static void ShowDeletePrompt(LcdDisplay* display, int index, const char* name) {
     lv_obj_set_size(box, 300, 130); lv_obj_center(box);
     lv_obj_set_style_bg_color(box, lv_color_black(), 0);
     lv_obj_set_style_border_width(box, 2, 0);
-    auto* text = lv_label_create(box); lv_label_set_text_fmt(text, "Удалить трек?\n%.32s", name); lv_obj_align(text, LV_ALIGN_TOP_MID, 0, 12);
-    auto* yes = lv_btn_create(box); lv_obj_set_size(yes, 90, 38); lv_obj_align(yes, LV_ALIGN_BOTTOM_LEFT, 35, -12);
-    auto* yl = lv_label_create(yes); lv_label_set_text(yl, "Да"); lv_obj_center(yl);
-    auto* no = lv_btn_create(box); lv_obj_set_size(no, 90, 38); lv_obj_align(no, LV_ALIGN_BOTTOM_RIGHT, -35, -12);
-    auto* nl = lv_label_create(no); lv_label_set_text(nl, "Нет"); lv_obj_center(nl);
+    auto* text = lv_label_create(box);
+    lv_label_set_text_fmt(text, "Удалить трек?\n%.32s", name);
+    lv_obj_set_style_text_font(text, &font_noto_sans_radio_16_4, 0);
+    lv_obj_set_style_text_color(text, lv_color_white(), 0);
+    lv_obj_set_style_text_align(text, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_align(text, LV_ALIGN_TOP_MID, 0, 12);
+    auto* yes = lv_btn_create(box);
+    lv_obj_set_size(yes, 90, 38);
+    lv_obj_align(yes, LV_ALIGN_BOTTOM_LEFT, 35, -7);
+    auto* yl = lv_label_create(yes);
+    lv_label_set_text(yl, "Да");
+    lv_obj_set_style_text_font(yl, &font_noto_sans_radio_16_4, 0);
+    lv_obj_set_style_text_color(yl, lv_color_white(), 0);
+    lv_obj_center(yl);
+    auto* no = lv_btn_create(box);
+    lv_obj_set_size(no, 90, 38);
+    lv_obj_align(no, LV_ALIGN_BOTTOM_RIGHT, -35, -7);
+    auto* nl = lv_label_create(no);
+    lv_label_set_text(nl, "Нет");
+    lv_obj_set_style_text_font(nl, &font_noto_sans_radio_16_4, 0);
+    lv_obj_set_style_text_color(nl, lv_color_white(), 0);
+    lv_obj_center(nl);
     auto* data = new DeletePromptData{display, index, box};
     lv_obj_add_event_cb(yes, DeletePromptEvent, LV_EVENT_CLICKED, data);
     lv_obj_add_event_cb(no, DeletePromptEvent, LV_EVENT_CLICKED, data);
@@ -250,15 +284,6 @@ static void DrawWeatherIcon(lv_obj_t* root, WeatherIcon icon, bool large) {
 #endif
 
 }
-
-LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
-LV_FONT_DECLARE(BUILTIN_ICON_FONT);
-LV_FONT_DECLARE(font_material_symbols_30_4);
-LV_FONT_DECLARE(font_noto_emoji_30_4);
-LV_FONT_DECLARE(font_noto_sans_basic_30_4);
-LV_FONT_DECLARE(font_noto_sans_radio_16_4);
-LV_FONT_DECLARE(font_noto_sans_symbols_star_20_4);
-LV_FONT_DECLARE(font_material_symbols_shuffle_20_4);
 
 namespace {
 constexpr const char* kProjectShuffleIcon = "\xEE\x81\x83"; // U+E043
@@ -2255,10 +2280,15 @@ void LcdDisplay::RefreshRadioCatalogPage() {
                 if (!item) return;
                 if (lv_event_get_code(e) == LV_EVENT_DELETE) { if (item->timer) lv_timer_delete(item->timer); delete item; return; }
                 if (lv_event_get_code(e) == LV_EVENT_PRESSED) {
+                    item->suppress_click = false;
                     if (!item->timer) { item->timer = lv_timer_create(TrackLongPressTimer, 2000, item); lv_timer_set_repeat_count(item->timer, 1); }
                 } else if (lv_event_get_code(e) == LV_EVENT_RELEASED) {
                     if (item->timer) { lv_timer_delete(item->timer); item->timer = nullptr; }
                 } else if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+                    if (item->suppress_click) {
+                        item->suppress_click = false;
+                        return;
+                    }
                     const auto& list = SdMusicPlayer::GetInstance().GetPlaylistSnapshot();
                     if (item->index < 0 || item->index >= static_cast<int>(list.size())) return;
                     auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(item->index);
