@@ -26,6 +26,7 @@
 #define LV_USE_KEYBOARD 1
 #endif
 #include <src/misc/cache/lv_cache.h>
+#include <src/misc/lv_timer.h>
 #include <algorithm>
 #include <cstring>
 #include <vector>
@@ -51,6 +52,20 @@ struct DeletePromptData {
     int index;
     lv_obj_t* box;
 };
+static void ShowDeletePrompt(LcdDisplay* display, int index, const char* name);
+struct TrackItemData { LcdDisplay* display; int index; lv_timer_t* timer = nullptr; };
+static void TrackLongPressTimer(lv_timer_t* timer) {
+    auto* item = static_cast<TrackItemData*>(lv_timer_get_user_data(timer));
+    if (!item) return;
+    item->timer = nullptr;
+    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
+    if (item->index >= 0 && item->index < static_cast<int>(list.size())) {
+        std::string name = list[item->index]; const size_t slash = name.find_last_of('/');
+        if (slash != std::string::npos) name.erase(0, slash + 1);
+        ShowDeletePrompt(item->display, item->index, name.c_str());
+    }
+    lv_timer_delete(timer);
+}
 
 static void CloseDeletePrompt(DeletePromptData* data) {
     if (data && data->box) lv_obj_delete(data->box);
@@ -2234,26 +2249,23 @@ void LcdDisplay::RefreshRadioCatalogPage() {
             lv_label_set_text(name, display.c_str()); lv_obj_set_style_text_font(name, &font_noto_sans_radio_16_4, 0);
             lv_obj_set_width(name, 120); lv_obj_set_height(name, 20); lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
             lv_obj_align(name, LV_ALIGN_LEFT_MID, 2, 0);
-            auto* item = new std::pair<LcdDisplay*, int>(this, index);
+            auto* item = new TrackItemData{this, index};
             lv_obj_add_event_cb(card, [](lv_event_t* e) {
-                auto* item = static_cast<std::pair<LcdDisplay*, int>*>(lv_event_get_user_data(e));
+                auto* item = static_cast<TrackItemData*>(lv_event_get_user_data(e));
                 if (!item) return;
-                if (lv_event_get_code(e) == LV_EVENT_DELETE) { delete item; return; }
-                if (lv_event_get_code(e) == LV_EVENT_LONG_PRESSED) {
-                    const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
-                    if (item->first && item->second >= 0 && item->second < static_cast<int>(list.size())) {
-                        std::string name = list[item->second];
-                        const size_t slash = name.find_last_of('/'); if (slash != std::string::npos) name.erase(0, slash + 1);
-                        ShowDeletePrompt(item->first, item->second, name.c_str());
-                    }
+                if (lv_event_get_code(e) == LV_EVENT_DELETE) { if (item->timer) lv_timer_delete(item->timer); delete item; return; }
+                if (lv_event_get_code(e) == LV_EVENT_PRESSED) {
+                    if (!item->timer) { item->timer = lv_timer_create(TrackLongPressTimer, 2000, item); lv_timer_set_repeat_count(item->timer, 1); }
+                } else if (lv_event_get_code(e) == LV_EVENT_RELEASED) {
+                    if (item->timer) { lv_timer_delete(item->timer); item->timer = nullptr; }
                 } else if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
                     const auto& list = SdMusicPlayer::GetInstance().GetPlaylist();
-                    if (item->second < 0 || item->second >= static_cast<int>(list.size())) return;
-                    auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(item->second);
-                    if (item->first && item->first->media_browser_mode_ == MediaBrowserMode::Generated) {
+                    if (item->index < 0 || item->index >= static_cast<int>(list.size())) return;
+                    auto& sd = SdMusicPlayer::GetInstance(); sd.SetSelectedTrackIndex(item->index);
+                    if (item->display && item->display->media_browser_mode_ == MediaBrowserMode::Generated) {
                         std::string error;
-                        if (!MediaPlayer::GetInstance().PlayGenerated(list[item->second], error)) ESP_LOGW(TAG, "Generated playback rejected: %s", error.c_str());
-                    } else MediaPlayer::GetInstance().PlaySd(item->second);
+                        if (!MediaPlayer::GetInstance().PlayGenerated(list[item->index], error)) ESP_LOGW(TAG, "Generated playback rejected: %s", error.c_str());
+                    } else MediaPlayer::GetInstance().PlaySd(item->index);
                 }
             }, LV_EVENT_ALL, item);
         }
