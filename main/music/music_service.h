@@ -60,7 +60,7 @@ private:
     void PollTask();
     void EnsurePollTask();
     void PollPendingJobs();
-    std::string ResolveBridgeUrl();
+    std::string ResolveBridgeUrl(bool require_provider = true);
     bool EnsureMdns();
     void InvalidateRuntimeUrl(const std::string& url);
     bool HasPendingJobsLocked() const;

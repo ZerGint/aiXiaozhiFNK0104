@@ -33,6 +33,8 @@ struct MusicLibraryTrack {
     std::string filename;
     std::string provider;
     std::string created_at;
+    std::string artist;
+    std::string album;
     size_t size = 0;
     double duration = 0;
 };
@@ -62,7 +64,9 @@ public:
                          std::string& error) const;
     bool ListUserLibrary(const std::string& base_url,
                          std::vector<MusicLibraryTrack>& result,
-                         std::string& error) const;
+                         std::string& error,
+                         const std::string& query = "",
+                         size_t limit = 20) const;
     bool GetUserLibraryTrack(const std::string& base_url,
                              const std::string& track_id,
                              MusicLibraryTrack& result,
@@ -89,6 +93,7 @@ public:
                                   std::string& error,
                                   const std::function<void(size_t, size_t)>& progress = {}) const;
     bool Health(const std::string& base_url, std::string& error) const;
+    bool Reachable(const std::string& base_url, std::string& error) const;
 
 private:
     bool Request(const std::string& url,

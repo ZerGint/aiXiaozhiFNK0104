@@ -193,7 +193,7 @@ void MusicService::InvalidateRuntimeUrl(const std::string& url) {
     }
 }
 
-std::string MusicService::ResolveBridgeUrl() {
+std::string MusicService::ResolveBridgeUrl(bool require_provider) {
     std::string manual;
     std::string cached;
     int64_t last_attempt = 0;
@@ -207,11 +207,19 @@ std::string MusicService::ResolveBridgeUrl() {
     MusicBridgeClient client;
     if (!manual.empty()) {
         std::string error;
-        if (client.Health(manual, error)) return manual;
+        if ((require_provider ? client.Health(manual, error) : client.Reachable(manual, error))) return manual;
         ESP_LOGW(kTag, "MUSIC_BRIDGE_MANUAL_UNAVAILABLE error=%s", error.c_str());
     } else if (!cached.empty()) {
-        ESP_LOGI(kTag, "MUSIC_BRIDGE_RUNTIME_CACHE_HIT");
-        return cached;
+        if (!require_provider) {
+            ESP_LOGI(kTag, "MUSIC_BRIDGE_RUNTIME_CACHE_HIT");
+            return cached;
+        }
+        std::string error;
+        if (client.Health(cached, error)) {
+            ESP_LOGI(kTag, "MUSIC_BRIDGE_RUNTIME_CACHE_HIT");
+            return cached;
+        }
+        ESP_LOGW(kTag, "MUSIC_BRIDGE_RUNTIME_CACHE_UNAVAILABLE error=%s", error.c_str());
     }
 
     const int64_t now_ms = esp_timer_get_time() / 1000;
@@ -244,7 +252,8 @@ std::string MusicService::ResolveBridgeUrl() {
             std::string candidate(base);
             std::string error;
             ESP_LOGI(kTag, "MUSIC_MDNS_CANDIDATE endpoint=%s", candidate.c_str());
-            if (client.Health(candidate, error)) {
+            const bool valid = require_provider ? client.Health(candidate, error) : client.Reachable(candidate, error);
+            if (valid) {
                 discovered = std::move(candidate);
                 break;
             }
@@ -499,7 +508,7 @@ bool MusicService::RequestGeneratedDownload(const std::string& requested_job_id,
 }
 
 std::string MusicService::SearchBridgeLibrary(const std::string& query, std::string& error) {
-    const std::string url = ResolveBridgeUrl();
+    const std::string url = ResolveBridgeUrl(false);
     if (url.empty()) {
         error = "generator_unavailable";
         return {};
@@ -548,21 +557,14 @@ std::string MusicService::SearchBridgeLibrary(const std::string& query, std::str
 }
 
 std::string MusicService::SearchUserBridgeLibrary(const std::string& query, std::string& error) {
-    const std::string url = ResolveBridgeUrl();
+    const std::string url = ResolveBridgeUrl(false);
     if (url.empty()) {
         error = "generator_unavailable";
         return {};
     }
     MusicBridgeClient client;
     std::vector<MusicLibraryTrack> tracks;
-    if (!client.ListUserLibrary(url, tracks, error)) return {};
-    auto lower_ascii = [](std::string value) {
-        std::transform(value.begin(), value.end(), value.begin(), [](unsigned char ch) {
-            return static_cast<char>(std::tolower(ch));
-        });
-        return value;
-    };
-    const std::string needle = lower_ascii(query);
+    if (!client.ListUserLibrary(url, tracks, error, query, 20)) return {};
     cJSON* result = cJSON_CreateObject();
     cJSON_AddBoolToObject(result, "success", true);
     cJSON_AddStringToObject(result, "source", "music_bridge_user_library");
@@ -570,13 +572,13 @@ std::string MusicService::SearchUserBridgeLibrary(const std::string& query, std:
     cJSON* items = cJSON_CreateArray();
     size_t returned = 0;
     for (const auto& track : tracks) {
-        const std::string haystack = lower_ascii(track.title + " " + track.filename + " " + track.id);
-        if (!needle.empty() && haystack.find(needle) == std::string::npos) continue;
         cJSON* item = cJSON_CreateObject();
         cJSON_AddStringToObject(item, "track_id", track.id.c_str());
         cJSON_AddStringToObject(item, "title", track.title.c_str());
         cJSON_AddStringToObject(item, "filename", track.filename.c_str());
         cJSON_AddStringToObject(item, "library", "user");
+        if (!track.artist.empty()) cJSON_AddStringToObject(item, "artist", track.artist.c_str());
+        if (!track.album.empty()) cJSON_AddStringToObject(item, "album", track.album.c_str());
         if (track.size > 0) cJSON_AddNumberToObject(item, "size", static_cast<double>(track.size));
         if (track.duration > 0) cJSON_AddNumberToObject(item, "duration", track.duration);
         cJSON_AddItemToArray(items, item);
@@ -616,7 +618,7 @@ bool MusicService::RequestLibraryDownload(const std::string& track_id, bool user
             return false;
         }
     }
-    const std::string url = ResolveBridgeUrl();
+    const std::string url = ResolveBridgeUrl(false);
     if (url.empty()) {
         error = "generator_unavailable";
         return false;

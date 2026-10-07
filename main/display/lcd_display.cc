@@ -106,6 +106,9 @@ static void DeletePromptEvent(lv_event_t* event) {
 static void ShowDeletePrompt(LcdDisplay* display, int index, const char* name) {
     auto* box = lv_obj_create(lv_layer_top());
     lv_obj_set_size(box, 300, 130); lv_obj_center(box);
+    // Make the modal itself the touch target outside its buttons. Without
+    // CLICKABLE, LVGL can pass a touch through to controls behind the dialog.
+    lv_obj_add_flag(box, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_set_style_bg_color(box, lv_color_black(), 0);
     lv_obj_set_style_border_width(box, 2, 0);
     auto* text = lv_label_create(box);

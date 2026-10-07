@@ -154,6 +154,9 @@ void LvglDisplay::ShowGeneratedReadyPrompt(const char* title, std::function<void
     if (generated_ready_popup_ == nullptr) {
         auto screen = lv_screen_active();
         generated_ready_popup_ = lv_obj_create(screen);
+        // Absorb touches outside the dialog buttons so controls underneath
+        // cannot be activated through the modal window.
+        lv_obj_add_flag(generated_ready_popup_, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_set_size(generated_ready_popup_, LV_HOR_RES * 0.90, 128);
         lv_obj_center(generated_ready_popup_);
         lv_obj_set_style_radius(generated_ready_popup_, 14, 0);
@@ -210,6 +213,8 @@ void LvglDisplay::ShowGeneratedDownloadProgress(const char* title, int percent) 
     if (generated_download_overlay_ == nullptr) {
         auto screen = lv_screen_active();
         generated_download_overlay_ = lv_obj_create(screen);
+        // The progress window is modal while a download is active.
+        lv_obj_add_flag(generated_download_overlay_, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_set_size(generated_download_overlay_, LV_HOR_RES * 0.86, 92);
         lv_obj_center(generated_download_overlay_);
         lv_obj_set_style_radius(generated_download_overlay_, 14, 0);

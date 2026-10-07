@@ -44,6 +44,22 @@ std::string TrimTrailingSlash(std::string value) {
     return value;
 }
 
+std::string UrlEncode(const std::string& value) {
+    constexpr char kHex[] = "0123456789ABCDEF";
+    std::string encoded;
+    encoded.reserve(value.size());
+    for (unsigned char ch : value) {
+        if (std::isalnum(ch) || ch == '-' || ch == '_' || ch == '.' || ch == '~') {
+            encoded.push_back(static_cast<char>(ch));
+        } else {
+            encoded.push_back('%');
+            encoded.push_back(kHex[ch >> 4]);
+            encoded.push_back(kHex[ch & 0x0F]);
+        }
+    }
+    return encoded;
+}
+
 bool IsSafeJobId(const std::string& value) {
     if (value.empty() || value.size() > MusicBridgeClient::kMaxJobIdLength) return false;
     return std::all_of(value.begin(), value.end(), [](unsigned char ch) {
@@ -75,6 +91,8 @@ bool ParseLibraryTrack(const cJSON* item, MusicLibraryTrack& track) {
     track.filename = JsonString(item, "filename");
     track.provider = JsonString(item, "provider");
     track.created_at = JsonString(item, "created_at");
+    track.artist = JsonString(item, "artist");
+    track.album = JsonString(item, "album");
     track.size = JsonSize(item, "size");
     track.duration = JsonDouble(item, "duration");
     return IsSafeJobId(track.id) && !track.title.empty() && !track.filename.empty();
@@ -284,12 +302,17 @@ bool MusicBridgeClient::ListLibrary(const std::string& base_url,
 
 bool MusicBridgeClient::ListUserLibrary(const std::string& base_url,
                                         std::vector<MusicLibraryTrack>& result,
-                                        std::string& error) const {
+                                        std::string& error,
+                                        const std::string& query,
+                                        size_t limit) const {
     result.clear();
     error.clear();
     int status_code = 0;
     std::string body;
-    if (!Request(TrimTrailingSlash(base_url) + "/user-library", HTTP_METHOD_GET, "", status_code, body, error)) {
+    std::string endpoint = TrimTrailingSlash(base_url) + "/user-library?limit=" +
+                           std::to_string(std::max<size_t>(1, std::min<size_t>(limit, 20)));
+    if (!query.empty()) endpoint += "&query=" + UrlEncode(query);
+    if (!Request(endpoint, HTTP_METHOD_GET, "", status_code, body, error)) {
         return false;
     }
     cJSON* response = cJSON_ParseWithLength(body.data(), body.size());
@@ -552,4 +575,28 @@ bool MusicBridgeClient::Health(const std::string& base_url, std::string& error) 
     cJSON_Delete(response);
     ESP_LOGI(kTag, "BRIDGE_HEALTH %s url=%s", valid ? "OK" : "FAIL", base_url.c_str());
     return valid;
+}
+
+bool MusicBridgeClient::Reachable(const std::string& base_url, std::string& error) const {
+    error.clear();
+    int status_code = 0;
+    std::string body;
+    if (!Request(TrimTrailingSlash(base_url) + "/health", HTTP_METHOD_GET, "", status_code, body, error)) {
+        ESP_LOGW(kTag, "BRIDGE_REACHABILITY_ERROR url=%s error=%s status=%d", base_url.c_str(), error.c_str(),
+                 status_code);
+        return false;
+    }
+    cJSON* response = cJSON_ParseWithLength(body.data(), body.size());
+    if (response == nullptr || !cJSON_IsObject(response)) {
+        if (response) cJSON_Delete(response);
+        error = "invalid_health_json";
+        return false;
+    }
+    const cJSON* ok = cJSON_GetObjectItemCaseSensitive(response, "ok");
+    const std::string bridge = JsonString(response, "bridge");
+    const bool reachable = cJSON_IsTrue(ok) || bridge == "ready" || bridge == "no_provider";
+    if (!reachable) error = "bridge_unhealthy";
+    cJSON_Delete(response);
+    ESP_LOGI(kTag, "BRIDGE_REACHABLE %s url=%s", reachable ? "OK" : "FAIL", base_url.c_str());
+    return reachable;
 }

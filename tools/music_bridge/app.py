@@ -160,9 +160,9 @@ def library_audio(track_id: str) -> FileResponse:
 
 
 @app.get("/user-library")
-def user_music_library(query: str = "") -> list[dict]:
+def user_music_library(query: str = "", limit: int = 200) -> list[dict]:
     """List MP3 files supplied by the user in data/music_library."""
-    return user_library.list_tracks(query=query)[:200]
+    return user_library.list_tracks(query=query, limit=limit)
 
 
 @app.get("/user-library/{track_id}")
