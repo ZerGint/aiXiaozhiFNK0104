@@ -8,9 +8,24 @@ from typing import Any
 from tools.music_bridge.wangp_client import WanGPClient
 
 
+def _configure_stdio() -> None:
+    """Keep the provider JSON protocol safe on Windows console encodings."""
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
+        if stream is None or not hasattr(stream, "reconfigure"):
+            continue
+        try:
+            stream.reconfigure(encoding="utf-8", errors="backslashreplace")
+        except (OSError, ValueError):
+            # The provider must still work with redirected or PyInstaller
+            # streams that do not allow reconfiguration.
+            pass
+
+
 def emit(event: str, **values: Any) -> None:
     payload = {"event": event, **values}
-    print(json.dumps(payload, ensure_ascii=False), flush=True)
+    # JSON escaping keeps the line protocol ASCII-only even if WanGP returns
+    # Cyrillic text or Unicode progress symbols.
+    print(json.dumps(payload, ensure_ascii=True), flush=True)
 
 
 def load_config(path: Path) -> dict[str, Any]:
@@ -20,6 +35,7 @@ def load_config(path: Path) -> dict[str, Any]:
 
 
 def main() -> int:
+    _configure_stdio()
     raw = sys.stdin.readline()
     if not raw:
         emit("error", message="No generation request received")

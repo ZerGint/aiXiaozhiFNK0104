@@ -148,7 +148,10 @@ class WanGPClient:
             f"Lyrics: {single_request_lyrics}. Music style: {style}. "
             f"Use a maximum duration of {duration_seconds} seconds and return the generated audio."
         )
-        gradio = Client(self.base_url + "/")
+        # The default verbose output contains a Unicode checkmark ("✔").
+        # The provider runs as a Windows subprocess whose console encoding may
+        # be a legacy charmap, so suppress that diagnostic output.
+        gradio = Client(self.base_url + "/", verbose=False)
         job = gradio.submit(
             *self._args(text, submission_id, duration_seconds),
             api_name="/ask_ai_with_ui_settings",
