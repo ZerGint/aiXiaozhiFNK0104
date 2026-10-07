@@ -152,6 +152,9 @@ int SdMusicPlayer::FindTrack(const std::string& query, bool& ambiguous) const {
         return -1;
 
     std::string needle = query;
+    const size_t query_slash = needle.find_last_of("/\\");
+    if (query_slash != std::string::npos)
+        needle.erase(0, query_slash + 1);
     std::transform(needle.begin(), needle.end(), needle.begin(), [](unsigned char c) {
         return static_cast<char>(std::tolower(c));
     });
