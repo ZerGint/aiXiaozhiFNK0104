@@ -68,6 +68,7 @@ private:
     bool PersistLocked();
     bool AddPendingJob(const MusicGenerateResult& generated, const std::string& title);
     void ApplyStatus(const MusicJobStatus& status);
+    bool RefreshJobStatus(const std::string& job_id);
     void LoadLocalIndex();
     void ProcessReadyDownloads();
     bool DownloadReadyJob(const PendingJob& job);

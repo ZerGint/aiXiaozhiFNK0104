@@ -365,8 +365,7 @@ bool MusicService::IsTerminal(const std::string& status) {
 bool MusicService::HasPendingJobsLocked() const {
     if (!job_.active || IsTerminal(job_.status)) return false;
     if (job_.status == "ready") return download_requested_;
-    return job_.status == "queued" || job_.status == "submitting" || job_.status == "generating" ||
-           job_.status == "downloading";
+    return true;
 }
 
 bool MusicService::AddPendingJob(const MusicGenerateResult& generated, const std::string& title) {
@@ -421,6 +420,34 @@ void MusicService::ApplyStatus(const MusicJobStatus& status) {
     if (show_ready_prompt) {
         Application::GetInstance().Schedule([this, ready_prompt]() { ShowReadyPrompt(ready_prompt); });
     }
+}
+
+bool MusicService::RefreshJobStatus(const std::string& job_id) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        if (!job_.active || job_.job_id != job_id || IsTerminal(job_.status) || job_.status == "ready") {
+            return false;
+        }
+    }
+
+    ESP_LOGI(kTag, "MUSIC_STATUS_REFRESH_START job_id=%s", job_id.c_str());
+    // A finished job remains queryable even when its provider is unavailable.
+    const std::string url = ResolveBridgeUrl(false);
+    if (url.empty()) {
+        ESP_LOGW(kTag, "MUSIC_STATUS_REFRESH_UNAVAILABLE job_id=%s", job_id.c_str());
+        return false;
+    }
+
+    MusicBridgeClient client;
+    MusicJobStatus status;
+    if (!client.GetJob(url, job_id, status)) {
+        ESP_LOGW(kTag, "MUSIC_STATUS_REFRESH_ERROR job_id=%s error=%s", job_id.c_str(), status.error.c_str());
+        InvalidateRuntimeUrl(url);
+        return false;
+    }
+    ApplyStatus(status);
+    ESP_LOGI(kTag, "MUSIC_STATUS_REFRESH_OK job_id=%s status=%s", job_id.c_str(), status.status.c_str());
+    return true;
 }
 
 void MusicService::ShowReadyPrompt(const PendingJob& prompt) {
@@ -1240,11 +1267,12 @@ void MusicService::PollPendingJobs() {
     std::string job_id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (job_.active && (job_.status == "queued" || job_.status == "submitting" || job_.status == "generating")) {
+        if (job_.active && !IsTerminal(job_.status) &&
+            (job_.status != "ready" || download_requested_)) {
             job_id = job_.job_id;
         }
     }
-    if (!job_id.empty()) url = ResolveBridgeUrl();
+    if (!job_id.empty()) url = ResolveBridgeUrl(false);
     if (!url.empty() && !job_id.empty()) {
         LogMemory("before_poll");
         MusicBridgeClient client;
@@ -1404,11 +1432,18 @@ void MusicService::RegisterMcpTools() {
     PropertyList status_properties({Property("job_id", kPropertyTypeString, std::string(""))});
     mcp.AddTool(
         "music.generation_status",
-        "Report the status of the single current generation stored on SD. Call this once when the user asks for status, using the optional job_id from music.generate. Do not poll repeatedly in the same conversation and do not say almost ready, converting, or wait if the bridge already reports ready. If status is generating, report that it is still generating and stop. If status is ready with download_status not_downloaded, report that the track is ready and that the device asks for download confirmation. If status is local, report that it is available locally. Do not regenerate a song because it is still generating. Generated music must not be searched or played through Home Assistant.",
+        "Report the status of the single current generation and reconcile any pending local status with the Music Bridge before answering. Call this once when the user asks for status, using the optional job_id from music.generate. Do not poll repeatedly in the same conversation and do not say almost ready, converting, or wait if the bridge already reports ready. If status is generating, report that it is still generating and stop. If status is ready with download_status not_downloaded, report that the track is ready and that the device asks for download confirmation. If status is local, report that it is available locally. Do not regenerate a song because it is still generating. Generated music must not be searched or played through Home Assistant.",
         status_properties,
         [this](const PropertyList& properties) -> ReturnValue {
             if (IsGenerationFollowupBlocked()) return ErrorResult("wait_for_next_user_request");
             const std::string requested = properties["job_id"].value<std::string>();
+            std::string job_id;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                const PendingJob current = requested.empty() ? FindLatestJobLocked() : FindJobLocked(requested);
+                if (current.active) job_id = current.job_id;
+            }
+            if (!job_id.empty()) RefreshJobStatus(job_id);
             std::lock_guard<std::mutex> lock(mutex_);
             const PendingJob job = requested.empty() ? FindLatestJobLocked() : FindJobLocked(requested);
             return StatusResultJson(job);
