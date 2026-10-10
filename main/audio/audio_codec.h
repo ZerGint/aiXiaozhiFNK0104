@@ -3,10 +3,12 @@
 
 #include <driver/i2s_std.h>
 #include <esp_idf_version.h>
+#include <esp_timer.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/event_groups.h>
 
 #include <functional>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -32,6 +34,7 @@ public:
     virtual ~AudioCodec();
 
     virtual void SetOutputVolume(int volume);
+    void PersistOutputVolume();
     virtual void SetInputGain(float gain);
     virtual void EnableInput(bool enable);
     virtual void EnableOutput(bool enable);
@@ -70,6 +73,17 @@ protected:
 
     virtual int Read(int16_t* dest, int samples) = 0;
     virtual int Write(const int16_t* data, int samples) = 0;
+
+private:
+    static constexpr uint64_t kVolumeSaveDebounceUs = 500000;
+    esp_timer_handle_t volume_save_timer_ = nullptr;
+    std::mutex volume_save_mutex_;
+    int persisted_output_volume_ = -1;
+    int64_t last_volume_change_us_ = 0;
+
+    void ScheduleOutputVolumeSave();
+    void HandleOutputVolumeSaveTimer();
+    bool SaveOutputVolumeLocked();
 };
 
 #endif  // _AUDIO_CODEC_H

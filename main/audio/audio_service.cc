@@ -8,6 +8,7 @@
 #include "audio_manager.h"
 #include "media/internet_radio_player.h"
 #include "media/sd_music_player.h"
+#include "settings.h"
 
 #define RATE_CVT_CFG(_src_rate, _dest_rate, _channel)                                        \
     (esp_ae_rate_cvt_cfg_t) {                                                                \
@@ -55,6 +56,11 @@ AudioService::~AudioService() {
 void AudioService::Initialize(AudioCodec* codec) {
     codec_ = codec;
     codec_->Start();
+    clean_audio_filter_.Configure(codec_->output_sample_rate());
+    Settings audio_settings("audio");
+    clean_audio_filter_.SetEnabled(audio_settings.GetBool("clean_sound", false));
+    ESP_LOGI(TAG, "Clean Sound: %s (%d Hz)", clean_audio_filter_.IsEnabled() ? "ON" : "OFF",
+             codec_->output_sample_rate());
 
     esp_opus_dec_cfg_t opus_dec_cfg =
         OPUS_DEC_CFG(codec->output_sample_rate(), OPUS_FRAME_DURATION_MS);
@@ -434,6 +440,14 @@ void AudioService::AudioOutputTask() {
         }
 
         codec_->SetOutputSource(task->output_source, task->stream_start);
+
+        if (task->is_music) {
+            clean_audio_filter_.Configure(codec_->output_sample_rate());
+            if (task->stream_start) {
+                clean_audio_filter_.Reset();
+            }
+            clean_audio_filter_.Process(task->GetMutablePcmData(), task->GetPcmSize());
+        }
 
         if (task->output_source == AudioOutputSource::kAiSpeech) {
             uint64_t sum_abs = 0;
@@ -969,6 +983,15 @@ void AudioService::EnableDeviceAec(bool enable) {
     } else {
         ESP_LOGI(TAG, "Deferring AEC change until the audio engine is initialized");
     }
+}
+
+void AudioService::SetCleanSoundEnabled(bool enabled, bool persist) {
+    clean_audio_filter_.SetEnabled(enabled);
+    if (persist) {
+        Settings audio_settings("audio", true);
+        audio_settings.SetBool("clean_sound", enabled);
+    }
+    ESP_LOGI(TAG, "Clean Sound: %s", enabled ? "ON" : "OFF");
 }
 
 void AudioService::SetCallbacks(AudioServiceCallbacks& callbacks) { callbacks_ = callbacks; }

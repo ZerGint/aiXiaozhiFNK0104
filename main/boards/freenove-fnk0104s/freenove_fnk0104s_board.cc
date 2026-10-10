@@ -296,6 +296,23 @@ private:
         RadioBrowser::GetInstance().RegisterMcpTools();
         WeatherService::GetInstance().RegisterMcpTool();
         MusicService::GetInstance().Initialize();
+
+        auto& mcp_server = McpServer::GetInstance();
+        mcp_server.AddTool(
+            "self.audio_speaker.get_clean_sound", "Get the Clean Sound music filter state.",
+            PropertyList(), [](const PropertyList&) -> ReturnValue {
+                return Application::GetInstance().GetAudioService().IsCleanSoundEnabled();
+            });
+        mcp_server.AddTool(
+            "self.audio_speaker.set_clean_sound",
+            "Enable or disable the Clean Sound filter for radio and SD music. It does not affect "
+            "XiaoZhi speech.",
+            PropertyList({Property("enabled", kPropertyTypeBoolean)}),
+            [](const PropertyList& properties) -> ReturnValue {
+                Application::GetInstance().GetAudioService().SetCleanSoundEnabled(
+                    properties["enabled"].value<bool>());
+                return true;
+            });
     }
 
 public:

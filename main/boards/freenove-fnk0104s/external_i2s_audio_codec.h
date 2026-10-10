@@ -19,16 +19,19 @@ private:
     i2s_chan_handle_t external_tx_handle_ = nullptr;
     static constexpr int32_t kGainScale = 32768;
     static constexpr uint32_t kFadeSamples = 33600;
+    static constexpr uint32_t kVolumeRampSamples = 480;
     AudioOutputSource output_source_ = AudioOutputSource::kSystem;
     int32_t current_gain_ = 0;
     int32_t fade_start_gain_ = 0;
     int32_t target_gain_ = 0;
     uint32_t fade_position_ = 0;
     uint32_t fade_length_ = 0;
+    bool media_startup_fade_ = false;
 
     static int32_t PerceptualGain(int volume);
     void SetImmediateGain(int32_t gain);
     void RetargetFade(int32_t gain);
+    void StartFade(int32_t gain, uint32_t samples);
     int32_t NextGain();
 
 #if CONFIG_FNK_EXTERNAL_I2S_DIAGNOSTICS

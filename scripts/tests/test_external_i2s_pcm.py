@@ -86,6 +86,24 @@ class ExternalI2sPcmTests(unittest.TestCase):
         self.assertLessEqual(abs(retargeted[0] - current), 1)
         self.assertEqual(retargeted[-1], new_target)
 
+    def test_10ms_volume_ramp_and_retarget_without_jump(self):
+        total = 480
+        start = perceptual_gain_q15(20)
+        target = perceptual_gain_q15(100)
+        gains = [start + (target - start) * position // total
+                 for position in range(1, total + 1)]
+        self.assertEqual(gains[-1], target)
+        self.assertTrue(all(a <= b for a, b in zip(gains, gains[1:])))
+
+        current = gains[119]
+        new_target = 0
+        retargeted = [current + (new_target - current) * position // total
+                      for position in range(1, total + 1)]
+        self.assertLessEqual(abs(retargeted[0] - current),
+                             math.ceil(abs(new_target - current) / total))
+        self.assertEqual(retargeted[-1], 0)
+        self.assertTrue(all(a >= b for a, b in zip(retargeted, retargeted[1:])))
+
 
 if __name__ == "__main__":
     unittest.main()

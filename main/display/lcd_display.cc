@@ -683,6 +683,14 @@ void LcdDisplay::UpdateStatusBar(bool update_all) {
             lv_label_set_text(caption, "Web portal");
         }
     }
+    if (eq_settings_button_ != nullptr) {
+        const bool enabled = Application::GetInstance().GetAudioService().IsCleanSoundEnabled();
+        lv_obj_set_style_bg_color(eq_settings_button_, enabled ? kAccent : kCard, 0);
+        auto* caption = lv_obj_get_child(eq_settings_button_, 0);
+        if (caption != nullptr) {
+            lv_label_set_text(caption, enabled ? "EQ ON" : "EQ OFF");
+        }
+    }
 }
 #endif
 
@@ -1911,6 +1919,10 @@ void LcdDisplay::SetupUI() {
         auto codec = Board::GetInstance().GetAudioCodec();
         if (codec) codec->SetOutputVolume(lv_slider_get_value(slider));
     }, LV_EVENT_VALUE_CHANGED, nullptr);
+    lv_obj_add_event_cb(media_volume, [](lv_event_t*) {
+        auto codec = Board::GetInstance().GetAudioCodec();
+        if (codec) codec->PersistOutputVolume();
+    }, LV_EVENT_RELEASED, nullptr);
     media_list_title_label_ = label(media_right, "Radio", 10, 12, 124, kText);
     radio_list_panel_ = lv_obj_create(media_right);
     lv_obj_set_size(radio_list_panel_, 128, 190);
@@ -3411,16 +3423,20 @@ void LcdDisplay::SwitchTab(int tab_index)
     DisplayLockGuard lock(this);
 
     current_tab_index_ = tab_index;
-    media_browser_mode_ = (tab_index == 2) ? MediaBrowserMode::Radio
-                                             : (tab_index == 3 ? MediaBrowserMode::Generated
-                                                               : MediaBrowserMode::Player);
+    // AI has no media-browser mode of its own. Preserve the last media mode
+    // while AI is visible so opening it never prepares or scans a playlist.
+    if (tab_index == 1)
+        media_browser_mode_ = MediaBrowserMode::Player;
+    else if (tab_index == 2)
+        media_browser_mode_ = MediaBrowserMode::Radio;
+    else if (tab_index == 3)
+        media_browser_mode_ = MediaBrowserMode::Generated;
     media_radio_mode_ = (media_browser_mode_ == MediaBrowserMode::Radio);
-    if (media_browser_mode_ == MediaBrowserMode::Generated) {
+    if (tab_index == 3) {
         std::string error;
         if (!MediaPlayer::GetInstance().PrepareGeneratedPlaylist(error))
             ESP_LOGW(TAG, "Generated browser rejected: %s", error.c_str());
-    } else if (media_browser_mode_ == MediaBrowserMode::Player &&
-               SdMusicPlayer::GetInstance().IsGeneratedPlaylist()) {
+    } else if (tab_index == 1) {
         std::string error;
         if (!MediaPlayer::GetInstance().PrepareSdPlaylist(error))
             ESP_LOGW(TAG, "SD browser rejected: %s", error.c_str());
@@ -3491,6 +3507,20 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
     } else {
         ShowNotification("Web portal unavailable");
     }
+}
+
+void LcdDisplay::ToggleCleanSound() {
+    auto& audio_service = Application::GetInstance().GetAudioService();
+    const bool enabled = !audio_service.IsCleanSoundEnabled();
+    audio_service.SetCleanSoundEnabled(enabled);
+    if (eq_settings_button_ != nullptr) {
+        lv_obj_set_style_bg_color(eq_settings_button_, enabled ? kAccent : kCard, 0);
+        auto* caption = lv_obj_get_child(eq_settings_button_, 0);
+        if (caption != nullptr) {
+            lv_label_set_text(caption, enabled ? "EQ ON" : "EQ OFF");
+        }
+    }
+    ShowNotification(enabled ? "Clean Sound ON" : "Clean Sound OFF");
 }
 #endif
 
@@ -3610,6 +3640,10 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
             lv_label_set_text_fmt(display->volume_val_label_, "%d%%", val);
         }
     }, LV_EVENT_VALUE_CHANGED, this);
+    lv_obj_add_event_cb(volume_slider_, [](lv_event_t*) {
+        auto codec = Board::GetInstance().GetAudioCodec();
+        if (codec) codec->PersistOutputVolume();
+    }, LV_EVENT_RELEASED, nullptr);
 
     // Brightness Row (Anchored at X=95 to avoid label overlap)
     lv_obj_t* bright_row = lv_obj_create(quick_settings_panel_);
@@ -3757,6 +3791,25 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
         auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
         if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
+    }, LV_EVENT_CLICKED, this);
+
+    eq_settings_button_ = lv_btn_create(ha_row);
+    lv_obj_set_size(eq_settings_button_, 110, 40);
+    lv_obj_align(eq_settings_button_, LV_ALIGN_LEFT_MID, 170, 0);
+    lv_obj_set_style_radius(eq_settings_button_, 10, 0);
+    const bool clean_sound_enabled =
+        Application::GetInstance().GetAudioService().IsCleanSoundEnabled();
+    lv_obj_set_style_bg_color(eq_settings_button_, clean_sound_enabled ? kAccent : kCard, 0);
+    lv_obj_set_style_border_width(eq_settings_button_, 0, 0);
+    auto* eq_caption = lv_label_create(eq_settings_button_);
+    lv_label_set_text(eq_caption, clean_sound_enabled ? "EQ ON" : "EQ OFF");
+    set_quick_settings_font(eq_caption);
+    lv_obj_set_style_text_color(eq_caption, kText, 0);
+    lv_obj_center(eq_caption);
+    lv_obj_add_event_cb(eq_settings_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+        if (display != nullptr) display->ToggleCleanSound();
     }, LV_EVENT_CLICKED, this);
 #endif
 

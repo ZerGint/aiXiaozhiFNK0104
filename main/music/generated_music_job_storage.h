@@ -16,12 +16,13 @@ struct GeneratedMusicJobRecord {
     uint64_t downloaded_size = 0;
     uint32_t download_attempts = 0;
     int64_t next_download_at = 0;
+    bool library_source = false;
     bool user_library_source = false;
 };
 
 class GeneratedMusicJobStorage {
 public:
-    static constexpr uint16_t kVersion = 1;
+    static constexpr uint16_t kVersion = 2;
     static constexpr size_t kMaxStringLength = 256;
 
     // A missing file is a valid empty state and returns exists=false.

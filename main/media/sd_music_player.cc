@@ -51,6 +51,7 @@ bool SdMusicPlayer::DeleteTrack(int index, std::string& error) {
         if (is_playing_ && active_track_path_ == path) { error = "track_is_playing"; return false; }
     }
     if (unlink(path.c_str()) != 0) { error = "track_delete_failed"; return false; }
+    MarkPlaylistDirty(source);
     if (source == PlaylistSource::Generated) {
         std::vector<GeneratedMusicRecord> records;
         if (!GeneratedMusicStorage::Load(kGeneratedMusicIndex, records, error)) return false;
@@ -82,24 +83,11 @@ SdMusicPlayer::SdMusicPlayer() {}
 SdMusicPlayer::~SdMusicPlayer() { Stop(); }
 
 void SdMusicPlayer::ScanDirectory(const char* directory, PlaylistSource source, bool include_wav) {
-    std::lock_guard<std::mutex> lock(mutex_);
-    const bool playback_active = is_playing_.load();
-    const std::string active_path = active_track_path_;
-    playlist_.clear();
-    playlist_source_ = source;
-    current_index_ = 0;
-    selected_index_ = -1;
-    // A tab refresh must not invalidate the shuffle sequence used by the
-    // active playback snapshot. Rebuild it only when no playback is active.
-    if (!playback_active) {
-        shuffle_order_.clear();
-        shuffle_position_ = -1;
-    }
-
     auto files = StorageManager::GetInstance().ListDirectory(directory);
     std::sort(files.begin(), files.end());
     ESP_LOGI(TAG, "Scanning SD music directory %s (%d total entries)...", directory,
              static_cast<int>(files.size()));
+    TrackList tracks;
     for (const auto& name : files) {
         std::string lower_name = name;
         for (auto& c : lower_name)
@@ -110,9 +98,36 @@ void SdMusicPlayer::ScanDirectory(const char* directory, PlaylistSource source, 
                             lower_name.compare(lower_name.size() - 4, 4, ".wav") == 0;
         if (is_mp3 || (include_wav && is_wav)) {
             std::string full_path = std::string(directory) + "/" + name;
-            playlist_.push_back(full_path);
+            tracks.push_back(full_path);
             ESP_LOGI(TAG, "Track found: %s", full_path.c_str());
         }
+    }
+
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (source == PlaylistSource::Generated) {
+        generated_playlist_cache_ = tracks;
+        generated_playlist_loaded_ = true;
+        generated_playlist_dirty_ = false;
+    } else {
+        normal_playlist_cache_ = tracks;
+        normal_playlist_loaded_ = true;
+        normal_playlist_dirty_ = false;
+    }
+    ActivatePlaylistLocked(tracks, source);
+}
+
+void SdMusicPlayer::ActivatePlaylistLocked(const TrackList& tracks, PlaylistSource source) {
+    const bool playback_active = is_playing_.load();
+    const std::string active_path = active_track_path_;
+    playlist_ = tracks;
+    playlist_source_ = source;
+    current_index_ = 0;
+    selected_index_ = -1;
+    // A tab refresh must not invalidate the shuffle sequence used by the
+    // active playback snapshot. Rebuild it only when no playback is active.
+    if (!playback_active) {
+        shuffle_order_.clear();
+        shuffle_position_ = -1;
     }
     if (playback_active && !active_path.empty()) {
         const auto active_it = std::find(playlist_.begin(), playlist_.end(), active_path);
@@ -123,6 +138,37 @@ void SdMusicPlayer::ScanDirectory(const char* directory, PlaylistSource source, 
         // Keep playback_playlist_ and playback_source_ unchanged. The tab
         // switch only changes the list shown by the browser.
     }
+}
+
+void SdMusicPlayer::EnsurePlaylist(PlaylistSource source) {
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        const bool loaded = source == PlaylistSource::Generated ? generated_playlist_loaded_
+                                                                 : normal_playlist_loaded_;
+        const bool dirty = source == PlaylistSource::Generated ? generated_playlist_dirty_
+                                                                : normal_playlist_dirty_;
+        if (loaded && !dirty) {
+            if (playlist_source_ != source) {
+                const auto& cache = source == PlaylistSource::Generated
+                                        ? generated_playlist_cache_
+                                        : normal_playlist_cache_;
+                ActivatePlaylistLocked(cache, source);
+            }
+            return;
+        }
+    }
+    if (source == PlaylistSource::Generated)
+        ScanGeneratedPlaylist();
+    else
+        ScanPlaylist();
+}
+
+void SdMusicPlayer::MarkPlaylistDirty(PlaylistSource source) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (source == PlaylistSource::Generated)
+        generated_playlist_dirty_ = true;
+    else
+        normal_playlist_dirty_ = true;
 }
 
 void SdMusicPlayer::ScanPlaylist() {

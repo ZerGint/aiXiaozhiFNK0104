@@ -1,5 +1,6 @@
 # Define source files
 set(SOURCES "audio/audio_codec.cc"
+            "audio/clean_audio_filter.cc"
             "fonts/font_noto_sans_radio_16_4.c"
             "fonts/font_noto_sans_symbols_star_20_4.c"
             "fonts/font_material_symbols_shuffle_20_4.c"

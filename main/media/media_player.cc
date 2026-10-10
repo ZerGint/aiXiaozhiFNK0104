@@ -31,7 +31,7 @@ bool MediaPlayer::PrepareGeneratedPlaylist(std::string& err_msg) {
     // This method is also used by tab navigation. Browsing a different list
     // must not stop radio, SD playback, or an active voice interaction;
     // explicit PlayGenerated() performs the source switch through PlaySd().
-    SdMusicPlayer::GetInstance().ScanGeneratedPlaylist();
+    SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Generated);
     return true;
 }
 
@@ -41,7 +41,7 @@ bool MediaPlayer::PrepareSdPlaylist(std::string& err_msg) {
         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=sd_prepare");
         return false;
     }
-    ScanSd();
+    SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Normal);
     return true;
 }
 

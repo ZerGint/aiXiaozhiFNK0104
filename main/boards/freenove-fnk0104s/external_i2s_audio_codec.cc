@@ -94,7 +94,7 @@ void FnkExternalI2sAudioCodec::SetOutputVolume(int volume) {
         std::lock_guard<std::mutex> lock(data_if_mutex_);
         output_volume_ = volume;
         const int32_t user_gain = PerceptualGain(volume);
-        if (volume == 0 || output_source_ == AudioOutputSource::kSystem) {
+        if (output_source_ == AudioOutputSource::kSystem) {
             SetImmediateGain(user_gain);
         } else if (output_source_ == AudioOutputSource::kAiSpeech) {
             fade_start_gain_ = current_gain_;
@@ -102,10 +102,10 @@ void FnkExternalI2sAudioCodec::SetOutputVolume(int volume) {
             fade_position_ = 0;
             fade_length_ = kAiGainRampSamples;
         } else if (output_source_ == AudioOutputSource::kMedia) {
-            if (fade_length_ > fade_position_) {
+            if (media_startup_fade_ && fade_length_ > fade_position_) {
                 RetargetFade(user_gain);
             } else {
-                SetImmediateGain(user_gain);
+                StartFade(user_gain, kVolumeRampSamples);
             }
         }
     }
@@ -144,6 +144,18 @@ int32_t FnkExternalI2sAudioCodec::PerceptualGain(int volume) {
 void FnkExternalI2sAudioCodec::SetImmediateGain(int32_t gain) {
     current_gain_ = target_gain_ = fade_start_gain_ = gain;
     fade_position_ = fade_length_ = 0;
+    media_startup_fade_ = false;
+}
+
+void FnkExternalI2sAudioCodec::StartFade(int32_t gain, uint32_t samples) {
+    fade_start_gain_ = current_gain_;
+    target_gain_ = gain;
+    fade_position_ = 0;
+    fade_length_ = samples;
+    media_startup_fade_ = false;
+    if (samples == 0) {
+        SetImmediateGain(gain);
+    }
 }
 
 void FnkExternalI2sAudioCodec::RetargetFade(int32_t gain) {
@@ -164,6 +176,8 @@ int32_t FnkExternalI2sAudioCodec::NextGain() {
                                              fade_position_ / fade_length_);
         if (fade_position_ == fade_length_)
             current_gain_ = target_gain_;
+        if (fade_position_ == fade_length_)
+            media_startup_fade_ = false;
     }
     return current_gain_;
 }
@@ -173,7 +187,9 @@ void FnkExternalI2sAudioCodec::SetOutputSource(AudioOutputSource source, bool st
     const bool source_changed = output_source_ != source;
     output_source_ = source;
     const int32_t user_gain = PerceptualGain(output_volume_);
-    if (output_volume_ == 0) {
+    const bool media_fade_in_progress =
+        source == AudioOutputSource::kMedia && fade_position_ < fade_length_;
+    if (output_volume_ == 0 && !media_fade_in_progress) {
         SetImmediateGain(0);
     } else if (source == AudioOutputSource::kAiSpeech) {
         const int32_t ai_gain = PerceptualGain(AiLogicalVolume(output_volume_));
@@ -185,6 +201,7 @@ void FnkExternalI2sAudioCodec::SetOutputSource(AudioOutputSource source, bool st
         target_gain_ = user_gain;
         fade_position_ = 0;
         fade_length_ = kFadeSamples;
+        media_startup_fade_ = true;
         ESP_LOGI(kTag, "MEDIA_FADE_START user=%d target_gain=%ld samples=%lu", output_volume_,
                  static_cast<long>(target_gain_), static_cast<unsigned long>(fade_length_));
     } else if (source == AudioOutputSource::kMedia && fade_position_ < fade_length_) {

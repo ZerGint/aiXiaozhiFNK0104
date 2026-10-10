@@ -59,6 +59,8 @@ public:
 
     void ScanPlaylist();
     void ScanGeneratedPlaylist();
+    void EnsurePlaylist(PlaylistSource source);
+    void MarkPlaylistDirty(PlaylistSource source);
     // Returns an independent snapshot. Callers must never retain a reference
     // to the internal playlist while it may be rescanned by another task.
     TrackList GetPlaylistSnapshot() const {
@@ -122,9 +124,16 @@ private:
     void PlayerLoop();
     static void TaskFunction(void* param);
     void ScanDirectory(const char* directory, PlaylistSource source, bool include_wav);
+    void ActivatePlaylistLocked(const TrackList& tracks, PlaylistSource source);
 
     TrackList playlist_;
+    TrackList normal_playlist_cache_;
+    TrackList generated_playlist_cache_;
     PlaylistSource playlist_source_ = PlaylistSource::Normal;
+    bool normal_playlist_loaded_ = false;
+    bool generated_playlist_loaded_ = false;
+    bool normal_playlist_dirty_ = true;
+    bool generated_playlist_dirty_ = true;
     int current_index_ = 0;
     int selected_index_ = -1;
     bool shuffle_enabled_ = false;

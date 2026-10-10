@@ -98,6 +98,7 @@ protected:
     lv_obj_t* network_ip_label_ = nullptr;
     lv_obj_t* ha_status_label_ = nullptr;
     lv_obj_t* ha_settings_button_ = nullptr;
+    lv_obj_t* eq_settings_button_ = nullptr;
 #endif
     lv_obj_t* top_volume_value_label_ = nullptr;
     lv_obj_t* top_battery_value_label_ = nullptr;
@@ -183,6 +184,7 @@ protected:
     void RefreshRadioCatalogPage();
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     void ToggleHomeAssistantSettingsServer();
+    void ToggleCleanSound();
 #endif
 
 public:

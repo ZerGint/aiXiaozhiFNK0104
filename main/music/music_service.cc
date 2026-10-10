@@ -44,6 +44,7 @@ constexpr char kGeneratedMusicJobsTmp[] = "/sdcard/generated_music/jobs.tmp";
 constexpr size_t kDownloadSafetyMargin = 64 * 1024;
 constexpr uint32_t kDownloadRetryBaseSec = 30;
 constexpr uint32_t kDownloadRetryMaxSec = 600;
+constexpr uint32_t kLibraryDownloadRetryMaxSec = 60;
 constexpr char kMdnsServiceType[] = "_fnk-music";
 constexpr char kMdnsProtocol[] = "_tcp";
 
@@ -309,6 +310,10 @@ void MusicService::LoadState() {
             job_.download_attempts = persisted.download_attempts;
             job_.next_download_at = persisted.next_download_at;
             job_.error = Bounded(persisted.error, 240);
+            // Version 1 records did not persist the generic library marker.
+            // User-library jobs can still be recognized by their stable id prefix.
+            job_.library_source = persisted.library_source || persisted.user_library_source ||
+                                  job_.job_id.rfind("user_", 0) == 0;
             job_.user_library_source = persisted.user_library_source;
             if (job_.status == "ready" && job_.download_status == "local") job_.status = "local";
             if (job_.status == "downloading") {
@@ -318,6 +323,17 @@ void MusicService::LoadState() {
             }
             if (job_.status == "ready" && job_.download_status.empty()) {
                 job_.download_status = "not_downloaded";
+            }
+            if (job_.status == "ready" && job_.download_status != "local") {
+                // A ready job survives reboot as an unfinished transaction. Resume it
+                // automatically; the persisted backoff still prevents a tight retry loop.
+                // Reboot is a new opportunity, so do not carry an obsolete wait deadline
+                // from a previous network outage into the new session.
+                job_.next_download_at = 0;
+                download_requested_ = true;
+                ESP_LOGI(kTag, "MUSIC_DIAG JOBS_RECOVER job_id=%s source=%s retry_at=%lld",
+                         job_.job_id.c_str(), job_.library_source ? "library" : "generated",
+                         static_cast<long long>(job_.next_download_at));
             }
         }
     }
@@ -346,6 +362,7 @@ bool MusicService::PersistLocked() {
     record.downloaded_size = job_.downloaded_size;
     record.download_attempts = job_.download_attempts;
     record.next_download_at = job_.next_download_at;
+    record.library_source = job_.library_source;
     record.user_library_source = job_.user_library_source;
     std::string error;
     if (!GeneratedMusicJobStorage::SaveAtomic(kGeneratedMusicJobs, kGeneratedMusicJobsTmp, record, error)) {
@@ -638,12 +655,30 @@ bool MusicService::RequestLibraryDownload(const std::string& track_id, bool user
         error = "generated_download_busy";
         return false;
     }
+    bool resume_existing = false;
     {
         std::lock_guard<std::mutex> lock(mutex_);
         if (job_.active && !IsTerminal(job_.status)) {
-            error = "generation_or_download_in_progress";
-            return false;
+            if (job_.library_source && job_.job_id == track_id && job_.status == "ready") {
+                // Repeating the command for the same track explicitly resumes a
+                // persisted or previously failed library download immediately.
+                download_requested_ = true;
+                job_.download_status = "pending";
+                job_.next_download_at = 0;
+                job_.error.clear();
+                PersistLocked();
+                resume_existing = true;
+            } else {
+                error = job_.library_source ? "download_in_progress" : "generation_or_download_in_progress";
+                return false;
+            }
         }
+    }
+    if (resume_existing) {
+        ESP_LOGI(kTag, "MUSIC_LIBRARY_DOWNLOAD_RESUME track_id=%s", track_id.c_str());
+        EnsurePollTask();
+        Application::GetInstance().EndConversationAfterSpeech();
+        return true;
     }
     const std::string url = ResolveBridgeUrl(false);
     if (url.empty()) {
@@ -821,7 +856,8 @@ void MusicService::RecordDownloadFailure(const std::string& job_id, const std::s
     if (!job_.active || job_.job_id != job_id) return;
     ++job_.download_attempts;
     const uint32_t shift = std::min<uint32_t>(job_.download_attempts - 1, 4);
-    const uint32_t delay = std::min<uint32_t>(kDownloadRetryMaxSec, kDownloadRetryBaseSec << shift);
+    const uint32_t retry_max = job_.library_source ? kLibraryDownloadRetryMaxSec : kDownloadRetryMaxSec;
+    const uint32_t delay = std::min<uint32_t>(retry_max, kDownloadRetryBaseSec << shift);
     job_.download_status = "failed";
     job_.next_download_at = static_cast<int64_t>(time(nullptr)) + delay;
     job_.error = Bounded(reason, 240);
@@ -846,7 +882,10 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                  snapshot.job_id.c_str());
         return false;
     }
-    const std::string url = ResolveBridgeUrl();
+    // Existing library tracks are served directly by the bridge and do not
+    // depend on the provider being online.  Generated jobs still require the
+    // provider health check while they are being finalized.
+    const std::string url = snapshot.library_source ? ResolveBridgeUrl(false) : ResolveBridgeUrl();
     if (url.empty()) {
         ESP_LOGI(kTag, "MUSIC_DIAG DOWNLOAD_DECISION job_id=%s action=error", snapshot.job_id.c_str());
         ESP_LOGW(kTag, "MUSIC_DIAG DOWNLOAD_FAIL reason=bridge_unavailable job_id=%s", snapshot.job_id.c_str());
@@ -1023,7 +1062,8 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
             std::lock_guard<std::mutex> lock(mutex_);
             if (job_.active && job_.job_id == snapshot.job_id) {
                 ++job_.download_attempts;
-                const uint32_t delay = std::min<uint32_t>(kDownloadRetryMaxSec, kDownloadRetryBaseSec << std::min<uint32_t>(job_.download_attempts - 1, 4));
+                const uint32_t retry_max = snapshot.library_source ? kLibraryDownloadRetryMaxSec : kDownloadRetryMaxSec;
+                const uint32_t delay = std::min<uint32_t>(retry_max, kDownloadRetryBaseSec << std::min<uint32_t>(job_.download_attempts - 1, 4));
                 job_.next_download_at = static_cast<int64_t>(time(nullptr)) + delay;
                 job_.status = "ready";
                 job_.download_status = "failed";
@@ -1084,7 +1124,7 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
                 PersistLocked();
             }
         }
-        SdMusicPlayer::GetInstance().ScanPlaylist();
+        SdMusicPlayer::GetInstance().MarkPlaylistDirty(SdMusicPlayer::PlaylistSource::Normal);
         ESP_LOGI(kTag, "MUSIC_USER_LIBRARY_LOCAL path=%s", final_path.c_str());
         ESP_LOGI(kTag, "MUSIC_DOWNLOAD_DONE id=%s bytes=%u path=%s", snapshot.job_id.c_str(),
                  static_cast<unsigned>(final_stat.st_size), final_path.c_str());
@@ -1160,6 +1200,10 @@ bool MusicService::DownloadReadyJob(const PendingJob& snapshot) {
         finish_transaction("gmdb_failure");
         return false;
     }
+    // The final MP3 is durable and its metadata transaction succeeded. Defer
+    // directory I/O until the next GEN view/play request so this completion
+    // path cannot interrupt playback reading from the same SD card.
+    SdMusicPlayer::GetInstance().MarkPlaylistDirty(SdMusicPlayer::PlaylistSource::Generated);
     if (already_indexed) {
         ESP_LOGI(kTag, "MUSIC_CACHE_DUPLICATE filename=%s", filename.c_str());
         ESP_LOGI(kTag, "MUSIC_DIAG READY_ALREADY_LOCAL job_id=%s filename=%s", snapshot.job_id.c_str(), filename.c_str());
@@ -1267,7 +1311,7 @@ void MusicService::PollPendingJobs() {
     std::string job_id;
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        if (job_.active && !IsTerminal(job_.status) &&
+        if (job_.active && !job_.library_source && !IsTerminal(job_.status) &&
             (job_.status != "ready" || download_requested_)) {
             job_id = job_.job_id;
         }

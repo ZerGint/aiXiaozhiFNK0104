@@ -80,6 +80,7 @@ bool Encode(const GeneratedMusicJobRecord& record, std::string& out) {
     Put64(payload, record.downloaded_size);
     Put32(payload, record.download_attempts);
     Put64(payload, static_cast<uint64_t>(record.next_download_at));
+    payload.push_back(record.library_source ? 1 : 0);
     payload.push_back(record.user_library_source ? 1 : 0);
     if (payload.size() > kMaxFileSize - kHeaderSize) return false;
     out.assign(kMagic, 4);
@@ -100,7 +101,7 @@ bool Decode(const uint8_t* data, size_t size, GeneratedMusicJobRecord& record) {
     uint32_t reserved = 0;
     if (!Get16(data, size, pos, version) || !Get16(data, size, pos, flags) ||
         !Get32(data, size, pos, payload_size) || !Get32(data, size, pos, reserved) ||
-        version != GeneratedMusicJobStorage::kVersion || flags != 0 || reserved != 0 ||
+        (version != 1 && version != GeneratedMusicJobStorage::kVersion) || flags != 0 || reserved != 0 ||
         payload_size != size - kHeaderSize) return false;
     if (!GetString(data, size, pos, record.job_id) || !GetString(data, size, pos, record.title) ||
         !GetString(data, size, pos, record.status) || !GetString(data, size, pos, record.filename) ||
@@ -113,8 +114,15 @@ bool Decode(const uint8_t* data, size_t size, GeneratedMusicJobRecord& record) {
     uint64_t next_download = 0;
     if (!Get64(data, size, pos, next_download)) return false;
     if (pos < size) {
-        if (size - pos != 1 || data[pos] > 1) return false;
-        record.user_library_source = data[pos++] != 0;
+        const size_t remaining = size - pos;
+        if (version == 1) {
+            if (remaining != 1 || data[pos] > 1) return false;
+            record.user_library_source = data[pos++] != 0;
+        } else {
+            if (remaining != 2 || data[pos] > 1 || data[pos + 1] > 1) return false;
+            record.library_source = data[pos++] != 0;
+            record.user_library_source = data[pos++] != 0;
+        }
     }
     if (pos != size) return false;
     record.duration_seconds = duration;
