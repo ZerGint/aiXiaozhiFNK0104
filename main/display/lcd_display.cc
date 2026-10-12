@@ -1766,13 +1766,9 @@ void LcdDisplay::SetupUI() {
     }, LV_EVENT_CLICKED, this);
     WeatherService::GetInstance().Initialize();
     WeatherService::GetInstance().SetLocationChangedCallback([this]() {
-        Application::GetInstance().Schedule([this]() {
-            if (!weather_city_label_) return;
-            const auto location = WeatherService::GetInstance().GetLocation();
-            lv_label_set_text(weather_city_label_, location.name.c_str());
-            weather_generation_ = UINT32_MAX;
-            UpdateWeatherUI();
-        });
+        // The callback may run on the application/worker task. LVGL objects
+        // must only be touched from the LVGL task, so defer the update.
+        weather_location_update_pending_.store(true, std::memory_order_release);
     });
     const auto initialized_weather_location = WeatherService::GetInstance().GetLocation();
     lv_label_set_text(weather_city_label_, initialized_weather_location.name.c_str());
@@ -1953,6 +1949,17 @@ void LcdDisplay::SetupUI() {
         self->UpdateRoboEyesRuntimeState();
 #endif
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+        const auto state = Application::GetInstance().GetDeviceState();
+        const bool location_update_pending =
+            self->weather_location_update_pending_.load(std::memory_order_acquire);
+        if (location_update_pending && state != kDeviceStateIdle) {
+            return;
+        }
+        if (location_update_pending) {
+            self->weather_location_update_pending_.store(false, std::memory_order_release);
+            self->weather_generation_ = UINT32_MAX;
+            ESP_LOGI(TAG, "WEATHER_UI_LOCATION_APPLY state=idle");
+        }
         WeatherService::GetInstance().Tick();
         self->UpdateWeatherUI();
 #endif
@@ -3545,7 +3552,10 @@ void LcdDisplay::ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot&
         auto* label = lv_obj_get_child(button, 0);
         if (label) {
             char text[80] = {};
-            if (!inspected || !info.present) {
+            const bool empty_slot =
+                !inspected || !info.present ||
+                (!info.version[0] && strcmp(info.reason, "app_descriptor_missing") == 0);
+            if (empty_slot) {
                 snprintf(text, sizeof(text), "OTA %d\nempty", info.index);
             } else if (info.version[0] && (info.selectable || active || boot_target)) {
                 snprintf(text, sizeof(text), "OTA %d\n%s", info.index, info.version);

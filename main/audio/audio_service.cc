@@ -129,6 +129,13 @@ void AudioService::Start() {
                                            AS_EVENT_AUDIO_PROCESSOR_RUNNING |
                                            AS_EVENT_AUDIO_INPUT_STOP_REQUEST);
 
+    ESP_LOGI(TAG,
+             "AUDIO_JITTER_CONFIG playback_capacity=%u frames prebuffer=%u frames max_wait=%u ms "
+             "decoded_pcm=PSRAM",
+             static_cast<unsigned>(MAX_PLAYBACK_TASKS_IN_QUEUE),
+             static_cast<unsigned>(SPEECH_PREBUFFER_TASKS),
+             static_cast<unsigned>(SPEECH_PREBUFFER_MAX_MS));
+
     esp_timer_start_periodic(audio_power_timer_, 1000000);
 
 #if CONFIG_USE_AUDIO_PROCESSOR
@@ -195,6 +202,8 @@ void AudioService::Stop() {
         audio_encode_queue_.clear();
         audio_decode_queue_.clear();
         audio_playback_queue_.clear();
+        speech_prebuffering_ = false;
+        speech_prebuffer_started_us_ = 0;
         radio_buffered_duration_ms_ = 0;
         audio_testing_queue_.clear();
         notify_drained = MarkPlaybackDrainedLocked();
@@ -334,15 +343,51 @@ void AudioService::AudioInputTask() {
 
 void AudioService::AudioOutputTask() {
     bool radio_started = false;
+    bool speech_starved = false;
     while (true) {
         std::unique_lock<std::mutex> lock(audio_queue_mutex_);
-        audio_queue_cv_.wait(
-            lock, [this]() { return !audio_playback_queue_.empty() || service_stopped_.load(); });
+        bool woke = true;
+        if (speech_diagnostics_active_.load(std::memory_order_acquire)) {
+            woke = audio_queue_cv_.wait_for(
+                lock, std::chrono::milliseconds(100),
+                [this]() { return !audio_playback_queue_.empty() || service_stopped_.load(); });
+        } else {
+            audio_queue_cv_.wait(
+                lock, [this]() { return !audio_playback_queue_.empty() || service_stopped_.load(); });
+        }
         if (service_stopped_.load()) {
             break;
         }
+        if (!woke && audio_playback_queue_.empty() && !decode_in_flight_ &&
+            Application::GetInstance().GetDeviceState() == kDeviceStateSpeaking) {
+            if (!speech_starved) {
+                ++playback_underrun_count_;
+                speech_starved = true;
+            }
+        }
+        if (!audio_playback_queue_.empty()) {
+            speech_starved = false;
+        }
 
         const auto device_state = Application::GetInstance().GetDeviceState();
+        if (speech_prebuffering_ && device_state == kDeviceStateSpeaking &&
+            !audio_playback_queue_.empty()) {
+            const int64_t elapsed_ms =
+                (esp_timer_get_time() - speech_prebuffer_started_us_) / 1000;
+            if (audio_playback_queue_.size() < SPEECH_PREBUFFER_TASKS &&
+                elapsed_ms < SPEECH_PREBUFFER_MAX_MS) {
+                audio_queue_cv_.wait_for(lock, std::chrono::milliseconds(10), [this]() {
+                    return service_stopped_.load() || !speech_prebuffering_ ||
+                           audio_playback_queue_.size() >= SPEECH_PREBUFFER_TASKS;
+                });
+                continue;
+            }
+            speech_prebuffering_ = false;
+            speech_prebuffer_started_us_ = 0;
+        } else if (speech_prebuffering_) {
+            speech_prebuffering_ = false;
+            speech_prebuffer_started_us_ = 0;
+        }
         if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
             audio_playback_queue_.erase(
                 std::remove_if(audio_playback_queue_.begin(), audio_playback_queue_.end(),
@@ -399,6 +444,7 @@ void AudioService::AudioOutputTask() {
         }
         auto task = std::move(audio_playback_queue_.front());
         audio_playback_queue_.pop_front();
+        speech_starved = false;
         if (task->is_radio) {
             radio_buffered_duration_ms_ = radio_buffered_duration_ms_ > task->duration_ms
                                               ? radio_buffered_duration_ms_ - task->duration_ms
@@ -553,6 +599,7 @@ void AudioService::OpusCodecTask() {
 
             auto task = std::make_unique<AudioTask>();
             task->type = kAudioTaskTypeDecodeToPlaybackQueue;
+            task->pcm_in_psram = true;
             task->timestamp = packet->timestamp;
             task->playback_id = packet->playback_id;
             task->media_position_ms = packet->media_position_ms;
@@ -562,7 +609,7 @@ void AudioService::OpusCodecTask() {
             SetDecodeSampleRate(packet->sample_rate, packet->frame_duration);
             bool decoded = false;
             if (opus_decoder_ != nullptr) {
-                task->pcm.resize(decoder_frame_size_);
+                task->playback_pcm.resize(decoder_frame_size_);
                 esp_audio_dec_in_raw_t raw = {
                     .buffer = (uint8_t*)(packet->payload.data()),
                     .len = (uint32_t)(packet->payload.size()),
@@ -570,8 +617,8 @@ void AudioService::OpusCodecTask() {
                     .frame_recover = ESP_AUDIO_DEC_RECOVERY_NONE,
                 };
                 esp_audio_dec_out_frame_t out_frame = {
-                    .buffer = (uint8_t*)(task->pcm.data()),
-                    .len = (uint32_t)(task->pcm.size() * sizeof(int16_t)),
+                    .buffer = (uint8_t*)(task->playback_pcm.data()),
+                    .len = (uint32_t)(task->playback_pcm.size() * sizeof(int16_t)),
                     .decoded_size = 0,
                 };
                 esp_audio_dec_info_t dec_info = {};
@@ -579,19 +626,21 @@ void AudioService::OpusCodecTask() {
                 auto ret = esp_opus_dec_decode(opus_decoder_, &raw, &out_frame, &dec_info);
                 decoder_lock.unlock();
                 if (ret == ESP_AUDIO_ERR_OK) {
-                    task->pcm.resize(out_frame.decoded_size / sizeof(int16_t));
+                    task->playback_pcm.resize(out_frame.decoded_size / sizeof(int16_t));
                     if (decoder_sample_rate_ != codec_->output_sample_rate() &&
                         output_resampler_ != nullptr) {
                         uint32_t target_size = 0;
-                        esp_ae_rate_cvt_get_max_out_sample_num(output_resampler_, task->pcm.size(),
+                        esp_ae_rate_cvt_get_max_out_sample_num(output_resampler_,
+                                                               task->playback_pcm.size(),
                                                                &target_size);
-                        std::vector<int16_t> resampled(target_size);
+                        PsramVector resampled(target_size);
                         uint32_t actual_output = target_size;
                         esp_ae_rate_cvt_process(output_resampler_,
-                                                (esp_ae_sample_t)task->pcm.data(), task->pcm.size(),
+                                                (esp_ae_sample_t)task->playback_pcm.data(),
+                                                task->playback_pcm.size(),
                                                 (esp_ae_sample_t)resampled.data(), &actual_output);
                         resampled.resize(actual_output);
-                        task->pcm = std::move(resampled);
+                        task->playback_pcm = std::move(resampled);
                     }
                     decoded = true;
                 } else {
@@ -603,6 +652,12 @@ void AudioService::OpusCodecTask() {
 
             lock.lock();
             if (decoded && generation == playback_generation_ && !service_stopped_.load()) {
+                if (task->pcm_in_psram && task->output_source == AudioOutputSource::kAiSpeech &&
+                    audio_playback_queue_.empty() && !output_in_flight_ &&
+                    speech_diagnostics_active_.load(std::memory_order_acquire)) {
+                    speech_prebuffering_ = true;
+                    speech_prebuffer_started_us_ = esp_timer_get_time();
+                }
                 audio_playback_queue_.push_back(std::move(task));
             }
             decode_in_flight_ = false;
@@ -829,6 +884,7 @@ bool AudioService::PushPacketToDecodeQueue(std::unique_ptr<AudioStreamPacket> pa
                        audio_decode_queue_.size() < MAX_DECODE_PACKETS_IN_QUEUE;
             });
         } else {
+            ++decode_queue_drop_count_;
             return false;
         }
     }
@@ -839,6 +895,76 @@ bool AudioService::PushPacketToDecodeQueue(std::unique_ptr<AudioStreamPacket> pa
     audio_decode_queue_.push_back(std::move(packet));
     audio_queue_cv_.notify_all();
     return true;
+}
+
+void AudioService::BeginSpeechDiagnostics() {
+    playback_underrun_count_.store(0, std::memory_order_relaxed);
+    decode_queue_drop_count_.store(0, std::memory_order_relaxed);
+    playback_min_queue_depth_.store(MAX_PLAYBACK_TASKS_IN_QUEUE, std::memory_order_relaxed);
+    last_speech_diagnostic_us_.store(0, std::memory_order_relaxed);
+    {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        speech_prebuffering_ = false;
+        speech_prebuffer_started_us_ = 0;
+    }
+    speech_diagnostics_active_.store(true, std::memory_order_release);
+    LogSpeechDiagnostics("tts_start");
+}
+
+void AudioService::EndSpeechDiagnostics() {
+    {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        speech_prebuffering_ = false;
+        speech_prebuffer_started_us_ = 0;
+        audio_queue_cv_.notify_all();
+    }
+    if (speech_diagnostics_active_.exchange(false, std::memory_order_acq_rel)) {
+        LogSpeechDiagnostics("tts_stop");
+    }
+}
+
+void AudioService::MaybeLogSpeechDiagnostics() {
+    if (!speech_diagnostics_active_.load(std::memory_order_acquire)) return;
+    const int64_t now_us = esp_timer_get_time();
+    const int64_t previous = last_speech_diagnostic_us_.load(std::memory_order_relaxed);
+    if (previous != 0 && now_us - previous < 1000000) return;
+    last_speech_diagnostic_us_.store(now_us, std::memory_order_relaxed);
+    LogSpeechDiagnostics("tts_active");
+}
+
+void AudioService::LogSpeechDiagnostics(const char* reason) {
+    size_t decode_q = 0;
+    size_t playback_q = 0;
+    bool decode_in_flight = false;
+    bool output_in_flight = false;
+    {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        decode_q = audio_decode_queue_.size();
+        playback_q = audio_playback_queue_.size();
+        decode_in_flight = decode_in_flight_;
+        output_in_flight = output_in_flight_;
+    }
+    size_t minimum = playback_min_queue_depth_.load(std::memory_order_relaxed);
+    if (playback_q < minimum) {
+        playback_min_queue_depth_.store(playback_q, std::memory_order_relaxed);
+        minimum = playback_q;
+    }
+    ESP_LOGI(TAG,
+             "AUDIO_DIAG reason=%s dec_q=%u play_q=%u dec_inflight=%d out_inflight=%d "
+             "underruns=%u decode_drops=%u play_min=%u internal_free=%u internal_largest=%u "
+             "internal_min=%u dma_free=%u dma_largest=%u psram_free=%u psram_largest=%u",
+             reason, static_cast<unsigned>(decode_q), static_cast<unsigned>(playback_q),
+             decode_in_flight ? 1 : 0, output_in_flight ? 1 : 0,
+             static_cast<unsigned>(playback_underrun_count_.load(std::memory_order_relaxed)),
+             static_cast<unsigned>(decode_queue_drop_count_.load(std::memory_order_relaxed)),
+             static_cast<unsigned>(minimum),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_DMA)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_DMA)),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)));
 }
 
 std::unique_ptr<AudioStreamPacket> AudioService::PopPacketFromSendQueue() {
@@ -1023,6 +1149,8 @@ void AudioService::ResetDecoder() {
         timestamp_queue_.clear();
         audio_decode_queue_.clear();
         audio_playback_queue_.clear();
+        speech_prebuffering_ = false;
+        speech_prebuffer_started_us_ = 0;
         radio_buffered_duration_ms_ = 0;
         audio_testing_queue_.clear();
         notify_drained = MarkPlaybackDrainedLocked();

@@ -146,6 +146,7 @@ protected:
     lv_obj_t* weather_refresh_button_ = nullptr;
     uint32_t weather_generation_ = UINT32_MAX;
     bool weather_time_valid_ = false;
+    std::atomic<bool> weather_location_update_pending_{false};
     void UpdateWeatherUI();
     lv_obj_t* boot_overlay_ = nullptr;
     lv_obj_t* boot_ring_ = nullptr;

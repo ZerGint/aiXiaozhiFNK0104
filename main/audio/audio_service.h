@@ -43,7 +43,12 @@
 
 #define OPUS_FRAME_DURATION_MS 60
 #define MAX_ENCODE_TASKS_IN_QUEUE 2
-#define MAX_PLAYBACK_TASKS_IN_QUEUE 2
+// Keep a bounded speech jitter buffer. At 60 ms per frame this is 480 ms of
+// decoded audio, enough to absorb short UDP/TLS scheduling gaps without
+// allowing unbounded PSRAM growth.
+#define MAX_PLAYBACK_TASKS_IN_QUEUE 8
+#define SPEECH_PREBUFFER_TASKS 3
+#define SPEECH_PREBUFFER_MAX_MS 120
 #define RADIO_PREBUFFER_MS 1800
 #define MAX_DECODE_PACKETS_IN_QUEUE (1200 / OPUS_FRAME_DURATION_MS)
 #define MAX_SEND_PACKETS_IN_QUEUE (2400 / OPUS_FRAME_DURATION_MS)
@@ -132,7 +137,11 @@ enum AudioTaskType {
 struct AudioTask {
     AudioTaskType type;
     std::vector<int16_t> pcm;
+    // Network-decoded playback PCM is kept in PSRAM. Capture and local media
+    // paths continue to use the regular vector above.
+    PsramVector playback_pcm;
     PsramVector radio_pcm;
+    bool pcm_in_psram = false;
     bool is_music = false;
     bool is_radio = false;
     AudioOutputSource output_source = AudioOutputSource::kAiSpeech;
@@ -143,9 +152,18 @@ struct AudioTask {
     uint32_t media_position_ms = 0;
     uint32_t created_at_ms = 0;
 
-    const int16_t* GetPcmData() const { return is_radio ? radio_pcm.data() : pcm.data(); }
-    int16_t* GetMutablePcmData() { return is_radio ? radio_pcm.data() : pcm.data(); }
-    size_t GetPcmSize() const { return is_radio ? radio_pcm.size() : pcm.size(); }
+    const int16_t* GetPcmData() const {
+        if (is_radio) return radio_pcm.data();
+        return pcm_in_psram ? playback_pcm.data() : pcm.data();
+    }
+    int16_t* GetMutablePcmData() {
+        if (is_radio) return radio_pcm.data();
+        return pcm_in_psram ? playback_pcm.data() : pcm.data();
+    }
+    size_t GetPcmSize() const {
+        if (is_radio) return radio_pcm.size();
+        return pcm_in_psram ? playback_pcm.size() : pcm.size();
+    }
 };
 
 struct DebugStatistics {
@@ -204,6 +222,10 @@ public:
         std::lock_guard<std::mutex> lock(audio_queue_mutex_);
         return audio_playback_queue_.size();
     }
+    // Aggregated diagnostics for investigating speech playback starvation.
+    void BeginSpeechDiagnostics();
+    void EndSpeechDiagnostics();
+    void MaybeLogSpeechDiagnostics();
     void PlaySound(const std::string_view& sound);
     bool ReadAudioData(std::vector<int16_t>& data, int sample_rate, int samples);
     void ResetDecoder();
@@ -253,6 +275,10 @@ private:
     uint32_t last_radio_duration_ms_ = 0;
     bool decode_in_flight_ = false;
     bool output_in_flight_ = false;
+    // These fields are protected by audio_queue_mutex_. Prebuffering starts
+    // with the first decoded AI frame and ends after three frames or 120 ms.
+    bool speech_prebuffering_ = false;
+    int64_t speech_prebuffer_started_us_ = 0;
     bool playback_drained_notified_ = true;
     uint32_t playback_generation_ = 0;
     // For server AEC
@@ -269,6 +295,11 @@ private:
     std::atomic<bool> audio_input_need_warmup_{false};
     std::atomic<uint8_t> ai_speech_level_{0};
     std::atomic<uint32_t> ai_speech_level_updated_ms_{0};
+    std::atomic<uint32_t> playback_underrun_count_{0};
+    std::atomic<uint32_t> decode_queue_drop_count_{0};
+    std::atomic<size_t> playback_min_queue_depth_{MAX_PLAYBACK_TASKS_IN_QUEUE};
+    std::atomic<bool> speech_diagnostics_active_{false};
+    std::atomic<int64_t> last_speech_diagnostic_us_{0};
     esp_timer_handle_t audio_power_timer_ = nullptr;
     std::chrono::steady_clock::time_point last_input_time_;
     std::chrono::steady_clock::time_point last_output_time_;
@@ -282,6 +313,7 @@ private:
     void CheckAndUpdateAudioPowerState();
     bool IsPlaybackDrainedLocked() const;
     bool MarkPlaybackDrainedLocked();
+    void LogSpeechDiagnostics(const char* reason);
 };
 
 #endif

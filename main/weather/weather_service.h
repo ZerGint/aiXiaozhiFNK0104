@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <cstdint>
 #include <ctime>
 #include <functional>
@@ -138,6 +139,7 @@ private:
 
     mutable std::mutex request_mutex_;
     std::vector<std::shared_ptr<Request>> requests_;
+    std::atomic<uint32_t> next_request_id_{0};
     TaskHandle_t worker_task_ = nullptr;
     bool worker_start_failed_ = false;
 

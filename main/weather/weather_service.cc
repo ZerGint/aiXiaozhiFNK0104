@@ -36,6 +36,7 @@ constexpr uint16_t kCacheVersion = 2;
 constexpr char kSettingsNamespace[] = "weather";
 constexpr size_t kMaxSearchResults = 5;
 constexpr uint32_t kCandidateGenerationLimit = 1000000;
+constexpr time_t kMcpCacheTtlSeconds = 5 * 60;
 constexpr uint32_t kWeatherTaskStackBytes = 10240;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 constexpr UBaseType_t kWeatherTaskPriority = tskIDLE_PRIORITY + 1;
@@ -43,6 +44,13 @@ constexpr bool kRequiresReadyGate = true;
 #else
 constexpr UBaseType_t kWeatherTaskPriority = 2;
 constexpr bool kRequiresReadyGate = false;
+#endif
+#if CONFIG_SPIRAM
+constexpr UBaseType_t kWeatherTaskMemoryCaps = MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT;
+constexpr char kWeatherTaskStackLocation[] = "PSRAM";
+#else
+constexpr UBaseType_t kWeatherTaskMemoryCaps = MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT;
+constexpr char kWeatherTaskStackLocation[] = "internal RAM";
 #endif
 
 struct __attribute__((packed)) WeatherCacheDay {
@@ -86,12 +94,16 @@ bool IsTimeValid() { return time(nullptr) >= kMinimumValidTime; }
 
 void LogMemory(const char* phase) {
     ESP_LOGI(kTag,
-             "WEATHER_MEM phase=%s internal_free=%u internal_min=%u largest_block=%u psram_free=%u",
+             "WEATHER_MEM phase=%s internal_free=%u internal_largest=%u internal_min=%u "
+             "dma_free=%u dma_largest=%u psram_free=%u psram_largest=%u",
              phase,
              static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
-             static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
              static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
-             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)));
+             static_cast<unsigned>(heap_caps_get_minimum_free_size(MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_DMA)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_DMA)),
+             static_cast<unsigned>(heap_caps_get_free_size(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)),
+             static_cast<unsigned>(heap_caps_get_largest_free_block(MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT)));
 }
 
 bool JsonNumber(cJSON* parent, const char* key, double& value) {
@@ -264,29 +276,48 @@ std::string LanguageForQuery(const std::string& query) {
     return "en";
 }
 
-bool ReadHttpJson(const std::string& url, std::string& body, std::string& error) {
+bool ReadHttpJson(const char* operation, const std::string& url, std::string& body,
+                  std::string& error) {
+    const int64_t start_us = esp_timer_get_time();
+    ESP_LOGI(kTag, "WEATHER_HTTP_START op=%s", operation);
+    LogMemory("http_before_open");
     auto network = Board::GetInstance().GetNetwork();
     auto http = network ? network->CreateHttp(0) : nullptr;
     if (!http) {
         error = "network_unavailable";
+        ESP_LOGW(kTag, "WEATHER_HTTP_END op=%s ok=0 error=%s elapsed_ms=%u", operation,
+                 error.c_str(), static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
         return false;
     }
     http->SetTimeout(10000);
     http->SetHeader("Accept", "application/json");
     if (!http->Open("GET", url)) {
         error = "http_open_failed";
+        http.reset();
+        ESP_LOGW(kTag, "WEATHER_HTTP_RELEASE op=%s opened=0 elapsed_ms=%u", operation,
+                 static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
         return false;
     }
+    const int64_t opened_us = esp_timer_get_time();
     const int status = http->GetStatusCode();
     const size_t content_length = http->GetBodyLength();
+    ESP_LOGI(kTag, "WEATHER_HTTP_HEADERS op=%s status=%d content_length=%u elapsed_ms=%u", operation,
+             status, static_cast<unsigned>(content_length),
+             static_cast<unsigned>((opened_us - start_us) / 1000));
     if (status != 200) {
         error = "http_status";
         http->Close();
+        http.reset();
+        ESP_LOGI(kTag, "WEATHER_HTTP_RELEASE op=%s elapsed_ms=%u", operation,
+                 static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
         return false;
     }
     if (content_length > kMaxResponseBytes) {
         error = "response_too_large";
         http->Close();
+        http.reset();
+        ESP_LOGI(kTag, "WEATHER_HTTP_RELEASE op=%s elapsed_ms=%u", operation,
+                 static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
         return false;
     }
     body.clear();
@@ -301,11 +332,26 @@ bool ReadHttpJson(const std::string& url, std::string& body, std::string& error)
         body.append(chunk, static_cast<size_t>(bytes_read));
     }
     http->Close();
-    if (!error.empty()) return false;
-    if (bytes_read < 0) {
-        error = "http_read_failed";
+    const int64_t close_us = esp_timer_get_time();
+    http.reset();
+    LogMemory("http_after_release");
+    ESP_LOGI(kTag, "WEATHER_HTTP_RELEASE op=%s bytes=%u elapsed_ms=%u", operation,
+             static_cast<unsigned>(body.size()),
+             static_cast<unsigned>((close_us - start_us) / 1000));
+    if (!error.empty()) {
+        ESP_LOGW(kTag, "WEATHER_HTTP_END op=%s ok=0 error=%s elapsed_ms=%u", operation,
+                 error.c_str(), static_cast<unsigned>((close_us - start_us) / 1000));
         return false;
     }
+    if (bytes_read < 0) {
+        error = "http_read_failed";
+        ESP_LOGW(kTag, "WEATHER_HTTP_END op=%s ok=0 error=%s elapsed_ms=%u", operation,
+                 error.c_str(), static_cast<unsigned>((close_us - start_us) / 1000));
+        return false;
+    }
+    ESP_LOGI(kTag, "WEATHER_HTTP_END op=%s ok=1 bytes=%u elapsed_ms=%u", operation,
+             static_cast<unsigned>(body.size()),
+             static_cast<unsigned>((close_us - start_us) / 1000));
     return true;
 }
 
@@ -354,6 +400,7 @@ void AddWeatherJson(cJSON* result, const WeatherLocation& location, const Weathe
 
 struct WeatherService::Request {
     enum class Kind { Refresh, Search, OneOffWeather } kind = Kind::Refresh;
+    uint32_t id = 0;
     std::string query;
     std::string country;
     std::string region;
@@ -389,23 +436,41 @@ void WeatherService::RegisterMcpTools() {
                       Property("forecast_days", kPropertyTypeInteger, 3, 1, 3)}),
         [this](const PropertyList& properties, AsyncMcpCompletion completion) mutable {
             const std::string action = properties["action"].value<std::string>();
+            static std::atomic<uint32_t> next_call_id{0};
+            const uint32_t call_id = ++next_call_id;
+            ESP_LOGI(kTag, "WEATHER_MCP_START call=%u action=%s", static_cast<unsigned>(call_id),
+                     action.c_str());
             if (action == "search_city") {
+                auto complete_async = [call_id, action, completion = std::move(completion)](
+                                           const std::string& result) mutable {
+                    ESP_LOGI(kTag, "WEATHER_MCP_RESULT_READY call=%u action=%s bytes=%u",
+                             static_cast<unsigned>(call_id), action.c_str(),
+                             static_cast<unsigned>(result.size()));
+                    completion(result);
+                    ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s",
+                             static_cast<unsigned>(call_id), action.c_str());
+                };
                 SearchCitiesAsync(
                     properties["query"].value<std::string>(),
                     properties["country"].value<std::string>(),
                     properties["region"].value<std::string>(),
-                    [completion = std::move(completion)](const std::string& result) mutable {
-                        completion(result);
-                    });
+                    std::move(complete_async));
                 return;
             }
             if (action == "get_weather") {
+                auto complete_async = [call_id, action, completion = std::move(completion)](
+                                           const std::string& result) mutable {
+                    ESP_LOGI(kTag, "WEATHER_MCP_RESULT_READY call=%u action=%s bytes=%u",
+                             static_cast<unsigned>(call_id), action.c_str(),
+                             static_cast<unsigned>(result.size()));
+                    completion(result);
+                    ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s",
+                             static_cast<unsigned>(call_id), action.c_str());
+                };
                 GetWeatherAsync(
                     properties["candidate_id"].value<std::string>(),
                     static_cast<uint8_t>(properties["forecast_days"].value<int>()),
-                    [completion = std::move(completion)](const std::string& result) mutable {
-                        completion(result);
-                    });
+                    std::move(complete_async));
                 return;
             }
             if (action == "get_city") {
@@ -413,6 +478,8 @@ void WeatherService::RegisterMcpTools() {
                 cJSON_AddBoolToObject(result, "ok", true);
                 AddLocationJson(result, GetLocation());
                 completion(result);
+                ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s",
+                         static_cast<unsigned>(call_id), action.c_str());
                 return;
             }
             if (action == "set_city") {
@@ -427,9 +494,15 @@ void WeatherService::RegisterMcpTools() {
                     cJSON_AddStringToObject(result, "error", error.c_str());
                 }
                 completion(result);
+                ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s",
+                         static_cast<unsigned>(call_id), action.c_str());
                 return;
             }
+            ESP_LOGW(kTag, "WEATHER_MCP_RESULT_READY call=%u action=%s error=invalid_action",
+                     static_cast<unsigned>(call_id), action.c_str());
             completion(JsonError("invalid_action"));
+            ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s",
+                     static_cast<unsigned>(call_id), action.c_str());
         });
 }
 
@@ -443,10 +516,14 @@ void WeatherService::Initialize() {
     portEXIT_CRITICAL(&lock_);
     LoadLocation();
     LoadCache();
-    if (xTaskCreate(WeatherWorkerTask, "weather_worker", kWeatherTaskStackBytes, this,
-                    kWeatherTaskPriority, &worker_task_) != pdPASS) {
+    if (xTaskCreateWithCaps(WeatherWorkerTask, "weather_worker", kWeatherTaskStackBytes, this,
+                            kWeatherTaskPriority, &worker_task_,
+                            kWeatherTaskMemoryCaps) != pdPASS) {
         worker_start_failed_ = true;
         ESP_LOGE(kTag, "WEATHER_WORKER_CREATE_FAILED");
+    } else {
+        ESP_LOGI(kTag, "WEATHER_WORKER_READY stack_caps=%s stack_bytes=%u",
+                 kWeatherTaskStackLocation, static_cast<unsigned>(kWeatherTaskStackBytes));
     }
     const auto location = GetLocation();
     ESP_LOGI(kTag, "WEATHER_INIT lat=%.4f lon=%.4f city=%s country=%s", location.latitude,
@@ -511,6 +588,7 @@ bool WeatherService::Enqueue(std::shared_ptr<Request> request) {
     {
         std::lock_guard<std::mutex> lock(request_mutex_);
         if (requests_.size() >= 4) return false;
+        request->id = ++next_request_id_;
         requests_.push_back(std::move(request));
     }
     xTaskNotifyGive(worker_task_);
@@ -527,7 +605,7 @@ bool WeatherService::PopRequest(std::shared_ptr<Request>& request) {
 
 void WeatherService::WeatherWorkerTask(void* arg) {
     static_cast<WeatherService*>(arg)->WorkerLoop();
-    vTaskDelete(nullptr);
+    vTaskDeleteWithCaps(nullptr);
 }
 
 void WeatherService::WorkerLoop() {
@@ -535,9 +613,18 @@ void WeatherService::WorkerLoop() {
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
         std::shared_ptr<Request> request;
         while (PopRequest(request)) {
+            const char* kind = request->kind == Request::Kind::Refresh
+                                   ? "refresh"
+                                   : (request->kind == Request::Kind::Search ? "search" : "one_off");
+            const int64_t start_us = esp_timer_get_time();
+            ESP_LOGI(kTag, "WEATHER_WORKER_START id=%u kind=%s", static_cast<unsigned>(request->id),
+                     kind);
             if (request->kind == Request::Kind::Refresh) RunRefresh();
             else if (request->kind == Request::Kind::Search) RunSearch(request);
             else RunOneOffWeather(request);
+            ESP_LOGI(kTag, "WEATHER_WORKER_END id=%u kind=%s elapsed_ms=%u",
+                     static_cast<unsigned>(request->id), kind,
+                     static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
             request.reset();
         }
     }
@@ -611,6 +698,23 @@ void WeatherService::RunRefresh() {
     const auto location = GetLocation();
     LogMemory("worker_refresh_start");
     const bool ok = FetchWeather(location, 3, parsed, error);
+    const bool radio_active_after_http = InternetRadioPlayer::GetInstance().IsActive();
+    bool still_allowed = false;
+    portENTER_CRITICAL(&lock_);
+    still_allowed = network_connected_ &&
+                    (!kRequiresReadyGate || (application_idle_ && audio_ready_)) &&
+                    !radio_active_after_http;
+    if (!still_allowed) {
+        data_.request_active = false;
+        pending_refresh_ = true;
+        data_.refresh_deferred = true;
+        data_.last_request_failed = false;
+    }
+    portEXIT_CRITICAL(&lock_);
+    if (!still_allowed) {
+        ESP_LOGI(kTag, "WEATHER_REFRESH_CANCELLED reason=admission_changed_after_http");
+        return;
+    }
     if (ok) {
         parsed.last_successful_update = time(nullptr);
         parsed.valid = true;
@@ -675,10 +779,16 @@ bool WeatherService::FetchWeather(const WeatherLocation& location, uint8_t forec
     ESP_LOGI(kTag, "WEATHER_HTTP_START city=%s lat=%.5f lon=%.5f days=%u", location.name.c_str(),
              location.latitude, location.longitude, static_cast<unsigned>(forecast_days));
     std::string body;
-    if (!ReadHttpJson(url, body, error)) return false;
+    if (!ReadHttpJson("forecast", url, body, error)) return false;
+    const int64_t parse_start_us = esp_timer_get_time();
+    ESP_LOGI(kTag, "WEATHER_JSON_PARSE_START op=forecast bytes=%u",
+             static_cast<unsigned>(body.size()));
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
         cJSON_ParseWithLength(body.data(), body.size()), &cJSON_Delete);
-    if (!json || !ParseOpenMeteoResponse(json.get(), forecast_days, parsed)) {
+    const bool parse_ok = json && ParseOpenMeteoResponse(json.get(), forecast_days, parsed);
+    ESP_LOGI(kTag, "WEATHER_JSON_PARSE_DONE op=forecast ok=%d elapsed_ms=%u", parse_ok ? 1 : 0,
+             static_cast<unsigned>((esp_timer_get_time() - parse_start_us) / 1000));
+    if (!parse_ok) {
         error = "invalid_weather_response";
         return false;
     }
@@ -701,14 +811,21 @@ bool WeatherService::FetchGeocoding(const std::string& query, const std::string&
                       "&count=5&language=" + UrlEncode(LanguageForQuery(query)) + "&format=json";
     if (country.size() == 2) url += "&countryCode=" + UrlEncode(country);
     std::string body;
-    if (!ReadHttpJson(url, body, error)) return false;
+    if (!ReadHttpJson("geocoding", url, body, error)) return false;
+    const int64_t parse_start_us = esp_timer_get_time();
+    ESP_LOGI(kTag, "WEATHER_JSON_PARSE_START op=geocoding bytes=%u",
+             static_cast<unsigned>(body.size()));
     std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
         cJSON_ParseWithLength(body.data(), body.size()), &cJSON_Delete);
     auto array = json ? cJSON_GetObjectItemCaseSensitive(json.get(), "results") : nullptr;
     if (!json || (array != nullptr && !cJSON_IsArray(array))) {
         error = "invalid_geocoding_response";
+        ESP_LOGI(kTag, "WEATHER_JSON_PARSE_DONE op=geocoding ok=0 elapsed_ms=%u",
+                 static_cast<unsigned>((esp_timer_get_time() - parse_start_us) / 1000));
         return false;
     }
+    ESP_LOGI(kTag, "WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=%u",
+             static_cast<unsigned>((esp_timer_get_time() - parse_start_us) / 1000));
     if (array == nullptr) return true;
     const int count = std::min(cJSON_GetArraySize(array), static_cast<int>(kMaxSearchResults));
     for (int i = 0; i < count; ++i) {
@@ -845,6 +962,26 @@ void WeatherService::RunOneOffWeather(const std::shared_ptr<Request>& request) {
     std::string error;
     if (!ResolveCandidate(request->candidate_id, location, error)) {
         if (request->callback) request->callback(JsonError(error.c_str()));
+        return;
+    }
+    const WeatherData cached = GetSnapshot();
+    const auto persistent_location = GetLocation();
+    const time_t now = time(nullptr);
+    const bool cache_location_matches =
+        std::abs(location.latitude - persistent_location.latitude) < 0.000001 &&
+        std::abs(location.longitude - persistent_location.longitude) < 0.000001;
+    if (request->candidate_id.empty() && cached.valid && !cached.stale &&
+        cached.last_successful_update > 0 && now >= cached.last_successful_update &&
+        now - cached.last_successful_update <= kMcpCacheTtlSeconds && cache_location_matches) {
+        cJSON* result = cJSON_CreateObject();
+        cJSON_AddBoolToObject(result, "ok", true);
+        cJSON_AddBoolToObject(result, "stale", false);
+        AddWeatherJson(result, location, cached, request->forecast_days);
+        ESP_LOGI(kTag, "WEATHER_MCP_CACHE_HIT lat=%.5f lon=%.5f days=%u age_sec=%u",
+                 location.latitude, location.longitude,
+                 static_cast<unsigned>(request->forecast_days),
+                 static_cast<unsigned>(now - cached.last_successful_update));
+        if (request->callback) request->callback(JsonText(result));
         return;
     }
     portENTER_CRITICAL(&lock_);

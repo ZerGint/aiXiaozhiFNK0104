@@ -308,6 +308,7 @@ void Application::Run() {
             clock_ticks_++;
             auto display = Board::GetInstance().GetDisplay();
             display->UpdateStatusBar();
+            audio_service_.MaybeLogSpeechDiagnostics();
 
             // Print debug info every 10 seconds
             if (clock_ticks_ % 10 == 0) {
@@ -671,9 +672,11 @@ void Application::InitializeProtocol() {
                 Schedule([this]() {
                     aborted_ = false;
                     SetDeviceState(kDeviceStateSpeaking);
+                    audio_service_.BeginSpeechDiagnostics();
                 });
             } else if (strcmp(state->valuestring, "stop") == 0) {
                 Schedule([this]() {
+                    audio_service_.EndSpeechDiagnostics();
                     if (GetDeviceState() == kDeviceStateSpeaking) {
                         if (end_conversation_after_speech_) {
                             end_conversation_after_speech_ = false;
