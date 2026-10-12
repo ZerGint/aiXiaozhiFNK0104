@@ -3594,7 +3594,12 @@ void LcdDisplay::ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot&
                 (!info.version[0] && strcmp(info.reason, "app_descriptor_missing") == 0);
             if (empty_slot) {
                 snprintf(text, sizeof(text), "OTA %d\nempty", info.index);
-            } else if (info.version[0] && (info.selectable || active || boot_target)) {
+            } else if (info.version[0]) {
+                // Keep the user-facing button stable while a custom OTA
+                // transaction is pending.  The internal reason
+                // "custom_update_pending" is diagnostic text and is too
+                // long for this compact button; the image version remains
+                // useful even while the slot is temporarily disabled.
                 snprintf(text, sizeof(text), "OTA %d\n%s", info.index, info.version);
             } else {
                 snprintf(text, sizeof(text), "OTA %d\n%s", info.index, info.reason);
@@ -3680,8 +3685,8 @@ void LcdDisplay::ShowOtaPartitionDialog(int index,
     lv_obj_set_style_text_align(text, LV_TEXT_ALIGN_CENTER, 0);
 
     lv_obj_t* cancel = lv_btn_create(card);
-    lv_obj_set_size(cancel, 145, 40);
-    lv_obj_align(cancel, LV_ALIGN_BOTTOM_LEFT, 25, -18);
+    lv_obj_set_size(cancel, 130, 40);
+    lv_obj_align(cancel, LV_ALIGN_BOTTOM_LEFT, 20, -18);
     lv_obj_set_style_bg_color(cancel, kCardHi, 0);
     auto* cancel_label = lv_label_create(cancel);
     lv_label_set_text(cancel_label, "Cancel");
@@ -3693,8 +3698,8 @@ void LcdDisplay::ShowOtaPartitionDialog(int index,
     }, LV_EVENT_CLICKED, this);
 
     lv_obj_t* restart = lv_btn_create(card);
-    lv_obj_set_size(restart, 175, 40);
-    lv_obj_align(restart, LV_ALIGN_BOTTOM_RIGHT, -25, -18);
+    lv_obj_set_size(restart, 150, 40);
+    lv_obj_align(restart, LV_ALIGN_BOTTOM_RIGHT, -20, -18);
     lv_obj_set_style_bg_color(restart, kAccent, 0);
     auto* restart_label = lv_label_create(restart);
     lv_label_set_text(restart_label, "Restart");
