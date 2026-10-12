@@ -43,6 +43,14 @@
 
 #define TAG "FreenoveFnk0104sBoard"
 
+const char* GetCompiledAudioOutputVariant() {
+#if CONFIG_FNK_EXTERNAL_I2S_SPEAKER
+    return "external_amp";
+#else
+    return "internal_amp";
+#endif
+}
+
 class TouchDriver {
 public:
     TouchDriver() : dev_(nullptr) {}

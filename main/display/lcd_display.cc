@@ -3055,7 +3055,9 @@ void LcdDisplay::SetOtaUpdateAvailable(bool available, const char* version) {
                        CustomOtaPolicy::IsUpdateAvailable() && metadata.version[0] != '\0' &&
                        strcmp(metadata.version, version) == 0 && metadata.size > 0 &&
                        metadata.sha256[0] != '\0' && metadata.url[0] != '\0' &&
-                       metadata.board[0] != '\0' && metadata.chip[0] != '\0';
+                       metadata.board[0] != '\0' && metadata.chip[0] != '\0' &&
+                       metadata.variant[0] != '\0' &&
+                       strcmp(metadata.variant, GetCompiledAudioOutputVariant()) == 0;
     lv_obj_remove_flag(ota_update_row_, LV_OBJ_FLAG_HIDDEN);
     lv_obj_set_height(quick_settings_panel_, 310);
     ota_install_requested_ = false;
@@ -4101,7 +4103,9 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         }
         const auto& metadata = CustomOtaPolicy::GetStableUpdateMetadata();
         if (metadata.version[0] == '\0' || metadata.size == 0 || metadata.sha256[0] == '\0' ||
-            metadata.url[0] == '\0' || metadata.board[0] == '\0' || metadata.chip[0] == '\0') {
+            metadata.url[0] == '\0' || metadata.board[0] == '\0' || metadata.chip[0] == '\0' ||
+            metadata.variant[0] == '\0' ||
+            strcmp(metadata.variant, GetCompiledAudioOutputVariant()) != 0) {
             ESP_LOGW(TAG, "OTA_UI_INSTALL_REJECTED reason=invalid_metadata");
             return;
         }

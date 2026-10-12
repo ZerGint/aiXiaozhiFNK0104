@@ -29,9 +29,11 @@ constexpr char kUrlKey[] = "url";
 constexpr char kShaKey[] = "sha256";
 constexpr char kBoardKey[] = "board";
 constexpr char kChipKey[] = "chip";
+constexpr char kVariantKey[] = "variant";
 constexpr char kSizeKey[] = "size";
 constexpr char kInstalledVersionKey[] = "inst_version";
 constexpr char kInstalledShaKey[] = "inst_sha256";
+constexpr char kInstalledVariantKey[] = "inst_variant";
 constexpr char kPreviousPartitionKey[] = "prev_part";
 constexpr char kNewPartitionKey[] = "new_part";
 constexpr char kRollbackDetectedKey[] = "rollback_det";
@@ -40,11 +42,13 @@ constexpr size_t kUrlLimit = 256;
 constexpr size_t kShaLimit = 65;
 constexpr size_t kBoardLimit = 32;
 constexpr size_t kChipLimit = 16;
+constexpr size_t kVariantLimit = 32;
 constexpr size_t kReasonLimit = 64;
 constexpr EventBits_t kWifiConnected = BIT0;
 
 struct InstalledMetadata {
     char version[kVersionLimit] = {};
+    char variant[kVariantLimit] = {};
     char previous[16] = {};
     char target[16] = {};
 };
@@ -108,6 +112,7 @@ bool ReadInstalledMetadata(InstalledMetadata* metadata, MinimalUpdater::State* s
     }
     if (*state == MinimalUpdater::State::INSTALLED) {
         ReadString(handle, kInstalledVersionKey, metadata->version, sizeof(metadata->version));
+        ReadString(handle, kInstalledVariantKey, metadata->variant, sizeof(metadata->variant));
         ReadString(handle, kPreviousPartitionKey, metadata->previous, sizeof(metadata->previous));
         ReadString(handle, kNewPartitionKey, metadata->target, sizeof(metadata->target));
     }
@@ -120,11 +125,14 @@ bool MarkInstalled(const char* previous, const char* target) {
     if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
     char version[kVersionLimit] = {};
     char sha[kShaLimit] = {};
+    char variant[kVariantLimit] = {};
     ReadString(handle, kVersionKey, version, sizeof(version));
     ReadString(handle, kShaKey, sha, sizeof(sha));
+    ReadString(handle, kVariantKey, variant, sizeof(variant));
     bool success = version[0] && nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(MinimalUpdater::State::INSTALLED)) == ESP_OK &&
                    SetString(handle, kInstalledVersionKey, version, kVersionLimit) &&
                    SetString(handle, kInstalledShaKey, sha, kShaLimit) &&
+                   SetString(handle, kInstalledVariantKey, variant, kVariantLimit) &&
                    SetString(handle, kPreviousPartitionKey, previous, sizeof(((InstalledMetadata*)0)->previous)) &&
                    SetString(handle, kNewPartitionKey, target, sizeof(((InstalledMetadata*)0)->target)) &&
                    nvs_set_u8(handle, kRollbackDetectedKey, 0) == ESP_OK;
@@ -137,8 +145,9 @@ bool ClearTransientMetadata() {
     nvs_handle_t handle = 0;
     if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
     constexpr const char* keys[] = {kReasonKey, kVersionKey, kUrlKey, kShaKey, kBoardKey,
-                                    kChipKey, kSizeKey, kInstalledVersionKey,
-                                    kInstalledShaKey, kPreviousPartitionKey, kNewPartitionKey};
+                                    kChipKey, kVariantKey, kSizeKey, kInstalledVersionKey,
+                                    kInstalledShaKey, kInstalledVariantKey,
+                                    kPreviousPartitionKey, kNewPartitionKey};
     bool success = true;
     for (const char* key : keys) {
         const esp_err_t err = nvs_erase_key(handle, key);
@@ -182,7 +191,8 @@ bool ReadState(State* state) {
 bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata) {
     if (!metadata.update_available || !CustomOtaPolicy::IsStrictStableVersion(metadata.version) ||
         metadata.size == 0 || !metadata.url[0] || !metadata.sha256[0] || !metadata.board[0] ||
-        !metadata.chip[0]) return false;
+        !metadata.chip[0] || !metadata.variant[0] ||
+        strcmp(metadata.variant, GetCompiledAudioOutputVariant()) != 0) return false;
     nvs_handle_t handle = 0;
     if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;
     bool success = SetString(handle, kVersionKey, metadata.version, kVersionLimit) &&
@@ -190,6 +200,7 @@ bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata) {
                    SetString(handle, kShaKey, metadata.sha256, kShaLimit) &&
                    SetString(handle, kBoardKey, metadata.board, kBoardLimit) &&
                    SetString(handle, kChipKey, metadata.chip, kChipLimit) &&
+                   SetString(handle, kVariantKey, metadata.variant, kVariantLimit) &&
                    nvs_set_u32(handle, kSizeKey, metadata.size) == ESP_OK &&
                    nvs_set_u8(handle, kStateKey, static_cast<uint8_t>(State::UPDATE)) == ESP_OK &&
                    nvs_set_u8(handle, kRollbackDetectedKey, 0) == ESP_OK;
@@ -213,8 +224,8 @@ void ReportPendingVerification() {
     InstalledMetadata metadata;
     State state = State::STABLE;
     if (ReadInstalledMetadata(&metadata, &state) && state == State::INSTALLED) {
-        ESP_LOGI(kTag, "OTA_INSTALLED_PENDING version=%s target=%s", metadata.version,
-                 metadata.target);
+        ESP_LOGI(kTag, "OTA_INSTALLED_PENDING version=%s variant=%s target=%s", metadata.version,
+                 metadata.variant, metadata.target);
     }
 }
 
@@ -244,6 +255,18 @@ bool ValidatePendingUpdate() {
         ESP_LOGE(kTag, "OTA_POST_UPDATE_VERSION_MISMATCH running=%s expected=%s",
                  descriptor ? descriptor->version : "none", metadata.version);
         MarkState(State::STABLE, "VERIFY_FAILED", descriptor ? descriptor->version : nullptr);
+        return false;
+    }
+    const char* current_variant = GetCompiledAudioOutputVariant();
+    if (!metadata.variant[0] || !current_variant || strcmp(metadata.variant, current_variant) != 0) {
+        ESP_LOGE(kTag, "OTA_POST_UPDATE_VARIANT_MISMATCH running=%s expected=%s",
+                 current_variant ? current_variant : "unknown", metadata.variant);
+        const esp_err_t rollback = esp_ota_mark_app_invalid_rollback_and_reboot();
+        if (rollback != ESP_OK) {
+            ESP_LOGE(kTag, "OTA_POST_UPDATE_VARIANT_ROLLBACK_FAILED err=%s",
+                     esp_err_to_name(rollback));
+            MarkState(State::STABLE, "VARIANT_MISMATCH", descriptor ? descriptor->version : nullptr);
+        }
         return false;
     }
     const esp_err_t mark_result = esp_ota_mark_app_valid_cancel_rollback();

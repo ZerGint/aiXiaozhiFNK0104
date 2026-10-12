@@ -44,6 +44,10 @@ enum class PowerSaveLevel {
 using NetworkEventCallback = std::function<void(NetworkEvent event, const std::string& data)>;
 
 void* create_board();
+// Lightweight build-time hardware identity used by the minimal OTA updater.
+// Board-specific sources may override the weak default without constructing
+// the full Board object.
+const char* GetCompiledAudioOutputVariant();
 class AudioCodec;
 class Display;
 class Board {
@@ -78,6 +82,7 @@ public:
     virtual void SetNetworkEventCallback(NetworkEventCallback callback) { (void)callback; }
     virtual const char* GetNetworkStateIcon() = 0;
     virtual bool GetBatteryLevel(int &level, bool& charging, bool& discharging);
+    virtual std::string GetAudioOutputVariant();
     virtual std::string GetSystemInfoJson();
     virtual void SetPowerSaveLevel(PowerSaveLevel level) = 0;
     virtual std::string GetBoardJson() = 0;

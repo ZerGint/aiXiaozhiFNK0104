@@ -12,6 +12,10 @@
 
 #define TAG "Board"
 
+__attribute__((weak)) const char* GetCompiledAudioOutputVariant() {
+    return "unknown";
+}
+
 Board::Board() {
     Settings settings("board", true);
     uuid_ = settings.GetString("uuid");
@@ -51,6 +55,10 @@ bool Board::GetBatteryLevel(int &level, bool& charging, bool& discharging) {
 
 bool Board::GetTemperature(float& esp32temp){
     return false;
+}
+
+std::string Board::GetAudioOutputVariant() {
+    return GetCompiledAudioOutputVariant();
 }
 
 Display* Board::GetDisplay() {
@@ -113,6 +121,7 @@ std::string Board::GetSystemInfoJson() {
     json += R"("mac_address":")" + SystemInfo::GetMacAddress() + R"(",)";
     json += R"("uuid":")" + uuid_ + R"(",)";
     json += R"("chip_model_name":")" + SystemInfo::GetChipModelName() + R"(",)";
+    json += R"("audio_output_variant":")" + GetAudioOutputVariant() + R"(",)";
 
     esp_chip_info_t chip_info;
     esp_chip_info(&chip_info);

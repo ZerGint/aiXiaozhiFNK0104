@@ -68,6 +68,7 @@ std::unique_ptr<Http> Ota::SetupHttp() {
     http->SetHeader("User-Agent", user_agent);
     http->SetHeader("Accept-Language", Lang::CODE);
     http->SetHeader("Content-Type", "application/json");
+    http->SetHeader("Audio-Output-Variant", board.GetAudioOutputVariant().c_str());
 
     return http;
 }
@@ -213,7 +214,26 @@ esp_err_t Ota::CheckVersion() {
 
     has_new_version_ = false;
     force_update_ = false;
-    cJSON *firmware = cJSON_GetObjectItem(root, "firmware");
+    cJSON *schema = cJSON_GetObjectItem(root, "schema");
+    cJSON *firmware = nullptr;
+    if (cJSON_IsNumber(schema) && schema->valueint == 2) {
+        const std::string variant = board.GetAudioOutputVariant();
+        cJSON* variants = cJSON_GetObjectItem(root, "variants");
+        firmware = cJSON_IsObject(variants) ? cJSON_GetObjectItem(variants, variant.c_str()) : nullptr;
+        cJSON* manifest_variant = firmware ? cJSON_GetObjectItem(firmware, "variant") : nullptr;
+        if (!cJSON_IsObject(firmware) || !cJSON_IsString(manifest_variant) ||
+            variant != manifest_variant->valuestring) {
+            ESP_LOGW(TAG, "OTA manifest has no compatible audio variant: %s", variant.c_str());
+            firmware = nullptr;
+        } else {
+            firmware_variant_ = variant;
+        }
+    } else {
+        // Keep compatibility with the official legacy endpoint until it
+        // starts returning schema 2 manifests.
+        firmware = cJSON_GetObjectItem(root, "firmware");
+        firmware_variant_.clear();
+    }
     if (cJSON_IsObject(firmware)) {
         cJSON *version = cJSON_GetObjectItem(firmware, "version");
         if (cJSON_IsString(version)) {

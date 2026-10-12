@@ -16,6 +16,7 @@ struct StableUpdateMetadata {
     char url[256] = {};
     char board[32] = {};
     char chip[16] = {};
+    char variant[32] = {};
 };
 
 bool IsStrictStableVersion(const char* version);
