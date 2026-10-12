@@ -29,6 +29,7 @@
 #include <src/misc/lv_timer.h>
 #include <algorithm>
 #include <cstring>
+#include <new>
 #include <vector>
 
 #include "board.h"
@@ -56,6 +57,30 @@ LV_FONT_DECLARE(font_noto_sans_symbols_star_20_4);
 LV_FONT_DECLARE(font_material_symbols_shuffle_20_4);
 
 namespace {
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+struct OtaPartitionInspectTaskData {
+    std::function<void(const OtaPartitionSwitcher::Snapshot&, bool)> completion;
+};
+
+void OtaPartitionInspectTask(void* arg) {
+    auto* data = static_cast<OtaPartitionInspectTaskData*>(arg);
+    if (!data) {
+        vTaskDelete(nullptr);
+        return;
+    }
+
+    auto completion = std::move(data->completion);
+    delete data;
+
+    OtaPartitionSwitcher::Snapshot snapshot;
+    const bool success = OtaPartitionSwitcher::GetSnapshot(&snapshot);
+    Application::GetInstance().Schedule([completion = std::move(completion), snapshot, success]() mutable {
+        if (completion) completion(snapshot, success);
+    });
+    vTaskDelete(nullptr);
+}
+#endif
 
 struct DeletePromptData {
     LcdDisplay* display;
@@ -3526,13 +3551,25 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
 
 void LcdDisplay::StartOtaPartitionRefresh() {
     if (ota0_partition_button_ == nullptr || ota1_partition_button_ == nullptr) return;
-    Application::GetInstance().Schedule([this]() {
-        OtaPartitionSwitcher::Snapshot snapshot;
-        const bool success = OtaPartitionSwitcher::GetSnapshot(&snapshot);
-        Application::GetInstance().Schedule([this, snapshot, success]() {
-            ApplyOtaPartitionSnapshot(snapshot, success);
+    auto* data = new (std::nothrow) OtaPartitionInspectTaskData;
+    if (!data) {
+        Application::GetInstance().Schedule([this]() {
+            OtaPartitionSwitcher::Snapshot snapshot;
+            ApplyOtaPartitionSnapshot(snapshot, false);
         });
-    });
+        return;
+    }
+    data->completion = [this](const OtaPartitionSwitcher::Snapshot& snapshot, bool success) {
+        ApplyOtaPartitionSnapshot(snapshot, success);
+    };
+    if (xTaskCreatePinnedToCore(OtaPartitionInspectTask, "ota_part_refresh", 6144, data, 2,
+                                nullptr, 0) != pdPASS) {
+        delete data;
+        Application::GetInstance().Schedule([this]() {
+            OtaPartitionSwitcher::Snapshot snapshot;
+            ApplyOtaPartitionSnapshot(snapshot, false);
+        });
+    }
 }
 
 void LcdDisplay::ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot& snapshot,
@@ -3581,23 +3618,38 @@ void LcdDisplay::StartOtaPartitionSwitch(int index) {
     if (ota0_partition_button_) lv_obj_add_state(ota0_partition_button_, LV_STATE_DISABLED);
     if (ota1_partition_button_) lv_obj_add_state(ota1_partition_button_, LV_STATE_DISABLED);
     ESP_LOGI(TAG, "OTA_PARTITION_UI_INSPECT_START slot=%d", index);
-    Application::GetInstance().Schedule([this, index]() {
-        OtaPartitionSwitcher::Snapshot snapshot;
-        const bool success = OtaPartitionSwitcher::GetSnapshot(&snapshot);
-        Application::GetInstance().Schedule([this, index, snapshot, success]() {
-            if (!success || !snapshot.slots[index].selectable) {
-                ota_partition_switch_in_progress_ = false;
-                ApplyOtaPartitionSnapshot(snapshot, success);
-                ShowNotification(success ? snapshot.slots[index].reason : "OTA check failed");
-                return;
-            }
-            ShowOtaPartitionDialog(index, snapshot.slots[index]);
+    auto inspection_failed = [this]() {
+        Application::GetInstance().Schedule([this]() {
+            ota_partition_switch_in_progress_ = false;
+            ShowNotification("OTA check unavailable");
+            StartOtaPartitionRefresh();
         });
-    });
+    };
+    auto* data = new (std::nothrow) OtaPartitionInspectTaskData;
+    if (!data) {
+        inspection_failed();
+        return;
+    }
+    data->completion = [this, index](const OtaPartitionSwitcher::Snapshot& snapshot,
+                                     bool success) {
+        if (!success || !snapshot.slots[index].selectable) {
+            ota_partition_switch_in_progress_ = false;
+            ApplyOtaPartitionSnapshot(snapshot, success);
+            ShowNotification(success ? snapshot.slots[index].reason : "OTA check failed");
+            return;
+        }
+        ShowOtaPartitionDialog(index, snapshot.slots[index]);
+    };
+    if (xTaskCreatePinnedToCore(OtaPartitionInspectTask, "ota_part_inspect", 6144, data, 2,
+                                nullptr, 0) != pdPASS) {
+        delete data;
+        inspection_failed();
+    }
 }
 
 void LcdDisplay::ShowOtaPartitionDialog(int index,
                                         const OtaPartitionSwitcher::PartitionInfo& info) {
+    DisplayLockGuard lock(this);
     if (ota_partition_dialog_ != nullptr) return;
     ota_partition_dialog_index_ = index;
     ota_partition_dialog_ = lv_obj_create(lv_layer_top());
