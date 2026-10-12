@@ -15,7 +15,6 @@
 #include "oled_display.h"
 #include "board.h"
 #include "settings.h"
-#include "lvgl_theme.h"
 #include "lvgl_display.h"
 
 #define TAG "MCP"
@@ -78,25 +77,6 @@ void McpServer::AddCommonTools() {
     }
 
 #ifdef HAVE_LVGL
-    auto display = board.GetDisplay();
-    if (display && display->GetTheme() != nullptr) {
-        AddTool("self.screen.set_theme",
-            "Set the theme of the screen. The theme can be `light` or `dark`.",
-            PropertyList({
-                Property("theme", kPropertyTypeString)
-            }),
-            [display](const PropertyList& properties) -> ReturnValue {
-                auto theme_name = properties["theme"].value<std::string>();
-                auto& theme_manager = LvglThemeManager::GetInstance();
-                auto theme = theme_manager.GetTheme(theme_name);
-                if (theme != nullptr) {
-                    display->SetTheme(theme);
-                    return true;
-                }
-                return false;
-            });
-    }
-
     auto camera = board.GetCamera();
     if (camera) {
         AddTool("self.camera.take_photo",
@@ -324,6 +304,17 @@ void McpServer::AddUserOnlyTool(const std::string& name, const std::string& desc
     AddTool(tool);
 }
 
+void McpServer::LogToolSummary() const {
+    size_t user_only_count = 0;
+    for (const auto* tool : tools_) {
+        if (tool->user_only()) ++user_only_count;
+    }
+    ESP_LOGI(TAG, "MCP_TOOL_SUMMARY total=%u public=%u user_only=%u",
+             static_cast<unsigned>(tools_.size()),
+             static_cast<unsigned>(tools_.size() - user_only_count),
+             static_cast<unsigned>(user_only_count));
+}
+
 void McpServer::ParseMessage(const std::string& message) {
     cJSON* json = cJSON_Parse(message.c_str());
     if (json == nullptr) {
@@ -462,6 +453,7 @@ void McpServer::GetToolsList(int id, const std::string& cursor, bool list_user_o
     bool found_cursor = cursor.empty();
     auto it = tools_.begin();
     std::string next_cursor = "";
+    size_t page_tool_count = 0;
     
     while (it != tools_.end()) {
         // 如果我们还没有找到起始位置，继续搜索
@@ -488,6 +480,7 @@ void McpServer::GetToolsList(int id, const std::string& cursor, bool list_user_o
         }
         
         json += tool_json;
+        ++page_tool_count;
         ++it;
     }
     
@@ -507,6 +500,10 @@ void McpServer::GetToolsList(int id, const std::string& cursor, bool list_user_o
     } else {
         json += "],\"nextCursor\":\"" + next_cursor + "\"}";
     }
+
+    ESP_LOGI(TAG, "MCP_TOOLS_LIST page_tools=%u bytes=%u user_only=%d next=%s",
+             static_cast<unsigned>(page_tool_count), static_cast<unsigned>(json.size()),
+             list_user_only_tools ? 1 : 0, next_cursor.empty() ? "none" : next_cursor.c_str());
     
     ReplyResult(id, json);
 }

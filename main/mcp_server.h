@@ -358,6 +358,7 @@ public:
     void AddTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
     void AddAsyncTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<void(const PropertyList&, AsyncMcpCompletion)> callback);
     void AddUserOnlyTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
+    void LogToolSummary() const;
     void ParseMessage(const cJSON* json);
     void ParseMessage(const std::string& message);
 

@@ -373,53 +373,63 @@ WeatherService& WeatherService::GetInstance() {
 void WeatherService::RegisterMcpTools() {
     auto& mcp = McpServer::GetInstance();
     mcp.AddAsyncTool(
-        "self.weather.search_city",
-        "Search populated places by name. Return the candidate_id to the user when several places match; never invent coordinates or IDs.",
-        PropertyList({Property("query", kPropertyTypeString), Property("country", kPropertyTypeString, ""),
-                      Property("region", kPropertyTypeString, "")} ),
-        [this](const PropertyList& properties, AsyncMcpCompletion completion) {
-            SearchCitiesAsync(properties["query"].value<std::string>(), properties["country"].value<std::string>(),
-                              properties["region"].value<std::string>(),
-                              [completion = std::move(completion)](const std::string& result) mutable {
-                                  completion(result);
-                              });
-        });
-    mcp.AddTool(
-        "self.weather.get_city",
-        "Return the persistent city currently used by the Weather screen and automatic refresh.", PropertyList(),
-        [this](const PropertyList&) -> ReturnValue {
-            cJSON* result = cJSON_CreateObject();
-            cJSON_AddBoolToObject(result, "ok", true);
-            AddLocationJson(result, GetLocation());
-            return result;
-        });
-    mcp.AddTool(
-        "self.weather.set_city",
-        "Set the persistent Weather city using a candidate_id returned by self.weather.search_city. The ID must be recent and verified by geocoding.",
-        PropertyList({Property("candidate_id", kPropertyTypeString)}),
-        [this](const PropertyList& properties) -> ReturnValue {
-            std::string error;
-            const bool ok = SetLocationByCandidate(properties["candidate_id"].value<std::string>(), error);
-            cJSON* result = cJSON_CreateObject();
-            cJSON_AddBoolToObject(result, "ok", ok);
-            if (ok) {
-                cJSON_AddStringToObject(result, "message", "weather_city_changed");
-                AddLocationJson(result, GetLocation());
-            } else {
-                cJSON_AddStringToObject(result, "error", error.c_str());
+        "self.weather",
+        "Weather operations. Set action to one of: search_city, get_city, set_city, get_weather. "
+        "For search_city, query is required and the result contains verified candidate_id values; "
+        "never invent coordinates or IDs. For set_city, use a recent candidate_id returned by "
+        "search_city; it is persisted in NVS and becomes the Weather screen location. For get_city, "
+        "return the persistent city. For get_weather, omit candidate_id for the persistent city or "
+        "provide a verified candidate_id for a one-off forecast; forecast_days is 1..3. "
+        "The tool preserves ambiguous-city clarification and the existing Open-Meteo forecast flow.",
+        PropertyList({Property("action", kPropertyTypeString),
+                      Property("query", kPropertyTypeString, ""),
+                      Property("country", kPropertyTypeString, ""),
+                      Property("region", kPropertyTypeString, ""),
+                      Property("candidate_id", kPropertyTypeString, ""),
+                      Property("forecast_days", kPropertyTypeInteger, 3, 1, 3)}),
+        [this](const PropertyList& properties, AsyncMcpCompletion completion) mutable {
+            const std::string action = properties["action"].value<std::string>();
+            if (action == "search_city") {
+                SearchCitiesAsync(
+                    properties["query"].value<std::string>(),
+                    properties["country"].value<std::string>(),
+                    properties["region"].value<std::string>(),
+                    [completion = std::move(completion)](const std::string& result) mutable {
+                        completion(result);
+                    });
+                return;
             }
-            return result;
-        });
-    mcp.AddAsyncTool(
-        "self.weather.get_weather",
-        "Fetch real current weather and forecast through the existing Open-Meteo Weather API. Use candidate_id from search_city for a one-off city; omit it for the persistent city. Do not claim fields that are absent.",
-        PropertyList({Property("candidate_id", kPropertyTypeString, ""), Property("forecast_days", kPropertyTypeInteger, 3, 1, 3)}),
-        [this](const PropertyList& properties, AsyncMcpCompletion completion) {
-            GetWeatherAsync(properties["candidate_id"].value<std::string>(),
-                            static_cast<uint8_t>(properties["forecast_days"].value<int>()),
-                            [completion = std::move(completion)](const std::string& result) mutable {
-                                completion(result);
-                            });
+            if (action == "get_weather") {
+                GetWeatherAsync(
+                    properties["candidate_id"].value<std::string>(),
+                    static_cast<uint8_t>(properties["forecast_days"].value<int>()),
+                    [completion = std::move(completion)](const std::string& result) mutable {
+                        completion(result);
+                    });
+                return;
+            }
+            if (action == "get_city") {
+                cJSON* result = cJSON_CreateObject();
+                cJSON_AddBoolToObject(result, "ok", true);
+                AddLocationJson(result, GetLocation());
+                completion(result);
+                return;
+            }
+            if (action == "set_city") {
+                std::string error;
+                const bool ok = SetLocationByCandidate(properties["candidate_id"].value<std::string>(), error);
+                cJSON* result = cJSON_CreateObject();
+                cJSON_AddBoolToObject(result, "ok", ok);
+                if (ok) {
+                    cJSON_AddStringToObject(result, "message", "weather_city_changed");
+                    AddLocationJson(result, GetLocation());
+                } else {
+                    cJSON_AddStringToObject(result, "error", error.c_str());
+                }
+                completion(result);
+                return;
+            }
+            completion(JsonError("invalid_action"));
         });
 }
 
