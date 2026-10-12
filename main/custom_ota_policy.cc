@@ -4,6 +4,7 @@
 
 #include "board.h"
 #include "system_info.h"
+#include "managers/storage_manager.h"
 
 #include <cJSON.h>
 #include <errno.h>
@@ -480,7 +481,10 @@ bool InstallStagedUpdate() {
 bool StageStableUpdateImpl(NetworkInterface* network, const esp_app_desc_t* descriptor,
                            bool enforce_current_version) {
     if (!network) return false;
-    mkdir(kUpdateDir, 0775);
+    if (!StorageManager::GetInstance().EnsureDirectory(kUpdateDir)) {
+        ESP_LOGW(kTag, "OTA_STAGE_FAILED reason=update_directory");
+        return false;
+    }
     LogMemory("BEFORE_MANIFEST");
     ESP_LOGI(kTag, "OTA_STAGE_START mode=%s", enforce_current_version ? "automatic" : "developer");
     ESP_LOGI(kTag, "OTA_MANIFEST_HTTP_REQUEST url=%s", kManifestUrl);
@@ -654,7 +658,10 @@ bool StageStableUpdateOnNetwork(NetworkInterface* network) {
 }
 
 bool ClearUpdateDirectory() {
-    mkdir(kUpdateDir, 0775);
+    if (!StorageManager::GetInstance().EnsureDirectory(kUpdateDir)) {
+        ESP_LOGW(kTag, "OTA_UPDATE_DIR_CLEAR_FAILED reason=update_directory");
+        return false;
+    }
     ESP_LOGI(kTag, "OTA_UPDATE_DIR_CLEAR_START path=%s", kUpdateDir);
     struct CleanupFile {
         const char* path;

@@ -175,6 +175,10 @@ void SdMusicPlayer::ScanPlaylist() {
     const char* paths[] = {"/sdcard/mp3", "/sdcard/music", "/sdcard/Music", "/sdcard/MUSIC",
                            "/sdcard"};
     for (auto path : paths) {
+        if (strcmp(path, "/sdcard") != 0 &&
+            !StorageManager::GetInstance().EnsureDirectory(path)) {
+            continue;
+        }
         auto files = StorageManager::GetInstance().ListDirectory(path);
         if (files.empty())
             continue;
@@ -186,6 +190,10 @@ void SdMusicPlayer::ScanPlaylist() {
 }
 
 void SdMusicPlayer::ScanGeneratedPlaylist() {
+    if (!StorageManager::GetInstance().EnsureDirectory("/sdcard/generated_music")) {
+        ESP_LOGW(TAG, "ScanGeneratedPlaylist skipped: generated directory unavailable");
+        return;
+    }
     ScanDirectory("/sdcard/generated_music", PlaylistSource::Generated, false);
     ESP_LOGI(TAG, "ScanGeneratedPlaylist complete. Total tracks found: %d",
              static_cast<int>(playlist_.size()));

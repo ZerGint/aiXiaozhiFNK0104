@@ -312,6 +312,12 @@ void McpServer::AddTool(const std::string& name, const std::string& description,
     AddTool(new McpTool(name, description, properties, callback));
 }
 
+void McpServer::AddAsyncTool(const std::string& name, const std::string& description,
+                             const PropertyList& properties,
+                             std::function<void(const PropertyList&, AsyncMcpCompletion)> callback) {
+    AddTool(new McpTool(name, description, properties, std::move(callback)));
+}
+
 void McpServer::AddUserOnlyTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback) {
     auto tool = new McpTool(name, description, properties, callback);
     tool->set_user_only(true);
@@ -551,7 +557,13 @@ void McpServer::DoToolCall(int id, const std::string& tool_name, const cJSON* to
     auto& app = Application::GetInstance();
     app.Schedule([this, id, tool_iter, arguments = std::move(arguments)]() {
         try {
-            ReplyResult(id, (*tool_iter)->Call(arguments));
+            if ((*tool_iter)->is_async()) {
+                (*tool_iter)->CallAsync(arguments, [this, id](ReturnValue value) {
+                    ReplyResult(id, McpTool::FormatReturnValue(std::move(value)));
+                });
+            } else {
+                ReplyResult(id, (*tool_iter)->Call(arguments));
+            }
         } catch (const std::exception& e) {
             ESP_LOGE(TAG, "tools/call: %s", e.what());
             ReplyError(id, e.what());

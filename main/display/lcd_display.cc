@@ -34,6 +34,7 @@
 #include "board.h"
 #include "application.h"
 #include "custom_ota_policy.h"
+#include "ota/partition_switcher.h"
 #include "audio/audio_codec.h"
 #include "media/radio_browser.h"
 #include "media/sd_music_player.h"
@@ -681,14 +682,6 @@ void LcdDisplay::UpdateStatusBar(bool update_all) {
         auto* caption = lv_obj_get_child(ha_settings_button_, 0);
         if (caption != nullptr) {
             lv_label_set_text(caption, "Web portal");
-        }
-    }
-    if (eq_settings_button_ != nullptr) {
-        const bool enabled = Application::GetInstance().GetAudioService().IsCleanSoundEnabled();
-        lv_obj_set_style_bg_color(eq_settings_button_, enabled ? kAccent : kCard, 0);
-        auto* caption = lv_obj_get_child(eq_settings_button_, 0);
-        if (caption != nullptr) {
-            lv_label_set_text(caption, enabled ? "EQ ON" : "EQ OFF");
         }
     }
 }
@@ -1730,7 +1723,8 @@ void LcdDisplay::SetupUI() {
         lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
         return object;
     };
-    weather_city_label_ = weather_label(kFnkWeatherLocation.name, 8, 5, 128, kText);
+    const auto weather_location = WeatherService::GetInstance().GetLocation();
+    weather_city_label_ = weather_label(weather_location.name.c_str(), 8, 5, 128, kText);
     weather_date_label_ = weather_label("--.--.----", 8, 25, 128, kMuted);
     weather_icon_ = lv_obj_create(weather);
     lv_obj_set_pos(weather_icon_, 6, 46);
@@ -1771,6 +1765,17 @@ void LcdDisplay::SetupUI() {
         if (WeatherService::GetInstance().Refresh("manual")) self->UpdateWeatherUI();
     }, LV_EVENT_CLICKED, this);
     WeatherService::GetInstance().Initialize();
+    WeatherService::GetInstance().SetLocationChangedCallback([this]() {
+        Application::GetInstance().Schedule([this]() {
+            if (!weather_city_label_) return;
+            const auto location = WeatherService::GetInstance().GetLocation();
+            lv_label_set_text(weather_city_label_, location.name.c_str());
+            weather_generation_ = UINT32_MAX;
+            UpdateWeatherUI();
+        });
+    });
+    const auto initialized_weather_location = WeatherService::GetInstance().GetLocation();
+    lv_label_set_text(weather_city_label_, initialized_weather_location.name.c_str());
     UpdateWeatherUI();
 #else
     label(weather, "Weather", 10, 12, 124, kText);
@@ -2006,7 +2011,10 @@ void LcdDisplay::OnBootDisplayEvent(lv_event_t* event) {
 
 void LcdDisplay::UpdateWeatherUI() {
     if (!weather_city_label_) return;
-    const auto data = WeatherService::GetInstance().GetSnapshot();
+    auto& weather_service = WeatherService::GetInstance();
+    const auto location = weather_service.GetLocation();
+    lv_label_set_text(weather_city_label_, location.name.c_str());
+    const auto data = weather_service.GetSnapshot();
     const time_t now = time(nullptr);
     const bool time_valid = now >= 1704067200;
     if (data.generation == weather_generation_ && time_valid == weather_time_valid_) return;
@@ -3509,19 +3517,165 @@ void LcdDisplay::ToggleHomeAssistantSettingsServer() {
     }
 }
 
-void LcdDisplay::ToggleCleanSound() {
-    auto& audio_service = Application::GetInstance().GetAudioService();
-    const bool enabled = !audio_service.IsCleanSoundEnabled();
-    audio_service.SetCleanSoundEnabled(enabled);
-    if (eq_settings_button_ != nullptr) {
-        lv_obj_set_style_bg_color(eq_settings_button_, enabled ? kAccent : kCard, 0);
-        auto* caption = lv_obj_get_child(eq_settings_button_, 0);
-        if (caption != nullptr) {
-            lv_label_set_text(caption, enabled ? "EQ ON" : "EQ OFF");
-        }
-    }
-    ShowNotification(enabled ? "Clean Sound ON" : "Clean Sound OFF");
+void LcdDisplay::StartOtaPartitionRefresh() {
+    if (ota0_partition_button_ == nullptr || ota1_partition_button_ == nullptr) return;
+    Application::GetInstance().Schedule([this]() {
+        OtaPartitionSwitcher::Snapshot snapshot;
+        const bool success = OtaPartitionSwitcher::GetSnapshot(&snapshot);
+        Application::GetInstance().Schedule([this, snapshot, success]() {
+            ApplyOtaPartitionSnapshot(snapshot, success);
+        });
+    });
 }
+
+void LcdDisplay::ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot& snapshot,
+                                           bool success) {
+    if (ota0_partition_button_ == nullptr || ota1_partition_button_ == nullptr) return;
+    auto apply = [](lv_obj_t* button, const OtaPartitionSwitcher::PartitionInfo& info,
+                    bool inspected) {
+        if (!button) return;
+        const bool active = inspected && info.running;
+        const bool boot_target = inspected && info.boot && !info.running;
+        lv_obj_set_style_bg_color(button, active ? kAccent
+                                                 : (boot_target ? lv_color_hex(0xD97706) : kCard),
+                                  0);
+        lv_obj_set_style_text_color(button, active ? kBg : kText, 0);
+        if (info.selectable && !active && !boot_target) lv_obj_clear_state(button, LV_STATE_DISABLED);
+        else lv_obj_add_state(button, LV_STATE_DISABLED);
+        auto* label = lv_obj_get_child(button, 0);
+        if (label) {
+            char text[80] = {};
+            if (!inspected || !info.present) {
+                snprintf(text, sizeof(text), "OTA %d\nempty", info.index);
+            } else if (info.version[0] && (info.selectable || active || boot_target)) {
+                snprintf(text, sizeof(text), "OTA %d\n%s", info.index, info.version);
+            } else {
+                snprintf(text, sizeof(text), "OTA %d\n%s", info.index, info.reason);
+            }
+            lv_label_set_text(label, text);
+        }
+    };
+    DisplayLockGuard lock(this);
+    apply(ota0_partition_button_, snapshot.slots[0], success);
+    apply(ota1_partition_button_, snapshot.slots[1], success);
+}
+
+void LcdDisplay::StartOtaPartitionSwitch(int index) {
+    if (index < 0 || index > 1 || ota_partition_switch_in_progress_ ||
+        ota_partition_dialog_ != nullptr) return;
+    if (Application::GetInstance().GetDeviceState() == kDeviceStateUpgrading) {
+        ShowNotification("OTA update is already in progress");
+        return;
+    }
+    ota_partition_switch_in_progress_ = true;
+    if (ota0_partition_button_) lv_obj_add_state(ota0_partition_button_, LV_STATE_DISABLED);
+    if (ota1_partition_button_) lv_obj_add_state(ota1_partition_button_, LV_STATE_DISABLED);
+    ESP_LOGI(TAG, "OTA_PARTITION_UI_INSPECT_START slot=%d", index);
+    Application::GetInstance().Schedule([this, index]() {
+        OtaPartitionSwitcher::Snapshot snapshot;
+        const bool success = OtaPartitionSwitcher::GetSnapshot(&snapshot);
+        Application::GetInstance().Schedule([this, index, snapshot, success]() {
+            if (!success || !snapshot.slots[index].selectable) {
+                ota_partition_switch_in_progress_ = false;
+                ApplyOtaPartitionSnapshot(snapshot, success);
+                ShowNotification(success ? snapshot.slots[index].reason : "OTA check failed");
+                return;
+            }
+            ShowOtaPartitionDialog(index, snapshot.slots[index]);
+        });
+    });
+}
+
+void LcdDisplay::ShowOtaPartitionDialog(int index,
+                                        const OtaPartitionSwitcher::PartitionInfo& info) {
+    if (ota_partition_dialog_ != nullptr) return;
+    ota_partition_dialog_index_ = index;
+    ota_partition_dialog_ = lv_obj_create(lv_layer_top());
+    lv_obj_set_size(ota_partition_dialog_, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(ota_partition_dialog_, lv_color_black(), 0);
+    lv_obj_set_style_bg_opa(ota_partition_dialog_, LV_OPA_70, 0);
+    lv_obj_set_style_border_width(ota_partition_dialog_, 0, 0);
+    lv_obj_set_style_pad_all(ota_partition_dialog_, 0, 0);
+    lv_obj_add_flag(ota_partition_dialog_, LV_OBJ_FLAG_CLICKABLE);
+
+    lv_obj_t* card = lv_obj_create(ota_partition_dialog_);
+    lv_obj_set_size(card, 390, 178);
+    lv_obj_center(card);
+    lv_obj_set_style_bg_color(card, kCard, 0);
+    lv_obj_set_style_border_width(card, 1, 0);
+    lv_obj_set_style_border_color(card, kAccent, 0);
+    lv_obj_set_style_radius(card, 14, 0);
+    lv_obj_remove_flag(card, LV_OBJ_FLAG_SCROLLABLE);
+
+    lv_obj_t* text = lv_label_create(card);
+    char message[180] = {};
+    snprintf(message, sizeof(message), "Switch to OTA %d?\nVersion: %s\nThe device will restart.",
+             index, info.version[0] ? info.version : "unknown");
+    lv_label_set_text(text, message);
+    lv_obj_set_style_text_font(text, &font_noto_sans_radio_16_4, 0);
+    lv_obj_set_style_text_color(text, kText, 0);
+    lv_obj_align(text, LV_ALIGN_TOP_MID, 0, 18);
+    lv_obj_set_style_text_align(text, LV_TEXT_ALIGN_CENTER, 0);
+
+    lv_obj_t* cancel = lv_btn_create(card);
+    lv_obj_set_size(cancel, 145, 40);
+    lv_obj_align(cancel, LV_ALIGN_BOTTOM_LEFT, 25, -18);
+    lv_obj_set_style_bg_color(cancel, kCardHi, 0);
+    auto* cancel_label = lv_label_create(cancel);
+    lv_label_set_text(cancel_label, "Cancel");
+    lv_obj_center(cancel_label);
+    lv_obj_add_event_cb(cancel, [](lv_event_t* event) {
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(event));
+        if (display && lv_event_get_code(event) == LV_EVENT_CLICKED)
+            display->CloseOtaPartitionDialog();
+    }, LV_EVENT_CLICKED, this);
+
+    lv_obj_t* restart = lv_btn_create(card);
+    lv_obj_set_size(restart, 175, 40);
+    lv_obj_align(restart, LV_ALIGN_BOTTOM_RIGHT, -25, -18);
+    lv_obj_set_style_bg_color(restart, kAccent, 0);
+    auto* restart_label = lv_label_create(restart);
+    lv_label_set_text(restart_label, "Restart");
+    lv_obj_center(restart_label);
+    lv_obj_add_event_cb(restart, [](lv_event_t* event) {
+        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(event));
+        if (!display || lv_event_get_code(event) != LV_EVENT_CLICKED) return;
+        const int index = display->ota_partition_dialog_index_;
+        display->CloseOtaPartitionDialog(false);
+        Application::GetInstance().Schedule([display, index]() {
+            std::string error;
+            bool success = false;
+            if (Application::GetInstance().GetDeviceState() == kDeviceStateUpgrading) {
+                error = "ota_update_in_progress";
+            } else {
+                success = OtaPartitionSwitcher::SwitchTo(index, error);
+            }
+            Application::GetInstance().Schedule([display, success, error]() {
+                display->ota_partition_switch_in_progress_ = false;
+                if (!success) {
+                    display->ShowNotification(std::string("OTA switch failed: ") + error);
+                    display->StartOtaPartitionRefresh();
+                    return;
+                }
+                display->ShowNotification("Boot partition changed. Restarting...");
+                Application::GetInstance().Reboot();
+            });
+        });
+    }, LV_EVENT_CLICKED, this);
+}
+
+void LcdDisplay::CloseOtaPartitionDialog(bool reset_operation) {
+    if (ota_partition_dialog_ != nullptr) {
+        lv_obj_del(ota_partition_dialog_);
+        ota_partition_dialog_ = nullptr;
+    }
+    ota_partition_dialog_index_ = -1;
+    if (reset_operation) {
+        ota_partition_switch_in_progress_ = false;
+        StartOtaPartitionRefresh();
+    }
+}
+
 #endif
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
@@ -3793,24 +3947,36 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
     }, LV_EVENT_CLICKED, this);
 
-    eq_settings_button_ = lv_btn_create(ha_row);
-    lv_obj_set_size(eq_settings_button_, 110, 40);
-    lv_obj_align(eq_settings_button_, LV_ALIGN_LEFT_MID, 170, 0);
-    lv_obj_set_style_radius(eq_settings_button_, 10, 0);
-    const bool clean_sound_enabled =
-        Application::GetInstance().GetAudioService().IsCleanSoundEnabled();
-    lv_obj_set_style_bg_color(eq_settings_button_, clean_sound_enabled ? kAccent : kCard, 0);
-    lv_obj_set_style_border_width(eq_settings_button_, 0, 0);
-    auto* eq_caption = lv_label_create(eq_settings_button_);
-    lv_label_set_text(eq_caption, clean_sound_enabled ? "EQ ON" : "EQ OFF");
-    set_quick_settings_font(eq_caption);
-    lv_obj_set_style_text_color(eq_caption, kText, 0);
-    lv_obj_center(eq_caption);
-    lv_obj_add_event_cb(eq_settings_button_, [](lv_event_t* e) {
-        if (lv_event_get_code(e) != LV_EVENT_CLICKED) return;
-        auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (display != nullptr) display->ToggleCleanSound();
+    auto make_ota_partition_button = [ha_row, &set_quick_settings_font](lv_obj_t** target,
+                                                                         const char* text, int x) {
+        *target = lv_btn_create(ha_row);
+        lv_obj_set_size(*target, 96, 40);
+        lv_obj_align(*target, LV_ALIGN_LEFT_MID, x, 0);
+        lv_obj_set_style_radius(*target, 10, 0);
+        lv_obj_set_style_bg_color(*target, kCard, 0);
+        lv_obj_set_style_border_width(*target, 0, 0);
+        auto* caption = lv_label_create(*target);
+        lv_label_set_text(caption, text);
+        set_quick_settings_font(caption);
+        lv_obj_set_style_text_color(caption, kText, 0);
+        lv_obj_center(caption);
+        lv_obj_add_state(*target, LV_STATE_DISABLED);
+    };
+    make_ota_partition_button(&ota0_partition_button_, "OTA 0", 170);
+    make_ota_partition_button(&ota1_partition_button_, "OTA 1", 272);
+    lv_obj_add_event_cb(ota0_partition_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+            auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            if (display) display->StartOtaPartitionSwitch(0);
+        }
     }, LV_EVENT_CLICKED, this);
+    lv_obj_add_event_cb(ota1_partition_button_, [](lv_event_t* e) {
+        if (lv_event_get_code(e) == LV_EVENT_CLICKED) {
+            auto* display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            if (display) display->StartOtaPartitionSwitch(1);
+        }
+    }, LV_EVENT_CLICKED, this);
+    StartOtaPartitionRefresh();
 #endif
 
     // OTA actions are explicit. Opening Quick Settings never performs network work.

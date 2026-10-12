@@ -48,6 +48,7 @@ public:
 
 // 添加类型别名
 using ReturnValue = std::variant<bool, int, std::string, cJSON*, ImageContent*>;
+using AsyncMcpCompletion = std::function<void(ReturnValue)>;
 
 enum PropertyType {
     kPropertyTypeBoolean,
@@ -232,11 +233,28 @@ public:
         properties_(properties), 
         callback_(callback) {}
 
+    McpTool(const std::string& name,
+            const std::string& description,
+            const PropertyList& properties,
+            std::function<void(const PropertyList&, AsyncMcpCompletion)> callback)
+        : name_(name),
+          description_(description),
+          properties_(properties),
+          async_callback_(std::move(callback)) {}
+
     void set_user_only(bool user_only) { user_only_ = user_only; }
     inline const std::string& name() const { return name_; }
     inline const std::string& description() const { return description_; }
     inline const PropertyList& properties() const { return properties_; }
     inline bool user_only() const { return user_only_; }
+    inline bool is_async() const { return static_cast<bool>(async_callback_); }
+
+    void CallAsync(const PropertyList& properties, AsyncMcpCompletion completion) {
+        if (!async_callback_) {
+            throw std::runtime_error("MCP tool is not asynchronous");
+        }
+        async_callback_(properties, std::move(completion));
+    }
 
     std::string to_json() const {
         std::vector<std::string> required = properties_.GetRequired();
@@ -280,6 +298,10 @@ public:
 
     std::string Call(const PropertyList& properties) {
         ReturnValue return_value = callback_(properties);
+        return FormatReturnValue(std::move(return_value));
+    }
+
+    static std::string FormatReturnValue(ReturnValue return_value) {
         // 返回结果
         cJSON* result = cJSON_CreateObject();
         cJSON* content = cJSON_CreateArray();
@@ -318,6 +340,9 @@ public:
         cJSON_Delete(result);
         return result_str;
     }
+
+private:
+    std::function<void(const PropertyList&, AsyncMcpCompletion)> async_callback_;
 };
 
 class McpServer {
@@ -331,6 +356,7 @@ public:
     void AddUserOnlyTools();
     void AddTool(McpTool* tool);
     void AddTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
+    void AddAsyncTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<void(const PropertyList&, AsyncMcpCompletion)> callback);
     void AddUserOnlyTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
     void ParseMessage(const cJSON* json);
     void ParseMessage(const std::string& message);

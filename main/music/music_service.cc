@@ -741,9 +741,27 @@ bool MusicService::SafeFilename(const std::string& remote,
 
 void MusicService::LoadLocalIndex() {
     if (!StorageManager::GetInstance().IsSdCardMounted()) return;
-    mkdir(kGeneratedMusicDir, 0775);
+    if (!StorageManager::GetInstance().EnsureDirectory(kGeneratedMusicDir)) {
+        ESP_LOGW(kTag, "MUSIC_INDEX_SKIP reason=generated_directory_unavailable");
+        return;
+    }
     struct stat temp_stat = {};
     if (stat(kGeneratedMusicIndexTmp, &temp_stat) == 0) unlink(kGeneratedMusicIndexTmp);
+
+    // A clean card gets the normal GMDB header through the storage writer.  A
+    // present file is never replaced here, even when it is corrupt; the
+    // existing recovery path keeps that evidence for later diagnosis.
+    struct stat index_stat = {};
+    if (stat(kGeneratedMusicIndex, &index_stat) != 0 && errno == ENOENT) {
+        std::vector<GeneratedMusicRecord> empty_records;
+        std::string initialize_error;
+        if (GeneratedMusicStorage::SaveAtomic(kGeneratedMusicIndex, kGeneratedMusicIndexTmp,
+                                               empty_records, initialize_error)) {
+            ESP_LOGI(kTag, "MUSIC_INDEX_INITIALIZED format=GMDB count=0");
+        } else {
+            ESP_LOGW(kTag, "MUSIC_INDEX_INITIALIZE_FAILED error=%s", initialize_error.c_str());
+        }
+    }
 
     std::vector<GeneratedMusicRecord> records;
     std::string load_error;

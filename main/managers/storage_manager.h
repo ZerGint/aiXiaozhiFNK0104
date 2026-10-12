@@ -15,6 +15,11 @@ public:
     bool InitializeSdCard();
     bool IsSdCardMounted() const { return sd_mounted_; }
 
+    // Creates only the canonical application directories after a successful
+    // mount.  The operation is idempotent and never formats or removes data.
+    bool EnsureDirectory(const char* path);
+    bool EnsureRequiredDirectories();
+
     std::vector<std::string> ListDirectory(const std::string& path, const std::string& extension = "");
 
     bool SaveSettingString(const char* key, const std::string& value);

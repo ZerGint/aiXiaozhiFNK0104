@@ -22,6 +22,11 @@
 enum class MediaBrowserMode { Player, Radio, Generated };
 enum class ActiveMediaSource { None, Player, Radio };
 
+namespace OtaPartitionSwitcher {
+struct Snapshot;
+struct PartitionInfo;
+}
+
 class LcdDisplay : public LvglDisplay {
 protected:
     esp_lcd_panel_io_handle_t panel_io_ = nullptr;
@@ -98,7 +103,11 @@ protected:
     lv_obj_t* network_ip_label_ = nullptr;
     lv_obj_t* ha_status_label_ = nullptr;
     lv_obj_t* ha_settings_button_ = nullptr;
-    lv_obj_t* eq_settings_button_ = nullptr;
+    lv_obj_t* ota0_partition_button_ = nullptr;
+    lv_obj_t* ota1_partition_button_ = nullptr;
+    lv_obj_t* ota_partition_dialog_ = nullptr;
+    int ota_partition_dialog_index_ = -1;
+    bool ota_partition_switch_in_progress_ = false;
 #endif
     lv_obj_t* top_volume_value_label_ = nullptr;
     lv_obj_t* top_battery_value_label_ = nullptr;
@@ -184,7 +193,11 @@ protected:
     void RefreshRadioCatalogPage();
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     void ToggleHomeAssistantSettingsServer();
-    void ToggleCleanSound();
+    void StartOtaPartitionRefresh();
+    void ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot& snapshot, bool success);
+    void StartOtaPartitionSwitch(int index);
+    void ShowOtaPartitionDialog(int index, const OtaPartitionSwitcher::PartitionInfo& info);
+    void CloseOtaPartitionDialog(bool reset_operation = true);
 #endif
 
 public:

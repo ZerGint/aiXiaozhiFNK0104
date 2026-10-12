@@ -9,6 +9,11 @@
 #include <esp_log.h>
 #include <nvs.h>
 #include <nvs_flash.h>
+#include <cerrno>
+#include <cctype>
+#include <cstring>
+#include <string>
+#include <unistd.h>
 
 #define TAG "StorageManager"
 #define NVS_NAMESPACE "sys_config"
@@ -49,11 +54,68 @@ bool StorageManager::InitializeSdCard() {
     if (ret == ESP_OK) {
         sd_mounted_ = true;
         ESP_LOGI(TAG, "SD Card mounted successfully at /sdcard!");
+        if (!EnsureRequiredDirectories()) {
+            ESP_LOGW(TAG, "SD_REQUIRED_DIRECTORIES incomplete; continuing with safe degradation");
+        }
     } else {
         ESP_LOGE(TAG, "Failed to mount SD card: %s (0x%x)", esp_err_to_name(ret), ret);
         sd_mounted_ = false;
     }
     return sd_mounted_;
+}
+
+bool StorageManager::EnsureDirectory(const char* path) {
+    if (!sd_mounted_ || path == nullptr || path[0] != '/') return false;
+    struct stat existing = {};
+    if (stat(path, &existing) == 0) {
+        if (!S_ISDIR(existing.st_mode)) {
+            ESP_LOGE(TAG, "SD_PATH_NOT_DIRECTORY path=%s", path);
+            return false;
+        }
+        return true;
+    }
+    if (errno != ENOENT) {
+        ESP_LOGE(TAG, "SD_PATH_STAT_FAILED path=%s errno=%d", path, errno);
+        return false;
+    }
+
+    std::string current;
+    const std::string requested(path);
+    for (size_t i = 0; i < requested.size(); ++i) {
+        if (requested[i] != '/' && (i == 0 || requested[i - 1] == '/')) {
+            current.push_back('/');
+        }
+        if (requested[i] != '/') current.push_back(requested[i]);
+        if (i + 1 == requested.size() || requested[i + 1] == '/') {
+            if (current.empty() || current == "/") continue;
+            struct stat component = {};
+            if (stat(current.c_str(), &component) == 0) {
+                if (!S_ISDIR(component.st_mode)) {
+                    ESP_LOGE(TAG, "SD_PATH_NOT_DIRECTORY path=%s", current.c_str());
+                    return false;
+                }
+                continue;
+            }
+            if (errno != ENOENT ||
+                (mkdir(current.c_str(), 0775) != 0 && errno != EEXIST)) {
+                ESP_LOGE(TAG, "SD_DIRECTORY_CREATE_FAILED path=%s errno=%d", current.c_str(), errno);
+                return false;
+            }
+            ESP_LOGI(TAG, "SD_DIRECTORY_READY path=%s", current.c_str());
+        }
+    }
+    return true;
+}
+
+bool StorageManager::EnsureRequiredDirectories() {
+    if (!sd_mounted_) return false;
+    static constexpr const char* kDirectories[] = {
+        "/sdcard/music", "/sdcard/generated_music", "/sdcard/update"};
+    bool success = true;
+    for (const char* path : kDirectories) success = EnsureDirectory(path) && success;
+    ESP_LOGI(TAG, "SD_REQUIRED_DIRECTORIES result=%s count=%u", success ? "ready" : "partial",
+             static_cast<unsigned>(sizeof(kDirectories) / sizeof(kDirectories[0])));
+    return success;
 }
 
 std::vector<std::string> StorageManager::ListDirectory(const std::string& path, const std::string& extension) {
@@ -62,7 +124,7 @@ std::vector<std::string> StorageManager::ListDirectory(const std::string& path, 
 
     DIR* dir = opendir(path.c_str());
     if (!dir) {
-        ESP_LOGE(TAG, "Failed to open directory: %s", path.c_str());
+        if (errno != ENOENT) ESP_LOGW(TAG, "Failed to open directory: %s errno=%d", path.c_str(), errno);
         return result;
     }
 

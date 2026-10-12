@@ -12,7 +12,7 @@ Settings::Settings(const std::string& ns, bool read_write) : ns_(ns), read_write
 Settings::~Settings() {
     if (nvs_handle_ != 0) {
         if (read_write_ && dirty_) {
-            ESP_ERROR_CHECK(nvs_commit(nvs_handle_));
+            Commit();
         }
         nvs_close(nvs_handle_);
     }
@@ -44,6 +44,40 @@ void Settings::SetString(const std::string& key, const std::string& value) {
     } else {
         ESP_LOGW(TAG, "Namespace %s is not open for writing", ns_.c_str());
     }
+}
+
+bool Settings::TrySetString(const std::string& key, const std::string& value) {
+    if (!read_write_ || nvs_handle_ == 0) {
+        ESP_LOGW(TAG, "Namespace %s is not open for writing", ns_.c_str());
+        return false;
+    }
+    const esp_err_t err = nvs_set_str(nvs_handle_, key.c_str(), value.c_str());
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to set %s/%s: %s", ns_.c_str(), key.c_str(), esp_err_to_name(err));
+        return false;
+    }
+    dirty_ = true;
+    return true;
+}
+
+bool Settings::Commit() {
+    if (!read_write_ || nvs_handle_ == 0) return false;
+    if (!dirty_) return true;
+    const esp_err_t err = nvs_commit(nvs_handle_);
+    if (err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to commit namespace %s: %s", ns_.c_str(), esp_err_to_name(err));
+        return false;
+    }
+    dirty_ = false;
+    return true;
+}
+
+void Settings::DiscardChanges() {
+    if (!read_write_ || nvs_handle_ == 0 || !dirty_) return;
+    nvs_close(nvs_handle_);
+    nvs_handle_ = 0;
+    dirty_ = false;
+    nvs_open(ns_.c_str(), NVS_READWRITE, &nvs_handle_);
 }
 
 int32_t Settings::GetInt(const std::string& key, int32_t default_value) {

@@ -26,7 +26,6 @@
 #include "audio_codec.h"
 #include "audio_debugger.h"
 #include "audio_engine.h"
-#include "clean_audio_filter.h"
 #include "ogg_demuxer.h"
 #include "protocol.h"
 
@@ -187,8 +186,6 @@ public:
     void EnableVoiceProcessing(bool enable);
     void EnableAudioTesting(bool enable);
     void EnableDeviceAec(bool enable);
-    void SetCleanSoundEnabled(bool enabled, bool persist = true);
-    bool IsCleanSoundEnabled() const { return clean_audio_filter_.IsEnabled(); }
 
     void SetCallbacks(AudioServiceCallbacks& callbacks);
 
@@ -272,8 +269,6 @@ private:
     std::atomic<bool> audio_input_need_warmup_{false};
     std::atomic<uint8_t> ai_speech_level_{0};
     std::atomic<uint32_t> ai_speech_level_updated_ms_{0};
-    CleanAudioFilter clean_audio_filter_;
-
     esp_timer_handle_t audio_power_timer_ = nullptr;
     std::chrono::steady_clock::time_point last_input_time_;
     std::chrono::steady_clock::time_point last_output_time_;
