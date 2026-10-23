@@ -10,6 +10,7 @@
 #include <cJSON.h>
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <memory>
 #include <utility>
 
@@ -159,14 +160,41 @@ void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
     }
 }
 
-void MediaPlayer::ScheduleStopVoiceInteractionForMedia() {
-    const auto state = Application::GetInstance().GetDeviceState();
-    if (state != kDeviceStateListening && state != kDeviceStateSpeaking) {
-        return;
-    }
-    Application::GetInstance().Schedule([]() {
+bool MediaPlayer::StopVoiceInteractionForMediaSynchronously() {
+    struct Completion {
+        std::mutex mutex;
+        std::condition_variable cv;
+        bool done = false;
+        bool cancelled = false;
+    };
+
+    auto completion = std::make_shared<Completion>();
+    Application::GetInstance().Schedule([completion]() {
+        {
+            std::lock_guard<std::mutex> lock(completion->mutex);
+            if (completion->cancelled) {
+                completion->done = true;
+                completion->cv.notify_one();
+                return;
+            }
+        }
         Application::GetInstance().StopVoiceInteractionForMedia();
+        {
+            std::lock_guard<std::mutex> lock(completion->mutex);
+            completion->done = true;
+        }
+        completion->cv.notify_one();
     });
+
+    std::unique_lock<std::mutex> lock(completion->mutex);
+    if (!completion->cv.wait_for(lock, std::chrono::seconds(2), [&completion]() {
+            return completion->done;
+        })) {
+        completion->cancelled = true;
+        ESP_LOGE(TAG, "MEDIA_STOP_VOICE_TIMEOUT");
+        return false;
+    }
+    return true;
 }
 
 void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
@@ -235,7 +263,10 @@ void MediaPlayer::PlaySd(int index) {
 
 void MediaPlayer::PlaySdNow(int index, uint64_t sequence) {
     ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=sd index=%d task=%s", index, pcTaskGetName(nullptr));
-    ScheduleStopVoiceInteractionForMedia();
+    if (!StopVoiceInteractionForMediaSynchronously()) {
+        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=sd reason=voice_stop_timeout");
+        return;
+    }
     InternetRadioPlayer::GetInstance().Stop();
     if (!IsLatestSourceCommand(sequence)) {
         ESP_LOGI(TAG, "MEDIA_COMMAND_STALE_AFTER_STOP type=sd sequence=%llu",
@@ -408,6 +439,30 @@ void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
     ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=radio name=%s task=%s",
              command.station.name.c_str(), pcTaskGetName(nullptr));
     Application::GetInstance().GetAudioService().CheckHeapIntegrity("play_radio_begin");
+
+    auto restore_pause_state = [&command, this]() {
+        if (command.restore_voice_pause || command.restore_manual_pause) {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            if (command.restore_voice_pause) {
+                paused_for_voice_ = true;
+                radio_station_for_voice_ = std::move(command.voice_station);
+            }
+            if (command.restore_manual_pause) {
+                paused_by_user_ = true;
+                radio_station_for_manual_pause_ = std::move(command.manual_station);
+            }
+        }
+    };
+
+    // Stop the AI interaction before creating the radio task. The application
+    // mutation runs on the main task, while this control task waits for the
+    // completion so the two audio sources cannot overlap.
+    if (!StopVoiceInteractionForMediaSynchronously()) {
+        restore_pause_state();
+        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=radio reason=voice_stop_timeout");
+        return;
+    }
+
     // Ensure the SD decoder task and audio pipeline are fully stopped before
     // starting the radio source; this prevents a transient dual-source period.
     SdMusicPlayer::GetInstance().Stop();
@@ -423,19 +478,9 @@ void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
         command.station, err_msg, std::move(command.on_startup_ready),
         std::move(command.on_startup_failed), command.emit_failure_bip);
     if (success) {
-        ScheduleStopVoiceInteractionForMedia();
+        ESP_LOGI(TAG, "MEDIA_VOICE_STOPPED_BEFORE_RADIO");
     } else {
-        if (command.restore_voice_pause || command.restore_manual_pause) {
-            std::lock_guard<std::mutex> lock(voice_mutex_);
-            if (command.restore_voice_pause) {
-                paused_for_voice_ = true;
-                radio_station_for_voice_ = std::move(command.voice_station);
-            }
-            if (command.restore_manual_pause) {
-                paused_by_user_ = true;
-                radio_station_for_manual_pause_ = std::move(command.manual_station);
-            }
-        }
+        restore_pause_state();
         if (startup_failed) {
             startup_failed();
         }
@@ -794,7 +839,10 @@ void MediaPlayer::Stop() {
 }
 
 void MediaPlayer::StopNow() {
-    ScheduleStopVoiceInteractionForMedia();
+    if (!StopVoiceInteractionForMediaSynchronously()) {
+        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=stop reason=voice_stop_timeout");
+        return;
+    }
     Application::GetInstance().GetAudioService().CheckHeapIntegrity("media_stop_begin");
     SdMusicPlayer::GetInstance().Stop();
     InternetRadioPlayer::GetInstance().Stop();

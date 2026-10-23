@@ -87,7 +87,7 @@ private:
     bool EnqueueControlCommand(ControlCommand&& command, bool replace_pending_source);
     bool IsLatestSourceCommand(uint64_t sequence) const;
     void ProcessControlCommand(ControlCommand&& command);
-    void ScheduleStopVoiceInteractionForMedia();
+    bool StopVoiceInteractionForMediaSynchronously();
 
     void PlaySdNow(int index, uint64_t sequence);
     void PlayRadioNow(ControlCommand&& command);
