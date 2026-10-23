@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <atomic>
+#include <chrono>
+#include <condition_variable>
 #include <mutex>
 #include <memory>
 #include <new>
@@ -112,6 +114,15 @@ public:
 
     void Play(int index);
     void TogglePlayPause();
+    // Suspend PCM production for a voice interaction without closing the
+    // current file or resetting the decoder position. The call waits until
+    // the player task reaches a safe point between decode/output operations.
+    bool PauseForVoice(std::chrono::milliseconds timeout = std::chrono::milliseconds(750));
+    // Manual pause uses the same safe PCM gate, but marks the player paused so
+    // the normal Play action is required to resume it.
+    bool PauseForUser(std::chrono::milliseconds timeout = std::chrono::milliseconds(750));
+    void ResumeFromVoice();
+    void ResumeFromUser();
     void Next();
     void Prev();
     void Stop();
@@ -150,10 +161,19 @@ private:
     bool stop_after_current_track_ = false;
     std::atomic<bool> is_playing_{false};
     std::atomic<bool> is_paused_{false};
+    std::atomic<bool> voice_pause_requested_{false};
+    bool voice_pause_acknowledged_ = false;
     std::atomic<bool> stop_requested_{false};
     std::atomic<bool> skip_requested_{false};
 
     TaskHandle_t task_handle_ = nullptr;
+    // The task waits until Play has published task_handle_ before entering
+    // PlayerLoop. This closes the xTaskCreate output-parameter race.
+    std::atomic<bool> task_start_pending_{false};
+    mutable std::mutex lifecycle_mutex_;
+    std::condition_variable lifecycle_cv_;
+    mutable std::mutex voice_pause_mutex_;
+    std::condition_variable voice_pause_cv_;
     mutable std::mutex mutex_;
 };
 

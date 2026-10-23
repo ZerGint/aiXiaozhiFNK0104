@@ -231,6 +231,7 @@ void InternetRadioPlayer::TogglePlayPause() {
 }
 
 void InternetRadioPlayer::Stop() {
+    Application::GetInstance().GetAudioService().CheckHeapIntegrity("stop_radio_begin");
     SystemInfo::PrintRamSnapshot("RADIO_STOP");
     uint64_t wait_generation = 0;
     TaskHandle_t task = nullptr;
@@ -248,6 +249,8 @@ void InternetRadioPlayer::Stop() {
         if (startup_event_group_ != nullptr) {
             xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
         }
+        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=radio generation=%llu",
+                 static_cast<unsigned long long>(wait_generation));
     }
     Application::GetInstance().GetAudioService().ResetDecoder();
     const bool playback_drained =
@@ -262,6 +265,9 @@ void InternetRadioPlayer::Stop() {
             ESP_LOGW(TAG, "Radio stop timed out; cleanup still in progress");
         }
     }
+    ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_COMPLETE source=radio generation=%llu drained=%d",
+             static_cast<unsigned long long>(wait_generation), playback_drained ? 1 : 0);
+    Application::GetInstance().GetAudioService().CheckHeapIntegrity("stop_radio_end");
 }
 
 void InternetRadioPlayer::TaskFunction(void* arg) {
@@ -496,8 +502,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             }
             break;
         }
-        BeginMediaPcmStream();
+        const uint32_t stream_generation = BeginMediaPcmStream();
         std::vector<uint8_t, PsramAllocator<uint8_t>> in(2048);
+        constexpr size_t kMaxDecodedFrameBytes = 256 * 1024;
         std::vector<uint8_t> out(16384);
         std::vector<uint8_t> pending(in.size() * 4);
         LogRadioMemory(TAG, "RADIO_AFTER_BUFFERS");
@@ -579,8 +586,22 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                 if (result == ESP_AUDIO_ERR_BUFF_NOT_ENOUGH) {
                     const size_t new_size =
                         frame.needed_size > out.size() ? frame.needed_size : out.size() * 2;
+                    if (new_size <= out.size() || new_size > kMaxDecodedFrameBytes) {
+                        ESP_LOGE(TAG, "%s decoder requested invalid output size=%u current=%u",
+                                 is_aac ? "AAC" : "MP3", static_cast<unsigned>(new_size),
+                                 static_cast<unsigned>(out.size()));
+                        reconnect_count_++;
+                        break;
+                    }
                     out.resize(new_size);
                     continue;
+                }
+                if (raw.consumed > raw.len) {
+                    ESP_LOGE(TAG, "%s decoder returned invalid consumed=%u input=%u",
+                             is_aac ? "AAC" : "MP3", static_cast<unsigned>(raw.consumed),
+                             static_cast<unsigned>(raw.len));
+                    reconnect_count_++;
+                    break;
                 }
                 if (result != ESP_AUDIO_ERR_OK) {
                     decoder_error_count_++;
@@ -589,10 +610,12 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                              static_cast<unsigned>(raw.consumed), static_cast<unsigned>(raw.len));
                     break;
                 }
-                if (frame.decoded_size > 0) {
+                if (frame.decoded_size > 0 && (frame.decoded_size & 1U) == 0) {
                     esp_audio_simple_dec_info_t info = {};
                     if (esp_audio_simple_dec_get_info(decoder, &info) == ESP_AUDIO_ERR_OK &&
-                        info.sample_rate > 0 && info.bits_per_sample == 16) {
+                        info.sample_rate > 0 && info.bits_per_sample == 16 &&
+                        (info.channel == 1 || info.channel == 2) &&
+                        frame.decoded_size <= out.size()) {
                         if (!first_frame_logged) {
                             ESP_LOGI(
                                 TAG,
@@ -605,9 +628,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                             first_frame_logged = true;
                             SystemInfo::PrintRamSnapshot("RADIO_PLAYING");
                         }
-                        PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
+                        PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate,
-                                     target_rate, true);
+                                     target_rate, true, stream_generation);
                         const uint32_t buffered_ms =
                             Application::GetInstance().GetAudioService().GetRadioBufferedMs();
                         if (!attempt->startup_ready_notified && !stop_requested_ &&
@@ -619,12 +642,18 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                     } else if (!invalid_info_logged) {
                         ESP_LOGW(TAG,
                                  "Decoded frame has unsupported audio info: rate=%lu channels=%lu "
-                                 "bits=%lu",
+                                 "bits=%lu bytes=%d buffer=%u",
                                  static_cast<unsigned long>(info.sample_rate),
                                  static_cast<unsigned long>(info.channel),
-                                 static_cast<unsigned long>(info.bits_per_sample));
+                                 static_cast<unsigned long>(info.bits_per_sample),
+                                 static_cast<int>(frame.decoded_size),
+                                 static_cast<unsigned>(out.size()));
                         invalid_info_logged = true;
                     }
+                } else if (frame.decoded_size > 0 && !invalid_info_logged) {
+                    ESP_LOGW(TAG, "%s decoder returned odd PCM byte count=%d",
+                             is_aac ? "AAC" : "MP3", static_cast<int>(frame.decoded_size));
+                    invalid_info_logged = true;
                 }
                 if (raw.consumed == 0)
                     break;

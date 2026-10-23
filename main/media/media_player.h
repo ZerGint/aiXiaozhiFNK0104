@@ -2,6 +2,10 @@
 #define MEDIA_PLAYER_H
 
 #include <atomic>
+#include <condition_variable>
+#include <deque>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 #include <string>
 #include <functional>
 #include <mutex>
@@ -50,6 +54,52 @@ public:
 
 private:
     MediaPlayer() = default;
+
+    enum class ControlCommandType {
+        PlaySd,
+        PlayRadio,
+        Stop,
+        TogglePlayPause,
+        PauseForVoice,
+        PlayForVoice,
+        PauseForGeneratedDownload,
+        ResumeAfterGeneratedDownload,
+        Next,
+        Prev,
+    };
+
+    struct ControlCommand {
+        ControlCommandType type;
+        uint64_t sequence = 0;
+        int sd_index = -1;
+        RadioStationInfo station;
+        std::function<void()> on_startup_ready;
+        std::function<void()> on_startup_failed;
+        bool emit_failure_bip = true;
+        bool restore_voice_pause = false;
+        bool restore_manual_pause = false;
+        RadioStationInfo voice_station;
+        RadioStationInfo manual_station;
+    };
+
+    static void ControlTaskFunction(void* arg);
+    void EnsureControlTask();
+    bool EnqueueControlCommand(ControlCommand&& command, bool replace_pending_source);
+    bool IsLatestSourceCommand(uint64_t sequence) const;
+    void ProcessControlCommand(ControlCommand&& command);
+    void ScheduleStopVoiceInteractionForMedia();
+
+    void PlaySdNow(int index, uint64_t sequence);
+    void PlayRadioNow(ControlCommand&& command);
+    void StopNow();
+    void TogglePlayPauseNow();
+    void PauseForVoiceNow();
+    void PlayForVoiceNow();
+    void PauseForGeneratedDownloadNow();
+    void ResumeAfterGeneratedDownloadNow();
+    void NextNow();
+    void PrevNow();
+
     std::atomic<bool> paused_for_voice_{false};
     std::atomic<bool> sd_paused_for_voice_{false};
     std::atomic<bool> paused_by_user_{false};
@@ -59,6 +109,13 @@ private:
     RadioStationInfo radio_station_for_manual_pause_;
     RadioStationInfo radio_station_for_generated_download_;
     mutable std::mutex voice_mutex_;
+
+    mutable std::mutex control_mutex_;
+    std::condition_variable control_cv_;
+    std::deque<ControlCommand> control_queue_;
+    TaskHandle_t control_task_handle_ = nullptr;
+    std::atomic<uint64_t> control_sequence_{0};
+    std::atomic<uint64_t> latest_source_sequence_{0};
 };
 
 #endif

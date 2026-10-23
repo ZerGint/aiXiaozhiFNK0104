@@ -1117,12 +1117,15 @@ void Application::HandleStateChangedEvent() {
     switch (new_state) {
         case kDeviceStateUnknown:
         case kDeviceStateIdle:
-            MediaPlayer::GetInstance().PlayForVoice();
             display->SetStatus(Lang::Strings::STANDBY);
             display->ClearChatMessages();    // Clear messages first
             display->SetEmotion("neutral");  // Then set emotion (wechat mode checks child count)
             audio_service_.EnableVoiceProcessing(false);
             audio_service_.EnableWakeWordDetection(true);
+            // Let the AFE return to its idle/wake-word configuration before
+            // releasing a suspended SD producer. The SD file and decoder stay
+            // open, but no PCM is emitted until this handoff is queued.
+            MediaPlayer::GetInstance().PlayForVoice();
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
             WeatherService::GetInstance().SetAudioReady(
                 audio_service_.IsWakeWordRunning() || audio_service_.IsAudioProcessorRunning());
@@ -1284,6 +1287,7 @@ void Application::Schedule(std::function<void()>&& callback) {
 
 void Application::AbortSpeaking(AbortReason reason) {
     ESP_LOGI(TAG, "Abort speaking");
+    audio_service_.CheckHeapIntegrity("abort_speaking");
     aborted_ = true;
     if (protocol_) {
         protocol_->SendAbortSpeaking(reason);

@@ -14,6 +14,7 @@
 #include <simple_dec/esp_audio_simple_dec_default.h>
 #include <algorithm>
 #include <cctype>
+#include <chrono>
 #include <cstdio>
 #include <cstring>
 #include <random>
@@ -24,6 +25,7 @@
 namespace {
 constexpr char kGeneratedMusicIndex[] = "/sdcard/generated_music/library.dat";
 constexpr char kGeneratedMusicIndexTmp[] = "/sdcard/generated_music/library.tmp";
+constexpr size_t kMaxDecodedFrameBytes = 256 * 1024;
 void CheckMusicHeap(const char* checkpoint) {
     const bool ok = heap_caps_check_integrity_all(true);
     ESP_LOGW(TAG, "HEAP_CHECK %s: %s", checkpoint, ok ? "PASS" : "FAIL");
@@ -254,9 +256,18 @@ std::string SdMusicPlayer::GetCurrentTrackName() const {
 
 void SdMusicPlayer::TaskFunction(void* param) {
     auto player = static_cast<SdMusicPlayer*>(param);
+    while (player->task_start_pending_.load(std::memory_order_acquire)) {
+        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+    }
     player->PlayerLoop();
     player->is_playing_ = false;
-    player->task_handle_ = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(player->lifecycle_mutex_);
+        if (player->task_handle_ == xTaskGetCurrentTaskHandle()) {
+            player->task_handle_ = nullptr;
+        }
+    }
+    player->lifecycle_cv_.notify_all();
     vTaskDelete(NULL);
 }
 
@@ -345,6 +356,15 @@ void SdMusicPlayer::Play(int index) {
         stop_after_current_track_ = false;
     }
 
+    // An explicit track selection cancels either kind of pause. Voice resume
+    // uses ResumeFromVoice directly and therefore keeps its ownership rules.
+    voice_pause_requested_.store(false, std::memory_order_release);
+    {
+        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+        voice_pause_acknowledged_ = false;
+    }
+    voice_pause_cv_.notify_all();
+
     if (is_playing_) {
         skip_requested_ = true;
         is_paused_ = false;
@@ -354,26 +374,99 @@ void SdMusicPlayer::Play(int index) {
     stop_requested_ = false;
     skip_requested_ = false;
     is_paused_ = false;
-    is_playing_ = true;
 
+    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
     if (task_handle_ == nullptr) {
-        BaseType_t ret =
-            xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5, &task_handle_, 1);
+        is_playing_ = true;
+        task_start_pending_.store(true, std::memory_order_release);
+        TaskHandle_t new_task_handle = nullptr;
+        BaseType_t ret = xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5,
+                                                 &new_task_handle, 1);
         if (ret != pdPASS) {
             ESP_LOGE(TAG, "xTaskCreatePinnedToCore failed with error: %d", (int)ret);
+            task_start_pending_.store(false, std::memory_order_release);
             is_playing_ = false;
             task_handle_ = nullptr;
+        } else {
+            task_handle_ = new_task_handle;
+            task_start_pending_.store(false, std::memory_order_release);
+            xTaskNotifyGive(new_task_handle);
         }
+    } else {
+        ESP_LOGW(TAG, "Playback task is still stopping; new track was not started");
     }
 }
 
 void SdMusicPlayer::TogglePlayPause() {
     if (!is_playing_) {
         Play(current_index_);
+    } else if (is_paused_) {
+        ResumeFromUser();
     } else {
-        is_paused_ = !is_paused_;
-        ESP_LOGI(TAG, "Playback %s", is_paused_ ? "PAUSED" : "RESUMED");
+        PauseForUser();
     }
+}
+
+bool SdMusicPlayer::PauseForVoice(std::chrono::milliseconds timeout) {
+    if (!is_playing_.load(std::memory_order_acquire)) {
+        return false;
+    }
+
+    {
+        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+        if (!voice_pause_requested_.load(std::memory_order_acquire)) {
+            voice_pause_acknowledged_ = false;
+            voice_pause_requested_.store(true, std::memory_order_release);
+        } else if (voice_pause_acknowledged_) {
+            return true;
+        }
+    }
+    voice_pause_cv_.notify_all();
+
+    std::unique_lock<std::mutex> lock(voice_pause_mutex_);
+    const bool acknowledged = voice_pause_cv_.wait_for(lock, timeout, [this]() {
+        return voice_pause_acknowledged_ || !is_playing_.load(std::memory_order_acquire);
+    });
+    if (!acknowledged) {
+        // Keep the gate asserted on timeout. The player task will acknowledge
+        // it as soon as its current decode/output call returns, and ResumeFromVoice
+        // will release it after the voice interaction has fully ended.
+        ESP_LOGW(TAG, "VOICE_PAUSE_ACK_TIMEOUT; keeping SD PCM gate closed");
+    } else if (voice_pause_acknowledged_) {
+        ESP_LOGI(TAG, "VOICE_PAUSE_ACK");
+    }
+    return true;
+}
+
+bool SdMusicPlayer::PauseForUser(std::chrono::milliseconds timeout) {
+    if (!PauseForVoice(timeout)) {
+        return false;
+    }
+
+    is_paused_.store(true, std::memory_order_release);
+    // Discard PCM already queued for the media source. The file and decoder
+    // remain open, so the next Play action continues from the saved position.
+    Application::GetInstance().GetAudioService().ResetDecoder();
+    ESP_LOGI(TAG, "Playback PAUSED");
+    return true;
+}
+
+void SdMusicPlayer::ResumeFromVoice() {
+    if (!voice_pause_requested_.exchange(false, std::memory_order_acq_rel)) {
+        return;
+    }
+    {
+        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+        voice_pause_acknowledged_ = false;
+    }
+    voice_pause_cv_.notify_all();
+    ESP_LOGI(TAG, "VOICE_RESUME_GATE_OPEN");
+}
+
+void SdMusicPlayer::ResumeFromUser() {
+    is_paused_.store(false, std::memory_order_release);
+    ResumeFromVoice();
+    ESP_LOGI(TAG, "Playback RESUMED");
 }
 
 void SdMusicPlayer::Next() {
@@ -391,6 +484,9 @@ void SdMusicPlayer::Prev() {
 }
 
 void SdMusicPlayer::Stop() {
+    Application::GetInstance().GetAudioService().CheckHeapIntegrity("stop_sd_begin");
+    voice_pause_requested_.store(false, std::memory_order_release);
+    voice_pause_cv_.notify_all();
     {
         std::lock_guard<std::mutex> lock(mutex_);
         active_track_path_.clear();
@@ -398,24 +494,34 @@ void SdMusicPlayer::Stop() {
         playback_index_ = 0;
         stop_after_current_track_ = false;
     }
-    if (is_playing_ || task_handle_ != nullptr) {
+    TaskHandle_t task = nullptr;
+    {
+        std::lock_guard<std::mutex> lock(lifecycle_mutex_);
+        task = task_handle_;
+    }
+    if (is_playing_ || task != nullptr) {
         stop_requested_ = true;
         is_paused_ = false;
-        int timeout = 50;  // max 500ms timeout
-        while (is_playing_ && timeout > 0) {
-            vTaskDelay(pdMS_TO_TICKS(10));
-            timeout--;
+        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=sd");
+        Application::GetInstance().GetAudioService().ResetDecoder();
+
+        std::unique_lock<std::mutex> lock(lifecycle_mutex_);
+        const bool stopped = lifecycle_cv_.wait_for(lock, std::chrono::seconds(3), [this]() {
+            return task_handle_ == nullptr && !is_playing_.load();
+        });
+        if (!stopped) {
+            ESP_LOGE(TAG, "Stop timeout: playback task remains active; task was not deleted");
         }
-        if (is_playing_) {
-            ESP_LOGW(TAG, "Stop timeout reached, forcing task cleanup");
-            if (task_handle_ != nullptr) {
-                vTaskDelete(task_handle_);
-                task_handle_ = nullptr;
-            }
-            is_playing_ = false;
+
+        lock.unlock();
+        if (!Application::GetInstance().GetAudioService().WaitForPlaybackDrained(
+                std::chrono::seconds(3))) {
+            ESP_LOGE(TAG, "Stop timeout: audio playback task remains in flight");
         }
-        AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceMp3Player);
+        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_COMPLETE source=sd drained=%d",
+                 Application::GetInstance().GetAudioService().IsPlaybackIdle() ? 1 : 0);
     }
+    Application::GetInstance().GetAudioService().CheckHeapIntegrity("stop_sd_end");
 }
 
 void SdMusicPlayer::PlayerLoop() {
@@ -431,6 +537,19 @@ void SdMusicPlayer::PlayerLoop() {
         target_rate = 24000;
 
     while (!stop_requested_) {
+        if (voice_pause_requested_.load(std::memory_order_acquire)) {
+            {
+                std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+                voice_pause_acknowledged_ = true;
+            }
+            voice_pause_cv_.notify_all();
+            while (voice_pause_requested_.load(std::memory_order_acquire) &&
+                   !stop_requested_.load(std::memory_order_acquire)) {
+                vTaskDelay(pdMS_TO_TICKS(10));
+            }
+            continue;
+        }
+
         std::string filepath;
         {
             std::lock_guard<std::mutex> lock(mutex_);
@@ -470,7 +589,17 @@ void SdMusicPlayer::PlayerLoop() {
         skip_requested_ = false;
 
         if (err == ESP_AUDIO_ERR_OK && dec_handle != nullptr) {
-            BeginMediaPcmStream();
+            if (stop_requested_ || skip_requested_) {
+                esp_audio_simple_dec_close(dec_handle);
+                fclose(f);
+                break;
+            }
+            uint32_t stream_generation = BeginMediaPcmStream();
+            if (stop_requested_ || skip_requested_) {
+                esp_audio_simple_dec_close(dec_handle);
+                fclose(f);
+                break;
+            }
             ESP_LOGI(TAG, "esp_audio_simple_dec opened successfully for %s", filepath.c_str());
             LogMusicRuntime("AFTER_DECODER_OPEN");
             size_t in_buf_size = 2048;
@@ -484,9 +613,35 @@ void SdMusicPlayer::PlayerLoop() {
             if (!out_pcm_buf_ptr)
                 out_pcm_buf_ptr = (uint8_t*)malloc(out_buf_size);
 
+            if (!in_buf_ptr || !out_pcm_buf_ptr) {
+                ESP_LOGE(TAG, "Audio buffer allocation failed: input=%p output=%p",
+                         in_buf_ptr, out_pcm_buf_ptr);
+                if (in_buf_ptr)
+                    free(in_buf_ptr);
+                if (out_pcm_buf_ptr)
+                    free(out_pcm_buf_ptr);
+                esp_audio_simple_dec_close(dec_handle);
+                fclose(f);
+                stop_requested_ = true;
+                break;
+            }
+
             bool info_logged = false;
             bool pcm_checkpoint_logged = false;
             while (!stop_requested_ && !skip_requested_) {
+                if (voice_pause_requested_.load(std::memory_order_acquire)) {
+                    {
+                        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+                        voice_pause_acknowledged_ = true;
+                    }
+                    voice_pause_cv_.notify_all();
+                    while (voice_pause_requested_.load(std::memory_order_acquire) &&
+                           !stop_requested_.load(std::memory_order_acquire)) {
+                        vTaskDelay(pdMS_TO_TICKS(10));
+                    }
+                    continue;
+                }
+
                 auto state = Application::GetInstance().GetDeviceState();
                 if (is_paused_ || state == kDeviceStateListening || state == kDeviceStateSpeaking) {
                     ESP_LOGD(TAG, "Player waiting: is_paused=%d, state=%d", (int)is_paused_,
@@ -506,7 +661,7 @@ void SdMusicPlayer::PlayerLoop() {
                 raw.eos = is_eos;
                 raw.consumed = 0;
 
-                while (raw.len > 0) {
+                while (raw.len > 0 && !stop_requested_ && !skip_requested_) {
                     esp_audio_simple_dec_out_t out_frame = {};
                     out_frame.buffer = out_pcm_buf_ptr;
                     out_frame.len = out_buf_size;
@@ -518,13 +673,33 @@ void SdMusicPlayer::PlayerLoop() {
                                  (int)out_buf_size, (int)out_frame.needed_size);
                         size_t new_size =
                             out_frame.needed_size > 0 ? out_frame.needed_size : out_buf_size * 2;
+                        if (new_size <= out_buf_size || new_size > kMaxDecodedFrameBytes) {
+                            ESP_LOGE(TAG, "Decoder requested invalid output size=%u current=%u",
+                                     static_cast<unsigned>(new_size),
+                                     static_cast<unsigned>(out_buf_size));
+                            stop_requested_ = true;
+                            break;
+                        }
                         uint8_t* new_ptr = (uint8_t*)heap_caps_realloc(
                             out_pcm_buf_ptr, new_size, MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
                         if (new_ptr) {
                             out_pcm_buf_ptr = new_ptr;
                             out_buf_size = new_size;
+                        } else {
+                            ESP_LOGE(TAG, "Decoder output buffer expansion failed: size=%u",
+                                     static_cast<unsigned>(new_size));
+                            stop_requested_ = true;
+                            break;
                         }
                         continue;
+                    }
+
+                    if (raw.consumed > raw.len) {
+                        ESP_LOGE(TAG, "Decoder returned invalid consumed=%u input=%u",
+                                 static_cast<unsigned>(raw.consumed),
+                                 static_cast<unsigned>(raw.len));
+                        stop_requested_ = true;
+                        break;
                     }
 
                     if (dec_res != ESP_AUDIO_ERR_OK) {
@@ -535,10 +710,24 @@ void SdMusicPlayer::PlayerLoop() {
                                  (int)out_frame.decoded_size, (int)out_frame.needed_size);
                     }
 
-                    if (out_frame.decoded_size > 0) {
+                    if (out_frame.decoded_size > 0 &&
+                        (out_frame.decoded_size & 1U) == 0 &&
+                        out_frame.decoded_size <= out_buf_size) {
+                        // Voice startup resets the shared playback queues and
+                        // advances their generation. The SD decoder remains
+                        // open across that reset, so bind this live stream to
+                        // the new generation instead of dropping every frame
+                        // after the voice interaction.
+                        auto& audio_service = Application::GetInstance().GetAudioService();
+                        if (audio_service.GetPlaybackGeneration() != stream_generation) {
+                            stream_generation = BeginMediaPcmStream();
+                            if (stop_requested_ || skip_requested_)
+                                break;
+                        }
                         esp_audio_simple_dec_info_t info = {};
                         if (esp_audio_simple_dec_get_info(dec_handle, &info) == ESP_AUDIO_ERR_OK &&
-                            info.sample_rate > 0) {
+                            info.sample_rate > 0 && info.bits_per_sample == 16 &&
+                            (info.channel == 1 || info.channel == 2)) {
                             if (!info_logged) {
                                 ESP_LOGI(TAG, "Audio info: sample_rate=%u, channels=%u, bits=%u",
                                          (unsigned)info.sample_rate, (unsigned)info.channel,
@@ -553,8 +742,12 @@ void SdMusicPlayer::PlayerLoop() {
                                 out_frame.decoded_size / (info.bits_per_sample / 8);
                             PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out_pcm_buf_ptr),
                                          num_samples, info.channel, info.sample_rate, target_rate,
-                                         false);
+                                         false, stream_generation);
                         }
+                    } else if (out_frame.decoded_size > 0) {
+                        ESP_LOGW(TAG, "Dropping invalid decoded PCM size=%d buffer=%u",
+                                 static_cast<int>(out_frame.decoded_size),
+                                 static_cast<unsigned>(out_buf_size));
                     }
 
                     if (dec_res != ESP_AUDIO_ERR_OK || raw.consumed == 0) {
@@ -631,6 +824,12 @@ void SdMusicPlayer::PlayerLoop() {
 
     is_playing_ = false;
     is_paused_ = false;
+    voice_pause_requested_.store(false, std::memory_order_release);
+    {
+        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
+        voice_pause_acknowledged_ = false;
+    }
+    voice_pause_cv_.notify_all();
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceMp3Player);
     ESP_LOGI(TAG, "Player task stopped.");
 }

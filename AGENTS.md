@@ -4,7 +4,11 @@
 
 XiaoZhi is an ESP-IDF C/C++ voice-assistant firmware supporting many chips, boards, displays, audio devices, and network transports. A build selects exactly one board implementation.
 
-Use ESP-IDF v6.0.2 when possible. IDF 5.5.x is retained only for documented legacy boards.
+The confirmed FNK0104S production workflow uses the PlatformIO-installed
+ESP-IDF 6.1.0 and Xtensa GCC 15.2.0. Before every build, read
+`docs/BUILD_GUIDE.md` and use `build_fnk.ps1`. Do not switch SDK, GCC,
+PlatformIO framework, partition layout, or build method without explicit
+approval.
 
 ## Architecture
 
@@ -47,6 +51,17 @@ Board selection is a coupled chain:
 When adding a board or variant, update every relevant link in that chain. Include a unique board identity, correct chip target, flash/partition settings, exactly one `DECLARE_BOARD`, and board documentation. Follow `docs/custom-board.md`.
 
 ## Commands
+
+The only supported FNK0104S build is:
+
+```powershell
+pwsh -File .\build_fnk.ps1
+```
+
+The script validates the PlatformIO framework, Python environment, Xtensa
+compiler, target and board, then invokes `scripts/build.py`. It does not flash,
+erase, monitor, or touch the ESP32-C6. Do not use the P4 environment for FNK.
+Read `docs/BUILD_GUIDE.md` before running it.
 
 Source the intended ESP-IDF environment first:
 

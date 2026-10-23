@@ -16,6 +16,9 @@
 
 namespace {
 constexpr char TAG[] = "MediaAudioOutput";
+constexpr size_t kMaxMediaPcmSamples = 48000 * 120 / 1000;
+constexpr uint32_t kMinMediaSampleRate = 8000;
+constexpr uint32_t kMaxMediaSampleRate = 48000;
 std::atomic<bool> stream_start_pending{false};
 
 class MediaRateConverter {
@@ -54,6 +57,15 @@ public:
     bool Process(const int16_t* input, size_t input_samples, uint32_t source_rate,
                  uint32_t target_rate, std::vector<int16_t>& output) {
         std::lock_guard<std::mutex> lock(mutex_);
+        if (input == nullptr || input_samples == 0 || source_rate < kMinMediaSampleRate ||
+            source_rate > kMaxMediaSampleRate || target_rate < kMinMediaSampleRate ||
+            target_rate > kMaxMediaSampleRate || input_samples > kMaxMediaPcmSamples) {
+            ESP_LOGW(TAG, "Rejecting invalid media PCM rate=%lu->%lu samples=%u",
+                     static_cast<unsigned long>(source_rate), static_cast<unsigned long>(target_rate),
+                     static_cast<unsigned>(input_samples));
+            output.clear();
+            return false;
+        }
         if (source_rate == target_rate) {
             output.assign(input, input + input_samples);
             return true;
@@ -85,7 +97,8 @@ public:
         uint32_t output_capacity = 0;
         const esp_ae_err_t size_result = esp_ae_rate_cvt_get_max_out_sample_num(
             handle_, static_cast<uint32_t>(input_samples), &output_capacity);
-        if (size_result != ESP_AE_ERR_OK || output_capacity == 0)
+        if (size_result != ESP_AE_ERR_OK || output_capacity == 0 ||
+            output_capacity > kMaxMediaPcmSamples)
             return false;
         output.resize(output_capacity);
         uint32_t output_samples = output_capacity;
@@ -94,6 +107,13 @@ public:
             output.data(), &output_samples);
         if (process_result != ESP_AE_ERR_OK) {
             ESP_LOGE(TAG, "Media rate conversion failed: %d", static_cast<int>(process_result));
+            output.clear();
+            return false;
+        }
+        if (output_samples > output_capacity) {
+            ESP_LOGE(TAG, "Media rate converter returned %lu samples for %lu capacity",
+                     static_cast<unsigned long>(output_samples),
+                     static_cast<unsigned long>(output_capacity));
             output.clear();
             return false;
         }
@@ -124,9 +144,10 @@ void InitializeMediaRateConverterEarly(uint32_t source_rate, uint32_t target_rat
     GetMediaRateConverter().InitializeEarly(source_rate, target_rate);
 }
 
-void BeginMediaPcmStream() {
+uint32_t BeginMediaPcmStream() {
     GetMediaRateConverter().ResetStream();
     stream_start_pending = true;
+    return Application::GetInstance().GetAudioService().GetPlaybackGeneration();
 }
 
 void EnsureMp3DecoderRegistered() {
@@ -145,8 +166,31 @@ void EnsureMp3DecoderRegistered() {
 }
 
 void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples, uint32_t channels,
-                  uint32_t sample_rate, uint32_t target_rate, bool is_radio) {
+                  uint32_t sample_rate, uint32_t target_rate, bool is_radio,
+                  uint32_t stream_generation) {
     if (!codec || !pcm_data || num_samples == 0) {
+        return;
+    }
+
+    if (channels != 1 && channels != 2) {
+        ESP_LOGW(TAG, "Dropping media PCM with unsupported channels=%lu",
+                 static_cast<unsigned long>(channels));
+        return;
+    }
+    if (num_samples > kMaxMediaPcmSamples * channels) {
+        ESP_LOGW(TAG, "Dropping oversized media PCM samples=%u channels=%lu",
+                 static_cast<unsigned>(num_samples), static_cast<unsigned long>(channels));
+        return;
+    }
+    if (channels == 2 && (num_samples & 1U) != 0) {
+        ESP_LOGW(TAG, "Dropping media PCM with odd stereo sample count=%u",
+                 static_cast<unsigned>(num_samples));
+        return;
+    }
+
+    auto& audio_service = Application::GetInstance().GetAudioService();
+    if (stream_generation != 0 &&
+        audio_service.GetPlaybackGeneration() != stream_generation) {
         return;
     }
 
@@ -168,7 +212,8 @@ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples
         samples = mono.data();
     }
 
-    if (sample_rate == 0 || target_rate == 0) {
+    if (sample_rate < kMinMediaSampleRate || sample_rate > kMaxMediaSampleRate ||
+        target_rate < kMinMediaSampleRate || target_rate > kMaxMediaSampleRate) {
         ESP_LOGE(TAG, "Invalid media sample rate: %lu -> %lu",
                  static_cast<unsigned long>(sample_rate), static_cast<unsigned long>(target_rate));
         return;
@@ -181,6 +226,9 @@ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples
     }
 
     const uint32_t duration_ms = static_cast<uint32_t>(output.size() * 1000ULL / target_rate);
-    Application::GetInstance().GetAudioService().PushPlaybackTask(
-        std::move(output), true, is_radio, duration_ms, stream_start_pending.exchange(false));
+    const bool stream_start = stream_start_pending.load(std::memory_order_acquire);
+    if (audio_service.PushPlaybackTask(std::move(output), true, is_radio, duration_ms,
+                                       stream_start, stream_generation) && stream_start) {
+        stream_start_pending.store(false, std::memory_order_release);
+    }
 }

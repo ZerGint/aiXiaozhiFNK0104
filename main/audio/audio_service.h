@@ -2,6 +2,7 @@
 #define AUDIO_SERVICE_H
 
 #include <atomic>
+#include <array>
 #include <chrono>
 #include <condition_variable>
 #include <deque>
@@ -54,6 +55,7 @@
 #define MAX_SEND_PACKETS_IN_QUEUE (2400 / OPUS_FRAME_DURATION_MS)
 #define AUDIO_TESTING_MAX_DURATION_MS 10000
 #define MAX_TIMESTAMPS_IN_QUEUE 3
+#define MAX_AUDIO_TASK_PCM_SAMPLES (48000 * 120 / 1000)
 
 #define AUDIO_POWER_TIMEOUT_MS 15000
 #define AUDIO_POWER_CHECK_INTERVAL_MS 1000
@@ -135,6 +137,7 @@ enum AudioTaskType {
 };
 
 struct AudioTask {
+    static constexpr uint32_t kLifecycleMagic = 0x4155544B;  // "AUTK"
     AudioTaskType type;
     std::vector<int16_t> pcm;
     // Network-decoded playback PCM is kept in PSRAM. Capture and local media
@@ -151,6 +154,9 @@ struct AudioTask {
     uint32_t playback_id = 0;
     uint32_t media_position_ms = 0;
     uint32_t created_at_ms = 0;
+    uint64_t lifecycle_id = 0;
+    uint32_t lifecycle_generation = 0;
+    uint32_t lifecycle_magic = kLifecycleMagic;
 
     const int16_t* GetPcmData() const {
         if (is_radio) return radio_pcm.data();
@@ -209,8 +215,10 @@ public:
 
     bool PushPacketToDecodeQueue(std::unique_ptr<AudioStreamPacket> packet, bool wait = false);
     std::unique_ptr<AudioStreamPacket> PopPacketFromSendQueue();
-    void PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music = false, bool is_radio = false,
-                          uint32_t duration_ms = 0, bool stream_start = false);
+    bool PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music = false,
+                          bool is_radio = false, uint32_t duration_ms = 0,
+                          bool stream_start = false, uint32_t expected_generation = 0);
+    uint32_t GetPlaybackGeneration();
     uint32_t GetRadioBufferedMs();
     void DiscardRadioPrebuffer();
     size_t GetRadioQueueSize();
@@ -229,10 +237,19 @@ public:
     void PlaySound(const std::string_view& sound);
     bool ReadAudioData(std::vector<int16_t>& data, int sample_rate, int samples);
     void ResetDecoder();
+    // Runs an ESP-IDF heap integrity check at a source-transition boundary.
+    // This is intentionally not called for individual PCM frames.
+    void CheckHeapIntegrity(const char* checkpoint);
     bool WaitForPlaybackDrained(std::chrono::milliseconds timeout);
     void SetModelsList(srmodel_list_t* models_list);
 
 private:
+    struct AudioTaskRegistryEntry {
+        const AudioTask* pointer = nullptr;
+        uint64_t task_id = 0;
+    };
+    static constexpr size_t kAudioTaskRegistryCapacity = 128;
+
     AudioCodec* codec_ = nullptr;
     AudioServiceCallbacks callbacks_;
     std::unique_ptr<AudioEngine> audio_engine_;
@@ -270,6 +287,8 @@ private:
     std::deque<std::unique_ptr<AudioStreamPacket>> audio_testing_queue_;
     std::deque<std::unique_ptr<AudioTask>> audio_encode_queue_;
     std::deque<std::unique_ptr<AudioTask>> audio_playback_queue_;
+    std::array<AudioTaskRegistryEntry, kAudioTaskRegistryCapacity> audio_task_registry_{};
+    std::atomic<uint64_t> next_audio_task_id_{1};
     uint32_t radio_buffered_duration_ms_ = 0;
     uint64_t last_radio_write_end_us_ = 0;
     uint32_t last_radio_duration_ms_ = 0;
@@ -280,7 +299,9 @@ private:
     bool speech_prebuffering_ = false;
     int64_t speech_prebuffer_started_us_ = 0;
     bool playback_drained_notified_ = true;
-    uint32_t playback_generation_ = 0;
+    // Zero is reserved for callers that do not participate in media-stream
+    // generation validation. Start real media generations at one.
+    uint32_t playback_generation_ = 1;
     // For server AEC
     std::deque<uint32_t> timestamp_queue_;
 
@@ -309,11 +330,21 @@ private:
     void OpusCodecTask();
     void PushTaskToEncodeQueue(AudioTaskType type, std::vector<int16_t>&& pcm);
     bool InitializeAudioEngine();
-    void SetDecodeSampleRate(int sample_rate, int frame_duration);
+    bool SetDecodeSampleRate(int sample_rate, int frame_duration);
     void CheckAndUpdateAudioPowerState();
     bool IsPlaybackDrainedLocked() const;
     bool MarkPlaybackDrainedLocked();
     void LogSpeechDiagnostics(const char* reason);
+    uint64_t AssignAudioTaskId(AudioTask* task);
+    bool RegisterAudioTaskLocked(const AudioTask* task);
+    void UnregisterAudioTaskLocked(const AudioTask* task);
+    bool IsRegisteredAudioTaskLocked(const AudioTask* task) const;
+    void TraceAudioTask(const char* event, const AudioTask* task, size_t queue_size,
+                        bool object_valid = true) const;
+    size_t QuarantineCorruptPlaybackTasksLocked(const char* checkpoint);
+    size_t QuarantineCorruptEncodeTasksLocked(const char* checkpoint);
+    void DiscardPlaybackTasksLocked(bool radio_only, bool music_only, const char* reason);
+    void DiscardAllEncodeTasksLocked(const char* reason);
 };
 
 #endif
