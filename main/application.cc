@@ -725,7 +725,16 @@ void Application::InitializeProtocol() {
         } else if (strcmp(type->valuestring, "llm") == 0) {
             auto emotion = cJSON_GetObjectItem(root, "emotion");
             if (cJSON_IsString(emotion)) {
-                Schedule([display, emotion_str = std::string(emotion->valuestring)]() {
+                Schedule([this, display, emotion_str = std::string(emotion->valuestring)]() {
+                    // LLM notifications can arrive after a media command has
+                    // synchronously returned the application to idle. Do not
+                    // let a stale emotion repaint the radio/player idle face.
+                    if (GetDeviceState() != kDeviceStateSpeaking) {
+                        ESP_LOGI(TAG, "ANIME_EMOTION_IGNORED state=%s name=%s",
+                                 DeviceStateMachine::GetStateName(GetDeviceState()),
+                                 emotion_str.c_str());
+                        return;
+                    }
                     display->SetEmotion(emotion_str.c_str());
                 });
             }
