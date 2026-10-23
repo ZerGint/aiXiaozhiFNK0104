@@ -2299,7 +2299,7 @@ void LcdDisplay::DestroyBootAnimation() {
 }
 #endif
 
-void LcdDisplay::RefreshRadioCatalogPage() {
+void LcdDisplay::RefreshRadioCatalogPage(bool reload_radio_catalog) {
     if (!radio_list_panel_) return;
     if (media_list_title_label_)
         lv_label_set_text(media_list_title_label_, media_browser_mode_ == MediaBrowserMode::Radio
@@ -2357,13 +2357,46 @@ void LcdDisplay::RefreshRadioCatalogPage() {
         if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", player_page_ + 1, pages);
         return;
     }
-    std::vector<RadioStationInfo> stations;
-    if (!RadioStorage::GetInstance().GetCatalog(stations)) stations.clear();
+    const uint32_t catalog_generation = RadioStorage::GetInstance().GetCatalogGeneration();
+    const bool reload_catalog = reload_radio_catalog || !radio_catalog_cache_loaded_ ||
+                                catalog_generation != radio_catalog_cache_generation_;
+    if (reload_catalog) {
+        std::vector<RadioStationInfo> stations;
+        if (RadioStorage::GetInstance().GetCatalog(stations)) {
+            radio_catalog_cache_.clear();
+            radio_catalog_cache_.reserve(stations.size());
+            for (auto& station : stations) {
+                radio_catalog_cache_.push_back({std::move(station.stationuuid),
+                                                std::move(station.name)});
+            }
+            radio_catalog_cache_loaded_ = true;
+            radio_catalog_cache_generation_ = catalog_generation;
+            ESP_LOGI(TAG, "RADIO_UI_CATALOG_CACHE_REFRESH count=%d generation=%lu",
+                     static_cast<int>(radio_catalog_cache_.size()),
+                     static_cast<unsigned long>(catalog_generation));
+        } else {
+            // Keep the last good snapshot during transient SD/DMA failures.
+            // On the first failed open, render an empty list but do not retry
+            // for every page click; opening the tab again forces a retry.
+            if (!radio_catalog_cache_loaded_) radio_catalog_cache_.clear();
+            radio_catalog_cache_loaded_ = true;
+            radio_catalog_cache_generation_ = catalog_generation;
+            ESP_LOGW(TAG, "RADIO_UI_CATALOG_CACHE_READ_FAILED keeping_count=%d generation=%lu",
+                     static_cast<int>(radio_catalog_cache_.size()),
+                     static_cast<unsigned long>(catalog_generation));
+        }
+    }
+    const auto& stations = radio_catalog_cache_;
     constexpr int rows_per_page = 4;
     const int pages = std::max(1, (static_cast<int>(stations.size()) + rows_per_page - 1) / rows_per_page);
     radio_page_ = std::clamp(radio_page_, 0, pages - 1);
     lv_obj_clean(radio_list_panel_);
-    if (stations.empty()) { auto l = lv_label_create(radio_list_panel_); lv_label_set_text(l, "No stations"); return; }
+    if (stations.empty()) {
+        auto l = lv_label_create(radio_list_panel_);
+        lv_label_set_text(l, "No stations");
+        if (radio_page_label_) lv_label_set_text(radio_page_label_, "1 / 1");
+        return;
+    }
     for (int row = 0; row < rows_per_page; ++row) {
         const int i = radio_page_ * rows_per_page + row; if (i >= static_cast<int>(stations.size())) break;
         auto card = lv_btn_create(radio_list_panel_); lv_obj_set_size(card, 128, 42); lv_obj_set_pos(card, 0, row * 46);
@@ -3285,11 +3318,6 @@ void LcdDisplay::UpdateServiceIndicators() {
     // LVGL timer context: read service state without changing it.
     auto& sd = SdMusicPlayer::GetInstance();
     auto& radio = InternetRadioPlayer::GetInstance();
-    static int sd_scan_attempts = 0;
-    if (!sd.IsGeneratedPlaylist() && sd.GetPlaylistSnapshot().empty() && (sd_scan_attempts % 20 == 0)) {
-        MediaPlayer::GetInstance().ScanSd();
-    }
-    ++sd_scan_attempts;
     const char* player_state = sd.IsPlaying() ? "Playing" : sd.IsPaused() ? "Paused" : "";
     const char* radio_state = radio.IsPlaying() ? "Playing" : radio.IsPaused() ? "Paused" : "";
     if (InternetRadioPlayer::GetInstance().IsActive()) active_media_source_ = ActiveMediaSource::Radio;
@@ -3389,10 +3417,14 @@ void LcdDisplay::UpdateServiceIndicators() {
     }
     static int last_track_count = -1;
     static MediaBrowserMode last_browser_mode = MediaBrowserMode::Radio;
+    static uint32_t last_catalog_generation = UINT32_MAX;
     const int track_count = static_cast<int>(sd.GetPlaylistSnapshot().size());
-    if (track_count != last_track_count || media_browser_mode_ != last_browser_mode) {
+    const uint32_t catalog_generation = RadioStorage::GetInstance().GetCatalogGeneration();
+    const bool catalog_changed = catalog_generation != last_catalog_generation;
+    if (track_count != last_track_count || media_browser_mode_ != last_browser_mode || catalog_changed) {
         last_track_count = track_count; last_browser_mode = media_browser_mode_;
-        RefreshRadioCatalogPage();
+        last_catalog_generation = catalog_generation;
+        RefreshRadioCatalogPage(catalog_changed && media_browser_mode_ == MediaBrowserMode::Radio);
     }
     if (media_shuffle_button_ && media_repeat_button_) {
         if (active_media_source_ == ActiveMediaSource::Radio) {
@@ -3498,6 +3530,7 @@ void LcdDisplay::SwitchTab(int tab_index)
     if (panel_player_)
         (tab_index == 0) ? lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN)
                          : lv_obj_remove_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
+    if (tab_index == 2) RefreshRadioCatalogPage(true);
 
     /* navigation highlight */
 
@@ -4153,9 +4186,6 @@ void LcdDisplay::SetupMediaPlayerTab(lv_obj_t* parent) {
     lv_obj_set_style_pad_all(panel_player_, 10, 0);
     lv_obj_set_scrollbar_mode(panel_player_, LV_SCROLLBAR_MODE_OFF);
     lv_obj_add_flag(panel_player_, LV_OBJ_FLAG_HIDDEN);
-
-    // Initial playlist scan
-    MediaPlayer::GetInstance().ScanSd();
 
     // Album Art / Music Icon
     lv_obj_t* art_box = lv_obj_create(panel_player_);

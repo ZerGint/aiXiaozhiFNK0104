@@ -392,6 +392,7 @@ void AudioService::Stop() {
         speech_prebuffering_ = false;
         speech_prebuffer_started_us_ = 0;
         radio_buffered_duration_ms_ = 0;
+        radio_prebuffer_ready_generation_ = 0;
         audio_testing_queue_.clear();
         notify_drained = MarkPlaybackDrainedLocked();
         audio_queue_cv_.notify_all();
@@ -598,6 +599,7 @@ void AudioService::AudioOutputTask() {
         if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
             DiscardPlaybackTasksLocked(false, true, "voice_state_cleanup");
             radio_buffered_duration_ms_ = 0;
+            radio_prebuffer_ready_generation_ = 0;
             if (audio_playback_queue_.empty()) {
                 radio_started = false;
                 audio_queue_cv_.notify_all();
@@ -1296,6 +1298,14 @@ bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
                          static_cast<unsigned>(audio_playback_queue_.size() + 1));
             }
             audio_playback_queue_.push_back(std::move(task));
+            if (is_radio && RADIO_PREBUFFER_MS > 0 &&
+                radio_buffered_duration_ms_ >= RADIO_PREBUFFER_MS &&
+                radio_prebuffer_ready_generation_ == 0) {
+                radio_prebuffer_ready_generation_ = playback_generation_;
+                ESP_LOGI(TAG, "[RADIO_PREBUFFER_READY] generation=%lu buffer=%u ms",
+                         static_cast<unsigned long>(playback_generation_),
+                         static_cast<unsigned>(radio_buffered_duration_ms_));
+            }
             audio_queue_cv_.notify_all();
             return true;
         }
@@ -1584,6 +1594,7 @@ void AudioService::ResetDecoder() {
         speech_prebuffering_ = false;
         speech_prebuffer_started_us_ = 0;
         radio_buffered_duration_ms_ = 0;
+        radio_prebuffer_ready_generation_ = 0;
         audio_testing_queue_.clear();
         notify_drained = MarkPlaybackDrainedLocked();
         audio_queue_cv_.notify_all();
@@ -1685,10 +1696,21 @@ uint32_t AudioService::GetRadioBufferedMs() {
     return radio_buffered_duration_ms_;
 }
 
+bool AudioService::IsRadioPrebufferReady(uint32_t expected_generation) {
+    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+    if (RADIO_PREBUFFER_MS == 0) {
+        return expected_generation == 0 || expected_generation == playback_generation_;
+    }
+    return radio_prebuffer_ready_generation_ != 0 &&
+           (expected_generation == 0 ||
+            radio_prebuffer_ready_generation_ == expected_generation);
+}
+
 void AudioService::DiscardRadioPrebuffer() {
     std::lock_guard<std::mutex> lock(audio_queue_mutex_);
     DiscardPlaybackTasksLocked(true, false, "radio_prebuffer_discard");
     radio_buffered_duration_ms_ = 0;
+    radio_prebuffer_ready_generation_ = 0;
     audio_queue_cv_.notify_all();
 }
 

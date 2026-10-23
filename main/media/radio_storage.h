@@ -1,6 +1,7 @@
 #ifndef RADIO_STORAGE_H
 #define RADIO_STORAGE_H
 
+#include <cstdint>
 #include <mutex>
 #include <string>
 #include <vector>
@@ -34,6 +35,9 @@ public:
     bool AddOrUpdateCatalogStation(const RadioStationInfo& station, std::string& err_msg);
     bool AddOrUpdateCatalogStations(const std::vector<RadioStationInfo>& stations, std::string& err_msg);
     bool GetCatalog(std::vector<RadioStationInfo>& stations);
+    // Changes only when a catalog write succeeds. UI code can use this cheap
+    // counter to refresh an in-memory snapshot without touching the SD card.
+    uint32_t GetCatalogGeneration();
     std::vector<RadioStationInfo> SearchCatalog(const std::string& query = "",
                                                 const std::string& countrycode = "",
                                                 const std::string& language = "",
@@ -52,8 +56,12 @@ private:
 
     bool LoadCatalogInternal(std::vector<RadioStationInfo>& stations, std::string& err_msg);
     bool SaveCatalogInternal(const std::vector<RadioStationInfo>& stations, std::string& err_msg);
+    bool EnsureCatalogCacheLocked(std::string& err_msg);
 
     std::mutex mutex_;
+    std::vector<RadioStationInfo> catalog_cache_;
+    bool catalog_cache_loaded_ = false;
+    uint32_t catalog_generation_ = 0;
 };
 
 #endif // RADIO_STORAGE_H

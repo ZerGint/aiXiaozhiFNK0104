@@ -220,6 +220,11 @@ public:
                           bool stream_start = false, uint32_t expected_generation = 0);
     uint32_t GetPlaybackGeneration();
     uint32_t GetRadioBufferedMs();
+    // Returns true once the radio queue has reached the prebuffer threshold
+    // for the requested playback generation. The result is latched until the
+    // generation is reset, so consumers do not race the output task draining
+    // the queue.
+    bool IsRadioPrebufferReady(uint32_t expected_generation = 0);
     void DiscardRadioPrebuffer();
     size_t GetRadioQueueSize();
     size_t GetDecodeQueueSize() {
@@ -290,6 +295,7 @@ private:
     std::array<AudioTaskRegistryEntry, kAudioTaskRegistryCapacity> audio_task_registry_{};
     std::atomic<uint64_t> next_audio_task_id_{1};
     uint32_t radio_buffered_duration_ms_ = 0;
+    uint32_t radio_prebuffer_ready_generation_ = 0;
     uint64_t last_radio_write_end_us_ = 0;
     uint32_t last_radio_duration_ms_ = 0;
     bool decode_in_flight_ = false;

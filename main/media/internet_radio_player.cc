@@ -631,10 +631,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                         PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate,
                                      target_rate, true, stream_generation);
-                        const uint32_t buffered_ms =
-                            Application::GetInstance().GetAudioService().GetRadioBufferedMs();
                         if (!attempt->startup_ready_notified && !stop_requested_ &&
-                            buffered_ms >= RADIO_PREBUFFER_MS) {
+                            Application::GetInstance().GetAudioService().IsRadioPrebufferReady(
+                                stream_generation)) {
                             attempt->startup_ready_notified = true;
                             if (attempt->on_startup_ready)
                                 std::move(attempt->on_startup_ready)();

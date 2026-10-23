@@ -384,20 +384,42 @@ bool RadioStorage::SaveCatalogInternal(const std::vector<RadioStationInfo>& stat
     return true;
 }
 
+bool RadioStorage::EnsureCatalogCacheLocked(std::string& err_msg) {
+    if (catalog_cache_loaded_) return true;
+    std::vector<RadioStationInfo> loaded;
+    if (!LoadCatalogInternal(loaded, err_msg)) return false;
+    catalog_cache_ = std::move(loaded);
+    catalog_cache_loaded_ = true;
+    return true;
+}
+
 bool RadioStorage::LoadCatalog(std::vector<RadioStationInfo>& stations, std::string& err_msg) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return LoadCatalogInternal(stations, err_msg);
+    if (!EnsureCatalogCacheLocked(err_msg)) return false;
+    stations = catalog_cache_;
+    return true;
 }
 
 bool RadioStorage::SaveCatalog(const std::vector<RadioStationInfo>& stations, std::string& err_msg) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return SaveCatalogInternal(stations, err_msg);
+    if (!SaveCatalogInternal(stations, err_msg)) return false;
+    catalog_cache_ = stations;
+    catalog_cache_loaded_ = true;
+    ++catalog_generation_;
+    return true;
 }
 
 bool RadioStorage::GetCatalog(std::vector<RadioStationInfo>& stations) {
     std::lock_guard<std::mutex> lock(mutex_);
     std::string err_msg;
-    return LoadCatalogInternal(stations, err_msg);
+    if (!EnsureCatalogCacheLocked(err_msg)) return false;
+    stations = catalog_cache_;
+    return true;
+}
+
+uint32_t RadioStorage::GetCatalogGeneration() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    return catalog_generation_;
 }
 
 bool RadioStorage::AddOrUpdateCatalogStation(const RadioStationInfo& station, std::string& err_msg) {
@@ -406,26 +428,14 @@ bool RadioStorage::AddOrUpdateCatalogStation(const RadioStationInfo& station, st
 
 bool RadioStorage::AddOrUpdateCatalogStations(const std::vector<RadioStationInfo>& new_stations, std::string& err_msg) {
     std::lock_guard<std::mutex> lock(mutex_);
+    if (!EnsureCatalogCacheLocked(err_msg)) return false;
     for (const auto& incoming : new_stations) {
-        struct stat st;
-        const bool exists = stat(kBinaryCatalogPath, &st) == 0;
-        uint32_t count = 0;
-        RadioStationInfo existing;
-        bool found = false;
-        if (exists) {
-            RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
-            if (!reader.Open(count)) { err_msg = "Failed to open binary catalog"; return false; }
-            for (uint32_t i = 0; i < count; ++i) {
-                RadioStationInfo candidate;
-                if (!reader.ReadNext(candidate)) { err_msg = "Corrupted binary catalog"; return false; }
-                if (!incoming.stationuuid.empty() && incoming.stationuuid == candidate.stationuuid) {
-                    existing = std::move(candidate); found = true;
-                }
-            }
-            if (!reader.Finish()) { err_msg = "Corrupted binary catalog"; return false; }
-        }
-        if (found) {
-            RadioStationInfo merged = existing;
+        auto existing_it = std::find_if(
+            catalog_cache_.begin(), catalog_cache_.end(), [&](const RadioStationInfo& candidate) {
+                return !incoming.stationuuid.empty() && incoming.stationuuid == candidate.stationuuid;
+            });
+        if (existing_it != catalog_cache_.end()) {
+            RadioStationInfo merged = *existing_it;
             if (!incoming.name.empty()) merged.name = incoming.name;
             if (!incoming.url_resolved.empty()) merged.url_resolved = incoming.url_resolved;
             if (!incoming.codec.empty()) merged.codec = incoming.codec;
@@ -435,26 +445,28 @@ bool RadioStorage::AddOrUpdateCatalogStations(const std::vector<RadioStationInfo
             if (!incoming.state.empty()) merged.state = incoming.state;
             if (!incoming.language.empty()) merged.language = incoming.language;
             if (!incoming.tags.empty()) merged.tags = incoming.tags;
-            if (merged.stationuuid == existing.stationuuid && merged.name == existing.name && merged.url_resolved == existing.url_resolved &&
-                merged.codec == existing.codec && merged.bitrate == existing.bitrate && merged.country == existing.country &&
-                merged.countrycode == existing.countrycode && merged.state == existing.state && merged.language == existing.language && merged.tags == existing.tags) continue;
-            RadioBinaryIO::CatalogWriter writer(kBinaryCatalogTmpPath, count);
-            if (!writer.Begin()) { err_msg = "Failed to create binary catalog"; return false; }
-            RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
-            if (!reader.Open(count)) { err_msg = "Failed to reopen binary catalog"; return false; }
-            for (uint32_t i = 0; i < count; ++i) { RadioStationInfo candidate; if (!reader.ReadNext(candidate) || !writer.Write(candidate.stationuuid == existing.stationuuid ? merged : candidate)) { err_msg = "Failed to rewrite binary catalog"; return false; } }
-            if (!reader.Finish() || !writer.Finish() || !RadioBinaryIO::ReplaceTarget(kBinaryCatalogTmpPath, kBinaryCatalogPath)) { err_msg = "Failed to replace binary catalog"; return false; }
-        } else {
-            if (count >= RadioBinaryCodec::kMaxRecords) { err_msg = "Binary catalog record limit exceeded"; return false; }
-            RadioBinaryIO::CatalogWriter writer(kBinaryCatalogTmpPath, count + 1);
-            if (!writer.Begin()) { err_msg = "Failed to create binary catalog"; return false; }
-            if (exists) {
-                RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
-                if (!reader.Open(count)) { err_msg = "Failed to reopen binary catalog"; return false; }
-                for (uint32_t i = 0; i < count; ++i) { RadioStationInfo candidate; if (!reader.ReadNext(candidate) || !writer.Write(candidate)) { err_msg = "Failed to rewrite binary catalog"; return false; } }
-                if (!reader.Finish()) { err_msg = "Corrupted binary catalog"; return false; }
+            if (merged.stationuuid == existing_it->stationuuid && merged.name == existing_it->name &&
+                merged.url_resolved == existing_it->url_resolved && merged.codec == existing_it->codec &&
+                merged.bitrate == existing_it->bitrate && merged.country == existing_it->country &&
+                merged.countrycode == existing_it->countrycode && merged.state == existing_it->state &&
+                merged.language == existing_it->language && merged.tags == existing_it->tags) {
+                continue;
             }
-            if (!writer.Write(incoming) || !writer.Finish() || !RadioBinaryIO::ReplaceTarget(kBinaryCatalogTmpPath, kBinaryCatalogPath)) { err_msg = "Failed to replace binary catalog"; return false; }
+            auto updated = catalog_cache_;
+            updated[static_cast<size_t>(existing_it - catalog_cache_.begin())] = std::move(merged);
+            if (!SaveCatalogInternal(updated, err_msg)) return false;
+            catalog_cache_ = std::move(updated);
+            ++catalog_generation_;
+        } else {
+            if (catalog_cache_.size() >= RadioBinaryCodec::kMaxRecords) {
+                err_msg = "Binary catalog record limit exceeded";
+                return false;
+            }
+            auto updated = catalog_cache_;
+            updated.push_back(incoming);
+            if (!SaveCatalogInternal(updated, err_msg)) return false;
+            catalog_cache_ = std::move(updated);
+            ++catalog_generation_;
         }
     }
     return true;
@@ -466,11 +478,8 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
                                                           const std::string& tag,
                                                           int limit) {
     std::lock_guard<std::mutex> lock(mutex_);
-    struct stat st;
-    if (stat(kBinaryCatalogPath, &st) != 0) return {};
-    RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
-    uint32_t catalog_count = 0;
-    if (!reader.Open(catalog_count) || catalog_count == 0) return {};
+    std::string err_msg;
+    if (!EnsureCatalogCacheLocked(err_msg) || catalog_cache_.empty()) return {};
 
     limit = std::clamp(limit, 1, 20);
     std::vector<RadioStationInfo> results;
@@ -481,9 +490,7 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
         std::vector<ScoredStation> ranked;
         ranked.reserve(static_cast<size_t>(limit));
         const auto tokens = TokenizeQuery(query);
-        for (uint32_t index = 0; index < catalog_count; ++index) {
-            RadioStationInfo station;
-            if (!reader.ReadNext(station)) return {};
+        for (const auto& station : catalog_cache_) {
             if (!IsSupportedCodec(station.codec)) continue;
             if (!countrycode.empty() && !ContainsInsensitiveNoAlloc(station.countrycode, countrycode) &&
                 !ContainsInsensitiveNoAlloc(station.country, countrycode)) continue;
@@ -508,13 +515,10 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
             if (ranked.size() > static_cast<size_t>(limit)) ranked.pop_back();
         }
         for (auto& item : ranked) results.push_back(std::move(item.station));
-        if (!reader.Finish()) return {};
         return results;
     }
 
-    for (uint32_t index = 0; index < catalog_count; ++index) {
-        RadioStationInfo station;
-        if (!reader.ReadNext(station)) return {};
+    for (const auto& station : catalog_cache_) {
         if (!IsSupportedCodec(station.codec)) {
             continue;
         }
@@ -555,7 +559,6 @@ std::vector<RadioStationInfo> RadioStorage::SearchCatalog(const std::string& que
         }
     }
 
-    if (!reader.Finish()) return {};
     return results;
 }
 
@@ -589,25 +592,13 @@ bool RadioStorage::GetCatalogStationByUuid(const std::string& station_uuid,
                                             RadioStationInfo& station) {
     if (station_uuid.empty()) return false;
     std::lock_guard<std::mutex> lock(mutex_);
-    struct stat st;
-    if (stat(kBinaryCatalogPath, &st) != 0) {
-        return false;
-    }
-    RadioBinaryIO::CatalogReader reader(kBinaryCatalogPath);
-    uint32_t count = 0;
-    if (!reader.Open(count)) {
-        return false;
-    }
-    bool found = false;
-    for (uint32_t i = 0; i < count; ++i) {
-        RadioStationInfo candidate;
-        if (!reader.ReadNext(candidate)) {
-            return false;
-        }
-        if (candidate.stationuuid == station_uuid) { station = std::move(candidate); found = true; }
-    }
-    if (!reader.Finish()) {
-        return false;
-    }
-    return found;
+    std::string err_msg;
+    if (!EnsureCatalogCacheLocked(err_msg)) return false;
+    const auto it = std::find_if(catalog_cache_.begin(), catalog_cache_.end(),
+                                 [&](const RadioStationInfo& candidate) {
+                                     return candidate.stationuuid == station_uuid;
+                                 });
+    if (it == catalog_cache_.end()) return false;
+    station = *it;
+    return true;
 }

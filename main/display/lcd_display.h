@@ -16,6 +16,7 @@
 #include <memory>
 #include <functional>
 #include <string>
+#include <vector>
 
 #define PREVIEW_IMAGE_DURATION_MS 5000
 
@@ -124,6 +125,13 @@ protected:
     lv_obj_t* radio_page_label_ = nullptr;
     int radio_page_ = 0;
     int player_page_ = 0;
+    struct RadioCatalogEntry {
+        std::string stationuuid;
+        std::string name;
+    };
+    std::vector<RadioCatalogEntry> radio_catalog_cache_;
+    uint32_t radio_catalog_cache_generation_ = 0;
+    bool radio_catalog_cache_loaded_ = false;
     bool media_radio_mode_ = false;
     MediaBrowserMode media_browser_mode_ = MediaBrowserMode::Player;
     ActiveMediaSource active_media_source_ = ActiveMediaSource::None;
@@ -191,7 +199,7 @@ protected:
     void SetupSegaEmulatorTab(lv_obj_t* parent);
     void SwitchSettingsCategory(int cat_index);
     void UpdateWifiStatusLabel();
-    void RefreshRadioCatalogPage();
+    void RefreshRadioCatalogPage(bool reload_radio_catalog = false);
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     void ToggleHomeAssistantSettingsServer();
     void StartOtaPartitionRefresh();

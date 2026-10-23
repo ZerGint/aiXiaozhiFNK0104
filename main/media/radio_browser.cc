@@ -2,6 +2,7 @@
 
 #include "application.h"
 #include "media_player.h"
+#include "sd_music_player.h"
 #include "mcp_server.h"
 #include "radio_storage.h"
 #include "settings.h"
@@ -804,7 +805,7 @@ void RadioBrowser::RegisterMcpTools() {
            Property("query", kPropertyTypeString, std::string(""))
         }),
         [](const PropertyList& properties) -> ReturnValue {
-           MediaPlayer::GetInstance().ScanSd();
+           SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Normal);
            const std::string query = properties["query"].value<std::string>();
            int index = properties["index"].value<int>();
            if (index > 0) --index;
@@ -818,7 +819,7 @@ void RadioBrowser::RegisterMcpTools() {
         "List music tracks available on the SD card by filename.",
         PropertyList(),
         [](const PropertyList&) -> ReturnValue {
-           MediaPlayer::GetInstance().ScanSd();
+           SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Normal);
            return MediaPlayer::GetInstance().ListSdTracks();
         });
     McpServer::GetInstance().AddTool(
@@ -830,7 +831,7 @@ void RadioBrowser::RegisterMcpTools() {
            Property("limit", kPropertyTypeInteger, 10, 1, 20)
         }),
         [](const PropertyList& properties) -> ReturnValue {
-           MediaPlayer::GetInstance().ScanSd();
+           SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Normal);
            return MediaPlayer::GetInstance().SearchSdTracks(
                properties["artist"].value<std::string>(),
                properties["genre"].value<std::string>(),
