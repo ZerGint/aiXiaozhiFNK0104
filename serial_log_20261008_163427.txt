@@ -1,0 +1,245 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-08 16:34:27 ---
+I (3285) wifi:wifi certification version: v7.0
+I (3285) wifi:config NVS flash: disabled
+I (3285) wifi:config nano formatting: disabled
+I (3295) wifi:Init data frame dynamic rx buffer num: 6
+I (3295) wifi:Init dynamic rx mgmt buffer num: 5
+I (3305) wifi:Init management short buffer num: 32
+I (3305) wifi:Init dynamic tx buffer num: 32
+I (3305) wifi:Init static tx FG buffer num: 2
+I (3315) wifi:Init static rx buffer size: 1600
+I (3315) wifi:Init static rx buffer num: 3
+I (3325) wifi:Init dynamic rx buffer num: 6
+I (3325) wifi_init: rx ba win: 3
+I (3325) wifi_init: accept mbox: 6
+I (3335) wifi_init: tcpip mbox: 16
+I (3335) wifi_init: udp mbox: 6
+I (3335) wifi_init: tcp mbox: 6
+I (3345) wifi_init: tcp tx win: 5760
+I (3345) wifi_init: tcp rx win: 5760
+I (3345) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (3345) wifi_init: tcp mss: 1440
+I (3355) WifiManager: Initialized
+I (3365) WifiBoard: Starting WiFi connection attempt
+I (3365) WifiManager: Starting station
+I (3365) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (3375) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (3415) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (3415) wifi:enable tsf
+I (3415) WifiBoard: WiFi scanning
+I (3425) RAM: [AFTER_XIAOZHI_INIT] internal free=98399 min=40356 largest=57344 | psram free=8277444 min=8258624 largest=8257536
+I (3785) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1415
+I (4165) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1795
+I (4505) LcdDisplay: BOOT_ANIM_DESTROYED
+I (5825) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -43, Channel: 7, Authmode: 3
+I (5825) WifiBoard: WiFi connecting to ZERG
+W (5835) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5845) RAM: internal free=98727 min=40240 largest=57344 | psram free=7977948 min=7698000 largest=7471104
+I (6955) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7455) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7765) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (8295) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (8295) wifi:state: init -> auth (0xb0)
+I (9295) wifi:state: auth -> init (0x200)
+I (9305) wifi:state: init -> auth (0xb0)
+I (10305) wifi:state: auth -> init (0x200)
+I (10305) wifi:state: init -> auth (0xb0)
+I (10555) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=130
+I (10845) RAM: internal free=97499 min=39984 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (11305) wifi:state: auth -> init (0x200)
+I (11305) wifi:state: init -> auth (0xb0)
+I (12305) wifi:state: auth -> init (0x200)
+I (12305) WifiStation: WiFi disconnected, reason: 2
+I (12305) WifiStation: Reconnecting ZERG (attempt 1 / 5)
+I (12905) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=106
+I (13205) SystemInfo: free sram: 97435 minimal sram: 39948
+I (13235) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (13545) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6229
+I (14715) wifi:state: init -> auth (0xb0)
+I (14925) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (15715) wifi:state: auth -> init (0x200)
+I (15715) wifi:state: init -> auth (0xb0)
+I (15845) RAM: internal free=97479 min=39948 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (16715) wifi:state: auth -> init (0x200)
+I (16715) wifi:state: init -> auth (0xb0)
+I (17395) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=194
+I (17715) wifi:state: auth -> init (0x200)
+I (17725) wifi:state: init -> auth (0xb0)
+I (18725) wifi:state: auth -> init (0x200)
+I (18725) WifiStation: WiFi disconnected, reason: 2
+I (18725) WifiStation: Reconnecting ZERG (attempt 2 / 5)
+I (19805) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (20095) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5728
+I (20655) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=169
+I (20845) RAM: internal free=97499 min=39948 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (21135) wifi:state: init -> auth (0xb0)
+I (22135) wifi:state: auth -> init (0x200)
+I (22135) wifi:state: init -> auth (0xb0)
+I (22715) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=103
+I (23135) wifi:state: auth -> init (0x200)
+I (23135) wifi:state: init -> auth (0xb0)
+I (23205) SystemInfo: free sram: 97411 minimal sram: 39948
+I (24135) wifi:state: auth -> init (0x200)
+I (24135) wifi:state: init -> auth (0xb0)
+I (25135) wifi:state: auth -> init (0x200)
+I (25135) WifiStation: WiFi disconnected, reason: 2
+I (25145) WifiStation: Reconnecting ZERG (attempt 3 / 5)
+I (25485) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=207
+I (25825) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (25845) RAM: internal free=97499 min=39948 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (26115) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5578
+I (27545) wifi:state: init -> auth (0xb0)
+I (28325) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=215
+I (28555) wifi:state: auth -> init (0x200)
+I (28555) wifi:state: init -> auth (0xb0)
+I (29555) wifi:state: auth -> init (0x200)
+I (29555) wifi:state: init -> auth (0xb0)
+I (30555) wifi:state: auth -> init (0x200)
+I (30555) wifi:state: init -> auth (0xb0)
+I (30615) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=202
+I (30845) RAM: internal free=97479 min=39916 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (31555) wifi:state: auth -> init (0x200)
+I (31555) WifiStation: WiFi disconnected, reason: 2
+I (31555) WifiStation: Reconnecting ZERG (attempt 4 / 5)
+I (31705) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (31985) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=3755
+I (32325) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=212
+I (33205) SystemInfo: free sram: 97435 minimal sram: 39916
+I (33965) wifi:state: init -> auth (0xb0)
+I (34385) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=115
+I (34965) wifi:state: auth -> init (0x200)
+I (34975) wifi:state: init -> auth (0xb0)
+I (35745) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (35845) RAM: internal free=97467 min=39916 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (35975) wifi:state: auth -> init (0x200)
+I (35975) wifi:state: init -> auth (0xb0)
+I (36035) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5165
+I (36975) wifi:state: auth -> init (0x200)
+I (36975) wifi:state: init -> auth (0xb0)
+I (37075) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=145
+I (37975) wifi:state: auth -> init (0x200)
+I (37975) WifiStation: WiFi disconnected, reason: 2
+I (37975) WifiStation: Reconnecting ZERG (attempt 5 / 5)
+I (38565) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+I (40385) wifi:state: init -> auth (0xb0)
+I (40505) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=141
+I (40845) RAM: internal free=97467 min=39916 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (41245) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (41385) wifi:state: auth -> init (0x200)
+I (41385) wifi:state: init -> auth (0xb0)
+I (41535) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3529
+I (42385) wifi:state: auth -> init (0x200)
+I (42385) wifi:state: init -> auth (0xb0)
+I (42715) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=133
+I (43225) SystemInfo: free sram: 97403 minimal sram: 39916
+I (43395) wifi:state: auth -> init (0x200)
+I (43395) wifi:state: init -> auth (0xb0)
+I (44395) wifi:state: auth -> init (0x200)
+I (44395) WifiStation: WiFi disconnected, reason: 2
+I (44395) WifiStation: No more AP to connect, next scan in 10 seconds
+I (45085) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (45365) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=3239
+I (45845) RAM: internal free=97527 min=39916 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (45955) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=198
+I (48335) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=185
+I (48625) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (48905) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4895
+I (50845) RAM: internal free=97527 min=39900 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (51635) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=108
+I (53205) SystemInfo: free sram: 97463 minimal sram: 39900
+I (53835) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (54125) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5866
+I (54825) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=169
+I (55845) RAM: internal free=96663 min=39900 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (56245) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=102
+I (56805) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -35, Channel: 7, Authmode: 3
+I (56805) WifiBoard: WiFi connecting to ZERG
+W (56805) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (59225) wifi:state: init -> auth (0xb0)
+I (59835) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=212
+I (59995) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (60225) wifi:state: auth -> init (0x200)
+I (60225) wifi:state: init -> auth (0xb0)
+I (60275) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4403
+I (60845) RAM: internal free=97339 min=39900 largest=55296 | psram free=7873468 min=7698000 largest=7471104
+I (61225) wifi:state: auth -> init (0x200)
+I (61235) wifi:state: init -> auth (0xb0)
+I (61605) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=109
+I (62235) wifi:state: auth -> init (0x200)
+I (62235) wifi:state: init -> auth (0xb0)
+I (63205) SystemInfo: free sram: 97275 minimal sram: 39900
+I (63225) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+I (63235) wifi:state: auth -> init (0x200)
+I (63235) WifiStation: WiFi disconnected, reason: 2
+I (63235) WifiStation: Reconnecting ZERG (attempt 1 / 5)
+W (63365) WifiBoard: WiFi connection timeout, entering config mode
+I (63365) WifiManager: Stopping station
+I (63365) WifiStation: Stopping WiFi station
+E (63365) wifi:sta is connecting, cannot stop scan process
+I (63375) wifi:flush txq
+I (63375) wifi:stop sw txq
+I (63375) wifi:lmac stop hw txq
+I (63385) WifiManager: Station stopped
+W (63385) WifiBoard: WiFi disconnected
+I (63685) StateMachine: State: starting -> wifi_configuring
+I (63685) WifiManager: Starting config AP
+I (63685) DnsServer: Starting DNS server
+I (63685) wifi:Set ps type: 0, coexist: 0
+
+I (63685) wifi:mode : sta (7c:e8:b1:b1:65:48) + softAP (7c:e8:b1:b1:65:49)
+I (63695) wifi:enable tsf
+I (63695) wifi:Total power save buffer number: 16
+I (63695) wifi:Init max length of beacon: 752/752
+I (63705) wifi:Init max length of beacon: 752/752
+I (63705) WifiConfigurationAp: Access Point started with SSID Xiaozhi-6549
+I (63705) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (63725) WifiConfigurationAp: Web server started
+I (63725) WifiBoard: WiFi config mode entered
+W (63735) Application: Alert [gear] Режим настройки сети: Подключите телефон к точке доступа Xiaozhi-6549，доступ через браузер http://192.168.4.1
+I (63755) LcdDisplay: ANIME_EMOTION_EXTERNAL_IGNORED name=gear
+I (63755) AudioCodec: Set output enable to true
+I (63765) AudioService: Resampling audio from 16000 to 48000
+I (63985) WifiBoard: Stopped initial config AP WiFi scan
+I (63985) WifiBoard: Config AP channel fixed to 1
+I (64685) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (64985) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3703
+I (65845) RAM: internal free=73003 min=39828 largest=31744 | psram free=7848532 min=7698000 largest=7471104
+I (65995) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=207
+I (68195) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=151
+I (68705) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (68995) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3013
+I (70245) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=180
+I (70845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (71855) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=115
+I (72015) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (72325) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6425
+I (74495) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=137
+I (75205) SystemInfo: free sram: 77247 minimal sram: 39828
+I (75845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (76565) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=117
+I (78765) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (79055) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6302
+I (80085) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=205
+I (80845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (82245) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=127
+I (83755) AudioCodec: Set output enable to false
+I (85205) SystemInfo: free sram: 77247 minimal sram: 39828
+I (85395) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (85715) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3994
+I (85755) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=191
+I (85845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (89315) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=172
+I (89715) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (90005) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3436
+I (90845) RAM: internal free=76879 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (92205) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=208
+I (93445) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (93755) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4944
+I (94205) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=171
+I (95215) SystemInfo: free sram: 77247 minimal sram: 39828
+I (95845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104
+I (95865) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=207
+I (98715) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (98995) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5182
+I (99035) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=100
+I (100845) RAM: internal free=77311 min=39828 largest=31744 | psram free=7869028 min=7698000 largest=7471104

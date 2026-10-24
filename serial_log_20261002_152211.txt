@@ -1,0 +1,1665 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-02 15:22:11 ---
+I (265788) RAM: internal free=54655 min=17724 largest=25600 | psI (320328) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=122
+I (320788) RAM: internal free=54659 min=17724 largest=25600 | psram free=7419404 min=7376540 largest=7340032
+I (322728) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (323038) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3998
+I (323998) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (325788) RAM: internal free=54659 min=17724 largest=25600 | psram free=7419404 min=7376540 largest=7340032
+I (326798) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=199
+I (327058) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (327078) SystemInfo: free sram: 54531 minimal sram: 17724
+I (327348) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4972
+I (328228) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=109
+I (329688) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=133
+I (330788) RAM: internal free=54595 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (331698) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (332348) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (332648) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5904
+I (334108) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=185
+I (335788) RAM: internal free=54663 min=17724 largest=25600 | psram free=7419404 min=7376540 largest=7340032
+I (336048) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=122
+I (337078) SystemInfo: free sram: 54595 minimal sram: 17724
+I (338568) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (338878) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6946
+I (339208) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=196
+I (340788) RAM: internal free=54595 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (342488) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=127
+I (345058) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=115
+I (345788) RAM: internal free=54595 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (345848) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (346168) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5794
+I (346838) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=157
+I (347078) SystemInfo: free sram: 54531 minimal sram: 17724
+I (350528) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=125
+W (350748) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+W (350758) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+W (350758) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+I (350778) Backlight: Set brightness to 67
+W (350778) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (350788) RAM: internal free=54107 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (350888) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (10 total entries)...
+I (350888) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+I (350898) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+I (350908) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+I (350918) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+I (350928) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+I (350938) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+I (350948) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+I (350958) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+I (350968) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 8
+I (350968) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=53495 internal_largest=25600 dma_free=45707 dma_largest=25600 spiram_free=7417096 spiram_largest=7340032
+W (351648) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (351748) SdMusicPlayer: Playback PAUSED
+I (351958) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (352288) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4252
+W (353008) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+E (353148) StorageManager: Failed to open directory: /sdcard/mp3
+I (353158) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (353158) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (353168) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (353178) SdMusicPlayer: Track found: /sdcard/music/02 - 21 Guns.mp3
+I (353178) SdMusicPlayer: Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (353188) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (353198) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (353208) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (353208) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (353218) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=54075 internal_largest=25600 dma_free=46287 dma_largest=25600 spiram_free=7433252 spiram_largest=7340032
+I (353438) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=162
+W (354068) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (354198) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=2
+I (354198) LcdDisplay: ANIME_FACE_TAP target=0x3fce0b80
+I (354198) Application: TOUCH_WAKE_POPUP_QUEUED
+I (354198) StateMachine: State: idle -> connecting
+W (354208) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=67 target=67
+W (354218) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (354228) AnimeFace: ANIME_FACE_STATE: THINKING
+I (354248) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (354248) wifi:Set ps type: 0, coexist: 0
+
+I (354338) AnimeFace: ANIME_WAKE CENTERED
+I (354338) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (354628) MQTT: Session ID: c7e2fd97
+I (354628) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (354628) wifi:Set ps type: 0, coexist: 0
+
+W (354628) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (354638) StateMachine: State: connecting -> listening
+I (354678) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (354968) AnimeFace: ANIME_WAKE END base=LISTENING
+I (355788) RAM: internal free=51643 min=17724 largest=25600 | psram free=7430944 min=7376540 largest=7340032
+W (355818) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (356028) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (10 total entries)...
+I (356028) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+I (356038) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+I (356048) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+I (356058) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+I (356068) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+I (356088) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+I (356088) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+I (356098) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+I (356108) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 8
+I (356118) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=50807 internal_largest=25600 dma_free=43019 dma_largest=25600 spiram_free=7430432 spiram_largest=7340032
+W (356238) AudioService: Encode queue is full, dropping oldest frame (dropped 1 so far)
+I (356338) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (356568) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+W (356818) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (356858) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5150
+I (356928) SdMusicPlayer: Playback RESUMED
+I (357588) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (359408) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+W (360698) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (360788) RAM: internal free=50287 min=17724 largest=25600 | psram free=7430432 min=7376540 largest=7340032
+E (360848) StorageManager: Failed to open directory: /sdcard/mp3
+I (360858) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (360858) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (360868) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (360878) SdMusicPlayer: Track found: /sdcard/music/02 - 21 Guns.mp3
+I (360888) SdMusicPlayer: Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (360888) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (360898) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (360908) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (360908) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (360918) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=50779 internal_largest=25600 dma_free=40695 dma_largest=25600 spiram_free=7433252 spiram_largest=7340032
+I (361318) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+W (361408) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (361498) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (361498) LcdDisplay: ANIME_FACE_TAP target=0x3fce0b80
+I (361498) MQTT: Closing audio channel, send_goodbye: 1
+I (361508) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (361508) wifi:Set ps type: 2, coexist: 0
+
+I (361518) StateMachine: State: listening -> idle
+I (361538) AnimeFace: ANIME_FACE_STATE: IDLE
+I (361668) AnimeFace: ANIME_WAKE CENTERED
+I (361668) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (362278) AnimeFace: ANIME_WAKE END base=IDLE
+I (362318) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+W (362408) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (362508) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (10 total entries)...
+I (362508) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+I (362508) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+I (362528) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+I (362528) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+I (362548) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+I (362548) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+I (362548) MQTT: Received goodbye message, session_id: c7e2fd97
+I (362568) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+I (362568) MQTT: Closing audio channel, send_goodbye: 0
+I (362578) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+I (362578) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (362588) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 8
+I (362598) wifi:Set ps type: 2, coexist: 0
+I (362598) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=55051 internal_largest=25600 dma_free=47263 dma_largest=25600 spiram_free=7414788 spiram_largest=7340032
+
+I (362838) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4646
+I (364228) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+I (365788) RAM: internal free=56067 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (367198) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+I (367548) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (367848) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4230
+I (369248) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=110
+I (370788) RAM: internal free=56071 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (371078) SystemInfo: free sram: 55935 minimal sram: 17724
+I (372018) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=197
+I (372098) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (372408) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3236
+I (375098) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+I (375688) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (375788) RAM: internal free=55599 min=17724 largest=25600 | psram free=7414788 min=7376540 largest=7340032
+I (375988) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4292
+I (377628) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=137
+I (379708) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=114
+I (380308) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (380608) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5633
+I (380788) RAM: internal free=56067 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (381048) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+I (381078) SystemInfo: free sram: 56003 minimal sram: 17724
+I (383178) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=100
+I (384778) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+I (385788) RAM: internal free=56055 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (386248) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (386548) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5322
+I (388428) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (390788) RAM: internal free=55803 min=17724 largest=25600 | psram free=7414788 min=7376540 largest=7340032
+I (391088) SystemInfo: free sram: 55931 minimal sram: 17724
+I (391768) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=100
+I (391878) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (392158) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4267
+W (392578) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+W (392578) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+I (392588) Backlight: Set brightness to 10
+W (392588) LcdDisplay: AUTO_DIM done dimmed_after=1
+I (395008) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=175
+I (395788) RAM: internal free=56067 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (396488) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (396818) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4881
+I (398688) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+I (400788) RAM: internal free=56067 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (401078) SystemInfo: free sram: 55939 minimal sram: 17724
+I (401728) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (402028) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5560
+I (402218) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=136
+I (404298) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=141
+I (405788) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=147
+I (405788) RAM: internal free=56003 min=17724 largest=25600 | psram free=7414788 min=7376540 largest=7340032
+I (407608) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (407898) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4605
+I (408098) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=164
+I (410488) SdMusicPlayer: ▶ Playing file: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+W (410488) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (410488) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=59123 internal_largest=25600 stack_hwm=2104
+W (410508) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (410508) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=59107 internal_largest=25600 stack_hwm=2104
+I (410518) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (410528) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/generated_music/Осенний листопад [c2854876].mp3
+W (410538) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (410548) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=58819 internal_largest=25600 stack_hwm=2104
+I (410568) SdMusicPlayer: Audio info: sample_rate=48000, channels=2, bits=16
+W (410568) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (410568) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=56731 internal_largest=25600 stack_hwm=2104
+I (410588) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (410788) RAM: internal free=56051 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (411078) SystemInfo: free sram: 55987 minimal sram: 17724
+I (411098) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+I (412518) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (412828) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4105
+I (414048) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (415788) RAM: internal free=56007 min=17724 largest=25600 | psram free=7417096 min=7376540 largest=7340032
+I (416568) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+I (416968) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (417288) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6774
+W (417338) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+W (417338) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+W (417348) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+I (417358) Backlight: Set brightness to 67
+W (417358) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+E (417478) StorageManager: Failed to open directory: /sdcard/mp3
+I (417478) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+I (417478) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (417498) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (417498) SdMusicPlayer: Track found: /sdcard/music/02 - 21 Guns.mp3
+I (417508) SdMusicPlayer: Track found: /sdcard/music/025-maksim_-_vesna.mp3
+I (417508) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (417528) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (417528) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (417538) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+I (417538) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=55111 internal_largest=25600 dma_free=47323 dma_largest=25600 spiram_free=7414788 spiram_largest=7340032
+W (418658) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (418818) SdMusicPlayer: Playback PAUSED
+W (419688) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (419778) RAM: [RADIO_STOP] internal free=55551 min=17724 largest=25600 | psram free=7430944 min=7376540 largest=7340032
+I (419778) InternetRadio: RADIO_STOP_FAST_NOOP
+I (419828) SdMusicPlayer: ▶ Playing file: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+W (419828) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (419838) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=58803 internal_largest=25600 stack_hwm=2104
+W (419848) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (419848) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=58939 internal_largest=25600 stack_hwm=2104
+I (419858) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (419868) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+W (419878) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (419888) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=58547 internal_largest=25600 stack_hwm=2104
+I (419898) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (419908) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (419908) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=56467 internal_largest=25600 stack_hwm=2104
+I (419928) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (419928) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+I (420788) RAM: internal free=56487 min=17724 largest=25600 | psram free=7411780 min=7376540 largest=7340032
+I (421118) SystemInfo: free sram: 56343 minimal sram: 17724
+W (422118) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (422268) RAM: [RADIO_STOP] internal free=55947 min=17724 largest=25600 | psram free=7408960 min=7376540 largest=7340032
+I (422268) InternetRadio: RADIO_STOP_FAST_NOOP
+I (422338) SdMusicPlayer: ▶ Playing file: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (422338) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (422348) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=58963 internal_largest=25600 stack_hwm=2104
+W (422358) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (422358) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=58947 internal_largest=25600 stack_hwm=2104
+I (422378) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (422378) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (422398) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (422398) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=58627 internal_largest=25600 stack_hwm=2104
+I (422418) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (422418) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (422428) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=56475 internal_largest=25600 stack_hwm=2104
+I (422458) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (422988) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=150
+I (424068) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (424358) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5754
+I (425718) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=216
+I (425788) RAM: internal free=56115 min=17724 largest=25600 | psram free=7411780 min=7376540 largest=7340032
+I (427868) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+W (429278) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (429378) SdMusicPlayer: Playback PAUSED
+I (430118) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+W (430118) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (430248) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=56143 internal_largest=25600 dma_free=48355 dma_largest=25600 spiram_free=7428188 spiram_largest=7340032
+I (430408) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5003
+I (430788) RAM: internal free=55215 min=17724 largest=25600 | psram free=7428188 min=7376540 largest=7340032
+I (431068) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=187
+I (431078) SystemInfo: free sram: 55151 minimal sram: 17724
+W (431328) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (431448) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+I (431488) AudioManager: Releasing audio focus from source 2
+I (431488) SdMusicPlayer: Player task stopped.
+I (431488) RAM: [RADIO_START] internal free=58295 min=17724 largest=25600 | psram free=7473156 min=7376540 largest=7340032
+I (431498) InternetRadio: Radio current:
+name=Душевное радио Минск 105.7 FM
+uuid=82007efb-5709-40b6-86c4-4576ca732799
+codec=MP3
+bitrate=128
+country=Belarus
+url=https://stream2.datacenter.by/dushevnoe
+I (431518) InternetRadio: Radio stream startup: connecting
+I (431518) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=62039 internal_largest=25600 dma_free=54251 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (431538) AudioManager: Audio focus requested by source 3 (current 0)
+I (431548) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=62039 internal_largest=25600 dma_free=54251 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (431558) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (431568) wifi:Set ps type: 0, coexist: 0
+
+I (431568) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (431578) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+W (431678) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (432988) InternetRadio: Stream connected: status=200 content_type=unknown
+I (432988) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (432998) InternetRadio: Radio codec selection:
+station_codec=MP3
+content_type=unknown
+selected_decoder=MP3
+I (433008) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (433008) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=58127 internal_largest=25600 dma_free=50339 dma_largest=25600 psram_free=7412248 psram_largest=7340032
+I (433028) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (433028) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (433038) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=58127 internal_largest=25600 dma_free=50339 dma_largest=25600 psram_free=7412248 psram_largest=7340032
+I (433058) InternetRadio: Received first stream data: bytes=2048
+I (433068) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+I (433068) RAM: [RADIO_PLAYING] internal free=50847 min=17724 largest=25600 | psram free=7386236 min=7376540 largest=7340032
+I (433088) AudioService: [RADIO_PCM] ptr=0x3c4b7e1c size=2508 bytes PSRAM=YES (queue=1)
+I (433088) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+I (433258) AudioService: [RADIO_PCM] ptr=0x3c4caa94 size=2508 bytes PSRAM=YES (queue=32)
+I (433658) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (433678) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=20 ms wait_in_q=575 ms
+I (434198) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=969 ms
+I (434598) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+I (434728) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1192 ms
+I (435248) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1610 ms
+I (435448) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (435758) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4573
+I (435768) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1807 ms
+I (435788) RAM: internal free=51971 min=17724 largest=25600 | psram free=7210408 min=7202716 largest=7077888
+I (436288) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1816 ms
+I (436818) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=27 ms wait_in_q=1818 ms
+I (437338) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=27 ms wait_in_q=1821 ms
+I (437518) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=155
+W (437808) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (437858) AudioService: [RADIO_OUTPUT] queue=68 buffer=1768 ms pcm=26 ms write=27 ms wait_in_q=1813 ms
+I (438038) MediaPlayer: [RADIO_MANUAL_PAUSE] station=Душевное радио Минск 105.7 FM active_before=1
+I (438038) RAM: [RADIO_STOP] internal free=44407 min=17724 largest=25600 | psram free=7202716 min=7202716 largest=7077888
+I (438048) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (438058) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (438068) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=61443 internal_largest=25600 dma_free=53851 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (438078) AudioManager: Releasing audio focus from source 3
+I (438088) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=61639 internal_largest=25600 dma_free=53851 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (438108) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (438108) wifi:Set ps type: 2, coexist: 0
+
+I (438118) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (438118) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (438138) MediaPlayer: [RADIO_MANUAL_PAUSE_DONE] active=0
+I (440328) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (440618) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3374
+I (440788) RAM: internal free=62831 min=17724 largest=25600 | psram free=7473156 min=7202716 largest=7340032
+I (440828) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=188
+I (441078) SystemInfo: free sram: 62759 minimal sram: 17724
+I (443958) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=193
+I (443998) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (444288) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5503
+I (445788) RAM: internal free=62831 min=17724 largest=25600 | psram free=7473156 min=7202716 largest=7340032
+I (445868) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=108
+I (447248) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=147
+W (449288) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (449418) RadioBrowser: Playing radio by station UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (449418) RAM: [RADIO_START] internal free=61739 min=17724 largest=25600 | psram free=7473156 min=7202716 largest=7340032
+I (449418) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (449438) InternetRadio: Radio stream startup: connecting
+I (449448) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=61495 internal_largest=25600 dma_free=53707 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (449458) AudioManager: Audio focus requested by source 3 (current 0)
+I (449468) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=61495 internal_largest=25600 dma_free=53707 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (449478) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (449488) wifi:Set ps type: 0, coexist: 0
+
+I (449488) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (449498) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (449818) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (450108) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4458
+I (450148) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (450788) RAM: internal free=59631 min=17724 largest=25600 | psram free=7462908 min=7202716 largest=7340032
+I (451078) SystemInfo: free sram: 59563 minimal sram: 17724
+E (451548) esp-tls: [sock=55] select() timeout
+E (451548) transport_base: Failed to open a new connection: 32774
+E (451548) HTTP_CLIENT: Connection failed, sock < 0
+W (451548) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (451558) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=62223 internal_largest=25600 dma_free=54435 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (451578) AudioManager: Releasing audio focus from source 3
+I (451578) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=62223 internal_largest=25600 dma_free=54435 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (451598) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (451598) RadioBrowser: Looking up radio station by UUID: 962b35ca-0601-11e8-ae97-52543be04c81
+I (451608) wifi:Set ps type: 2, coexist: 0
+
+I (451618) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (451618) RadioBrowser: [RADIO_MIRROR] trying http://de1.api.radio-browser.info
+I (451628) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (452668) RadioBrowser: [RADIO_MIRROR] success http://de1.api.radio-browser.info
+I (452668) RadioBrowser: Search request succeeded: status=200 response_len=1105
+I (452668) RAM: [RADIO_START] internal free=61323 min=17724 largest=25600 | psram free=7473156 min=7202716 largest=7340032
+I (452678) InternetRadio: Radio current:
+name=Юмор FM
+uuid=962b35ca-0601-11e8-ae97-52543be04c81
+codec=MP3
+bitrate=160
+country=Belarus
+url=http://live.humorfm.by:8000/veseloeradio
+I (452698) InternetRadio: Radio stream startup: connecting
+I (452698) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=61147 internal_largest=25600 dma_free=54095 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (452718) AudioManager: Audio focus requested by source 3 (current 0)
+I (452728) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=61939 internal_largest=25600 dma_free=54151 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (452738) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (452748) wifi:Set ps type: 0, coexist: 0
+
+I (452748) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (452758) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (453558) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+I (454598) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+E (454778) esp-tls: [sock=55] select() timeout
+E (454778) transport_base: Failed to open a new connection: 32774
+E (454778) HTTP_CLIENT: Connection failed, sock < 0
+W (454778) InternetRadio: [RADIO_HTTP_ERROR] Failed to open stream: http://live.humorfm.by:8000/veseloeradio
+I (454788) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=61555 internal_largest=25600 dma_free=53767 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (454808) AudioManager: Releasing audio focus from source 3
+I (454808) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=61555 internal_largest=25600 dma_free=53767 dma_largest=25600 psram_free=7467008 psram_largest=7340032
+I (454828) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (454838) wifi:Set ps type: 2, coexist: 0
+I (454838) AudioService: Resampling audio from 16000 to 48000
+
+I (454848) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (454848) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (454898) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5499
+I (455458) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=201
+I (455788) RAM: internal free=57855 min=17724 largest=25600 | psram free=7466264 min=7202716 largest=7340032
+W (457058) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+W (457868) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (457968) RadioBrowser: Playing radio by station UUID: 3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+I (457978) RAM: [RADIO_START] internal free=60871 min=17724 largest=25600 | psram free=7475240 min=7202716 largest=7340032
+I (457978) InternetRadio: Radio current:
+name=Radius FM
+uuid=3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+codec=AAC+
+bitrate=192
+country=Belarus
+url=https://stream2.datacenter.by/radiusfm_main
+I (457998) InternetRadio: Radio stream startup: connecting
+I (457998) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=60823 internal_largest=25600 dma_free=53035 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (458018) AudioManager: Audio focus requested by source 3 (current 0)
+I (458018) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=60823 internal_largest=25600 dma_free=53035 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (458038) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (458048) wifi:Set ps type: 0, coexist: 0
+
+I (458048) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (458058) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (458118) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+W (458128) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (458938) InternetRadio: [RADIO_REDIRECT] status=302 from=https://stream2.datacenter.by/radiusfm_main to=http://media2.datacenter.by:8002/radiusfm_main redirect=1
+I (458948) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (459168) InternetRadio: [RADIO_REDIRECT] followed successfully to http://media2.datacenter.by:8002/radiusfm_main
+I (459168) InternetRadio: Stream connected: status=200 content_type=unknown
+I (459178) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (459188) InternetRadio: Radio codec selection:
+station_codec=AAC+
+content_type=unknown
+selected_decoder=AAC
+I (459198) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (459198) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=51603 internal_largest=25600 dma_free=43815 dma_largest=25600 psram_free=7386568 psram_largest=7340032
+I (459218) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (459228) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (459228) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=48055 internal_largest=25600 dma_free=40267 dma_largest=25600 psram_free=7386568 psram_largest=7340032
+I (459248) InternetRadio: Received first stream data: bytes=2048
+I (459258) InternetRadio: First AAC frame decoded: rate=48000 channels=2 bits=16 bytes=4096
+I (459258) RAM: [RADIO_PLAYING] internal free=48055 min=17724 largest=25600 | psram free=7386568 min=7202716 largest=7340032
+I (459268) AudioService: [RADIO_PCM] ptr=0x3c412f60 size=2048 bytes PSRAM=YES (queue=1)
+I (459278) AudioService: [RADIO_PREBUFFER] buffering... current=21 ms target=1800 ms (queue=1)
+I (459478) AudioService: [RADIO_PCM] ptr=0x3c4c5760 size=2048 bytes PSRAM=YES (queue=32)
+I (459888) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (459908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=14 ms wait_in_q=618 ms
+I (460418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=940 ms
+I (460418) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (460708) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5259
+I (460748) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=153
+I (460788) RAM: internal free=40875 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (460928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1295 ms
+I (461438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1625 ms
+I (461948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1834 ms
+I (462078) SystemInfo: free sram: 39471 minimal sram: 17724
+I (462358) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=201
+I (462468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (462978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (463488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (463778) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=107
+I (463998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (464248) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (464248) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (464508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (465028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (465538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (465788) RAM: internal free=36903 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (465838) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (465978) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (466048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (466248) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6135
+I (466558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (467068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (467588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (468098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (468188) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=201
+I (468608) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (469118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (469298) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (469298) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (469628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (470148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (470658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (470788) RAM: internal free=38983 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (470978) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=164
+I (471168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (471678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (472078) SystemInfo: free sram: 44567 minimal sram: 17724
+I (472188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (472408) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (472708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (472728) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6866
+I (473148) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (473218) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (473728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (474238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (474338) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (474338) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (474748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (475008) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=155
+I (475268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (475778) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (475788) RAM: internal free=37571 min=17724 largest=23552 | psram free=7211696 min=7202716 largest=7077888
+I (476288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (476798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (477308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (477828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (478338) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (478678) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=151
+I (478848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (479348) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (479348) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (479358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (479598) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (479868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (479918) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3966
+I (480388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (480418) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (480788) RAM: internal free=41071 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (480898) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (481408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (481918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (482078) SystemInfo: free sram: 36715 minimal sram: 17724
+I (482348) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=101
+I (482428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (482948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (483458) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (483928) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (483968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (484228) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5667
+I (484408) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (484408) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (484478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+W (484768) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (484838) MediaPlayer: [RADIO_MANUAL_PAUSE] station=Radius FM active_before=1
+I (484838) RAM: [RADIO_STOP] internal free=39491 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (484848) AudioService: [RADIO_PCM] ptr=0x3c4140f0 size=2048 bytes PSRAM=YES (queue=1)
+I (484848) AudioService: [RADIO_PREBUFFER] buffering... current=21 ms target=1800 ms (queue=1)
+I (484858) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=59931 internal_largest=25600 dma_free=52143 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (484868) AudioManager: Releasing audio focus from source 3
+I (484878) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=60127 internal_largest=25600 dma_free=51759 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (484898) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (484898) wifi:Set ps type: 2, coexist: 0
+
+I (484908) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+I (484908) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+I (484918) MediaPlayer: [RADIO_MANUAL_PAUSE_DONE] active=0
+I (485438) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=136
+I (485788) RAM: internal free=61695 min=17724 largest=25600 | psram free=7475240 min=7202716 largest=7340032
+I (488538) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=143
+I (489908) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (490198) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4375
+I (490788) RAM: internal free=61695 min=17724 largest=25600 | psram free=7475240 min=7202716 largest=7340032
+I (491828) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=179
+I (492078) SystemInfo: free sram: 61583 minimal sram: 17724
+I (494578) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (494868) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3275
+I (495198) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+W (495538) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (495658) MediaPlayer: [RADIO_MANUAL_RESUME] station=Radius FM
+I (495658) RAM: [RADIO_START] internal free=60475 min=17724 largest=25600 | psram free=7475240 min=7202716 largest=7340032
+I (495668) InternetRadio: Radio current:
+name=Radius FM
+uuid=3937d9d4-4ee8-444b-bdb6-fbf64c7324f8
+codec=AAC+
+bitrate=192
+country=Belarus
+url=https://stream2.datacenter.by/radiusfm_main
+I (495678) InternetRadio: Radio stream startup: connecting
+I (495688) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=60299 internal_largest=25600 dma_free=52511 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (495698) AudioManager: Audio focus requested by source 3 (current 0)
+I (495708) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=60299 internal_largest=25600 dma_free=52511 dma_largest=25600 psram_free=7469092 psram_largest=7340032
+I (495728) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (495728) MediaPlayer: [RADIO_MANUAL_RESUME_RESULT] success=1
+I (495728) wifi:Set ps type: 0, coexist: 0
+
+I (495738) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+I (495748) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (495788) RAM: internal free=56915 min=17724 largest=25600 | psram free=7462108 min=7202716 largest=7340032
+W (495858) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+I (496668) InternetRadio: [RADIO_REDIRECT] status=302 from=https://stream2.datacenter.by/radiusfm_main to=http://media2.datacenter.by:8002/radiusfm_main redirect=1
+I (496678) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+I (496858) InternetRadio: [RADIO_REDIRECT] followed successfully to http://media2.datacenter.by:8002/radiusfm_main
+I (496858) InternetRadio: Stream connected: status=200 content_type=unknown
+I (496858) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+I (496868) InternetRadio: Radio codec selection:
+station_codec=AAC+
+content_type=unknown
+selected_decoder=AAC
+I (496878) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (496888) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=51331 internal_largest=25600 dma_free=43543 dma_largest=25600 psram_free=7386568 psram_largest=7340032
+I (496898) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (496908) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (496918) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=47607 internal_largest=25600 dma_free=39819 dma_largest=25600 psram_free=7386568 psram_largest=7340032
+I (496928) InternetRadio: Received first stream data: bytes=2048
+I (496938) InternetRadio: First AAC frame decoded: rate=48000 channels=2 bits=16 bytes=4096
+I (496948) RAM: [RADIO_PLAYING] internal free=47803 min=17724 largest=25600 | psram free=7386568 min=7202716 largest=7340032
+I (496958) AudioService: [RADIO_PCM] ptr=0x3c4140f0 size=2048 bytes PSRAM=YES (queue=1)
+I (496968) AudioService: [RADIO_PREBUFFER] buffering... current=21 ms target=1800 ms (queue=1)
+I (497188) AudioService: [RADIO_PCM] ptr=0x3c4c5760 size=2048 bytes PSRAM=YES (queue=32)
+I (497588) FnkExternalI2s: MEDIA_FADE_START user=69 target_gain=13089 samples=33600
+I (497598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=13 ms wait_in_q=630 ms
+I (498008) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=124
+I (498118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=952 ms
+I (498158) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (498458) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4293
+I (498628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1282 ms
+I (499138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1634 ms
+I (499648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (500108) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=136
+I (500158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (500678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (500788) RAM: internal free=38579 min=17724 largest=23552 | psram free=7213748 min=7202716 largest=7077888
+I (501188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (501698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (501938) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (501938) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (502008) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=208
+I (502078) SystemInfo: free sram: 40779 minimal sram: 17724
+I (502208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (502718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (502748) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (503068) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3439
+I (503238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (503748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (504118) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=157
+I (504258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (504768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (505278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (505788) RAM: internal free=38499 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (505798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (506308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (506528) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (506818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (506838) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=3504
+I (506998) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (506998) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (507218) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=126
+I (507328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (507838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (508358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (508868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1834 ms
+I (509378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (509588) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=206
+I (509888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (510358) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (510398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (510638) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4761
+I (510788) RAM: internal free=40319 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (510918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (511428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (511428) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=152
+I (511938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (512028) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (512028) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (512078) SystemInfo: free sram: 40211 minimal sram: 17724
+I (512448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (512958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1831 ms
+I (513478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (513988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (514378) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=151
+I (514498) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (515008) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (515418) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (515518) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (515708) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5984
+I (515788) RAM: internal free=39011 min=17724 largest=23552 | psram free=7211696 min=7202716 largest=7077888
+I (515838) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+I (516038) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (516548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (517058) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (517058) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (517058) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (517568) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (518078) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (518538) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+I (518598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (519108) AudioService: [RADIO_OUTPUT] queue=85 buffer=1785 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (519618) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1829 ms
+I (520128) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (520638) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (520788) RAM: internal free=37275 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (521158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (521668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (521698) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (522008) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5009
+I (522058) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (522078) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (522078) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (522078) SystemInfo: free sram: 40783 minimal sram: 17724
+I (522178) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (522688) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (523198) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (523718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (524228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (524738) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (524798) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=191
+I (525248) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+W (525568) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+W (525568) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+I (525578) Backlight: Set brightness to 10
+W (525578) LcdDisplay: AUTO_DIM done dimmed_after=1
+I (525758) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (525788) RAM: internal free=40351 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (526278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (526788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (527028) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (527138) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (527138) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (527298) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (527318) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3510
+I (527808) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (528098) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=166
+I (528318) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (528838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (529348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (529718) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (529858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (530368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (530788) RAM: internal free=36803 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (530878) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (530878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (531158) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4008
+I (531398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (531908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (532078) SystemInfo: free sram: 39019 minimal sram: 17724
+I (532148) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (532148) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (532288) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=104
+I (532418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (532928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (533438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (533958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (534208) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (534468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (534978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (535188) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (535488) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6730
+I (535488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (535788) RAM: internal free=38351 min=17724 largest=23552 | psram free=7211696 min=7202716 largest=7077888
+I (535998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (536038) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=159
+I (536518) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (537028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (537188) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (537188) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (537538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (538048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (538558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (539078) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (539518) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=175
+I (539588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (540098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (540608) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (540788) RAM: internal free=42375 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (541118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (541638) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (542088) SystemInfo: free sram: 40263 minimal sram: 17724
+I (542148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (542218) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (542238) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (542238) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (542508) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=3562
+I (542548) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=114
+I (542658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (543168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (543678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1832 ms
+I (544198) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1835 ms
+I (544708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (544938) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=161
+I (545218) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (545728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (545788) RAM: internal free=40779 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (546078) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (546238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1821 ms
+I (546368) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6194
+I (546758) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (547258) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (547258) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (547268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (547388) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=102
+I (547778) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1831 ms
+I (548288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (548808) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (549318) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (549828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (550218) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=138
+I (550338) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (550788) RAM: internal free=40859 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (550848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (551368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (551818) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=199
+I (551878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (552078) SystemInfo: free sram: 38435 minimal sram: 17724
+I (552308) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (552308) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (552388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (552578) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (552878) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4307
+I (552898) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (553408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (553928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (554438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (554518) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=107
+I (554948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (555458) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (555788) RAM: internal free=38179 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (555968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (556488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (556998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (557208) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (557328) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (557328) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (557508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (557528) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4369
+I (558018) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (558168) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=133
+I (558528) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (559048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (559558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (559578) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=176
+I (560068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (560578) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (560788) RAM: internal free=38483 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (561088) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (561608) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (561908) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (562078) SystemInfo: free sram: 38943 minimal sram: 17724
+I (562118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (562198) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5269
+I (562358) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (562358) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (562438) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=154
+I (562628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (563138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (563648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (564168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (564678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (565038) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=168
+I (565188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (565698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (565788) RAM: internal free=36811 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (566208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (566728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (567238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+W (567298) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+W (567298) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+W (567318) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+I (567318) Backlight: Set brightness to 67
+W (567318) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (567398) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (567398) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (567488) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (567748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1829 ms
+I (567768) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3028
+I (568118) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=196
+I (568258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1830 ms
+I (568768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (569288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1834 ms
+I (569678) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+I (569798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (570308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (570788) RAM: internal free=38543 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (570798) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (570818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (571098) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4259
+I (571128) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=120
+I (571328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (571848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (572078) SystemInfo: free sram: 40247 minimal sram: 17724
+I (572358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (572428) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (572428) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (572868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (573288) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=114
+I (573378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (573888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (574408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (574788) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=167
+I (574918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (575388) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (575428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (575678) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6972
+I (575788) RAM: internal free=39231 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (575938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (576448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (576968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (577468) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (577468) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (577478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (577948) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=172
+I (577988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1831 ms
+I (578498) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1838 ms
+I (579018) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (579528) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (580038) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (580548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (580788) RAM: internal free=37279 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (581058) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (581318) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=206
+I (581578) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (582078) SystemInfo: free sram: 36859 minimal sram: 17724
+I (582088) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (582518) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (582518) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (582598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (582668) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (582968) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6499
+I (583108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (583568) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=139
+I (583618) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (584138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (584648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (585158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (585668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (585788) RAM: internal free=40467 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (586178) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (586698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (586828) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=170
+I (587208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (587538) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (587538) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (587718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (588228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (588738) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (588838) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=187
+I (589258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (589508) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (589768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (589818) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5326
+I (590278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (590788) RAM: internal free=40459 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (590788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (591298) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (591778) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=107
+I (591818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (592078) SystemInfo: free sram: 43251 minimal sram: 17724
+I (592328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (592588) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (592588) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (592838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (593348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (593858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (594378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (594888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (595188) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (595398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (595488) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4266
+I (595528) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=219
+I (595788) RAM: internal free=38779 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (595908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (596418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (596938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (597448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+W (597468) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+W (597468) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+I (597468) Backlight: Set brightness to 10
+W (597478) LcdDisplay: AUTO_DIM done dimmed_after=1
+I (597628) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (597628) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (597958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (598128) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=140
+I (598468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (598978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (599498) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1834 ms
+I (599758) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (600008) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (600058) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4087
+I (600518) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (600788) RAM: internal free=37011 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (601028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (601178) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=125
+I (601538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (602058) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (602078) SystemInfo: free sram: 38707 minimal sram: 17724
+I (602568) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (602638) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (602638) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (603078) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (603098) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=103
+I (603588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (604098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (604228) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (604548) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5101
+I (604618) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (605038) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (605128) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (605638) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1828 ms
+I (605788) RAM: internal free=40559 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (606148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (606658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (606878) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=198
+I (607178) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1826 ms
+I (607678) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (607678) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (607688) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (608198) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1831 ms
+I (608708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (609118) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (609228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (609708) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (609738) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (610028) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6745
+I (610248) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1829 ms
+I (610758) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (610788) RAM: internal free=39299 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (611268) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=154
+I (611268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1827 ms
+I (611788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1835 ms
+I (612078) SystemInfo: free sram: 40291 minimal sram: 17724
+I (612298) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (612728) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (612728) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (612808) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (613078) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=135
+I (613318) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (613828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (614348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (614858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (615278) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=175
+I (615368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (615788) RAM: internal free=40527 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (615878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1762 ms
+I (616388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (616768) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (616908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (617078) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5845
+I (617418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (617748) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (617748) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (617928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (618438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (618738) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=201
+I (618948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (619468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (619978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (620488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (620638) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=214
+I (620788) RAM: internal free=40331 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (620998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (621508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (622028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (622078) SystemInfo: free sram: 39147 minimal sram: 17724
+I (622538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1830 ms
+I (622778) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (622778) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (622938) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (623048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (623238) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4641
+I (623558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (624068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (624278) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=195
+I (624588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (625098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (625608) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (625788) RAM: internal free=35439 min=17724 largest=21504 | psram free=7213748 min=7202716 largest=7077888
+I (626118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (626628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (627148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (627198) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=215
+I (627658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (627818) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (627818) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (627898) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (628168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (628188) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4217
+I (628678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (629188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (629708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (630218) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (630358) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+I (630728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (630788) RAM: internal free=38699 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (631238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (631748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1827 ms
+I (632078) SystemInfo: free sram: 46287 minimal sram: 17724
+I (632268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (632398) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (632688) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5591
+I (632778) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (632848) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (632848) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (633078) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+I (633288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (633798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (634308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (634828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1834 ms
+I (635338) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (635418) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=198
+I (635788) RAM: internal free=39215 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (635848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (636358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (636868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (637388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1825 ms
+I (637498) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+I (637898) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (637908) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (637908) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (638308) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (638408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (638618) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4309
+I (638918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (639148) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=220
+I (639428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (639948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (640458) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (640778) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=207
+I (640788) RAM: internal free=38771 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (640968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (641478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (641988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (642078) SystemInfo: free sram: 36943 minimal sram: 17724
+I (642508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (642868) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=101
+I (642918) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (642918) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (642968) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (643018) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (643238) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5882
+I (643528) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (644038) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1825 ms
+I (644548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (645068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (645578) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (645658) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=201
+I (645788) RAM: internal free=40179 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (646088) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1833 ms
+I (646598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (647108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (647628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (647978) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (647978) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (648138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (648418) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=104
+I (648648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (649158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (649208) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (649518) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5603
+I (649668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (649858) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=168
+I (650188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1763 ms
+I (650698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (650788) RAM: internal free=36983 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (651208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (651718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (652078) SystemInfo: free sram: 42535 minimal sram: 17724
+I (652228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (652748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (652888) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=202
+I (653008) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (653008) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (653258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (653768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (654278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (654788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (655158) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (655308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (655488) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5695
+I (655788) RAM: internal free=38735 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (655818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (656328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (656398) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (656838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (657348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (657868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (658028) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (658028) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (658378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (658888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (659138) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+I (659398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (659908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (660428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (660788) RAM: internal free=40343 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (660938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (661188) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (661448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (661478) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4557
+I (661528) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=116
+I (661958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (662078) SystemInfo: free sram: 42455 minimal sram: 17724
+I (662468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (662988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (663078) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (663078) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (663498) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (664008) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (664418) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (664518) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (665028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (665548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (665788) RAM: internal free=39275 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (666058) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (666078) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (666358) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5213
+I (666568) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (667078) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (667588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (667958) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=195
+I (668088) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (668088) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (668108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (668618) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (669128) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1833 ms
+I (669638) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (670148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (670618) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=138
+I (670668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (670788) RAM: internal free=39183 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (671178) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (671578) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (671688) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (671908) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=6163
+I (672078) SystemInfo: free sram: 40363 minimal sram: 17724
+I (672198) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (672708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (673148) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (673148) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (673228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1825 ms
+I (673338) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=197
+I (673738) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (674248) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (674758) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (675268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (675608) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=198
+I (675788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (675788) RAM: internal free=36819 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (676298) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (676808) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (677318) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=105
+I (677318) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (677828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (678078) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (678178) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (678178) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (678348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (678378) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4794
+I (678858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (679368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (679878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (680388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (680788) RAM: internal free=40511 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (680848) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=183
+I (680908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1835 ms
+I (681418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1830 ms
+I (681928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (682078) SystemInfo: free sram: 38787 minimal sram: 17724
+I (682438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (682948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (683138) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=111
+I (683178) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (683218) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (683218) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (683468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (683498) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6721
+I (683978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (684488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (684998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (685228) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=106
+I (685508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (685788) RAM: internal free=40071 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (686028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (686538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (687048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (687558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (687708) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=110
+I (688068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (688248) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (688248) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (688588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1824 ms
+I (689098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (689318) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=190
+W (689368) InternetRadio: [RADIO_HTTP_GAP] read_time=258 ms bytes=2048
+I (689608) AudioService: [RADIO_OUTPUT] queue=74 buffer=1554 ms pcm=21 ms write=19 ms wait_in_q=1819 ms
+I (690118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (690238) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (690548) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4881
+I (690628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (690788) RAM: internal free=38359 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (691148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1644 ms
+I (691658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1752 ms
+I (692078) SystemInfo: free sram: 40447 minimal sram: 17724
+I (692168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (692678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (692928) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (693188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (693288) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (693288) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (693708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (694218) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (694388) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (694728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (695238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (695438) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (695728) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3305
+I (695748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (695788) RAM: internal free=43115 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (696268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (696778) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (697288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (697408) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=126
+I (697798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (698298) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (698298) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (698308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (698828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (699058) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (699338) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (699358) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4773
+I (699538) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=175
+I (699848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (700358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (700788) RAM: internal free=37515 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (700868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (700978) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=111
+I (701388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (701898) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (702078) SystemInfo: free sram: 42155 minimal sram: 17724
+I (702408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (702918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+W (703118) InternetRadio: [RADIO_DEC_GAP] decode_time=36 ms decoded_bytes=4096
+I (703358) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (703358) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (703428) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=145
+I (703428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (703948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (704188) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (704458) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (704498) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3559
+I (704968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1825 ms
+I (705358) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=134
+I (705478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (705788) RAM: internal free=38783 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (705988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (706508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1835 ms
+I (706778) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=150
+I (707018) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (707528) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (708038) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (708098) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (708378) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3711
+I (708388) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (708388) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (708548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (709068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (709578) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (709808) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=142
+I (710088) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (710598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1825 ms
+I (710788) RAM: internal free=38699 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (711108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (711338) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=131
+I (711628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (712078) SystemInfo: free sram: 40907 minimal sram: 17724
+I (712138) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (712138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (712418) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6664
+I (712648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (713158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (713208) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=178
+I (713408) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (713408) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (713668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (714188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (714698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (715208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (715718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (715788) RAM: internal free=40231 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (716228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (716658) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=142
+I (716748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (717258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (717768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (718278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (718458) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (718458) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (718478) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=123
+I (718788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (719078) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (719308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (719368) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4044
+I (719818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (720328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (720788) RAM: internal free=40355 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (720838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (721348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (721718) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=213
+I (721868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (722078) SystemInfo: free sram: 38699 minimal sram: 17724
+I (722378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (722888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (723398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (723438) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (723498) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (723498) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (723738) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5375
+I (723788) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=111
+I (723908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (724428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (724938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1829 ms
+I (725448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (725788) RAM: internal free=40819 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (725958) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (726218) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (726468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (726988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (727498) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (728008) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (728518) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (728528) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (728528) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (729028) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=161
+I (729028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (729128) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (729438) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5667
+I (729548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (730058) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (730568) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (730788) RAM: internal free=39303 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (731078) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (731588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (732078) SystemInfo: free sram: 38695 minimal sram: 17724
+I (732108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (732618) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (732928) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (733128) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (733568) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (733568) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (733638) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (734148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (734668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (735118) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (735178) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (735428) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3794
+I (735688) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (735688) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (735788) RAM: internal free=38711 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (736198) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (736708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (737228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (737738) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (738248) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (738498) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=101
+I (738598) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (738598) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (738758) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (739248) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (739268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (739568) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4990
+I (739788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (740298) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (740788) RAM: internal free=36999 min=17724 largest=23552 | psram free=7213748 min=7202716 largest=7077888
+I (740808) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=165
+I (740808) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (741318) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (741828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (742078) SystemInfo: free sram: 43239 minimal sram: 17724
+I (742348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (742858) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (743348) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=106
+I (743368) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (743638) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (743638) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (743878) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (744388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (744608) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (744898) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6488
+I (744908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (745418) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (745788) RAM: internal free=38571 min=17724 largest=23552 | psram free=7213748 min=7202716 largest=7077888
+I (745928) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (746438) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1825 ms
+I (746928) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=188
+I (746948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1809 ms
+I (747468) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (747978) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (748488) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (748668) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (748668) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (748998) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (749508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (750028) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (750538) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1834 ms
+I (750588) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+I (750788) RAM: internal free=36687 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (751048) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (751408) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (751558) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (751708) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4295
+I (752068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (752118) SystemInfo: free sram: 44563 minimal sram: 17724
+I (752588) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (753098) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (753608) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (753708) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (753708) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (754118) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (754168) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=102
+I (754628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (755148) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (755658) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (755678) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=211
+I (755788) RAM: internal free=41059 min=17724 largest=23552 | psram free=7213748 min=7202716 largest=7077888
+I (756028) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (756168) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (756328) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6594
+I (756678) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (757188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (757708) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (758218) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (758728) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (758738) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (758738) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (758758) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=170
+I (759238) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (759748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (760268) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (760538) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=211
+I (760778) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (760788) RAM: internal free=37527 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (761288) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (761798) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (762078) SystemInfo: free sram: 38711 minimal sram: 17724
+I (762308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (762828) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (762958) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (763238) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5458
+I (763338) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (763768) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (763768) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (763848) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (763868) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=141
+I (764358) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (764868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (765388) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (765758) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=120
+I (765788) RAM: internal free=36943 min=17724 largest=23552 | psram free=7211696 min=7202716 largest=7077888
+I (765898) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (766408) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (766918) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (767428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (767938) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=181
+I (767948) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (768458) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (768708) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (768808) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (768808) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (768968) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (769048) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5534
+I (769478) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (769988) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (770508) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (770788) RAM: internal free=38779 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (771018) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (771118) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=133
+I (771528) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (772038) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (772078) SystemInfo: free sram: 39211 minimal sram: 17724
+I (772548) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (773068) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (773578) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (773818) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (773818) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (774088) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (774378) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=213
+I (774588) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (774598) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (774888) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5698
+I (775108) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (775628) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (775788) RAM: internal free=38711 min=17724 largest=25600 | psram free=7211696 min=7202716 largest=7077888
+I (776138) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (776238) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=157
+I (776648) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (777158) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (777668) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (778188) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (778698) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (778878) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (778878) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (779208) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (779718) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (779868) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=102
+I (780228) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (780598) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (780748) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1831 ms
+I (780788) RAM: internal free=38779 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (780908) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5386
+I (781258) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1827 ms
+I (781768) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (782078) SystemInfo: free sram: 36855 minimal sram: 17724
+I (782278) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1835 ms
+I (782788) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1824 ms
+I (783228) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=107
+I (783308) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (783818) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (783908) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (783908) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (784328) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (784838) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (785348) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (785788) RAM: internal free=39279 min=17724 largest=25600 | psram free=7213748 min=7202716 largest=7077888
+I (785868) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (786328) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (786378) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (786618) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=3803
+I (786768) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (786888) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms
+I (787398) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1821 ms
+I (787908) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1823 ms
+I (788428) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1823 ms
+I (788938) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=22 ms wait_in_q=1826 ms
+I (788938) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+I (788938) InternetRadio: [RADIO] buffer=1806 ms queue=86 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+I (789448) AudioService: [RADIO_OUTPUT] queue=86 buffer=1806 ms pcm=21 ms write=19 ms wait_in_q=1828 ms

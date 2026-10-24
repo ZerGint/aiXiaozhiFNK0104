@@ -1,0 +1,183 @@
+diff --git a/main/audio/audio_service.cc b/main/audio/audio_service.cc
+index e056dbd..4f2c25d 100644
+--- a/main/audio/audio_service.cc
++++ b/main/audio/audio_service.cc
+@@ -458,8 +458,13 @@ void AudioService::AudioOutputTask() {
+             (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking ||
+              (AudioManager::GetInstance().GetCurrentAudioSource() != kAudioSourceMp3Player &&
+               AudioManager::GetInstance().GetCurrentAudioSource() != kAudioSourceInternetRadio))) {
++            const bool task_is_radio = task->is_radio;
++            task.reset();
+             lock.lock();
+             output_in_flight_ = false;
++            if (task_is_radio) {
++                radio_started = false;
++            }
+             const bool notify_drained = MarkPlaybackDrainedLocked();
+             audio_queue_cv_.notify_all();
+             lock.unlock();
+@@ -475,6 +480,13 @@ void AudioService::AudioOutputTask() {
+             codec_->EnableOutput(true);
+         }
+ 
++        if (task->stream_start) {
++            ESP_LOGI(TAG,
++                     "AUDIO_TASK_OUTPUT_BEGIN source=%s task=%p pcm=%p samples=%u",
++                     task->is_radio ? "radio" : "sd", task.get(), task->GetPcmData(),
++                     static_cast<unsigned>(task->GetPcmSize()));
++        }
++
+         if (task->playback_id != 0 && callbacks_.on_playback_progress) {
+             callbacks_.on_playback_progress(task->playback_id, task->media_position_ms);
+         }
+@@ -512,11 +524,16 @@ void AudioService::AudioOutputTask() {
+                     : 0;
+ 
+             if (gap_ms > last_radio_duration_ms_ + 15 && last_radio_write_end_us_ > 0) {
++                size_t playback_queue_size = 0;
++                {
++                    std::lock_guard<std::mutex> queue_lock(audio_queue_mutex_);
++                    playback_queue_size = audio_playback_queue_.size();
++                }
+                 ESP_LOGW(TAG,
+                          "[RADIO_OUTPUT_GAP] gap=%u ms expected_duration=%u ms queue=%zu buffer=%u "
+                          "ms wait_in_q=%u ms",
+                          (unsigned)gap_ms, (unsigned)last_radio_duration_ms_,
+-                         audio_playback_queue_.size(), (unsigned)radio_buffered_duration_ms_,
++                         playback_queue_size, (unsigned)radio_buffered_duration_ms_,
+                          (unsigned)wait_in_q_ms);
+             }
+ 
+@@ -531,10 +548,15 @@ void AudioService::AudioOutputTask() {
+             static int64_t last_output_log_us = 0;
+             if (now_us - last_output_log_us >= 500000) {
+                 last_output_log_us = now_us;
++                size_t playback_queue_size = 0;
++                {
++                    std::lock_guard<std::mutex> queue_lock(audio_queue_mutex_);
++                    playback_queue_size = audio_playback_queue_.size();
++                }
+                 ESP_LOGI(
+                     TAG,
+                     "[RADIO_OUTPUT] queue=%zu buffer=%u ms pcm=%u ms write=%u ms wait_in_q=%u ms",
+-                    audio_playback_queue_.size(), (unsigned)radio_buffered_duration_ms_,
++                    playback_queue_size, (unsigned)radio_buffered_duration_ms_,
+                     (unsigned)task->duration_ms, (unsigned)write_dur_ms, (unsigned)wait_in_q_ms);
+             }
+         } else {
+@@ -545,16 +567,33 @@ void AudioService::AudioOutputTask() {
+         last_output_time_ = std::chrono::steady_clock::now();
+         debug_statistics_.playback_count++;
+ 
++        const bool task_is_radio = task->is_radio;
++        const bool task_stream_start = task->stream_start;
++        const void* task_ptr = task.get();
++        const void* task_pcm_ptr = task->GetPcmData();
++        const size_t task_pcm_size = task->GetPcmSize();
++#if CONFIG_USE_SERVER_AEC
++        const uint32_t task_timestamp = task->timestamp;
++#endif
++        task.reset();
++
++        if (task_stream_start) {
++            ESP_LOGI(TAG,
++                     "AUDIO_TASK_DESTROY source=%s task=%p pcm=%p samples=%u",
++                     task_is_radio ? "radio" : "sd", task_ptr, task_pcm_ptr,
++                     static_cast<unsigned>(task_pcm_size));
++        }
++
+         bool notify_drained = false;
+         lock.lock();
+ #if CONFIG_USE_SERVER_AEC
+-        /* Record the timestamp for server AEC */
+-        if (task->timestamp > 0) {
+-            timestamp_queue_.push_back(task->timestamp);
++        /* Record the timestamp for server AEC after the task storage is gone. */
++        if (task_timestamp > 0) {
++            timestamp_queue_.push_back(task_timestamp);
+         }
+ #endif
+         output_in_flight_ = false;
+-        if (task->is_radio) {
++        if (task_is_radio) {
+             bool has_radio = false;
+             for (const auto& queued_task : audio_playback_queue_) {
+                 has_radio = has_radio || queued_task->is_radio;
+@@ -813,20 +852,26 @@ void AudioService::PushTaskToEncodeQueue(AudioTaskType type, std::vector<int16_t
+     }
+ }
+ 
+-void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, bool is_radio,
+-                                    uint32_t duration_ms, bool stream_start) {
++uint32_t AudioService::GetPlaybackGeneration() {
++    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
++    return playback_generation_;
++}
++
++bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, bool is_radio,
++                                    uint32_t duration_ms, bool stream_start,
++                                    uint32_t expected_generation) {
+     if (pcm.empty() || codec_ == nullptr)
+-        return;
++        return false;
+ 
+     if (service_stopped_.load()) {
+         ESP_LOGW(TAG, "PushPlaybackTask dropped PCM because AudioService is stopped!");
+-        return;
++        return false;
+     }
+ 
+     if (is_music) {
+         const auto device_state = Application::GetInstance().GetDeviceState();
+         if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
+-            return;
++            return false;
+         }
+     }
+ 
+@@ -834,10 +879,19 @@ void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
+         if (is_music) {
+             const auto device_state = Application::GetInstance().GetDeviceState();
+             if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
+-                return;
++                return false;
+             }
+         }
+         std::unique_lock<std::mutex> lock(audio_queue_mutex_);
++        if (expected_generation != 0 && expected_generation != playback_generation_) {
++            ESP_LOGW(TAG,
++                     "AUDIO_MEDIA_STALE_DROP expected_generation=%lu current_generation=%lu "
++                     "source=%s",
++                     static_cast<unsigned long>(expected_generation),
++                     static_cast<unsigned long>(playback_generation_),
++                     is_radio ? "radio" : "sd");
++            return false;
++        }
+         const size_t max_queue_size = is_radio ? 90 : 4;
+         const bool queue_has_capacity = audio_playback_queue_.size() < max_queue_size;
+         const bool radio_has_capacity = !is_radio || RADIO_PREBUFFER_MS == 0 ||
+@@ -865,13 +919,23 @@ void AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
+             } else {
+                 task->pcm = std::move(pcm);
+             }
++            if (stream_start) {
++                ESP_LOGI(TAG,
++                         "AUDIO_TASK_ENQUEUE source=%s generation=%lu task=%p pcm=%p samples=%u "
++                         "queue=%u",
++                         is_radio ? "radio" : "sd",
++                         static_cast<unsigned long>(playback_generation_), task.get(),
++                         task->GetPcmData(), static_cast<unsigned>(task->GetPcmSize()),
++                         static_cast<unsigned>(audio_playback_queue_.size() + 1));
++            }
+             audio_playback_queue_.push_back(std::move(task));
+             audio_queue_cv_.notify_all();
+-            return;
++            return true;
+         }
+         lock.unlock();
+         vTaskDelay(pdMS_TO_TICKS(15));
+     }
++    return false;
+ }
+ 
+ bool AudioService::PushPacketToDecodeQueue(std::unique_ptr<AudioStreamPacket> packet, bool wait) {

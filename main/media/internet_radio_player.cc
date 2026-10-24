@@ -31,6 +31,10 @@
 namespace {
 constexpr EventBits_t kStartupBitReady = (1 << 0);
 constexpr EventBits_t kStartupBitFailed = (1 << 1);
+constexpr int kMaxReconnectAttempts = 3;
+constexpr int kReconnectConnectDelayMs = 2000;
+constexpr int kReconnectStreamDelayMs = 500;
+constexpr int kReconnectDelayStepMs = 50;
 std::string ResolveRedirectUrl(const std::string& current_url, const std::string& location) {
     if (location.empty())
         return "";
@@ -184,6 +188,7 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
         url_ = station.url_resolved;
         title_ = station.name;
         startup_err_msg_.clear();
+        reconnect_exhausted_ = false;
         emit_failure_bip_ = emit_failure_bip;
         auto* attempt = new AttemptContext{this, generation, std::move(on_startup_ready),
                                            std::move(on_startup_failed), emit_failure_bip};
@@ -277,12 +282,15 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
     player->StreamLoop(attempt);
     LogRadioMemory(TAG, "RADIO_STREAMLOOP_EXIT");
     const bool current_attempt = player->generation_.load() == attempt->generation;
+    const bool reconnect_exhausted = current_attempt &&
+        player->reconnect_exhausted_.exchange(false) && !player->stop_requested_;
     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_TASK_AFTER_FOCUS_RELEASE");
-    const bool startup_failed =
-        current_attempt && !attempt->startup_ready_notified && !player->stop_requested_;
-    const bool bip_failure = current_attempt && !player->initial_ready_ && !player->stop_requested_;
-    if (bip_failure && attempt->emit_failure_bip) {
+    const bool startup_failed = current_attempt && !attempt->startup_ready_notified &&
+                                !player->initial_ready_ && !player->stop_requested_;
+    const bool startup_bip_failure = current_attempt && !player->initial_ready_ &&
+                                     !player->stop_requested_;
+    if ((startup_bip_failure && attempt->emit_failure_bip) || reconnect_exhausted) {
         Application::GetInstance().Schedule(
             []() { Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR); });
     }
@@ -310,6 +318,15 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
 }
 
 void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
+    auto wait_for_retry = [this](int delay_ms) {
+        for (int elapsed_ms = 0; elapsed_ms < delay_ms && !stop_requested_; elapsed_ms += kReconnectDelayStepMs) {
+            const int remaining_ms = delay_ms - elapsed_ms;
+            vTaskDelay(pdMS_TO_TICKS(remaining_ms < kReconnectDelayStepMs ? remaining_ms
+                                                                          : kReconnectDelayStepMs));
+        }
+        return !stop_requested_.load();
+    };
+
     AudioManager::GetInstance().RequestAudioFocus(kAudioSourceInternetRadio);
     LogRadioMemory(TAG, "RADIO_BEFORE_BUFFERS");
     EnsureMp3DecoderRegistered();
@@ -320,11 +337,22 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
     if (target_rate == 0)
         target_rate = 24000;
 
+    int reconnect_attempts = 0;
+
     while (!stop_requested_) {
         std::string current_url;
+        std::string current_uuid;
         {
             std::lock_guard<std::mutex> lock(mutex_);
             current_url = url_;
+            current_uuid = current_station_.stationuuid;
+        }
+
+        if (initial_ready_) {
+            ++reconnect_attempts;
+            ESP_LOGW(TAG, "[RADIO_RECONNECT_ATTEMPT] attempt=%d/%d uuid=%s url=%s",
+                     reconnect_attempts, kMaxReconnectAttempts, current_uuid.c_str(),
+                     current_url.c_str());
         }
 
         int status = -1;
@@ -426,7 +454,18 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                 }
                 break;
             }
-            vTaskDelay(pdMS_TO_TICKS(2000));
+            reconnect_count_++;
+            if (reconnect_attempts >= kMaxReconnectAttempts) {
+                reconnect_exhausted_ = true;
+                ESP_LOGE(TAG, "[RADIO_RECONNECT_EXHAUSTED] attempts=%d/%d reason=connect_failed",
+                         reconnect_attempts, kMaxReconnectAttempts);
+                break;
+            }
+            if (!wait_for_retry(kReconnectConnectDelayMs)) {
+                ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
+                         reconnect_attempts);
+                break;
+            }
             continue;
         }
 
@@ -499,8 +538,20 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                 if (startup_event_group_ != nullptr) {
                     xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
                 }
+                break;
             }
-            break;
+            reconnect_count_++;
+            if (reconnect_attempts >= kMaxReconnectAttempts) {
+                reconnect_exhausted_ = true;
+                ESP_LOGE(TAG, "[RADIO_RECONNECT_EXHAUSTED] attempts=%d/%d reason=decoder_open",
+                         reconnect_attempts, kMaxReconnectAttempts);
+                break;
+            }
+            if (!wait_for_retry(kReconnectStreamDelayMs)) {
+                ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
+                         reconnect_attempts);
+            }
+            continue;
         }
         const uint32_t stream_generation = BeginMediaPcmStream();
         std::vector<uint8_t, PsramAllocator<uint8_t>> in(2048);
@@ -511,6 +562,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         size_t pending_len = 0;
         bool first_read_logged = false;
         bool first_frame_logged = false;
+        bool reconnect_success_logged = false;
         bool invalid_info_logged = false;
         int64_t last_radio_log_time = 0;
         while (!stop_requested_) {
@@ -631,6 +683,12 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                         PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out.data()),
                                      frame.decoded_size / 2, info.channel, info.sample_rate,
                                      target_rate, true, stream_generation);
+                        if (reconnect_attempts > 0 && !reconnect_success_logged) {
+                            ESP_LOGI(TAG, "[RADIO_RECONNECT_SUCCESS] attempt=%d/%d",
+                                     reconnect_attempts, kMaxReconnectAttempts);
+                            reconnect_attempts = 0;
+                            reconnect_success_logged = true;
+                        }
                         if (!attempt->startup_ready_notified && !stop_requested_ &&
                             Application::GetInstance().GetAudioService().IsRadioPrebufferReady(
                                 stream_generation)) {
@@ -677,8 +735,19 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             reconnect_count_++;
         }
         reconnect_requested_ = false;
-        if (!stop_requested_)
-            vTaskDelay(pdMS_TO_TICKS(500));
+        if (!stop_requested_) {
+            if (reconnect_attempts >= kMaxReconnectAttempts) {
+                reconnect_exhausted_ = true;
+                ESP_LOGE(TAG, "[RADIO_RECONNECT_EXHAUSTED] attempts=%d/%d reason=stream_failed",
+                         reconnect_attempts, kMaxReconnectAttempts);
+                break;
+            }
+            if (!wait_for_retry(kReconnectStreamDelayMs)) {
+                ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
+                         reconnect_attempts);
+                break;
+            }
+        }
     }
     if (active_generation_.load() == attempt->generation) {
         Application::GetInstance().GetAudioService().ResetDecoder();

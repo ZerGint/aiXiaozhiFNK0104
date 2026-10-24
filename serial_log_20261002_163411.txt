@@ -1,0 +1,1349 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-02 16:34:11 ---
+I (205729) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+
+I (205789) RAM: internal free=37747 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (206029) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4980
+
+I (207469) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=130
+
+I (209269) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=142
+
+I (210789) RAM: internal free=38327 min=24188 largest=21504 | psram free=7303516 min=7300176 largest=7208960
+
+I (211029) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (211349) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5660
+
+I (211409) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=215
+
+I (212089) SystemInfo: free sram: 36127 minimal sram: 24188
+
+I (214689) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=196
+
+I (215789) RAM: internal free=38327 min=24188 largest=21504 | psram free=7305824 min=7300176 largest=7208960
+
+I (217079) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (217379) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3680
+
+I (217739) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=214
+
+I (219709) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=111
+
+I (220789) RAM: internal free=38263 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (221059) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+https://github.com/ZerGint/FNK0104s_xiaozhi_update/tree/main/firmware/stable
+I (221359) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4926
+
+I (222089) SystemInfo: free sram: 38187 minimal sram: 24188
+
+I (222429) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=183
+
+I (224549) MusicService: MUSIC_BRIDGE_RUNTIME_CACHE_HIT
+
+I (224549) MusicService: MUSIC_MEM stage=before_poll internal_free=38099 internal_largest=21504 min=24188 psram_free=7301208
+
+I (225079) MusicService: MUSIC_DIAG JOBS_WRITE job_id=19ad4a29bc4744b2a7cc173356292427 status=ready result=PASS
+
+I (225079) MusicService: MUSIC_JOB_UPDATE job_id=19ad4a29bc4744b2a7cc173356292427 status=ready
+
+I (225089) MusicService: MUSIC_DIAG JOB_STATE job_id=19ad4a29bc4744b2a7cc173356292427 old=generating new=ready
+
+I (225099) MusicService: MUSIC_DOWNLOAD_PENDING id=19ad4a29bc4744b2a7cc173356292427
+
+I (225099) MusicService: MUSIC_MEM stage=after_poll internal_free=37387 internal_largest=21504 min=24188 psram_free=7308132
+
+I (225649) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=167
+
+I (225789) RAM: internal free=38091 min=24188 largest=21504 | psram free=7305824 min=7300176 largest=7208960
+
+I (226329) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (226659) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6803
+
+I (228209) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=192
+
+I (230289) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=129
+
+I (230789) RAM: internal free=38019 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (232089) SystemInfo: free sram: 38007 minimal sram: 24188
+
+I (233379) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=121
+
+I (233479) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (233779) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4038
+
+I (235769) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=184
+
+I (235789) RAM: internal free=38091 min=24188 largest=21504 | psram free=7303516 min=7300176 largest=7208960
+
+I (236039) SdMusicPlayer: ▶ Playing file: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+
+W (236039) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+
+W (236039) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=39847 internal_largest=21504 stack_hwm=2108
+
+W (236059) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+
+W (236059) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=39823 internal_largest=21504 stack_hwm=2108
+
+I (236069) ESP_ES_PARSER: The version of es_parser is v1.0.1
+
+I (236079) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+
+W (236089) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+
+W (236099) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=39463 internal_largest=21504 stack_hwm=2108
+
+I (236119) SdMusicPlayer: Audio info: sample_rate=48000, channels=2, bits=16
+
+W (236119) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+
+W (236119) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=37367 internal_largest=21504 stack_hwm=2108
+
+I (236139) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+
+I (237859) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (238139) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6033
+
+I (239419) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=209
+
+I (240789) RAM: internal free=38703 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (242089) SystemInfo: free sram: 38703 minimal sram: 24188
+
+I (242769) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=166
+
+I (244199) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+
+I (244539) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3065
+
+I (244819) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=130
+
+I (245789) RAM: internal free=37699 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (247629) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (247929) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3546
+
+I (248439) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=102
+
+W (249809) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+
+W (249809) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+
+W (249819) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+
+I (249819) Backlight: Set brightness to 67
+
+W (249829) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+
+I (250069) SdMusicPlayer: ▶ Playing file: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+
+W (250069) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+
+W (250069) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=41343 internal_largest=21504 stack_hwm=2108
+
+W (250089) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+
+W (250089) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=41327 internal_largest=21504 stack_hwm=2108
+
+I (250099) ESP_ES_PARSER: The version of es_parser is v1.0.1
+
+I (250109) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+
+W (250119) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+
+W (250119) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=40967 internal_largest=21504 stack_hwm=2108
+
+I (250139) SdMusicPlayer: Audio info: sample_rate=48000, channels=2, bits=16
+
+W (250149) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+
+W (250149) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=38323 internal_largest=21504 stack_hwm=2108
+
+I (250179) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+
+I (250789) RAM: internal free=38743 min=24188 largest=21504 | psram free=7305824 min=7300176 largest=7208960
+
+I (251019) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=137
+
+I (251539) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (251829) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3010
+
+I (252089) SystemInfo: free sram: 38611 minimal sram: 24188
+
+I (253999) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=207
+
+I (254899) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (255189) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6564
+
+I (255789) RAM: internal free=38679 min=24188 largest=21504 | psram free=7301208 min=7300176 largest=7208960
+
+I (256659) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=202
+
+I (259059) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+
+I (260789) RAM: internal free=38679 min=24188 largest=21504 | psram free=7305824 min=7299084 largest=7208960
+
+I (261429) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=198
+
+I (261749) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (262049) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3228
+
+I (262089) SystemInfo: free sram: 38823 minimal sram: 24188
+
+I (264809) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=155
+
+I (265329) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (265619) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4859
+
+I (265789) RAM: internal free=38591 min=24188 largest=21504 | psram free=7303516 min=7299084 largest=7208960
+
+I (266549) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=208
+
+I (269829) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=122
+
+I (270529) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (270789) RAM: internal free=38891 min=24188 largest=21504 | psram free=7301208 min=7299084 largest=7208960
+
+I (270839) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5948
+
+I (271689) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+
+I (272089) SystemInfo: free sram: 38879 minimal sram: 24188
+
+I (274499) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=211
+
+I (275789) RAM: internal free=38955 min=24188 largest=21504 | psram free=7303516 min=7299084 largest=7208960
+
+I (276789) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (277079) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5405
+
+I (278069) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=200
+
+W (279809) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+W (279809) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+
+I (279819) Backlight: Set brightness to 10
+
+W (279819) LcdDisplay: AUTO_DIM done dimmed_after=1
+
+I (280789) RAM: internal free=38891 min=24188 largest=21504 | psram free=7301208 min=7299084 largest=7208960
+
+I (280949) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=180
+
+I (282089) SystemInfo: free sram: 39035 minimal sram: 24188
+
+I (282489) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (282789) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3365
+
+I (284069) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=109
+
+I (285789) RAM: internal free=39103 min=24188 largest=21504 | psram free=7301208 min=7299084 largest=7208960
+
+I (286179) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (286489) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6332
+
+I (287179) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=155
+
+I (289129) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=101
+
+I (290789) RAM: internal free=39167 min=24188 largest=21504 | psram free=7303516 min=7299084 largest=7208960
+
+I (291319) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+
+I (292089) SystemInfo: free sram: 39035 minimal sram: 24188
+
+I (292849) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+
+I (293159) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4492
+
+I (293619) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+
+I (295789) RAM: internal free=39103 min=24188 largest=21504 | psram free=7301208 min=7299084 largest=7208960
+
+I (296279) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+
+I (297669) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+W (297719) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+
+W (297719) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+
+W (297729) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+
+I (297729) Backlight: Set brightness to 67
+
+W (297739) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+
+I (297859) SdMusicPlayer: Playback PAUSED
+
+I (297989) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3570
+
+I (298639) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=157
+
+W (300389) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+I (300479) AudioManager: Releasing audio focus from source 2
+
+I (300479) SdMusicPlayer: Player task stopped.
+
+I (300479) RAM: [RADIO_STOP] internal free=42487 min=24188 largest=21504 | psram free=7362332 min=7299084 largest=7208960
+
+I (300489) InternetRadio: RADIO_STOP_FAST_NOOP
+
+I (300789) RAM: internal free=47639 min=24188 largest=25600 | psram free=7362332 min=7299084 largest=7208960
+
+I (301359) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=134
+
+I (301579) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (301879) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6411
+
+I (302089) SystemInfo: free sram: 47555 minimal sram: 24188
+
+I (302949) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=135
+
+I (304529) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=210
+
+I (305109) MusicService: MUSIC_BRIDGE_RUNTIME_CACHE_HIT
+
+I (305119) MusicService: MUSIC_DIAG DOWNLOAD_CHECK job_id=19ad4a29bc4744b2a7cc173356292427 expected_filename=Покемоны Битва стихий [19ad4a29].mp3 already_local=0 gmdb_contains=0 final_file_exists=0 part_file_exists=0
+
+I (305129) MusicService: MUSIC_DIAG DOWNLOAD_DECISION job_id=19ad4a29bc4744b2a7cc173356292427 action=download
+
+I (305139) MusicService: MUSIC_DIAG MEM stage=before_gate_claim internal_free=47387 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (305149) MusicService: MUSIC_GATE CLAIM
+
+I (305489) MusicService: MUSIC_DIAG JOBS_WRITE job_id=19ad4a29bc4744b2a7cc173356292427 status=downloading result=PASS
+
+I (305509) MusicService: MUSIC_UI DOWNLOAD_OVERLAY_SHOW percent=0
+
+I (305509) MusicService: MUSIC_DIAG MEM stage=after_overlay_show internal_free=46239 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (305519) MusicService: MUSIC_DOWNLOAD_START id=19ad4a29bc4744b2a7cc173356292427 expected_bytes=3198263
+
+I (305529) MusicService: MUSIC_DIAG DOWNLOAD_START job_id=19ad4a29bc4744b2a7cc173356292427 endpoint=http://192.168.31.153:8765 expected_size=3198263 final_path=/sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3 part_path=/sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3.part
+
+I (305559) MusicService: MUSIC_DIAG MEM stage=before_download internal_free=46239 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (305589) MusicBridge: MUSIC_DIAG MEM stage=after_http_open internal_free=43591 internal_largest=25600 internal_min=24188 psram_free=7357716
+
+I (305599) MusicBridge: MUSIC_DIAG HTTP_HEADERS job_id=19ad4a29bc4744b2a7cc173356292427 content_length=3198263 expected_size=3198263
+
+I (305609) MusicBridge: MUSIC_DIAG BUFFER_ALLOC size=16384 ptr=0x3c4a7f50 location=PSRAM
+
+I (305619) MusicBridge: MUSIC_DIAG MEM stage=after_download_buffer_alloc internal_free=38103 internal_largest=25600 internal_min=24188 psram_free=7341328
+
+I (305789) RAM: internal free=32427 min=24188 largest=21504 | psram free=7341328 min=7299084 largest=7208960
+
+I (305859) MusicService: MUSIC_DIAG MEM stage=mid_download internal_free=36563 internal_largest=25600 internal_min=24188 psram_free=7341328
+
+I (305869) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=0
+
+I (305929) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=1
+
+I (306009) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=2
+
+I (306139) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=3
+
+I (306219) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=4
+
+I (306299) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=5
+
+I (306429) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=6
+
+I (306949) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=215
+
+I (307049) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=7
+
+I (307179) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=8
+
+I (307259) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=9
+
+I (307349) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=10
+
+I (307429) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=11
+
+I (307559) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=12
+
+I (307639) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=13
+
+I (307769) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=14
+
+I (307849) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=15
+
+I (307929) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=16
+
+I (307999) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=17
+
+I (308129) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=18
+
+I (308209) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=19
+
+I (308289) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=20
+
+I (308309) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+
+I (308409) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=21
+
+I (308489) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=22
+
+I (308619) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=23
+
+I (308629) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5994
+
+I (309189) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=23
+
+I (309239) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=24
+
+I (309319) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=25
+
+I (309449) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=26
+
+I (309529) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=27
+
+I (309609) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=28
+
+I (309729) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=29
+
+I (309809) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=30
+
+I (309889) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=31
+
+I (310019) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=32
+
+I (310099) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=33
+
+I (310199) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=34
+
+I (310329) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=35
+
+I (310419) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=36
+
+I (310429) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=104
+
+I (310489) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=37
+
+I (310619) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=38
+
+I (310689) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=39
+
+I (310789) RAM: internal free=37375 min=24188 largest=25600 | psram free=7341328 min=7299084 largest=7208960
+
+I (311269) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=39
+
+I (311319) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=40
+
+I (311449) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=41
+
+I (311499) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=42
+
+I (311579) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=43
+
+I (311699) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=44
+
+I (311769) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=45
+
+I (311859) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=46
+
+I (311989) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=47
+
+I (312069) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=48
+
+I (312139) SystemInfo: free sram: 32379 minimal sram: 24188
+
+I (312149) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=49
+
+I (312279) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=50
+
+I (312279) MusicBridge: MUSIC_DIAG MEM stage=mid_download internal_free=36503 internal_largest=25600 internal_min=24188 psram_free=7341328
+
+I (312299) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=140
+
+I (312369) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=51
+
+I (312449) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=52
+
+I (312569) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=53
+
+I (312649) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=54
+
+I (312779) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=55
+
+I (313369) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=56
+
+I (313449) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=57
+
+I (313529) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=58
+
+I (313649) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=59
+
+I (313739) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=60
+
+I (313819) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=61
+
+I (313879) AudioCodec: Set output enable to false
+
+I (313949) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=62
+
+I (314019) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=63
+
+I (314099) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=64
+
+I (314229) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=65
+
+I (314259) MusicBridge: MUSIC_DOWNLOAD_PROGRESS id=19ad4a29bc4744b2a7cc173356292427 bytes=2097152
+
+I (314309) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=66
+
+I (314439) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=67
+
+I (314509) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=68
+
+I (314529) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+
+I (314589) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=69
+
+I (314669) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (314729) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=70
+
+I (314799) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=71
+
+I (314879) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=72
+
+I (314959) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4279
+
+I (315439) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=72
+
+I (315499) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=73
+
+I (315619) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=74
+
+I (315699) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=75
+
+I (315779) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=76
+
+I (315789) RAM: internal free=37831 min=24188 largest=25600 | psram free=7341328 min=7299084 largest=7208960
+
+I (315899) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=77
+
+I (315979) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=78
+
+I (316059) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=79
+
+I (316179) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=80
+
+I (316259) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=81
+
+I (316339) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=82
+
+I (316459) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=83
+
+I (316519) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=84
+
+I (316599) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=85
+
+I (316729) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=86
+
+I (316799) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=87
+
+I (316879) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=88
+
+I (317499) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=89
+
+I (317579) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=90
+
+I (317679) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=91
+
+I (317799) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=92
+
+I (317899) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=93
+
+I (318029) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=94
+
+I (318109) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=95
+
+I (318189) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=123
+
+I (318199) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=96
+
+I (318329) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=97
+
+I (318409) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=98
+
+I (318489) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=99
+
+I (318559) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=100
+
+I (318559) MusicBridge: MUSIC_DIAG MEM stage=after_download_complete internal_free=43555 internal_largest=25600 internal_min=24188 psram_free=7341328
+
+I (318569) MusicBridge: MUSIC_DIAG DOWNLOAD_BYTES job_id=19ad4a29bc4744b2a7cc173356292427 downloaded_bytes=3198263 content_length=3198263 expected_size=3198263
+
+I (318579) MusicBridge: MUSIC_DIAG BUFFER_FREE ptr=0x3c4a7f50
+
+I (318589) MusicBridge: MUSIC_DIAG MEM stage=after_download_buffer_free internal_free=43591 internal_largest=25600 internal_min=24188 psram_free=7357716
+
+I (318809) MusicBridge: MUSIC_DIAG SIZE_VALIDATION job_id=19ad4a29bc4744b2a7cc173356292427 result=PASS final_downloaded=3198263 content_length=3198263 expected_size=3198263
+
+I (318819) MusicBridge: MUSIC_DIAG MEM stage=after_file_close internal_free=45947 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (318829) MusicService: MUSIC_MEM stage=after_download internal_free=46087 internal_largest=25600 min=24188 psram_free=7362332
+
+I (318839) MusicService: MUSIC_DIAG MEM stage=after_download_complete internal_free=46039 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (318849) MusicService: MUSIC_UI DOWNLOAD_OVERLAY_SHOW percent=100
+
+I (318859) MusicService: MUSIC_DIAG MEM stage=after_overlay_show internal_free=45859 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (318869) MusicService: MUSIC_UI DOWNLOAD_PROGRESS percent=100
+
+I (318879) MusicService: MUSIC_DIAG PART_COMPLETE job_id=19ad4a29bc4744b2a7cc173356292427 part_path=/sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3.part size=3198263
+
+I (318989) MusicService: MUSIC_DIAG FINAL_RENAME job_id=19ad4a29bc4744b2a7cc173356292427 final_path=/sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3 final_size=3198263
+
+I (318999) MusicService: MUSIC_DIAG MEM stage=after_final_rename internal_free=46087 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319009) MusicService: MUSIC_DIAG GMDB_BEFORE count=10 new_filename=Покемоны Битва стихий [19ad4a29].mp3
+
+I (319249) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (319389) MusicService: MUSIC_DIAG GMDB_COMMIT old_count=10 new_count=11 appended=1 evicted=none
+
+I (319389) MusicService: MUSIC_DIAG MEM stage=after_gmdb_commit internal_free=44699 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319559) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3031
+
+I (319749) MusicService: MUSIC_DIAG JOBS_WRITE job_id=19ad4a29bc4744b2a7cc173356292427 status=local result=PASS
+
+I (319749) MusicService: MUSIC_DIAG JOBS_TERMINAL job_id=19ad4a29bc4744b2a7cc173356292427 status=local
+
+I (319749) MusicService: MUSIC_DIAG LOCAL_READY job_id=19ad4a29bc4744b2a7cc173356292427 filename=Покемоны Битва стихий [19ad4a29].mp3 file_exists=1 file_size=3198263 gmdb_contains=1
+
+I (319769) MusicService: MUSIC_DIAG STATUS_LOCAL job_id=19ad4a29bc4744b2a7cc173356292427 status=ready download_status=local downloaded=3198263 local_filename=Покемоны Битва стихий [19ad4a29].mp3
+
+I (319789) MusicService: MUSIC_DOWNLOAD_DONE id=19ad4a29bc4744b2a7cc173356292427 bytes=3198263 path=/sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+
+I (319809) MusicService: MUSIC_DIAG MEM stage=after_download_return internal_free=46087 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319819) MusicService: MUSIC_UI DOWNLOAD_OVERLAY_HIDE
+
+I (319819) MusicService: MUSIC_DIAG MEM stage=after_overlay_hide internal_free=46087 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319839) MusicService: MUSIC_DIAG MEM stage=after_gate_release internal_free=45815 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319849) MusicService: MUSIC_DIAG MEM stage=stable_idle internal_free=45815 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (319859) MusicService: MUSIC_GATE RELEASE
+
+I (319869) MusicService: MUSIC_DOWNLOAD_STACK unused_bytes=660
+
+I (319869) MusicService: MUSIC_DIAG POLL_TASK_STOP reason=no_pending_work
+
+I (319879) MusicService: MUSIC_DIAG MEM stage=poll_task_exit internal_free=46543 internal_largest=25600 internal_min=24188 psram_free=7362332
+
+I (320789) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=132
+
+I (320789) RAM: internal free=50895 min=24188 largest=25600 | psram free=7362332 min=7299084 largest=7208960
+
+I (322089) SystemInfo: free sram: 50819 minimal sram: 24188
+
+I (322619) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (322919) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5020
+
+I (323269) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=152
+
+I (325099) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=194
+
+I (325519) Application: Wake word detected: Hey Kira (state: 3)
+
+I (325519) AnimeFace: ANIME_WAKE START source=WAKE_WORD gaze_before=-4
+
+I (325519) StateMachine: State: idle -> connecting
+
+I (325519) AfeAudioEngine: Encoded wake word into 0 packets in 0 ms
+
+I (325519) AnimeFace: ANIME_FACE_STATE: THINKING
+
+I (325569) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+
+I (325569) wifi:Set ps type: 0, coexist: 0
+
+
+
+I (325659) AnimeFace: ANIME_WAKE CENTERED
+
+I (325659) AnimeFace: ANIME_WAKE MOUTH_SMALL
+
+W (325769) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=67 target=67
+
+W (325769) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+
+I (325789) RAM: internal free=47019 min=24188 largest=25600 | psram free=7362332 min=7299084 largest=7208960
+
+I (326169) MQTT: Session ID: 6a802366
+
+I (326169) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+
+I (326169) wifi:Set ps type: 0, coexist: 0
+
+
+
+W (326169) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+
+I (326179) Application: Wake word detected: Hey Kira
+
+I (326189) StateMachine: State: connecting -> listening
+
+I (326199) AudioCodec: Set output enable to true
+
+I (326199) AudioService: Resampling audio from 16000 to 48000
+
+I (326209) AnimeFace: ANIME_FACE_STATE: LISTENING
+
+I (326289) AnimeFace: ANIME_WAKE END base=LISTENING
+
+I (327509) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+
+I (327939) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (328239) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6834
+
+I (329089) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+
+I (330529) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+
+I (330789) RAM: internal free=41703 min=24188 largest=25600 | psram free=7363752 min=7299084 largest=7208960
+
+I (331189) Application: >> Включи созданную песню.
+
+I (331429) StateMachine: State: listening -> speaking
+
+I (331459) AnimeFace: ANIME_FACE_STATE: SPEAKING
+
+I (331459) AnimeFace: SPEAKING_STATE_ENTER t=330265
+
+I (332279) AnimeFace: ANIME_EMOTION HAPPY
+
+I (332929) Application: << Сейчас проверю статус генерации и включу созданную песню.
+
+I (332969) AudioService: Resampling audio from 24000 to 48000
+
+I (332969) FnkExternalI2s: AI_VOLUME user=54 effective=34 gain=3042
+
+I (333089) AnimeFace: FIRST_SPEECH_PCM t=331895 level=44
+
+I (333169) AnimeFace: MOUTH_FIRST_OPEN t=331965 frame=2 level=38
+
+I (333169) AnimeFace: ANIME_FACE_MOUTH: start
+
+I (333389) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=171
+
+W (334109) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+E (334239) StorageManager: Failed to open directory: /sdcard/mp3
+
+I (334249) SdMusicPlayer: Scanning SD music directory /sdcard/music (7 total entries)...
+
+I (334249) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+
+I (334259) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+
+I (334269) SdMusicPlayer: Track found: /sdcard/music/02 - 21 Guns.mp3
+
+I (334269) SdMusicPlayer: Track found: /sdcard/music/025-maksim_-_vesna.mp3
+
+I (334279) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+
+I (334289) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+
+I (334299) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+
+I (334299) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 7
+
+I (334309) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=43175 internal_largest=25600 dma_free=35387 dma_largest=25600 spiram_free=7344272 spiram_largest=7208960
+
+I (334699) AnimeFace: LAST_SPEECH_PCM t=333500 last_update=333460
+
+I (334829) AnimeFace: MOUTH_CLOSED t=333630
+
+I (334829) AnimeFace: ANIME_FACE_MOUTH: stop
+
+I (335069) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+
+I (335789) RAM: internal free=41415 min=24188 largest=25600 | psram free=7347408 min=7299084 largest=7208960
+
+I (335849) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (336049) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3578
+
+I (337059) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+
+I (337059) AnimeFace: MOUTH_CLOSED t=335860
+
+I (337059) AnimeFace: ANIME_FACE_MOUTH: stop
+
+I (337269) Application: << % music.generation_status...
+
+I (338259) Application: << Включаю песню "
+
+I (338489) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+
+I (339629) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (339639) Application: << Покемоны: Битва стихий"!
+
+I (339799) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5826
+
+I (339799) AnimeFace: MOUTH_CLOSED t=338600
+
+I (339799) AnimeFace: ANIME_FACE_MOUTH: stop
+
+I (340439) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=164
+
+I (340759) AnimeFace: MOUTH_CLOSED t=339560
+
+I (340759) AnimeFace: ANIME_FACE_MOUTH: stop
+
+I (340789) RAM: internal free=44507 min=24188 largest=25600 | psram free=7356312 min=7299084 largest=7208960
+
+I (341089) SystemInfo: free sram: 43011 minimal sram: 24188
+
+I (341619) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+
+I (341939) Application: << % music.play_generated...
+
+I (341949) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (13 total entries)...
+
+I (341949) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+
+I (341949) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+
+I (341959) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+
+I (341969) SdMusicPlayer: Track found: /sdcard/generated_music/На краю любви [161397b1].mp3
+
+I (341979) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+
+I (341989) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+
+I (341999) SdMusicPlayer: Track found: /sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+
+I (342009) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+
+I (342019) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+
+I (342029) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+
+I (342039) SdMusicPlayer: Track found: /sdcard/generated_music/У лукоморья дуб зеленый [39068caf].mp3
+
+I (342049) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 11
+
+I (342059) Application: Abort speaking
+
+I (342059) AnimeFace: MOUTH_CLOSED t=340860
+
+I (342059) AnimeFace: ANIME_FACE_MOUTH: stop
+
+I (342059) MQTT: Closing audio channel, send_goodbye: 1
+
+I (342069) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+
+I (342079) wifi:Set ps type: 2, coexist: 0
+
+
+
+I (342079) StateMachine: State: speaking -> idle
+
+I (342089) RAM: [RADIO_STOP] internal free=44599 min=24188 largest=25600 | psram free=7344272 min=7299084 largest=7208960
+
+I (342099) InternetRadio: RADIO_STOP_FAST_NOOP
+
+W (342099) SdMusicPlayer: HEAP_CHECK PLAYER_LOOP_ENTER: PASS
+
+I (342109) AnimeFace: ANIME_EMOTION NEUTRAL
+
+W (342109) SdMusicPlayer: MUSIC_CHECKPOINT PLAYER_LOOP_ENTER task=SdMusicPlayer internal_free=40443 internal_largest=21504 stack_hwm=2732
+
+I (342119) AudioManager: Audio focus requested by source 2 (current 0)
+
+W (342129) SdMusicPlayer: HEAP_CHECK AFTER_AUDIO_FOCUS: PASS
+
+W (342139) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_AUDIO_FOCUS task=SdMusicPlayer internal_free=40631 internal_largest=21504 stack_hwm=2652
+
+W (342149) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_REGISTER: PASS
+
+W (342149) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_REGISTER task=SdMusicPlayer internal_free=40667 internal_largest=21504 stack_hwm=2652
+
+I (342169) SdMusicPlayer: ▶ Playing file: /sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+
+W (342179) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+
+W (342179) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=40647 internal_largest=21504 stack_hwm=2652
+
+W (342199) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+
+W (342199) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=40567 internal_largest=21504 stack_hwm=2108
+
+I (342209) ESP_ES_PARSER: The version of es_parser is v1.0.1
+
+I (342219) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+
+W (342229) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+
+W (342239) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=40267 internal_largest=21504 stack_hwm=2108
+
+I (342259) SdMusicPlayer: Audio info: sample_rate=48000, channels=2, bits=16
+
+W (342259) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+
+W (342259) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=38051 internal_largest=21504 stack_hwm=2108
+
+I (342269) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+
+I (342319) AnimeFace: ANIME_FACE_STATE: IDLE
+
+I (342319) AnimeFace: LAST_SPEECH_PCM t=341120 last_update=340745
+
+I (342419) FnkExternalI2s: AI_VOLUME user=54 effective=34 gain=3042
+
+I (344139) MQTT: Received goodbye message, session_id: 6a802366
+
+I (344139) MQTT: Closing audio channel, send_goodbye: 0
+
+I (344139) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+
+I (344149) MQTT: Received goodbye message, session_id: 6a802366
+
+I (344149) wifi:Set ps type: 2, coexist: 0
+
+
+
+I (344159) MQTT: Closing audio channel, send_goodbye: 0
+
+I (344159) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+
+I (344169) wifi:Set ps type: 2, coexist: 0
+
+
+
+I (345269) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=122
+
+I (345789) RAM: internal free=40831 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (348349) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (348639) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6826
+
+I (348939) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+
+I (350789) RAM: internal free=40895 min=24188 largest=21504 | psram free=7305824 min=7292304 largest=7208960
+
+I (351109) SystemInfo: free sram: 40763 minimal sram: 24188
+
+I (351499) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=145
+
+I (354089) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+
+I (355499) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (355789) RAM: internal free=40415 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (355819) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5234
+
+W (356409) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+W (356489) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+
+I (356489) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+
+W (356489) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+
+I (356949) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=109
+
+W (357309) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+I (357669) AudioCodec: Set output volume to 64
+
+I (357719) AudioCodec: Set output volume to 67
+
+I (357789) AudioCodec: Set output volume to 69
+
+I (357839) AudioCodec: Set output volume to 70
+
+I (357909) AudioCodec: Set output volume to 72
+
+I (358009) AudioCodec: Set output volume to 73
+
+W (359489) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+W (359579) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=1 nesting=1
+
+I (359579) LcdDisplay: ToggleQuickSettings: panel state is now CLOSED
+
+W (359589) LcdDisplay: TOGGLE_QS exit open_after=0 nesting=0
+
+I (359959) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=161
+
+I (360789) RAM: internal free=40699 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (361069) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (361089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (361359) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4313
+
+I (361489) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=213
+
+I (364289) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=209
+
+I (365709) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (365789) RAM: internal free=40775 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (365989) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6200
+
+I (367359) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=162
+
+I (370299) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=170
+
+I (370789) RAM: internal free=40707 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (371089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (372189) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (372499) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6965
+
+I (373129) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=211
+
+I (375279) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=137
+
+I (375789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (377349) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=114
+
+I (378729) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=164
+
+I (379499) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (379789) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3808
+
+I (380789) RAM: internal free=40763 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (381089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (381749) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=100
+
+I (383349) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+
+I (383599) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+
+I (383919) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5322
+
+I (385789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (387039) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+
+I (389239) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (389549) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4805
+
+W (389589) LcdDisplay: AUTO_DIM begin task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+W (389589) Backlight: BACKLIGHT_REQUEST requested=10 permanent=0 task=taskLVGL core=1
+
+I (389599) Backlight: Set brightness to 10
+
+W (389599) LcdDisplay: AUTO_DIM done dimmed_after=1
+
+I (390429) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=146
+
+I (390789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (391089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (391849) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=175
+
+I (394389) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+
+I (394719) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4881
+
+I (395469) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+
+I (395789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7305824 min=7292304 largest=7208960
+
+I (398999) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=103
+
+I (399609) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+
+I (399909) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5701
+
+I (400789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (401089) SystemInfo: free sram: 40703 minimal sram: 24188
+
+I (401889) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=141
+
+I (403369) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=147
+
+I (405639) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+
+I (405789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (405939) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4605
+
+I (405979) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=164
+
+I (408989) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+
+I (410549) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (410789) RAM: internal free=40379 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (410869) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4105
+
+I (411089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (411919) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+
+I (414489) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+
+I (414969) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (415269) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6774
+
+I (415789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (417879) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+
+I (420789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (420959) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=150
+
+I (421089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (422079) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+
+I (422369) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5754
+
+I (423659) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=216
+
+I (425749) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+
+I (425789) RAM: internal free=40763 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (428129) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+
+I (428429) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5003
+
+I (428969) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=187
+
+I (430789) RAM: internal free=40695 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (431089) SystemInfo: free sram: 40631 minimal sram: 24188
+
+I (432459) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+
+I (433479) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+
+I (433769) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4573
+
+I (435399) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=155
+
+I (435789) RAM: internal free=40715 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (438379) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (438669) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3374
+
+I (438729) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=188
+
+I (440789) RAM: internal free=40995 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (441089) SystemInfo: free sram: 40843 minimal sram: 24188
+
+I (441849) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=193
+
+I (442079) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (442369) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5674
+
+I (443759) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=108
+
+I (445129) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=147
+
+I (445789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (447909) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+
+I (448069) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (448349) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6779
+
+I (450789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (451089) SystemInfo: free sram: 40843 minimal sram: 24188
+
+I (451629) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+
+I (453519) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+
+I (455159) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (455449) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3932
+
+I (455489) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+
+I (455789) RAM: internal free=40411 min=24188 largest=21504 | psram free=7305824 min=7292304 largest=7208960
+
+I (457799) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+
+I (459259) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=211
+
+I (459389) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+
+I (459689) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6439
+
+I (460789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (460969) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=107
+
+I (461089) SystemInfo: free sram: 40911 minimal sram: 24188
+
+I (462999) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+
+I (465789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (466129) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+
+I (466419) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3620
+
+I (466459) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=201
+
+I (469259) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=164
+
+I (470069) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+
+I (470389) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6866
+
+I (470789) RAM: internal free=40991 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (471089) SystemInfo: free sram: 40843 minimal sram: 24188
+
+I (471399) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+
+I (473269) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=155
+
+I (475789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (476899) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=151
+
+I (477279) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+
+I (477569) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3966
+
+I (478569) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+
+I (480439) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=101
+
+I (480789) RAM: internal free=40927 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+I (481089) SystemInfo: free sram: 40843 minimal sram: 24188
+
+I (481549) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+
+I (481839) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5667
+
+I (483569) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=136
+
+I (485789) RAM: internal free=40995 min=24188 largest=21504 | psram free=7303516 min=7292304 largest=7208960
+
+I (486669) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=143
+
+I (487529) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+
+I (487829) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4375
+
+W (489709) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=1 backlight_current=10
+
+W (489709) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=1 current=10 target=67
+
+W (489719) Backlight: BACKLIGHT_REQUEST requested=67 permanent=0 task=taskLVGL core=1
+
+I (489719) Backlight: Set brightness to 67
+
+W (489729) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+
+I (489869) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (13 total entries)...
+
+I (489879) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+
+I (489879) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+
+I (489889) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+
+I (489899) SdMusicPlayer: Track found: /sdcard/generated_music/На краю любви [161397b1].mp3
+
+I (489909) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+
+I (489929) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+
+I (489929) SdMusicPlayer: Track found: /sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+
+I (489939) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+
+I (489949) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+
+I (489959) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+
+I (489969) SdMusicPlayer: Track found: /sdcard/generated_music/У лукоморья дуб зеленый [39068caf].mp3
+
+I (489979) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 11
+
+I (489989) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=40063 internal_largest=21504 dma_free=32275 dma_largest=21504 spiram_free=7303516 spiram_largest=7208960
+
+I (490289) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=179
+
+I (490789) RAM: internal free=40591 min=24188 largest=21504 | psram free=7301208 min=7292304 largest=7208960
+
+W (491049) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+
+I (491109) SystemInfo: free sram: 37963 minimal sram: 24188
+
+I (491169) SdMusicPlayer: Playback PAUSED
+
+I (491319) FnkExternalI2s: AI_VOLUME user=73 effective=53 gain=7685
+
+I (492249) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+
+I (492549) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3275
+
+I (493659) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+
+I (495789) RAM: internal free=41039 min=24188 largest=21504 | psram free=7317364 min=7292304 largest=7208960
+
+I (495829) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+
+I (496119) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=6388
+
+I (496479) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=187
+

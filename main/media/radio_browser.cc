@@ -39,6 +39,16 @@ void ScheduleRadioErrorBip() {
     });
 }
 
+void ScheduleCatalogAdmission(const RadioStationInfo& station) {
+    Application::GetInstance().Schedule([station]() mutable {
+        std::string err;
+        const bool ok = RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
+        if (!ok) {
+            ESP_LOGW(TAG, "Failed to refresh radio catalog after startup: %s", err.c_str());
+        }
+    });
+}
+
 constexpr const char* kFavoritesKey = "favorites";
 constexpr size_t kMaxFavorites = 10;
 
@@ -419,55 +429,28 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
             !cached_station.url_resolved.empty()) {
             std::string play_err;
             auto retry = [station_uuid]() {
-                Application::GetInstance().Schedule([station_uuid]() {
-                    RadioStationInfo fresh_station;
-                    std::string err_msg;
-                    if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
-                        ScheduleRadioErrorBip();
-                        return;
-                    }
-                    std::string play_err;
-                    auto admission = [station = fresh_station]() mutable {
-                        Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                            std::string err;
-                            RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                        });
-                    };
-                    if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err,
-                                                               std::move(admission), {}, true)) {
-                        Application::GetInstance().Schedule([]() {
-                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
-                        });
-                    }
-                });
+                auto admission = [](const RadioStationInfo& station) {
+                    ScheduleCatalogAdmission(station);
+                };
+                if (!MediaPlayer::GetInstance().PlayRadioByUuid(
+                        station_uuid, {}, std::move(admission), {}, true)) {
+                    ScheduleRadioErrorBip();
+                }
             };
             if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
                                                        std::move(retry), false)) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
             }return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
         }
-        RadioStationInfo fresh_station;
-        std::string err_msg;
-        if (!GetStationByUuid(station_uuid, fresh_station, err_msg)) {
-            ScheduleRadioErrorBip();
-            return "Failed to resolve radio station: " + err_msg;
-        }
-
-        ESP_LOGI(TAG, "Resolved radio station by UUID: %s", fresh_station.name.c_str());
-
-        std::string play_err;
-        auto admission = [station = fresh_station]() mutable {
-            Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                std::string err;
-                const bool ok = RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                if (!ok) {
-                    ESP_LOGW(TAG, "Failed to refresh radio catalog after startup: %s", err.c_str());
-                }
-            });
+        auto admission = [](const RadioStationInfo& station) {
+            ScheduleCatalogAdmission(station);
         };
-        if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
-            return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-        }return "Playing internet radio: " + (fresh_station.name.empty() ? title : fresh_station.name);
+        if (!MediaPlayer::GetInstance().PlayRadioByUuid(
+                station_uuid, title, std::move(admission), {}, true)) {
+            ScheduleRadioErrorBip();
+            return "Radio station is unavailable: unable to queue station lookup";
+        }
+        return "Starting internet radio";
     }
 
     if (url.empty()) {
@@ -584,27 +567,13 @@ std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
             std::string play_err;
             const std::string station_uuid = target_favorite.stationuuid;
             auto retry = [station_uuid]() {
-                Application::GetInstance().Schedule([station_uuid]() {
-                    RadioStationInfo fresh_station;
-                    std::string err_msg;
-                    if (!RadioBrowser::GetInstance().GetStationByUuid(station_uuid, fresh_station, err_msg)) {
-                        ScheduleRadioErrorBip();
-                        return;
-                    }
-                    std::string play_err;
-                    auto admission = [station = fresh_station]() mutable {
-                        Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                            std::string err;
-                            RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                        });
-                    };
-                    if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err,
-                                                               std::move(admission), {}, true)) {
-                        Application::GetInstance().Schedule([]() {
-                            Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
-                        });
-                    }
-                });
+                auto admission = [](const RadioStationInfo& station) {
+                    ScheduleCatalogAdmission(station);
+                };
+                if (!MediaPlayer::GetInstance().PlayRadioByUuid(
+                        station_uuid, {}, std::move(admission), {}, true)) {
+                    ScheduleRadioErrorBip();
+                }
             };
             if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
                                                        std::move(retry), false)) {
@@ -612,21 +581,12 @@ std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
             }
             return "Playing favorite station: " + cached_station.name;
         }
-        RadioStationInfo fresh_station;
-        std::string err_msg;
-        if (GetStationByUuid(target_favorite.stationuuid, fresh_station, err_msg)) {
-            ESP_LOGI(TAG, "[FAVORITE_PLAY] resolved fresh station by UUID");
-            std::string play_err;
-            auto admission = [station = fresh_station]() mutable {
-                Application::GetInstance().Schedule([station = std::move(station)]() mutable {
-                    std::string err;
-                    RadioStorage::GetInstance().AddOrUpdateCatalogStation(station, err);
-                });
-            };
-            if (!MediaPlayer::GetInstance().PlayRadio(fresh_station, play_err, std::move(admission))) {
-                return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-            }
-            return "Playing favorite station: " + fresh_station.name;
+        auto admission = [](const RadioStationInfo& station) {
+            ScheduleCatalogAdmission(station);
+        };
+        if (MediaPlayer::GetInstance().PlayRadioByUuid(
+                target_favorite.stationuuid, {}, std::move(admission), {}, true)) {
+            return "Starting favorite station";
         }
         uuid_lookup_failed = true;
     }

@@ -1,0 +1,308 @@
+I (598) octal_psram: vendor id    : 0x0d (AP)
+I (598) octal_psram: dev id       : 0x02 (generation 3)
+I (599) octal_psram: density      : 0x03 (64 Mbit)
+I (601) octal_psram: good-die     : 0x01 (Pass)
+I (605) octal_psram: Latency      : 0x01 (Fixed)
+I (609) octal_psram: VCC          : 0x01 (3V)
+I (613) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (618) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (623) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (628) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (633) octal_psram: DriveStrength: 0x00 (1/1)
+I (637) MSPI Timing: Enter psram timing tuning
+I (642) esp_psram: Found 8MB PSRAM device
+I (645) esp_psram: Speed: 80MHz
+I (648) cpu_start: Multicore app
+I (662) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (663) cpu_start: Pro cpu start user code
+I (663) cpu_start: cpu freq: 240000000 Hz
+I (664) app_init: Application information:
+I (668) app_init: Project name:     xiaozhi
+I (672) app_init: App version:      1.1.14
+I (676) app_init: Compile time:     Oct 12 2026 19:08:28
+I (681) app_init: ELF file SHA256:  fb965f506...
+I (685) app_init: ESP-IDF:          v6.0.2
+I (689) efuse_init: Min chip rev:     v0.0
+I (693) efuse_init: Max chip rev:     v0.99 
+I (697) efuse_init: Chip rev:         v0.2
+I (701) heap_init: Initializing. RAM available for dynamic allocation:
+I (707) heap_init: At 3FCADB10 len 0003BC00 (239 KiB): RAM
+I (712) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (717) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (723) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (728) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (735) spi_flash: detected chip: generic
+I (738) spi_flash: flash io: qio
+I (742) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (747) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (754) main_task: Started on CPU0
+I (754) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (764) main_task: Calling app_main()
+I (784) RAM: [BOOT] internal free=278103 min=277907 largest=118784 | psram free=8384896 min=8384896 largest=8257536
+I (784) Board: UUID=8568e31c-315a-462e-bcb6-dff8a1ab35a2 SKU=freenove-fnk0104s
+I (784) button: IoT Button Version: 4.2.0
+I (794) adc_battery_estimation: Use internal ADC unit
+I (794) st7796: version: 1.3.5
+I (794) st7796_general: LCD panel create success, version: 1.3.5
+I (1024) Display: Power management not supported
+W (1024) Settings: Namespace display is not open for writing
+I (1184) LcdDisplay: Turning display on
+I (1184) LcdDisplay: Initialize LVGL library
+I (1184) LcdDisplay: Use 2MB of PSRAM for image cache
+I (1184) LcdDisplay: Initialize LVGL port
+I (1194) LcdDisplay: Adding LCD display
+I (1194) LVGL: Starting LVGL task
+I (1254) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (1254) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+W (1664) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1664) StorageManager: SD Card mounted successfully at /sdcard!
+I (1674) StorageManager: SD_REQUIRED_DIRECTORIES result=ready count=3
+I (1674) HomeAssistant: Initializing Home Assistant integration...
+I (1684) MCP: Add tool: homeassistant.call_service
+I (1684) MCP: Add tool: homeassistant.get_states
+I (1684) MCP: Add tool: homeassistant.set_config [user]
+I (1694) MCP: Add tool: radio.add_favorite
+I (1694) MCP: Add tool: radio.get_current
+I (1704) MCP: Add tool: radio.list_favorites
+I (1704) MCP: Add tool: radio.play_favorite
+I (1704) MCP: Add tool: radio.remove_favorite
+I (1714) MCP: Add tool: radio.search_stations
+I (1714) MCP: Add tool: radio.play_station
+I (1724) MCP: Add tool: radio.stop
+I (1724) MCP: Add tool: media.play_sd
+I (1724) MCP: Add tool: media.list_sd
+I (1734) MCP: Add tool: media.search_sd
+I (1734) MCP: Add tool: media.pause
+I (1734) MCP: Add tool: media.next
+I (1744) MCP: Add tool: media.previous
+I (1744) MCP: Add tool: media.stop
+I (1744) MCP: Add tool: self.weather
+I (1754) MusicService: MUSIC_DIAG JOBS_BOOT valid=1 status=local job_id=f0f890a056ab4615812b49d26304d23b
+I (1764) MusicService: MUSIC_DIAG OLD_NVS_JOBS_IGNORED
+I (1824) MusicService: MUSIC_DIAG GMDB_BOOT valid=1 count=20
+I (1824) MusicService: MUSIC_INDEX_LOADED format=GMDB tracks=20 valid=1
+I (1834) MCP: Add tool: music.generate
+I (1834) MCP: Add tool: music.generation_status
+I (1834) MCP: Add tool: music.download_ready
+I (1844) MCP: Add tool: music.search_library
+I (1844) MCP: Add tool: music.download_library
+I (1854) MCP: Add tool: music.search_user_library
+I (1854) MCP: Add tool: music.download_user_library
+I (1854) MCP: Add tool: music.play_generated
+I (1864) MCP: Add tool: music.set_bridge_url [user]
+I (1864) MusicService: MUSIC_MEM stage=after_initialize internal_free=213111 internal_largest=94208 min=211807 psram_free=8374220
+I (1874) MusicService: MUSIC_DIAG MEM stage=after_reboot_stable internal_free=213111 internal_largest=94208 internal_min=211807 psram_free=8374220
+I (1894) StateMachine: State: unknown -> starting
+I (1914) AnimeFace: ANIME_FACE_INIT canvas=240x240 screen=480x320 assets=embedded layers=persistent
+I (1914) AnimeFace: ANIME_FACE_MEM after_init internal_free=200971 internal_largest=94208 internal_min=200971 dma_free=193183 dma_largest=94208 spiram_free=8374220 spiram_largest=8257536
+I (1934) Es8311AudioCodec: Duplex channels created
+I (1934) I2S_IF: Auto get out handle 0 from in handle 0x3c3c385c when duplex mode
+I (1944) Es8311AudioCodec: ES8311 software reset complete
+I (1954) ES8311: Work in Slave mode
+I (1954) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1954) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+I (1954) FnkExternalI2s: I2S_PORT: 1
+I (1964) FnkExternalI2s: BCLK: GPIO2
+I (1964) FnkExternalI2s: WS: GPIO21
+I (1964) FnkExternalI2s: DATA: GPIO14
+I (1974) FnkExternalI2s: RATE: 48000
+I (1974) FnkExternalI2s: BITS: 16
+I (1974) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+I (1984) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=188603 internal_largest=94208 dma_free=180815 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (1994) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=188603 internal_largest=94208 dma_free=180815 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2034) esp_image: segment 0: paddr=00020020 vaddr=3c250020 size=16db30h (1497904) map
+I (2144) esp_image: segment 1: paddr=0018db58 vaddr=3fc9cf00 size=024c0h (  9408) 
+I (2144) esp_image: segment 2: paddr=00190020 vaddr=42000020 size=24d854h (2414676) map
+I (2324) esp_image: segment 3: paddr=003dd87c vaddr=3fc9f3c0 size=06944h ( 26948) 
+I (2334) esp_image: segment 4: paddr=003e41c8 vaddr=40378000 size=14each ( 85676) 
+I (2344) esp_image: segment 5: paddr=003f907c vaddr=50000000 size=00024h (    36) 
+I (2344) esp_image: segment 0: paddr=004a0020 vaddr=3c250020 size=16d9d0h (1497552) map
+I (2464) esp_image: segment 1: paddr=0060d9f8 vaddr=3fc9cf00 size=02620h (  9760) 
+I (2464) esp_image: segment 2: paddr=00610020 vaddr=42000020 size=24d6a4h (2414244) map
+I (2644) esp_image: segment 3: paddr=0085d6cc vaddr=3fc9f520 size=067e4h ( 26596) 
+I (2644) esp_image: segment 4: paddr=00863eb8 vaddr=40378000 size=14each ( 85676) 
+I (2654) esp_image: segment 5: paddr=00878d6c vaddr=50000000 size=00024h (    36) 
+I (2654) OtaPartition: OTA_PARTITIONS running=ota_0 boot=ota_0 ota0=1.1.14/running ota1=1.1.14/ready rollback=1
+I (2664) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=177395 internal_largest=94208 dma_free=169607 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2684) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=175563 internal_largest=94208 dma_free=167775 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2744) Weather: WEATHER_CACHE_LOADED timestamp=1791834785 bytes=96
+I (2744) Weather: WEATHER_WORKER_READY stack_caps=PSRAM stack_bytes=10240
+I (2744) Weather: WEATHER_INIT lat=54.3523 lon=18.6491 city=Gdansk country=Poland
+I (2774) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (2774) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=160023 internal_largest=94208 dma_free=152235 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2784) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=160023 internal_largest=94208 dma_free=152235 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2824) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=151483 internal_largest=94208 dma_free=143695 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2834) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=151483 internal_largest=94208 dma_free=143695 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2844) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=151443 internal_largest=94208 dma_free=143655 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2874) SdMusicPlayer: Scanning SD music directory /sdcard/music (9 total entries)...
+I (2874) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (2884) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (2894) SdMusicPlayer: Track found: /sdcard/music/009_Дима Билан - Облака.mp3
+I (2904) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (2904) SdMusicPlayer: Track found: /sdcard/music/030_МакSим - Лучшая ночь (GASpromo Electro Mix).mp3
+I (2914) SdMusicPlayer: Track found: /sdcard/music/067_Алексей Чумаков - Тут и там.mp3
+I (2924) SdMusicPlayer: Track found: /sdcard/music/130_МакSим - Трудный возраст (remix).mp3
+I (2934) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (2944) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (2954) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 9
+I (2974) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=146715 internal_largest=94208 dma_free=138927 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (2984) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=146715 internal_largest=94208 dma_free=138927 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (3004) LcdDisplay: BOOT_ANIM_START
+I (3004) Assets: The storage free size is 20736 KB
+I (3004) Assets: The partition size is 7040 KB
+I (3004) AnimeFace: ANIME_FACE_MEM first_update internal_free=145251 internal_largest=94208 internal_min=145215 dma_free=137463 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (3124) Assets: The checksum calculation time is 110 ms
+I (3124) MODEL_LOADER: Successfully load srmodels
+I (3274) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=270
+I (3314) Assets: Refreshing display theme...
+I (3324) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (3344) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=345
+I (3524) RAM: [AFTER_LVGL_INIT] internal free=142835 min=137151 largest=94208 | psram free=8362388 min=8360900 largest=8257536
+I (3694) LcdDisplay: BOOT_ANIM_CONTENT_INVALIDATED
+I (3694) AudioCodec: Audio codec started
+I (3694) AudioService: AUDIO_JITTER_CONFIG playback_capacity=8 frames prebuffer=3 frames max_wait=120 ms decoded_pcm=PSRAM
+I (3704) RAM: [AFTER_AUDIO_INIT] internal free=131675 min=126903 largest=86016 | psram free=8295304 min=8295304 largest=8257536
+I (3854) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=855
+I (3864) AppManager: Initializing Application Manager...
+I (3864) MCP: Add tool: self.get_device_status
+I (3864) MCP: Add tool: self.audio_speaker.set_volume
+I (3864) MCP: Add tool: self.screen.set_brightness
+I (3874) MCP: Add tool: self.get_system_info [user]
+I (3874) MCP: Add tool: self.reboot [user]
+I (3874) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=875
+I (3884) MCP: Add tool: self.upgrade_firmware [user]
+I (3894) MCP: Add tool: self.screen.get_info [user]
+I (3894) MCP: Add tool: self.screen.snapshot [user]
+I (3894) MCP: Add tool: self.screen.preview_image [user]
+I (3904) MCP: Add tool: self.assets.set_download_url [user]
+I (3904) MCP: MCP_TOOL_SUMMARY total=38 public=29 user_only=9
+I (3914) WifiManager: Initializing...
+I (3914) pp: pp rom version: e7ae62f
+I (3924) net80211: net80211 rom version: e7ae62f
+I (3934) wifi:wifi driver task: 3fcbb4a8, prio:23, stack:6656, core=0
+I (3934) wifi:wifi firmware version: 00ad238
+I (3934) wifi:wifi certification version: v7.0
+I (3944) wifi:config NVS flash: disabled
+I (3944) wifi:config nano formatting: disabled
+I (3944) wifi:Init data frame dynamic rx buffer num: 6
+I (3954) wifi:Init dynamic rx mgmt buffer num: 5
+I (3954) wifi:Init management short buffer num: 32
+I (3964) wifi:Init dynamic tx buffer num: 32
+I (3964) wifi:Init static tx FG buffer num: 2
+I (3974) wifi:Init static rx buffer size: 1600
+I (3974) wifi:Init static rx buffer num: 3
+I (3974) wifi:Init dynamic rx buffer num: 6
+I (3984) wifi_init: rx ba win: 3
+I (3984) wifi_init: accept mbox: 6
+I (3984) wifi_init: tcpip mbox: 16
+I (3994) wifi_init: udp mbox: 6
+I (3994) wifi_init: tcp mbox: 6
+I (3994) wifi_init: tcp tx win: 5760
+I (4004) wifi_init: tcp rx win: 5760
+I (4004) wifi_init: tcp mss: 1440
+I (4004) WifiManager: Initialized
+I (4014) WifiBoard: Starting WiFi connection attempt
+I (4014) WifiManager: Starting station
+I (4014) WifiStation: Station DHCP hostname: KiraAP-6548
+I (4024) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (4064) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (4064) wifi:enable tsf
+I (4064) WifiBoard: WiFi scanning
+I (4094) RAM: [AFTER_XIAOZHI_INIT] internal free=96039 min=94227 largest=59392 | psram free=8265216 min=8245632 largest=8126464
+I (4424) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1420
+I (4754) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1750
+I (5104) LcdDisplay: BOOT_ANIM_DESTROYED
+I (5784) RAM: internal free=95747 min=81831 largest=59392 | psram free=7965720 min=7685772 largest=7471104
+I (6474) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -31, Channel: 7, Authmode: 3
+I (6474) WifiBoard: WiFi connecting to ZERG
+W (6504) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (7054) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7384) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7694) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (8964) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (8964) wifi:state: init -> auth (0xb0)
+I (8964) wifi:state: auth -> assoc (0x0)
+I (8974) wifi:state: assoc -> run (0x10)
+I (8994) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (8994) wifi:security: WPA2-PSK, phy: bgn, rssi: -30, cipher(pairwise:0x3, group:0x3), pmf:0
+I (9004) wifi:pm start, type: 1
+
+I (9004) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (9014) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (9024) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (9034) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (10524) esp_netif_handlers: sta ip: 192.168.31.101, mask: 255.255.255.0, gw: 192.168.31.1
+I (10524) WifiStation: Got IP: 192.168.31.101
+I (10524) WifiBoard: Connected to WiFi: ZERG
+I (10524) Application: Network connected
+I (10524) RAM: [AFTER_WIFI] internal free=94811 min=81459 largest=59392 | psram free=7860532 min=7685772 largest=7471104
+I (10544) StateMachine: State: starting -> activating
+I (10544) Ota: Current version: 1.1.14
+I (10554) AnimeFace: ANIME_FACE_STATE: THINKING
+I (10554) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10784) RAM: internal free=79627 min=71283 largest=47104 | psram free=7857648 min=7685772 largest=7471104
+I (12204) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (12204) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1650
+I (12824) HttpClient: HTTP connection closed
+I (12834) Ota: Current is the latest version
+I (12834) Ota: Running partition: ota_0
+I (12834) MQTT: Connecting to endpoint api.tenclass.net
+I (13154) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (13454) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5796
+I (13494) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=106
+I (14874) Application: PROTOCOL_CONNECTED timestamp_ms=14142
+I (14874) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=14142
+I (14874) MQTT: Connected to endpoint
+I (14874) Application: Activation done
+I (14874) SystemInfo: free sram: 85299 minimal sram: 65687
+I (14884) StateMachine: State: activating -> idle
+I (14884) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (14894) wifi:Set ps type: 2, coexist: 0
+
+I (14894) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (14904) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (14904) AnimeFace: ANIME_FACE_STATE: IDLE
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (14954) AFE: AFE Version: (1MIC_V251128)
+I (14954) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14964) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,)| -> [output]
+I (14974) AFE: AFE Version: (1MIC_V251128)
+I (14974) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14984) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14994) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (15004) AudioCodec: Set input enable to true
+I (15004) I2S_IF: No paired data, current mode: record
+I (15014) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (15014) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (15004) Application: CONNECTION_SOUND_START timestamp_ms=14276
+I (15044) Adev_Codec: Open codec device OK
+I (15044) AudioCodec: Set output enable to true
+I (15044) AudioService: Resampling audio from 16000 to 48000
+I (15164) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (15164) Weather: WEATHER_WORKER_START id=1 kind=refresh
+I (15164) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=52927 internal_largest=38912 internal_min=44495 dma_free=48291 dma_largest=38912 psram_free=7414668 psram_largest=7340032
+I (15184) Weather: WEATHER_HTTP_START city=Gdansk lat=54.35227 lon=18.64912 days=3
+I (15184) Weather: WEATHER_HTTP_START op=forecast
+I (15184) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (15194) Weather: WEATHER_MEM phase=http_before_open internal_free=52147 internal_largest=38912 internal_min=44495 dma_free=47511 dma_largest=38912 psram_free=7414668 psram_largest=7340032
+I (15294) MCP: MCP_TOOLS_LIST page_tools=10 bytes=5605 user_only=0 next=radio.search_stations
+I (15784) RAM: internal free=48139 min=39623 largest=38912 | psram free=7396620 min=7364960 largest=7340032
+I (17364) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (18054) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=2840
+I (18064) MCP: MCP_TOOLS_LIST page_tools=12 bytes=7170 user_only=0 next=music.generation_status
+I (18114) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=2864
+I (18114) HttpClient: HTTP connection closed
+I (18114) Weather: WEATHER_MEM phase=http_after_release internal_free=51151 internal_largest=38912 internal_min=35199 dma_free=49607 dma_largest=38912 psram_free=7437020 psram_largest=7340032
+I (18134) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1060 elapsed_ms=2930
+I (18144) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1060 elapsed_ms=2930
+I (18144) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1060
+I (18154) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=7
+I (18164) Weather: WEATHER_PARSE_OK provider=open_meteo city=Gdansk temp=9.5 code=1009
+I (18304) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (18614) Weather: WEATHER_CACHE_SAVED bytes=96
+I (18614) Weather: WEATHER_UPDATE_OK timestamp=1791834825
+I (18614) Weather: WEATHER_MEM phase=after_update internal_free=52047 internal_largest=38912 internal_min=35199 dma_free=50503 dma_largest=38912 psram_free=7438112 psram_largest=7340032
+I (18634) Weather: WEATHER_WORKER_END id=1 kind=refresh elapsed_ms=3469
+I (19274) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (19554) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5346
+I (19894) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=196

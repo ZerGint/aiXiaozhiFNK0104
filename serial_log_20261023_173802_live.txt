@@ -1,0 +1,1746 @@
+--- LIVE CAPTURE START 2026-10-23 17:38:02 port=COM13 baud=115200 ---
+2026-10-23 17:38:03 W (94813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (94873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (94973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:03 W (95643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (95703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (95773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (95833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 I (95873) RAM: internal free=41559 min=22772 largest=21504 | psram free=7332136 min=7203712 largest=7208960
+2026-10-23 17:38:04 W (95903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (95963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96503) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:04 W (96633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (96733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (96793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (96823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (96923) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (96983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97053) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:05 W (97593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (97983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98393) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:06 W (98583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (98653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (98713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (98813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (98843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (98903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 I (98943) SystemInfo: free sram: 41463 minimal sram: 22772
+2026-10-23 17:38:07 W (99003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:07 W (99583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99743) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (99993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:08 W (100633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (100663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (100733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (100823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 I (100873) RAM: internal free=41559 min=22772 largest=21504 | psram free=7332136 min=7203712 largest=7208960
+2026-10-23 17:38:09 W (100893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (100953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101143) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:09 W (101593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (101693) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (101753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (101783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (101883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (101943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 E (101973) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:38:10 E (101973) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:38:10 E (101973) task_wdt: Tasks currently running:
+2026-10-23 17:38:10 E (101973) task_wdt: CPU 0: IDLE0
+2026-10-23 17:38:10 E (101973) task_wdt: CPU 1: SdMusicPlayer
+2026-10-23 17:38:10 E (101973) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:38:10 
+2026-10-23 17:38:10 
+2026-10-23 17:38:10 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4208F1E1:0x3FCC61C0 0x4208ED99:0x3FCC61E0 0x42088307:0x3FCC63F0 0x4207DDC2:0x3FCC6410 0x4207C825:0x3FCC6430 0x4207C9A2:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:38:10 
+2026-10-23 17:38:10 W (102053) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:10 W (102563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (102663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (102723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (102793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (102853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (102913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103013) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:11 W (103593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (103653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (103713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (103783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (103873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (103943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104293) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104483) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:12 W (104613) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (104673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (104743) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (104833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (104873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (104933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105223) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:13 W (105603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (105673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (105763) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (105793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 I (105873) RAM: internal free=41559 min=22772 largest=21504 | psram free=7332136 min=7203712 largest=7208960
+2026-10-23 17:38:14 W (105893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (105953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106153) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106503) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:14 W (106593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (106693) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (106753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (106823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (106883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (106953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107143) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107493) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:15 W (107623) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (107683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (107783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (107843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (107913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (107973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:16 W (108643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (108713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (108773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (108833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (108903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 I (108943) SystemInfo: free sram: 42043 minimal sram: 22772
+2026-10-23 17:38:17 W (108963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109153) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:17 W (109633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (109703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (109793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (109833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (109923) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (109993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110053) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:18 W (110563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (110663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (110723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (110793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (110853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 I (110873) RAM: internal free=41559 min=22772 largest=21504 | psram free=7332136 min=7203712 largest=7208960
+2026-10-23 17:38:19 W (110913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (110983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:19 W (111623) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (111653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (111713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (111813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (111873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (111943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 E (111973) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:38:20 E (111973) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:38:20 E (111973) task_wdt: Tasks currently running:
+2026-10-23 17:38:20 E (111973) task_wdt: CPU 0: IDLE0
+2026-10-23 17:38:20 E (111973) task_wdt: CPU 1: audio_afe
+2026-10-23 17:38:20 E (111973) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:38:20 
+2026-10-23 17:38:20 
+2026-10-23 17:38:20 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4037BBE1:0x3FCC6340 0x420A6604:0x3FCC6350 0x420A4799:0x3FCC6370 0x4209D5F2:0x3FCC63C0 0x4209E677:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:38:20 
+2026-10-23 17:38:20 W (112273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (112333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (112403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (112463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (112523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:20 W (112593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (112973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113613) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:21 W (113643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (113743) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (113803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (113873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (113933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114223) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114483) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:22 W (114603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114923) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (114993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115153) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:23 W (115633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (115693) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (115723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (115823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 I (115873) RAM: internal free=41559 min=22772 largest=21504 | psram free=7332136 min=7203712 largest=7208960
+2026-10-23 17:38:24 W (115883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (115953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (116013) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (116113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 W (116173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 I (116213) SdMusicPlayer: ▶ Playing file: /sdcard/music/009_Дима Билан - Облака.mp3
+2026-10-23 17:38:24 W (116213) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 17:38:24 W (116213) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=44663 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:38:24 W (116233) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 17:38:24 W (116233) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=44583 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:38:24 I (116243) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 17:38:24 I (116243) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/009_Дима Билан - Облака.mp3
+2026-10-23 17:38:24 W (116263) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 17:38:24 W (116263) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=44251 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:38:24 W (116273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:24 I (116283) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 17:38:24 W (116293) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 17:38:24 W (116303) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=41167 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:38:24 I (116313) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=10 task=0x3fcbf984 pcm=0x3fcc0400 samples=52 queue=1
+2026-10-23 17:38:24 I (116323) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcbf984 pcm=0x3fcc0400 samples=52
+2026-10-23 17:38:24 I (116333) FnkExternalI2s: MEDIA_FADE_START user=57 target_gain=9214 samples=33600
+2026-10-23 17:38:24 I (116333) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcbf984 pcm=0x3fcc0400 samples=52
+2026-10-23 17:38:24 I (116513) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=145
+2026-10-23 17:38:24 I (116523) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:38:25 I (116843) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5575
+2026-10-23 17:38:27 I (118943) SystemInfo: free sram: 41619 minimal sram: 22772
+2026-10-23 17:38:28 W (119883) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:28 I (120013) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=41227 internal_largest=21504 dma_free=33439 dma_largest=21504 spiram_free=7312908 spiram_largest=7208960
+2026-10-23 17:38:28 I (120283) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=167
+2026-10-23 17:38:29 W (120713) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:29 I (120803) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=41851 internal_largest=21504 dma_free=34063 dma_largest=21504 spiram_free=7312908 spiram_largest=7208960
+2026-10-23 17:38:29 I (120873) RAM: internal free=38443 min=22772 largest=21504 | psram free=7323676 min=7203712 largest=7208960
+2026-10-23 17:38:30 W (121663) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:30 I (121763) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=40755 internal_largest=21504 dma_free=32967 dma_largest=21504 spiram_free=7312908 spiram_largest=7208960
+2026-10-23 17:38:30 I (122443) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=143
+2026-10-23 17:38:30 I (122443) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:38:30 W (122523) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:30 I (122633) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=-1
+2026-10-23 17:38:30 I (122633) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:38:30 I (122633) Application: TOUCH_WAKE_POPUP_QUEUED
+2026-10-23 17:38:30 I (122633) SdMusicPlayer: Playback PAUSED
+2026-10-23 17:38:30 I (122643) MediaPlayer: [SD_VOICE_PAUSE]
+2026-10-23 17:38:30 I (122643) StateMachine: State: idle -> connecting
+2026-10-23 17:38:31 I (122653) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:38:31 I (122653) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:38:31 
+2026-10-23 17:38:31 I (122673) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 17:38:31 I (122733) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4476
+2026-10-23 17:38:31 W (122803) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+2026-10-23 17:38:31 W (122803) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+2026-10-23 17:38:31 I (122883) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:38:31 I (122883) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 17:38:31 I (123183) MQTT: Session ID: ea718800
+2026-10-23 17:38:31 I (123183) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:38:31 I (123183) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:38:31 
+2026-10-23 17:38:31 W (123183) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+2026-10-23 17:38:31 I (123193) StateMachine: State: connecting -> listening
+2026-10-23 17:38:31 I (123233) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 17:38:31 I (123513) AnimeFace: ANIME_WAKE END base=LISTENING
+2026-10-23 17:38:32 W (124263) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:32 I (124423) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=38459 internal_largest=21504 dma_free=30671 dma_largest=21504 spiram_free=7329828 spiram_largest=7208960
+2026-10-23 17:38:33 I (124733) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+2026-10-23 17:38:33 W (125363) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:33 I (125513) MediaPlayer: [SD_VOICE_MANUAL_RESUME]
+2026-10-23 17:38:33 I (125513) SdMusicPlayer: Playback RESUMED
+2026-10-23 17:38:34 I (125873) RAM: internal free=40047 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:38:34 I (126603) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+2026-10-23 17:38:35 W (127043) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:35 I (127133) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=37211 internal_largest=21504 dma_free=29423 dma_largest=21504 spiram_free=7332136 spiram_largest=7208960
+2026-10-23 17:38:35 I (127363) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:38:36 I (127653) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5534
+2026-10-23 17:38:36 I (127713) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+2026-10-23 17:38:36 W (127793) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:38:36 I (127883) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+2026-10-23 17:38:36 I (127883) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:38:36 I (127893) MQTT: Closing audio channel, send_goodbye: 1
+2026-10-23 17:38:36 I (127893) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:38:36 I (127903) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:38:36 
+2026-10-23 17:38:36 I (127913) StateMachine: State: listening -> idle
+2026-10-23 17:38:36 I (127923) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 17:38:37 I (129023) MQTT: Received goodbye message, session_id: ea718800
+2026-10-23 17:38:37 I (129023) MQTT: Closing audio channel, send_goodbye: 0
+2026-10-23 17:38:37 I (129023) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:38:37 I (129023) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:38:37 
+2026-10-23 17:38:39 I (130873) RAM: internal free=45123 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:38:44 I (135873) RAM: internal free=43551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:38:45 I (136943) SystemInfo: free sram: 45027 minimal sram: 22772
+2026-10-23 17:38:46 E (137973) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:38:46 E (137973) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:38:46 E (137973) task_wdt: Tasks currently running:
+2026-10-23 17:38:46 E (137973) task_wdt: CPU 0: IDLE0
+2026-10-23 17:38:46 E (137973) task_wdt: CPU 1: audio_afe
+2026-10-23 17:38:46 E (137973) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:38:46 
+2026-10-23 17:38:46 
+2026-10-23 17:38:46 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4037BBFB:0x3FCC6340 0x420A6604:0x3FCC6350 0x420A4953:0x3FCC6370 0x4209D5DB:0x3FCC63C0 0x4209E661:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:38:46 
+2026-10-23 17:38:49 I (140873) RAM: internal free=45123 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:38:49 W (141363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:50 W (141683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:50 W (141943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:50 W (142163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:50 W (142453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:51 W (142773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:51 W (142993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:51 W (143313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:51 W (143573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:52 W (144373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:52 W (144593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:53 W (144913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:53 W (145233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:53 W (145523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:54 W (145843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:54 I (145873) RAM: internal free=45123 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:38:54 W (146073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:54 W (146423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:54 W (146643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:55 I (146943) SystemInfo: free sram: 45027 minimal sram: 22772
+2026-10-23 17:38:55 W (146963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:55 W (147253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:55 W (147473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:56 E (147973) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:38:56 E (147973) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:38:56 E (147973) task_wdt: Tasks currently running:
+2026-10-23 17:38:56 E (147973) task_wdt: CPU 0: IDLE0
+2026-10-23 17:38:56 E (147973) task_wdt: CPU 1: audio_afe
+2026-10-23 17:38:56 E (147973) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:38:56 
+2026-10-23 17:38:56 
+2026-10-23 17:38:56 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4037BC08:0x3FCC6340 0x420A6604:0x3FCC6350 0x420A4799:0x3FCC6370 0x4209D5DB:0x3FCC63C0 0x4209E661:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:38:56 
+2026-10-23 17:38:57 W (148703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:57 W (148993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:57 W (149213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:57 W (149533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:58 W (149883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:58 W (150173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:58 W (150493) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:59 W (150723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:59 I (150873) RAM: internal free=45123 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:38:59 W (151103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:59 W (151163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:38:59 W (151483) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:00 W (151803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:00 W (152063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:00 W (152443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:01 W (152703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:01 W (153023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:01 W (153243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:01 W (153633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:02 W (153953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:02 W (154173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:02 W (154523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:03 W (154813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:03 W (155133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:03 W (155453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:04 W (155773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:04 I (155873) RAM: internal free=43039 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:39:04 W (156093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:04 W (156413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:05 W (156673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:05 I (156943) SystemInfo: free sram: 44995 minimal sram: 22772
+2026-10-23 17:39:05 W (156963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:05 W (157183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:05 W (157403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:06 W (157723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:06 E (157973) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:39:06 E (157973) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:39:06 E (157973) task_wdt: Tasks currently running:
+2026-10-23 17:39:06 E (157973) task_wdt: CPU 0: IDLE0
+2026-10-23 17:39:06 E (157973) task_wdt: CPU 1: audio_afe
+2026-10-23 17:39:06 E (157973) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:39:06 
+2026-10-23 17:39:06 
+2026-10-23 17:39:06 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4037BC08:0x3FCC6340 0x420A6604:0x3FCC6350 0x420A4953:0x3FCC6370 0x4209E3A1:0x3FCC63C0 0x4209E68C:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:39:06 
+2026-10-23 17:39:07 W (158823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:07 W (159143) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:07 W (159463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:08 I (159803) SdMusicPlayer: ▶ Playing file: /sdcard/music/028_Ангел-А - Мой герой.mp3
+2026-10-23 17:39:08 W (159803) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 17:39:08 W (159813) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=48563 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:08 W (159813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:08 W (159823) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 17:39:08 W (159833) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=48375 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:08 I (159853) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 17:39:08 I (159853) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_Ангел-А - Мой герой.mp3
+2026-10-23 17:39:08 W (159863) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 17:39:08 W (159873) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=48131 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:08 I (159893) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 17:39:08 W (159893) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 17:39:08 W (159893) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=45323 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:08 I (159903) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=11 task=0x3fce45a4 pcm=0x3fcc0d2c samples=52 queue=1
+2026-10-23 17:39:08 I (159923) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fce45a4 pcm=0x3fcc0d2c samples=52
+2026-10-23 17:39:08 I (159923) FnkExternalI2s: MEDIA_FADE_START user=57 target_gain=9214 samples=33600
+2026-10-23 17:39:08 I (159933) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fce45a4 pcm=0x3fcc0d2c samples=52
+2026-10-23 17:39:08 I (160113) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:39:08 I (160113) AnimeFace: ANIME_WAKE END base=IDLE
+2026-10-23 17:39:08 I (160183) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:39:08 I (160483) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5206
+2026-10-23 17:39:09 I (160873) RAM: internal free=45215 min=22772 largest=21504 | psram free=7310088 min=7203712 largest=7208960
+2026-10-23 17:39:10 W (161653) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:10 I (161833) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=44735 internal_largest=21504 dma_free=36947 dma_largest=21504 spiram_free=7310088 spiram_largest=7208960
+2026-10-23 17:39:10 I (162073) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=115
+2026-10-23 17:39:12 W (164083) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:12 I (164263) SdMusicPlayer: Playback PAUSED
+2026-10-23 17:39:13 I (164713) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=185
+2026-10-23 17:39:13 W (165483) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:13 I (165563) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=44691 internal_largest=21504 dma_free=36903 dma_largest=21504 spiram_free=7329316 spiram_largest=7208960
+2026-10-23 17:39:14 I (165783) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:39:14 I (165873) RAM: internal free=45547 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:39:14 I (166083) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3655
+2026-10-23 17:39:14 W (166343) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:14 I (166543) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=2
+2026-10-23 17:39:14 I (166543) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:39:14 I (166553) Application: TOUCH_WAKE_POPUP_QUEUED
+2026-10-23 17:39:14 I (166553) StateMachine: State: idle -> connecting
+2026-10-23 17:39:14 I (166573) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:39:14 I (166573) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:39:14 
+2026-10-23 17:39:14 I (166603) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 17:39:15 I (166723) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:39:15 I (166723) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 17:39:15 W (166803) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+2026-10-23 17:39:15 W (166803) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+2026-10-23 17:39:15 I (167303) MQTT: Session ID: 73854f9e
+2026-10-23 17:39:15 I (167303) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:39:15 I (167313) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:39:15 
+2026-10-23 17:39:15 W (167313) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+2026-10-23 17:39:15 I (167313) AnimeFace: ANIME_WAKE END base=THINKING
+2026-10-23 17:39:15 I (167323) StateMachine: State: connecting -> listening
+2026-10-23 17:39:15 I (167373) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 17:39:16 W (168413) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:16 I (168573) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+2026-10-23 17:39:16 I (168573) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:39:16 I (168583) MQTT: Closing audio channel, send_goodbye: 1
+2026-10-23 17:39:16 I (168583) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:39:16 I (168593) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:39:16 
+2026-10-23 17:39:16 I (168603) StateMachine: State: listening -> idle
+2026-10-23 17:39:16 I (168613) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 17:39:17 I (168733) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:39:17 I (168733) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 17:39:17 I (169353) AnimeFace: ANIME_WAKE END base=IDLE
+2026-10-23 17:39:18 I (169673) MQTT: Received goodbye message, session_id: 73854f9e
+2026-10-23 17:39:18 I (169673) MQTT: Closing audio channel, send_goodbye: 0
+2026-10-23 17:39:18 I (169673) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:39:18 I (169683) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:39:18 
+2026-10-23 17:39:18 I (169753) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:39:18 I (170033) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4181
+2026-10-23 17:39:18 W (170083) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:18 I (170193) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=45111 internal_largest=21504 dma_free=37323 dma_largest=21504 spiram_free=7329828 spiram_largest=7208960
+2026-10-23 17:39:19 W (170753) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:19 I (170873) RAM: internal free=45583 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:19 I (170883) SdMusicPlayer: Playback RESUMED
+2026-10-23 17:39:22 W (173723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (173793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (173853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (173913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (173983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174143) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174393) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:22 W (174593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (174683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (174713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (174783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (174873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (174943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175613) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:23 W (175643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (175713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (175803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (175833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 I (175873) RAM: internal free=45059 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:24 W (175903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (175993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:24 W (176603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (176703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (176733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (176793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (176893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (176923) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:25 W (177633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (177693) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (177723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (177823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (177883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 I (177943) SystemInfo: free sram: 44963 minimal sram: 22772
+2026-10-23 17:39:26 W (177983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178013) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178523) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:26 W (178553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (178973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179293) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:27 W (179643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (179713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (179803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (179833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (179903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (179993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:28 W (180633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (180733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (180793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 I (180873) RAM: internal free=45059 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:29 E (180893) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:39:29 E (180893) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:39:29 E (180893) task_wdt: Tasks currently running:
+2026-10-23 17:39:29 E (180893) task_wdt: CPU 0: audio_input
+2026-10-23 17:39:29 E (180893) task_wdt: CPU 1: audio_afe
+2026-10-23 17:39:29 E (180893) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:39:29 
+2026-10-23 17:39:29 
+2026-10-23 17:39:29 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x420C15BE:0x3FCC62E0 0x420A6033:0x3FCC63A0 0x4209D568:0x3FCC63C0 0x4209E661:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:39:29 
+2026-10-23 17:39:29 W (181213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181503) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:29 W (181633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (181693) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (181753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (181853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (181883) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (181953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182493) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:30 W (182623) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (182683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (182783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (182813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (182873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (182973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:31 W (183643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (183713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (183773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (183833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (183903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (183963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184153) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:32 W (184633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (184703) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (184763) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (184833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (184893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (184993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:33 W (185563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (185663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (185723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (185753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (185853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 I (185873) RAM: internal free=45059 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:34 W (185913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (185983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186173) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186203) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:34 W (186623) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186713) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186783) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (186973) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187233) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187293) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187393) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187453) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187583) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:35 W (187643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (187743) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (187773) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (187833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (187933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 I (187943) SystemInfo: free sram: 44963 minimal sram: 22772
+2026-10-23 17:39:36 W (187963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188153) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188253) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:36 W (188573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188733) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188763) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188863) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188923) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (188993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189053) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189113) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189403) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189533) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:37 W (189593) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (189983) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190143) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190203) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190393) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190493) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190553) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:38 W (190623) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (190683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (190753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (190843) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 I (190873) RAM: internal free=45059 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:39 W (190873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 E (190893) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:39:39 E (190893) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:39:39 E (190893) task_wdt: Tasks currently running:
+2026-10-23 17:39:39 E (190893) task_wdt: CPU 0: audio_input
+2026-10-23 17:39:39 E (190893) task_wdt: CPU 1: audio_afe
+2026-10-23 17:39:39 E (190893) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:39:39 
+2026-10-23 17:39:39 
+2026-10-23 17:39:39 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x4037BC08:0x3FCC6340 0x420A6604:0x3FCC6350 0x420A4953:0x3FCC6370 0x4209D5CC:0x3FCC63C0 0x4209E661:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:39:39 
+2026-10-23 17:39:39 W (191103) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191193) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191293) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191323) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191483) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:39 W (191613) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (191673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (191743) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (191803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (191873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (191933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192063) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192223) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192413) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192473) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:40 W (192603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (192673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (192763) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (192793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (192893) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (192953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193183) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193243) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193373) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193503) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:41 W (193563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:42 I (193663) SdMusicPlayer: ▶ Playing file: /sdcard/music/030_МакSим - Лучшая ночь (GASpromo Electro Mix).mp3
+2026-10-23 17:39:42 W (193663) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 17:39:42 W (193663) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:39:42 W (193673) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=48027 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:42 W (193693) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 17:39:42 W (193693) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=48043 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:42 I (193713) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 17:39:42 I (193713) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/030_МакSим - Лучшая ночь (GASpromo Electro Mix).mp3
+2026-10-23 17:39:42 W (193723) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 17:39:42 W (193733) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=47683 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:42 I (193753) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 17:39:42 W (193753) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 17:39:42 W (193753) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=45467 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:39:42 I (193773) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=12 task=0x3fcbf984 pcm=0x3c4c374c samples=1254 queue=1
+2026-10-23 17:39:42 I (193783) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcbf984 pcm=0x3c4c374c samples=1254
+2026-10-23 17:39:42 I (193793) FnkExternalI2s: MEDIA_FADE_START user=57 target_gain=9214 samples=33600
+2026-10-23 17:39:42 I (193813) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcbf984 pcm=0x3c4c374c samples=1254
+2026-10-23 17:39:42 I (193993) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=160
+2026-10-23 17:39:42 I (193993) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:39:42 I (194273) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5175
+2026-10-23 17:39:44 I (195873) RAM: internal free=44719 min=22772 largest=21504 | psram free=7310600 min=7203712 largest=7208960
+2026-10-23 17:39:44 I (196293) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=127
+2026-10-23 17:39:46 I (197943) SystemInfo: free sram: 44707 minimal sram: 22772
+2026-10-23 17:39:47 I (199503) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:39:48 I (199803) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3994
+2026-10-23 17:39:48 I (199843) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=191
+2026-10-23 17:39:49 I (200873) RAM: internal free=44719 min=22772 largest=21504 | psram free=7315728 min=7203712 largest=7208960
+2026-10-23 17:39:51 I (203423) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=172
+2026-10-23 17:39:52 I (203803) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:39:52 I (204113) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3436
+2026-10-23 17:39:54 I (205873) RAM: internal free=44719 min=22772 largest=21504 | psram free=7310600 min=7203712 largest=7208960
+2026-10-23 17:39:54 I (206353) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=208
+2026-10-23 17:39:55 I (207563) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:39:56 I (207873) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4944
+2026-10-23 17:39:56 I (207943) SystemInfo: free sram: 45115 minimal sram: 22772
+2026-10-23 17:39:56 W (208283) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:56 I (208393) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=171
+2026-10-23 17:39:56 I (208393) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=43895 internal_largest=21504 dma_free=36107 dma_largest=21504 spiram_free=7313420 spiram_largest=7208960
+2026-10-23 17:39:57 W (209003) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:57 I (209083) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=1
+2026-10-23 17:39:57 I (209083) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:39:57 I (209083) Application: TOUCH_WAKE_POPUP_QUEUED
+2026-10-23 17:39:57 I (209083) SdMusicPlayer: Playback PAUSED
+2026-10-23 17:39:57 I (209093) MediaPlayer: [SD_VOICE_PAUSE]
+2026-10-23 17:39:57 I (209093) StateMachine: State: idle -> connecting
+2026-10-23 17:39:57 I (209103) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:39:57 I (209103) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:39:57 
+2026-10-23 17:39:57 I (209123) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 17:39:57 W (209173) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+2026-10-23 17:39:57 W (209173) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+2026-10-23 17:39:57 I (209253) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:39:57 I (209253) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 17:39:57 I (209633) MQTT: Session ID: 2c550026
+2026-10-23 17:39:57 I (209633) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 17:39:57 I (209633) wifi:Set ps type: 0, coexist: 0
+2026-10-23 17:39:57 
+2026-10-23 17:39:57 W (209643) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+2026-10-23 17:39:58 I (209653) StateMachine: State: connecting -> listening
+2026-10-23 17:39:58 I (209683) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 17:39:58 I (209843) AnimeFace: ANIME_WAKE END base=LISTENING
+2026-10-23 17:39:58 W (210403) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:39:58 I (210533) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=39467 internal_largest=21504 dma_free=31679 dma_largest=21504 spiram_free=7329316 spiram_largest=7208960
+2026-10-23 17:39:59 I (210873) RAM: internal free=39935 min=22772 largest=21504 | psram free=7329828 min=7203712 largest=7208960
+2026-10-23 17:39:59 I (211073) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+2026-10-23 17:40:00 W (211793) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:40:00 I (211863) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=39059 internal_largest=21504 dma_free=31271 dma_largest=21504 spiram_free=7329316 spiram_largest=7208960
+2026-10-23 17:40:00 W (212393) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:40:00 I (212433) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+2026-10-23 17:40:00 I (212473) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+2026-10-23 17:40:00 I (212473) LcdDisplay: ANIME_FACE_TAP target=0x3fce29a4
+2026-10-23 17:40:00 I (212473) MQTT: Closing audio channel, send_goodbye: 1
+2026-10-23 17:40:00 I (212483) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:40:00 I (212483) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:40:00 
+2026-10-23 17:40:00 I (212493) StateMachine: State: listening -> idle
+2026-10-23 17:40:00 I (212493) MediaPlayer: [SD_VOICE_RESUME]
+2026-10-23 17:40:00 I (212493) SdMusicPlayer: Playback RESUMED
+2026-10-23 17:40:00 I (212523) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 17:40:01 I (212953) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 17:40:01 I (213603) MQTT: Received goodbye message, session_id: 2c550026
+2026-10-23 17:40:01 I (213603) MQTT: Closing audio channel, send_goodbye: 0
+2026-10-23 17:40:01 I (213603) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 17:40:01 I (213613) wifi:Set ps type: 2, coexist: 0
+2026-10-23 17:40:01 
+2026-10-23 17:40:04 I (215873) RAM: internal free=42931 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:09 I (220873) RAM: internal free=44983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:10 I (221943) SystemInfo: free sram: 44887 minimal sram: 22772
+2026-10-23 17:40:10 E (222593) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:40:10 E (222593) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:40:10 E (222593) task_wdt: Tasks currently running:
+2026-10-23 17:40:10 E (222593) task_wdt: CPU 0: IDLE0
+2026-10-23 17:40:10 E (222593) task_wdt: CPU 1: audio_afe
+2026-10-23 17:40:10 E (222593) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:40:10 
+2026-10-23 17:40:10 
+2026-10-23 17:40:10 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x400570E9:0x3FCC63C0 0x420CD78E:0x3FCC63D0 0x4209E738:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:40:10 
+2026-10-23 17:40:11 W (223543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:12 W (223833) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:12 W (223993) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:12 W (224313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:12 W (224603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:13 W (224823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:13 W (225083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:13 W (225463) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:14 W (225723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:14 I (225873) RAM: internal free=44983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:14 W (225913) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:14 W (226303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:14 W (226393) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:15 W (226683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:15 W (227003) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:15 W (227163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:15 W (227483) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:16 W (227803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:16 W (228023) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:16 W (228313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:16 W (228633) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:17 W (228953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:17 W (229213) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:17 W (229433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:18 W (229853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:18 W (230043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:18 W (230363) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:19 W (230683) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:19 I (230873) RAM: internal free=44983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:19 W (230903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:19 W (231163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:19 W (231383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:20 W (231673) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:20 W (231903) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:20 I (231943) SystemInfo: free sram: 44887 minimal sram: 22772
+2026-10-23 17:40:20 W (232123) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:20 W (232283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:20 E (232593) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:40:20 E (232593) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:40:20 E (232593) task_wdt: Tasks currently running:
+2026-10-23 17:40:20 E (232593) task_wdt: CPU 0: IDLE0
+2026-10-23 17:40:20 E (232593) task_wdt: CPU 1: audio_afe
+2026-10-23 17:40:20 E (232593) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:40:20 
+2026-10-23 17:40:20 
+2026-10-23 17:40:20 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x420C8295:0x3FCC6390 0x420A609F:0x3FCC63A0 0x4209E3DE:0x3FCC63C0 0x4209E68C:0x3FCC63E0 0x4209E75B:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:40:20 
+2026-10-23 17:40:21 W (233383) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:21 W (233603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:22 W (233793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:22 W (234313) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:23 W (234753) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:23 W (234853) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:23 W (235073) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:23 W (235303) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:24 W (235813) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:24 I (235873) RAM: internal free=44983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:24 W (236033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:24 W (236263) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:24 W (236513) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:25 W (236803) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:25 W (237033) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:25 W (237283) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:25 W (237603) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:26 W (237793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:26 W (238053) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:26 W (238343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:26 W (238563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:27 W (238823) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:27 W (239043) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:27 W (239333) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:28 W (239653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:28 W (239873) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:28 W (240133) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:28 W (240353) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:28 W (240643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:29 I (240873) RAM: internal free=44983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:29 W (240963) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:29 W (241093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:29 W (241443) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:29 W (241573) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:30 W (241793) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:30 I (241943) SystemInfo: free sram: 44887 minimal sram: 22772
+2026-10-23 17:40:30 W (242083) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:30 W (242343) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:30 W (242563) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:30 E (242593) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 17:40:30 E (242593) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 17:40:30 E (242593) task_wdt: Tasks currently running:
+2026-10-23 17:40:30 E (242593) task_wdt: CPU 0: IDLE0
+2026-10-23 17:40:30 E (242593) task_wdt: CPU 1: audio_afe
+2026-10-23 17:40:30 E (242593) task_wdt: Print CPU 1 backtrace
+2026-10-23 17:40:30 
+2026-10-23 17:40:30 
+2026-10-23 17:40:30 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x420CD7F5:0x3FCC63D0 0x4209E738:0x3FCC6400 0x4221E3A9:0x3FCC6420 0x4207C9AC:0x3FCC6450 0x4205FB55:0x3FCC6470 0x4205FBD1:0x3FCC6490
+2026-10-23 17:40:30 
+2026-10-23 17:40:32 W (243723) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:32 W (243953) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:32 W (244273) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:32 W (244433) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:33 W (244653) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:33 W (244943) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:33 W (245163) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:33 W (245423) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:33 W (245643) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:34 I (245873) RAM: internal free=44991 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:34 W (245933) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:34 W (246093) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:34 I (246523) SdMusicPlayer: ▶ Playing file: /sdcard/music/067_Алексей Чумаков - Тут и там.mp3
+2026-10-23 17:40:34 W (246523) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 17:40:34 W (246523) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=48519 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:40:34 W (246543) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 17:40:34 W (246543) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=48439 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:40:34 W (246543) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 17:40:34 I (246553) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 17:40:34 I (246563) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/067_Алексей Чумаков - Тут и там.mp3
+2026-10-23 17:40:34 W (246583) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 17:40:34 W (246583) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=48091 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:40:34 I (246603) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 17:40:34 W (246603) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 17:40:34 W (246613) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=45863 internal_largest=21504 stack_hwm=2108
+2026-10-23 17:40:34 I (246623) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=13 task=0x3fcdc18c pcm=0x3fcc0d2c samples=52 queue=1
+2026-10-23 17:40:34 I (246633) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcdc18c pcm=0x3fcc0d2c samples=52
+2026-10-23 17:40:34 I (246643) FnkExternalI2s: MEDIA_FADE_START user=57 target_gain=9214 samples=33600
+2026-10-23 17:40:35 I (246653) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcdc18c pcm=0x3fcc0d2c samples=52
+2026-10-23 17:40:35 I (246823) AnimeFace: ANIME_WAKE END base=IDLE
+2026-10-23 17:40:35 I (246903) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:40:35 I (247213) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5182
+2026-10-23 17:40:36 W (248393) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:40:36 I (248443) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=44263 internal_largest=21504 dma_free=36475 dma_largest=21504 spiram_free=7310088 spiram_largest=7208960
+2026-10-23 17:40:37 I (249483) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=105
+2026-10-23 17:40:39 I (250873) RAM: internal free=45159 min=22772 largest=21504 | psram free=7310088 min=7203712 largest=7208960
+2026-10-23 17:40:40 I (251943) SystemInfo: free sram: 45107 minimal sram: 22772
+2026-10-23 17:40:40 I (252133) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=108
+2026-10-23 17:40:40 I (252413) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:40:41 I (252693) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4707
+2026-10-23 17:40:42 I (253673) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=164
+2026-10-23 17:40:44 I (255873) RAM: internal free=45171 min=22772 largest=21504 | psram free=7315216 min=7203712 largest=7208960
+2026-10-23 17:40:45 I (257113) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=211
+2026-10-23 17:40:45 I (257443) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:40:46 I (257773) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=6628
+2026-10-23 17:40:47 I (258933) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=124
+2026-10-23 17:40:49 I (260873) RAM: internal free=45171 min=22772 largest=21504 | psram free=7310088 min=7203712 largest=7208960
+2026-10-23 17:40:49 I (261613) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=106
+2026-10-23 17:40:50 I (261943) SystemInfo: free sram: 45107 minimal sram: 22772
+2026-10-23 17:40:51 W (262683) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:40:51 I (262733) SdMusicPlayer: Playback PAUSED
+2026-10-23 17:40:52 I (264433) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:40:53 I (264723) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6825
+2026-10-23 17:40:53 I (265193) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=115
+2026-10-23 17:40:54 I (265873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:56 I (267903) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=199
+2026-10-23 17:40:58 I (270173) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=155
+2026-10-23 17:40:59 I (270873) RAM: internal free=45311 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:40:59 I (271563) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:41:00 I (271863) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4595
+2026-10-23 17:41:00 I (271923) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+2026-10-23 17:41:00 I (271943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:03 I (274883) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=186
+2026-10-23 17:41:04 I (275873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:04 I (276463) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:41:05 I (276763) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3640
+2026-10-23 17:41:05 I (276943) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=166
+2026-10-23 17:41:07 I (279353) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=181
+2026-10-23 17:41:08 I (280443) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:41:09 I (280743) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3625
+2026-10-23 17:41:09 I (280873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:10 I (281993) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:11 I (282673) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=133
+2026-10-23 17:41:12 I (284193) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+2026-10-23 17:41:12 I (284373) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:41:13 I (284663) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4850
+2026-10-23 17:41:14 I (285873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:14 I (286643) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=116
+2026-10-23 17:41:17 I (289523) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:41:18 I (289833) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5221
+2026-10-23 17:41:18 I (290073) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=107
+2026-10-23 17:41:19 I (290873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:20 I (291693) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=173
+2026-10-23 17:41:20 I (291943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:23 I (295023) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=219
+2026-10-23 17:41:23 I (295063) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:41:23 I (295353) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6707
+2026-10-23 17:41:24 I (295873) RAM: internal free=45131 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:25 I (296763) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=200
+2026-10-23 17:41:28 I (299913) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=189
+2026-10-23 17:41:29 I (300873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:30 I (301943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:30 I (302073) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:41:30 I (302383) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5206
+2026-10-23 17:41:31 I (303403) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=165
+2026-10-23 17:41:33 I (305483) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=148
+2026-10-23 17:41:34 I (305873) RAM: internal free=45543 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:35 I (307153) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+2026-10-23 17:41:35 I (307613) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:41:36 I (307903) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6381
+2026-10-23 17:41:38 I (310093) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+2026-10-23 17:41:39 I (310873) RAM: internal free=44699 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:40 I (311943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:40 I (312253) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=131
+2026-10-23 17:41:42 I (313913) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=113
+2026-10-23 17:41:42 I (314303) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:41:42 I (314603) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4674
+2026-10-23 17:41:44 I (315873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:45 I (317273) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=162
+2026-10-23 17:41:47 I (319323) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:41:47 I (319623) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6213
+2026-10-23 17:41:49 I (320773) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=151
+2026-10-23 17:41:49 I (320873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:50 I (321943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:41:51 I (323103) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=166
+2026-10-23 17:41:53 I (324843) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=152
+2026-10-23 17:41:54 I (325873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:54 I (325873) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:41:54 I (326163) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6383
+2026-10-23 17:41:55 I (327153) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=170
+2026-10-23 17:41:57 I (328733) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=117
+2026-10-23 17:41:59 I (330873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:41:59 I (330933) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=186
+2026-10-23 17:42:00 I (331943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:00 I (332583) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:42:01 I (332883) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6475
+2026-10-23 17:42:02 I (334093) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=154
+2026-10-23 17:42:04 I (335873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:05 I (336843) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=220
+2026-10-23 17:42:06 I (338523) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=174
+2026-10-23 17:42:07 I (339383) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:42:08 I (339683) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4495
+2026-10-23 17:42:09 I (340873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:10 I (341843) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=152
+2026-10-23 17:42:10 I (341943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:12 I (344183) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:42:12 I (344473) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4181
+2026-10-23 17:42:12 I (344513) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=117
+2026-10-23 17:42:14 I (345873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:15 I (347023) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=130
+2026-10-23 17:42:17 I (348663) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:42:17 I (348963) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3155
+2026-10-23 17:42:17 I (349013) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=212
+2026-10-23 17:42:19 I (350873) RAM: internal free=45311 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:20 I (351943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:20 I (352123) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:42:20 I (352413) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6262
+2026-10-23 17:42:20 I (352463) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=187
+2026-10-23 17:42:23 I (354673) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=214
+2026-10-23 17:42:24 I (355873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:25 I (357003) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=214
+2026-10-23 17:42:27 I (358683) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:42:27 I (358973) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5290
+2026-10-23 17:42:27 I (359013) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=207
+2026-10-23 17:42:29 I (360873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:29 I (361353) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=183
+2026-10-23 17:42:30 I (361993) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:32 I (364303) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:42:32 I (364593) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5549
+2026-10-23 17:42:32 I (364633) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=209
+2026-10-23 17:42:34 I (365873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:36 I (368213) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=192
+2026-10-23 17:42:38 I (370153) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:42:38 I (370453) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3221
+2026-10-23 17:42:38 I (370503) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=101
+2026-10-23 17:42:39 I (370873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:40 I (371943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:41 I (373283) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=209
+2026-10-23 17:42:42 I (373683) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:42:42 I (373983) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3932
+2026-10-23 17:42:43 I (375443) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=104
+2026-10-23 17:42:44 I (375873) RAM: internal free=45131 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:45 I (376833) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=209
+2026-10-23 17:42:46 I (377943) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:42:46 I (378233) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6052
+2026-10-23 17:42:48 I (380173) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=218
+2026-10-23 17:42:49 I (380873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:50 I (381943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:42:50 I (381983) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=130
+2026-10-23 17:42:52 I (384293) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:42:52 I (384593) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3546
+2026-10-23 17:42:53 I (385613) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=102
+2026-10-23 17:42:54 I (385873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:56 I (388173) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=137
+2026-10-23 17:42:56 I (388173) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:42:56 I (388473) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6814
+2026-10-23 17:42:59 I (390873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:42:59 I (391193) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=207
+2026-10-23 17:43:00 I (391943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:43:02 I (393843) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=191
+2026-10-23 17:43:03 I (395323) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:43:03 I (395623) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6450
+2026-10-23 17:43:04 I (395873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:05 I (397273) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+2026-10-23 17:43:08 I (399663) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=198
+2026-10-23 17:43:09 I (400873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:10 I (401993) SystemInfo: free sram: 45467 minimal sram: 22772
+2026-10-23 17:43:10 I (402103) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:43:10 I (402403) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3228
+2026-10-23 17:43:11 I (403033) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=155
+2026-10-23 17:43:13 I (404793) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=202
+2026-10-23 17:43:14 I (405653) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:43:14 I (405873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:14 I (405943) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4246
+2026-10-23 17:43:16 I (407893) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=122
+2026-10-23 17:43:18 I (409693) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+2026-10-23 17:43:18 I (410203) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:43:18 I (410503) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4552
+2026-10-23 17:43:19 I (410873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:20 I (411943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:43:21 I (413013) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=211
+2026-10-23 17:43:23 I (415063) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:43:23 I (415353) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5405
+2026-10-23 17:43:24 I (415873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:24 I (416553) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=200
+2026-10-23 17:43:27 I (419403) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=180
+2026-10-23 17:43:29 I (420803) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:43:29 I (420873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:29 I (421103) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3365
+2026-10-23 17:43:30 I (421943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:43:30 I (422433) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=109
+2026-10-23 17:43:32 I (424483) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:43:33 I (424783) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6332
+2026-10-23 17:43:33 I (425483) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=155
+2026-10-23 17:43:34 I (425873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:35 I (427443) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=101
+2026-10-23 17:43:38 I (429653) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+2026-10-23 17:43:39 I (430873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:39 I (431163) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:43:39 I (431463) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4492
+2026-10-23 17:43:40 I (431943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:43:40 I (431993) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+2026-10-23 17:43:43 I (434713) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+2026-10-23 17:43:44 I (435873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:44 I (435993) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:43:44 I (436303) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3570
+2026-10-23 17:43:45 I (437113) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=157
+2026-10-23 17:43:48 I (439863) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=134
+2026-10-23 17:43:48 I (439923) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:43:48 I (440233) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3215
+2026-10-23 17:43:49 I (440873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:50 I (441983) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:43:50 I (442253) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=135
+2026-10-23 17:43:51 I (443483) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:43:52 I (443783) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4075
+2026-10-23 17:43:52 I (443823) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+2026-10-23 17:43:54 I (445873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:54 I (446263) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=154
+2026-10-23 17:43:56 I (447863) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:43:56 I (448173) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5791
+2026-10-23 17:43:56 I (448633) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+2026-10-23 17:43:59 I (450873) RAM: internal free=45531 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:43:59 I (451363) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=210
+2026-10-23 17:44:00 I (451943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:02 I (453983) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:44:02 I (454293) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6552
+2026-10-23 17:44:03 I (454943) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=115
+2026-10-23 17:44:04 I (455873) RAM: internal free=45379 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:06 I (458223) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=113
+2026-10-23 17:44:09 I (460853) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:44:09 I (460873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:09 I (461143) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5237
+2026-10-23 17:44:09 I (461363) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=141
+2026-10-23 17:44:10 I (461943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:12 I (463823) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=152
+2026-10-23 17:44:14 I (465733) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=194
+2026-10-23 17:44:14 I (465873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:14 I (466413) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:44:15 I (466713) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3665
+2026-10-23 17:44:16 I (468203) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+2026-10-23 17:44:18 I (470383) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:44:19 I (470683) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4277
+2026-10-23 17:44:19 I (470723) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=218
+2026-10-23 17:44:19 I (470873) RAM: internal free=45315 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:20 I (471943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:22 I (474373) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=171
+2026-10-23 17:44:23 I (474973) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:44:23 I (475283) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5576
+2026-10-23 17:44:24 I (475873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:24 I (475933) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=124
+2026-10-23 17:44:26 I (477873) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+2026-10-23 17:44:29 I (480683) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=164
+2026-10-23 17:44:29 I (480873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:29 I (480893) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:44:29 I (481203) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4411
+2026-10-23 17:44:30 I (481963) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:31 I (483643) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=172
+2026-10-23 17:44:33 I (485483) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+2026-10-23 17:44:33 I (485623) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:44:34 I (485873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:34 I (485923) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6826
+2026-10-23 17:44:37 I (488723) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=195
+2026-10-23 17:44:39 I (490873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:40 I (491943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:40 I (491993) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=151
+2026-10-23 17:44:41 I (492763) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:44:41 I (493083) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5150
+2026-10-23 17:44:43 I (495623) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=208
+2026-10-23 17:44:44 I (495873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:45 I (497483) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+2026-10-23 17:44:46 I (498253) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:44:46 I (498543) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4646
+2026-10-23 17:44:49 I (500873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:49 I (500883) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=132
+2026-10-23 17:44:50 I (501943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:44:51 I (503203) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:44:51 I (503503) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5791
+2026-10-23 17:44:52 I (504243) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+2026-10-23 17:44:54 I (505873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:44:54 I (506333) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=163
+2026-10-23 17:44:57 I (509343) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:44:57 I (509643) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4310
+2026-10-23 17:44:58 I (509683) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=197
+2026-10-23 17:44:59 I (510873) RAM: internal free=45315 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:00 I (511943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:45:00 I (512033) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+2026-10-23 17:45:02 I (513983) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:45:02 I (514283) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5657
+2026-10-23 17:45:02 I (514323) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=120
+2026-10-23 17:45:04 I (515873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:05 I (517643) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=112
+2026-10-23 17:45:08 I (519963) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:45:08 I (520253) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6104
+2026-10-23 17:45:08 I (520293) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=164
+2026-10-23 17:45:09 I (520873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:10 I (521993) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:45:11 I (523363) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=122
+2026-10-23 17:45:14 I (525873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:14 I (526383) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:45:15 I (526683) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3130
+2026-10-23 17:45:15 I (526723) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+2026-10-23 17:45:18 I (529823) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:45:18 I (530123) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5322
+2026-10-23 17:45:18 I (530413) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+2026-10-23 17:45:19 I (530873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:20 I (531943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:45:22 I (533733) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=100
+2026-10-23 17:45:23 I (535473) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:45:24 I (535763) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4267
+2026-10-23 17:45:24 I (535873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:25 I (536923) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=175
+2026-10-23 17:45:28 I (540083) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:45:28 I (540393) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4881
+2026-10-23 17:45:28 I (540603) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+2026-10-23 17:45:29 I (540873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:30 I (541943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:45:32 I (544183) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=103
+2026-10-23 17:45:33 I (545303) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:45:33 I (545603) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5701
+2026-10-23 17:45:34 I (545873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:35 I (547083) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=141
+2026-10-23 17:45:36 I (548573) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=147
+2026-10-23 17:45:39 I (550873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:39 I (550903) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=214
+2026-10-23 17:45:39 I (551333) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:45:39 I (551633) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5393
+2026-10-23 17:45:40 I (551973) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:45:42 I (554503) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+2026-10-23 17:45:44 I (555873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:45 I (557043) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:45:45 I (557343) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4105
+2026-10-23 17:45:45 I (557443) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+2026-10-23 17:45:48 I (559983) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+2026-10-23 17:45:49 I (560873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:49 I (561493) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:45:50 I (561803) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6774
+2026-10-23 17:45:50 I (561943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:45:51 I (563383) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+2026-10-23 17:45:54 I (565873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:54 I (566443) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=150
+2026-10-23 17:45:56 I (568603) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:45:57 I (568903) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5754
+2026-10-23 17:45:57 I (569153) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=216
+2026-10-23 17:45:59 I (570873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:45:59 I (571273) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+2026-10-23 17:46:00 I (571943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:46:02 I (574503) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=213
+2026-10-23 17:46:03 I (574663) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:46:03 I (574983) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6695
+2026-10-23 17:46:04 I (575873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:06 I (578353) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+2026-10-23 17:46:09 I (580873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:09 I (581273) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=124
+2026-10-23 17:46:10 I (581713) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:46:10 I (581953) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:46:10 I (582003) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6163
+2026-10-23 17:46:11 I (583193) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=193
+2026-10-23 17:46:13 I (585443) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=167
+2026-10-23 17:46:14 I (585873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:16 I (588203) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:46:16 I (588503) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5503
+2026-10-23 17:46:17 I (588763) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=199
+2026-10-23 17:46:19 I (590873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:20 I (591943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:46:20 I (592353) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=101
+2026-10-23 17:46:22 I (594043) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:46:22 I (594333) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5081
+2026-10-23 17:46:24 I (595743) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+2026-10-23 17:46:24 I (595873) RAM: internal free=44971 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:27 I (599313) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=110
+2026-10-23 17:46:27 I (599433) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:46:28 I (599733) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4898
+2026-10-23 17:46:29 I (600873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:29 I (601063) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+2026-10-23 17:46:30 I (601943) SystemInfo: free sram: 45959 minimal sram: 22772
+2026-10-23 17:46:31 I (602963) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=179
+2026-10-23 17:46:33 I (604643) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:46:33 I (604963) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6052
+2026-10-23 17:46:33 I (605643) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+2026-10-23 17:46:34 I (605873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:35 I (607073) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=211
+2026-10-23 17:46:36 I (608633) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=179
+2026-10-23 17:46:39 I (610873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:39 I (611023) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:46:39 I (611323) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6945
+2026-10-23 17:46:40 I (611943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:46:40 I (612133) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+2026-10-23 17:46:43 I (615573) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+2026-10-23 17:46:44 I (615873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:45 I (617623) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=183
+2026-10-23 17:46:46 I (618303) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:46:46 I (618623) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4440
+2026-10-23 17:46:49 I (620873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:49 I (621023) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=203
+2026-10-23 17:46:50 I (621983) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:46:51 I (623073) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:46:51 I (623353) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4968
+2026-10-23 17:46:53 I (624723) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=155
+2026-10-23 17:46:54 I (625873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:56 I (628333) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:46:56 I (628623) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4683
+2026-10-23 17:46:57 I (628663) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=185
+2026-10-23 17:46:59 I (630873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:46:59 I (631283) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+2026-10-23 17:47:00 I (631943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:47:01 I (633183) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=101
+2026-10-23 17:47:01 I (633323) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:47:01 I (633623) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5667
+2026-10-23 17:47:04 I (635873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:04 I (636293) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=136
+2026-10-23 17:47:07 I (639303) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:47:07 I (639603) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5685
+2026-10-23 17:47:07 I (639643) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=141
+2026-10-23 17:47:09 I (640873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:10 I (641943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:47:10 I (642133) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=179
+2026-10-23 17:47:13 I (645323) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:47:13 I (645613) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3275
+2026-10-23 17:47:14 I (645653) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+2026-10-23 17:47:14 I (645873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:16 I (648463) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=124
+2026-10-23 17:47:17 I (648903) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:47:17 I (649203) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4293
+2026-10-23 17:47:18 I (650543) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=136
+2026-10-23 17:47:19 I (650873) RAM: internal free=45315 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:20 I (651943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:47:20 I (652453) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=208
+2026-10-23 17:47:21 I (653523) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:47:22 I (653823) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3439
+2026-10-23 17:47:22 I (654553) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=157
+2026-10-23 17:47:24 I (655873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:25 I (657263) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:47:25 I (657563) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=3504
+2026-10-23 17:47:25 I (657613) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=126
+2026-10-23 17:47:28 I (659993) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=206
+2026-10-23 17:47:29 I (660873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:29 I (661093) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:47:29 I (661393) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4761
+2026-10-23 17:47:30 I (661783) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=152
+2026-10-23 17:47:30 I (661993) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:47:33 I (664673) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=151
+2026-10-23 17:47:34 I (665873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:34 I (666133) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=206
+2026-10-23 17:47:34 I (666173) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:47:34 I (666463) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3203
+2026-10-23 17:47:37 I (669023) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+2026-10-23 17:47:38 I (669733) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:47:38 I (670033) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5009
+2026-10-23 17:47:39 I (670873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:40 I (671943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:47:40 I (672463) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+2026-10-23 17:47:43 I (675043) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:47:43 I (675353) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4228
+2026-10-23 17:47:43 I (675403) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+2026-10-23 17:47:44 I (675873) RAM: internal free=45135 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:47 I (678673) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=166
+2026-10-23 17:47:47 I (679583) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:47:48 I (679883) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5232
+2026-10-23 17:47:48 I (680323) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=103
+2026-10-23 17:47:49 I (680873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:50 I (681943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:47:50 I (682383) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=104
+2026-10-23 17:47:52 I (684243) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+2026-10-23 17:47:53 I (685133) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 17:47:53 I (685433) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6730
+2026-10-23 17:47:54 I (685873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:47:54 I (686033) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=159
+2026-10-23 17:47:57 I (689483) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=175
+2026-10-23 17:47:59 I (690873) RAM: internal free=45315 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:00 I (691943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:48:00 I (692173) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:48:00 I (692463) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=3562
+2026-10-23 17:48:00 I (692503) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=114
+2026-10-23 17:48:03 I (694843) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=161
+2026-10-23 17:48:04 I (695873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:04 I (696043) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:48:04 I (696343) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6194
+2026-10-23 17:48:05 I (697283) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=102
+2026-10-23 17:48:08 I (700083) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=138
+2026-10-23 17:48:09 I (700873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:09 I (701643) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=199
+2026-10-23 17:48:10 I (701993) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:48:10 I (702553) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:48:11 I (702843) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4307
+2026-10-23 17:48:12 I (704333) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=107
+2026-10-23 17:48:14 I (705873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:15 I (707163) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:48:15 I (707463) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4369
+2026-10-23 17:48:16 I (707893) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=133
+2026-10-23 17:48:17 I (709273) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=176
+2026-10-23 17:48:19 I (710873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:20 I (711833) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 17:48:20 I (711943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:48:20 I (712123) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5269
+2026-10-23 17:48:20 I (712163) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=154
+2026-10-23 17:48:23 I (714783) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=168
+2026-10-23 17:48:24 I (715873) RAM: internal free=45135 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:25 I (717403) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:48:26 I (717723) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3028
+2026-10-23 17:48:26 I (717843) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=196
+2026-10-23 17:48:27 I (719353) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+2026-10-23 17:48:29 I (720763) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=196
+2026-10-23 17:48:29 I (720763) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:48:29 I (720873) RAM: internal free=45555 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:29 I (721083) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=6964
+2026-10-23 17:48:30 I (721943) SystemInfo: free sram: 45491 minimal sram: 22772
+2026-10-23 17:48:31 I (723093) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=114
+2026-10-23 17:48:32 I (724563) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=167
+2026-10-23 17:48:34 I (725873) RAM: internal free=45535 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:36 I (727733) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=194
+2026-10-23 17:48:36 I (728073) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:48:36 I (728373) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5368
+2026-10-23 17:48:39 I (730843) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=206
+2026-10-23 17:48:39 I (730873) RAM: internal free=45375 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:40 I (731943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:48:41 I (733133) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=201
+2026-10-23 17:48:42 I (733743) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:48:42 I (734033) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5316
+2026-10-23 17:48:44 I (735873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:44 I (736463) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=170
+2026-10-23 17:48:46 I (738503) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=187
+2026-10-23 17:48:47 I (739353) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:48:48 I (739663) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5326
+2026-10-23 17:48:49 I (740873) RAM: internal free=43983 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:49 I (741403) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=107
+2026-10-23 17:48:50 I (741973) SystemInfo: free sram: 45479 minimal sram: 22772
+2026-10-23 17:48:53 I (744983) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+2026-10-23 17:48:53 I (745023) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:48:53 I (745343) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3800
+2026-10-23 17:48:54 I (745873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:48:56 I (747743) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=140
+2026-10-23 17:48:57 I (749173) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:48:57 I (749483) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4087
+2026-10-23 17:48:59 I (750773) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=125
+2026-10-23 17:48:59 I (750873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:00 I (751943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:01 I (752713) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=103
+2026-10-23 17:49:01 I (753613) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 17:49:02 I (753903) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5101
+2026-10-23 17:49:03 I (754643) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+2026-10-23 17:49:04 I (755873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:04 I (756503) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=198
+2026-10-23 17:49:07 I (758763) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+2026-10-23 17:49:07 I (759023) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 17:49:07 I (759313) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6745
+2026-10-23 17:49:09 I (760873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:09 I (760933) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=154
+2026-10-23 17:49:10 I (761943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:11 I (762753) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=135
+2026-10-23 17:49:13 I (764943) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=175
+2026-10-23 17:49:14 I (765873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:14 I (766073) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:49:14 I (766383) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5845
+2026-10-23 17:49:16 I (768423) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=201
+2026-10-23 17:49:18 I (770333) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=214
+2026-10-23 17:49:19 I (770873) RAM: internal free=45311 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:20 I (771943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:20 I (772253) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:49:20 I (772543) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4641
+2026-10-23 17:49:22 I (773993) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=195
+2026-10-23 17:49:24 I (775873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:25 I (776883) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=215
+2026-10-23 17:49:25 I (777223) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:49:25 I (777523) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4217
+2026-10-23 17:49:28 I (780033) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+2026-10-23 17:49:29 I (780873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:30 I (781743) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 17:49:30 I (781993) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:30 I (782033) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5591
+2026-10-23 17:49:31 I (782713) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+2026-10-23 17:49:33 I (785013) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=198
+2026-10-23 17:49:34 I (785873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:35 I (787003) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+2026-10-23 17:49:36 I (787663) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:49:36 I (787973) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4309
+2026-10-23 17:49:37 I (788683) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=220
+2026-10-23 17:49:38 I (790373) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=207
+2026-10-23 17:49:39 I (790873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:40 I (791943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:40 I (792303) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:49:40 I (792603) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5651
+2026-10-23 17:49:41 I (792643) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=194
+2026-10-23 17:49:43 I (795223) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=201
+2026-10-23 17:49:44 I (795873) RAM: internal free=45131 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:46 I (797903) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=104
+2026-10-23 17:49:46 I (798293) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 17:49:46 I (798593) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=5603
+2026-10-23 17:49:47 I (799363) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=168
+2026-10-23 17:49:49 I (800873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:50 I (801943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:49:50 I (802383) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=202
+2026-10-23 17:49:52 I (804203) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+2026-10-23 17:49:52 I (804503) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5695
+2026-10-23 17:49:54 I (805863) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+2026-10-23 17:49:54 I (805873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:49:56 W (807833) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 17:49:56 W (807873) LcdDisplay: TOGGLE_QS enter task=taskLVGL core=1 open_before=0 nesting=1
+2026-10-23 17:49:56 I (807873) LcdDisplay: ToggleQuickSettings: panel state is now OPEN
+2026-10-23 17:49:56 W (807873) LcdDisplay: TOGGLE_QS exit open_after=1 nesting=0
+2026-10-23 17:49:56 I (808603) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+2026-10-23 17:49:58 I (810203) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 17:49:58 I (810513) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4557
+2026-10-23 17:49:59 I (810673) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=116
+2026-10-23 17:49:59 I (810873) RAM: internal free=45551 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:50:00 I (811943) SystemInfo: free sram: 45475 minimal sram: 22772
+2026-10-23 17:50:01 I (813603) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+2026-10-23 17:50:03 I (815133) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+2026-10-23 17:50:03 I (815433) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5213
+2026-10-23 17:50:04 I (815873) RAM: internal free=45195 min=22772 largest=21504 | psram free=7329316 min=7203712 largest=7208960
+2026-10-23 17:50:05 I (817143) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=195

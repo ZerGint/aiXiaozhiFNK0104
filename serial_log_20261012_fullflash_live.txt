@@ -1,0 +1,43 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-12 18:41:05 ---
+I (20554) MCP: MCP_TOOLS_LIST page_tools=7 bytes=3826 user_only=I (50194) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=181
+I (50784) RAM: internal free=55655 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (52204) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (52494) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6349
+I (53384) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=215
+I (55254) SystemInfo: free sram: 55591 minimal sram: 36455
+I (55784) RAM: internal free=55655 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (57124) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=169
+I (58564) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=102
+I (58844) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (59154) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6497
+I (60784) RAM: internal free=55655 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (62134) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=132
+I (63584) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=109
+I (65204) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+I (65234) SystemInfo: free sram: 55599 minimal sram: 36455
+I (65674) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (65784) RAM: internal free=55431 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (65974) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3703
+I (67984) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=207
+I (69724) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (70024) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3788
+I (70184) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=120
+I (70784) RAM: internal free=55663 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (72644) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=180
+I (73854) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (74164) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6756
+I (74244) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=129
+I (75234) SystemInfo: free sram: 55599 minimal sram: 36455
+I (75624) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=137
+I (75784) RAM: internal free=55663 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (77664) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=117
+I (80784) RAM: internal free=55663 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (80954) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (81264) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6302
+I (81304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=205
+I (83474) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=127
+I (85234) SystemInfo: free sram: 55599 minimal sram: 36455
+I (85784) RAM: internal free=55663 min=36455 largest=38912 | psram free=7468848 min=7364940 largest=7340032
+I (86924) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=131
+I (87594) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (87894) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5915

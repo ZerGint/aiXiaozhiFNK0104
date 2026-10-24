@@ -1,0 +1,2541 @@
+--- REBOOT LOGGING STARTED AT 2026-10-12 18:42:02 ---
+I (90784) RAM: internal free=55663 min=36455 largest=38912 | psrESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0xb (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40384596
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x544
+load:0x403c8700,len:0xcc8
+load:0x403cb700,len:0x2dfc
+entry 0x403c88f4
+I (598) octal_psram: vendor id    : 0x0d (AP)
+I (598) octal_psram: dev id       : 0x02 (generation 3)
+I (599) octal_psram: density      : 0x03 (64 Mbit)
+I (600) octal_psram: good-die     : 0x01 (Pass)
+I (605) octal_psram: Latency      : 0x01 (Fixed)
+I (609) octal_psram: VCC          : 0x01 (3V)
+I (613) octal_psram: SRF          : 0x01 (Fast Refresh)
+I (618) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+I (623) octal_psram: BurstLen     : 0x01 (32 Byte)
+I (627) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+I (633) octal_psram: DriveStrength: 0x00 (1/1)
+I (637) MSPI Timing: Enter psram timing tuning
+I (642) esp_psram: Found 8MB PSRAM device
+I (645) esp_psram: Speed: 80MHz
+I (648) cpu_start: Multicore app
+I (662) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+I (662) cpu_start: Pro cpu start user code
+I (663) cpu_start: cpu freq: 240000000 Hz
+I (664) app_init: Application information:
+I (668) app_init: Project name:     xiaozhi
+I (672) app_init: App version:      1.1.13
+I (676) app_init: Compile time:     Oct 12 2026 17:35:22
+I (681) app_init: ELF file SHA256:  6fd696594...
+I (685) app_init: ESP-IDF:          v6.0.2
+I (689) efuse_init: Min chip rev:     v0.0
+I (693) efuse_init: Max chip rev:     v0.99 
+I (697) efuse_init: Chip rev:         v0.2
+I (701) heap_init: Initializing. RAM available for dynamic allocation:
+I (707) heap_init: At 3FCADB10 len 0003BC00 (239 KiB): RAM
+I (712) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+I (717) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+I (722) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+I (728) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+I (735) spi_flash: detected chip: generic
+I (738) spi_flash: flash io: qio
+I (742) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (747) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (754) main_task: Started on CPU0
+I (754) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+I (764) main_task: Calling app_main()
+I (774) RAM: [BOOT] internal free=278167 min=277907 largest=118784 | psram free=8384896 min=8384896 largest=8257536
+I (784) Board: UUID=8b3ec5ae-077c-4cc9-853f-5a61f63efcb9 SKU=freenove-fnk0104s
+I (784) button: IoT Button Version: 4.2.0
+I (794) adc_battery_estimation: Use internal ADC unit
+I (794) st7796: version: 1.3.5
+I (794) st7796_general: LCD panel create success, version: 1.3.5
+I (1024) Display: Power management not supported
+W (1024) Settings: Namespace display is not open for writing
+I (1184) LcdDisplay: Turning display on
+I (1184) LcdDisplay: Initialize LVGL library
+I (1184) LcdDisplay: Use 2MB of PSRAM for image cache
+I (1184) LcdDisplay: Initialize LVGL port
+I (1194) LcdDisplay: Adding LCD display
+I (1194) LVGL: Starting LVGL task
+I (1254) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+I (1254) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+W (1664) SD_HOST: input line delay not supported, fallback to 0 delay
+I (1664) StorageManager: SD Card mounted successfully at /sdcard!
+I (1674) StorageManager: SD_REQUIRED_DIRECTORIES result=ready count=3
+I (1674) HomeAssistant: Initializing Home Assistant integration...
+I (1684) MCP: Add tool: homeassistant.call_service
+I (1684) MCP: Add tool: homeassistant.get_states
+I (1684) MCP: Add tool: homeassistant.set_config [user]
+I (1694) MCP: Add tool: radio.add_favorite
+I (1694) MCP: Add tool: radio.get_current
+I (1704) MCP: Add tool: radio.list_favorites
+I (1704) MCP: Add tool: radio.play_favorite
+I (1704) MCP: Add tool: radio.remove_favorite
+I (1714) MCP: Add tool: radio.search_stations
+I (1714) MCP: Add tool: radio.play_station
+I (1724) MCP: Add tool: radio.stop
+I (1724) MCP: Add tool: media.play_sd
+I (1724) MCP: Add tool: media.list_sd
+I (1734) MCP: Add tool: media.search_sd
+I (1734) MCP: Add tool: media.pause
+I (1734) MCP: Add tool: media.next
+I (1744) MCP: Add tool: media.previous
+I (1744) MCP: Add tool: media.stop
+I (1744) MCP: Add tool: self.weather
+I (1754) MusicService: MUSIC_DIAG JOBS_BOOT valid=1 status=local job_id=f0f890a056ab4615812b49d26304d23b
+I (1764) MusicService: MUSIC_DIAG OLD_NVS_JOBS_IGNORED
+I (1834) MusicService: MUSIC_DIAG GMDB_BOOT valid=1 count=20
+I (1834) MusicService: MUSIC_INDEX_LOADED format=GMDB tracks=20 valid=1
+I (1834) MCP: Add tool: music.generate
+I (1834) MCP: Add tool: music.generation_status
+I (1834) MCP: Add tool: music.download_ready
+I (1844) MCP: Add tool: music.search_library
+I (1844) MCP: Add tool: music.download_library
+I (1854) MCP: Add tool: music.search_user_library
+I (1854) MCP: Add tool: music.download_user_library
+I (1854) MCP: Add tool: music.play_generated
+I (1864) MCP: Add tool: music.set_bridge_url [user]
+I (1864) MusicService: MUSIC_MEM stage=after_initialize internal_free=213183 internal_largest=94208 min=211867 psram_free=8374220
+I (1884) MusicService: MUSIC_DIAG MEM stage=after_reboot_stable internal_free=213183 internal_largest=94208 internal_min=211867 psram_free=8374220
+I (1894) StateMachine: State: unknown -> starting
+I (1914) AnimeFace: ANIME_FACE_INIT canvas=240x240 screen=480x320 assets=embedded layers=persistent
+I (1914) AnimeFace: ANIME_FACE_MEM after_init internal_free=201051 internal_largest=94208 internal_min=201051 dma_free=193263 dma_largest=94208 spiram_free=8374220 spiram_largest=8257536
+I (1934) Es8311AudioCodec: Duplex channels created
+I (1934) I2S_IF: Auto get out handle 0 from in handle 0x3c3c385c when duplex mode
+I (1944) Es8311AudioCodec: ES8311 software reset complete
+I (1954) ES8311: Work in Slave mode
+I (1954) Es8311AudioCodec: Es8311AudioCodec initialized
+I (1954) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+I (1964) FnkExternalI2s: I2S_PORT: 1
+I (1964) FnkExternalI2s: BCLK: GPIO2
+I (1964) FnkExternalI2s: WS: GPIO21
+I (1964) FnkExternalI2s: DATA: GPIO14
+I (1974) FnkExternalI2s: RATE: 48000
+I (1974) FnkExternalI2s: BITS: 16
+I (1974) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+I (1984) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=188683 internal_largest=94208 dma_free=180895 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (1994) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=188683 internal_largest=94208 dma_free=180895 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2034) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=177927 internal_largest=94208 dma_free=170139 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2054) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=176095 internal_largest=94208 dma_free=168307 dma_largest=94208 spiram_free=8373072 spiram_largest=8257536
+I (2104) Weather: WEATHER_CACHE_LOADED timestamp=1791830434 bytes=96
+I (2104) Weather: WEATHER_WORKER_READY stack_caps=PSRAM stack_bytes=10240
+I (2104) Weather: WEATHER_INIT lat=54.3520 lon=18.6466 city=Гданьск country=Poland
+I (2134) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (2134) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=160003 internal_largest=94208 dma_free=152215 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2144) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=160003 internal_largest=94208 dma_free=152215 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2194) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=151451 internal_largest=94208 dma_free=143663 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2194) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=151451 internal_largest=94208 dma_free=143663 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2214) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=151411 internal_largest=94208 dma_free=143623 dma_largest=94208 spiram_free=8362828 spiram_largest=8257536
+I (2234) SdMusicPlayer: Scanning SD music directory /sdcard/music (9 total entries)...
+I (2234) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (2244) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (2254) SdMusicPlayer: Track found: /sdcard/music/009_Дима Билан - Облака.mp3
+I (2264) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (2274) SdMusicPlayer: Track found: /sdcard/music/030_МакSим - Лучшая ночь (GASpromo Electro Mix).mp3
+I (2284) SdMusicPlayer: Track found: /sdcard/music/067_Алексей Чумаков - Тут и там.mp3
+I (2294) SdMusicPlayer: Track found: /sdcard/music/130_МакSим - Трудный возраст (remix).mp3
+I (2304) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (2314) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (2314) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 9
+I (2344) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=146683 internal_largest=94208 dma_free=138895 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (2344) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=146683 internal_largest=94208 dma_free=138895 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (2374) LcdDisplay: BOOT_ANIM_START
+I (2374) Assets: The storage free size is 20736 KB
+I (2374) Assets: The partition size is 7040 KB
+I (2374) AnimeFace: ANIME_FACE_MEM first_update internal_free=145247 internal_largest=94208 internal_min=145219 dma_free=137459 dma_largest=94208 spiram_free=8362388 spiram_largest=8257536
+I (2484) Assets: The checksum calculation time is 109 ms
+I (2484) MODEL_LOADER: Successfully load srmodels
+I (2644) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=270
+I (2684) Assets: Refreshing display theme...
+I (2714) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=345
+I (2894) RAM: [AFTER_LVGL_INIT] internal free=142819 min=137127 largest=94208 | psram free=8362388 min=8360900 largest=8257536
+I (3054) LcdDisplay: BOOT_ANIM_CONTENT_INVALIDATED
+I (3054) AudioCodec: Audio codec started
+I (3054) AudioService: AUDIO_JITTER_CONFIG playback_capacity=8 frames prebuffer=3 frames max_wait=120 ms decoded_pcm=PSRAM
+I (3064) RAM: [AFTER_AUDIO_INIT] internal free=131671 min=126879 largest=86016 | psram free=8295304 min=8295304 largest=8257536
+I (3214) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=845
+I (3224) AppManager: Initializing Application Manager...
+I (3224) MCP: Add tool: self.get_device_status
+I (3224) MCP: Add tool: self.audio_speaker.set_volume
+I (3224) MCP: Add tool: self.screen.set_brightness
+I (3234) MCP: Add tool: self.get_system_info [user]
+I (3234) MCP: Add tool: self.reboot [user]
+I (3234) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=870
+I (3244) MCP: Add tool: self.upgrade_firmware [user]
+I (3254) MCP: Add tool: self.screen.get_info [user]
+I (3254) MCP: Add tool: self.screen.snapshot [user]
+I (3254) MCP: Add tool: self.screen.preview_image [user]
+I (3264) MCP: Add tool: self.assets.set_download_url [user]
+I (3264) MCP: MCP_TOOL_SUMMARY total=38 public=29 user_only=9
+I (3274) WifiManager: Initializing...
+I (3274) pp: pp rom version: e7ae62f
+I (3284) net80211: net80211 rom version: e7ae62f
+I (3294) wifi:wifi driver task: 3fcbb490, prio:23, stack:6656, core=0
+I (3294) wifi:wifi firmware version: 00ad238
+I (3294) wifi:wifi certification version: v7.0
+I (3304) wifi:config NVS flash: disabled
+I (3304) wifi:config nano formatting: disabled
+I (3304) wifi:Init data frame dynamic rx buffer num: 6
+I (3314) wifi:Init dynamic rx mgmt buffer num: 5
+I (3314) wifi:Init management short buffer num: 32
+I (3324) wifi:Init dynamic tx buffer num: 32
+I (3324) wifi:Init static tx FG buffer num: 2
+I (3324) wifi:Init static rx buffer size: 1600
+I (3334) wifi:Init static rx buffer num: 3
+I (3334) wifi:Init dynamic rx buffer num: 6
+I (3344) wifi_init: rx ba win: 3
+I (3344) wifi_init: accept mbox: 6
+I (3344) wifi_init: tcpip mbox: 16
+I (3354) wifi_init: udp mbox: 6
+I (3354) wifi_init: tcp mbox: 6
+I (3354) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (3354) wifi_init: tcp tx win: 5760
+I (3364) wifi_init: tcp rx win: 5760
+I (3364) wifi_init: tcp mss: 1440
+I (3374) WifiManager: Initialized
+I (3374) WifiBoard: Starting WiFi connection attempt
+I (3374) WifiManager: Starting station
+I (3384) WifiStation: Station DHCP hostname: KiraAP-6548
+I (3384) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (3424) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (3424) wifi:enable tsf
+I (3434) WifiBoard: WiFi scanning
+I (3464) RAM: [AFTER_XIAOZHI_INIT] internal free=96103 min=94251 largest=59392 | psram free=8265216 min=8245632 largest=8126464
+I (3464) esp_image: segment 0: paddr=00020020 vaddr=3c250020 size=16da30h (1497648) map
+I (3594) esp_image: segment 1: paddr=0018da58 vaddr=3fc9cf00 size=025c0h (  9664) 
+I (3594) esp_image: segment 2: paddr=00190020 vaddr=42000020 size=24d6e0h (2414304) map
+I (3774) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1405
+I (3794) esp_image: segment 3: paddr=003dd708 vaddr=3fc9f4c0 size=06844h ( 26692) 
+I (3794) esp_image: segment 4: paddr=003e3f54 vaddr=40378000 size=14each ( 85676) 
+I (3804) esp_image: segment 5: paddr=003f8e08 vaddr=50000000 size=00024h (    36) 
+I (3804) OtaPartition: OTA_PARTITIONS running=ota_0 boot=ota_0 ota0=1.1.13/running ota1=empty/app_descriptor_missing rollback=1
+I (4154) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1785
+I (4514) LcdDisplay: BOOT_ANIM_DESTROYED
+I (5784) RAM: internal free=95103 min=81279 largest=59392 | psram free=7965720 min=7685772 largest=7471104
+I (5844) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -36, Channel: 7, Authmode: 3
+I (5844) WifiBoard: WiFi connecting to ZERG
+W (5844) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (6954) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7414) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7744) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (8314) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (8314) wifi:state: init -> auth (0xb0)
+I (8314) wifi:state: auth -> assoc (0x0)
+I (8324) wifi:state: assoc -> run (0x10)
+I (8344) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (8344) wifi:security: WPA2-PSK, phy: bgn, rssi: -29, cipher(pairwise:0x3, group:0x3), pmf:0
+I (8354) wifi:pm start, type: 1
+
+I (8354) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (8364) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (8364) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8384) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (9914) esp_netif_handlers: sta ip: 192.168.31.101, mask: 255.255.255.0, gw: 192.168.31.1
+I (9914) WifiStation: Got IP: 192.168.31.101
+I (9914) WifiBoard: Connected to WiFi: ZERG
+I (9914) Application: Network connected
+I (9914) RAM: [AFTER_WIFI] internal free=94571 min=81051 largest=59392 | psram free=7886652 min=7685772 largest=7471104
+I (9924) StateMachine: State: starting -> activating
+I (9934) Ota: Current version: 1.1.13
+I (9934) AnimeFace: ANIME_FACE_STATE: THINKING
+I (9944) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10784) RAM: internal free=78587 min=70411 largest=47104 | psram free=7875496 min=7685772 largest=7471104
+I (11554) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1610
+I (11584) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (12154) HttpClient: HTTP connection closed
+I (12164) Ota: Current is the latest version
+I (12164) Ota: Running partition: ota_0
+I (12164) MQTT: Connecting to endpoint api.tenclass.net
+I (13104) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+I (13244) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (13554) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3339
+I (14204) Application: PROTOCOL_CONNECTED timestamp_ms=13475
+I (14204) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=13476
+I (14204) MQTT: Connected to endpoint
+I (14214) Application: Activation done
+I (14214) SystemInfo: free sram: 83163 minimal sram: 65271
+I (14214) StateMachine: State: activating -> idle
+I (14224) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (14224) wifi:Set ps type: 2, coexist: 0
+
+I (14234) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (14234) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (14254) AnimeFace: ANIME_FACE_STATE: IDLE
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (14284) AFE: AFE Version: (1MIC_V251128)
+I (14284) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14294) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,)| -> [output]
+I (14304) AFE: AFE Version: (1MIC_V251128)
+I (14304) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (14314) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (14324) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (14334) Application: CONNECTION_SOUND_START timestamp_ms=13601
+I (14334) AudioCodec: Set output enable to true
+I (14344) AudioService: Resampling audio from 16000 to 48000
+I (14344) AudioCodec: Set input enable to true
+I (14344) I2S_IF: No paired data, current mode: record
+I (14354) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (14364) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (14384) Adev_Codec: Open codec device OK
+I (14394) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (14394) Weather: WEATHER_WORKER_START id=1 kind=refresh
+I (14394) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=52443 internal_largest=38912 internal_min=44127 dma_free=49323 dma_largest=38912 psram_free=7440788 psram_largest=7340032
+I (14414) Weather: WEATHER_HTTP_START city=Гданьск lat=54.35200 lon=18.64660 days=3
+I (14424) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (14424) Weather: WEATHER_HTTP_START op=forecast
+I (14434) Weather: WEATHER_MEM phase=http_before_open internal_free=51615 internal_largest=38912 internal_min=44127 dma_free=48527 dma_largest=38912 psram_free=7440788 psram_largest=7340032
+I (14504) MCP: MCP_TOOLS_LIST page_tools=10 bytes=5605 user_only=0 next=radio.search_stations
+I (15374) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=930
+I (15434) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=955
+E (15434) Dynamic Impl: mbedtls_ssl_fetch_input error=76
+E (15434) esp-tls-mbedtls: read error :-0x004C
+E (15444) EspSsl: SSL receive failed: -76
+I (15444) HttpClient: HTTP connection closed
+I (15454) Weather: WEATHER_MEM phase=http_after_release internal_free=52499 internal_largest=38912 internal_min=36223 dma_free=52107 dma_largest=38912 psram_free=7488948 psram_largest=7340032
+I (15464) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1060 elapsed_ms=1028
+I (15474) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1060 elapsed_ms=1028
+I (15474) MCP: MCP_TOOLS_LIST page_tools=12 bytes=7170 user_only=0 next=music.generation_status
+I (15484) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1060
+I (15504) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=17
+I (15504) Weather: WEATHER_PARSE_OK provider=open_meteo city=Гданьск temp=9.9 code=1183
+I (15694) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (15784) RAM: internal free=49055 min=36223 largest=38912 | psram free=7465256 min=7391072 largest=7340032
+I (15954) Weather: WEATHER_CACHE_SAVED bytes=96
+I (15954) Weather: WEATHER_UPDATE_OK timestamp=1791830538
+I (15954) Weather: WEATHER_MEM phase=after_update internal_free=49355 internal_largest=38912 internal_min=36223 dma_free=48419 dma_largest=38912 psram_free=7465772 psram_largest=7340032
+I (15964) Weather: WEATHER_WORKER_END id=1 kind=refresh elapsed_ms=1570
+I (16794) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (16904) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (17204) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6173
+I (19164) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=196
+I (19434) MCP: MCP_TOOLS_LIST page_tools=7 bytes=3826 user_only=0 next=none
+W (20724) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (20764) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=-2
+I (20764) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (20764) Application: TOUCH_WAKE_POPUP_QUEUED
+I (20764) StateMachine: State: idle -> connecting
+I (20774) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (20784) wifi:Set ps type: 0, coexist: 0
+
+I (20784) RAM: internal free=51839 min=36223 largest=38912 | psram free=7468848 min=7391072 largest=7340032
+I (20814) AnimeFace: ANIME_FACE_STATE: THINKING
+W (20854) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+W (20854) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (20904) AnimeFace: ANIME_WAKE CENTERED
+I (20904) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (21544) AnimeFace: ANIME_WAKE END base=THINKING
+I (22694) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=169
+I (23404) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (23664) MQTT: Session ID: 1edae478
+I (23674) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (23674) wifi:Set ps type: 0, coexist: 0
+
+W (23674) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (23684) StateMachine: State: connecting -> listening
+I (23684) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (23694) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3727
+W (23984) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (24144) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (24144) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (24144) MQTT: Closing audio channel, send_goodbye: 1
+I (24144) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (24154) wifi:Set ps type: 2, coexist: 0
+
+I (24154) StateMachine: State: listening -> idle
+I (24184) AnimeFace: ANIME_FACE_STATE: IDLE
+I (24294) AnimeFace: ANIME_WAKE CENTERED
+I (24294) AnimeFace: ANIME_WAKE MOUTH_SMALL
+W (24834) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (24904) AnimeFace: ANIME_WAKE END base=IDLE
+I (25004) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (25004) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (25004) Application: TOUCH_WAKE_POPUP_QUEUED
+I (25004) StateMachine: State: idle -> connecting
+I (25014) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (25024) wifi:Set ps type: 0, coexist: 0
+
+I (25034) MQTT: Received goodbye message, session_id: 1edae478
+I (25044) AnimeFace: ANIME_FACE_STATE: THINKING
+I (25154) AnimeFace: ANIME_WAKE CENTERED
+I (25154) AnimeFace: ANIME_WAKE MOUTH_SMALL
+W (25224) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+W (25224) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (25384) MQTT: Session ID: f51235c7
+I (25384) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (25384) wifi:Set ps type: 0, coexist: 0
+
+W (25384) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (25404) StateMachine: State: connecting -> listening
+I (25434) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (25784) RAM: internal free=51491 min=36223 largest=36864 | psram free=7444936 min=7391072 largest=7340032
+I (25794) AnimeFace: ANIME_WAKE END base=LISTENING
+I (27024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (27434) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (27744) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4410
+I (28164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (29464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (30454) Application: >> Какая погода завтра в Гданьске?
+I (30474) StateMachine: State: listening -> speaking
+I (30474) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=51023 internal_largest=36864 internal_min=36223 dma_free=47935 dma_largest=36864 psram_free=7463508 psram_largest=7340032
+I (30494) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (30504) AnimeFace: SPEAKING_STATE_ENTER t=29305
+I (30784) RAM: internal free=52107 min=36223 largest=36864 | psram free=7462996 min=7391072 largest=7340032
+I (31224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=52043 internal_largest=36864 internal_min=36223 dma_free=48955 dma_largest=36864 psram_free=7462996 psram_largest=7340032
+I (31564) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (32004) Application: << % self.weather...
+I (32004) Weather: WEATHER_MCP_START call=1 action=get_weather
+I (32004) Weather: WEATHER_WORKER_START id=2 kind=one_off
+I (32004) Weather: WEATHER_MCP_CACHE_HIT lat=54.35200 lon=18.64660 days=2 age_sec=16
+I (32014) Weather: WEATHER_MCP_RESULT_READY call=1 action=get_weather bytes=917
+I (32024) Weather: WEATHER_MCP_RESULT_RETURNED call=1 action=get_weather
+I (32024) Weather: WEATHER_WORKER_END id=2 kind=one_off elapsed_ms=20
+I (32164) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (32454) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4925
+I (32774) AnimeFace: ANIME_EMOTION HAPPY
+I (33224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=50299 internal_largest=36864 internal_min=36223 dma_free=47211 dma_largest=36864 psram_free=7433864 psram_largest=7340032
+I (33474) AudioService: Resampling audio from 24000 to 48000
+I (33514) Application: << Завтра в Гданьске ожидается дождь,
+I (33604) FnkExternalI2s: AI_VOLUME user=43 effective=23 gain=1510
+I (33644) AnimeFace: FIRST_SPEECH_PCM t=32450 level=8
+I (33744) AnimeFace: MOUTH_FIRST_OPEN t=32550 frame=2 level=40
+I (33744) AnimeFace: ANIME_FACE_MOUTH: start
+I (34234) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49707 internal_largest=36864 internal_min=36223 dma_free=46619 dma_largest=36864 psram_free=7399844 psram_largest=7340032
+I (34714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (35264) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=3 dec_inflight=1 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49331 internal_largest=36864 internal_min=36223 dma_free=46243 dma_largest=36864 psram_free=7399968 psram_largest=7340032
+I (35784) RAM: internal free=49375 min=36223 largest=36864 | psram free=7396832 min=7391072 largest=7340032
+I (36194) AnimeFace: MOUTH_CLOSED t=35000
+I (36194) AnimeFace: ANIME_FACE_MOUTH: stop
+I (36234) Application: << температура от 9 до 14 градусов, ветер слабый, около 3 м/с. Возьми зонт,
+I (36304) AnimeFace: LAST_SPEECH_PCM t=35110 last_update=35035
+I (36474) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=124
+I (37224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49483 internal_largest=36864 internal_min=36223 dma_free=46395 dma_largest=36864 psram_free=7396832 psram_largest=7340032
+I (38224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=3 dec_inflight=1 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49263 internal_largest=36864 internal_min=36223 dma_free=46175 dma_largest=36864 psram_free=7396832 psram_largest=7340032
+I (38224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+I (38574) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (38764) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5165
+I (38884) AnimeFace: MOUTH_CLOSED t=37690
+I (38884) AnimeFace: ANIME_FACE_MOUTH: stop
+I (39224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=48979 internal_largest=36864 internal_min=36223 dma_free=45891 dma_largest=36864 psram_free=7344592 psram_largest=7208960
+I (39744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (40214) AnimeFace: MOUTH_CLOSED t=39020
+I (40214) AnimeFace: ANIME_FACE_MOUTH: stop
+I (40224) SystemInfo: free sram: 48975 minimal sram: 36223
+I (40784) RAM: internal free=49035 min=36223 largest=36864 | psram free=7344592 min=7325012 largest=7208960
+I (40884) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (41134) AnimeFace: MOUTH_CLOSED t=39940
+I (41134) AnimeFace: ANIME_FACE_MOUTH: stop
+I (41224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=48947 internal_largest=36864 internal_min=36223 dma_free=45859 dma_largest=36864 psram_free=7344592 psram_largest=7208960
+I (42354) Application: << если планируешь гулять!
+I (42414) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (42414) AnimeFace: MOUTH_CLOSED t=41220
+I (42414) AnimeFace: ANIME_FACE_MOUTH: stop
+I (43224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49163 internal_largest=36864 internal_min=36223 dma_free=46075 dma_largest=36864 psram_free=7344592 psram_largest=7208960
+I (43684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (43954) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (44124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6476
+I (44124) AnimeFace: MOUTH_CLOSED t=42930
+I (44124) AnimeFace: ANIME_FACE_MOUTH: stop
+I (44154) AudioService: AUDIO_DIAG reason=tts_stop dec_q=0 play_q=4 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=48719 internal_largest=36864 internal_min=36223 dma_free=45603 dma_largest=36864 psram_free=7344592 psram_largest=7208960
+I (44164) StateMachine: State: speaking -> listening
+I (44194) AnimeFace: ANIME_EMOTION NEUTRAL
+I (44204) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (44204) AnimeFace: LAST_SPEECH_PCM t=43005 last_update=42890
+I (45784) RAM: internal free=48599 min=36223 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (45994) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (47274) Application: >> А с самого утра какая?
+I (47274) StateMachine: State: listening -> speaking
+I (47274) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=48819 internal_largest=36864 internal_min=36223 dma_free=45731 dma_largest=36864 psram_free=7374692 psram_largest=7208960
+I (47304) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (47304) AnimeFace: SPEAKING_STATE_ENTER t=46110
+I (47424) AnimeFace: ANIME_EMOTION HAPPY
+I (47804) Application: << С самого утра температура будет около 9 градусов,
+I (47854) AnimeFace: FIRST_SPEECH_PCM t=46660 level=9
+I (48044) AnimeFace: MOUTH_FIRST_OPEN t=46850 frame=2 level=42
+I (48044) AnimeFace: ANIME_FACE_MOUTH: start
+I (48224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49171 internal_largest=36864 internal_min=36223 dma_free=46083 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (48554) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=192
+I (50224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=3 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49095 internal_largest=36864 internal_min=36223 dma_free=46007 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (50234) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (50694) AnimeFace: MOUTH_CLOSED t=49500
+I (50694) AnimeFace: ANIME_FACE_MOUTH: stop
+I (50734) AnimeFace: LAST_SPEECH_PCM t=49540 last_update=49500
+I (50744) Application: << ожидается дождь, так что лучше одеться теплее и взять зонт!
+I (50784) RAM: internal free=49291 min=36223 largest=36864 | psram free=7356632 min=7325012 largest=7208960
+I (51224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49179 internal_largest=36864 internal_min=36223 dma_free=46091 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (51804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+I (52154) AnimeFace: MOUTH_CLOSED t=50960
+I (52154) AnimeFace: ANIME_FACE_MOUTH: stop
+I (53034) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (53224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49175 internal_largest=36864 internal_min=36223 dma_free=46087 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (53234) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4477
+I (53664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (55064) AnimeFace: MOUTH_CLOSED t=53870
+I (55064) AnimeFace: ANIME_FACE_MOUTH: stop
+I (55224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=49179 internal_largest=36864 internal_min=36223 dma_free=46091 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (55304) AudioService: AUDIO_DIAG reason=tts_stop dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=48727 internal_largest=36864 internal_min=36223 dma_free=45611 dma_largest=36864 psram_free=7356632 psram_largest=7208960
+I (55314) StateMachine: State: speaking -> listening
+I (55324) AnimeFace: ANIME_EMOTION NEUTRAL
+I (55334) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (55334) AnimeFace: LAST_SPEECH_PCM t=54140 last_update=53830
+I (55784) RAM: internal free=49471 min=36223 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (56594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=215
+I (57814) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (59044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (59524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (59814) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6310
+I (60784) RAM: internal free=49167 min=36223 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (60964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=168
+I (61614) Application: >> Установи город для погоды Варшаву.
+I (61614) StateMachine: State: listening -> speaking
+I (61614) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=49047 internal_largest=36864 internal_min=36223 dma_free=45931 dma_largest=36864 psram_free=7374692 psram_largest=7208960
+I (61624) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (61644) AnimeFace: SPEAKING_STATE_ENTER t=60450
+I (61984) Application: << % self.weather...
+I (61994) Weather: WEATHER_MCP_START call=2 action=search_city
+I (61994) Weather: WEATHER_WORKER_START id=3 kind=search
+I (61994) Weather: WEATHER_HTTP_START op=geocoding
+I (61994) Weather: WEATHER_MEM phase=http_before_open internal_free=49311 internal_largest=36864 internal_min=36223 dma_free=46223 dma_largest=36864 psram_free=7374692 psram_largest=7208960
+I (62224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=44855 internal_largest=36864 internal_min=36223 dma_free=41767 dma_largest=36864 psram_free=7353240 psram_largest=7208960
+I (62864) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (62884) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=870
+I (62944) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=1092 elapsed_ms=897
+I (62954) HttpClient: HTTP connection closed
+I (62954) Weather: WEATHER_MEM phase=http_after_release internal_free=48755 internal_largest=36864 internal_min=33039 dma_free=45667 dma_largest=36864 psram_free=7373568 psram_largest=7208960
+I (62964) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=1092 elapsed_ms=958
+I (62974) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=1092 elapsed_ms=958
+I (62984) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=1092
+I (62984) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=7
+I (62994) Weather: WEATHER_MCP_RESULT_READY call=2 action=search_city bytes=613
+I (63004) Weather: WEATHER_MCP_RESULT_RETURNED call=2 action=search_city
+I (63004) Weather: WEATHER_WORKER_END id=3 kind=search elapsed_ms=1015
+I (64224) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=48863 internal_largest=36864 internal_min=33039 dma_free=45775 dma_largest=36864 psram_free=7374692 psram_largest=7208960
+I (64454) Application: << % self.weather...
+I (64454) Weather: WEATHER_MCP_START call=3 action=set_city
+I (64464) Weather: WEATHER_LOCATION_CHANGED city=Warsaw country=Poland lat=52.22977 lon=21.01178
+I (64464) Weather: WEATHER_MCP_RESULT_RETURNED call=3 action=set_city
+I (64624) LcdDisplay: WEATHER_UI_UPDATE valid=0 stale=0
+I (64804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (65784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (66124) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (66424) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4777
+I (66684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (68084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=129
+I (69944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=178
+I (70784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (71204) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (71344) AudioCodec: Set output enable to false
+I (71504) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3577
+I (71844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+I (72984) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+E (74464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (74464) task_wdt:  - IDLE0 (CPU 0)
+E (74464) task_wdt: Tasks currently running:
+E (74464) task_wdt: CPU 0: main
+E (74464) task_wdt: CPU 1: IDLE1
+E (74464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (74714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (75114) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (75414) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4472
+I (75784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (76274) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (77534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=129
+I (79234) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+I (79914) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (80214) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3655
+I (80784) RAM: internal free=47259 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (80794) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=148
+I (82254) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=140
+I (83914) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (84214) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5638
+I (84254) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=205
+E (84464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (84464) task_wdt:  - IDLE0 (CPU 0)
+E (84464) task_wdt: Tasks currently running:
+E (84464) task_wdt: CPU 0: main
+E (84464) task_wdt: CPU 1: IDLE1
+E (84464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (85784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (85994) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (87854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (89754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (89894) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (90194) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5915
+I (90784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (90874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=156
+W (90974) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (91094) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (91094) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (91234) AnimeFace: ANIME_WAKE CENTERED
+I (91234) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (91874) AnimeFace: ANIME_WAKE END base=SPEAKING
+W (93034) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (93294) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (93294) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (93454) AnimeFace: ANIME_WAKE CENTERED
+I (93454) AnimeFace: ANIME_WAKE MOUTH_SMALL
+W (94034) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (94074) AnimeFace: ANIME_WAKE END base=SPEAKING
+I (94154) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (94154) LcdDisplay: ANIME_FACE_TAP target=0x3fce1c10
+I (94294) AnimeFace: ANIME_WAKE CENTERED
+I (94294) AnimeFace: ANIME_WAKE MOUTH_SMALL
+E (94464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (94464) task_wdt:  - IDLE0 (CPU 0)
+E (94464) task_wdt: Tasks currently running:
+E (94464) task_wdt: CPU 0: main
+E (94464) task_wdt: CPU 1: IDLE1
+E (94464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (94904) AnimeFace: ANIME_WAKE END base=SPEAKING
+I (95784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (96124) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (96424) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5813
+I (96464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (98324) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (99964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=171
+I (100784) RAM: internal free=47527 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (101844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (102264) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (102564) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3862
+I (103264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+E (104464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (104464) task_wdt:  - IDLE0 (CPU 0)
+E (104464) task_wdt: Tasks currently running:
+E (104464) task_wdt: CPU 0: main
+E (104464) task_wdt: CPU 1: IDLE1
+E (104464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (105264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=100
+I (105784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (106464) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (106774) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3852
+I (107204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (108684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (110024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=135
+I (110684) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (110784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (110984) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4533
+I (111924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+I (113224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+E (114464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (114464) task_wdt:  - IDLE0 (CPU 0)
+E (114464) task_wdt: Tasks currently running:
+E (114464) task_wdt: CPU 0: main
+E (114464) task_wdt: CPU 1: IDLE1
+E (114464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (114514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (115524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (115784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (115824) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5591
+I (115884) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=106
+I (117304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=128
+I (118604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (119784) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+I (120784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (121424) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (121724) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5118
+I (121764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (123164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (124454) MQTT: Received goodbye message, session_id: f51235c7
+E (124464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (124464) task_wdt:  - IDLE0 (CPU 0)
+E (124464) task_wdt: Tasks currently running:
+E (124464) task_wdt: CPU 0: main
+E (124464) task_wdt: CPU 1: taskLVGL
+E (124464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (124464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=220
+I (125784) RAM: internal free=47939 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (125954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+I (126874) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (127174) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4593
+I (127774) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+I (129474) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (130784) RAM: internal free=47967 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (131464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+I (131804) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (132104) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4081
+I (132664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (133844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+E (134464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (134464) task_wdt:  - IDLE0 (CPU 0)
+E (134464) task_wdt: Tasks currently running:
+E (134464) task_wdt: CPU 0: main
+E (134464) task_wdt: CPU 1: IDLE1
+E (134464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (135144) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (135784) RAM: internal free=47971 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (136224) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (136524) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3853
+I (136564) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (138424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+I (140344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=116
+I (140384) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (140684) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4507
+I (140784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (142124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+I (143464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+E (144464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (144464) task_wdt:  - IDLE0 (CPU 0)
+E (144464) task_wdt: Tasks currently running:
+E (144464) task_wdt: CPU 0: main
+E (144464) task_wdt: CPU 1: IDLE1
+E (144464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (145244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (145244) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (145544) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4491
+I (145784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (147404) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (149344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (150044) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (150344) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6746
+I (150784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (150964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (152864) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (154344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+E (154464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (154464) task_wdt:  - IDLE0 (CPU 0)
+E (154464) task_wdt: Tasks currently running:
+E (154464) task_wdt: CPU 0: main
+E (154464) task_wdt: CPU 1: IDLE1
+E (154464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (155784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (156164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (157104) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (157404) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3278
+I (157804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=148
+I (159544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (160704) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (160784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (161004) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3450
+I (161044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (162484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (164044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=168
+E (164464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (164464) task_wdt:  - IDLE0 (CPU 0)
+E (164464) task_wdt: Tasks currently running:
+E (164464) task_wdt: CPU 0: main
+E (164464) task_wdt: CPU 1: taskLVGL
+E (164464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (164524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (164824) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6483
+I (165264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=190
+I (165784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (167204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=114
+I (168844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+I (170624) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (170784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (171324) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (171624) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4777
+I (172484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (174364) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+E (174464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (174464) task_wdt:  - IDLE0 (CPU 0)
+E (174464) task_wdt: Tasks currently running:
+E (174464) task_wdt: CPU 0: main
+E (174464) task_wdt: CPU 1: IDLE1
+E (174464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (175524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (175784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (176444) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (176744) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4965
+I (177224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+I (178524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (180384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (180784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (181544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (181724) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (182024) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4136
+I (183284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+I (184444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+E (184464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (184464) task_wdt:  - IDLE0 (CPU 0)
+E (184464) task_wdt: Tasks currently running:
+E (184464) task_wdt: CPU 0: main
+E (184464) task_wdt: CPU 1: taskLVGL
+E (184464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (185784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (185804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (186184) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (186484) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4310
+I (187444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=220
+I (189184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (190344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=128
+I (190784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (190824) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (191124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4354
+I (192044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (193944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+E (194464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (194464) task_wdt:  - IDLE0 (CPU 0)
+E (194464) task_wdt: Tasks currently running:
+E (194464) task_wdt: CPU 0: main
+E (194464) task_wdt: CPU 1: IDLE1
+E (194464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (195244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (195504) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (195784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (195804) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6133
+I (197064) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (198284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (199704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (200784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (201184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=135
+I (201964) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (202264) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4169
+I (202444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (204264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+E (204464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (204464) task_wdt:  - IDLE0 (CPU 0)
+E (204464) task_wdt: Tasks currently running:
+E (204464) task_wdt: CPU 0: main
+E (204464) task_wdt: CPU 1: IDLE1
+E (204464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (205604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=190
+I (205784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (206464) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (206764) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4751
+I (207244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (209184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (210784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (211004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (211524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (211834) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5426
+I (212924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (214044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+E (214464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (214464) task_wdt:  - IDLE0 (CPU 0)
+E (214464) task_wdt: Tasks currently running:
+E (214464) task_wdt: CPU 0: main
+E (214464) task_wdt: CPU 1: IDLE1
+E (214464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (215784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (215824) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (217304) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (217604) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5764
+I (217644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (219644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (220764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=121
+I (220784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (222664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+I (223404) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (223704) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6524
+E (224464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (224464) task_wdt:  - IDLE0 (CPU 0)
+E (224464) task_wdt: Tasks currently running:
+E (224464) task_wdt: CPU 0: main
+E (224464) task_wdt: CPU 1: IDLE1
+E (224464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (224664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (225784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (226524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (228384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=203
+I (229784) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+I (230244) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (230554) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3065
+I (230784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (231604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (233164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (233624) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (233934) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6058
+E (234464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (234464) task_wdt:  - IDLE0 (CPU 0)
+E (234464) task_wdt: Tasks currently running:
+E (234464) task_wdt: CPU 0: main
+E (234464) task_wdt: CPU 1: IDLE1
+E (234464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (234844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (235784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (236024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (237844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (239004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+I (240004) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (240304) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3503
+I (240644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (240784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (242424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (243724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=144
+I (243824) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (244124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5653
+E (244464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (244464) task_wdt:  - IDLE0 (CPU 0)
+E (244464) task_wdt: Tasks currently running:
+E (244464) task_wdt: CPU 0: main
+E (244464) task_wdt: CPU 1: IDLE1
+E (244464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (245384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (245784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (246504) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=184
+I (248064) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (249704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (249804) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (250104) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4859
+I (250784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (251224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (253264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+E (254464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (254464) task_wdt:  - IDLE0 (CPU 0)
+E (254464) task_wdt: Tasks currently running:
+E (254464) task_wdt: CPU 0: main
+E (254464) task_wdt: CPU 1: taskLVGL
+E (254464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (254944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+I (255004) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (255304) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5948
+I (255784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (256984) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+I (258904) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=172
+I (260284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (260784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (261274) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (261574) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3580
+I (261754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+I (263094) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+E (264464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (264464) task_wdt:  - IDLE0 (CPU 0)
+E (264464) task_wdt: Tasks currently running:
+E (264464) task_wdt: CPU 0: main
+E (264464) task_wdt: CPU 1: IDLE1
+E (264464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (264614) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (265174) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (265474) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3417
+I (265784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (266114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (267994) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (268894) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (269194) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4643
+I (269754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=153
+I (270784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (271014) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (272754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (273874) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (274174) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4943
+I (274314) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+E (274464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (274464) task_wdt:  - IDLE0 (CPU 0)
+E (274464) task_wdt: Tasks currently running:
+E (274464) task_wdt: CPU 0: main
+E (274464) task_wdt: CPU 1: taskLVGL
+E (274464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (275784) RAM: internal free=47479 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (275914) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (277354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (279174) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (279474) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4931
+I (279514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (280784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (281114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (282234) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=124
+I (283374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (284414) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+E (284464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (284464) task_wdt:  - IDLE0 (CPU 0)
+E (284464) task_wdt: Tasks currently running:
+E (284464) task_wdt: CPU 0: main
+E (284464) task_wdt: CPU 1: taskLVGL
+E (284464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (284724) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4205
+I (284844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=135
+I (285784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (286384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+I (288304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+I (288944) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (289244) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6169
+I (289724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (290784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (291584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (293544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+E (294464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (294464) task_wdt:  - IDLE0 (CPU 0)
+E (294464) task_wdt: Tasks currently running:
+E (294464) task_wdt: CPU 0: main
+E (294464) task_wdt: CPU 1: taskLVGL
+E (294464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (295184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=140
+I (295444) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (295744) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6531
+I (295784) RAM: internal free=47491 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (296324) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (297704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+I (299124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=123
+I (300744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=217
+I (300784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (302304) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (302604) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4927
+I (302644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (303984) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+E (304464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (304464) task_wdt:  - IDLE0 (CPU 0)
+E (304464) task_wdt: Tasks currently running:
+E (304464) task_wdt: CPU 0: main
+E (304464) task_wdt: CPU 1: IDLE1
+E (304464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (305424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (305784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (307244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (307544) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (307844) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3665
+I (309104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+I (310484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (310784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (311524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (311824) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5904
+I (311924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (313424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+E (314464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (314464) task_wdt:  - IDLE0 (CPU 0)
+E (314464) task_wdt: Tasks currently running:
+E (314464) task_wdt: CPU 0: main
+E (314464) task_wdt: CPU 1: IDLE1
+E (314464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (315464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+I (315784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (316804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (317764) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (318064) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3079
+I (318104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (319804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (320784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (321144) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (321444) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4637
+I (321704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+I (323404) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+E (324464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (324464) task_wdt:  - IDLE0 (CPU 0)
+E (324464) task_wdt: Tasks currently running:
+E (324464) task_wdt: CPU 0: main
+E (324464) task_wdt: CPU 1: IDLE1
+E (324464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (325004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (325784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (326084) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (326384) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4036
+I (326944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=125
+I (328284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (329844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=162
+I (330424) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (330724) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6084
+I (330784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (331244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (333024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+E (334464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (334464) task_wdt:  - IDLE0 (CPU 0)
+E (334464) task_wdt: Tasks currently running:
+E (334464) task_wdt: CPU 0: main
+E (334464) task_wdt: CPU 1: IDLE1
+E (334464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (334844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (335784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (336744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (336824) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (337124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3738
+I (338124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+I (339464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (340784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (340864) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (341164) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6833
+I (341244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (343164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=188
+E (344464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (344464) task_wdt:  - IDLE0 (CPU 0)
+E (344464) task_wdt: Tasks currently running:
+E (344464) task_wdt: CPU 0: main
+E (344464) task_wdt: CPU 1: IDLE1
+E (344464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (345104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=110
+I (345784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (346184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (347324) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (348004) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (348304) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6965
+I (348744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (349964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=161
+I (350784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (351224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (352564) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+I (353684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=144
+E (354464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (354464) task_wdt:  - IDLE0 (CPU 0)
+E (354464) task_wdt: Tasks currently running:
+E (354464) task_wdt: CPU 0: main
+E (354464) task_wdt: CPU 1: IDLE1
+E (354464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (355284) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (355584) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5741
+I (355644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (355784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (357404) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+I (359284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (360444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (360784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (361364) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (361664) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5322
+I (362004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (363304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+E (364464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (364464) task_wdt:  - IDLE0 (CPU 0)
+E (364464) task_wdt: Tasks currently running:
+E (364464) task_wdt: CPU 0: main
+E (364464) task_wdt: CPU 1: taskLVGL
+E (364464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (364524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=100
+I (365784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (366124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (367024) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (367334) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6313
+I (367464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (368684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (370324) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (370784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (371924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=103
+I (373664) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (373964) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5701
+I (374004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+E (374464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (374464) task_wdt:  - IDLE0 (CPU 0)
+E (374464) task_wdt: Tasks currently running:
+E (374464) task_wdt: CPU 0: main
+E (374464) task_wdt: CPU 1: IDLE1
+E (374464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (375524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (375784) RAM: internal free=46411 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (377334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (379294) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (379674) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (379974) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5879
+I (380714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (380784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (382714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (384354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=123
+E (384464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (384464) task_wdt:  - IDLE0 (CPU 0)
+E (384464) task_wdt: Tasks currently running:
+E (384464) task_wdt: CPU 0: main
+E (384464) task_wdt: CPU 1: taskLVGL
+E (384464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (385534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+I (385784) RAM: internal free=47475 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (385874) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (386174) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3010
+I (386954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (388394) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=178
+I (389214) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (389514) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5935
+I (389774) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=171
+I (390784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (391454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+I (393154) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=139
+I (394414) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+E (394464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (394464) task_wdt:  - IDLE0 (CPU 0)
+E (394464) task_wdt: Tasks currently running:
+E (394464) task_wdt: CPU 0: main
+E (394464) task_wdt: CPU 1: IDLE1
+E (394464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (395454) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (395754) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4799
+I (395784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (396454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (398434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+I (399614) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+I (400554) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (400784) RAM: internal free=47647 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (400864) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3263
+I (401434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (402954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (404154) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (404454) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5279
+E (404464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (404464) task_wdt:  - IDLE0 (CPU 0)
+E (404464) task_wdt: Tasks currently running:
+E (404464) task_wdt: CPU 0: main
+E (404464) task_wdt: CPU 1: IDLE1
+E (404464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (404514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+I (405784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (406364) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (408084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (409304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (409744) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (410044) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5674
+I (410524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (410784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (412084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+I (413284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+E (414464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (414464) task_wdt:  - IDLE0 (CPU 0)
+E (414464) task_wdt: Tasks currently running:
+E (414464) task_wdt: CPU 0: main
+E (414464) task_wdt: CPU 1: IDLE1
+E (414464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (414684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (415724) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (415784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (416024) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6779
+I (416244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (418184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (419524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=177
+I (420704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (420784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (421964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (422824) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (423124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6052
+I (423824) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=145
+E (424464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (424464) task_wdt:  - IDLE0 (CPU 0)
+E (424464) task_wdt: Tasks currently running:
+E (424464) task_wdt: CPU 0: main
+E (424464) task_wdt: CPU 1: IDLE1
+E (424464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (424964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=153
+I (425784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (426484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+I (428484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (429204) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (429514) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5642
+I (430204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (430784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (431944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (433804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+E (434464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (434464) task_wdt:  - IDLE0 (CPU 0)
+E (434464) task_wdt: Tasks currently running:
+E (434464) task_wdt: CPU 0: main
+E (434464) task_wdt: CPU 1: IDLE1
+E (434464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (435024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (435184) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (435494) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3912
+I (435784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (437184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=164
+I (438484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (439444) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (439744) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4537
+I (440444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (440784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (441744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (443504) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=205
+I (444284) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+E (444464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (444464) task_wdt:  - IDLE0 (CPU 0)
+E (444464) task_wdt: Tasks currently running:
+E (444464) task_wdt: CPU 0: main
+E (444464) task_wdt: CPU 1: IDLE1
+E (444464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (444564) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3799
+I (444854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (445784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (446014) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (447974) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=220
+I (448394) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (448694) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6177
+I (449314) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (450784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (451134) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (453114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+E (454464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (454464) task_wdt:  - IDLE0 (CPU 0)
+E (454464) task_wdt: Tasks currently running:
+E (454464) task_wdt: CPU 0: main
+E (454464) task_wdt: CPU 1: IDLE1
+E (454464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (454594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (454894) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (455194) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3429
+I (455784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (456334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (458194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (458634) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (458934) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4011
+I (459534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=188
+I (460784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (461094) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=124
+I (462954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=114
+I (462954) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (463254) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4264
+E (464464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (464464) task_wdt:  - IDLE0 (CPU 0)
+E (464464) task_wdt: Tasks currently running:
+E (464464) task_wdt: CPU 0: main
+E (464464) task_wdt: CPU 1: IDLE1
+E (464464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (464734) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=110
+I (465784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (465914) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (467334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (467554) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (467854) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5850
+I (468934) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (470714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (470784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (472054) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (473394) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (473714) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (474014) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4761
+E (474464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (474464) task_wdt:  - IDLE0 (CPU 0)
+E (474464) task_wdt: Tasks currently running:
+E (474464) task_wdt: CPU 0: main
+E (474464) task_wdt: CPU 1: taskLVGL
+E (474464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (475274) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (475784) RAM: internal free=47475 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (476434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (478164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (478804) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (479104) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5984
+I (479504) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (480724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (480784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (482024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+I (483664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+E (484464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (484464) task_wdt:  - IDLE0 (CPU 0)
+E (484464) task_wdt: Tasks currently running:
+E (484464) task_wdt: CPU 0: main
+E (484464) task_wdt: CPU 1: IDLE1
+E (484464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (485144) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (485444) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3312
+I (485664) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+I (485784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (487124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (488424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+I (488784) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (489084) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3384
+I (490284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+I (490784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (492104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (492504) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (492804) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4008
+I (493804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=135
+E (494464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (494464) task_wdt:  - IDLE0 (CPU 0)
+E (494464) task_wdt: Tasks currently running:
+E (494464) task_wdt: CPU 0: main
+E (494464) task_wdt: CPU 1: taskLVGL
+E (494464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (495484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (495784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (496784) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (496844) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (497144) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3638
+I (498864) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+I (500644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=114
+I (500784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (500784) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (501084) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6658
+I (502084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+I (503384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+E (504464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (504464) task_wdt:  - IDLE0 (CPU 0)
+E (504464) task_wdt: Tasks currently running:
+E (504464) task_wdt: CPU 0: main
+E (504464) task_wdt: CPU 1: IDLE1
+E (504464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (504904) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=204
+I (505784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (506624) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=161
+I (507764) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (508064) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6194
+I (508584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=220
+I (509924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (510784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (511084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=138
+I (513044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (514264) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+E (514464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (514464) task_wdt:  - IDLE0 (CPU 0)
+E (514464) task_wdt: Tasks currently running:
+E (514464) task_wdt: CPU 0: main
+E (514464) task_wdt: CPU 1: IDLE1
+E (514464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (514574) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5924
+I (514854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (515784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (516014) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (517614) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+I (518714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (520094) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (520534) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (520784) RAM: internal free=47751 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (520834) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5999
+I (521354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (522774) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (524294) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+E (524464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (524464) task_wdt:  - IDLE0 (CPU 0)
+E (524464) task_wdt: Tasks currently running:
+E (524464) task_wdt: CPU 0: main
+E (524464) task_wdt: CPU 1: IDLE1
+E (524464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (525784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (526254) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (526854) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (527154) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6888
+I (527634) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (529574) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (530784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (530974) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=123
+I (532794) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (534054) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (534354) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4449
+E (534464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (534464) task_wdt:  - IDLE0 (CPU 0)
+E (534464) task_wdt: Tasks currently running:
+E (534464) task_wdt: CPU 0: main
+E (534464) task_wdt: CPU 1: IDLE1
+E (534464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (534694) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (535784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (536334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (538254) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (538814) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (539114) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6972
+I (540114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (540784) RAM: internal free=47751 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (541274) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=139
+I (542454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+E (544464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (544464) task_wdt:  - IDLE0 (CPU 0)
+E (544464) task_wdt: Tasks currently running:
+E (544464) task_wdt: CPU 0: main
+E (544464) task_wdt: CPU 1: IDLE1
+E (544464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (544514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=177
+I (545784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (546054) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=139
+I (546094) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (546394) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5316
+I (547954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (549854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+I (550784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (551214) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+I (551734) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (552034) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5325
+I (552814) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (554334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=148
+E (554464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (554464) task_wdt:  - IDLE0 (CPU 0)
+E (554464) task_wdt: Tasks currently running:
+E (554464) task_wdt: CPU 0: main
+E (554464) task_wdt: CPU 1: IDLE1
+E (554464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (555784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (556084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (557384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (557384) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (557694) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3061
+I (559004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (560504) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=125
+I (560764) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (560784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (561074) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3308
+I (562124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=103
+I (563944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (564404) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+E (564464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (564464) task_wdt:  - IDLE0 (CPU 0)
+E (564464) task_wdt: Tasks currently running:
+E (564464) task_wdt: CPU 0: main
+E (564464) task_wdt: CPU 1: IDLE1
+E (564464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (564684) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5317
+I (565494) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (565784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (566834) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (568394) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (569594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+I (570034) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (570334) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5229
+I (570784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (571374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (573334) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=184
+E (574464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (574464) task_wdt:  - IDLE0 (CPU 0)
+E (574464) task_wdt: Tasks currently running:
+E (574464) task_wdt: CPU 0: main
+E (574464) task_wdt: CPU 1: IDLE1
+E (574464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (575374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (575574) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (575784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (575884) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4840
+I (577194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=175
+I (578694) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+I (579874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (580734) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (580784) RAM: internal free=47651 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (581034) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3994
+I (581174) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (583074) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+E (584464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (584464) task_wdt:  - IDLE0 (CPU 0)
+E (584464) task_wdt: Tasks currently running:
+E (584464) task_wdt: CPU 0: main
+E (584464) task_wdt: CPU 1: IDLE1
+E (584464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (584934) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (585034) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (585334) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4199
+I (585784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (586554) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (587854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=188
+I (589194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=121
+I (589534) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (589834) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5864
+I (590534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (590784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (591954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (593654) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=164
+E (594464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (594464) task_wdt:  - IDLE0 (CPU 0)
+E (594464) task_wdt: Tasks currently running:
+E (594464) task_wdt: CPU 0: main
+E (594464) task_wdt: CPU 1: IDLE1
+E (594464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (595514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (595734) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (595784) RAM: internal free=47651 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (596034) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4309
+I (597034) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (598514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (600074) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (600374) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (600674) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5651
+I (600784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (601494) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (602614) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+I (603974) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+E (604464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (604464) task_wdt:  - IDLE0 (CPU 0)
+E (604464) task_wdt: Tasks currently running:
+E (604464) task_wdt: CPU 0: main
+E (604464) task_wdt: CPU 1: taskLVGL
+E (604464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (605784) RAM: internal free=47363 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (605954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (606354) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (606654) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5205
+I (607814) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (609374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=168
+I (610784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (611114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+I (611894) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (612194) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6504
+I (612714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+E (614464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (614464) task_wdt:  - IDLE0 (CPU 0)
+E (614464) task_wdt: Tasks currently running:
+E (614464) task_wdt: CPU 0: main
+E (614464) task_wdt: CPU 1: IDLE1
+E (614464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (614674) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (615784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (616234) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+I (617484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=188
+I (618724) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (619034) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4813
+I (619084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=116
+I (620604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=128
+I (620784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (622164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+I (623324) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+I (623884) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (624184) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6412
+E (624464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (624464) task_wdt:  - IDLE0 (CPU 0)
+E (624464) task_wdt: Tasks currently running:
+E (624464) task_wdt: CPU 0: main
+E (624464) task_wdt: CPU 1: taskLVGL
+E (624464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (625024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=172
+I (625784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (626704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=172
+I (627824) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (629604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+I (630604) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (630784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (630904) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3431
+I (631264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (632724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+I (633984) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (634384) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+E (634464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (634464) task_wdt:  - IDLE0 (CPU 0)
+E (634464) task_wdt: Tasks currently running:
+E (634464) task_wdt: CPU 0: main
+E (634464) task_wdt: CPU 1: IDLE1
+E (634464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (634694) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6623
+I (635784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (635874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+I (637274) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (638534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (639774) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=106
+I (640784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (641334) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (641644) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5166
+I (641694) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=110
+I (643514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=103
+E (644464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (644464) task_wdt:  - IDLE0 (CPU 0)
+E (644464) task_wdt: Tasks currently running:
+E (644464) task_wdt: CPU 0: main
+E (644464) task_wdt: CPU 1: IDLE1
+E (644464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (644594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (645784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (646114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+I (646834) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (647144) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6604
+I (647674) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (648974) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (650314) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (650784) RAM: internal free=47475 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (651834) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (653654) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=193
+I (653774) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (654074) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6583
+E (654464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (654464) task_wdt:  - IDLE0 (CPU 0)
+E (654464) task_wdt: Tasks currently running:
+E (654464) task_wdt: CPU 0: main
+E (654464) task_wdt: CPU 1: IDLE1
+E (654464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (655374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (655784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (656854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (658194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=145
+I (659454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (660674) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+I (660674) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (660784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (660974) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5547
+I (662794) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+E (664464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (664464) task_wdt:  - IDLE0 (CPU 0)
+E (664464) task_wdt: Tasks currently running:
+E (664464) task_wdt: CPU 0: main
+E (664464) task_wdt: CPU 1: IDLE1
+E (664464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (664734) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (665784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (666514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (666554) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (666854) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3679
+I (668414) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (669814) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (670554) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (670784) RAM: internal free=47751 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (670854) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6376
+I (670974) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (672574) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (674354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+E (674464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (674464) task_wdt:  - IDLE0 (CPU 0)
+E (674464) task_wdt: Tasks currently running:
+E (674464) task_wdt: CPU 0: main
+E (674464) task_wdt: CPU 1: IDLE1
+E (674464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (675524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+I (675784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (677244) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (677554) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4357
+I (677604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (678764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=121
+I (680544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (680784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (681724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (681924) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (682234) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5283
+I (683284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+E (684464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (684464) task_wdt:  - IDLE0 (CPU 0)
+E (684464) task_wdt: Tasks currently running:
+E (684464) task_wdt: CPU 0: main
+E (684464) task_wdt: CPU 1: IDLE1
+E (684464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (685104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (685784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (686524) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (687524) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (687824) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5915
+I (688224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=131
+I (689604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (690784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (691084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=177
+I (692644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=184
+I (693764) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (694064) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4820
+I (694144) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+E (694464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (694464) task_wdt:  - IDLE0 (CPU 0)
+E (694464) task_wdt: Tasks currently running:
+E (694464) task_wdt: CPU 0: main
+E (694464) task_wdt: CPU 1: IDLE1
+E (694464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (695584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (695784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (697184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=153
+I (698704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (698884) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (699184) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5302
+I (700484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (700784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (702124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (703604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=139
+E (704464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (704464) task_wdt:  - IDLE0 (CPU 0)
+E (704464) task_wdt: Tasks currently running:
+E (704464) task_wdt: CPU 0: main
+E (704464) task_wdt: CPU 1: IDLE1
+E (704464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (704544) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (704854) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5522
+I (705124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=204
+I (705784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (706724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (708584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+I (710184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=172
+I (710404) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (710704) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3261
+I (710784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (711824) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (713184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (714004) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (714304) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5321
+E (714464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (714464) task_wdt:  - IDLE0 (CPU 0)
+E (714464) task_wdt: Tasks currently running:
+E (714464) task_wdt: CPU 0: main
+E (714464) task_wdt: CPU 1: taskLVGL
+E (714464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (714644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+I (715784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (715824) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=215
+I (717284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (718844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=106
+I (719684) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (719984) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5729
+I (720544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (720784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (721704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (723624) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=138
+E (724464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (724464) task_wdt:  - IDLE0 (CPU 0)
+E (724464) task_wdt: Tasks currently running:
+E (724464) task_wdt: CPU 0: main
+E (724464) task_wdt: CPU 1: IDLE1
+E (724464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (724924) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (725744) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (725784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (726044) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4725
+I (726564) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (727944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+I (729764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (730784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (730804) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (731114) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3803
+I (731244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (732464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=114
+I (733584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+E (734464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (734464) task_wdt:  - IDLE0 (CPU 0)
+E (734464) task_wdt: Tasks currently running:
+E (734464) task_wdt: CPU 0: main
+E (734464) task_wdt: CPU 1: taskLVGL
+E (734464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (734924) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (735224) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3626
+I (735284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (735784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (736884) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+I (738224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (738864) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (739174) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4700
+I (739484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+I (740784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (741124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+I (742204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (743504) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (743904) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (744204) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6245
+E (744464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (744464) task_wdt:  - IDLE0 (CPU 0)
+E (744464) task_wdt: Tasks currently running:
+E (744464) task_wdt: CPU 0: main
+E (744464) task_wdt: CPU 1: IDLE1
+E (744464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (744764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (745784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (746544) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (748024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=148
+I (749744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+I (750484) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (750784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (750784) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6140
+I (751184) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (752744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (753904) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=183
+E (754464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (754464) task_wdt:  - IDLE0 (CPU 0)
+E (754464) task_wdt: Tasks currently running:
+E (754464) task_wdt: CPU 0: main
+E (754464) task_wdt: CPU 1: IDLE1
+E (754464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (755344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=184
+I (755784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (756944) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (757244) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4108
+I (757284) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=116
+I (759144) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=103
+I (760784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (760804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (761364) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (761664) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4068
+I (762044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=197
+I (763964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+E (764464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (764464) task_wdt:  - IDLE0 (CPU 0)
+E (764464) task_wdt: Tasks currently running:
+E (764464) task_wdt: CPU 0: main
+E (764464) task_wdt: CPU 1: IDLE1
+E (764464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (765484) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=125
+I (765744) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (765784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (766044) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5917
+I (767304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=125
+I (768804) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=177
+I (770724) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (770784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (771884) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=205
+I (771984) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (772284) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4497
+I (774144) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+E (774464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (774464) task_wdt:  - IDLE0 (CPU 0)
+E (774464) task_wdt: Tasks currently running:
+E (774464) task_wdt: CPU 0: main
+E (774464) task_wdt: CPU 1: IDLE1
+E (774464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (775744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (775784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (776784) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (777084) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3970
+I (777124) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (778744) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (780164) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (780784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (781084) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (781384) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5827
+I (782024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (783844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+E (784464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (784464) task_wdt:  - IDLE0 (CPU 0)
+E (784464) task_wdt: Tasks currently running:
+E (784464) task_wdt: CPU 0: main
+E (784464) task_wdt: CPU 1: IDLE1
+E (784464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (785104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (785784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (786444) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (787224) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (787524) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5447
+I (787584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+I (788704) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+I (790044) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (790784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (791304) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (792984) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (793294) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4563
+I (793344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+E (794464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (794464) task_wdt:  - IDLE0 (CPU 0)
+E (794464) task_wdt: Tasks currently running:
+E (794464) task_wdt: CPU 0: main
+E (794464) task_wdt: CPU 1: taskLVGL
+E (794464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (794464) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=217
+I (795634) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (795784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (796934) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (797874) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (798174) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6979
+I (798754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (800434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=128
+I (800784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (802394) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (804114) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+E (804464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (804464) task_wdt:  - IDLE0 (CPU 0)
+E (804464) task_wdt: Tasks currently running:
+E (804464) task_wdt: CPU 0: main
+E (804464) task_wdt: CPU 1: IDLE1
+E (804464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (805154) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (805454) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4428
+I (805674) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=179
+I (805784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (807634) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=114
+I (809354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=164
+I (809934) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (810234) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5202
+I (810784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (810874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (812434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (814354) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+E (814464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (814464) task_wdt:  - IDLE0 (CPU 0)
+E (814464) task_wdt: Tasks currently running:
+E (814464) task_wdt: CPU 0: main
+E (814464) task_wdt: CPU 1: IDLE1
+E (814464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (815474) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (815774) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3722
+I (815784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (816214) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (817934) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+I (819074) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=153
+I (819554) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (819854) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4977
+I (820454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (820784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (822194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (823454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=115
+E (824464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (824464) task_wdt:  - IDLE0 (CPU 0)
+E (824464) task_wdt: Tasks currently running:
+E (824464) task_wdt: CPU 0: main
+E (824464) task_wdt: CPU 1: taskLVGL
+E (824464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (824534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+I (824834) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (825134) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5085
+I (825784) RAM: internal free=47479 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (826134) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=184
+I (827474) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (829074) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (830254) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (830554) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3546
+I (830784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (830894) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=178
+I (832814) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=140
+I (834114) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (834414) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5085
+I (834454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=156
+E (834464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (834464) task_wdt:  - IDLE0 (CPU 0)
+E (834464) task_wdt: Tasks currently running:
+E (834464) task_wdt: CPU 0: main
+E (834464) task_wdt: CPU 1: IDLE1
+E (834464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (835754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+I (835784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (837754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (839514) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (839824) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5356
+I (839874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (840784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (841074) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (842594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (844194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=134
+E (844464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (844464) task_wdt:  - IDLE0 (CPU 0)
+E (844464) task_wdt: Tasks currently running:
+E (844464) task_wdt: CPU 0: main
+E (844464) task_wdt: CPU 1: IDLE1
+E (844464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (845194) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (845494) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3586
+I (845784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (845894) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=197
+I (847274) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (849094) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=110
+I (849094) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (849394) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5308
+I (850784) RAM: internal free=47479 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (851054) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (852994) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+E (854464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (854464) task_wdt:  - IDLE0 (CPU 0)
+E (854464) task_wdt: Tasks currently running:
+E (854464) task_wdt: CPU 0: main
+E (854464) task_wdt: CPU 1: IDLE1
+E (854464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (854694) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (854734) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (855034) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3904
+I (855784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (856374) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+I (857894) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (858974) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (859274) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6604
+I (859314) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (860784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (860874) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (862014) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (863914) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=185
+E (864464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (864464) task_wdt:  - IDLE0 (CPU 0)
+E (864464) task_wdt: Tasks currently running:
+E (864464) task_wdt: CPU 0: main
+E (864464) task_wdt: CPU 1: IDLE1
+E (864464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (865774) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=157
+I (865784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (865914) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (866214) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6199
+I (867994) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (869514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=188
+I (870784) RAM: internal free=47751 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (871414) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (872414) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (872714) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3825
+I (872894) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (874454) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=187
+E (874464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (874464) task_wdt:  - IDLE0 (CPU 0)
+E (874464) task_wdt: Tasks currently running:
+E (874464) task_wdt: CPU 0: main
+E (874464) task_wdt: CPU 1: IDLE1
+E (874464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (875784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (876054) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (876574) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (876874) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6472
+I (877314) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (879034) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (880474) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (880784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (882194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (883374) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (883674) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4774
+I (883714) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=108
+E (884464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (884464) task_wdt:  - IDLE0 (CPU 0)
+E (884464) task_wdt: Tasks currently running:
+E (884464) task_wdt: CPU 0: main
+E (884464) task_wdt: CPU 1: IDLE1
+E (884464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (885194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (885784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (887094) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (888494) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (888794) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5623
+I (888834) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=149
+I (890614) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (890784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (892174) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=140
+I (893294) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=166
+E (894464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (894464) task_wdt:  - IDLE0 (CPU 0)
+E (894464) task_wdt: Tasks currently running:
+E (894464) task_wdt: CPU 0: main
+E (894464) task_wdt: CPU 1: IDLE1
+E (894464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (894514) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (894814) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5345
+I (894854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (895784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (896854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+I (898754) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (900194) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (900494) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4436
+I (900534) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+I (900784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (902434) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=147
+I (903954) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+E (904464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (904464) task_wdt:  - IDLE0 (CPU 0)
+E (904464) task_wdt: Tasks currently running:
+E (904464) task_wdt: CPU 0: main
+E (904464) task_wdt: CPU 1: IDLE1
+E (904464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (904954) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (905254) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3581
+I (905294) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (905784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (906554) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=171
+I (908414) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (908854) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (909154) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6165
+I (909554) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=217
+I (910784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (911494) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (913494) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+E (914464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (914464) task_wdt:  - IDLE0 (CPU 0)
+E (914464) task_wdt: Tasks currently running:
+E (914464) task_wdt: CPU 0: main
+E (914464) task_wdt: CPU 1: taskLVGL
+E (914464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (915004) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=120
+I (915344) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (915644) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4004
+I (915784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (916904) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (918204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+I (919684) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (919984) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3615
+I (920204) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (920784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (922024) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=150
+I (923264) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=204
+I (923624) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (923924) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4132
+E (924464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (924464) task_wdt:  - IDLE0 (CPU 0)
+E (924464) task_wdt: Tasks currently running:
+E (924464) task_wdt: CPU 0: main
+E (924464) task_wdt: CPU 1: IDLE1
+E (924464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (924624) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (925784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (925964) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (927224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=204
+I (928084) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (928384) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5708
+I (928784) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=180
+I (930084) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (930784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (931384) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (932944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=170
+I (934104) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (934404) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5420
+E (934464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (934464) task_wdt:  - IDLE0 (CPU 0)
+E (934464) task_wdt: Tasks currently running:
+E (934464) task_wdt: CPU 0: main
+E (934464) task_wdt: CPU 1: taskLVGL
+E (934464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (934764) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (935784) RAM: internal free=47551 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (936364) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (938344) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=152
+I (939824) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (940124) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3505
+I (940224) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+I (940784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (941424) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (943244) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (943644) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (943944) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4703
+E (944464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (944464) task_wdt:  - IDLE0 (CPU 0)
+E (944464) task_wdt: Tasks currently running:
+E (944464) task_wdt: CPU 0: main
+E (944464) task_wdt: CPU 1: IDLE1
+E (944464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (944644) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (945784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (945844) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=219
+I (947624) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=112
+I (948664) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (948964) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5074
+I (949104) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=197
+I (950564) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (950784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (951784) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=203
+I (953604) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=140
+I (954044) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (954344) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3059
+E (954464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (954464) task_wdt:  - IDLE0 (CPU 0)
+E (954464) task_wdt: Tasks currently running:
+E (954464) task_wdt: CPU 0: main
+E (954464) task_wdt: CPU 1: IDLE1
+E (954464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (954684) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (955784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (956584) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (957424) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (957724) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3277
+I (957944) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (959364) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (960734) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=123
+I (960784) RAM: internal free=47475 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (961054) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (961354) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6108
+I (962654) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=195
+E (964464) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+E (964464) task_wdt:  - IDLE0 (CPU 0)
+E (964464) task_wdt: Tasks currently running:
+E (964464) task_wdt: CPU 0: main
+E (964464) task_wdt: CPU 1: IDLE1
+E (964464) task_wdt: Print CPU 0 (current core) backtrace
+
+
+Backtrace: 0x4216A824:0x3FCA2D70 0x4037D7F7:0x3FCA2DA0 0x4212E8F9:0x3FCB21E0 0x4212B1F7:0x3FCB2220 0x4212B228:0x3FCB2240 0x4212B2DB:0x3FCB2280 0x4213FB71:0x3FCB22B0 0x421400EC:0x3FCB22D0 0x4202747C:0x3FCB2300 0x4203EB2A:0x3FCB23C0 0x420490B1:0x3FCB2450 0x42008C93:0x3FCB2470
+
+I (964514) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=144
+I (965784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960
+I (965854) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (967294) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=198
+I (967494) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (967804) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5620
+I (968594) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (970194) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+I (970784) RAM: internal free=47975 min=33039 largest=36864 | psram free=7374692 min=7325012 largest=7208960

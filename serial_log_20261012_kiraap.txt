@@ -1,0 +1,54 @@
+I (4135) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1760
+I (4485) LcdDisplay: BOOT_ANIM_DESTROYED
+I (4875) StateMachine: State: starting -> wifi_configuring
+I (4875) WifiManager: Starting config AP
+I (4875) DnsServer: Starting DNS server
+I (4875) wifi:Set ps type: 0, coexist: 0
+I (4875) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (4915) wifi:mode : sta (7c:e8:b1:b1:65:48) + softAP (7c:e8:b1:b1:65:49)
+I (4915) wifi:enable tsf
+I (4915) wifi:Total power save buffer number: 16
+I (4915) wifi:Init max length of beacon: 752/752
+I (4925) wifi:Init max length of beacon: 752/752
+I (4925) WifiConfigurationAp: Access Point started with SSID KiraAP-6549
+I (4935) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (4945) WifiConfigurationAp: Web server started
+I (4945) WifiBoard: WiFi config mode entered
+I (4955) RAM: [AFTER_XIAOZHI_INIT] internal free=78067 min=71795 largest=49152 | psram free=7963348 min=7685772 largest=7471104
+I (4965) esp_image: segment 0: paddr=00020020 vaddr=3c250020 size=16db48h (1497928) map
+I (5085) esp_image: segment 1: paddr=0018db70 vaddr=3fc9cf00 size=024a8h (  9384)
+I (5085) esp_image: segment 2: paddr=00190020 vaddr=42000020 size=24dac0h (2415296) map
+I (5245) wifi:mode : softAP (7c:e8:b1:b1:65:49)
+I (5245) WifiBoard: Config AP beacon stabilized: scan_stop=ESP_OK channel=ESP_OK mode=ESP_OK
+I (5275) esp_image: segment 3: paddr=003ddae8 vaddr=3fc9f3a8 size=0695ch ( 26972)
+I (5285) esp_image: segment 4: paddr=003e444c vaddr=40378000 size=14each ( 85676)
+I (5285) esp_image: segment 5: paddr=003f9300 vaddr=50000000 size=00024h (    36)
+I (5285) OtaPartition: OTA_PARTITIONS running=ota_0 boot=ota_0 ota0=1.1.13/running ota1=empty/app_descriptor_missing rollback=1
+W (5305) Application: Alert [gear] Режим настройки сети: Подключите телефон к точке доступа KiraAP-6549，доступ через браузер http://192.168.4.1
+I (5325) LcdDisplay: ANIME_EMOTION_EXTERNAL_IGNORED name=gear
+I (5325) AudioCodec: Set output enable to true
+I (5335) AudioService: Resampling audio from 16000 to 48000
+I (5785) RAM: internal free=72259 min=70307 largest=47104 | psram free=7904648 min=7685772 largest=7471104
+I (6995) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7395) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7725) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (10585) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=130
+I (10785) RAM: internal free=76543 min=59883 largest=47104 | psram free=7882904 min=7685772 largest=7471104
+I (12935) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=106
+I (13175) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (13485) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6229
+I (14945) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (15225) SystemInfo: free sram: 76407 minimal sram: 59251
+I (15785) RAM: internal free=76347 min=59251 largest=47104 | psram free=7856784 min=7685772 largest=7471104
+I (17435) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=194
+I (19745) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (20025) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5728
+I (20695) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=169
+I (20785) RAM: internal free=75803 min=59251 largest=47104 | psram free=7856784 min=7685772 largest=7471104
+I (22785) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=103
+I (25225) SystemInfo: free sram: 76279 minimal sram: 59251
+I (25325) AudioCodec: Set output enable to false
+I (25555) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=207
+I (25755) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (25785) RAM: internal free=76347 min=59251 largest=47104 | psram free=7856784 min=7685772 largest=7471104
+I (26055) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6036

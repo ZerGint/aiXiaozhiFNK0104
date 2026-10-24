@@ -1,0 +1,954 @@
+diff --git a/main/media/internet_radio_player.cc b/main/media/internet_radio_player.cc
+index e7182e1..02434d0 100644
+--- a/main/media/internet_radio_player.cc
++++ b/main/media/internet_radio_player.cc
+@@ -248,6 +248,8 @@ void InternetRadioPlayer::Stop() {
+         if (startup_event_group_ != nullptr) {
+             xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
+         }
++        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=radio generation=%llu",
++                 static_cast<unsigned long long>(wait_generation));
+     }
+     Application::GetInstance().GetAudioService().ResetDecoder();
+     const bool playback_drained =
+@@ -262,6 +264,8 @@ void InternetRadioPlayer::Stop() {
+             ESP_LOGW(TAG, "Radio stop timed out; cleanup still in progress");
+         }
+     }
++    ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_COMPLETE source=radio generation=%llu drained=%d",
++             static_cast<unsigned long long>(wait_generation), playback_drained ? 1 : 0);
+ }
+ 
+ void InternetRadioPlayer::TaskFunction(void* arg) {
+@@ -496,7 +500,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
+             }
+             break;
+         }
+-        BeginMediaPcmStream();
++        const uint32_t stream_generation = BeginMediaPcmStream();
+         std::vector<uint8_t, PsramAllocator<uint8_t>> in(2048);
+         std::vector<uint8_t> out(16384);
+         std::vector<uint8_t> pending(in.size() * 4);
+@@ -592,7 +596,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
+                 if (frame.decoded_size > 0) {
+                     esp_audio_simple_dec_info_t info = {};
+                     if (esp_audio_simple_dec_get_info(decoder, &info) == ESP_AUDIO_ERR_OK &&
+-                        info.sample_rate > 0 && info.bits_per_sample == 16) {
++                        info.sample_rate > 0 && info.bits_per_sample == 16 &&
++                        (info.channel == 1 || info.channel == 2) &&
++                        frame.decoded_size <= out.size()) {
+                         if (!first_frame_logged) {
+                             ESP_LOGI(
+                                 TAG,
+@@ -605,9 +611,9 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
+                             first_frame_logged = true;
+                             SystemInfo::PrintRamSnapshot("RADIO_PLAYING");
+                         }
+-                        PushMediaPcm(codec, reinterpret_cast<int16_t*>(out.data()),
++                        PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out.data()),
+                                      frame.decoded_size / 2, info.channel, info.sample_rate,
+-                                     target_rate, true);
++                                     target_rate, true, stream_generation);
+                         const uint32_t buffered_ms =
+                             Application::GetInstance().GetAudioService().GetRadioBufferedMs();
+                         if (!attempt->startup_ready_notified && !stop_requested_ &&
+@@ -619,10 +625,12 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
+                     } else if (!invalid_info_logged) {
+                         ESP_LOGW(TAG,
+                                  "Decoded frame has unsupported audio info: rate=%lu channels=%lu "
+-                                 "bits=%lu",
++                                 "bits=%lu bytes=%d buffer=%u",
+                                  static_cast<unsigned long>(info.sample_rate),
+                                  static_cast<unsigned long>(info.channel),
+-                                 static_cast<unsigned long>(info.bits_per_sample));
++                                 static_cast<unsigned long>(info.bits_per_sample),
++                                 static_cast<int>(frame.decoded_size),
++                                 static_cast<unsigned>(out.size()));
+                         invalid_info_logged = true;
+                     }
+                 }
+diff --git a/main/media/media_audio_output.cc b/main/media/media_audio_output.cc
+index c7e9c89..cd434d4 100644
+--- a/main/media/media_audio_output.cc
++++ b/main/media/media_audio_output.cc
+@@ -124,9 +124,10 @@ void InitializeMediaRateConverterEarly(uint32_t source_rate, uint32_t target_rat
+     GetMediaRateConverter().InitializeEarly(source_rate, target_rate);
+ }
+ 
+-void BeginMediaPcmStream() {
++uint32_t BeginMediaPcmStream() {
+     GetMediaRateConverter().ResetStream();
+     stream_start_pending = true;
++    return Application::GetInstance().GetAudioService().GetPlaybackGeneration();
+ }
+ 
+ void EnsureMp3DecoderRegistered() {
+@@ -145,11 +146,29 @@ void EnsureMp3DecoderRegistered() {
+ }
+ 
+ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples, uint32_t channels,
+-                  uint32_t sample_rate, uint32_t target_rate, bool is_radio) {
++                  uint32_t sample_rate, uint32_t target_rate, bool is_radio,
++                  uint32_t stream_generation) {
+     if (!codec || !pcm_data || num_samples == 0) {
+         return;
+     }
+ 
++    if (channels != 1 && channels != 2) {
++        ESP_LOGW(TAG, "Dropping media PCM with unsupported channels=%lu",
++                 static_cast<unsigned long>(channels));
++        return;
++    }
++    if (channels == 2 && (num_samples & 1U) != 0) {
++        ESP_LOGW(TAG, "Dropping media PCM with odd stereo sample count=%u",
++                 static_cast<unsigned>(num_samples));
++        return;
++    }
++
++    auto& audio_service = Application::GetInstance().GetAudioService();
++    if (stream_generation != 0 &&
++        audio_service.GetPlaybackGeneration() != stream_generation) {
++        return;
++    }
++
+     if (!codec->output_enabled()) {
+         codec->EnableOutput(true);
+     }
+@@ -181,6 +200,9 @@ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples
+     }
+ 
+     const uint32_t duration_ms = static_cast<uint32_t>(output.size() * 1000ULL / target_rate);
+-    Application::GetInstance().GetAudioService().PushPlaybackTask(
+-        std::move(output), true, is_radio, duration_ms, stream_start_pending.exchange(false));
++    const bool stream_start = stream_start_pending.load(std::memory_order_acquire);
++    if (audio_service.PushPlaybackTask(std::move(output), true, is_radio, duration_ms,
++                                       stream_start, stream_generation) && stream_start) {
++        stream_start_pending.store(false, std::memory_order_release);
++    }
+ }
+diff --git a/main/media/media_player.cc b/main/media/media_player.cc
+index c94637d..34a2c9b 100644
+--- a/main/media/media_player.cc
++++ b/main/media/media_player.cc
+@@ -20,6 +20,155 @@ MediaPlayer& MediaPlayer::GetInstance() {
+     return instance;
+ }
+ 
++void MediaPlayer::EnsureControlTask() {
++    std::lock_guard<std::mutex> lock(control_mutex_);
++    if (control_task_handle_ != nullptr) {
++        return;
++    }
++
++    TaskHandle_t task = nullptr;
++    const BaseType_t result = xTaskCreatePinnedToCore(
++        ControlTaskFunction, "MediaControl", 8192, this, 4, &task, 0);
++    if (result != pdPASS) {
++        ESP_LOGE(TAG, "Failed to create media control task");
++        return;
++    }
++    control_task_handle_ = task;
++}
++
++bool MediaPlayer::EnqueueControlCommand(ControlCommand&& command,
++                                        bool replace_pending_source) {
++    constexpr size_t kMaxPendingCommands = 8;
++    EnsureControlTask();
++    std::lock_guard<std::mutex> lock(control_mutex_);
++    if (control_task_handle_ == nullptr) {
++        return false;
++    }
++
++    command.sequence = control_sequence_.fetch_add(1, std::memory_order_acq_rel) + 1;
++    if (replace_pending_source) {
++        latest_source_sequence_.store(command.sequence, std::memory_order_release);
++    }
++    if (replace_pending_source) {
++        control_queue_.erase(
++            std::remove_if(control_queue_.begin(), control_queue_.end(), [](const auto& pending) {
++                return pending.type == ControlCommandType::PlaySd ||
++                       pending.type == ControlCommandType::PlayRadio ||
++                       pending.type == ControlCommandType::Stop;
++            }),
++            control_queue_.end());
++    }
++
++    if (!replace_pending_source &&
++        (command.type == ControlCommandType::PauseForVoice ||
++         command.type == ControlCommandType::PlayForVoice ||
++         command.type == ControlCommandType::PauseForGeneratedDownload ||
++         command.type == ControlCommandType::ResumeAfterGeneratedDownload)) {
++        const auto duplicate = std::find_if(
++            control_queue_.begin(), control_queue_.end(), [&command](const auto& pending) {
++                return pending.type == command.type;
++            });
++        if (duplicate != control_queue_.end()) {
++            *duplicate = std::move(command);
++            control_cv_.notify_one();
++            return true;
++        }
++    }
++
++    if (control_queue_.size() >= kMaxPendingCommands) {
++        const auto discard = std::find_if(control_queue_.begin(), control_queue_.end(),
++                                          [](const auto& pending) {
++                                              return pending.type != ControlCommandType::PlaySd &&
++                                                     pending.type != ControlCommandType::PlayRadio &&
++                                                     pending.type != ControlCommandType::Stop;
++                                          });
++        if (discard != control_queue_.end()) {
++            ESP_LOGW(TAG, "MEDIA_COMMAND_DROP type=%d queue_full", static_cast<int>(discard->type));
++            control_queue_.erase(discard);
++        } else {
++            ESP_LOGW(TAG, "MEDIA_COMMAND_DROP type=%d queue_full", static_cast<int>(
++                         control_queue_.front().type));
++            control_queue_.pop_front();
++        }
++    }
++    control_queue_.push_back(std::move(command));
++    control_cv_.notify_one();
++    return true;
++}
++
++bool MediaPlayer::IsLatestSourceCommand(uint64_t sequence) const {
++    return latest_source_sequence_.load(std::memory_order_acquire) == sequence;
++}
++
++void MediaPlayer::ControlTaskFunction(void* arg) {
++    auto* player = static_cast<MediaPlayer*>(arg);
++    while (true) {
++        ControlCommand command;
++        {
++            std::unique_lock<std::mutex> lock(player->control_mutex_);
++            player->control_cv_.wait(lock, [player]() { return !player->control_queue_.empty(); });
++            command = std::move(player->control_queue_.front());
++            player->control_queue_.pop_front();
++        }
++        player->ProcessControlCommand(std::move(command));
++    }
++}
++
++void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
++    switch (command.type) {
++        case ControlCommandType::PlaySd:
++            if (IsLatestSourceCommand(command.sequence)) {
++                PlaySdNow(command.sd_index, command.sequence);
++            } else {
++                ESP_LOGI(TAG, "MEDIA_COMMAND_STALE type=sd sequence=%llu",
++                         static_cast<unsigned long long>(command.sequence));
++            }
++            break;
++        case ControlCommandType::PlayRadio:
++            if (IsLatestSourceCommand(command.sequence)) {
++                PlayRadioNow(std::move(command));
++            } else {
++                ESP_LOGI(TAG, "MEDIA_COMMAND_STALE type=radio sequence=%llu",
++                         static_cast<unsigned long long>(command.sequence));
++            }
++            break;
++        case ControlCommandType::Stop:
++            StopNow();
++            break;
++        case ControlCommandType::TogglePlayPause:
++            TogglePlayPauseNow();
++            break;
++        case ControlCommandType::PauseForVoice:
++            PauseForVoiceNow();
++            break;
++        case ControlCommandType::PlayForVoice:
++            PlayForVoiceNow();
++            break;
++        case ControlCommandType::PauseForGeneratedDownload:
++            PauseForGeneratedDownloadNow();
++            break;
++        case ControlCommandType::ResumeAfterGeneratedDownload:
++            ResumeAfterGeneratedDownloadNow();
++            break;
++        case ControlCommandType::Next:
++            NextNow();
++            break;
++        case ControlCommandType::Prev:
++            PrevNow();
++            break;
++    }
++}
++
++void MediaPlayer::ScheduleStopVoiceInteractionForMedia() {
++    const auto state = Application::GetInstance().GetDeviceState();
++    if (state != kDeviceStateListening && state != kDeviceStateSpeaking) {
++        return;
++    }
++    Application::GetInstance().Schedule([]() {
++        Application::GetInstance().StopVoiceInteractionForMedia();
++    });
++}
++
+ void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
+ 
+ bool MediaPlayer::PrepareGeneratedPlaylist(std::string& err_msg) {
+@@ -76,9 +225,23 @@ void MediaPlayer::PlaySd(int index) {
+         paused_by_user_ = false;
+         radio_station_for_manual_pause_ = {};
+     }
+-    auto& application = Application::GetInstance();
+-    application.StopVoiceInteractionForMedia();
++    ControlCommand command;
++    command.type = ControlCommandType::PlaySd;
++    command.sd_index = index;
++    if (!EnqueueControlCommand(std::move(command), true)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=sd");
++    }
++}
++
++void MediaPlayer::PlaySdNow(int index, uint64_t sequence) {
++    ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=sd index=%d task=%s", index, pcTaskGetName(nullptr));
++    ScheduleStopVoiceInteractionForMedia();
+     InternetRadioPlayer::GetInstance().Stop();
++    if (!IsLatestSourceCommand(sequence)) {
++        ESP_LOGI(TAG, "MEDIA_COMMAND_STALE_AFTER_STOP type=sd sequence=%llu",
++                 static_cast<unsigned long long>(sequence));
++        return;
++    }
+     auto& player = SdMusicPlayer::GetInstance();
+     player.Play(index < 0 ? player.GetCurrentTrackIndex() : index);
+ }
+@@ -191,6 +354,10 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
+         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=radio");
+         return false;
+     }
++    if (station.url_resolved.empty()) {
++        err_msg = "Station URL is empty";
++        return false;
++    }
+     bool restore_voice_pause = false;
+     bool restore_manual_pause = false;
+     RadioStationInfo voice_station;
+@@ -207,26 +374,72 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station, std::string& err_ms
+         paused_by_user_ = false;
+         radio_station_for_manual_pause_ = {};
+     }
+-    // Ensure the SD decoder task and audio pipeline are fully stopped before
+-    // starting the radio source; this prevents a transient dual-source period.
+-    SdMusicPlayer::GetInstance().Stop();
+-    const bool success =
+-        InternetRadioPlayer::GetInstance().Play(station, err_msg, std::move(on_startup_ready),
+-                                                std::move(on_startup_failed), emit_failure_bip);
+-    if (success) {
+-        Application::GetInstance().StopVoiceInteractionForMedia();
+-    } else {
++    ControlCommand command;
++    command.type = ControlCommandType::PlayRadio;
++    command.station = station;
++    command.on_startup_ready = std::move(on_startup_ready);
++    command.on_startup_failed = std::move(on_startup_failed);
++    command.emit_failure_bip = emit_failure_bip;
++    command.restore_voice_pause = restore_voice_pause;
++    command.restore_manual_pause = restore_manual_pause;
++    command.voice_station = voice_station;
++    command.manual_station = manual_station;
++    if (!EnqueueControlCommand(std::move(command), true)) {
++        err_msg = "Unable to queue media command";
+         std::lock_guard<std::mutex> lock(voice_mutex_);
+         if (restore_voice_pause) {
+             paused_for_voice_ = true;
+-            radio_station_for_voice_ = voice_station;
++            radio_station_for_voice_ = std::move(voice_station);
+         }
+         if (restore_manual_pause) {
+             paused_by_user_ = true;
+-            radio_station_for_manual_pause_ = manual_station;
++            radio_station_for_manual_pause_ = std::move(manual_station);
+         }
++        return false;
++    }
++    return true;
++}
++
++void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
++    if (!IsLatestSourceCommand(command.sequence)) {
++        return;
++    }
++
++    ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=radio name=%s task=%s",
++             command.station.name.c_str(), pcTaskGetName(nullptr));
++    // Ensure the SD decoder task and audio pipeline are fully stopped before
++    // starting the radio source; this prevents a transient dual-source period.
++    SdMusicPlayer::GetInstance().Stop();
++    if (!IsLatestSourceCommand(command.sequence)) {
++        ESP_LOGI(TAG, "MEDIA_COMMAND_STALE_AFTER_STOP type=radio sequence=%llu",
++                 static_cast<unsigned long long>(command.sequence));
++        return;
++    }
++
++    std::string err_msg;
++    const auto startup_failed = command.on_startup_failed;
++    const bool success = InternetRadioPlayer::GetInstance().Play(
++        command.station, err_msg, std::move(command.on_startup_ready),
++        std::move(command.on_startup_failed), command.emit_failure_bip);
++    if (success) {
++        ScheduleStopVoiceInteractionForMedia();
++    } else {
++        if (command.restore_voice_pause || command.restore_manual_pause) {
++            std::lock_guard<std::mutex> lock(voice_mutex_);
++            if (command.restore_voice_pause) {
++                paused_for_voice_ = true;
++                radio_station_for_voice_ = std::move(command.voice_station);
++            }
++            if (command.restore_manual_pause) {
++                paused_by_user_ = true;
++                radio_station_for_manual_pause_ = std::move(command.manual_station);
++            }
++        }
++        if (startup_failed) {
++            startup_failed();
++        }
++        ESP_LOGW(TAG, "MEDIA_COMMAND_FAILED type=radio error=%s", err_msg.c_str());
+     }
+-    return success;
+ }
+ 
+ void MediaPlayer::TogglePlayPause() {
+@@ -234,6 +447,14 @@ void MediaPlayer::TogglePlayPause() {
+         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=toggle");
+         return;
+     }
++    ControlCommand command;
++    command.type = ControlCommandType::TogglePlayPause;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=toggle");
++    }
++}
++
++void MediaPlayer::TogglePlayPauseNow() {
+     auto& radio = InternetRadioPlayer::GetInstance();
+ 
+     // A user action during a voice-interrupted Radio session cancels the
+@@ -265,7 +486,7 @@ void MediaPlayer::TogglePlayPause() {
+         }
+         if (resume_sd) {
+             ESP_LOGI(TAG, "[SD_VOICE_MANUAL_RESUME]");
+-            SdMusicPlayer::GetInstance().TogglePlayPause();
++            SdMusicPlayer::GetInstance().ResumeFromVoice();
+             return;
+         }
+         paused_for_voice_ = false;
+@@ -322,23 +543,45 @@ void MediaPlayer::TogglePlayPause() {
+ }
+ 
+ void MediaPlayer::PauseForVoice() {
++    ControlCommand command;
++    command.type = ControlCommandType::PauseForVoice;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=pause_voice");
++    }
++}
++
++void MediaPlayer::PauseForVoiceNow() {
+     auto& radio = InternetRadioPlayer::GetInstance();
+     if (paused_by_user_.load()) {
+         return;
+     }
+     if (radio.IsPlaying()) {
+-        std::lock_guard<std::mutex> lock(voice_mutex_);
+-        if (paused_by_user_.load())
+-            return;
+-        sd_paused_for_voice_ = false;
+-        radio_station_for_voice_ = radio.GetCurrentStation();
+-        ESP_LOGI(TAG, "[RADIO_VOICE_PAUSE] station=%s", radio_station_for_voice_.name.c_str());
++        RadioStationInfo station;
++        {
++            std::lock_guard<std::mutex> lock(voice_mutex_);
++            if (paused_by_user_.load())
++                return;
++            sd_paused_for_voice_ = false;
++            station = radio.GetCurrentStation();
++            radio_station_for_voice_ = station;
++            paused_for_voice_ = true;
++        }
++        ESP_LOGI(TAG, "[RADIO_VOICE_PAUSE] station=%s", station.name.c_str());
+         radio.Stop();
+-        paused_for_voice_ = true;
++        return;
++    }
++    if (sd_paused_for_voice_.load()) {
+         return;
+     }
+     if (SdMusicPlayer::GetInstance().IsPlaying()) {
+-        SdMusicPlayer::GetInstance().TogglePlayPause();
++        auto& sd = SdMusicPlayer::GetInstance();
++        if (!sd.PauseForVoice()) {
++            return;
++        }
++        // Drop already decoded media PCM, but keep the SD file and decoder
++        // position alive. This prevents old music frames from competing with
++        // the voice path while preserving resume from the current position.
++        Application::GetInstance().GetAudioService().ResetDecoder();
+         {
+             std::lock_guard<std::mutex> lock(voice_mutex_);
+             radio_station_for_voice_ = {};
+@@ -350,6 +593,14 @@ void MediaPlayer::PauseForVoice() {
+ }
+ 
+ void MediaPlayer::PlayForVoice() {
++    ControlCommand command;
++    command.type = ControlCommandType::PlayForVoice;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=play_voice");
++    }
++}
++
++void MediaPlayer::PlayForVoiceNow() {
+     if (paused_by_user_.load()) {
+         paused_for_voice_ = false;
+         sd_paused_for_voice_ = false;
+@@ -382,12 +633,20 @@ void MediaPlayer::PlayForVoice() {
+             }
+         } else if (resume_sd) {
+             ESP_LOGI(TAG, "[SD_VOICE_RESUME]");
+-            SdMusicPlayer::GetInstance().TogglePlayPause();
++            SdMusicPlayer::GetInstance().ResumeFromVoice();
+         }
+     }
+ }
+ 
+ void MediaPlayer::PauseForGeneratedDownload() {
++    ControlCommand command;
++    command.type = ControlCommandType::PauseForGeneratedDownload;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=pause_generated");
++    }
++}
++
++void MediaPlayer::PauseForGeneratedDownloadNow() {
+     auto& radio = InternetRadioPlayer::GetInstance();
+     RadioStationInfo radio_station;
+     bool pause_radio = false;
+@@ -419,6 +678,14 @@ void MediaPlayer::PauseForGeneratedDownload() {
+ }
+ 
+ void MediaPlayer::ResumeAfterGeneratedDownload() {
++    ControlCommand command;
++    command.type = ControlCommandType::ResumeAfterGeneratedDownload;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=resume_generated");
++    }
++}
++
++void MediaPlayer::ResumeAfterGeneratedDownloadNow() {
+     RadioStationInfo radio_station;
+     bool resume_radio = false;
+     bool resume_sd = false;
+@@ -434,7 +701,7 @@ void MediaPlayer::ResumeAfterGeneratedDownload() {
+     if (resume_radio && !radio_station.url_resolved.empty()) {
+         std::string error;
+         ESP_LOGI(TAG, "[MUSIC_DOWNLOAD_RESTORE_RADIO] station=%s", radio_station.name.c_str());
+-        if (!InternetRadioPlayer::GetInstance().Play(radio_station, error)) {
++        if (!PlayRadio(radio_station, error)) {
+             ESP_LOGW(TAG, "[MUSIC_DOWNLOAD_RESTORE_RADIO_FAIL] station=%s error=%s",
+                      radio_station.name.c_str(), error.c_str());
+         }
+@@ -450,6 +717,18 @@ void MediaPlayer::ResumeAfterGeneratedDownload() {
+ }
+ 
+ void MediaPlayer::Next() {
++    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
++        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=next");
++        return;
++    }
++    ControlCommand command;
++    command.type = ControlCommandType::Next;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=next");
++    }
++}
++
++void MediaPlayer::NextNow() {
+     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=next");
+         return;
+@@ -468,6 +747,18 @@ void MediaPlayer::Next() {
+ }
+ 
+ void MediaPlayer::Prev() {
++    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
++        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=previous");
++        return;
++    }
++    ControlCommand command;
++    command.type = ControlCommandType::Prev;
++    if (!EnqueueControlCommand(std::move(command), false)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=previous");
++    }
++}
++
++void MediaPlayer::PrevNow() {
+     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=previous");
+         return;
+@@ -494,7 +785,15 @@ void MediaPlayer::Stop() {
+         paused_by_user_ = false;
+         radio_station_for_manual_pause_ = {};
+     }
+-    Application::GetInstance().StopVoiceInteractionForMedia();
++    ControlCommand command;
++    command.type = ControlCommandType::Stop;
++    if (!EnqueueControlCommand(std::move(command), true)) {
++        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=stop");
++    }
++}
++
++void MediaPlayer::StopNow() {
++    ScheduleStopVoiceInteractionForMedia();
+     SdMusicPlayer::GetInstance().Stop();
+     InternetRadioPlayer::GetInstance().Stop();
+ }
+diff --git a/main/media/sd_music_player.cc b/main/media/sd_music_player.cc
+index e8973dc..a68009f 100644
+--- a/main/media/sd_music_player.cc
++++ b/main/media/sd_music_player.cc
+@@ -14,6 +14,7 @@
+ #include <simple_dec/esp_audio_simple_dec_default.h>
+ #include <algorithm>
+ #include <cctype>
++#include <chrono>
+ #include <cstdio>
+ #include <cstring>
+ #include <random>
+@@ -254,9 +255,18 @@ std::string SdMusicPlayer::GetCurrentTrackName() const {
+ 
+ void SdMusicPlayer::TaskFunction(void* param) {
+     auto player = static_cast<SdMusicPlayer*>(param);
++    while (player->task_start_pending_.load(std::memory_order_acquire)) {
++        ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
++    }
+     player->PlayerLoop();
+     player->is_playing_ = false;
+-    player->task_handle_ = nullptr;
++    {
++        std::lock_guard<std::mutex> lock(player->lifecycle_mutex_);
++        if (player->task_handle_ == xTaskGetCurrentTaskHandle()) {
++            player->task_handle_ = nullptr;
++        }
++    }
++    player->lifecycle_cv_.notify_all();
+     vTaskDelete(NULL);
+ }
+ 
+@@ -345,6 +355,15 @@ void SdMusicPlayer::Play(int index) {
+         stop_after_current_track_ = false;
+     }
+ 
++    // An explicit track selection cancels either kind of pause. Voice resume
++    // uses ResumeFromVoice directly and therefore keeps its ownership rules.
++    voice_pause_requested_.store(false, std::memory_order_release);
++    {
++        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++        voice_pause_acknowledged_ = false;
++    }
++    voice_pause_cv_.notify_all();
++
+     if (is_playing_) {
+         skip_requested_ = true;
+         is_paused_ = false;
+@@ -354,26 +373,99 @@ void SdMusicPlayer::Play(int index) {
+     stop_requested_ = false;
+     skip_requested_ = false;
+     is_paused_ = false;
+-    is_playing_ = true;
+ 
++    std::lock_guard<std::mutex> lifecycle_lock(lifecycle_mutex_);
+     if (task_handle_ == nullptr) {
+-        BaseType_t ret =
+-            xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5, &task_handle_, 1);
++        is_playing_ = true;
++        task_start_pending_.store(true, std::memory_order_release);
++        TaskHandle_t new_task_handle = nullptr;
++        BaseType_t ret = xTaskCreatePinnedToCore(TaskFunction, "SdMusicPlayer", 4096, this, 5,
++                                                 &new_task_handle, 1);
+         if (ret != pdPASS) {
+             ESP_LOGE(TAG, "xTaskCreatePinnedToCore failed with error: %d", (int)ret);
++            task_start_pending_.store(false, std::memory_order_release);
+             is_playing_ = false;
+             task_handle_ = nullptr;
++        } else {
++            task_handle_ = new_task_handle;
++            task_start_pending_.store(false, std::memory_order_release);
++            xTaskNotifyGive(new_task_handle);
+         }
++    } else {
++        ESP_LOGW(TAG, "Playback task is still stopping; new track was not started");
+     }
+ }
+ 
+ void SdMusicPlayer::TogglePlayPause() {
+     if (!is_playing_) {
+         Play(current_index_);
++    } else if (is_paused_) {
++        ResumeFromUser();
+     } else {
+-        is_paused_ = !is_paused_;
+-        ESP_LOGI(TAG, "Playback %s", is_paused_ ? "PAUSED" : "RESUMED");
++        PauseForUser();
++    }
++}
++
++bool SdMusicPlayer::PauseForVoice(std::chrono::milliseconds timeout) {
++    if (!is_playing_.load(std::memory_order_acquire)) {
++        return false;
++    }
++
++    {
++        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++        if (!voice_pause_requested_.load(std::memory_order_acquire)) {
++            voice_pause_acknowledged_ = false;
++            voice_pause_requested_.store(true, std::memory_order_release);
++        } else if (voice_pause_acknowledged_) {
++            return true;
++        }
++    }
++    voice_pause_cv_.notify_all();
++
++    std::unique_lock<std::mutex> lock(voice_pause_mutex_);
++    const bool acknowledged = voice_pause_cv_.wait_for(lock, timeout, [this]() {
++        return voice_pause_acknowledged_ || !is_playing_.load(std::memory_order_acquire);
++    });
++    if (!acknowledged) {
++        // Keep the gate asserted on timeout. The player task will acknowledge
++        // it as soon as its current decode/output call returns, and ResumeFromVoice
++        // will release it after the voice interaction has fully ended.
++        ESP_LOGW(TAG, "VOICE_PAUSE_ACK_TIMEOUT; keeping SD PCM gate closed");
++    } else if (voice_pause_acknowledged_) {
++        ESP_LOGI(TAG, "VOICE_PAUSE_ACK");
+     }
++    return true;
++}
++
++bool SdMusicPlayer::PauseForUser(std::chrono::milliseconds timeout) {
++    if (!PauseForVoice(timeout)) {
++        return false;
++    }
++
++    is_paused_.store(true, std::memory_order_release);
++    // Discard PCM already queued for the media source. The file and decoder
++    // remain open, so the next Play action continues from the saved position.
++    Application::GetInstance().GetAudioService().ResetDecoder();
++    ESP_LOGI(TAG, "Playback PAUSED");
++    return true;
++}
++
++void SdMusicPlayer::ResumeFromVoice() {
++    if (!voice_pause_requested_.exchange(false, std::memory_order_acq_rel)) {
++        return;
++    }
++    {
++        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++        voice_pause_acknowledged_ = false;
++    }
++    voice_pause_cv_.notify_all();
++    ESP_LOGI(TAG, "VOICE_RESUME_GATE_OPEN");
++}
++
++void SdMusicPlayer::ResumeFromUser() {
++    is_paused_.store(false, std::memory_order_release);
++    ResumeFromVoice();
++    ESP_LOGI(TAG, "Playback RESUMED");
+ }
+ 
+ void SdMusicPlayer::Next() {
+@@ -391,6 +483,8 @@ void SdMusicPlayer::Prev() {
+ }
+ 
+ void SdMusicPlayer::Stop() {
++    voice_pause_requested_.store(false, std::memory_order_release);
++    voice_pause_cv_.notify_all();
+     {
+         std::lock_guard<std::mutex> lock(mutex_);
+         active_track_path_.clear();
+@@ -398,23 +492,32 @@ void SdMusicPlayer::Stop() {
+         playback_index_ = 0;
+         stop_after_current_track_ = false;
+     }
+-    if (is_playing_ || task_handle_ != nullptr) {
++    TaskHandle_t task = nullptr;
++    {
++        std::lock_guard<std::mutex> lock(lifecycle_mutex_);
++        task = task_handle_;
++    }
++    if (is_playing_ || task != nullptr) {
+         stop_requested_ = true;
+         is_paused_ = false;
+-        int timeout = 50;  // max 500ms timeout
+-        while (is_playing_ && timeout > 0) {
+-            vTaskDelay(pdMS_TO_TICKS(10));
+-            timeout--;
++        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=sd");
++        Application::GetInstance().GetAudioService().ResetDecoder();
++
++        std::unique_lock<std::mutex> lock(lifecycle_mutex_);
++        const bool stopped = lifecycle_cv_.wait_for(lock, std::chrono::seconds(3), [this]() {
++            return task_handle_ == nullptr && !is_playing_.load();
++        });
++        if (!stopped) {
++            ESP_LOGE(TAG, "Stop timeout: playback task remains active; task was not deleted");
+         }
+-        if (is_playing_) {
+-            ESP_LOGW(TAG, "Stop timeout reached, forcing task cleanup");
+-            if (task_handle_ != nullptr) {
+-                vTaskDelete(task_handle_);
+-                task_handle_ = nullptr;
+-            }
+-            is_playing_ = false;
++
++        lock.unlock();
++        if (!Application::GetInstance().GetAudioService().WaitForPlaybackDrained(
++                std::chrono::seconds(3))) {
++            ESP_LOGE(TAG, "Stop timeout: audio playback task remains in flight");
+         }
+-        AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceMp3Player);
++        ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_COMPLETE source=sd drained=%d",
++                 Application::GetInstance().GetAudioService().IsPlaybackIdle() ? 1 : 0);
+     }
+ }
+ 
+@@ -431,6 +534,19 @@ void SdMusicPlayer::PlayerLoop() {
+         target_rate = 24000;
+ 
+     while (!stop_requested_) {
++        if (voice_pause_requested_.load(std::memory_order_acquire)) {
++            {
++                std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++                voice_pause_acknowledged_ = true;
++            }
++            voice_pause_cv_.notify_all();
++            while (voice_pause_requested_.load(std::memory_order_acquire) &&
++                   !stop_requested_.load(std::memory_order_acquire)) {
++                vTaskDelay(pdMS_TO_TICKS(10));
++            }
++            continue;
++        }
++
+         std::string filepath;
+         {
+             std::lock_guard<std::mutex> lock(mutex_);
+@@ -470,7 +586,17 @@ void SdMusicPlayer::PlayerLoop() {
+         skip_requested_ = false;
+ 
+         if (err == ESP_AUDIO_ERR_OK && dec_handle != nullptr) {
+-            BeginMediaPcmStream();
++            if (stop_requested_ || skip_requested_) {
++                esp_audio_simple_dec_close(dec_handle);
++                fclose(f);
++                break;
++            }
++            uint32_t stream_generation = BeginMediaPcmStream();
++            if (stop_requested_ || skip_requested_) {
++                esp_audio_simple_dec_close(dec_handle);
++                fclose(f);
++                break;
++            }
+             ESP_LOGI(TAG, "esp_audio_simple_dec opened successfully for %s", filepath.c_str());
+             LogMusicRuntime("AFTER_DECODER_OPEN");
+             size_t in_buf_size = 2048;
+@@ -484,9 +610,35 @@ void SdMusicPlayer::PlayerLoop() {
+             if (!out_pcm_buf_ptr)
+                 out_pcm_buf_ptr = (uint8_t*)malloc(out_buf_size);
+ 
++            if (!in_buf_ptr || !out_pcm_buf_ptr) {
++                ESP_LOGE(TAG, "Audio buffer allocation failed: input=%p output=%p",
++                         in_buf_ptr, out_pcm_buf_ptr);
++                if (in_buf_ptr)
++                    free(in_buf_ptr);
++                if (out_pcm_buf_ptr)
++                    free(out_pcm_buf_ptr);
++                esp_audio_simple_dec_close(dec_handle);
++                fclose(f);
++                stop_requested_ = true;
++                break;
++            }
++
+             bool info_logged = false;
+             bool pcm_checkpoint_logged = false;
+             while (!stop_requested_ && !skip_requested_) {
++                if (voice_pause_requested_.load(std::memory_order_acquire)) {
++                    {
++                        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++                        voice_pause_acknowledged_ = true;
++                    }
++                    voice_pause_cv_.notify_all();
++                    while (voice_pause_requested_.load(std::memory_order_acquire) &&
++                           !stop_requested_.load(std::memory_order_acquire)) {
++                        vTaskDelay(pdMS_TO_TICKS(10));
++                    }
++                    continue;
++                }
++
+                 auto state = Application::GetInstance().GetDeviceState();
+                 if (is_paused_ || state == kDeviceStateListening || state == kDeviceStateSpeaking) {
+                     ESP_LOGD(TAG, "Player waiting: is_paused=%d, state=%d", (int)is_paused_,
+@@ -506,7 +658,7 @@ void SdMusicPlayer::PlayerLoop() {
+                 raw.eos = is_eos;
+                 raw.consumed = 0;
+ 
+-                while (raw.len > 0) {
++                while (raw.len > 0 && !stop_requested_ && !skip_requested_) {
+                     esp_audio_simple_dec_out_t out_frame = {};
+                     out_frame.buffer = out_pcm_buf_ptr;
+                     out_frame.len = out_buf_size;
+@@ -523,6 +675,11 @@ void SdMusicPlayer::PlayerLoop() {
+                         if (new_ptr) {
+                             out_pcm_buf_ptr = new_ptr;
+                             out_buf_size = new_size;
++                        } else {
++                            ESP_LOGE(TAG, "Decoder output buffer expansion failed: size=%u",
++                                     static_cast<unsigned>(new_size));
++                            stop_requested_ = true;
++                            break;
+                         }
+                         continue;
+                     }
+@@ -536,9 +693,22 @@ void SdMusicPlayer::PlayerLoop() {
+                     }
+ 
+                     if (out_frame.decoded_size > 0) {
++                        // Voice startup resets the shared playback queues and
++                        // advances their generation. The SD decoder remains
++                        // open across that reset, so bind this live stream to
++                        // the new generation instead of dropping every frame
++                        // after the voice interaction.
++                        auto& audio_service = Application::GetInstance().GetAudioService();
++                        if (audio_service.GetPlaybackGeneration() != stream_generation) {
++                            stream_generation = BeginMediaPcmStream();
++                            if (stop_requested_ || skip_requested_)
++                                break;
++                        }
+                         esp_audio_simple_dec_info_t info = {};
+                         if (esp_audio_simple_dec_get_info(dec_handle, &info) == ESP_AUDIO_ERR_OK &&
+-                            info.sample_rate > 0) {
++                            info.sample_rate > 0 && info.bits_per_sample == 16 &&
++                            (info.channel == 1 || info.channel == 2) &&
++                            out_frame.decoded_size <= out_buf_size) {
+                             if (!info_logged) {
+                                 ESP_LOGI(TAG, "Audio info: sample_rate=%u, channels=%u, bits=%u",
+                                          (unsigned)info.sample_rate, (unsigned)info.channel,
+@@ -553,7 +723,7 @@ void SdMusicPlayer::PlayerLoop() {
+                                 out_frame.decoded_size / (info.bits_per_sample / 8);
+                             PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out_pcm_buf_ptr),
+                                          num_samples, info.channel, info.sample_rate, target_rate,
+-                                         false);
++                                         false, stream_generation);
+                         }
+                     }
+ 
+@@ -631,6 +801,12 @@ void SdMusicPlayer::PlayerLoop() {
+ 
+     is_playing_ = false;
+     is_paused_ = false;
++    voice_pause_requested_.store(false, std::memory_order_release);
++    {
++        std::lock_guard<std::mutex> lock(voice_pause_mutex_);
++        voice_pause_acknowledged_ = false;
++    }
++    voice_pause_cv_.notify_all();
+     AudioManager::GetInstance().ReleaseAudioFocus(kAudioSourceMp3Player);
+     ESP_LOGI(TAG, "Player task stopped.");
+ }

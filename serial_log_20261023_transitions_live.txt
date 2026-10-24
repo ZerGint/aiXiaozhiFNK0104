@@ -1,0 +1,1102 @@
+﻿--- LIVE CAPTURE START 2026-10-23 18:27:04 port=COM13 baud=115200 ---
+2026-10-23 18:27:04 I (704293) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=ESP-ROM:esp32s3-20210327
+2026-10-23 18:27:04 Build:Mar 27 2021
+2026-10-23 18:27:04 rst:0x15 (USB_UART_CHIP_RESET),boot:0xa (SPI_FAST_FLASH_BOOT)
+2026-10-23 18:27:04 Saved PC:0x40384aba
+2026-10-23 18:27:04 SPIWP:0xee
+2026-10-23 18:27:04 mode:DIO, clock div:1
+2026-10-23 18:27:04 load:0x3fce2820,len:0x544
+2026-10-23 18:27:04 load:0x403c8700,len:0xcc8
+2026-10-23 18:27:04 load:0x403cb700,len:0x2dfc
+2026-10-23 18:27:04 entry 0x403c88f4
+2026-10-23 18:27:05 I (603) octal_psram: vendor id    : 0x0d (AP)
+2026-10-23 18:27:05 I (603) octal_psram: dev id       : 0x02 (generation 3)
+2026-10-23 18:27:05 I (604) octal_psram: density      : 0x03 (64 Mbit)
+2026-10-23 18:27:05 I (606) octal_psram: good-die     : 0x01 (Pass)
+2026-10-23 18:27:05 I (610) octal_psram: Latency      : 0x01 (Fixed)
+2026-10-23 18:27:05 I (614) octal_psram: VCC          : 0x01 (3V)
+2026-10-23 18:27:05 I (618) octal_psram: SRF          : 0x01 (Fast Refresh)
+2026-10-23 18:27:05 I (623) octal_psram: BurstType    : 0x01 (Hybrid Wrap)
+2026-10-23 18:27:05 I (628) octal_psram: BurstLen     : 0x01 (32 Byte)
+2026-10-23 18:27:05 I (633) octal_psram: Readlatency  : 0x02 (10 cycles@Fixed)
+2026-10-23 18:27:05 I (638) octal_psram: DriveStrength: 0x00 (1/1)
+2026-10-23 18:27:05 I (642) MSPI Timing: Enter psram timing tuning
+2026-10-23 18:27:05 I (647) esp_psram: Found 8MB PSRAM device
+2026-10-23 18:27:05 I (650) esp_psram: Speed: 80MHz
+2026-10-23 18:27:05 I (653) cpu_start: Multicore app
+2026-10-23 18:27:05 I (667) cpu_start: GPIO 44 and 43 are used as console UART I/O pins
+2026-10-23 18:27:05 I (668) cpu_start: Pro cpu start user code
+2026-10-23 18:27:05 I (668) cpu_start: cpu freq: 240000000 Hz
+2026-10-23 18:27:05 I (669) app_init: Application information:
+2026-10-23 18:27:05 I (673) app_init: Project name:     xiaozhi
+2026-10-23 18:27:05 I (677) app_init: App version:      1.1.17
+2026-10-23 18:27:05 I (681) app_init: Compile time:     Oct 23 2026 17:55:03
+2026-10-23 18:27:05 I (686) app_init: ELF file SHA256:  6563dfee3...
+2026-10-23 18:27:05 I (690) app_init: ESP-IDF:          6.1.0
+2026-10-23 18:27:05 I (694) efuse_init: Min chip rev:     v0.0
+2026-10-23 18:27:05 I (698) efuse_init: Max chip rev:     v0.99 
+2026-10-23 18:27:05 I (702) efuse_init: Chip rev:         v0.2
+2026-10-23 18:27:05 I (706) heap_init: Initializing. RAM available for dynamic allocation:
+2026-10-23 18:27:05 I (712) heap_init: At 3FCAE3E0 len 0003B330 (236 KiB): RAM
+2026-10-23 18:27:05 I (717) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM
+2026-10-23 18:27:05 I (722) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM
+2026-10-23 18:27:05 I (727) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM
+2026-10-23 18:27:05 I (733) esp_psram: Adding pool of 8192K of PSRAM memory to heap allocator
+2026-10-23 18:27:05 I (740) spi_flash: detected chip: generic
+2026-10-23 18:27:05 I (743) spi_flash: flash io: qio
+2026-10-23 18:27:05 I (747) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+2026-10-23 18:27:05 I (752) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+2026-10-23 18:27:05 I (759) main_task: Started on CPU0
+2026-10-23 18:27:05 I (759) esp_psram: Reserving pool of 96K of internal memory for DMA/internal allocations
+2026-10-23 18:27:05 I (769) main_task: Calling app_main()
+2026-10-23 18:27:05 I (789) RAM: [BOOT] internal free=275207 min=177580 largest=114688 | psram free=8384896 min=8384896 largest=8257536
+2026-10-23 18:27:05 I (789) Board: UUID=73ad63b6-fb87-4599-be0a-7f6886e05fe5 SKU=freenove-fnk0104s
+2026-10-23 18:27:05 I (789) button: IoT Button Version: 4.2.0
+2026-10-23 18:27:05 I (799) adc_battery_estimation: Use internal ADC unit
+2026-10-23 18:27:05 I (799) st7796: version: 1.3.5
+2026-10-23 18:27:05 I (799) st7796_general: LCD panel create success, version: 1.3.5
+2026-10-23 18:27:05 I (1029) Display: Power management not supported
+2026-10-23 18:27:05 W (1029) Settings: Namespace display is not open for writing
+2026-10-23 18:27:05 I (1189) LcdDisplay: Turning display on
+2026-10-23 18:27:05 I (1189) LcdDisplay: Initialize LVGL library
+2026-10-23 18:27:05 I (1189) LcdDisplay: Use 2MB of PSRAM for image cache
+2026-10-23 18:27:05 I (1189) LcdDisplay: Initialize LVGL port
+2026-10-23 18:27:05 I (1199) LcdDisplay: Adding LCD display
+2026-10-23 18:27:05 I (1199) LVGL: Starting LVGL task
+2026-10-23 18:27:05 I (1259) FreenoveFnk0104sBoard: Successfully registered FT6336 touch driver with LVGL!
+2026-10-23 18:27:05 I (1259) StorageManager: Initializing SD Card (SDMMC 1-bit mode: CLK=38, CMD=40, D0=39)...
+2026-10-23 18:27:05 I (1269) SD_HOST: src_freq_hz: 160000000
+2026-10-23 18:27:06 W (1669) SD_HOST: input line delay not supported, fallback to 0 delay
+2026-10-23 18:27:06 I (1669) StorageManager: SD Card mounted successfully at /sdcard!
+2026-10-23 18:27:06 I (1679) StorageManager: SD_REQUIRED_DIRECTORIES result=ready count=3
+2026-10-23 18:27:06 I (1679) HomeAssistant: Initializing Home Assistant integration...
+2026-10-23 18:27:06 I (1689) MCP: Add tool: homeassistant.call_service
+2026-10-23 18:27:06 I (1689) MCP: Add tool: homeassistant.get_states
+2026-10-23 18:27:06 I (1689) MCP: Add tool: homeassistant.set_config [user]
+2026-10-23 18:27:06 I (1699) MCP: Add tool: radio.add_favorite
+2026-10-23 18:27:06 I (1699) MCP: Add tool: radio.get_current
+2026-10-23 18:27:06 I (1709) MCP: Add tool: radio.list_favorites
+2026-10-23 18:27:06 I (1709) MCP: Add tool: radio.play_favorite
+2026-10-23 18:27:06 I (1709) MCP: Add tool: radio.remove_favorite
+2026-10-23 18:27:06 I (1719) MCP: Add tool: radio.search_stations
+2026-10-23 18:27:06 I (1719) MCP: Add tool: radio.play_station
+2026-10-23 18:27:06 I (1729) MCP: Add tool: radio.stop
+2026-10-23 18:27:06 I (1729) MCP: Add tool: media.play_sd
+2026-10-23 18:27:06 I (1729) MCP: Add tool: media.list_sd
+2026-10-23 18:27:06 I (1739) MCP: Add tool: media.search_sd
+2026-10-23 18:27:06 I (1739) MCP: Add tool: media.pause
+2026-10-23 18:27:06 I (1739) MCP: Add tool: media.next
+2026-10-23 18:27:06 I (1749) MCP: Add tool: media.previous
+2026-10-23 18:27:06 I (1749) MCP: Add tool: media.stop
+2026-10-23 18:27:06 I (1749) MCP: Add tool: self.weather
+2026-10-23 18:27:06 I (1759) MusicService: MUSIC_DIAG JOBS_BOOT valid=1 status=local job_id=96bf0300a6604ad88ffb634af0b3f38e
+2026-10-23 18:27:06 I (1769) MusicService: MUSIC_DIAG OLD_NVS_JOBS_IGNORED
+2026-10-23 18:27:06 I (1839) MusicService: MUSIC_DIAG GMDB_BOOT valid=1 count=21
+2026-10-23 18:27:06 I (1839) MusicService: MUSIC_INDEX_LOADED format=GMDB tracks=21 valid=1
+2026-10-23 18:27:06 I (1839) MCP: Add tool: music.generate
+2026-10-23 18:27:06 I (1839) MCP: Add tool: music.generation_status
+2026-10-23 18:27:06 I (1849) MCP: Add tool: music.download_ready
+2026-10-23 18:27:06 I (1849) MCP: Add tool: music.search_library
+2026-10-23 18:27:06 I (1859) MCP: Add tool: music.download_library
+2026-10-23 18:27:06 I (1859) MCP: Add tool: music.search_user_library
+2026-10-23 18:27:06 I (1859) MCP: Add tool: music.download_user_library
+2026-10-23 18:27:06 I (1869) MCP: Add tool: music.play_generated
+2026-10-23 18:27:06 I (1869) MCP: Add tool: music.set_bridge_url [user]
+2026-10-23 18:27:06 I (1879) MusicService: MUSIC_MEM stage=after_initialize internal_free=210115 internal_largest=94208 min=111392 psram_free=8376736
+2026-10-23 18:27:06 I (1889) MusicService: MUSIC_DIAG MEM stage=after_reboot_stable internal_free=210115 internal_largest=94208 internal_min=111392 psram_free=8376736
+2026-10-23 18:27:06 I (1899) StateMachine: State: unknown -> starting
+2026-10-23 18:27:06 I (1919) AnimeFace: ANIME_FACE_INIT canvas=240x240 screen=480x320 assets=embedded layers=persistent
+2026-10-23 18:27:06 I (1919) AnimeFace: ANIME_FACE_MEM after_init internal_free=197971 internal_largest=94208 internal_min=100540 dma_free=190183 dma_largest=94208 spiram_free=8376736 spiram_largest=8257536
+2026-10-23 18:27:06 I (1939) Es8311AudioCodec: Duplex channels created
+2026-10-23 18:27:06 I (1939) I2S_IF: Auto get out handle 0 from in handle 0x3c3e2f04 when duplex mode
+2026-10-23 18:27:06 I (1949) Es8311AudioCodec: ES8311 software reset complete
+2026-10-23 18:27:06 I (1959) ES8311: Work in Slave mode
+2026-10-23 18:27:06 I (1959) Es8311AudioCodec: Es8311AudioCodec initialized
+2026-10-23 18:27:06 I (1959) FnkExternalI2s: AUDIO_OUTPUT: EXTERNAL_I2S
+2026-10-23 18:27:06 I (1969) FnkExternalI2s: I2S_PORT: 1
+2026-10-23 18:27:06 I (1969) FnkExternalI2s: BCLK: GPIO2
+2026-10-23 18:27:06 I (1969) FnkExternalI2s: WS: GPIO21
+2026-10-23 18:27:06 I (1979) FnkExternalI2s: DATA: GPIO14
+2026-10-23 18:27:06 I (1979) FnkExternalI2s: RATE: 48000
+2026-10-23 18:27:06 I (1979) FnkExternalI2s: BITS: 16
+2026-10-23 18:27:06 I (1989) FnkExternalI2s: CHANNELS: 2 (mono duplicated)
+2026-10-23 18:27:06 I (1999) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=185579 internal_largest=94208 dma_free=177791 dma_largest=94208 spiram_free=8375576 spiram_largest=8257536
+2026-10-23 18:27:06 I (2009) LcdDisplay: UI_MEM_BEFORE_QUICK_SETTINGS internal_free=185579 internal_largest=94208 dma_free=177791 dma_largest=94208 spiram_free=8375576 spiram_largest=8257536
+2026-10-23 18:27:06 I (2039) esp_image: segment 0: paddr=00020020 vaddr=3c260020 size=1700f0h (1507568) map
+2026-10-23 18:27:06 I (2159) esp_image: segment 1: paddr=00190118 vaddr=3fc9d300 size=08f28h ( 36648) 
+2026-10-23 18:27:06 I (2159) esp_image: segment 2: paddr=00199048 vaddr=40378000 size=06fd0h ( 28624) 
+2026-10-23 18:27:06 I (2159) esp_image: segment 3: paddr=001a0020 vaddr=42000020 size=2537bch (2439100) map
+2026-10-23 18:27:06 I (2349) esp_image: segment 4: paddr=003f37e4 vaddr=4037efd0 size=0e260h ( 57952) 
+2026-10-23 18:27:06 I (2349) esp_image: segment 5: paddr=00401a4c vaddr=50000000 size=00024h (    36) 
+2026-10-23 18:27:06 I (2349) esp_image: segment 0: paddr=004a0020 vaddr=3c250020 size=16dd80h (1498496) map
+2026-10-23 18:27:06 I (2469) esp_image: segment 1: paddr=0060dda8 vaddr=3fc9cf00 size=02270h (  8816) 
+2026-10-23 18:27:06 I (2469) esp_image: segment 2: paddr=00610020 vaddr=42000020 size=24de0ch (2416140) map
+2026-10-23 18:27:07 I (2659) esp_image: segment 3: paddr=0085de34 vaddr=3fc9f170 size=06b94h ( 27540) 
+2026-10-23 18:27:07 I (2659) esp_image: segment 4: paddr=008649d0 vaddr=40378000 size=14each ( 85676) 
+2026-10-23 18:27:07 I (2669) esp_image: segment 5: paddr=00879884 vaddr=50000000 size=00024h (    36) 
+2026-10-23 18:27:07 I (2669) OtaPartition: OTA_PARTITIONS running=ota_0 boot=ota_0 ota0=1.1.17/running ota1=1.1.16/ready rollback=1
+2026-10-23 18:27:07 I (2679) LcdDisplay: UI_MEM_AFTER_QUICK_SETTINGS internal_free=174367 internal_largest=94208 dma_free=166579 dma_largest=94208 spiram_free=8375576 spiram_largest=8257536
+2026-10-23 18:27:07 I (2699) LcdDisplay: UI_MEM_AFTER_COMMON_SHELL internal_free=172547 internal_largest=94208 dma_free=164759 dma_largest=94208 spiram_free=8375576 spiram_largest=8257536
+2026-10-23 18:27:07 I (2759) Weather: WEATHER_CACHE_LOADED timestamp=1792779359 bytes=96
+2026-10-23 18:27:07 I (2759) Weather: WEATHER_WORKER_READY stack_caps=PSRAM stack_bytes=10240
+2026-10-23 18:27:07 I (2759) Weather: WEATHER_INIT lat=52.2298 lon=21.0118 city=?????????????? country=????????????
+2026-10-23 18:27:07 I (2779) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+2026-10-23 18:27:07 I (2779) LcdDisplay: UI_MEM_AFTER_AI_VIEW internal_free=157283 internal_largest=94208 dma_free=149495 dma_largest=94208 spiram_free=8365332 spiram_largest=8257536
+2026-10-23 18:27:07 I (2789) LcdDisplay: UI_MEM_BEFORE_MEDIA_PAGE internal_free=157283 internal_largest=94208 dma_free=149495 dma_largest=94208 spiram_free=8365332 spiram_largest=8257536
+2026-10-23 18:27:07 I (2839) LcdDisplay: UI_MEM_AFTER_MEDIA_PAGE internal_free=148731 internal_largest=94208 dma_free=140943 dma_largest=94208 spiram_free=8365332 spiram_largest=8257536
+2026-10-23 18:27:07 I (2849) LcdDisplay: UI_MEM_BEFORE_SERVICE_TIMER internal_free=148731 internal_largest=94208 dma_free=140943 dma_largest=94208 spiram_free=8365332 spiram_largest=8257536
+2026-10-23 18:27:07 I (2859) LcdDisplay: UI_MEM_AFTER_SERVICE_TIMER internal_free=148691 internal_largest=94208 dma_free=140903 dma_largest=94208 spiram_free=8365332 spiram_largest=8257536
+2026-10-23 18:27:07 I (2879) SdMusicPlayer: Scanning SD music directory /sdcard/music (9 total entries)...
+2026-10-23 18:27:07 I (2879) SdMusicPlayer: Track found: /sdcard/music/001_??????S???? - ?????????????? ???????????? (DJ ???????????? & Hard Rock Sofa).mp3
+2026-10-23 18:27:07 I (2889) SdMusicPlayer: Track found: /sdcard/music/003_???????? ?????????? - ?? ???????????? ?????? ??????????.mp3
+2026-10-23 18:27:07 I (2899) SdMusicPlayer: Track found: /sdcard/music/009_???????? ?????????? - ????????????.mp3
+2026-10-23 18:27:07 I (2909) SdMusicPlayer: Track found: /sdcard/music/028_??????????-?? - ?????? ??????????.mp3
+2026-10-23 18:27:07 I (2919) SdMusicPlayer: Track found: /sdcard/music/030_??????S???? - ???????????? ???????? (GASpromo Electro Mix).mp3
+2026-10-23 18:27:07 I (2929) SdMusicPlayer: Track found: /sdcard/music/067_?????????????? ?????????????? - ?????? ?? ??????.mp3
+2026-10-23 18:27:07 I (2939) SdMusicPlayer: Track found: /sdcard/music/130_??????S???? - ?????????????? ?????????????? (remix).mp3
+2026-10-23 18:27:07 I (2949) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- ????????????.mp3
+2026-10-23 18:27:07 I (2959) SdMusicPlayer: Track found: /sdcard/music/?????????????? ??????????.mp3
+2026-10-23 18:27:07 I (2969) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 9
+2026-10-23 18:27:07 I (2989) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=142739 internal_largest=94208 dma_free=134951 dma_largest=94208 spiram_free=8364892 spiram_largest=8257536
+2026-10-23 18:27:07 I (2999) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=142739 internal_largest=94208 dma_free=134951 dma_largest=94208 spiram_free=8364892 spiram_largest=8257536
+2026-10-23 18:27:07 I (3019) LcdDisplay: BOOT_ANIM_START
+2026-10-23 18:27:07 I (3019) Assets: The storage free size is 20608 KB
+2026-10-23 18:27:07 I (3019) Assets: The partition size is 7040 KB
+2026-10-23 18:27:07 I (3019) AnimeFace: ANIME_FACE_MEM first_update internal_free=141319 internal_largest=94208 internal_min=43852 dma_free=133531 dma_largest=94208 spiram_free=8364892 spiram_largest=8257536
+2026-10-23 18:27:07 I (3129) Assets: The checksum calculation time is 109 ms
+2026-10-23 18:27:07 I (3129) MODEL_LOADER: Successfully load srmodels
+2026-10-23 18:27:07 I (3289) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=270
+2026-10-23 18:27:07 I (3329) Assets: Refreshing display theme...
+2026-10-23 18:27:07 I (3329) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+2026-10-23 18:27:07 I (3359) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=345
+2026-10-23 18:27:08 I (3539) RAM: [AFTER_LVGL_INIT] internal free=138903 min=39828 largest=90112 | psram free=8364892 min=8363596 largest=8257536
+2026-10-23 18:27:08 I (3699) LcdDisplay: BOOT_ANIM_CONTENT_INVALIDATED
+2026-10-23 18:27:08 I (3699) AudioCodec: Audio codec started
+2026-10-23 18:27:08 I (3699) AudioService: AUDIO_JITTER_CONFIG playback_capacity=8 frames prebuffer=3 frames max_wait=120 ms decoded_pcm=PSRAM
+2026-10-23 18:27:08 I (3709) RAM: [AFTER_AUDIO_INIT] internal free=127751 min=39828 largest=81920 | psram free=8297808 min=8297808 largest=8257536
+2026-10-23 18:27:08 I (3859) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=845
+2026-10-23 18:27:08 I (3869) AppManager: Initializing Application Manager...
+2026-10-23 18:27:08 I (3869) MCP: Add tool: self.get_device_status
+2026-10-23 18:27:08 I (3869) MCP: Add tool: self.audio_speaker.set_volume
+2026-10-23 18:27:08 I (3869) MCP: Add tool: self.screen.set_brightness
+2026-10-23 18:27:08 I (3879) MCP: Add tool: self.get_system_info [user]
+2026-10-23 18:27:08 I (3879) MCP: Add tool: self.reboot [user]
+2026-10-23 18:27:08 I (3879) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=870
+2026-10-23 18:27:08 I (3889) MCP: Add tool: self.upgrade_firmware [user]
+2026-10-23 18:27:08 I (3899) MCP: Add tool: self.screen.get_info [user]
+2026-10-23 18:27:08 I (3899) MCP: Add tool: self.screen.snapshot [user]
+2026-10-23 18:27:08 I (3909) MCP: Add tool: self.screen.preview_image [user]
+2026-10-23 18:27:08 I (3909) MCP: Add tool: self.assets.set_download_url [user]
+2026-10-23 18:27:08 I (3919) MCP: MCP_TOOL_SUMMARY total=38 public=29 user_only=9
+2026-10-23 18:27:08 I (3919) WifiManager: Initializing...
+2026-10-23 18:27:08 I (3929) pp: pp rom version: e7ae62f
+2026-10-23 18:27:08 I (3929) net80211: net80211 rom version: e7ae62f
+2026-10-23 18:27:08 I (3939) wifi:wifi driver task: 3fcbd1a8, prio:23, stack:6656, core=0
+2026-10-23 18:27:08 I (3939) wifi:wifi firmware version: e12a754
+2026-10-23 18:27:08 I (3939) wifi:wifi certification version: v7.0
+2026-10-23 18:27:08 I (3949) wifi:config NVS flash: disabled
+2026-10-23 18:27:08 I (3949) wifi:config nano formatting: disabled
+2026-10-23 18:27:08 I (3949) wifi:Init data frame dynamic rx buffer num: 6
+2026-10-23 18:27:08 I (3959) wifi:Init dynamic rx mgmt buffer num: 5
+2026-10-23 18:27:08 I (3959) wifi:Init management short buffer num: 32
+2026-10-23 18:27:08 I (3969) wifi:Init dynamic tx buffer num: 32
+2026-10-23 18:27:08 I (3969) wifi:Init static tx FG buffer num: 2
+2026-10-23 18:27:08 I (3979) wifi:Init static rx buffer size: 1600
+2026-10-23 18:27:08 I (3979) wifi:Init static rx buffer num: 3
+2026-10-23 18:27:08 I (3979) wifi:Init dynamic rx buffer num: 6
+2026-10-23 18:27:08 I (3989) wifi_init: rx ba win: 3
+2026-10-23 18:27:08 I (3989) wifi_init: accept mbox: 6
+2026-10-23 18:27:08 I (3989) wifi_init: tcpip mbox: 16
+2026-10-23 18:27:08 I (3999) wifi_init: udp mbox: 6
+2026-10-23 18:27:08 I (3999) wifi_init: tcp mbox: 6
+2026-10-23 18:27:08 I (3999) wifi_init: tcp tx win: 5760
+2026-10-23 18:27:08 I (4009) wifi_init: tcp rx win: 5760
+2026-10-23 18:27:08 I (4009) wifi_init: tcp mss: 1440
+2026-10-23 18:27:08 I (4009) WifiManager: Initialized
+2026-10-23 18:27:08 I (4019) WifiBoard: Starting WiFi connection attempt
+2026-10-23 18:27:08 I (4019) WifiManager: Starting station
+2026-10-23 18:27:08 I (4019) WifiStation: Station DHCP hostname: KiraAP-6548
+2026-10-23 18:27:08 I (4029) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+2026-10-23 18:27:08 I (4069) wifi:mode : sta (7c:e8:b1:b1:65:48)
+2026-10-23 18:27:08 I (4069) wifi:enable tsf
+2026-10-23 18:27:08 I (4069) WifiBoard: WiFi scanning
+2026-10-23 18:27:08 I (4099) RAM: [AFTER_XIAOZHI_INIT] internal free=92711 min=39828 largest=51200 | psram free=8266960 min=8248136 largest=8126464
+2026-10-23 18:27:08 I (4429) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1415
+2026-10-23 18:27:09 I (4789) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1775
+2026-10-23 18:27:09 I (5139) LcdDisplay: BOOT_ANIM_DESTROYED
+2026-10-23 18:27:10 I (5789) RAM: internal free=91719 min=39828 largest=49152 | psram free=7967464 min=7687516 largest=7471104
+2026-10-23 18:27:10 I (6479) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -48, Channel: 7, Authmode: 3
+2026-10-23 18:27:10 I (6479) WifiBoard: WiFi connecting to ZERG
+2026-10-23 18:27:10 W (6479) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+2026-10-23 18:27:11 I (7069) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+2026-10-23 18:27:11 I (7399) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 18:27:12 I (7709) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+2026-10-23 18:27:13 I (8949) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+2026-10-23 18:27:13 I (8949) wifi:state: init -> auth (0xb0)
+2026-10-23 18:27:13 I (8959) wifi:state: auth -> assoc (0x0)
+2026-10-23 18:27:13 I (8969) wifi:state: assoc -> run (0x10)
+2026-10-23 18:27:13 I (8989) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+2026-10-23 18:27:13 I (8989) wifi:security: WPA2-PSK, phy: bgn, rssi: -48, cipher(pairwise:0x3, group:0x3), pmf:0
+2026-10-23 18:27:13 I (8989) wifi:pm start, type: 1
+2026-10-23 18:27:13 
+2026-10-23 18:27:13 I (8999) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+2026-10-23 18:27:13 I (9009) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+2026-10-23 18:27:13 I (9009) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+2026-10-23 18:27:13 I (9029) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+2026-10-23 18:27:15 I (10549) esp_netif_handlers: sta ip: 192.168.31.105, mask: 255.255.255.0, gw: 192.168.31.1
+2026-10-23 18:27:15 I (10549) WifiStation: Got IP: 192.168.31.105
+2026-10-23 18:27:15 I (10549) WifiBoard: Connected to WiFi: ZERG
+2026-10-23 18:27:15 I (10549) Application: Network connected
+2026-10-23 18:27:15 I (10549) RAM: [AFTER_WIFI] internal free=91387 min=39828 largest=49152 | psram free=7862276 min=7687516 largest=7471104
+2026-10-23 18:27:15 I (10559) StateMachine: State: starting -> activating
+2026-10-23 18:27:15 I (10569) Ota: Current version: 1.1.17
+2026-10-23 18:27:15 I (10579) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 18:27:15 I (10579) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+2026-10-23 18:27:15 I (10789) RAM: internal free=75955 min=39828 largest=34816 | psram free=7859392 min=7687516 largest=7471104
+2026-10-23 18:27:16 W (11659) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:16 I (11759) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=71603 internal_largest=31744 dma_free=63815 dma_largest=31744 spiram_free=7856772 spiram_largest=7471104
+2026-10-23 18:27:16 I (12179) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1600
+2026-10-23 18:27:16 I (12219) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+2026-10-23 18:27:17 I (12799) HttpClient: HTTP connection closed
+2026-10-23 18:27:17 I (12809) Ota: Current is the latest version
+2026-10-23 18:27:17 I (12809) Ota: Running partition: ota_0
+2026-10-23 18:27:17 I (12839) MQTT: Connecting to endpoint api.tenclass.net
+2026-10-23 18:27:17 I (13179) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 18:27:17 I (13479) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5796
+2026-10-23 18:27:18 I (13529) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=106
+2026-10-23 18:27:19 I (14829) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=214
+2026-10-23 18:27:19 I (14949) Application: PROTOCOL_CONNECTED timestamp_ms=14213
+2026-10-23 18:27:19 I (14949) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=14213
+2026-10-23 18:27:19 I (14949) MQTT: Connected to endpoint
+2026-10-23 18:27:19 I (14949) Application: Activation done
+2026-10-23 18:27:19 I (14949) SystemInfo: free sram: 81223 minimal sram: 39828
+2026-10-23 18:27:19 I (14959) StateMachine: State: activating -> idle
+2026-10-23 18:27:19 I (14959) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 18:27:19 I (14969) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:19 I (14969) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:27:19 
+2026-10-23 18:27:19 I (14979) AfeAudioEngine: Model 0: wn9_heykira_tts3
+2026-10-23 18:27:19 I (14979) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+2026-10-23 18:27:19 MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+2026-10-23 18:27:19 I (15029) AFE: AFE Version: (1MIC_V251128)
+2026-10-23 18:27:19 I (15029) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+2026-10-23 18:27:19 I (15039) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,)| -> [output]
+2026-10-23 18:27:19 I (15049) AFE: AFE Version: (1MIC_V251128)
+2026-10-23 18:27:19 I (15049) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+2026-10-23 18:27:19 I (15059) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+2026-10-23 18:27:19 I (15059) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+2026-10-23 18:27:19 I (15079) Application: CONNECTION_SOUND_START timestamp_ms=14342
+2026-10-23 18:27:19 I (15079) AudioCodec: Set output enable to true
+2026-10-23 18:27:19 I (15079) AudioService: Resampling audio from 16000 to 48000
+2026-10-23 18:27:19 I (15079) AudioCodec: Set input enable to true
+2026-10-23 18:27:19 I (15089) I2S_IF: No paired data, current mode: record
+2026-10-23 18:27:19 I (15099) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+2026-10-23 18:27:19 I (15109) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+2026-10-23 18:27:19 I (15129) Adev_Codec: Open codec device OK
+2026-10-23 18:27:19 I (15149) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+2026-10-23 18:27:19 I (15149) Weather: WEATHER_WORKER_START id=1 kind=refresh
+2026-10-23 18:27:19 I (15149) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=40175 internal_largest=25600 internal_min=33484 dma_free=32339 dma_largest=25600 psram_free=7416328 psram_largest=7340032
+2026-10-23 18:27:19 I (15169) Weather: WEATHER_HTTP_START city=?????????????? lat=52.22977 lon=21.01178 days=3
+2026-10-23 18:27:19 I (15169) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+2026-10-23 18:27:19 I (15169) Weather: WEATHER_HTTP_START op=forecast
+2026-10-23 18:27:19 I (15179) Weather: WEATHER_MEM phase=http_before_open internal_free=39751 internal_largest=25600 internal_min=33484 dma_free=31963 dma_largest=25600 psram_free=7416328 psram_largest=7340032
+2026-10-23 18:27:20 I (15789) RAM: internal free=38379 min=32968 largest=25600 | psram free=7425484 min=7408956 largest=7340032
+2026-10-23 18:27:20 I (16089) MCP: MCP_TOOLS_LIST page_tools=10 bytes=5605 user_only=0 next=radio.search_stations
+2026-10-23 18:27:21 W (16789) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:21 I (16959) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:21 I (16959) MediaPlayer: MEDIA_COMMAND_EXECUTE type=radio name=???????????????? ?????????? ?????????? 105.7 FM task=MediaControl
+2026-10-23 18:27:21 I (16969) RAM: [RADIO_START] internal free=32323 min=27584 largest=21504 | psram free=7437256 min=7408956 largest=7340032
+2026-10-23 18:27:21 I (16979) InternetRadio: Radio current:
+2026-10-23 18:27:21 name=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:21 uuid=82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:21 codec=MP3
+2026-10-23 18:27:21 bitrate=128
+2026-10-23 18:27:21 country=Belarus
+2026-10-23 18:27:21 url=https://stream2.datacenter.by/dushevnoe
+2026-10-23 18:27:21 I (16999) InternetRadio: Radio stream startup: connecting
+2026-10-23 18:27:21 I (16999) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=31651 internal_largest=21504 dma_free=24119 dma_largest=21504 psram_free=7431108 psram_largest=7340032
+2026-10-23 18:27:21 I (17019) AudioManager: Audio focus requested by source 3 (current 0)
+2026-10-23 18:27:21 I (17019) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=31907 internal_largest=21504 dma_free=24603 dma_largest=21504 psram_free=7431108 psram_largest=7340032
+2026-10-23 18:27:21 I (17039) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:21 I (17049) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:21 
+2026-10-23 18:27:21 I (17049) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+2026-10-23 18:27:21 I (17059) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:21 I (17289) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=215
+2026-10-23 18:27:21 W (17339) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+2026-10-23 18:27:22 I (17639) MCP: MCP_TOOLS_LIST page_tools=12 bytes=7170 user_only=0 next=music.generation_status
+2026-10-23 18:27:23 I (18789) MCP: MCP_TOOLS_LIST page_tools=7 bytes=3826 user_only=0 next=none
+2026-10-23 18:27:23 I (18879) InternetRadio: Stream connected: status=200 content_type=unknown
+2026-10-23 18:27:23 I (18879) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:23 I (18879) InternetRadio: Radio codec selection:
+2026-10-23 18:27:23 station_codec=MP3
+2026-10-23 18:27:23 content_type=unknown
+2026-10-23 18:27:23 selected_decoder=MP3
+2026-10-23 18:27:23 I (18889) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:27:23 I (18889) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=21187 internal_largest=11264 dma_free=13399 dma_largest=11264 psram_free=7376092 psram_largest=7340032
+2026-10-23 18:27:23 I (18909) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:23 I (18919) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+2026-10-23 18:27:23 I (18929) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=21187 internal_largest=11264 dma_free=13399 dma_largest=11264 psram_free=7377552 psram_largest=7340032
+2026-10-23 18:27:23 I (18939) InternetRadio: Received first stream data: bytes=2048
+2026-10-23 18:27:23 I (18949) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+2026-10-23 18:27:23 I (18959) RAM: [RADIO_PLAYING] internal free=19199 min=17472 largest=9216 | psram free=7351540 min=7351488 largest=7340032
+2026-10-23 18:27:23 I (18969) AudioService: [RADIO_PCM] ptr=0x3c4e0290 size=2508 bytes PSRAM=YES (queue=1)
+2026-10-23 18:27:23 I (18969) AudioService: AUDIO_TASK_ENQUEUE source=radio generation=1 task=0x3fce9558 pcm=0x3c4e0290 samples=1254 queue=1
+2026-10-23 18:27:23 I (18979) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+2026-10-23 18:27:23 W (19129) InternetRadio: [RADIO_DEC_GAP] decode_time=47 ms decoded_bytes=4608
+2026-10-23 18:27:23 I (19239) AudioService: [RADIO_PCM] ptr=0x3c4ef2f0 size=2508 bytes PSRAM=YES (queue=32)
+2026-10-23 18:27:23 I (19279) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+2026-10-23 18:27:24 I (19619) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=radio task=0x3fce9558 pcm=0x3c4e0290 samples=1254
+2026-10-23 18:27:24 I (19619) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:27:24 I (19639) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=654 ms
+2026-10-23 18:27:24 I (19639) AudioService: AUDIO_TASK_DESTROY source=radio task=0x3fce9558 pcm=0x3c4e0290 samples=1254
+2026-10-23 18:27:24 I (19639) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4310
+2026-10-23 18:27:24 I (20019) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=123
+2026-10-23 18:27:24 I (20159) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=966 ms
+2026-10-23 18:27:25 I (20689) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1229 ms
+2026-10-23 18:27:25 I (20789) RAM: internal free=26991 min=12968 largest=8704 | psram free=7204584 min=7185536 largest=7077888
+2026-10-23 18:27:25 I (21209) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1627 ms
+2026-10-23 18:27:25 I (21229) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=6030
+2026-10-23 18:27:25 I (21299) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=6063
+2026-10-23 18:27:25 E (21299) Dynamic Impl: mbedtls_ssl_fetch_input error=76
+2026-10-23 18:27:25 E (21299) esp-tls-mbedtls: read error :-0x004C
+2026-10-23 18:27:25 E (21299) EspSsl: SSL receive failed: -76
+2026-10-23 18:27:25 I (21309) HttpClient: HTTP connection closed
+2026-10-23 18:27:25 I (21309) Weather: WEATHER_MEM phase=http_after_release internal_free=21459 internal_largest=7680 internal_min=10068 dma_free=13671 dma_largest=5376 psram_free=7197292 psram_largest=7077888
+2026-10-23 18:27:25 I (21329) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1062 elapsed_ms=6137
+2026-10-23 18:27:25 I (21339) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1062 elapsed_ms=6137
+2026-10-23 18:27:25 I (21339) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1062
+2026-10-23 18:27:25 I (21349) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=8
+2026-10-23 18:27:25 I (21359) Weather: WEATHER_PARSE_OK provider=open_meteo city=?????????????? temp=11.4 code=1003
+2026-10-23 18:27:25 I (21359) Weather: WEATHER_REFRESH_CANCELLED reason=admission_changed_after_http
+2026-10-23 18:27:25 I (21369) Weather: WEATHER_WORKER_END id=1 kind=refresh elapsed_ms=6221
+2026-10-23 18:27:26 W (21579) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:26 I (21699) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=22491 internal_largest=8704 dma_free=14703 dma_largest=8704 spiram_free=7197292 spiram_largest=7077888
+2026-10-23 18:27:26 I (21729) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1828 ms
+2026-10-23 18:27:26 I (22249) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1820 ms
+2026-10-23 18:27:27 W (22609) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:27 I (22739) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=119
+2026-10-23 18:27:27 I (22739) MediaPlayer: MEDIA_COMMAND_EXECUTE type=sd index=0 task=MediaControl
+2026-10-23 18:27:27 I (22739) RAM: [RADIO_STOP] internal free=32715 min=10068 largest=8704 | psram free=7202420 min=7185536 largest=7077888
+2026-10-23 18:27:27 I (22749) InternetRadio: AUDIO_SOURCE_STOP_REQUEST source=radio generation=1
+2026-10-23 18:27:27 I (22779) AudioService: [RADIO_OUTPUT] queue=0 buffer=0 ms pcm=26 ms write=24 ms wait_in_q=1815 ms
+2026-10-23 18:27:27 I (22909) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=43191 internal_largest=13824 dma_free=35599 dma_largest=13824 psram_free=7461604 psram_largest=7208960
+2026-10-23 18:27:27 I (22919) AudioManager: Releasing audio focus from source 3
+2026-10-23 18:27:27 I (22929) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=43387 internal_largest=13824 dma_free=35599 dma_largest=13824 psram_free=7461604 psram_largest=7208960
+2026-10-23 18:27:27 I (22939) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:27 I (22949) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:27:27 
+2026-10-23 18:27:27 I (22949) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:27 I (22959) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+2026-10-23 18:27:27 I (22969) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+2026-10-23 18:27:27 I (22969) Weather: WEATHER_WORKER_START id=2 kind=refresh
+2026-10-23 18:27:27 I (22979) InternetRadio: AUDIO_SOURCE_STOP_COMPLETE source=radio generation=1 drained=1
+2026-10-23 18:27:27 I (22979) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=43807 internal_largest=13824 internal_min=10068 dma_free=31043 dma_largest=13824 psram_free=7467532 psram_largest=7208960
+2026-10-23 18:27:27 W (22989) SdMusicPlayer: HEAP_CHECK PLAYER_LOOP_ENTER: PASS
+2026-10-23 18:27:27 W (23009) SdMusicPlayer: MUSIC_CHECKPOINT PLAYER_LOOP_ENTER task=SdMusicPlayer internal_free=38831 internal_largest=13824 stack_hwm=2644
+2026-10-23 18:27:27 I (22999) Weather: WEATHER_HTTP_START city=?????????????? lat=52.22977 lon=21.01178 days=3
+2026-10-23 18:27:27 I (23019) AudioManager: Audio focus requested by source 2 (current 0)
+2026-10-23 18:27:27 W (23029) SdMusicPlayer: HEAP_CHECK AFTER_AUDIO_FOCUS: PASS
+2026-10-23 18:27:27 I (23029) Weather: WEATHER_HTTP_START op=forecast
+2026-10-23 18:27:27 W (23039) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_AUDIO_FOCUS task=SdMusicPlayer internal_free=38495 internal_largest=13824 stack_hwm=2644
+2026-10-23 18:27:27 I (23039) Weather: WEATHER_MEM phase=http_before_open internal_free=38495 internal_largest=13824 internal_min=10068 dma_free=30707 dma_largest=13824 psram_free=7467532 psram_largest=7208960
+2026-10-23 18:27:27 W (23049) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_REGISTER: PASS
+2026-10-23 18:27:27 W (23079) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_REGISTER task=SdMusicPlayer internal_free=35299 internal_largest=13824 stack_hwm=2644
+2026-10-23 18:27:27 I (23089) SdMusicPlayer: ??? Playing file: /sdcard/music/001_??????S???? - ?????????????? ???????????? (DJ ???????????? & Hard Rock Sofa).mp3
+2026-10-23 18:27:27 W (23099) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 18:27:27 W (23109) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=35195 internal_largest=13824 stack_hwm=2644
+2026-10-23 18:27:27 W (23119) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 18:27:27 W (23119) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=35103 internal_largest=13824 stack_hwm=2100
+2026-10-23 18:27:27 I (23139) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:27:27 I (23139) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_??????S???? - ?????????????? ???????????? (DJ ???????????? & Hard Rock Sofa).mp3
+2026-10-23 18:27:27 W (23159) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 18:27:27 W (23159) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=33155 internal_largest=13824 stack_hwm=2100
+2026-10-23 18:27:27 I (23179) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 18:27:27 W (23179) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 18:27:27 W (23179) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=30939 internal_largest=13824 stack_hwm=2100
+2026-10-23 18:27:27 I (23199) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=3 task=0x3fcc22bc pcm=0x3fcc8aec samples=52 queue=1
+2026-10-23 18:27:27 I (23209) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcc22bc pcm=0x3fcc8aec samples=52
+2026-10-23 18:27:27 I (23219) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:27:27 I (23219) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcc22bc pcm=0x3fcc8aec samples=52
+2026-10-23 18:27:27 I (22979) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+2026-10-23 18:27:28 I (24009) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 18:27:28 I (24319) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4051
+2026-10-23 18:27:29 I (24599) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=216
+2026-10-23 18:27:29 I (24869) SystemInfo: free sram: 29343 minimal sram: 10068
+2026-10-23 18:27:30 I (25789) RAM: internal free=30231 min=10068 largest=13824 | psram free=7398600 min=7185536 largest=7208960
+2026-10-23 18:27:30 W (25929) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:30 I (26099) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=144
+2026-10-23 18:27:30 I (26099) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=31711 internal_largest=13824 dma_free=23967 dma_largest=13824 spiram_free=7391828 spiram_largest=7208960
+2026-10-23 18:27:31 I (27179) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=4110
+2026-10-23 18:27:31 I (27239) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=4160
+2026-10-23 18:27:31 I (27249) HttpClient: HTTP connection closed
+2026-10-23 18:27:31 I (27249) Weather: WEATHER_MEM phase=http_after_release internal_free=27967 internal_largest=10240 internal_min=10068 dma_free=20179 dma_largest=10240 psram_free=7403336 psram_largest=7208960
+2026-10-23 18:27:31 I (27259) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1063 elapsed_ms=4217
+2026-10-23 18:27:31 I (27269) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1063 elapsed_ms=4217
+2026-10-23 18:27:31 I (27279) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1063
+2026-10-23 18:27:31 I (27279) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=7
+2026-10-23 18:27:31 I (27289) Weather: WEATHER_PARSE_OK provider=open_meteo city=?????????????? temp=11.4 code=1003
+2026-10-23 18:27:31 I (27439) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+2026-10-23 18:27:32 W (27679) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:32 I (27799) RadioBrowser: Playing radio by station UUID: 82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:32 I (27969) Weather: WEATHER_CACHE_SAVED bytes=96
+2026-10-23 18:27:32 I (27969) Weather: WEATHER_UPDATE_OK timestamp=1792780050
+2026-10-23 18:27:32 I (27969) Weather: WEATHER_MEM phase=after_update internal_free=32655 internal_largest=14336 internal_min=10068 dma_free=25403 dma_largest=14336 psram_free=7419228 psram_largest=7208960
+2026-10-23 18:27:32 I (27969) MediaPlayer: MEDIA_COMMAND_EXECUTE type=radio name=???????????????? ?????????? ?????????? 105.7 FM task=MediaControl
+2026-10-23 18:27:32 I (27989) SdMusicPlayer: AUDIO_SOURCE_STOP_REQUEST source=sd
+2026-10-23 18:27:32 I (27989) AudioManager: Releasing audio focus from source 2
+2026-10-23 18:27:32 I (27999) Weather: WEATHER_WORKER_END id=2 kind=refresh elapsed_ms=5024
+2026-10-23 18:27:32 I (27999) SdMusicPlayer: Player task stopped.
+2026-10-23 18:27:32 I (28019) SdMusicPlayer: AUDIO_SOURCE_STOP_COMPLETE source=sd drained=1
+2026-10-23 18:27:32 I (28019) RAM: [RADIO_START] internal free=41487 min=10068 largest=22528 | psram free=7467016 min=7185536 largest=7208960
+2026-10-23 18:27:32 I (28029) InternetRadio: Radio current:
+2026-10-23 18:27:32 name=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:32 uuid=82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:32 codec=MP3
+2026-10-23 18:27:32 bitrate=128
+2026-10-23 18:27:32 country=Belarus
+2026-10-23 18:27:32 url=https://stream2.datacenter.by/dushevnoe
+2026-10-23 18:27:32 I (28049) InternetRadio: Radio stream startup: connecting
+2026-10-23 18:27:32 I (28049) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=42591 internal_largest=22528 dma_free=35059 dma_largest=22528 psram_free=7461384 psram_largest=7208960
+2026-10-23 18:27:32 I (28069) AudioManager: Audio focus requested by source 3 (current 0)
+2026-10-23 18:27:32 I (28079) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=42847 internal_largest=22528 dma_free=35059 dma_largest=22528 psram_free=7461384 psram_largest=7208960
+2026-10-23 18:27:32 I (28089) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:32 I (28099) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:32 
+2026-10-23 18:27:32 I (28099) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+2026-10-23 18:27:32 I (28109) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:32 W (28179) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+2026-10-23 18:27:33 I (28819) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=156
+2026-10-23 18:27:33 I (28819) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+2026-10-23 18:27:33 I (29099) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3428
+2026-10-23 18:27:33 I (29189) InternetRadio: Stream connected: status=200 content_type=unknown
+2026-10-23 18:27:33 I (29189) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:33 I (29189) InternetRadio: Radio codec selection:
+2026-10-23 18:27:33 station_codec=MP3
+2026-10-23 18:27:33 content_type=unknown
+2026-10-23 18:27:33 selected_decoder=MP3
+2026-10-23 18:27:33 I (29199) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:27:33 I (29209) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=38363 internal_largest=16384 dma_free=30575 dma_largest=16384 psram_free=7406620 psram_largest=7208960
+2026-10-23 18:27:33 I (29219) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:33 I (29229) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+2026-10-23 18:27:33 I (29239) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=38363 internal_largest=16384 dma_free=30575 dma_largest=16384 psram_free=7406620 psram_largest=7208960
+2026-10-23 18:27:33 I (29249) InternetRadio: Received first stream data: bytes=2048
+2026-10-23 18:27:33 I (29259) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+2026-10-23 18:27:33 I (29269) RAM: [RADIO_PLAYING] internal free=32835 min=10068 largest=14848 | psram free=7380608 min=7185536 largest=7208960
+2026-10-23 18:27:33 I (29279) AudioService: [RADIO_PCM] ptr=0x3c4d7c18 size=2508 bytes PSRAM=YES (queue=1)
+2026-10-23 18:27:33 I (29289) AudioService: AUDIO_TASK_ENQUEUE source=radio generation=4 task=0x3fcc8ca0 pcm=0x3c4d7c18 samples=1254 queue=1
+2026-10-23 18:27:33 I (29299) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+2026-10-23 18:27:33 I (29469) AudioService: [RADIO_PCM] ptr=0x3c4eb6d8 size=2508 bytes PSRAM=YES (queue=32)
+2026-10-23 18:27:34 I (29869) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=radio task=0x3fcc8ca0 pcm=0x3c4d7c18 samples=1254
+2026-10-23 18:27:34 I (29869) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:27:34 I (29889) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=19 ms wait_in_q=592 ms
+2026-10-23 18:27:34 I (29889) AudioService: AUDIO_TASK_DESTROY source=radio task=0x3fcc8ca0 pcm=0x3c4d7c18 samples=1254
+2026-10-23 18:27:34 I (30409) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=979 ms
+2026-10-23 18:27:35 I (30789) RAM: internal free=24763 min=10068 largest=14848 | psram free=7199652 min=7185536 largest=7077888
+2026-10-23 18:27:35 I (30939) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1197 ms
+2026-10-23 18:27:35 I (31459) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1614 ms
+2026-10-23 18:27:36 I (31569) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=167
+2026-10-23 18:27:36 I (31979) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1812 ms
+2026-10-23 18:27:36 I (32499) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1819 ms
+2026-10-23 18:27:37 I (32559) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 18:27:37 I (32849) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4526
+2026-10-23 18:27:37 I (33029) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=24 ms wait_in_q=1821 ms
+2026-10-23 18:27:37 W (33069) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:37 I (33099) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=31275 internal_largest=14848 dma_free=23487 dma_largest=14848 spiram_free=7212472 spiram_largest=7077888
+2026-10-23 18:27:37 I (33409) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=163
+2026-10-23 18:27:38 I (33549) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1826 ms
+2026-10-23 18:27:38 W (33959) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:38 I (34069) AudioService: [RADIO_OUTPUT] queue=68 buffer=1768 ms pcm=26 ms write=24 ms wait_in_q=1830 ms
+2026-10-23 18:27:38 I (34079) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=2
+2026-10-23 18:27:38 I (34079) LcdDisplay: ANIME_FACE_TAP target=0x3fce29f0
+2026-10-23 18:27:38 I (34079) Application: TOUCH_WAKE_POPUP_QUEUED
+2026-10-23 18:27:38 I (34079) StateMachine: State: idle -> connecting
+2026-10-23 18:27:38 I (34089) MediaPlayer: [RADIO_VOICE_PAUSE] station=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:38 I (34089) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:38 I (34099) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:38 
+2026-10-23 18:27:38 I (34109) RAM: [RADIO_STOP] internal free=28787 min=10068 largest=14848 | psram free=7212472 min=7185536 largest=7077888
+2026-10-23 18:27:38 I (34119) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 18:27:38 I (34119) InternetRadio: AUDIO_SOURCE_STOP_REQUEST source=radio generation=3
+2026-10-23 18:27:38 I (34199) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=39403 internal_largest=17408 dma_free=31615 dma_largest=17408 psram_free=7461384 psram_largest=7208960
+2026-10-23 18:27:38 I (34209) AudioManager: Releasing audio focus from source 3
+2026-10-23 18:27:38 I (34209) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=39599 internal_largest=17408 dma_free=31811 dma_largest=17408 psram_free=7461384 psram_largest=7208960
+2026-10-23 18:27:38 I (34239) InternetRadio: AUDIO_SOURCE_STOP_COMPLETE source=radio generation=3 drained=1
+2026-10-23 18:27:38 W (34249) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+2026-10-23 18:27:38 W (34249) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+2026-10-23 18:27:38 I (34259) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 18:27:38 I (34259) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 18:27:38 I (34469) MQTT: Session ID: 0ad94aa0
+2026-10-23 18:27:38 I (34469) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:38 I (34469) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:38 
+2026-10-23 18:27:38 W (34469) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+2026-10-23 18:27:38 I (34479) StateMachine: State: connecting -> listening
+2026-10-23 18:27:39 I (34489) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 18:27:39 I (34829) AnimeFace: ANIME_WAKE END base=LISTENING
+2026-10-23 18:27:40 I (35789) RAM: internal free=39711 min=10068 largest=18432 | psram free=7461680 min=7185536 largest=7208960
+2026-10-23 18:27:40 I (36049) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=192
+2026-10-23 18:27:41 I (37409) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 18:27:42 I (37719) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5753
+2026-10-23 18:27:42 I (37759) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=145
+2026-10-23 18:27:42 I (37759) Application: >> ????????????.
+2026-10-23 18:27:42 I (37799) StateMachine: State: listening -> speaking
+2026-10-23 18:27:42 I (37799) AnimeFace: ANIME_FACE_STATE: SPEAKING
+2026-10-23 18:27:42 I (37799) AnimeFace: SPEAKING_STATE_ENTER t=36600
+2026-10-23 18:27:42 I (37799) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=39139 internal_largest=18432 internal_min=10068 dma_free=31351 dma_largest=18432 psram_free=7461680 psram_largest=7208960
+2026-10-23 18:27:42 I (37879) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=39639 internal_largest=18432 internal_min=10068 dma_free=31851 dma_largest=18432 psram_free=7461680 psram_largest=7208960
+2026-10-23 18:27:42 I (37959) AnimeFace: ANIME_EMOTION HAPPY
+2026-10-23 18:27:42 I (38409) Application: << ????????????! ?????? ?????????
+2026-10-23 18:27:42 I (38409) AudioService: Resampling audio from 24000 to 48000
+2026-10-23 18:27:42 I (38449) FnkExternalI2s: AI_VOLUME user=21 effective=20 gain=1163
+2026-10-23 18:27:43 I (38929) AnimeFace: FIRST_SPEECH_PCM t=37730 level=27
+2026-10-23 18:27:43 I (39009) AnimeFace: MOUTH_FIRST_OPEN t=37805 frame=2 level=42
+2026-10-23 18:27:43 I (39009) AnimeFace: ANIME_FACE_MOUTH: start
+2026-10-23 18:27:43 I (39389) AnimeFace: MOUTH_CLOSED t=38190
+2026-10-23 18:27:43 I (39389) AnimeFace: ANIME_FACE_MOUTH: stop
+2026-10-23 18:27:44 I (39429) AnimeFace: LAST_SPEECH_PCM t=38225 last_update=38190
+2026-10-23 18:27:44 I (39539) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=109
+2026-10-23 18:27:44 I (39869) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=3 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=36855 internal_largest=17408 internal_min=10068 dma_free=29067 dma_largest=17408 psram_free=7404548 psram_largest=7208960
+2026-10-23 18:27:44 I (40489) AnimeFace: MOUTH_CLOSED t=39290
+2026-10-23 18:27:44 I (40489) AnimeFace: ANIME_FACE_MOUTH: stop
+2026-10-23 18:27:45 I (40629) AudioService: AUDIO_DIAG reason=tts_stop dec_q=0 play_q=2 dec_inflight=1 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=36579 internal_largest=17408 internal_min=10068 dma_free=28955 dma_largest=17408 psram_free=7407684 psram_largest=7208960
+2026-10-23 18:27:45 I (40639) StateMachine: State: speaking -> listening
+2026-10-23 18:27:45 I (40649) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 18:27:45 I (40649) AnimeFace: LAST_SPEECH_PCM t=39450 last_update=39145
+2026-10-23 18:27:45 I (40659) AnimeFace: ANIME_EMOTION NEUTRAL
+2026-10-23 18:27:45 I (40789) RAM: internal free=37683 min=10068 largest=17408 | psram free=7422608 min=7185536 largest=7208960
+2026-10-23 18:27:46 W (41689) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:46 I (41829) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+2026-10-23 18:27:46 I (41829) LcdDisplay: ANIME_FACE_TAP target=0x3fce29f0
+2026-10-23 18:27:46 I (41829) MQTT: Closing audio channel, send_goodbye: 1
+2026-10-23 18:27:46 I (41839) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:46 I (41839) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:27:46 
+2026-10-23 18:27:46 I (41849) StateMachine: State: listening -> idle
+2026-10-23 18:27:46 I (41849) MediaPlayer: [RADIO_VOICE_RESUME] station=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:46 I (41859) MediaPlayer: [RADIO_RESUME]
+2026-10-23 18:27:46 name=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:46 uuid=82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:46 codec=MP3
+2026-10-23 18:27:46 url=https://stream2.datacenter.by/dushevnoe
+2026-10-23 18:27:46 I (41869) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 18:27:46 I (41879) MediaPlayer: MEDIA_COMMAND_EXECUTE type=radio name=???????????????? ?????????? ?????????? 105.7 FM task=MediaControl
+2026-10-23 18:27:46 I (41889) RAM: [RADIO_START] internal free=40447 min=10068 largest=17408 | psram free=7428628 min=7185536 largest=7208960
+2026-10-23 18:27:46 I (41899) InternetRadio: Radio current:
+2026-10-23 18:27:46 name=???????????????? ?????????? ?????????? 105.7 FM
+2026-10-23 18:27:46 uuid=82007efb-5709-40b6-86c4-4576ca732799
+2026-10-23 18:27:46 codec=MP3
+2026-10-23 18:27:46 bitrate=128
+2026-10-23 18:27:46 country=Belarus
+2026-10-23 18:27:46 url=https://stream2.datacenter.by/dushevnoe
+2026-10-23 18:27:46 I (41919) InternetRadio: Radio stream startup: connecting
+2026-10-23 18:27:46 I (41929) InternetRadio: [MEM] point=RADIO_TASK_START internal_free=40315 internal_largest=17408 dma_free=33127 dma_largest=17408 psram_free=7422480 psram_largest=7208960
+2026-10-23 18:27:46 I (41939) AudioManager: Audio focus requested by source 3 (current 0)
+2026-10-23 18:27:46 I (41949) InternetRadio: [MEM] point=RADIO_BEFORE_BUFFERS internal_free=40915 internal_largest=17408 dma_free=33127 dma_largest=17408 psram_free=7422480 psram_largest=7208960
+2026-10-23 18:27:46 I (41959) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:46 I (41969) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:46 
+2026-10-23 18:27:46 I (41969) InternetRadio: [WIFI_PS_RADIO] switched to PERFORMANCE (NONE)
+2026-10-23 18:27:46 I (41979) InternetRadio: [WIFI_PS_DIAG] stage=before_connect mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:46 I (41989) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 18:27:46 I (41989) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 18:27:46 I (42109) MQTT: Received goodbye message, session_id: 0ad94aa0
+2026-10-23 18:27:46 I (42109) MQTT: Closing audio channel, send_goodbye: 0
+2026-10-23 18:27:46 W (42159) esp-tls-mbedtls: skip_common_name=true: hostname matching and SNI disabled. This disables ALL server-name authentication (CN/SAN/SNI), not just CN. Only intended for loopback / debug clients.
+2026-10-23 18:27:47 I (42599) AnimeFace: ANIME_WAKE END base=IDLE
+2026-10-23 18:27:48 I (44049) InternetRadio: Stream connected: status=200 content_type=unknown
+2026-10-23 18:27:48 I (44049) InternetRadio: [WIFI_PS_DIAG] stage=connected mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:48 I (44049) InternetRadio: Radio codec selection:
+2026-10-23 18:27:48 station_codec=MP3
+2026-10-23 18:27:48 content_type=unknown
+2026-10-23 18:27:48 selected_decoder=MP3
+2026-10-23 18:27:48 I (44059) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:27:48 I (44069) InternetRadio: [MEM] point=RADIO_AFTER_BUFFERS internal_free=35319 internal_largest=17408 dma_free=27531 dma_largest=17408 psram_free=7367716 psram_largest=7208960
+2026-10-23 18:27:48 I (44079) InternetRadio: [WIFI_PS_DIAG] stage=playing_periodic mode=0 (NONE (PERFORMANCE))
+2026-10-23 18:27:48 I (44089) InternetRadio: [RADIO] buffer=0 ms queue=0 underruns=0 reconnects=0 dec_err=0 status=PLAYING
+2026-10-23 18:27:48 I (44099) InternetRadio: [MEM] point=RADIO_INITIAL_READY internal_free=35319 internal_largest=17408 dma_free=27531 dma_largest=17408 psram_free=7367716 psram_largest=7208960
+2026-10-23 18:27:48 I (44119) InternetRadio: Received first stream data: bytes=2048
+2026-10-23 18:27:48 I (44129) InternetRadio: First MP3 frame decoded: rate=44100 channels=2 bits=16 bytes=4608
+2026-10-23 18:27:48 I (44139) RAM: [RADIO_PLAYING] internal free=33331 min=10068 largest=17408 | psram free=7341704 min=7185536 largest=7208960
+2026-10-23 18:27:48 I (44139) AudioService: [RADIO_PCM] ptr=0x3c4e2d98 size=2508 bytes PSRAM=YES (queue=1)
+2026-10-23 18:27:48 I (44149) AudioService: AUDIO_TASK_ENQUEUE source=radio generation=9 task=0x3fcdbf1c pcm=0x3c4e2d98 samples=1254 queue=1
+2026-10-23 18:27:48 I (44159) AudioService: [RADIO_PREBUFFER] buffering... current=26 ms target=1800 ms (queue=1)
+2026-10-23 18:27:48 I (44329) AudioService: [RADIO_PCM] ptr=0x3c4f5a10 size=2508 bytes PSRAM=YES (queue=32)
+2026-10-23 18:27:49 W (44689) InternetRadio: [RADIO_HTTP_GAP] read_time=351 ms bytes=2048
+2026-10-23 18:27:49 I (44899) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=radio task=0x3fcdbf1c pcm=0x3c4e2d98 samples=1254
+2026-10-23 18:27:49 I (44899) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:27:49 I (44919) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=18 ms wait_in_q=763 ms
+2026-10-23 18:27:49 I (44919) AudioService: AUDIO_TASK_DESTROY source=radio task=0x3fcdbf1c pcm=0x3c4e2d98 samples=1254
+2026-10-23 18:27:49 I (45059) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+2026-10-23 18:27:49 I (45429) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 18:27:49 I (45449) AudioService: [RADIO_OUTPUT] queue=52 buffer=1352 ms pcm=26 ms write=24 ms wait_in_q=1145 ms
+2026-10-23 18:27:49 W (45509) InternetRadio: [RADIO_HTTP_GAP] read_time=554 ms bytes=2048
+2026-10-23 18:27:50 I (45729) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5605
+2026-10-23 18:27:50 I (45789) RAM: internal free=24799 min=10068 largest=14336 | psram free=7160748 min=7157964 largest=7077888
+2026-10-23 18:27:50 I (45969) AudioService: [RADIO_OUTPUT] queue=70 buffer=1820 ms pcm=26 ms write=24 ms wait_in_q=1206 ms
+2026-10-23 18:27:50 I (46489) AudioService: [RADIO_OUTPUT] queue=51 buffer=1326 ms pcm=26 ms write=24 ms wait_in_q=1623 ms
+2026-10-23 18:27:50 W (46509) InternetRadio: [RADIO_HTTP_GAP] read_time=542 ms bytes=2048
+2026-10-23 18:27:51 W (46699) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:51 I (46799) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=23267 internal_largest=14336 dma_free=15479 dma_largest=14336 spiram_free=7158184 spiram_largest=7077888
+2026-10-23 18:27:51 I (47009) AudioService: [RADIO_OUTPUT] queue=65 buffer=1690 ms pcm=26 ms write=24 ms wait_in_q=1434 ms
+2026-10-23 18:27:51 W (47449) InternetRadio: [RADIO_HTTP_GAP] read_time=395 ms bytes=2048
+2026-10-23 18:27:52 I (47539) AudioService: [RADIO_OUTPUT] queue=67 buffer=1742 ms pcm=26 ms write=24 ms wait_in_q=1824 ms
+2026-10-23 18:27:52 I (48029) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=102
+2026-10-23 18:27:52 I (48059) AudioService: [RADIO_OUTPUT] queue=69 buffer=1794 ms pcm=26 ms write=24 ms wait_in_q=1467 ms
+2026-10-23 18:27:53 W (48549) InternetRadio: [RADIO_HTTP_GAP] read_time=538 ms bytes=2048
+2026-10-23 18:27:53 I (48579) AudioService: [RADIO_OUTPUT] queue=55 buffer=1430 ms pcm=26 ms write=24 ms wait_in_q=1829 ms
+2026-10-23 18:27:53 I (49099) AudioService: [RADIO_OUTPUT] queue=68 buffer=1768 ms pcm=26 ms write=24 ms wait_in_q=1579 ms
+2026-10-23 18:27:53 W (49469) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:54 I (49529) MediaPlayer: MEDIA_COMMAND_EXECUTE type=sd index=3 task=MediaControl
+2026-10-23 18:27:54 I (49529) RAM: [RADIO_STOP] internal free=33019 min=10068 largest=17408 | psram free=7212028 min=7157964 largest=7077888
+2026-10-23 18:27:54 I (49539) InternetRadio: AUDIO_SOURCE_STOP_REQUEST source=radio generation=5
+2026-10-23 18:27:54 W (49549) InternetRadio: [RADIO_HTTP_GAP] read_time=511 ms bytes=2048
+2026-10-23 18:27:54 I (49559) InternetRadio: [MEM] point=RADIO_STREAMLOOP_EXIT internal_free=42251 internal_largest=17408 dma_free=34463 dma_largest=17408 psram_free=7422480 psram_largest=7208960
+2026-10-23 18:27:54 I (49559) AudioManager: Releasing audio focus from source 3
+2026-10-23 18:27:54 I (49569) InternetRadio: [MEM] point=RADIO_TASK_AFTER_FOCUS_RELEASE internal_free=41859 internal_largest=17408 dma_free=34071 dma_largest=17408 psram_free=7422480 psram_largest=7208960
+2026-10-23 18:27:54 I (49589) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:54 I (49589) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:27:54 
+2026-10-23 18:27:54 I (49599) InternetRadio: [WIFI_PS_RADIO] restored to LOW_POWER (MAX_MODEM)
+2026-10-23 18:27:54 I (49599) InternetRadio: [WIFI_PS_DIAG] stage=stopped mode=2 (MAX_MODEM (LOW_POWER))
+2026-10-23 18:27:54 I (49619) InternetRadio: AUDIO_SOURCE_STOP_COMPLETE source=radio generation=5 drained=1
+2026-10-23 18:27:54 W (49619) SdMusicPlayer: HEAP_CHECK PLAYER_LOOP_ENTER: PASS
+2026-10-23 18:27:54 W (49619) SdMusicPlayer: MUSIC_CHECKPOINT PLAYER_LOOP_ENTER task=SdMusicPlayer internal_free=38767 internal_largest=17408 stack_hwm=2668
+2026-10-23 18:27:54 I (49639) AudioManager: Audio focus requested by source 2 (current 0)
+2026-10-23 18:27:54 W (49639) SdMusicPlayer: HEAP_CHECK AFTER_AUDIO_FOCUS: PASS
+2026-10-23 18:27:54 W (49649) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_AUDIO_FOCUS task=SdMusicPlayer internal_free=38735 internal_largest=17408 stack_hwm=2668
+2026-10-23 18:27:54 W (49659) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_REGISTER: PASS
+2026-10-23 18:27:54 W (49669) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_REGISTER task=SdMusicPlayer internal_free=38899 internal_largest=17408 stack_hwm=2668
+2026-10-23 18:27:54 I (49679) SdMusicPlayer: ??? Playing file: /sdcard/music/028_??????????-?? - ?????? ??????????.mp3
+2026-10-23 18:27:54 W (49689) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 18:27:54 W (49689) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=38839 internal_largest=17408 stack_hwm=2668
+2026-10-23 18:27:54 W (49709) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 18:27:54 W (49709) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=38759 internal_largest=17408 stack_hwm=2108
+2026-10-23 18:27:54 I (49719) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:27:54 I (49729) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/028_??????????-?? - ?????? ??????????.mp3
+2026-10-23 18:27:54 W (49739) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 18:27:54 W (49739) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=38431 internal_largest=17408 stack_hwm=2108
+2026-10-23 18:27:54 I (49759) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 18:27:54 W (49759) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 18:27:54 W (49769) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=36215 internal_largest=15872 stack_hwm=2108
+2026-10-23 18:27:54 I (49779) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=11 task=0x3fcc97a8 pcm=0x3fcc5b48 samples=52 queue=1
+2026-10-23 18:27:54 I (49789) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcc97a8 pcm=0x3fcc5b48 samples=52
+2026-10-23 18:27:54 I (49799) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:27:54 I (49799) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcc97a8 pcm=0x3fcc5b48 samples=52
+2026-10-23 18:27:55 I (50789) RAM: internal free=35867 min=10068 largest=15872 | psram free=7364432 min=7157964 largest=7208960
+2026-10-23 18:27:55 I (50869) SystemInfo: free sram: 35799 minimal sram: 10068
+2026-10-23 18:27:55 I (51349) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=211
+2026-10-23 18:27:55 I (51349) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+2026-10-23 18:27:56 I (51649) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4757
+2026-10-23 18:27:58 W (53689) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:58 I (53779) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=35031 internal_largest=15872 dma_free=27243 dma_largest=15872 spiram_free=7367252 spiram_largest=7208960
+2026-10-23 18:27:59 W (54649) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:27:59 I (54809) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=175
+2026-10-23 18:27:59 I (54809) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=3
+2026-10-23 18:27:59 I (54809) LcdDisplay: ANIME_FACE_TAP target=0x3fce29f0
+2026-10-23 18:27:59 I (54819) Application: TOUCH_WAKE_POPUP_QUEUED
+2026-10-23 18:27:59 I (54819) StateMachine: State: idle -> connecting
+2026-10-23 18:27:59 I (54829) SdMusicPlayer: Playback PAUSED
+2026-10-23 18:27:59 I (54829) MediaPlayer: [SD_VOICE_PAUSE]
+2026-10-23 18:27:59 I (54839) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:59 I (54839) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:59 
+2026-10-23 18:27:59 I (54849) AnimeFace: ANIME_FACE_STATE: THINKING
+2026-10-23 18:27:59 I (54969) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 18:27:59 I (54969) AnimeFace: ANIME_WAKE MOUTH_SMALL
+2026-10-23 18:27:59 W (55059) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+2026-10-23 18:27:59 W (55059) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+2026-10-23 18:27:59 I (55209) MQTT: Session ID: 550815ae
+2026-10-23 18:27:59 I (55209) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+2026-10-23 18:27:59 I (55219) wifi:Set ps type: 0, coexist: 0
+2026-10-23 18:27:59 
+2026-10-23 18:27:59 W (55219) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+2026-10-23 18:27:59 I (55229) StateMachine: State: connecting -> listening
+2026-10-23 18:27:59 I (55229) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 18:27:59 I (55249) AudioService: Resampling audio from 16000 to 48000
+2026-10-23 18:28:00 I (55569) AnimeFace: ANIME_WAKE END base=LISTENING
+2026-10-23 18:28:00 I (55789) RAM: internal free=29107 min=10068 largest=10752 | psram free=7387388 min=7157964 largest=7208960
+2026-10-23 18:28:00 I (56409) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 18:28:01 I (56719) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6596
+2026-10-23 18:28:01 I (56799) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=215
+2026-10-23 18:28:02 I (57989) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+2026-10-23 18:28:02 I (58039) Application: >> ????????????!
+2026-10-23 18:28:02 I (58059) StateMachine: State: listening -> speaking
+2026-10-23 18:28:02 I (58059) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30471 internal_largest=12800 internal_min=10068 dma_free=22683 dma_largest=12800 psram_free=7384568 psram_largest=7208960
+2026-10-23 18:28:02 I (58069) AnimeFace: ANIME_FACE_STATE: SPEAKING
+2026-10-23 18:28:02 I (58079) AnimeFace: SPEAKING_STATE_ENTER t=56880
+2026-10-23 18:28:03 I (58869) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30983 internal_largest=12800 internal_min=10068 dma_free=23195 dma_largest=12800 psram_free=7384568 psram_largest=7208960
+2026-10-23 18:28:03 I (59089) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+2026-10-23 18:28:04 I (59869) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30983 internal_largest=12800 internal_min=10068 dma_free=23195 dma_largest=12800 psram_free=7384568 psram_largest=7208960
+2026-10-23 18:28:05 I (60569) AnimeFace: ANIME_EMOTION HAPPY
+2026-10-23 18:28:05 I (60789) RAM: internal free=31051 min=10068 largest=12800 | psram free=7384568 min=7157964 largest=7208960
+2026-10-23 18:28:05 I (60909) AudioService: Resampling audio from 24000 to 48000
+2026-10-23 18:28:05 I (60929) FnkExternalI2s: AI_VOLUME user=21 effective=20 gain=1163
+2026-10-23 18:28:05 I (60959) Application: << ????????????! ?????? ????????? ?????? ???????? ?????????????
+2026-10-23 18:28:05 I (61029) AnimeFace: FIRST_SPEECH_PCM t=59830 level=65
+2026-10-23 18:28:05 I (61109) AnimeFace: MOUTH_FIRST_OPEN t=59910 frame=2 level=54
+2026-10-23 18:28:05 I (61109) AnimeFace: ANIME_FACE_MOUTH: start
+2026-10-23 18:28:06 I (61619) AnimeFace: MOUTH_CLOSED t=60420
+2026-10-23 18:28:06 I (61619) AnimeFace: ANIME_FACE_MOUTH: stop
+2026-10-23 18:28:06 I (61659) AnimeFace: LAST_SPEECH_PCM t=60460 last_update=60420
+2026-10-23 18:28:06 I (61869) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=1 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=30515 internal_largest=12800 internal_min=10068 dma_free=22727 dma_largest=12800 psram_free=7359580 psram_largest=7208960
+2026-10-23 18:28:06 I (61949) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=168
+2026-10-23 18:28:07 I (62819) AnimeFace: MOUTH_CLOSED t=61620
+2026-10-23 18:28:07 I (62819) AnimeFace: ANIME_FACE_MOUTH: stop
+2026-10-23 18:28:07 I (62869) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=30063 internal_largest=12800 internal_min=10068 dma_free=22275 dma_largest=12800 psram_free=7365600 psram_largest=7208960
+2026-10-23 18:28:08 I (63539) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+2026-10-23 18:28:08 I (64119) AnimeFace: MOUTH_CLOSED t=62920
+2026-10-23 18:28:08 I (64119) AnimeFace: ANIME_FACE_MOUTH: stop
+2026-10-23 18:28:08 I (64379) AudioService: AUDIO_DIAG reason=tts_stop dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=29903 internal_largest=12800 internal_min=10068 dma_free=22103 dma_largest=12800 psram_free=7362588 psram_largest=7208960
+2026-10-23 18:28:08 I (64389) StateMachine: State: speaking -> listening
+2026-10-23 18:28:08 I (64399) AnimeFace: ANIME_EMOTION NEUTRAL
+2026-10-23 18:28:08 I (64409) AnimeFace: ANIME_FACE_STATE: LISTENING
+2026-10-23 18:28:08 I (64409) AnimeFace: LAST_SPEECH_PCM t=63210 last_update=62875
+2026-10-23 18:28:08 W (64499) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:28:09 I (64589) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+2026-10-23 18:28:09 I (64589) LcdDisplay: ANIME_FACE_TAP target=0x3fce29f0
+2026-10-23 18:28:09 I (64589) MQTT: Closing audio channel, send_goodbye: 1
+2026-10-23 18:28:09 I (64599) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:28:09 I (64599) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:28:09 
+2026-10-23 18:28:09 I (64609) StateMachine: State: listening -> idle
+2026-10-23 18:28:09 I (64609) MediaPlayer: [SD_VOICE_RESUME]
+2026-10-23 18:28:09 I (64609) SdMusicPlayer: Playback RESUMED
+2026-10-23 18:28:09 I (64639) AnimeFace: ANIME_FACE_STATE: IDLE
+2026-10-23 18:28:10 I (65789) RAM: internal free=34407 min=10068 largest=15872 | psram free=7380636 min=7157964 largest=7208960
+2026-10-23 18:28:11 I (66759) MQTT: Received goodbye message, session_id: 550815ae
+2026-10-23 18:28:11 I (66759) MQTT: Closing audio channel, send_goodbye: 0
+2026-10-23 18:28:11 I (66759) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+2026-10-23 18:28:11 I (66769) wifi:Set ps type: 2, coexist: 0
+2026-10-23 18:28:11 
+2026-10-23 18:28:12 W (67749) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (67779) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (67839) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (67939) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (67999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68069) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68129) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68229) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68289) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68359) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68449) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:12 W (68479) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68579) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68639) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68709) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68799) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68869) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68929) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (68999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69059) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69119) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69189) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69249) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69349) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:13 W (69409) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69699) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69729) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69799) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69829) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69859) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69889) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (69959) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70119) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70209) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70239) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70339) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70399) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:14 W (70469) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70559) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70629) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70689) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 I (70789) RAM: internal free=35999 min=10068 largest=15872 | psram free=7380636 min=7157964 largest=7208960
+2026-10-23 18:28:15 W (70819) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70879) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (70949) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71039) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71109) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71169) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71269) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71329) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71359) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:15 W (71459) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71519) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71809) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71839) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71879) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71909) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71939) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71969) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (71999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72099) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72159) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72229) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72319) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72389) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:16 W (72449) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72519) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72579) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72639) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72709) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72799) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72869) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72929) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (72999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73279) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73319) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73349) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73379) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73409) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:17 W (73439) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73509) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73569) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73639) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73729) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73859) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 I (73869) SystemInfo: free sram: 35999 minimal sram: 10068
+2026-10-23 18:28:18 W (73919) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (73989) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74079) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74149) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74209) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74279) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74339) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74439) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:18 W (74469) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (74559) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (74629) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 E (74669) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 18:28:19 E (74669) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 18:28:19 E (74669) task_wdt: Tasks currently running:
+2026-10-23 18:28:19 E (74669) task_wdt: CPU 0: IDLE0
+2026-10-23 18:28:19 E (74669) task_wdt: CPU 1: audio_afe
+2026-10-23 18:28:19 E (74669) task_wdt: Print CPU 1 backtrace
+2026-10-23 18:28:19 
+2026-10-23 18:28:19 
+2026-10-23 18:28:19 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x420A8534:0x3FCCC230 0x420A5E8F:0x3FCCC260 0x4209F925:0x3FCCC2B0 0x4209FC10:0x3FCCC2D0 0x4209FCDF:0x3FCCC2F0 0x4221F995:0x3FCCC310 0x4207DEA8:0x3FCCC340 0x42061051:0x3FCCC360 0x420610CD:0x3FCCC380
+2026-10-23 18:28:19 
+2026-10-23 18:28:19 W (75049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75119) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75179) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75249) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75309) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75369) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75439) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:19 W (75499) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75599) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75659) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 I (75789) RAM: internal free=35999 min=10068 largest=15872 | psram free=7380636 min=7157964 largest=7208960
+2026-10-23 18:28:20 W (75789) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75849) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75949) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (75979) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76139) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76169) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76239) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76329) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76399) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:20 W (76459) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76529) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76809) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76849) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76879) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76909) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76939) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (76969) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77039) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77069) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77129) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77229) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77289) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77389) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77419) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:21 W (77489) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (77579) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (77649) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (77929) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (77969) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (77999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78029) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78059) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78089) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78129) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78219) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78289) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78349) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:22 W (78449) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78509) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78569) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78639) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78699) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78799) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78859) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78929) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (78989) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79149) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79179) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79279) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79339) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79369) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:23 W (79469) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (79529) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (79599) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (79689) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (79759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80079) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80109) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80139) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80169) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80209) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80239) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80299) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80399) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80429) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:24 W (80489) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (80589) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (80649) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (80719) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (80779) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 I (80789) RAM: internal free=35999 min=10068 largest=15872 | psram free=7380636 min=7157964 largest=7208960
+2026-10-23 18:28:25 W (81069) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81099) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81129) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81169) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81199) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81229) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81259) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81329) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81389) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:25 W (81489) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81549) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81869) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81899) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81929) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81969) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (81999) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82029) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82059) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82129) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82189) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82249) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82349) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82379) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:26 W (82449) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82539) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82609) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82669) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82729) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82799) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82889) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (82959) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83089) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83179) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83249) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83309) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83409) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:27 W (83469) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83529) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83599) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83659) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83789) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 I (83869) SystemInfo: free sram: 35999 minimal sram: 10068
+2026-10-23 18:28:28 W (83889) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (83949) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84009) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84079) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84139) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84209) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84299) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:28 W (84369) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84649) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 E (84669) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+2026-10-23 18:28:29 E (84669) task_wdt:  - IDLE1 (CPU 1)
+2026-10-23 18:28:29 E (84669) task_wdt: Tasks currently running:
+2026-10-23 18:28:29 E (84669) task_wdt: CPU 0: IDLE0
+2026-10-23 18:28:29 E (84669) task_wdt: CPU 1: SdMusicPlayer
+2026-10-23 18:28:29 E (84669) task_wdt: Print CPU 1 backtrace
+2026-10-23 18:28:29 
+2026-10-23 18:28:29 
+2026-10-23 18:28:29 Backtrace: 0x4037E266:0x3FCA3830 0x4037D903:0x3FCA3850 0x420C2BC3:0x3FCCC1D0 0x420A75B7:0x3FCCC290 0x4209EAEC:0x3FCCC2B0 0x4209FBE5:0x3FCCC2D0 0x4209FCDF:0x3FCCC2F0 0x4221F995:0x3FCCC310 0x4207DEA8:0x3FCCC340 0x42061051:0x3FCCC360 0x420610CD:0x3FCCC380
+2026-10-23 18:28:29 
+2026-10-23 18:28:29 W (84699) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84729) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84759) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84819) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84919) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (84979) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85049) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85109) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85179) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85269) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85299) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85399) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:29 W (85459) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85529) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 I (85789) RAM: internal free=35999 min=10068 largest=15872 | psram free=7380636 min=7157964 largest=7208960
+2026-10-23 18:28:30 W (85819) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85849) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85879) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85909) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85939) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (85979) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (86009) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (86069) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 W (86169) AFE: Ringbuffer of AFE(FEED) is full, Please use fetch() to read data to avoid data loss or overwriting
+2026-10-23 18:28:30 I (86249) SdMusicPlayer: ??? Playing file: /sdcard/music/030_??????S???? - ???????????? ???????? (GASpromo Electro Mix).mp3
+2026-10-23 18:28:30 W (86249) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+2026-10-23 18:28:30 W (86249) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=39031 internal_largest=17408 stack_hwm=2108
+2026-10-23 18:28:30 W (86269) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+2026-10-23 18:28:30 W (86269) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=38951 internal_largest=17408 stack_hwm=2108
+2026-10-23 18:28:30 I (86279) ESP_ES_PARSER: The version of es_parser is v1.0.1
+2026-10-23 18:28:30 I (86289) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/030_??????S???? - ???????????? ???????? (GASpromo Electro Mix).mp3
+2026-10-23 18:28:30 W (86299) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+2026-10-23 18:28:30 W (86299) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=38575 internal_largest=17408 stack_hwm=2108
+2026-10-23 18:28:30 I (86319) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+2026-10-23 18:28:30 W (86319) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+2026-10-23 18:28:30 W (86329) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=36359 internal_largest=15872 stack_hwm=2108
+2026-10-23 18:28:30 I (86339) AudioService: AUDIO_TASK_ENQUEUE source=sd generation=14 task=0x3fcdbf38 pcm=0x3c4d7f00 samples=1254 queue=1
+2026-10-23 18:28:30 I (86349) AudioService: AUDIO_TASK_OUTPUT_BEGIN source=sd task=0x3fcdbf38 pcm=0x3c4d7f00 samples=1254
+2026-10-23 18:28:30 I (86359) FnkExternalI2s: MEDIA_FADE_START user=21 target_gain=1278 samples=33600
+2026-10-23 18:28:30 I (86389) AudioService: AUDIO_TASK_DESTROY source=sd task=0x3fcdbf38 pcm=0x3c4d7f00 samples=1254
+2026-10-23 18:28:31 I (86569) AnimeFace: ANIME_WAKE CENTERED
+2026-10-23 18:28:31 I (86569) AnimeFace: ANIME_WAKE END base=IDLE
+2026-10-23 18:28:31 I (86649) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 18:28:31 I (86929) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5575
+2026-10-23 18:28:34 I (90399) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=167
+2026-10-23 18:28:35 I (90789) RAM: internal free=35183 min=10068 largest=15872 | psram free=7361408 min=7157964 largest=7208960
+2026-10-23 18:28:37 I (92519) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+2026-10-23 18:28:37 I (92859) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6126
+2026-10-23 18:28:37 I (92909) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=178
+2026-10-23 18:28:38 I (93869) SystemInfo: free sram: 35107 minimal sram: 10068
+2026-10-23 18:28:39 I (94919) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=159
+2026-10-23 18:28:40 W (95649) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+2026-10-23 18:28:40 I (95699) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=34259 internal_largest=15872 dma_free=26471 dma_largest=15872 spiram_free=7361408 spiram_largest=7208960
+2026-10-23 18:28:40 I (95789) RAM: internal free=34011 min=10068 largest=15872 | psram free=7361408 min=7157964 largest=7208960
+2026-10-23 18:28:41 I (96909) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+2026-10-23 18:28:43 I (98989) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+2026-10-23 18:28:43 I (99279) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5206
+2026-10-23 18:28:43 I (99359) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=130
+2026-10-23 18:28:45 I (100789) RAM: internal free=35263 min=10068 largest=15872 | psram free=7364228 min=7157964 largest=7208960
+2026-10-23 18:28:46 I (101699) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=192
+2026-10-23 18:28:48 I (103869) SystemInfo: free sram: 35111 minimal sram: 10068
+2026-10-23 18:28:48 I (104259) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=128
+2026-10-23 18:28:49 I (104519) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+2026-10-23 18:28:49 I (104839) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4661
+2026-10-23 18:28:50 I (105789) RAM: internal free=34895 min=10068 largest=15872 | psram free=7361408 min=7157964 largest=7208960
+2026-10-23 18:28:52 I (107849) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=146
+2026-10-23 18:28:53 I (109509) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+2026-10-23 18:28:54 I (109809) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5175
+2026-10-23 18:28:54 I (110109) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=118
+2026-10-23 18:28:55 I (110789) RAM: internal free=35231 min=10068 largest=15872 | psram free=7366536 min=7157964 largest=7208960
+2026-10-23 18:28:56 I (111589) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=194

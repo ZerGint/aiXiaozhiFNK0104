@@ -1,0 +1,908 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-08 16:56:00 ---
+I (2255) SdMusicPlayer: Track found: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+I (2265) SdMusicPlayer: Track found: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+I (2275) SdMusicPlayer: Track found: /sdcard/music/028_Ангел-А - Мой герой.mp3
+I (2285) SdMusicPlayer: Track found: /sdcard/music/067_Алексей Чумаков - Тут и там.mp3
+I (2295) SdMusicPlayer: Track found: /sdcard/music/Irina_teta ---- Вдыхай.mp3
+I (2305) SdMusicPlayer: Track found: /sdcard/music/красной нитью.mp3
+I (2305) SdMusicPlayer: ScanPlaylist complete. Total tracks found: 6
+I (2335) LcdDisplay: UI_MEM_AFTER_ACTIVE_PAGE internal_free=148759 internal_largest=94208 dma_free=140971 dma_largest=94208 spiram_free=8375380 spiram_largest=8257536
+I (2335) LcdDisplay: UI_MEM_AFTER_SETUP_COMPLETE internal_free=148759 internal_largest=94208 dma_free=140971 dma_largest=94208 spiram_free=8375380 spiram_largest=8257536
+I (2355) LcdDisplay: BOOT_ANIM_START
+I (2365) Assets: The storage free size is 20736 KB
+I (2365) Assets: The partition size is 7040 KB
+I (2355) AnimeFace: ANIME_FACE_MEM first_update internal_free=147239 internal_largest=94208 internal_min=49784 dma_free=139451 dma_largest=94208 spiram_free=8375380 spiram_largest=8257536
+I (2475) Assets: The checksum calculation time is 108 ms
+I (2475) MODEL_LOADER: Successfully load srmodels
+I (2625) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=265
+I (2665) Assets: Refreshing display theme...
+I (2695) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=335
+I (2875) RAM: [AFTER_LVGL_INIT] internal free=144803 min=41940 largest=94208 | psram free=8375380 min=8373840 largest=8257536
+I (3035) LcdDisplay: BOOT_ANIM_CONTENT_INVALIDATED
+I (3035) AudioCodec: Audio codec started
+I (3045) RAM: [AFTER_AUDIO_INIT] internal free=133599 min=41940 largest=90112 | psram free=8308296 min=8308296 largest=8257536
+I (3195) LcdDisplay: BOOT_ANIM_FRAME_RENDERED elapsed_ms=835
+I (3195) AppManager: Initializing Application Manager...
+I (3195) MCP: Add tool: self.get_device_status
+I (3195) MCP: Add tool: self.audio_speaker.set_volume
+I (3205) MCP: Add tool: self.screen.set_brightness
+I (3205) MCP: Add tool: self.screen.set_theme
+I (3215) MCP: Add tool: self.get_system_info [user]
+I (3215) MCP: Add tool: self.reboot [user]
+I (3215) LcdDisplay: BOOT_ANIM_FRAME_FLUSHED elapsed_ms=860
+I (3215) MCP: Add tool: self.upgrade_firmware [user]
+I (3225) MCP: Add tool: self.screen.get_info [user]
+I (3235) MCP: Add tool: self.screen.snapshot [user]
+I (3235) MCP: Add tool: self.screen.preview_image [user]
+I (3245) MCP: Add tool: self.assets.set_download_url [user]
+I (3245) WifiManager: Initializing...
+I (3255) pp: pp rom version: e7ae62f
+I (3255) net80211: net80211 rom version: e7ae62f
+I (3275) wifi:wifi driver task: 3fcbbb84, prio:23, stack:6656, core=0
+I (3275) wifi:wifi firmware version: e12a754
+I (3275) wifi:wifi certification version: v7.0
+I (3275) wifi:config NVS flash: disabled
+I (3275) wifi:config nano formatting: disabled
+I (3285) wifi:Init data frame dynamic rx buffer num: 6
+I (3285) wifi:Init dynamic rx mgmt buffer num: 5
+I (3295) wifi:Init management short buffer num: 32
+I (3295) wifi:Init dynamic tx buffer num: 32
+I (3295) wifi:Init static tx FG buffer num: 2
+I (3305) wifi:Init static rx buffer size: 1600
+I (3305) wifi:Init static rx buffer num: 3
+I (3315) wifi:Init dynamic rx buffer num: 6
+I (3315) wifi_init: rx ba win: 3
+I (3315) wifi_init: accept mbox: 6
+I (3325) wifi_init: tcpip mbox: 16
+I (3325) wifi_init: udp mbox: 6
+I (3325) wifi_init: tcp mbox: 6
+I (3335) wifi_init: tcp tx win: 5760
+I (3335) wifi_init: tcp rx win: 5760
+I (3335) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (3335) wifi_init: tcp mss: 1440
+I (3345) WifiManager: Initialized
+I (3355) WifiBoard: Starting WiFi connection attempt
+I (3355) WifiManager: Starting station
+I (3355) WifiStation: Station DHCP hostname: Xiaozhi-6548
+I (3365) phy_init: phy_version 712,87e8c20e,Apr 13 2026,18:51:10
+I (3405) wifi:mode : sta (7c:e8:b1:b1:65:48)
+I (3405) wifi:enable tsf
+I (3405) WifiBoard: WiFi scanning
+I (3405) RAM: [AFTER_XIAOZHI_INIT] internal free=98523 min=40324 largest=57344 | psram free=8277444 min=8258624 largest=8257536
+I (3785) LcdDisplay: BOOT_ANIM_INTRO_COMPLETE elapsed_ms=1425
+I (4155) LcdDisplay: BOOT_ANIM_EXIT reason=local_frame_ready elapsed_ms=1795
+I (4485) LcdDisplay: BOOT_ANIM_DESTROYED
+I (5815) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -41, Channel: 7, Authmode: 3
+I (5815) WifiBoard: WiFi connecting to ZERG
+W (5815) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (5845) RAM: internal free=98819 min=40132 largest=55296 | psram free=7977948 min=7698000 largest=7471104
+I (6945) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7445) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7755) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (8285) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (8285) wifi:state: init -> auth (0xb0)
+I (8295) wifi:state: auth -> assoc (0x0)
+I (8305) wifi:state: assoc -> run (0x10)
+I (8335) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (8335) wifi:security: WPA2-PSK, phy: bgn, rssi: -41, cipher(pairwise:0x3, group:0x3), pmf:0
+I (8345) wifi:pm start, type: 1
+
+I (8345) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (8355) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (8365) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8385) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (9875) esp_netif_handlers: sta ip: 192.168.31.101, mask: 255.255.255.0, gw: 192.168.31.1
+I (9875) WifiStation: Got IP: 192.168.31.101
+I (9875) WifiBoard: Connected to WiFi: ZERG
+I (9875) Application: Network connected
+I (9875) RAM: [AFTER_WIFI] internal free=96731 min=39828 largest=55296 | psram free=7872760 min=7698000 largest=7471104
+I (9885) StateMachine: State: starting -> activating
+I (9895) Ota: Current version: 1.1.11
+I (9905) AnimeFace: ANIME_FACE_STATE: THINKING
+I (9905) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10845) RAM: internal free=80971 min=39828 largest=38912 | psram free=7861596 min=7698000 largest=7471104
+I (11515) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (11755) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1850
+I (12825) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+I (13225) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (13535) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3518
+I (14225) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=214
+I (15845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+I (15975) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (17075) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (17365) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5346
+I (17545) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=194
+I (19055) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=123
+I (19195) SystemInfo: free sram: 75319 minimal sram: 39828
+I (20105) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=169
+I (20845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+I (21865) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=122
+I (22735) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (23015) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4755
+I (23445) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=216
+I (24655) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+I (25845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+I (26205) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=207
+I (27445) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=156
+I (27795) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (28105) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4578
+I (29195) SystemInfo: free sram: 75319 minimal sram: 39828
+I (29225) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+I (30845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+I (30995) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=157
+I (32685) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (32975) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4209
+I (33015) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=163
+I (34565) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=192
+I (35845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+I (35885) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=176
+I (37225) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (37515) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6889
+I (37695) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=194
+I (39195) SystemInfo: free sram: 75319 minimal sram: 39828
+I (39285) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=195
+I (40505) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=141
+I (40845) RAM: internal free=75383 min=39828 largest=31744 | psram free=7869264 min=7698000 largest=7471104
+E (41755) HttpClient: Wait for HTTP headers receive timeout
+E (41755) Ota: Failed to check version, status code: -1
+E (41755) Dynamic Impl: mbedtls_ssl_fetch_input error=76
+E (41755) esp-tls-mbedtls: read error :-0x004C
+E (41755) EspSsl: SSL receive failed: -76
+I (41765) HttpClient: HTTP connection closed
+W (41765) Application: Alert [cloud_off] Ошибка: Ошибка проверки новой версии, повтор через 10 секунд: code=-1, url=https://api.tenclass.net/xiaozhi/ota/
+I (41785) LcdDisplay: ANIME_EMOTION_EXTERNAL_IGNORED name=cloud_off
+I (41795) AudioCodec: Set output enable to true
+W (41795) Application: Check new version failed, retry in 10 seconds (1/10)
+I (41795) AudioService: Resampling audio from 16000 to 48000
+I (42155) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=101
+I (43495) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=133
+I (44425) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (44715) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3239
+I (44765) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=102
+I (45845) RAM: internal free=82331 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (46185) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=141
+I (47735) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=185
+I (47975) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (48255) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4895
+I (48915) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=175
+I (49195) SystemInfo: free sram: 82267 minimal sram: 39828
+I (50065) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=215
+I (50845) RAM: internal free=82371 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (51615) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=189
+I (51805) Ota: Current version: 1.1.11
+I (53155) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (53455) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5063
+I (53495) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=139
+I (54615) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=168
+I (55845) RAM: internal free=77231 min=39828 largest=31744 | psram free=7867792 min=7698000 largest=7471104
+I (56315) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=212
+I (57735) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=145
+I (57795) AudioCodec: Set output enable to false
+I (58555) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (58845) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6899
+I (59195) SystemInfo: free sram: 75535 minimal sram: 39828
+I (59535) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=207
+I (60845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (61225) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=160
+I (62755) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=143
+I (64015) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=207
+I (65185) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=159
+I (65755) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (65845) RAM: internal free=75459 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (66035) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5534
+I (66575) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=127
+I (68155) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+I (69195) SystemInfo: free sram: 75579 minimal sram: 39828
+I (69915) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=130
+I (70845) RAM: internal free=75443 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (71345) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=129
+I (71585) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (71895) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3096
+I (72945) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=137
+I (74285) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=148
+I (74995) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (75305) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4181
+I (75755) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=146
+I (75845) RAM: internal free=75415 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (76965) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=205
+I (78625) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=118
+I (79205) SystemInfo: free sram: 75579 minimal sram: 39828
+I (79525) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (79815) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3319
+I (80175) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=194
+I (80845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (81535) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=191
+I (82915) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=156
+I (83135) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (83435) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6377
+I (84005) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=128
+I (85535) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=208
+I (85845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (87405) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=202
+I (88695) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=171
+I (89195) SystemInfo: free sram: 75579 minimal sram: 39828
+I (89825) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (90115) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4249
+I (90155) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=207
+I (90845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (91545) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=147
+I (93185) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=100
+I (94375) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (94665) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3852
+I (94705) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=118
+I (95845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (96445) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=182
+I (97975) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=135
+I (98545) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (98835) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4533
+I (99075) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=108
+I (99215) SystemInfo: free sram: 75579 minimal sram: 39828
+I (100415) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=186
+I (100845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (101735) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=173
+I (102865) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=199
+I (103405) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (103715) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=3953
+I (104235) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=128
+I (105425) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=170
+I (105845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (106935) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (107715) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (108025) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5118
+I (108345) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=189
+I (109205) SystemInfo: free sram: 75579 minimal sram: 39828
+I (109975) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=155
+I (110845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (111635) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (113135) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=149
+I (113175) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (113465) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6519
+I (114655) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=186
+I (115845) RAM: internal free=75643 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (116115) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=137
+I (117345) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=166
+E (118555) esp-tls-mbedtls: mbedtls_ssl_handshake returned -0x7280
+E (118555) esp-tls: Failed to open new connection
+E (118555) EspSsl: Failed to connect to api.tenclass.net:443, code=0x801a
+E (118565) HttpClient: TCP connection failed, code=0x801a
+E (118565) Ota: Failed to open HTTP connection, code=0x801a
+W (118575) Application: Alert [cloud_off] Ошибка: Ошибка проверки новой версии, повтор через 20 секунд: code=32794, url=https://api.tenclass.net/xiaozhi/ota/
+I (118605) LcdDisplay: ANIME_EMOTION_EXTERNAL_IGNORED name=cloud_off
+I (118605) AudioCodec: Set output enable to true
+W (118605) Application: Check new version failed, retry in 20 seconds (2/10)
+I (119125) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=176
+I (119195) SystemInfo: free sram: 79723 minimal sram: 39828
+I (120025) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (120335) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5077
+I (120415) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=187
+I (120845) RAM: internal free=79959 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (122035) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=133
+I (123595) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=201
+I (124985) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=196
+I (125445) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (125725) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3653
+I (125845) RAM: internal free=80471 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (126245) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=116
+I (127435) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=201
+I (129205) SystemInfo: free sram: 80391 minimal sram: 39828
+I (129235) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=107
+I (129385) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (129685) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4790
+I (130845) RAM: internal free=80491 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (130935) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=173
+I (132555) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=161
+I (133705) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=153
+I (134485) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (134605) AudioCodec: Set output enable to false
+I (134775) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6379
+I (135105) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=200
+I (135845) RAM: internal free=80491 min=39828 largest=31744 | psram free=7870676 min=7698000 largest=7471104
+I (136665) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=110
+I (137705) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=137
+I (138615) Ota: Current version: 1.1.11
+I (139195) SystemInfo: free sram: 73687 minimal sram: 39828
+I (139465) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=158
+I (140845) RAM: internal free=73599 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (141185) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (141495) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5777
+I (141535) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=142
+I (143315) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=220
+I (144875) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+I (145845) RAM: internal free=73795 min=39828 largest=31744 | psram free=7860472 min=7698000 largest=7471104
+I (146345) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=209
+I (147285) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (147565) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4838
+I (147605) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=104
+I (149195) SystemInfo: free sram: 73507 minimal sram: 39828
+I (149305) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=131
+I (150845) RAM: internal free=75355 min=39828 largest=31744 | psram free=7861444 min=7698000 largest=7471104
+I (150975) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=190
+I (152435) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (152745) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4140
+I (152795) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=207
+I (154815) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=162
+I (155845) RAM: internal free=73795 min=39828 largest=31744 | psram free=7865184 min=7698000 largest=7471104
+I (156545) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (156895) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (157185) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6692
+I (158165) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=138
+I (159195) SystemInfo: free sram: 73731 minimal sram: 39828
+I (159355) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=166
+I (160605) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=196
+I (160845) RAM: internal free=73795 min=39828 largest=31744 | psram free=7865184 min=7698000 largest=7471104
+I (162115) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=112
+I (163825) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=195
+I (163925) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (164025) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=25410
+I (164205) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5363
+I (165225) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=165
+I (165845) RAM: internal free=69307 min=39828 largest=31744 | psram free=7867184 min=7698000 largest=7471104
+I (166685) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=168
+I (168065) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (169195) SystemInfo: free sram: 69475 minimal sram: 39828
+I (169605) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (169895) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6475
+I (169945) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=195
+I (170845) RAM: internal free=69539 min=39828 largest=31744 | psram free=7867184 min=7698000 largest=7471104
+I (171145) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=141
+I (172465) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=220
+I (174205) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=173
+I (175465) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=128
+I (175845) RAM: internal free=69539 min=39828 largest=31744 | psram free=7867184 min=7698000 largest=7471104
+I (176405) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (176695) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4354
+I (176735) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=152
+I (178395) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=118
+I (179195) SystemInfo: free sram: 69475 minimal sram: 39828
+I (179905) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=117
+I (180845) RAM: internal free=69539 min=39828 largest=31744 | psram free=7867184 min=7698000 largest=7471104
+I (181055) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (181335) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6133
+I (181375) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (182525) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=213
+W (182885) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (183045) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=2
+I (183045) LcdDisplay: ANIME_FACE_TAP target=0x3fce1a78
+I (183045) StateMachine: State: activating -> idle
+I (183075) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (183075) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (183085) AnimeFace: ANIME_FACE_STATE: IDLE
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (183125) AFE: AFE Version: (1MIC_V251128)
+I (183125) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (183135) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,)| -> [output]
+I (183145) AFE: AFE Version: (1MIC_V251128)
+I (183145) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (183155) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (183155) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (183165) AudioCodec: Set input enable to true
+I (183175) I2S_IF: No paired data, current mode: record
+I (183175) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (183185) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (183205) AnimeFace: ANIME_WAKE CENTERED
+I (183205) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (183205) Adev_Codec: Open codec device OK
+I (183305) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (183305) Weather: WEATHER_MEM phase=before_task_create internal_free=40919 internal_min=28220 largest_block=25600 psram_free=7480408
+I (183315) Weather: WEATHER_MEM phase=after_task_create internal_free=32607 internal_min=25288 largest_block=17408 psram_free=7480408
+I (183325) Weather: WEATHER_MEM phase=run_start internal_free=32631 internal_min=25288 largest_block=17408 psram_free=7480408
+I (183335) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (183335) Weather: WEATHER_MEM phase=before_http internal_free=32071 internal_min=25288 largest_block=17408 psram_free=7480408
+I (183355) Weather: WEATHER_HTTP_START
+I (183805) AnimeFace: ANIME_WAKE END base=IDLE
+I (185575) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=2220
+I (185645) Weather: WEATHER_MEM phase=after_http_body internal_free=19843 internal_min=16184 largest_block=8192 psram_free=7476712
+I (185645) Weather: WEATHER_HTTP_RESULT status=200 bytes=848 elapsed_ms=2322
+I (185655) Weather: OPEN_METEO_BODY_BYTES=848
+I (185655) Weather: WEATHER_MEM phase=before_json_parse internal_free=27687 internal_min=16184 largest_block=11264 psram_free=7476712
+I (185675) Weather: WEATHER_MEM phase=after_json_parse internal_free=24391 internal_min=16184 largest_block=11264 psram_free=7476712
+I (185685) Weather: WEATHER_MEM phase=after_extract internal_free=24391 internal_min=16184 largest_block=11264 psram_free=7476712
+I (185695) Weather: WEATHER_PARSE_OK provider=open_meteo temp=17.8 code=1009 wind=2.8 tomorrow=9.4..14.4 code=1183 rain=35 day2=10.2..16.6 code=1183 rain=33
+I (185705) Weather: WEATHER_MEM phase=after_body_release internal_free=28555 internal_min=16184 largest_block=12288 psram_free=7476712
+I (185795) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=135
+I (185845) RAM: internal free=27991 min=16184 largest=12288 | psram free=7476196 min=7458672 largest=7471104
+I (185875) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (186165) Weather: WEATHER_CACHE_SAVED bytes=72
+I (186165) Weather: WEATHER_UPDATE_OK timestamp=1791478745
+I (186165) Weather: WEATHER_MEM phase=after_update internal_free=26887 internal_min=16184 largest_block=12288 psram_free=7476712
+I (186175) Weather: WEATHER_STACK configured_bytes=8192 unused_bytes=2060 max_used_bytes=6132
+I (186185) Weather: WEATHER_MEM phase=after_run_before_delete internal_free=32099 internal_min=16184 largest_block=17408 psram_free=7480408
+I (186865) HttpClient: HTTP connection closed
+I (186865) Ota: Current is the latest version
+I (186865) Ota: Running partition: ota_0
+I (186875) MQTT: Connecting to endpoint api.tenclass.net
+I (187925) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (188255) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4169
+I (188805) Application: PROTOCOL_CONNECTED timestamp_ms=188027
+I (188805) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=188028
+I (188805) MQTT: Connected to endpoint
+I (188815) Application: Activation done
+I (188815) SystemInfo: free sram: 51563 minimal sram: 16184
+I (188815) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (188825) wifi:Set ps type: 2, coexist: 0
+
+I (188835) Application: CONNECTION_SOUND_START timestamp_ms=188051
+I (188835) AudioCodec: Set output enable to true
+I (188915) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=196
+W (188915) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (189075) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (189075) LcdDisplay: ANIME_FACE_TAP target=0x3fce1a78
+I (189075) Application: TOUCH_WAKE_POPUP_QUEUED
+I (189075) StateMachine: State: idle -> connecting
+I (189085) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (189095) wifi:Set ps type: 0, coexist: 0
+
+I (189125) AnimeFace: ANIME_FACE_STATE: THINKING
+W (189225) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=67 target=67
+W (189225) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (189265) AnimeFace: ANIME_WAKE CENTERED
+I (189265) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (189465) MQTT: Session ID: bb6aa527
+I (189465) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (189465) wifi:Set ps type: 0, coexist: 0
+
+W (189475) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (189485) StateMachine: State: connecting -> listening
+I (189485) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (189845) AnimeFace: ANIME_WAKE END base=LISTENING
+I (190845) RAM: internal free=42047 min=16184 largest=25600 | psram free=7444528 min=7416864 largest=7340032
+I (191065) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (192325) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=190
+I (192425) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (192715) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4913
+I (194415) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (195845) RAM: internal free=48327 min=16184 largest=25600 | psram free=7477952 min=7416864 largest=7471104
+I (196335) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (197645) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (197925) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6062
+I (198165) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=183
+I (198195) SystemInfo: free sram: 50555 minimal sram: 16184
+I (198415) Application: >> Найди песню Димы Биланова в пользовательской библиотеке.
+I (198445) StateMachine: State: listening -> speaking
+I (198475) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (198475) AnimeFace: SPEAKING_STATE_ENTER t=197220
+I (200365) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=167
+I (200845) RAM: internal free=49863 min=16184 largest=25600 | psram free=7475644 min=7416864 largest=7471104
+I (201535) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=217
+I (201905) Application: << % music.search_user_library...
+I (201905) MusicService: MUSIC_MEM stage=before_mdns internal_free=49843 internal_largest=25600 min=16184 psram_free=7475644
+I (201915) mdns_mem: mDNS task will be created from internal RAM
+I (201915) MusicService: MUSIC_MEM stage=after_mdns internal_free=45191 internal_largest=25600 min=16184 psram_free=7475496
+I (201925) MusicService: MUSIC_MDNS_READY service=_fnk-music proto=_tcp
+I (202895) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=192
+I (204025) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (204325) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3221
+I (204365) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=129
+I (204515) MusicService: MUSIC_MDNS_CANDIDATE endpoint=http://192.168.31.153:8765
+I (205835) AudioCodec: Set output enable to false
+I (205845) RAM: internal free=39659 min=16184 largest=25600 | psram free=7475496 min=7416864 largest=7471104
+I (206105) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=139
+I (207415) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (207585) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (207645) MusicBridge: BRIDGE_REACHABLE OK url=http://192.168.31.153:8765
+I (207645) MusicService: MUSIC_MDNS_DISCOVERED endpoint=http://192.168.31.153:8765
+I (207885) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5908
+I (208935) AnimeFace: ANIME_EMOTION HAPPY
+I (210215) Application: << Нашла 3 песни Димы Билана в пользовательской библиотеке!
+I (210285) AudioService: Resampling audio from 24000 to 48000
+I (210295) AudioCodec: Set output enable to true
+I (210295) FnkExternalI2s: AI_VOLUME user=58 effective=38 gain=3764
+I (210325) AnimeFace: FIRST_SPEECH_PCM t=209075 level=19
+I (210385) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (210385) AnimeFace: MOUTH_FIRST_OPEN t=209130 frame=2 level=40
+I (210385) AnimeFace: ANIME_FACE_MOUTH: start
+I (210845) RAM: internal free=42875 min=16184 largest=25600 | psram free=7424384 min=7416864 largest=7340032
+I (212265) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+I (213205) SystemInfo: free sram: 42883 minimal sram: 16184
+I (213585) Application: << 1. Я умираю без любви
+2.
+I (213675) AnimeFace: LAST_SPEECH_PCM t=212425 last_update=212380
+I (213675) AnimeFace: MOUTH_CLOSED t=212425
+I (213675) AnimeFace: ANIME_FACE_MOUTH: stop
+I (214165) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=203
+I (214545) AnimeFace: MOUTH_CLOSED t=213290
+I (214545) AnimeFace: ANIME_FACE_MOUTH: stop
+I (214765) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (214935) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3120
+I (215555) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=218
+I (215845) RAM: internal free=42507 min=16184 largest=25600 | psram free=7369132 min=7349552 largest=7208960
+I (216365) AnimeFace: MOUTH_CLOSED t=215110
+I (216365) AnimeFace: ANIME_FACE_MOUTH: stop
+I (216915) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (217125) Application: << Облака
+3. Lonely
+I (217225) AnimeFace: MOUTH_CLOSED t=215970
+I (217225) AnimeFace: ANIME_FACE_MOUTH: stop
+I (218075) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (218195) AnimeFace: MOUTH_CLOSED t=216940
+I (218195) AnimeFace: ANIME_FACE_MOUTH: stop
+I (218245) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3071
+I (218505) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (219025) AnimeFace: MOUTH_CLOSED t=217770
+I (219025) AnimeFace: ANIME_FACE_MOUTH: stop
+I (219755) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (220065) Application: << Какую хочешь скачать?
+I (220135) AnimeFace: MOUTH_CLOSED t=218880
+I (220135) AnimeFace: ANIME_FACE_MOUTH: stop
+I (220845) RAM: internal free=42167 min=16184 largest=25600 | psram free=7369132 min=7349552 largest=7208960
+I (220965) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (221345) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (221515) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6814
+I (221805) AnimeFace: MOUTH_CLOSED t=220550
+I (221805) AnimeFace: ANIME_FACE_MOUTH: stop
+I (222205) StateMachine: State: speaking -> listening
+I (222205) AnimeFace: ANIME_EMOTION NEUTRAL
+I (222225) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (222225) AnimeFace: LAST_SPEECH_PCM t=220970 last_update=220460
+I (223485) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=105
+I (224295) Application: >> Облака.
+I (224295) StateMachine: State: listening -> speaking
+I (224335) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (224335) AnimeFace: SPEAKING_STATE_ENTER t=223075
+I (225465) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (225765) Application: << % music.download_user_library...
+I (225845) RAM: internal free=39087 min=16184 largest=25600 | psram free=7389500 min=7349552 largest=7208960
+I (226395) AnimeFace: ANIME_EMOTION CONFUSED
+I (227255) Application: << Сейчас идёт другая загрузка,
+I (227395) AnimeFace: FIRST_SPEECH_PCM t=226140 level=8
+I (227475) AnimeFace: MOUTH_FIRST_OPEN t=226220 frame=2 level=40
+I (227475) AnimeFace: ANIME_FACE_MOUTH: start
+I (227925) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=111
+I (229025) Application: << нужно сначала её завершить. Попробуй позже!
+I (229065) AnimeFace: LAST_SPEECH_PCM t=227810 last_update=227775
+I (229125) AnimeFace: MOUTH_CLOSED t=227870
+I (229125) AnimeFace: ANIME_FACE_MOUTH: stop
+I (229385) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=103
+I (230705) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=107
+I (230845) RAM: internal free=39703 min=16184 largest=25600 | psram free=7368428 min=7349552 largest=7208960
+I (231035) AnimeFace: MOUTH_CLOSED t=229780
+I (231035) AnimeFace: ANIME_FACE_MOUTH: stop
+I (231825) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=184
+I (232015) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (232275) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6485
+I (232405) AnimeFace: MOUTH_CLOSED t=231155
+I (232405) AnimeFace: ANIME_FACE_MOUTH: stop
+I (232505) StateMachine: State: speaking -> listening
+I (232505) AnimeFace: ANIME_EMOTION NEUTRAL
+I (232535) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (232535) AnimeFace: LAST_SPEECH_PCM t=231285 last_update=231155
+I (234175) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (235645) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=202
+I (235845) RAM: internal free=42523 min=16184 largest=25600 | psram free=7384180 min=7349552 largest=7208960
+I (236725) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (237045) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4246
+I (237085) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (238795) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+I (239875) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=119
+I (240845) RAM: internal free=44419 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (241315) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (241615) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4552
+I (241695) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=172
+I (242195) SystemInfo: free sram: 42083 minimal sram: 16184
+I (243105) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (244555) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (245845) RAM: internal free=44059 min=16184 largest=25600 | psram free=7384180 min=7349552 largest=7208960
+I (246145) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=203
+I (246185) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (246475) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5149
+I (247905) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=165
+I (248295) AudioCodec: Set output enable to false
+I (249375) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (250845) RAM: internal free=44059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (250965) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=208
+I (251645) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (251965) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5580
+I (252195) SystemInfo: free sram: 44351 minimal sram: 16184
+I (252785) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (254165) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+W (254505) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=67
+I (254715) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (254715) LcdDisplay: ANIME_FACE_TAP target=0x3fce1a78
+I (254715) MQTT: Closing audio channel, send_goodbye: 1
+I (254725) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (254725) wifi:Set ps type: 2, coexist: 0
+
+I (254735) StateMachine: State: listening -> idle
+I (254765) AnimeFace: ANIME_FACE_STATE: IDLE
+I (254855) AnimeFace: ANIME_WAKE CENTERED
+I (254855) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (255465) AnimeFace: ANIME_WAKE END base=IDLE
+I (255775) MQTT: Received goodbye message, session_id: bb6aa527
+I (255775) MQTT: Closing audio channel, send_goodbye: 0
+I (255775) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (255785) wifi:Set ps type: 2, coexist: 0
+
+I (255845) RAM: internal free=49703 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (257555) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (257855) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5403
+I (257895) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=195
+I (259815) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+I (260845) RAM: internal free=49727 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (262475) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=216
+I (263285) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (263575) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3570
+I (264195) SystemInfo: free sram: 49663 minimal sram: 16184
+I (264845) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=157
+I (265845) RAM: internal free=49727 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (267145) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (267455) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3416
+I (267575) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=212
+I (269795) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=135
+I (270845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (270885) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (271185) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4075
+I (271355) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=159
+I (273765) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=154
+I (274195) SystemInfo: free sram: 52959 minimal sram: 16184
+I (275265) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (275565) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5791
+I (275845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (276115) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+I (278825) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=210
+I (280845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (281395) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (281695) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6552
+I (282435) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=115
+I (284195) SystemInfo: free sram: 52995 minimal sram: 16184
+I (285685) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=113
+I (285845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (288275) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (288575) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5237
+I (288865) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=141
+I (290845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (291305) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=152
+I (293135) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=194
+I (293865) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (294155) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3665
+I (294195) SystemInfo: free sram: 52995 minimal sram: 16184
+I (295615) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=211
+I (295845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (297825) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (298135) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4277
+I (298175) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=218
+I (300845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (301835) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=171
+I (302445) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (302745) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5576
+I (303415) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=124
+I (304195) SystemInfo: free sram: 52995 minimal sram: 16184
+I (305345) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (305845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (308145) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=164
+I (308355) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (308655) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4411
+I (310845) RAM: internal free=53059 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (311065) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=172
+I (312925) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+I (313085) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (313395) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6826
+I (314195) SystemInfo: free sram: 52995 minimal sram: 16184
+I (315845) RAM: internal free=53067 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (316195) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=195
+I (319465) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=151
+I (320235) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (320525) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5150
+I (320845) RAM: internal free=53067 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (323105) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=208
+I (324195) SystemInfo: free sram: 52995 minimal sram: 16184
+I (324965) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=117
+I (325685) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (325845) RAM: internal free=53067 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (325995) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4646
+I (328365) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=132
+I (330655) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (330845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (330955) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5791
+I (331745) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+I (333835) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=163
+I (334195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (335845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (336765) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (337065) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4310
+I (337115) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=197
+I (339445) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+I (340845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (341395) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (341695) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5657
+I (341735) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=120
+I (344195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (345055) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=112
+I (345845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (347355) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (347655) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6104
+I (347695) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=164
+I (350795) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=122
+I (350845) RAM: internal free=53071 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (353795) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (354085) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3130
+I (354135) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+I (354195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (355845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (357225) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (357515) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5322
+I (357815) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (360845) RAM: internal free=53491 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (361155) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=100
+I (362865) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (363175) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4267
+I (364195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (364395) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=175
+I (365845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (367465) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (367785) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4881
+I (368045) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+I (370845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (371575) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=103
+I (372695) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (372985) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5701
+I (374195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (374445) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=141
+I (375845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (375945) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=147
+I (378245) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=214
+I (378725) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (379015) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5393
+I (380845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (381855) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+I (384195) SystemInfo: free sram: 53415 minimal sram: 16184
+I (384435) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (384745) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4105
+I (384835) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (385845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (387365) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+I (388865) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (389175) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6774
+I (390765) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+I (390845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (393835) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=150
+I (394195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (395845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (395985) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (396295) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5754
+I (396545) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=216
+I (398645) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+I (400845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (401865) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=213
+I (402065) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (402365) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=6695
+I (404195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (405705) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+I (405845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (408615) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=124
+I (409065) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (409355) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6163
+I (410595) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=193
+I (410845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (412845) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=167
+I (414195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (415555) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (415845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (415855) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5503
+I (416185) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=199
+I (419775) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=101
+I (420845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (421365) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (421665) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5081
+I (423195) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (424195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (425845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (426725) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=110
+I (426765) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (427065) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5064
+I (428855) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+I (430735) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=179
+I (430845) RAM: internal free=51923 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (432145) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (432445) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6052
+I (433445) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (434195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (434895) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=211
+I (435845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (436415) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=179
+I (438515) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (438815) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6945
+I (439925) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=213
+I (440845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (443385) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+I (444195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (445475) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=183
+I (445765) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (445845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (446075) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4440
+I (448855) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=203
+I (450535) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (450835) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4968
+I (450845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (452595) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=155
+I (454215) SystemInfo: free sram: 53419 minimal sram: 16184
+I (455805) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (455845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (456095) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4683
+I (456235) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=185
+I (458855) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (460735) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=101
+I (460815) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (460845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (461105) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6177
+I (464195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (464425) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=136
+I (465845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (467305) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (467595) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5685
+I (467635) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=141
+I (470115) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=179
+I (470845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (473315) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (473625) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=3275
+I (473665) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=103
+I (474195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (475845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (476495) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=124
+I (476905) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (477195) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4293
+I (478605) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=136
+I (480485) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=208
+I (480845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (481495) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (481785) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3439
+I (482585) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=157
+I (484195) SystemInfo: free sram: 53427 minimal sram: 16184
+I (485235) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (485545) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=3504
+I (485665) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=126
+I (485845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (488035) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=206
+I (489065) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (489375) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4761
+I (489835) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=152
+I (490845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (492755) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=151
+I (494145) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (494225) SystemInfo: free sram: 53419 minimal sram: 16184
+I (494445) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5984
+I (494495) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=203
+I (495845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (497245) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=160
+I (500435) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (500735) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5009
+I (500775) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=176
+I (500845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (503475) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=191
+I (504195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (505775) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (505845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (506075) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3510
+I (506745) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=166
+I (508425) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=182
+I (509605) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (509915) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4008
+I (510845) RAM: internal free=53211 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (510985) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=104
+I (512855) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=155
+I (513945) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (514195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (514245) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6730
+I (514665) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=159
+I (515845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (518105) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=175
+I (520845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (521005) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (521285) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=3562
+I (521335) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=114
+I (523645) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=161
+I (524195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (524855) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (525155) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6194
+I (525845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (526075) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=102
+I (528885) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=138
+I (530435) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=199
+I (530845) RAM: internal free=53483 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (531395) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (531685) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4307
+I (533095) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=107
+I (534195) SystemInfo: free sram: 53419 minimal sram: 16184
+I (535845) RAM: internal free=53479 min=16184 largest=25600 | psram free=7383668 min=7349552 largest=7208960
+I (536005) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (536315) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4369
+I (536685) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=133

@@ -28,6 +28,10 @@ public:
                    std::function<void()> on_startup_ready = {},
                    std::function<void()> on_startup_failed = {},
                    bool emit_failure_bip = true);
+    bool PlayRadioByUuid(const std::string& station_uuid, const std::string& title = {},
+                         std::function<void(const RadioStationInfo&)> on_startup_ready = {},
+                         std::function<void()> on_startup_failed = {},
+                         bool emit_failure_bip = true);
     bool PlayRadio(const RadioStationInfo& station);
     bool PlayRadio(const std::string& url, const std::string& title, std::string& err_msg);
     bool PlayRadio(const std::string& url, const std::string& title = {});
@@ -58,6 +62,7 @@ private:
     enum class ControlCommandType {
         PlaySd,
         PlayRadio,
+        PlayRadioByUuid,
         Stop,
         TogglePlayPause,
         PauseForVoice,
@@ -73,6 +78,7 @@ private:
         uint64_t sequence = 0;
         int sd_index = -1;
         RadioStationInfo station;
+        std::function<void(const RadioStationInfo&)> on_station_resolved;
         std::function<void()> on_startup_ready;
         std::function<void()> on_startup_failed;
         bool emit_failure_bip = true;
@@ -91,6 +97,7 @@ private:
 
     void PlaySdNow(int index, uint64_t sequence);
     void PlayRadioNow(ControlCommand&& command);
+    void PlayRadioByUuidNow(ControlCommand&& command);
     void StopNow();
     void TogglePlayPauseNow();
     void PauseForVoiceNow();

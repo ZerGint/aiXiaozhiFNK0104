@@ -5,6 +5,7 @@
 #include "radio_browser.h"
 #include "sd_music_player.h"
 #include "music/music_service.h"
+#include "assets/lang_config.h"
 
 #include <esp_log.h>
 #include <cJSON.h>
@@ -55,6 +56,7 @@ bool MediaPlayer::EnqueueControlCommand(ControlCommand&& command,
             std::remove_if(control_queue_.begin(), control_queue_.end(), [](const auto& pending) {
                 return pending.type == ControlCommandType::PlaySd ||
                        pending.type == ControlCommandType::PlayRadio ||
+                       pending.type == ControlCommandType::PlayRadioByUuid ||
                        pending.type == ControlCommandType::Stop;
             }),
             control_queue_.end());
@@ -81,6 +83,7 @@ bool MediaPlayer::EnqueueControlCommand(ControlCommand&& command,
                                           [](const auto& pending) {
                                               return pending.type != ControlCommandType::PlaySd &&
                                                      pending.type != ControlCommandType::PlayRadio &&
+                                                     pending.type != ControlCommandType::PlayRadioByUuid &&
                                                      pending.type != ControlCommandType::Stop;
                                           });
         if (discard != control_queue_.end()) {
@@ -130,6 +133,14 @@ void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
                 PlayRadioNow(std::move(command));
             } else {
                 ESP_LOGI(TAG, "MEDIA_COMMAND_STALE type=radio sequence=%llu",
+                         static_cast<unsigned long long>(command.sequence));
+            }
+            break;
+        case ControlCommandType::PlayRadioByUuid:
+            if (IsLatestSourceCommand(command.sequence)) {
+                PlayRadioByUuidNow(std::move(command));
+            } else {
+                ESP_LOGI(TAG, "MEDIA_COMMAND_STALE type=radio_uuid sequence=%llu",
                          static_cast<unsigned long long>(command.sequence));
             }
             break;
@@ -364,6 +375,61 @@ bool MediaPlayer::PlayRadio(const RadioStationInfo& station) {
     return PlayRadio(station, err_msg);
 }
 
+bool MediaPlayer::PlayRadioByUuid(
+    const std::string& station_uuid, const std::string& title,
+    std::function<void(const RadioStationInfo&)> on_startup_ready,
+    std::function<void()> on_startup_failed, bool emit_failure_bip) {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=radio_uuid");
+        return false;
+    }
+    if (station_uuid.empty()) {
+        return false;
+    }
+
+    bool restore_voice_pause = false;
+    bool restore_manual_pause = false;
+    RadioStationInfo voice_station;
+    RadioStationInfo manual_station;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        restore_voice_pause = paused_for_voice_.load();
+        restore_manual_pause = paused_by_user_.load();
+        voice_station = radio_station_for_voice_;
+        manual_station = radio_station_for_manual_pause_;
+        paused_for_voice_ = false;
+        radio_station_for_voice_ = {};
+        sd_paused_for_voice_ = false;
+        paused_by_user_ = false;
+        radio_station_for_manual_pause_ = {};
+    }
+
+    ControlCommand command;
+    command.type = ControlCommandType::PlayRadioByUuid;
+    command.station.stationuuid = station_uuid;
+    command.station.name = title;
+    command.on_station_resolved = std::move(on_startup_ready);
+    command.on_startup_failed = std::move(on_startup_failed);
+    command.emit_failure_bip = emit_failure_bip;
+    command.restore_voice_pause = restore_voice_pause;
+    command.restore_manual_pause = restore_manual_pause;
+    command.voice_station = voice_station;
+    command.manual_station = manual_station;
+    if (!EnqueueControlCommand(std::move(command), true)) {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (restore_voice_pause) {
+            paused_for_voice_ = true;
+            radio_station_for_voice_ = std::move(voice_station);
+        }
+        if (restore_manual_pause) {
+            paused_by_user_ = true;
+            radio_station_for_manual_pause_ = std::move(manual_station);
+        }
+        return false;
+    }
+    return true;
+}
+
 bool MediaPlayer::PlayRadio(const std::string& url, const std::string& title) {
     std::string err_msg;
     return PlayRadio(url, title, err_msg);
@@ -486,6 +552,76 @@ void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
         }
         ESP_LOGW(TAG, "MEDIA_COMMAND_FAILED type=radio error=%s", err_msg.c_str());
     }
+}
+
+void MediaPlayer::PlayRadioByUuidNow(ControlCommand&& command) {
+    ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=radio_uuid uuid=%s task=%s",
+             command.station.stationuuid.c_str(), pcTaskGetName(nullptr));
+    Application::GetInstance().GetAudioService().CheckHeapIntegrity("play_radio_uuid_begin");
+
+    auto restore_pause_state = [&command, this]() {
+        if (command.restore_voice_pause || command.restore_manual_pause) {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            if (command.restore_voice_pause) {
+                paused_for_voice_ = true;
+                radio_station_for_voice_ = std::move(command.voice_station);
+            }
+            if (command.restore_manual_pause) {
+                paused_by_user_ = true;
+                radio_station_for_manual_pause_ = std::move(command.manual_station);
+            }
+        }
+    };
+
+    // Cancel the previous source before doing network resolution. This keeps
+    // a reconnecting station from competing with the selected station while
+    // the UUID lookup is running, without blocking the LVGL task.
+    if (!StopVoiceInteractionForMediaSynchronously()) {
+        restore_pause_state();
+        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=radio_uuid reason=voice_stop_timeout");
+        return;
+    }
+    SdMusicPlayer::GetInstance().Stop();
+    InternetRadioPlayer::GetInstance().Stop();
+    if (!IsLatestSourceCommand(command.sequence)) {
+        ESP_LOGI(TAG, "MEDIA_COMMAND_STALE_AFTER_STOP type=radio_uuid sequence=%llu",
+                 static_cast<unsigned long long>(command.sequence));
+        return;
+    }
+
+    RadioStationInfo station;
+    std::string err_msg;
+    if (!RadioBrowser::GetInstance().GetStationByUuid(command.station.stationuuid, station,
+                                                       err_msg)) {
+        restore_pause_state();
+        if (command.emit_failure_bip) {
+            Application::GetInstance().Schedule([]() {
+                Application::GetInstance().PlaySound(Lang::Sounds::OGG_RADIO_ERROR);
+            });
+        }
+        if (command.on_startup_failed)
+            std::move(command.on_startup_failed)();
+        ESP_LOGW(TAG, "MEDIA_COMMAND_FAILED type=radio_uuid uuid=%s error=%s",
+                 command.station.stationuuid.c_str(), err_msg.c_str());
+        return;
+    }
+
+    if (!IsLatestSourceCommand(command.sequence)) {
+        ESP_LOGI(TAG, "MEDIA_COMMAND_STALE_AFTER_RESOLVE type=radio_uuid sequence=%llu",
+                 static_cast<unsigned long long>(command.sequence));
+        return;
+    }
+
+    auto on_station_resolved = std::move(command.on_station_resolved);
+    if (on_station_resolved) {
+        command.on_startup_ready = [station, callback = std::move(on_station_resolved)]() mutable {
+            callback(station);
+        };
+    }
+    command.on_station_resolved = {};
+    command.type = ControlCommandType::PlayRadio;
+    command.station = std::move(station);
+    PlayRadioNow(std::move(command));
 }
 
 void MediaPlayer::TogglePlayPause() {

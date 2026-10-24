@@ -82,6 +82,9 @@ private:
     EventGroupHandle_t startup_event_group_ = nullptr;
     std::atomic<bool> initial_ready_{false};
     std::atomic<bool> cleanup_complete_{true};
+    // Set when a stream that was already playing exhausts its reconnect budget.
+    // TaskFunction consumes this flag to emit one terminal radio error signal.
+    std::atomic<bool> reconnect_exhausted_{false};
     std::atomic<uint64_t> active_generation_{0};
     std::atomic<uint64_t> completed_generation_{0};
     std::string startup_err_msg_;

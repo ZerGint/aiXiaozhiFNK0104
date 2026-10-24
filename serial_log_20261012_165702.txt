@@ -1,0 +1,1198 @@
+--- CONTINUOUS LOGGING STARTED AT 2026-10-12 16:57:02 ---
+I (5798) RAM: internal free=83939 min=39828 largest=40960 | psram free=7977708 min=7697760 largest=7471104
+I (5838) WifiStation: Found AP: ZERG, BSSID: 44:df:65:e3:c2:db, RSSI: -35, Channel: 7, Authmode: 3
+I (5838) WifiBoard: WiFi connecting to ZERG
+W (5868) wifi:Password length matches WPA2 standards, authmode threshold changes from OPEN to WPA2
+I (6948) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=162
+I (7418) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (7708) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=5443
+I (8318) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (8328) wifi:state: init -> auth (0xb0)
+I (8328) wifi:state: auth -> assoc (0x0)
+I (8338) wifi:state: assoc -> run (0x10)
+I (8368) wifi:connected with ZERG, aid = 2, channel 7, BW20, bssid = 44:df:65:e3:c2:db
+I (8368) wifi:security: WPA2-PSK, phy: bgn, rssi: -40, cipher(pairwise:0x3, group:0x3), pmf:0
+I (8368) wifi:pm start, type: 1
+
+I (8378) wifi:dp: 1, bi: 102400, li: 10, scale listen interval from 1024000 us to 1024000 us
+I (8378) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (8398) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (8408) wifi:<ba-add>idx:0 (ifx:0, 44:df:65:e3:c2:db), tid:6, ssn:2, winSize:64
+I (9928) esp_netif_handlers: sta ip: 192.168.31.101, mask: 255.255.255.0, gw: 192.168.31.1
+I (9928) WifiStation: Got IP: 192.168.31.101
+I (9928) WifiBoard: Connected to WiFi: ZERG
+I (9928) Application: Network connected
+I (9928) RAM: [AFTER_WIFI] internal free=82751 min=39828 largest=40960 | psram free=7898640 min=7697760 largest=7471104
+I (9938) StateMachine: State: starting -> activating
+I (9948) Ota: Current version: 1.1.13
+I (9958) AnimeFace: ANIME_FACE_STATE: THINKING
+I (9968) wifi:<ba-add>idx:1 (ifx:0, 44:df:65:e3:c2:db), tid:0, ssn:0, winSize:64
+I (10798) RAM: internal free=67223 min=39828 largest=31744 | psram free=7887464 min=7697760 largest=7471104
+I (11578) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=130
+I (11778) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=1820
+I (12878) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+I (13178) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (13488) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3518
+I (14218) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=214
+I (15798) RAM: internal free=61143 min=39828 largest=31744 | psram free=7869016 min=7697760 largest=7471104
+I (15948) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=206
+I (17018) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (17308) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5346
+I (17548) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=194
+I (19048) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=123
+I (19218) SystemInfo: free sram: 61079 minimal sram: 39828
+I (20148) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=169
+I (20798) RAM: internal free=60687 min=39828 largest=31744 | psram free=7869016 min=7697760 largest=7471104
+I (21958) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=122
+I (22658) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (22938) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4755
+I (23538) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=216
+I (24668) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=193
+I (25798) RAM: internal free=61107 min=39828 largest=31744 | psram free=7869016 min=7697760 largest=7471104
+I (26258) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=207
+I (27498) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=156
+I (27708) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (28018) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4578
+I (29218) SystemInfo: free sram: 61079 minimal sram: 39828
+I (29258) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+I (30798) RAM: internal free=61107 min=39828 largest=31744 | psram free=7869016 min=7697760 largest=7471104
+I (31068) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=157
+W (32198) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (32338) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=2
+I (32338) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (32338) StateMachine: State: activating -> idle
+I (32348) AfeAudioEngine: Model 0: wn9_heykira_tts3
+I (32348) AFE_CONFIG: Set WakeNet Model: wn9_heykira_tts3
+I (32378) AnimeFace: ANIME_FACE_STATE: IDLE
+MC Quantized wakenet9: wakenet9_tts3h12_Hey Kira_3_0.613_0.624, tigger:v4, mode:0, p:0, (May 25 2026 15:51:00)
+I (32388) AFE: AFE Version: (1MIC_V251128)
+I (32388) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (32398) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> |WakeNet(wn9_heykira_tts3,)| -> [output]
+I (32408) AFE: AFE Version: (1MIC_V251128)
+I (32418) AFE: Input PCM Config: total 1 channels(1 microphone, 0 playback), sample rate:16000
+I (32418) AFE: AFE Pipeline: [input] -> |VAD(WebRTC)| -> [output]
+I (32428) AfeAudioEngine: Initialized FD AFE, detector: WakeNet, NS: off, feed: 512, fetch: 512
+I (32438) AudioCodec: Set input enable to true
+I (32438) I2S_IF: No paired data, current mode: record
+I (32448) I2S_IF: STD: RX, data_bit: 16, slot_bit: 16, ws_width: 16, slot_mode: MONO, slot_mask: 0x1
+I (32458) I2S_IF: STD: RX, sample_rate_hz: 24000, mclk_multiple: 256, clk_src: 6
+I (32478) Adev_Codec: Open codec device OK
+I (32498) AnimeFace: ANIME_WAKE CENTERED
+I (32498) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (32548) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (32548) Weather: WEATHER_WORKER_START id=1 kind=refresh
+I (32548) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=31443 internal_min=19612 largest_block=18432 psram_free=7482232
+I (32558) Weather: WEATHER_HTTP_START city=Warsaw lat=52.22977 lon=21.01178 days=3
+I (32568) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (32568) Weather: WEATHER_HTTP_START op=forecast
+I (32578) Weather: WEATHER_MEM phase=http_before_open internal_free=31179 internal_min=19612 largest_block=18432 psram_free=7482232
+I (33108) AnimeFace: ANIME_WAKE END base=IDLE
+I (33148) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (33448) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4209
+W (33868) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (33988) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (33988) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+E (33988) Application: Protocol not initialized
+I (34128) AnimeFace: ANIME_WAKE CENTERED
+I (34128) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (34748) AnimeFace: ANIME_WAKE END base=IDLE
+I (35798) RAM: internal free=28699 min=19612 largest=18432 | psram free=7479348 min=7477532 largest=7471104
+I (37718) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (38018) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6028
+I (38298) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=176
+I (40558) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (40798) RAM: internal free=26567 min=19612 largest=16384 | psram free=7472032 min=7471804 largest=7340032
+E (41788) HttpClient: Wait for HTTP headers receive timeout
+E (41788) Ota: Failed to check version, status code: -1
+E (41788) Dynamic Impl: mbedtls_ssl_fetch_input error=76
+E (41788) esp-tls-mbedtls: read error :-0x004C
+E (41788) EspSsl: SSL receive failed: -76
+I (41798) HttpClient: HTTP connection closed
+W (41798) Application: Alert [cloud_off] Ошибка: Ошибка проверки новой версии, повтор через 10 секунд: code=-1, url=https://api.tenclass.net/xiaozhi/ota/
+I (41818) LcdDisplay: ANIME_EMOTION_EXTERNAL_IGNORED name=cloud_off
+I (41828) AudioCodec: Set output enable to true
+I (41828) AudioService: Resampling audio from 16000 to 48000
+W (41828) Application: Check new version failed, retry in 10 seconds (1/10)
+I (42218) SystemInfo: free sram: 32887 minimal sram: 19612
+I (42788) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=147
+I (42838) Ota: Current version: 1.1.13
+I (44078) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (44408) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=6476
+I (44448) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=179
+I (45798) RAM: internal free=27351 min=19612 largest=17408 | psram free=7463252 min=7455172 largest=7340032
+I (47398) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=192
+I (49328) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=141
+I (50798) RAM: internal free=27351 min=19612 largest=17408 | psram free=7463252 min=7455172 largest=7340032
+I (50918) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (51218) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=4757
+I (51558) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=147
+I (52218) SystemInfo: free sram: 27251 minimal sram: 19612
+I (54078) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=215
+I (55798) RAM: internal free=27351 min=19612 largest=17408 | psram free=7463252 min=7455172 largest=7340032
+I (55998) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (56288) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4626
+I (57808) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=191
+I (57828) AudioCodec: Set output enable to false
+I (60048) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=168
+W (60128) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (60208) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=1
+I (60208) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+E (60208) Application: Protocol not initialized
+I (60378) AnimeFace: ANIME_WAKE CENTERED
+I (60378) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (60798) RAM: internal free=26847 min=19612 largest=17408 | psram free=7463252 min=7455172 largest=7340032
+I (60988) AnimeFace: ANIME_WAKE END base=IDLE
+I (61028) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (61328) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6497
+I (62218) SystemInfo: free sram: 27303 minimal sram: 19612
+I (62938) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=145
+W (63028) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (63118) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=26611 internal_largest=17408 dma_free=18823 dma_largest=17408 spiram_free=7463252 spiram_largest=7340032
+W (64178) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (64218) RAM: [RADIO_STOP] internal free=25687 min=19612 largest=17408 | psram free=7463024 min=7455172 largest=7340032
+I (64218) InternetRadio: RADIO_STOP_FAST_NOOP
+W (64228) SdMusicPlayer: HEAP_CHECK PLAYER_LOOP_ENTER: PASS
+W (64228) SdMusicPlayer: MUSIC_CHECKPOINT PLAYER_LOOP_ENTER task=SdMusicPlayer internal_free=20703 internal_largest=12288 stack_hwm=2724
+I (64238) AudioManager: Audio focus requested by source 2 (current 0)
+W (64248) SdMusicPlayer: HEAP_CHECK AFTER_AUDIO_FOCUS: PASS
+W (64248) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_AUDIO_FOCUS task=SdMusicPlayer internal_free=20703 internal_largest=12288 stack_hwm=2660
+W (64268) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_REGISTER: PASS
+W (64268) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_REGISTER task=SdMusicPlayer internal_free=20219 internal_largest=12288 stack_hwm=2660
+I (64278) SdMusicPlayer: ▶ Playing file: /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (64298) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (64298) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=20115 internal_largest=12288 stack_hwm=2660
+W (64318) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (64318) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=21595 internal_largest=12288 stack_hwm=2100
+I (64328) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (64338) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/001_МакSим - Научусь летать (DJ Шевцов & Hard Rock Sofa).mp3
+W (64348) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (64358) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=21223 internal_largest=12288 stack_hwm=2100
+I (64368) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (64378) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (64378) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=19007 internal_largest=10240 stack_hwm=2100
+I (64388) AudioCodec: Set output enable to true
+I (64398) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+I (65748) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+I (65798) RAM: internal free=19611 min=15632 largest=9728 | psram free=7397040 min=7396812 largest=7340032
+I (67898) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+W (67928) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (68098) RAM: [RADIO_STOP] internal free=18679 min=15632 largest=9728 | psram free=7396812 min=7396812 largest=7340032
+I (68098) InternetRadio: RADIO_STOP_FAST_NOOP
+I (68138) SdMusicPlayer: ▶ Playing file: /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+W (68138) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (68148) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=22511 internal_largest=12288 stack_hwm=2100
+W (68158) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (68158) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=22495 internal_largest=12288 stack_hwm=2100
+I (68168) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (68178) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/music/003_Дима Билан - Я умираю без любви.mp3
+W (68188) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (68198) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=22159 internal_largest=12288 stack_hwm=2100
+I (68208) SdMusicPlayer: Audio info: sample_rate=44100, channels=2, bits=16
+W (68218) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (68218) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=20043 internal_largest=10240 stack_hwm=2100
+I (68258) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+I (68298) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=3980
+I (68778) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=143
+W (68998) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (69088) SdMusicPlayer: Scanning SD music directory /sdcard/generated_music (22 total entries)...
+I (69088) SdMusicPlayer: Track found: /sdcard/generated_music/Герои тени [105c61cc].mp3
+I (69098) SdMusicPlayer: Track found: /sdcard/generated_music/Дождик стучит по крыше [63e6b040].mp3
+I (69108) SdMusicPlayer: Track found: /sdcard/generated_music/Желуди и пудели [fb1109a7].mp3
+I (69118) SdMusicPlayer: Track found: /sdcard/generated_music/Звёздная тайна [7fc1edab].mp3
+I (69128) SdMusicPlayer: Track found: /sdcard/generated_music/Звёздная тайна [d7c0af21].mp3
+I (69138) SdMusicPlayer: Track found: /sdcard/generated_music/Маленький котёнок [4fdfc2a3].mp3
+I (69148) SdMusicPlayer: Track found: /sdcard/generated_music/На краю любви [161397b1].mp3
+I (69148) SdMusicPlayer: Track found: /sdcard/generated_music/Небо и мечты [8d2274d0].mp3
+I (69168) SdMusicPlayer: Track found: /sdcard/generated_music/Неразделённая любовь [76c6b3ad].mp3
+I (69168) SdMusicPlayer: Track found: /sdcard/generated_music/Новый горизонт [36be8f80].mp3
+I (69178) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний вечер [891a887d].mp3
+I (69198) SdMusicPlayer: Track found: /sdcard/generated_music/Осенний листопад [c2854876].mp3
+I (69198) SdMusicPlayer: Track found: /sdcard/generated_music/Покемоны Битва стихий [19ad4a29].mp3
+I (69208) SdMusicPlayer: Track found: /sdcard/generated_music/Путник в темноте [f0f890a0].mp3
+I (69218) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [7955d32d].mp3
+I (69228) SdMusicPlayer: Track found: /sdcard/generated_music/Солнечный день [af582d0f].mp3
+I (69238) SdMusicPlayer: Track found: /sdcard/generated_music/Солнышко лучистое [d7817c22].mp3
+I (69248) SdMusicPlayer: Track found: /sdcard/generated_music/Судба рок [4b2e7529].mp3
+I (69258) SdMusicPlayer: Track found: /sdcard/generated_music/У лукоморья дуб зеленый [39068caf].mp3
+I (69268) SdMusicPlayer: Track found: /sdcard/generated_music/Хорошее настроение [a85296f2].mp3
+I (69278) SdMusicPlayer: ScanGeneratedPlaylist complete. Total tracks found: 20
+I (69288) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=17027 internal_largest=7680 dma_free=9239 dma_largest=4352 spiram_free=7404752 spiram_largest=7340032
+W (70108) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (70178) RAM: [RADIO_STOP] internal free=15307 min=12372 largest=7680 | psram free=7395808 min=7395304 largest=7340032
+I (70178) InternetRadio: RADIO_STOP_FAST_NOOP
+I (70218) SdMusicPlayer: ▶ Playing file: /sdcard/generated_music/Звёздная тайна [7fc1edab].mp3
+W (70218) SdMusicPlayer: HEAP_CHECK BEFORE_FILE_OPEN: PASS
+W (70218) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FILE_OPEN task=SdMusicPlayer internal_free=19367 internal_largest=7680 stack_hwm=2100
+W (70238) SdMusicPlayer: HEAP_CHECK AFTER_FILE_OPEN: PASS
+W (70238) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_FILE_OPEN task=SdMusicPlayer internal_free=19283 internal_largest=7680 stack_hwm=2100
+I (70248) ESP_ES_PARSER: The version of es_parser is v1.0.1
+I (70248) SdMusicPlayer: esp_audio_simple_dec opened successfully for /sdcard/generated_music/Звёздная тайна [7fc1edab].mp3
+W (70268) SdMusicPlayer: HEAP_CHECK AFTER_DECODER_OPEN: PASS
+W (70268) SdMusicPlayer: MUSIC_CHECKPOINT AFTER_DECODER_OPEN task=SdMusicPlayer internal_free=19091 internal_largest=7680 stack_hwm=2100
+I (70288) SdMusicPlayer: Audio info: sample_rate=48000, channels=2, bits=16
+W (70298) SdMusicPlayer: HEAP_CHECK BEFORE_FIRST_PCM: PASS
+W (70298) SdMusicPlayer: MUSIC_CHECKPOINT BEFORE_FIRST_PCM task=SdMusicPlayer internal_free=16935 internal_largest=7680 stack_hwm=2100
+I (70348) FnkExternalI2s: MEDIA_FADE_START user=54 target_gain=8067 samples=33600
+I (70738) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (70798) RAM: internal free=16899 min=12372 largest=7680 | psram free=7399100 min=7395304 largest=7340032
+I (72218) SystemInfo: free sram: 16831 minimal sram: 12372
+I (72288) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (72588) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6366
+E (72808) esp-tls-mbedtls: mbedtls_ssl_handshake returned -0x7280
+E (72808) esp-tls: Failed to open new connection
+E (72808) EspSsl: Failed to connect to api.open-meteo.com:443, code=0x801a
+E (72818) HttpClient: TCP connection failed, code=0x801a
+W (72818) Weather: WEATHER_HTTP_RELEASE op=forecast opened=0 elapsed_ms=40251
+E (72828) Weather: WEATHER_UPDATE_FAILED reason=http_open_failed keeping_cached_data=1
+I (72838) Weather: WEATHER_MEM phase=after_update internal_free=19991 internal_min=12372 largest_block=7680 psram_free=7409300
+I (72848) Weather: WEATHER_WORKER_END id=1 kind=refresh elapsed_ms=40295
+I (72928) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+W (73048) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (73148) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=19951 internal_largest=7680 dma_free=12163 dma_largest=5120 spiram_free=7409300 spiram_largest=7340032
+I (73558) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=127
+W (73748) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (73828) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=19695 internal_largest=7680 dma_free=11907 dma_largest=5120 spiram_free=7411608 spiram_largest=7340032
+W (74678) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (74828) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=14787 internal_largest=7680 dma_free=6999 dma_largest=3712 spiram_free=7413040 spiram_largest=7340032
+W (75568) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (75718) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (75728) AudioManager: Releasing audio focus from source 2
+I (75728) SdMusicPlayer: Player task stopped.
+I (75728) RAM: [RADIO_STOP] internal free=25175 min=10452 largest=7680 | psram free=7462624 min=7394248 largest=7340032
+I (75738) InternetRadio: RADIO_STOP_FAST_NOOP
+I (75798) RAM: internal free=25467 min=10452 largest=7680 | psram free=7474164 min=7394248 largest=7340032
+W (76728) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (76768) LcdDisplay: UI_MEM_AFTER_TAB_SWITCH internal_free=25071 internal_largest=7680 dma_free=17283 dma_largest=4096 spiram_free=7474164 spiram_largest=7340032
+I (78208) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=129
+W (78378) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (78548) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=4
+I (78548) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+E (78548) Application: Protocol not initialized
+I (78698) AnimeFace: ANIME_WAKE CENTERED
+I (78698) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (79298) AnimeFace: ANIME_WAKE END base=IDLE
+I (79348) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (79638) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3096
+I (80798) RAM: internal free=25971 min=10452 largest=7680 | psram free=7474164 min=7394248 largest=7340032
+W (80928) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (80978) Weather: WEATHER_WORKER_START id=2 kind=refresh
+I (80978) Weather: WEATHER_REFRESH_REQUEST reason=manual
+I (80978) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=24867 internal_min=10452 largest_block=7680 psram_free=7474164
+I (80988) Weather: WEATHER_HTTP_START city=Warsaw lat=52.22977 lon=21.01178 days=3
+I (80998) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (80998) Weather: WEATHER_HTTP_START op=forecast
+I (81008) Weather: WEATHER_MEM phase=http_before_open internal_free=23991 internal_min=10452 largest_block=7680 psram_free=7474164
+I (82218) SystemInfo: free sram: 22207 minimal sram: 10452
+I (82578) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=148
+I (82768) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (83048) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4181
+I (84378) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=160
+I (85798) RAM: internal free=20691 min=10452 largest=7680 | psram free=7463964 min=7394248 largest=7340032
+I (86418) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=118
+I (87268) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (87568) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3319
+I (87898) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=131
+I (89818) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=156
+I (90798) RAM: internal free=20691 min=10452 largest=7680 | psram free=7463964 min=7394248 largest=7340032
+I (90828) AudioCodec: Set output enable to false
+I (90928) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (91208) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6377
+I (92218) SystemInfo: free sram: 20627 minimal sram: 10452
+I (93478) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=181
+I (95538) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=202
+I (95798) RAM: internal free=20155 min=10452 largest=7680 | psram free=7463964 min=7394248 largest=7340032
+I (97628) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (97928) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=6323
+I (98608) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=202
+I (100798) RAM: internal free=20691 min=10452 largest=7680 | psram free=7463964 min=7394248 largest=7340032
+I (102018) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=147
+I (102228) SystemInfo: free sram: 20635 minimal sram: 10452
+I (104288) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (104618) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4867
+I (104658) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=132
+I (104968) HttpClient: Established new connection to api.tenclass.net:443 protocol=https cost=62130
+I (105638) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=24620
+E (105708) esp-aes: Failed to allocate memory
+E (105708) esp-tls-mbedtls: read error :-0x0084
+E (105708) EspSsl: SSL receive failed: -132
+I (105798) RAM: internal free=18223 min=5684 largest=5120 | psram free=7471256 min=7394248 largest=7340032
+I (106078) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=182
+I (107228) HttpClient: HTTP connection closed
+I (107228) Ota: Current is the latest version
+I (107238) Ota: Running partition: ota_0
+I (107248) MQTT: Connecting to endpoint api.tenclass.net
+I (108838) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=164
+I (109168) Application: PROTOCOL_CONNECTED timestamp_ms=108432
+I (109168) LcdDisplay: AI_READY_FOR_BOOT timestamp_ms=108433
+I (109168) MQTT: Connected to endpoint
+I (109168) Application: Activation done
+I (109168) SystemInfo: free sram: 30619 minimal sram: 5684
+I (109178) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (109188) wifi:Set ps type: 2, coexist: 0
+
+I (109188) Application: CONNECTION_SOUND_START timestamp_ms=108458
+I (109198) AudioCodec: Set output enable to true
+I (109488) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (109798) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4929
+I (110238) MCP: MCP_TOOLS_LIST page_tools=10 bytes=5605 user_only=0 next=radio.search_stations
+I (110798) RAM: internal free=25735 min=5684 largest=5120 | psram free=7445764 min=7394248 largest=7340032
+I (112268) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (113218) SystemInfo: free sram: 26431 minimal sram: 5684
+I (114398) MCP: MCP_TOOLS_LIST page_tools=12 bytes=7170 user_only=0 next=music.generation_status
+I (114768) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (115078) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3206
+I (115478) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=199
+E (115638) HttpClient: Wait for HTTP headers receive timeout
+I (115798) RAM: internal free=23983 min=5684 largest=5120 | psram free=7439620 min=7394248 largest=7340032
+I (117608) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=128
+I (118288) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (118488) MCP: MCP_TOOLS_LIST page_tools=7 bytes=3826 user_only=0 next=none
+I (118608) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=5583
+I (120188) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=186
+I (120798) RAM: internal free=29647 min=5684 largest=6656 | psram free=7468816 min=7394248 largest=7340032
+I (121648) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=189
+I (123958) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=215
+I (124218) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (124248) SystemInfo: free sram: 31159 minimal sram: 5684
+I (124518) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3756
+E (125638) HttpClient: Wait for HTTP headers receive timeout
+I (125638) Weather: WEATHER_HTTP_HEADERS op=forecast status=-1 content_length=0 elapsed_ms=24640
+I (125638) Weather: WEATHER_HTTP_RELEASE op=forecast elapsed_ms=44639
+E (125638) Weather: WEATHER_UPDATE_FAILED reason=http_status keeping_cached_data=1
+I (125648) Weather: WEATHER_MEM phase=after_update internal_free=36075 internal_min=5684 largest_block=8192 psram_free=7473732
+I (125658) Weather: WEATHER_WORKER_END id=2 kind=refresh elapsed_ms=44681
+I (125758) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (125798) RAM: internal free=35203 min=5684 largest=8192 | psram free=7473732 min=7394248 largest=7340032
+I (126058) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=199
+I (126198) AudioCodec: Set output enable to false
+W (128188) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (128308) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (128348) Weather: WEATHER_WORKER_START id=3 kind=refresh
+I (128348) Weather: WEATHER_REFRESH_REQUEST reason=manual
+I (128348) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=35603 internal_min=5684 largest_block=8192 psram_free=7473732
+I (128358) Weather: WEATHER_HTTP_START city=Warsaw lat=52.22977 lon=21.01178 days=3
+I (128368) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=1
+I (128368) Weather: WEATHER_HTTP_START op=forecast
+I (128378) Weather: WEATHER_MEM phase=http_before_open internal_free=34671 internal_min=5684 largest_block=8192 psram_free=7473732
+I (128628) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=5777
+I (128888) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=137
+I (129788) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=1400
+I (129848) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=1424
+I (129848) Weather: WEATHER_MEM phase=http_after_release internal_free=34015 internal_min=5684 largest_block=8192 psram_free=7473732
+I (129858) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1062 elapsed_ms=1481
+I (129868) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1062 elapsed_ms=1481
+I (129878) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1062
+I (129878) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=8
+I (129888) Weather: WEATHER_PARSE_OK provider=open_meteo city=Warsaw temp=10.8 code=1000
+I (130148) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (130338) Weather: WEATHER_CACHE_SAVED bytes=96
+I (130338) Weather: WEATHER_UPDATE_OK timestamp=1791824348
+I (130338) Weather: WEATHER_MEM phase=after_update internal_free=36047 internal_min=5684 largest_block=8192 psram_free=7473732
+I (130348) Weather: WEATHER_WORKER_END id=3 kind=refresh elapsed_ms=1994
+I (130798) RAM: internal free=36187 min=5684 largest=8192 | psram free=7473732 min=7394248 largest=7340032
+I (131798) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+I (134218) SystemInfo: free sram: 36123 minimal sram: 5684
+I (134408) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (134718) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3688
+I (134758) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=187
+W (135208) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (135248) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=-2
+I (135248) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (135248) Application: TOUCH_WAKE_POPUP_QUEUED
+I (135248) StateMachine: State: idle -> connecting
+I (135258) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (135268) wifi:Set ps type: 0, coexist: 0
+
+W (135278) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+W (135278) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (135288) AnimeFace: ANIME_FACE_STATE: THINKING
+I (135408) AnimeFace: ANIME_WAKE CENTERED
+I (135408) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (135798) RAM: internal free=35119 min=5684 largest=8192 | psram free=7473732 min=7394248 largest=7340032
+I (135808) MQTT: Session ID: 323b415d
+I (135808) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (135808) wifi:Set ps type: 0, coexist: 0
+
+W (135808) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (135818) StateMachine: State: connecting -> listening
+I (135828) AudioCodec: Set output enable to true
+I (135828) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (135998) AnimeFace: ANIME_WAKE END base=LISTENING
+I (137218) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (138418) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (138698) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3853
+I (138738) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (140588) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=122
+I (140798) RAM: internal free=34211 min=5684 largest=7680 | psram free=7473708 min=7394248 largest=7340032
+I (141018) Application: >> Установи город погоды Гданск.
+I (141018) StateMachine: State: listening -> speaking
+I (141018) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=35303 internal_min=5684 psram_free=7470888
+I (141068) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (141068) AnimeFace: SPEAKING_STATE_ENTER t=139855
+I (141218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=36047 internal_min=5684 psram_free=7470888
+I (142218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=36047 internal_min=5684 psram_free=7470888
+I (142558) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (142848) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4507
+I (142888) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=201
+I (143108) Application: << % self.weather...
+I (143108) Weather: WEATHER_MCP_START call=1 action=search_city
+I (143118) Weather: WEATHER_WORKER_START id=4 kind=search
+I (143118) Weather: WEATHER_HTTP_START op=geocoding
+I (143118) Weather: WEATHER_MEM phase=http_before_open internal_free=35699 internal_min=5684 largest_block=7680 psram_free=7470888
+I (143228) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=31719 internal_min=5684 psram_free=7460676
+I (144058) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=930
+I (144118) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=756 elapsed_ms=945
+I (144128) Weather: WEATHER_MEM phase=http_after_release internal_free=34267 internal_min=5684 largest_block=7680 psram_free=7470888
+I (144128) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=756 elapsed_ms=1008
+I (144138) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=756 elapsed_ms=1008
+I (144148) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=756
+I (144148) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=7
+I (144158) Weather: WEATHER_MCP_RESULT_READY call=1 action=search_city bytes=485
+I (144168) Weather: WEATHER_MCP_RESULT_RETURNED call=1 action=search_city
+I (144168) Weather: WEATHER_WORKER_END id=4 kind=search elapsed_ms=1057
+I (144798) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (145218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=35751 internal_min=5684 psram_free=7470888
+I (145488) Application: << % self.weather...
+I (145488) Weather: WEATHER_MCP_START call=2 action=set_city
+I (145498) Weather: WEATHER_LOCATION_CHANGED city=Gdańsk country=Polska lat=54.35227 lon=18.64912
+I (145498) Weather: WEATHER_MCP_RESULT_RETURNED call=2 action=set_city
+I (145508) LcdDisplay: WEATHER_UI_UPDATE valid=0 stale=0
+I (145798) RAM: internal free=35627 min=5684 largest=7680 | psram free=7470888 min=7394248 largest=7340032
+I (145938) AnimeFace: ANIME_EMOTION HAPPY
+I (146218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=33923 internal_min=5684 psram_free=7441756
+I (146378) Application: << Готово!
+I (146408) AudioService: Resampling audio from 24000 to 48000
+I (146418) FnkExternalI2s: AI_VOLUME user=54 effective=34 gain=3042
+I (146428) AnimeFace: FIRST_SPEECH_PCM t=145210 level=2
+I (146568) AnimeFace: MOUTH_FIRST_OPEN t=145360 frame=2 level=62
+I (146568) AnimeFace: ANIME_FACE_MOUTH: start
+I (147118) AnimeFace: LAST_SPEECH_PCM t=145910 last_update=145870
+I (147158) AnimeFace: MOUTH_CLOSED t=145950
+I (147158) AnimeFace: ANIME_FACE_MOUTH: stop
+I (147198) Application: << Город для погоды установлен на Гданьск.
+I (147748) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=173
+I (148158) AnimeFace: MOUTH_CLOSED t=146950
+I (148158) AnimeFace: ANIME_FACE_MOUTH: stop
+I (148218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=33551 internal_min=5684 psram_free=7434824
+I (148978) AnimeFace: MOUTH_CLOSED t=147770
+I (148978) AnimeFace: ANIME_FACE_MOUTH: stop
+I (149568) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=161
+I (150128) AudioService: AUDIO_DIAG reason=tts_stop dec_q=16 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=6 play_min=0 internal_free=29291 internal_min=5684 psram_free=7416764
+I (150128) StateMachine: State: speaking -> listening
+I (150138) AnimeFace: ANIME_EMOTION NEUTRAL
+I (150148) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (150148) AnimeFace: LAST_SPEECH_PCM t=148945 last_update=148900
+I (150158) AnimeFace: MOUTH_CLOSED t=148945
+I (150158) AnimeFace: ANIME_FACE_MOUTH: stop
+I (150798) RAM: internal free=32871 min=5684 largest=7680 | psram free=7416764 min=7394248 largest=7340032
+I (151858) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=212
+I (153498) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=200
+I (154908) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (155198) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4219
+I (155368) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=189
+I (155798) RAM: internal free=33619 min=5684 largest=7680 | psram free=7435336 min=7394248 largest=7340032
+I (156848) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (157228) Application: >> А какая погода будет завтра в Варшаве?
+I (157238) StateMachine: State: listening -> speaking
+I (157238) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=33055 internal_min=5684 psram_free=7435336
+I (157258) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (157258) AnimeFace: SPEAKING_STATE_ENTER t=156050
+I (157778) Application: << % self.weather...
+I (157778) Weather: WEATHER_MCP_START call=3 action=search_city
+I (157778) Weather: WEATHER_WORKER_START id=5 kind=search
+I (157778) Weather: WEATHER_HTTP_START op=geocoding
+I (157788) Weather: WEATHER_MEM phase=http_before_open internal_free=33423 internal_min=5684 largest_block=7680 psram_free=7435336
+I (158218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30791 internal_min=5684 psram_free=7424132
+I (158678) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=880
+I (158728) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=360 elapsed_ms=895
+I (158728) Weather: WEATHER_MEM phase=http_after_release internal_free=32163 internal_min=5684 largest_block=7680 psram_free=7435336
+I (158738) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=360 elapsed_ms=947
+I (158748) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=360 elapsed_ms=947
+I (158758) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=360
+I (158758) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (158758) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=6
+I (158778) Weather: WEATHER_MCP_RESULT_READY call=3 action=search_city bytes=289
+I (158778) Weather: WEATHER_MCP_RESULT_RETURNED call=3 action=search_city
+I (158788) Weather: WEATHER_WORKER_END id=5 kind=search elapsed_ms=1003
+I (159428) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (159718) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4143
+I (159718) Application: << % self.weather...
+I (159758) Weather: WEATHER_MCP_START call=4 action=search_city
+I (159758) Weather: WEATHER_WORKER_START id=6 kind=search
+I (159758) Weather: WEATHER_HTTP_START op=geocoding
+I (159758) Weather: WEATHER_MEM phase=http_before_open internal_free=33087 internal_min=5684 largest_block=7680 psram_free=7435336
+I (160218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30403 internal_min=5684 psram_free=7424132
+I (160488) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=220
+I (160638) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=870
+I (160698) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=31 elapsed_ms=887
+I (160698) Weather: WEATHER_MEM phase=http_after_release internal_free=32559 internal_min=5684 largest_block=7680 psram_free=7435336
+I (160708) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=31 elapsed_ms=942
+I (160718) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=31 elapsed_ms=942
+I (160718) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=31
+I (160728) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=5
+I (160728) Weather: WEATHER_MCP_RESULT_READY call=4 action=search_city bytes=78
+I (160738) Weather: WEATHER_MCP_RESULT_RETURNED call=4 action=search_city
+I (160748) Weather: WEATHER_WORKER_END id=6 kind=search elapsed_ms=991
+I (160798) RAM: internal free=32327 min=5684 largest=7680 | psram free=7435336 min=7394248 largest=7340032
+I (161218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=33807 internal_min=5684 psram_free=7435336
+I (161568) Application: << % self.weather...
+I (161568) Weather: WEATHER_MCP_START call=5 action=search_city
+I (161568) Weather: WEATHER_WORKER_START id=7 kind=search
+I (161568) Weather: WEATHER_HTTP_START op=geocoding
+I (161578) Weather: WEATHER_MEM phase=http_before_open internal_free=33511 internal_min=5684 largest_block=7680 psram_free=7435336
+I (162218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=30831 internal_min=5684 psram_free=7423796
+I (162398) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=210
+I (162458) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=870
+I (162508) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=1092 elapsed_ms=886
+I (162508) Weather: WEATHER_MEM phase=http_after_release internal_free=31851 internal_min=5684 largest_block=7680 psram_free=7435336
+I (162518) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=1092 elapsed_ms=936
+I (162518) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=1092 elapsed_ms=936
+I (162528) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=1092
+I (162538) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=7
+I (162548) Weather: WEATHER_MCP_RESULT_READY call=5 action=search_city bytes=613
+I (162558) Weather: WEATHER_MCP_RESULT_RETURNED call=5 action=search_city
+I (162558) Weather: WEATHER_WORKER_END id=7 kind=search elapsed_ms=987
+I (163558) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (163578) Application: << % self.weather...
+I (163608) Weather: WEATHER_MCP_START call=6 action=get_weather
+I (163608) Weather: WEATHER_WORKER_START id=8 kind=one_off
+I (163608) Weather: WEATHER_HTTP_START city=Warsaw lat=52.22977 lon=21.01178 days=2
+I (163618) Weather: WEATHER_HTTP_START op=forecast
+I (163618) Weather: WEATHER_MEM phase=http_before_open internal_free=32519 internal_min=5684 largest_block=7680 psram_free=7435336
+I (163878) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (164198) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4838
+I (164218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=29879 internal_min=5684 psram_free=7424160
+I (164548) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=920
+I (164598) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=929
+I (164598) HttpClient: HTTP connection closed
+I (164598) Weather: WEATHER_MEM phase=http_after_release internal_free=31695 internal_min=5684 largest_block=7680 psram_free=7435336
+I (164608) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1028 elapsed_ms=983
+I (164618) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1028 elapsed_ms=983
+I (164628) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1028
+I (164638) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=7
+I (164638) Weather: WEATHER_PARSE_OK provider=open_meteo city=Warsaw temp=10.8 code=1000
+I (164648) Weather: WEATHER_MCP_RESULT_READY call=6 action=get_weather bytes=869
+I (164658) Weather: WEATHER_MCP_RESULT_RETURNED call=6 action=get_weather
+I (164658) Weather: WEATHER_WORKER_END id=8 kind=one_off elapsed_ms=1049
+I (164988) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (165348) AnimeFace: ANIME_EMOTION HAPPY
+I (165798) RAM: internal free=33691 min=5684 largest=7680 | psram free=7435336 min=7394248 largest=7340032
+I (166218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=33635 internal_min=5684 psram_free=7435336
+I (166318) Application: << Завтра в Варшаве ожидается дождь,
+I (166368) AnimeFace: FIRST_SPEECH_PCM t=165160 level=39
+I (166488) AnimeFace: MOUTH_FIRST_OPEN t=165275 frame=2 level=58
+I (166488) AnimeFace: ANIME_FACE_MOUTH: start
+I (166538) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=194
+I (167218) SystemInfo: free sram: 33483 minimal sram: 5684
+I (167268) AnimeFace: LAST_SPEECH_PCM t=166060 last_update=166010
+I (167388) AnimeFace: MOUTH_CLOSED t=166180
+I (167388) AnimeFace: ANIME_FACE_MOUTH: stop
+I (168258) AudioService: AUDIO_DIAG reason=tts_active dec_q=6 play_q=2 dec_inflight=0 out_inflight=1 underruns=1 decode_drops=0 play_min=0 internal_free=31251 internal_min=5684 psram_free=7417276
+I (168338) Application: << температура от 8 до 11 градусов. Возьми зонт!
+I (168418) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=113
+I (168678) AnimeFace: MOUTH_CLOSED t=167470
+I (168678) AnimeFace: ANIME_FACE_MOUTH: stop
+I (169788) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=207
+I (170218) AudioService: AUDIO_DIAG reason=tts_active dec_q=4 play_q=2 dec_inflight=0 out_inflight=1 underruns=1 decode_drops=0 play_min=0 internal_free=32227 internal_min=5684 psram_free=7417276
+I (170798) RAM: internal free=30583 min=5684 largest=7680 | psram free=7420412 min=7394248 largest=7340032
+I (170958) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (171138) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3089
+I (171268) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=163
+I (171368) AnimeFace: MOUTH_CLOSED t=170155
+I (171368) AnimeFace: ANIME_FACE_MOUTH: stop
+I (172218) AudioService: AUDIO_DIAG reason=tts_active dec_q=6 play_q=2 dec_inflight=0 out_inflight=1 underruns=1 decode_drops=0 play_min=0 internal_free=31471 internal_min=5684 psram_free=7391156
+I (172398) AudioService: AUDIO_DIAG reason=tts_stop dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=1 decode_drops=0 play_min=0 internal_free=30499 internal_min=5684 psram_free=7391156
+I (172398) StateMachine: State: speaking -> listening
+I (172408) AnimeFace: ANIME_EMOTION NEUTRAL
+I (172418) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (172418) AnimeFace: LAST_SPEECH_PCM t=171210 last_update=171155
+I (172418) AnimeFace: MOUTH_CLOSED t=171210
+I (172428) AnimeFace: ANIME_FACE_MOUTH: stop
+I (174068) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=151
+I (175798) RAM: internal free=33255 min=5684 largest=7680 | psram free=7409216 min=7371576 largest=7340032
+W (175908) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (175978) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=160
+I (175978) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (175978) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (175988) MQTT: Closing audio channel, send_goodbye: 1
+I (175988) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (175998) wifi:Set ps type: 2, coexist: 0
+
+I (175998) StateMachine: State: listening -> idle
+I (176028) AnimeFace: ANIME_FACE_STATE: IDLE
+I (176148) AnimeFace: ANIME_WAKE CENTERED
+I (176148) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (176158) Weather: WEATHER_REFRESH_REQUEST reason=deferred
+I (176158) Weather: WEATHER_WORKER_START id=9 kind=refresh
+I (176158) Weather: WEATHER_MEM phase=worker_refresh_start internal_free=36559 internal_min=5684 largest_block=8192 psram_free=7408704
+I (176168) LcdDisplay: WEATHER_UI_UPDATE valid=0 stale=0
+I (176178) Weather: WEATHER_HTTP_START city=Gdańsk lat=54.35227 lon=18.64912 days=3
+I (176188) Weather: WEATHER_HTTP_START op=forecast
+I (176188) Weather: WEATHER_MEM phase=http_before_open internal_free=35743 internal_min=5684 largest_block=8192 psram_free=7408704
+I (176218) MQTT: Received goodbye message, session_id: 323b415d
+I (176248) MQTT: Closing audio channel, send_goodbye: 0
+I (176248) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (176248) wifi:Set ps type: 2, coexist: 0
+
+I (176728) AnimeFace: ANIME_WAKE END base=IDLE
+I (176768) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (177078) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3516
+I (178128) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=1920
+I (178188) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=1946
+I (178188) Weather: WEATHER_MEM phase=http_after_release internal_free=36375 internal_min=5684 largest_block=8192 psram_free=7408704
+I (178198) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1061 elapsed_ms=2003
+I (178208) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1061 elapsed_ms=2003
+I (178208) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1061
+I (178218) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=7
+I (178228) Weather: WEATHER_PARSE_OK provider=open_meteo city=Gdańsk temp=11.3 code=1009
+I (178488) LcdDisplay: WEATHER_UI_UPDATE valid=1 stale=0
+I (178578) Weather: WEATHER_CACHE_SAVED bytes=96
+I (178588) Weather: WEATHER_UPDATE_OK timestamp=1791824396
+I (178588) Weather: WEATHER_MEM phase=after_update internal_free=37767 internal_min=5684 largest_block=8192 psram_free=7408704
+I (178598) Weather: WEATHER_WORKER_END id=9 kind=refresh elapsed_ms=2431
+I (178668) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=152
+I (180628) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (180798) RAM: internal free=38263 min=5684 largest=8192 | psram free=7408704 min=7371576 largest=7340032
+I (180948) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=6383
+I (180988) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=170
+W (181968) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (182048) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=-4
+I (182048) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (182048) Application: TOUCH_WAKE_POPUP_QUEUED
+I (182048) StateMachine: State: idle -> connecting
+I (182058) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (182068) wifi:Set ps type: 0, coexist: 0
+
+W (182088) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+W (182088) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (182088) AnimeFace: ANIME_FACE_STATE: THINKING
+I (182218) AnimeFace: ANIME_WAKE CENTERED
+I (182218) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (182808) AnimeFace: ANIME_WAKE END base=THINKING
+I (183608) MQTT: Session ID: 54efb59e
+I (183608) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (183608) wifi:Set ps type: 0, coexist: 0
+
+W (183608) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (183628) StateMachine: State: connecting -> listening
+I (183648) AudioService: Resampling audio from 16000 to 48000
+I (183668) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (184638) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=168
+I (185798) RAM: internal free=33051 min=5684 largest=8192 | psram free=7410124 min=7371576 largest=7340032
+I (186118) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=186
+I (187218) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=136
+I (187328) Application: >> Такая погода в Варшаве.
+I (187338) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (187348) StateMachine: State: listening -> speaking
+I (187348) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=31919 internal_min=5684 psram_free=7409612
+I (187378) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (187378) AnimeFace: SPEAKING_STATE_ENTER t=186170
+I (187618) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5958
+I (188218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=32955 internal_min=5684 psram_free=7409612
+I (188628) AnimeFace: ANIME_EMOTION HAPPY
+I (189488) Application: << Сейчас проверю погоду в Варшаве!
+I (189558) AudioService: Resampling audio from 24000 to 48000
+I (189568) FnkExternalI2s: AI_VOLUME user=54 effective=34 gain=3042
+I (189638) AnimeFace: FIRST_SPEECH_PCM t=188425 level=18
+I (189838) AnimeFace: MOUTH_FIRST_OPEN t=188625 frame=2 level=36
+I (189838) AnimeFace: ANIME_FACE_MOUTH: start
+I (190218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=32695 internal_min=5684 psram_free=7390644
+I (190348) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (190798) RAM: internal free=32779 min=5684 largest=8192 | psram free=7390644 min=7371576 largest=7340032
+I (191218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=32695 internal_min=5684 psram_free=7390644
+I (191518) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=197
+I (191658) AnimeFace: LAST_SPEECH_PCM t=190445 last_update=190400
+I (191658) AnimeFace: MOUTH_CLOSED t=190445
+I (191658) AnimeFace: ANIME_FACE_MOUTH: stop
+I (191788) Application: << % self.weather...
+I (191788) Weather: WEATHER_MCP_START call=7 action=get_weather
+I (191788) Weather: WEATHER_WORKER_START id=10 kind=one_off
+I (191788) Weather: WEATHER_MCP_RESULT_READY call=7 action=get_weather bytes=42
+I (191798) Weather: WEATHER_MCP_RESULT_RETURNED call=7 action=get_weather
+I (191808) Weather: WEATHER_WORKER_END id=10 kind=one_off elapsed_ms=13
+I (192678) Application: << % self.weather...
+I (192678) Weather: WEATHER_MCP_START call=8 action=search_city
+I (192688) Weather: WEATHER_WORKER_START id=11 kind=search
+I (192688) Weather: WEATHER_HTTP_START op=geocoding
+I (192688) Weather: WEATHER_MEM phase=http_before_open internal_free=32695 internal_min=5684 largest_block=8192 psram_free=7408704
+I (192718) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (193218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=29863 internal_min=5684 psram_free=7397512
+I (193548) HttpClient: Established new connection to geocoding-api.open-meteo.com:443 protocol=https cost=850
+I (193608) Weather: WEATHER_HTTP_HEADERS op=geocoding status=200 content_length=877 elapsed_ms=869
+I (193608) HttpClient: HTTP connection closed
+I (193608) Weather: WEATHER_MEM phase=http_after_release internal_free=33147 internal_min=5684 largest_block=8192 psram_free=7408704
+I (193618) Weather: WEATHER_HTTP_RELEASE op=geocoding bytes=877 elapsed_ms=925
+I (193628) Weather: WEATHER_HTTP_END op=geocoding ok=1 bytes=877 elapsed_ms=925
+I (193638) Weather: WEATHER_JSON_PARSE_START op=geocoding bytes=877
+I (193638) Weather: WEATHER_JSON_PARSE_DONE op=geocoding ok=1 elapsed_ms=7
+I (193648) Weather: WEATHER_MCP_RESULT_READY call=8 action=search_city bytes=568
+I (193658) Weather: WEATHER_MCP_RESULT_RETURNED call=8 action=search_city
+I (193658) Weather: WEATHER_WORKER_END id=11 kind=search elapsed_ms=978
+I (194078) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (194078) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (194218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=34183 internal_min=5684 psram_free=7382584
+I (194268) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4354
+I (194558) Application: << % self.weather...
+I (194558) Weather: WEATHER_MCP_START call=9 action=get_weather
+I (194558) Weather: WEATHER_WORKER_START id=12 kind=one_off
+I (194558) Weather: WEATHER_HTTP_START city=Варшава lat=52.22977 lon=21.01178 days=3
+I (194568) Weather: WEATHER_HTTP_START op=forecast
+I (194568) Weather: WEATHER_MEM phase=http_before_open internal_free=33643 internal_min=5684 largest_block=8192 psram_free=7382584
+I (195448) HttpClient: Established new connection to api.open-meteo.com:443 protocol=https cost=860
+I (195798) RAM: internal free=24899 min=5684 largest=7680 | psram free=7379240 min=7360840 largest=7208960
+I (196108) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=154
+I (196218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=25459 internal_min=5684 psram_free=7379240
+I (197218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=25459 internal_min=5684 psram_free=7379240
+I (197218) SystemInfo: free sram: 25523 minimal sram: 5684
+I (197308) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (197458) Weather: WEATHER_HTTP_HEADERS op=forecast status=200 content_length=0 elapsed_ms=881
+I (197458) HttpClient: HTTP connection closed
+I (197458) Weather: WEATHER_MEM phase=http_after_release internal_free=32499 internal_min=5684 largest_block=7680 psram_free=7382584
+I (197468) Weather: WEATHER_HTTP_RELEASE op=forecast bytes=1059 elapsed_ms=2893
+I (197478) Weather: WEATHER_HTTP_END op=forecast ok=1 bytes=1059 elapsed_ms=2893
+I (197488) Weather: WEATHER_JSON_PARSE_START op=forecast bytes=1059
+I (197498) Weather: WEATHER_JSON_PARSE_DONE op=forecast ok=1 elapsed_ms=7
+I (197498) Weather: WEATHER_PARSE_OK provider=open_meteo city=Варшава temp=10.7 code=1000
+I (197508) Weather: WEATHER_MCP_RESULT_READY call=9 action=get_weather bytes=1119
+I (197518) Weather: WEATHER_MCP_RESULT_RETURNED call=9 action=get_weather
+I (197518) Weather: WEATHER_WORKER_END id=12 kind=one_off elapsed_ms=2961
+I (198218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=1 decode_drops=0 play_min=0 internal_free=34335 internal_min=5684 psram_free=7382584
+I (198598) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=181
+I (198648) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (198678) Application: << Сейчас в Варшаве солнечно,
+I (198818) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6133
+I (199248) AnimeFace: MOUTH_CLOSED t=198040
+I (199248) AnimeFace: ANIME_FACE_MOUTH: stop
+I (199878) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=190
+I (200218) AudioService: AUDIO_DIAG reason=tts_active dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31463 internal_min=5684 psram_free=7364524
+I (200488) Application: << около 11 градусов, ощущается как 8. Ветер 3.4 м/
+I (200798) RAM: internal free=32395 min=5684 largest=8192 | psram free=7364524 min=7360840 largest=7208960
+I (201118) AnimeFace: MOUTH_CLOSED t=199910
+I (201118) AnimeFace: ANIME_FACE_MOUTH: stop
+I (201158) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=142
+I (201218) AudioService: AUDIO_DIAG reason=tts_active dec_q=7 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=32763 internal_min=5684 psram_free=7364524
+I (202238) AudioService: AUDIO_DIAG reason=tts_active dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31315 internal_min=5684 psram_free=7364524
+I (202408) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=133
+I (203118) AnimeFace: MOUTH_CLOSED t=201905
+I (203118) AnimeFace: ANIME_FACE_MOUTH: stop
+I (203878) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=215
+I (204218) AudioService: AUDIO_DIAG reason=tts_active dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31403 internal_min=5684 psram_free=7364524
+I (204968) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (205078) AnimeFace: MOUTH_CLOSED t=203870
+I (205078) AnimeFace: ANIME_FACE_MOUTH: stop
+I (205158) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5488
+I (205218) AudioService: AUDIO_DIAG reason=tts_active dec_q=10 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31623 internal_min=5684 psram_free=7364524
+I (205468) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=196
+I (205798) RAM: internal free=31215 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (206218) AudioService: AUDIO_DIAG reason=tts_active dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31315 internal_min=5684 psram_free=7364524
+I (206638) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (207218) SystemInfo: free sram: 32887 minimal sram: 5684
+I (207728) Application: << с, влажность 76%.
+I (208008) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (208218) AudioService: AUDIO_DIAG reason=tts_active dec_q=10 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=32371 internal_min=5684 psram_free=7364524
+I (208428) AnimeFace: MOUTH_CLOSED t=207220
+I (208428) AnimeFace: ANIME_FACE_MOUTH: stop
+I (209108) AnimeFace: MOUTH_CLOSED t=207895
+I (209108) AnimeFace: ANIME_FACE_MOUTH: stop
+W (209438) MQTT: Received audio packet with wrong sequence: 220, expected: 219
+W (209438) MQTT: [AUDIO_SEQ_GAP] time=208703 ms received=220 expected=219 delta=1 payload_len=165 dec_q=7 play_q=2
+I (209888) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (210218) AudioService: AUDIO_DIAG reason=tts_active dec_q=8 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=32231 internal_min=5684 psram_free=7364524
+I (210668) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (210798) RAM: internal free=32147 min=5684 largest=7936 | psram free=7364524 min=7360840 largest=7208960
+I (210868) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6943
+I (211158) Application: << Сегодня ожидается облачно с минимумом 7 и максимумом 12 градусов, вероятность осадков 67%. Завтра и послезавтра обещают дождь, температура примерно 8–12 градусов.
+I (211238) AudioService: AUDIO_DIAG reason=tts_active dec_q=9 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=32331 internal_min=5684 psram_free=7364524
+I (211518) AnimeFace: MOUTH_CLOSED t=210305
+I (211518) AnimeFace: ANIME_FACE_MOUTH: stop
+I (211808) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (213218) AudioService: AUDIO_DIAG reason=tts_active dec_q=10 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31367 internal_min=5684 psram_free=7364524
+I (213528) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=183
+I (214218) AudioService: AUDIO_DIAG reason=tts_active dec_q=9 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31123 internal_min=5684 psram_free=7364524
+I (215548) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (215798) RAM: internal free=33263 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (216218) AudioService: AUDIO_DIAG reason=tts_active dec_q=10 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=32519 internal_min=5684 psram_free=7364524
+I (216468) AnimeFace: MOUTH_CLOSED t=215260
+I (216468) AnimeFace: ANIME_FACE_MOUTH: stop
+I (216698) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (217218) SystemInfo: free sram: 32679 minimal sram: 5684
+I (217828) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (218028) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4047
+I (218028) AnimeFace: MOUTH_CLOSED t=216800
+I (218028) AnimeFace: ANIME_FACE_MOUTH: stop
+W (218028) MQTT: Received audio packet with wrong sequence: 353, expected: 352
+W (218038) MQTT: [AUDIO_SEQ_GAP] time=217305 ms received=353 expected=352 delta=1 payload_len=220 dec_q=1 play_q=2
+W (218198) MQTT: Received audio packet with wrong sequence: 365, expected: 363
+W (218198) MQTT: [AUDIO_SEQ_GAP] time=217467 ms received=365 expected=363 delta=2 payload_len=219 dec_q=8 play_q=2
+I (218218) AudioService: AUDIO_DIAG reason=tts_active dec_q=11 play_q=2 dec_inflight=0 out_inflight=1 underruns=3 decode_drops=0 play_min=0 internal_free=31179 internal_min=5684 psram_free=7364524
+I (218468) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=192
+I (219228) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=3 decode_drops=0 play_min=0 internal_free=33951 internal_min=5684 psram_free=7364524
+I (219798) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=143
+I (219998) AnimeFace: MOUTH_CLOSED t=218790
+I (219998) AnimeFace: ANIME_FACE_MOUTH: stop
+W (220068) MQTT: Received audio packet with wrong sequence: 390, expected: 388
+W (220068) MQTT: [AUDIO_SEQ_GAP] time=219339 ms received=390 expected=388 delta=2 payload_len=8 dec_q=3 play_q=2
+W (220078) MQTT: Received audio packet with wrong sequence: 395, expected: 391
+W (220088) MQTT: [AUDIO_SEQ_GAP] time=219352 ms received=395 expected=391 delta=4 payload_len=207 dec_q=4 play_q=2
+I (220228) AudioService: AUDIO_DIAG reason=tts_active dec_q=9 play_q=1 dec_inflight=1 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=31663 internal_min=5684 psram_free=7367660
+I (220798) RAM: internal free=32247 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (221248) AudioService: AUDIO_DIAG reason=tts_active dec_q=10 play_q=1 dec_inflight=0 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=31483 internal_min=5684 psram_free=7370544
+I (221748) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=101
+I (222068) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (222238) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4577
+I (222838) AnimeFace: MOUTH_CLOSED t=221630
+I (222838) AnimeFace: ANIME_FACE_MOUTH: stop
+I (222878) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+I (223218) AudioService: AUDIO_DIAG reason=tts_active dec_q=8 play_q=2 dec_inflight=0 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=31923 internal_min=5684 psram_free=7364524
+I (224218) AudioService: AUDIO_DIAG reason=tts_active dec_q=9 play_q=2 dec_inflight=0 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=31675 internal_min=5684 psram_free=7364524
+I (224758) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+W (225198) MQTT: Received audio packet with wrong sequence: 482, expected: 481
+W (225198) MQTT: [AUDIO_SEQ_GAP] time=224463 ms received=482 expected=481 delta=1 payload_len=209 dec_q=5 play_q=2
+I (225218) AnimeFace: MOUTH_CLOSED t=224010
+I (225218) AnimeFace: ANIME_FACE_MOUTH: stop
+I (225798) RAM: internal free=32343 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (226198) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=104
+I (226218) AudioService: AUDIO_DIAG reason=tts_active dec_q=8 play_q=2 dec_inflight=0 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=32223 internal_min=5684 psram_free=7364524
+I (226348) AudioService: AUDIO_DIAG reason=tts_stop dec_q=6 play_q=2 dec_inflight=0 out_inflight=1 underruns=4 decode_drops=0 play_min=0 internal_free=31967 internal_min=5684 psram_free=7364524
+I (226358) StateMachine: State: speaking -> listening
+I (226368) AnimeFace: ANIME_EMOTION NEUTRAL
+I (226368) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (226378) AnimeFace: LAST_SPEECH_PCM t=225165 last_update=225140
+I (226378) AnimeFace: MOUTH_CLOSED t=225170
+I (226378) AnimeFace: ANIME_FACE_MOUTH: stop
+I (228238) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=209
+W (228948) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (229038) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (229038) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (229038) MQTT: Closing audio channel, send_goodbye: 1
+I (229048) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (229048) wifi:Set ps type: 2, coexist: 0
+
+I (229058) StateMachine: State: listening -> idle
+I (229088) AnimeFace: ANIME_FACE_STATE: IDLE
+I (229208) AnimeFace: ANIME_WAKE CENTERED
+I (229208) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (229808) AnimeFace: ANIME_WAKE END base=IDLE
+I (230228) MQTT: Received goodbye message, session_id: 54efb59e
+I (230238) MQTT: Closing audio channel, send_goodbye: 0
+I (230238) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (230238) wifi:Set ps type: 2, coexist: 0
+
+I (230798) RAM: internal free=36135 min=5684 largest=7680 | psram free=7385404 min=7360840 largest=7208960
+I (231618) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=218
+I (232508) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+W (232748) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (232798) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5436
+I (232798) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=-1
+I (232798) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (232808) Application: TOUCH_WAKE_POPUP_QUEUED
+I (232808) StateMachine: State: idle -> connecting
+I (232838) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (232848) wifi:Set ps type: 0, coexist: 0
+
+I (232848) AnimeFace: ANIME_FACE_STATE: THINKING
+I (232958) AnimeFace: ANIME_WAKE CENTERED
+I (232958) AnimeFace: ANIME_WAKE MOUTH_SMALL
+W (233028) LcdDisplay: AUTO_RESTORE begin task=taskLVGL core=1 dimmed_before=0 current=75 target=75
+W (233028) LcdDisplay: AUTO_RESTORE requested dimmed_after=0
+I (233188) MQTT: Session ID: 2abfa78a
+I (233188) WifiStation: Setting WiFi power save level: PERFORMANCE (NONE)
+I (233188) wifi:Set ps type: 0, coexist: 0
+
+W (233188) Application: Server sample rate 24000 does not match device output sample rate 48000, resampling may cause distortion
+I (233208) StateMachine: State: connecting -> listening
+I (233208) AudioService: Resampling audio from 16000 to 48000
+I (233228) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (233598) AnimeFace: ANIME_WAKE END base=LISTENING
+I (234828) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=130
+I (235798) RAM: internal free=34531 min=5684 largest=7680 | psram free=7384004 min=7360840 largest=7208960
+I (236148) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=206
+I (236898) Application: >> Расскажи стишок.
+I (236908) StateMachine: State: listening -> speaking
+I (236918) AudioService: AUDIO_DIAG reason=tts_start dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=33447 internal_min=5684 psram_free=7383492
+I (236948) AnimeFace: ANIME_FACE_STATE: SPEAKING
+I (236948) AnimeFace: SPEAKING_STATE_ENTER t=235740
+I (237118) AnimeFace: ANIME_EMOTION HAPPY
+I (237228) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=0 underruns=0 decode_drops=0 play_min=0 internal_free=34251 internal_min=5684 psram_free=7383492
+I (237608) Application: << Хорошо, слушай!
+I (237648) AudioService: Resampling audio from 24000 to 48000
+I (237648) FnkExternalI2s: AI_VOLUME user=54 effective=34 gain=3042
+I (237708) AnimeFace: FIRST_SPEECH_PCM t=236505 level=9
+I (237838) AnimeFace: MOUTH_FIRST_OPEN t=236630 frame=2 level=46
+I (237838) AnimeFace: ANIME_FACE_MOUTH: start
+I (238538) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=102
+I (238698) AnimeFace: LAST_SPEECH_PCM t=237495 last_update=237445
+I (238698) AnimeFace: MOUTH_CLOSED t=237495
+I (238698) AnimeFace: ANIME_FACE_MOUTH: stop
+I (238708) Application: << У лукоморья дуб зелёный,
+Златая цепь на дубе том.
+I (239218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=2 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=34163 internal_min=5684 psram_free=7364524
+I (240078) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=137
+I (240758) AnimeFace: MOUTH_CLOSED t=239550
+I (240758) AnimeFace: ANIME_FACE_MOUTH: stop
+I (240798) RAM: internal free=34019 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (241218) AudioService: AUDIO_DIAG reason=tts_active dec_q=0 play_q=0 dec_inflight=0 out_inflight=1 underruns=0 decode_drops=0 play_min=0 internal_free=34291 internal_min=5684 psram_free=7376564
+I (241698) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=190
+I (242228) AudioService: AUDIO_DIAG reason=tts_active dec_q=4 play_q=0 dec_inflight=1 out_inflight=1 underruns=1 decode_drops=0 play_min=0 internal_free=32967 internal_min=5684 psram_free=7373680
+I (242878) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (242878) AnimeFace: MOUTH_CLOSED t=241670
+I (242878) AnimeFace: ANIME_FACE_MOUTH: stop
+I (243078) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=6607
+I (243358) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=141
+I (243958) Application: << И днём и ночью кот учёный
+Всё ходит по цепи кругом.
+
+Это Пушкин,
+W (243958) MQTT: Received audio packet with wrong sequence: 89, expected: 88
+W (243968) MQTT: [AUDIO_SEQ_GAP] time=243234 ms received=89 expected=88 delta=1 payload_len=169 dec_q=5 play_q=0
+W (244058) MQTT: Received audio packet with wrong sequence: 97, expected: 92
+W (244058) MQTT: [AUDIO_SEQ_GAP] time=243328 ms received=97 expected=92 delta=5 payload_len=105 dec_q=5 play_q=1
+W (244068) MQTT: Received audio packet with wrong sequence: 106, expected: 104
+W (244068) MQTT: [AUDIO_SEQ_GAP] time=243340 ms received=106 expected=104 delta=2 payload_len=213 dec_q=12 play_q=2
+I (244218) AudioService: AUDIO_DIAG reason=tts_active dec_q=17 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=29883 internal_min=5684 psram_free=7364524
+I (244588) AnimeFace: MOUTH_CLOSED t=243380
+I (244588) AnimeFace: ANIME_FACE_MOUTH: stop
+I (245218) AudioService: AUDIO_DIAG reason=tts_active dec_q=9 play_q=2 dec_inflight=0 out_inflight=1 underruns=2 decode_drops=0 play_min=0 internal_free=31943 internal_min=5684 psram_free=7364524
+I (245278) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=191
+I (245798) RAM: internal free=34231 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (246078) AnimeFace: MOUTH_CLOSED t=244870
+I (246078) AnimeFace: ANIME_FACE_MOUTH: stop
+I (246218) SystemInfo: free sram: 34355 minimal sram: 5684
+I (246818) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=111
+I (247248) AudioService: AUDIO_DIAG reason=tts_active dec_q=19 play_q=2 dec_inflight=0 out_inflight=1 underruns=3 decode_drops=5 play_min=0 internal_free=29607 internal_min=5684 psram_free=7364524
+I (248318) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=103
+I (248418) AnimeFace: MOUTH_CLOSED t=247210
+I (248418) AnimeFace: ANIME_FACE_MOUTH: stop
+I (248488) Application: << помнишь? Нравится?
+I (249218) AudioService: AUDIO_DIAG reason=tts_active dec_q=20 play_q=2 dec_inflight=0 out_inflight=1 underruns=3 decode_drops=5 play_min=0 internal_free=29667 internal_min=5684 psram_free=7364524
+I (249598) AnimeFace: MOUTH_CLOSED t=248390
+I (249598) AnimeFace: ANIME_FACE_MOUTH: stop
+I (249638) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=107
+I (249688) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (249858) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3836
+I (250548) AnimeFace: MOUTH_CLOSED t=249345
+I (250548) AnimeFace: ANIME_FACE_MOUTH: stop
+I (250768) AudioService: AUDIO_DIAG reason=tts_stop dec_q=20 play_q=2 dec_inflight=0 out_inflight=1 underruns=3 decode_drops=5 play_min=0 internal_free=29327 internal_min=5684 psram_free=7364524
+I (250768) StateMachine: State: speaking -> listening
+I (250778) AnimeFace: ANIME_EMOTION NEUTRAL
+I (250798) RAM: internal free=30135 min=5684 largest=7680 | psram free=7364524 min=7360840 largest=7208960
+I (250818) AnimeFace: ANIME_FACE_STATE: LISTENING
+I (250818) AnimeFace: LAST_SPEECH_PCM t=249615 last_update=249285
+I (252348) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=199
+W (253928) LcdDisplay: AUTO_ACTIVITY source=LVGL_INDEV_PRESSED task=taskLVGL core=1 dimmed_before=0 backlight_current=75
+I (254008) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=174
+I (254008) AnimeFace: ANIME_WAKE START source=TOUCH gaze_before=0
+I (254008) LcdDisplay: ANIME_FACE_TAP target=0x3fce27c8
+I (254018) MQTT: Closing audio channel, send_goodbye: 1
+I (254028) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (254028) wifi:Set ps type: 2, coexist: 0
+
+I (254028) StateMachine: State: listening -> idle
+I (254048) AnimeFace: ANIME_FACE_STATE: IDLE
+I (254188) AnimeFace: ANIME_WAKE CENTERED
+I (254188) AnimeFace: ANIME_WAKE MOUTH_SMALL
+I (254778) AnimeFace: ANIME_WAKE END base=IDLE
+I (254998) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (255088) MQTT: Received goodbye message, session_id: 2abfa78a
+I (255088) MQTT: Closing audio channel, send_goodbye: 0
+I (255088) WifiStation: Setting WiFi power save level: LOW_POWER (MAX_MODEM)
+I (255098) wifi:Set ps type: 2, coexist: 0
+
+I (255308) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=3816
+I (255798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (257188) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=145
+I (259158) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (259468) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4788
+I (260798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (260878) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=173
+I (263218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (263478) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=155
+I (264288) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (264588) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6589
+I (265798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (266178) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=147
+I (267828) AudioCodec: Set output enable to false
+I (269778) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=203
+I (270798) RAM: internal free=39775 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (271198) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (271518) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3034
+I (273218) SystemInfo: free sram: 39679 minimal sram: 5684
+I (273298) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=213
+I (274558) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (274858) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4792
+I (275798) RAM: internal free=39775 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (276978) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=219
+I (279678) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (279978) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4643
+I (280018) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=216
+I (280798) RAM: internal free=39775 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (282668) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=206
+I (283218) SystemInfo: free sram: 39679 minimal sram: 5684
+I (284658) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (284948) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4943
+I (285688) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=136
+I (285798) RAM: internal free=39735 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (287398) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=142
+I (288978) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=214
+I (289888) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (290208) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6614
+I (290798) RAM: internal free=39775 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (291878) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=124
+I (293218) SystemInfo: free sram: 39679 minimal sram: 5684
+I (295468) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=184
+I (295798) RAM: internal free=39775 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (296828) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (297128) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5484
+I (297458) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=134
+I (300748) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=113
+I (300798) RAM: internal free=39539 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (302638) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (302928) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4114
+I (303218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (304038) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+I (305798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (306158) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=150
+I (307068) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (307358) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4689
+I (308128) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=170
+I (309548) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=122
+I (310798) RAM: internal free=39511 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (312048) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (312338) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=3998
+I (313188) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=214
+I (313218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (315798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (316028) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=199
+I (316368) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (316688) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4972
+I (317478) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=109
+I (318898) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=133
+I (320798) RAM: internal free=39563 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (320918) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=158
+I (321688) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (321998) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=5904
+I (323218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (323348) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=185
+I (325248) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=122
+I (325798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (327918) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (328228) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=6946
+I (328468) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=196
+I (330798) RAM: internal free=39167 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (331718) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=127
+I (333218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (334288) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=115
+I (335178) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (335458) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=5794
+I (335798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (336068) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=157
+I (339768) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=125
+I (340798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (341298) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (341608) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=4252
+I (342638) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=162
+I (343218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (345798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (345878) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (346158) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6084
+I (346208) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=132
+I (349038) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=151
+I (350798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (351558) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=187
+I (352248) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (352538) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=6257
+I (353218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (354538) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=111
+I (355798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (357498) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=127
+I (358808) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (359118) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=4230
+I (359578) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=110
+I (360798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (362358) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=197
+I (363218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (363378) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (363658) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=4173
+I (364698) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=109
+I (365798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (367178) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=120
+I (367848) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (368128) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4451
+I (370508) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=114
+I (370798) RAM: internal free=39731 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (371848) AnimeFace: ANIME_FACE_GAZE target_x=-4 transition_ms=164
+I (372618) AnimeFace: ANIME_FACE_BLINK start gaze_x=-4
+I (372898) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-4 next_ms=3808
+I (373218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (374898) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=100
+I (375798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (376478) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=210
+I (376728) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (377038) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5322
+I (380138) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=118
+I (380798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (382368) AnimeFace: ANIME_FACE_BLINK start gaze_x=0
+I (382668) AnimeFace: ANIME_FACE_BLINK complete gaze_x=0 next_ms=4805
+I (383218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (383508) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=146
+I (384958) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=175
+I (385798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (387478) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (387788) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4881
+I (388628) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=207
+I (390798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (392168) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=103
+I (392678) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (392958) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5701
+I (393218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (395078) AnimeFace: ANIME_FACE_GAZE target_x=3 transition_ms=141
+I (395798) RAM: internal free=39711 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (396558) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=147
+I (398668) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (398958) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=4605
+I (399008) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=164
+I (400798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (402028) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=174
+I (403218) SystemInfo: free sram: 39671 minimal sram: 5684
+I (403568) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (403878) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=4105
+I (405008) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=186
+I (405798) RAM: internal free=39559 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (407568) AnimeFace: ANIME_FACE_GAZE target_x=2 transition_ms=143
+I (407998) AnimeFace: ANIME_FACE_BLINK start gaze_x=2
+I (408318) AnimeFace: ANIME_FACE_BLINK complete gaze_x=2 next_ms=6774
+I (410798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (410978) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=207
+I (413228) SystemInfo: free sram: 39687 minimal sram: 5684
+I (414068) AnimeFace: ANIME_FACE_GAZE target_x=-1 transition_ms=150
+I (415128) AnimeFace: ANIME_FACE_BLINK start gaze_x=-1
+I (415438) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-1 next_ms=5754
+I (415798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (416788) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=216
+I (418928) AnimeFace: ANIME_FACE_GAZE target_x=-2 transition_ms=180
+I (420798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (421198) AnimeFace: ANIME_FACE_BLINK start gaze_x=-2
+I (421508) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-2 next_ms=5003
+I (422158) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=187
+I (423218) SystemInfo: free sram: 39687 minimal sram: 5684
+I (425678) AnimeFace: ANIME_FACE_GAZE target_x=-3 transition_ms=113
+I (425798) RAM: internal free=38863 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (426548) AnimeFace: ANIME_FACE_BLINK start gaze_x=-3
+I (426848) AnimeFace: ANIME_FACE_BLINK complete gaze_x=-3 next_ms=4573
+I (428638) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=155
+I (430798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (431438) AnimeFace: ANIME_FACE_BLINK start gaze_x=1
+I (431728) AnimeFace: ANIME_FACE_BLINK complete gaze_x=1 next_ms=3374
+I (431948) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=188
+I (433218) SystemInfo: free sram: 39691 minimal sram: 5684
+I (435058) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=193
+I (435138) AnimeFace: ANIME_FACE_BLINK start gaze_x=3
+I (435428) AnimeFace: ANIME_FACE_BLINK complete gaze_x=3 next_ms=5503
+I (435798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (437048) AnimeFace: ANIME_FACE_GAZE target_x=1 transition_ms=108
+I (438428) AnimeFace: ANIME_FACE_GAZE target_x=4 transition_ms=147
+I (440798) RAM: internal free=39771 min=5684 largest=8192 | psram free=7382584 min=7360840 largest=7208960
+I (440948) AnimeFace: ANIME_FACE_BLINK start gaze_x=4
+I (441238) AnimeFace: ANIME_FACE_BLINK complete gaze_x=4 next_ms=4458
+I (441288) AnimeFace: ANIME_FACE_GAZE target_x=0 transition_ms=146
+I (443218) SystemInfo: free sram: 39695 minimal sram: 5684
