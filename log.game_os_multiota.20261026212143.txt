@@ -1,0 +1,54 @@
+[0;32mI (107167) game_menu: TOUCH x=102 y=269[0m
+[0;32mI (107167) game_menu: MENU_SELECT app=NES x=102 y=269[0m
+[0;32mI (107177) game_menu: NES_ROM_FOUND name=Aladdin.nes path=/sdcard/emulator/roms/nes/Aladdin.nes size=524304[0m
+[0;32mI (107177) game_menu: NES_ROM_FOUND name=Alien 3 (USA).nes path=/sdcard/emulator/roms/nes/Alien 3 (USA).nes size=262160[0m
+[0;32mI (107187) game_menu: NES_ROM_FOUND name=Battle City (J).nes path=/sdcard/emulator/roms/nes/Battle City (J).nes size=24592[0m
+[0;32mI (107197) game_menu: NES_ROM_FOUND name=Battletoads-Double Dragon (USA).nes path=/sdcard/emulator/roms/nes/Battletoads-Double Dragon (USA).nes size=262160[0m
+[0;32mI (107207) game_menu: NES_ROM_FOUND name=Bomberman (USA).nes path=/sdcard/emulator/roms/nes/Bomberman (USA).nes size=24592[0m
+[0;32mI (107217) game_menu: NES_ROM_FOUND name=Chip 'n Dale - Rescue Rangers (U).nes path=/sdcard/emulator/roms/nes/Chip 'n Dale - Rescue Rangers (U).nes size=262287[0m
+[0;32mI (107237) game_menu: NES_ROM_FOUND name=Chip 'n Dale - Rescue Rangers 2 (U).nes path=/sdcard/emulator/roms/nes/Chip 'n Dale - Rescue Rangers 2 (U).nes size=262160[0m
+[0;32mI (107247) game_menu: NES_ROM_FOUND name=Contra (USA).nes path=/sdcard/emulator/roms/nes/Contra (USA).nes size=131088[0m
+[0;32mI (107257) game_menu: NES_ROM_FOUND name=Darkwing Duck (U).nes path=/sdcard/emulator/roms/nes/Darkwing Duck (U).nes size=262160[0m
+[0;32mI (107267) game_menu: NES_ROM_FOUND name=Duck Tales (U).nes path=/sdcard/emulator/roms/nes/Duck Tales (U).nes size=131088[0m
+[0;32mI (107277) game_menu: NES_ROM_FOUND name=Excitebike (Japan, USA).nes path=/sdcard/emulator/roms/nes/Excitebike (Japan, USA).nes size=24592[0m
+[0;32mI (107287) game_menu: NES_ROM_FOUND name=Jackal (U).nes path=/sdcard/emulator/roms/nes/Jackal (U).nes size=131088[0m
+[0;32mI (107297) game_menu: NES_ROM_FOUND name=Lode Runner (U).nes path=/sdcard/emulator/roms/nes/Lode Runner (U).nes size=24592[0m
+[0;32mI (107307) game_menu: NES_ROM_FOUND name=Nuts & Milk (Japan).nes path=/sdcard/emulator/roms/nes/Nuts & Milk (Japan).nes size=24592[0m
+[0;32mI (107327) game_menu: NES_ROM_FOUND name=Prince of Persia (U).nes path=/sdcard/emulator/roms/nes/Prince of Persia (U).nes size=131088[0m
+[0;32mI (107337) game_menu: NES_ROM_FOUND name=Super C (USA).nes path=/sdcard/emulator/roms/nes/Super C (USA).nes size=262160[0m
+[0;32mI (107347) game_menu: NES_ROM_FOUND name=Super Mario Bros. (Europe).nes path=/sdcard/emulator/roms/nes/Super Mario Bros. (Europe).nes size=40976[0m
+[0;32mI (107357) game_menu: NES_ROM_FOUND name=Super Spy Hunter (USA).nes path=/sdcard/emulator/roms/nes/Super Spy Hunter (USA).nes size=262160[0m
+[0;32mI (107367) game_menu: NES_ROM_FOUND name=Teenage Mutant Ninja Turtles - Tournament Fighters (U).nes path=/sdcard/emulator/roms/nes/Teenage Mutant Ninja Turtles - Tournament Fighters (U).nes size=262160[0m
+[0;32mI (107387) game_menu: NES_ROM_FOUND name=Teenage Mutant Ninja Turtles III - The Manhattan Project (USA).nes path=/sdcard/emulator/roms/nes/Teenage Mutant Ninja Turtles III - The Manhattan Project (USA).nes size=524304[0m
+[0;32mI (107407) game_menu: NES_ROM_FOUND name=Tom & Jerry - Ultimate Game of Cat and Mouse! (U).nes path=/sdcard/emulator/roms/nes/Tom & Jerry - Ultimate Game of Cat and Mouse! (U).nes size=262160[0m
+[0;32mI (107427) game_menu: NES_ROM_SCAN_DONE count=21[0m
+[0;32mI (112567) game_menu: GALLERY_RECT_TEST window_ms=5030 draw_us_avg/max=81189/83457 present_call_us_avg/max=526/563 touch_interval_us_avg/max=40240/90009 draws_per_sec=7[0m
+[0;32mI (117587) game_menu: GALLERY_RECT_TEST window_ms=5019 draw_us_avg/max=81228/83512 present_call_us_avg/max=532/567 touch_interval_us_avg/max=38615/90010 draws_per_sec=7[0m
+[0;32mI (119017) game_menu: TOUCH x=700 y=256[0m
+[0;32mI (119017) game_menu: MENU_SELECT app=SNES_OTA x=700 y=256[0m
+[0;32mI (119027) game_menu: SNES_ROM_FOUND name=Aero Fighters (USA).sfc path=/sdcard/emulator/roms/snes/Aero Fighters (USA).sfc size=1310720[0m
+[0;32mI (119027) game_menu: SNES_ROM_FOUND name=Aladdin (U).sfc path=/sdcard/emulator/roms/snes/Aladdin (U).sfc size=1310720[0m
+[0;32mI (119037) game_menu: SNES_ROM_FOUND name=Alien 3.sfc path=/sdcard/emulator/roms/snes/Alien 3.sfc size=1048576[0m
+[0;32mI (119047) game_menu: SNES_ROM_FOUND name=Alien vs Predator (USA).sfc path=/sdcard/emulator/roms/snes/Alien vs Predator (USA).sfc size=1048576[0m
+[0;32mI (119057) game_menu: SNES_ROM_FOUND name=Contra III - The Alien Wars (USA).sfc path=/sdcard/emulator/roms/snes/Contra III - The Alien Wars (USA).sfc size=1048576[0m
+[0;32mI (119077) game_menu: SNES_ROM_FOUND name=Donald Duck - Maui Mallard in Cold Shadow (E).smc path=/sdcard/emulator/roms/snes/Donald Duck - Maui Mallard in Cold Shadow (E).smc size=3145728[0m
+[0;32mI (119087) game_menu: SNES_ROM_FOUND name=Donald Duck no Mahou no Boushi (J).sfc path=/sdcard/emulator/roms/snes/Donald Duck no Mahou no Boushi (J).sfc size=2097152[0m
+[0;32mI (119107) game_menu: SNES_ROM_FOUND name=Earthworm Jim (USA).sfc path=/sdcard/emulator/roms/snes/Earthworm Jim (USA).sfc size=3145728[0m
+[0;32mI (119117) game_menu: SNES_ROM_FOUND name=Indiana Jones' Greatest Adventures (USA).sfc path=/sdcard/emulator/roms/snes/Indiana Jones' Greatest Adventures (USA).sfc size=2097152[0m
+[0;32mI (119127) game_menu: SNES_ROM_FOUND name=Jungle Book, The (USA).sfc path=/sdcard/emulator/roms/snes/Jungle Book, The (USA).sfc size=2097152[0m
+[0;32mI (119147) game_menu: SNES_ROM_FOUND name=Killer Instinct (U) (V1.1).smc path=/sdcard/emulator/roms/snes/Killer Instinct (U) (V1.1).smc size=4194816[0m
+[0;32mI (119157) game_menu: SNES_ROM_FOUND name=Legend of Zelda, The - A Link to the Past (U).sfc path=/sdcard/emulator/roms/snes/Legend of Zelda, The - A Link to the Past (U).sfc size=1048576[0m
+[0;32mI (119167) game_menu: SNES_ROM_FOUND name=Mega Man X (USA) (Rev 1).sfc path=/sdcard/emulator/roms/snes/Mega Man X (USA) (Rev 1).sfc size=1572864[0m
+[0;32mI (119187) game_menu: SNES_ROM_FOUND name=Mickey Mania - The Timeless Adventures of Mickey Mouse (USA).sfc path=/sdcard/emulator/roms/snes/Mickey Mania - The Timeless Adventures of Mickey Mouse (USA).sfc size=2097152[0m
+[0;32mI (119207) game_menu: SNES_ROM_FOUND name=Pinocchio (USA).sfc path=/sdcard/emulator/roms/snes/Pinocchio (USA).sfc size=3145728[0m
+[0;32mI (119217) game_menu: SNES_ROM_FOUND name=Prince of Persia (USA).sfc path=/sdcard/emulator/roms/snes/Prince of Persia (USA).sfc size=1048576[0m
+[0;32mI (119227) game_menu: SNES_ROM_FOUND name=Super Bomberman (USA).sfc path=/sdcard/emulator/roms/snes/Super Bomberman (USA).sfc size=524288[0m
+[0;32mI (119237) game_menu: SNES_ROM_FOUND name=Super Mario All-Stars (USA).sfc path=/sdcard/emulator/roms/snes/Super Mario All-Stars (USA).sfc size=2097152[0m
+[0;32mI (119257) game_menu: SNES_ROM_FOUND name=Teenage Mutant Hero Turtles IV - Turtles in Time (E).fig path=/sdcard/emulator/roms/snes/Teenage Mutant Hero Turtles IV - Turtles in Time (E).fig size=1049088[0m
+[0;32mI (119267) game_menu: SNES_ROM_FOUND name=Teenage Mutant Ninja Turtles - Tournament Fighters (USA).sfc path=/sdcard/emulator/roms/snes/Teenage Mutant Ninja Turtles - Tournament Fighters (USA).sfc size=2097152[0m
+[0;32mI (119287) game_menu: SNES_ROM_FOUND name=Teenage Mutant Ninja Turtles - Turtles in Time (J).smc path=/sdcard/emulator/roms/snes/Teenage Mutant Ninja Turtles - Turtles in Time (J).smc size=2097152[0m
+[0;32mI (119307) game_menu: SNES_ROM_FOUND name=Timon & Pumbaa's Jungle Games (USA).sfc path=/sdcard/emulator/roms/snes/Timon & Pumbaa's Jungle Games (USA).sfc size=1572864[0m
+[0;32mI (119317) game_menu: SNES_ROM_FOUND name=Tiny Toon Adventures - Buster Busts Loose! (USA).sfc path=/sdcard/emulator/roms/snes/Tiny Toon Adventures - Buster Busts Loose! (USA).sfc size=1048576[0m
+[0;32mI (119337) game_menu: SNES_ROM_FOUND name=Wolfenstein 3-D (U).sfc path=/sdcard/emulator/roms/snes/Wolfenstein 3-D (U).sfc size=1048576[0m
+[0;32mI (119347) game_menu: SNES_ROM_SCAN_DONE count=24[0m
+[0;32mI (124527) game_menu: GALLERY_RECT_TEST window_ms=5060 draw_us_avg/max=80461/82518 present_call_us_avg/max=531/566 touch_interval_us_avg/max=49126/90008 draws_per_sec=7[0m
