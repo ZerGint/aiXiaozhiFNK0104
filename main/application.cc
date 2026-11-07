@@ -4,6 +4,8 @@
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
 #include "boards/freenove-fnk0104s/home_assistant_settings_server.h"
 #include "home_assistant.h"
+#endif
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 #include "weather/weather_service.h"
 #endif
 #include "audio_codec.h"
@@ -155,15 +157,17 @@ void Application::Initialize() {
                 msg += data;
                 display->ShowNotification(msg.c_str(), 30000);
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_CONNECTED);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
                 WeatherService::GetInstance().SetNetworkConnected(true);
 #endif
                 break;
             }
             case NetworkEvent::Disconnected:
                 xEventGroupSetBits(event_group_, MAIN_EVENT_NETWORK_DISCONNECTED);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
                 WeatherService::GetInstance().SetNetworkConnected(false);
+#endif
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
                 HomeAssistant::GetInstance().MarkConnectionLost();
                 Schedule([]() { HomeAssistantSettingsServer::GetInstance().Stop(); });
 #endif
@@ -1119,7 +1123,7 @@ void Application::HandleStateChangedEvent() {
     auto display = board.GetDisplay();
     auto led = board.GetLed();
     led->OnStateChanged();
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     WeatherService::GetInstance().SetApplicationIdle(new_state == kDeviceStateIdle);
 #endif
 
@@ -1135,7 +1139,7 @@ void Application::HandleStateChangedEvent() {
             // releasing a suspended SD producer. The SD file and decoder stay
             // open, but no PCM is emitted until this handoff is queued.
             MediaPlayer::GetInstance().PlayForVoice();
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
             WeatherService::GetInstance().SetAudioReady(
                 audio_service_.IsWakeWordRunning() || audio_service_.IsAudioProcessorRunning());
 #endif
@@ -1334,7 +1338,7 @@ bool Application::UpgradeFirmware(const std::string& url, const std::string& ver
         ESP_LOGW(TAG, "OTA_START_DEFERRED reason=generated_download_busy");
         return false;
     }
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (!local_approval) {
         ESP_LOGW(TAG,
                  "CUSTOM_OTA_GUARD: local approval required; automatic/manual install blocked url=%s",

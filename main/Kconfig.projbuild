@@ -284,6 +284,9 @@ choice BOARD_TYPE
     config BOARD_TYPE_FREENOVE_FNK0099K_AI_ASSISTANT
         bool "Freenove FNK0099K ESP32-S3 AI Assistant (Custom)"
         depends on IDF_TARGET_ESP32S3
+    config BOARD_TYPE_FREENOVE_FNK0104B
+        bool "Freenove FNK0104B 2.8-inch Display (ILI9341)"
+        depends on IDF_TARGET_ESP32S3
     config BOARD_TYPE_FREENOVE_FNK0104S
         bool "Freenove FNK0104S 4.0-inch Display (ST7796)"
         depends on IDF_TARGET_ESP32S3

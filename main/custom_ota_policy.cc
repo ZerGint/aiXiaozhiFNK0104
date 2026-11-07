@@ -36,6 +36,11 @@ int CompareStableVersions(const char* left, const char* right);
 namespace {
 
 constexpr char kTag[] = "CustomOta";
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+constexpr char kCompiledBoardType[] = "freenove-fnk0104b";
+#else
+constexpr char kCompiledBoardType[] = "freenove-fnk0104s";
+#endif
 constexpr char kManifestUrl[] =
     "https://api.github.com/repos/ZerGint/FNK0104s_xiaozhi_update/contents/ota/stable.json?ref=main";
 constexpr char kUpdateDir[] = "/sdcard/update";
@@ -266,7 +271,7 @@ bool ParseStableManifest(const std::string& manifest, const char* current_versio
                        fields->size->valuedouble == static_cast<double>(fields->size->valueint) &&
                        cJSON_IsString(fields->sha256) && IsHexDigest(fields->sha256->valuestring) &&
                        cJSON_IsString(fields->url) && strncmp(fields->url->valuestring, "https://", 8) == 0 &&
-                       cJSON_IsString(fields->board) && strcmp(fields->board->valuestring, "freenove-fnk0104s") == 0 &&
+                       cJSON_IsString(fields->board) && strcmp(fields->board->valuestring, kCompiledBoardType) == 0 &&
                        cJSON_IsString(fields->chip) && strcmp(fields->chip->valuestring, "esp32s3") == 0 &&
                        cJSON_IsString(fields->variant) && current_variant &&
                        strcmp(fields->variant->valuestring, current_variant) == 0 &&
@@ -390,7 +395,7 @@ bool InstallStagedUpdate() {
                                 size->valuedouble == static_cast<double>(size->valueint) &&
                                 size->valueint == firmware_info.st_size && cJSON_IsString(sha) &&
                                 IsHexDigest(sha->valuestring) && cJSON_IsString(board) &&
-                                strcmp(board->valuestring, "freenove-fnk0104s") == 0 &&
+                                strcmp(board->valuestring, kCompiledBoardType) == 0 &&
                                 cJSON_IsString(chip) && strcmp(chip->valuestring, "esp32s3") == 0 &&
                                 cJSON_IsString(variant) &&
                                 strcmp(variant->valuestring, GetCompiledAudioOutputVariant()) == 0 &&

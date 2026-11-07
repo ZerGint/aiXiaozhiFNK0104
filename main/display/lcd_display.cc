@@ -1574,6 +1574,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_flag(top_time_label_, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(top_time_label_, fnk_top_bar_cb, LV_EVENT_ALL, this);
     lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
     lv_obj_set_pos(network_label_, 12, 7);
     network_ip_label_ = lv_label_create(top_bar_);
     lv_label_set_text(network_ip_label_, "--.--.--.--");
@@ -1584,6 +1585,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_pos(network_ip_label_, 40, 8);
     ha_status_label_ = label(top_bar_, "", 164, 8, 28, kAccent);
     lv_obj_set_style_text_align(ha_status_label_, LV_TEXT_ALIGN_CENTER, 0);
+#endif
     lv_obj_set_pos(top_time_label_, 200, 7);
     auto top_status_group = lv_obj_get_parent(battery_label_);
     lv_obj_set_size(top_status_group, 160, 34);
@@ -2018,7 +2020,6 @@ void LcdDisplay::NotifyBootContentChanged() {
     lv_obj_invalidate(lv_screen_active());
     ESP_LOGI(TAG, "BOOT_ANIM_CONTENT_INVALIDATED");
 }
-
 void LcdDisplay::OnBootDisplayEvent(lv_event_t* event) {
     auto* self = static_cast<LcdDisplay*>(lv_event_get_user_data(event));
     if (self == nullptr || self->boot_overlay_ == nullptr) {
@@ -2097,6 +2098,13 @@ void LcdDisplay::UpdateWeatherUI() {
              updated.tm_hour, updated.tm_min);
     lv_label_set_text(weather_updated_label_, text);
     ESP_LOGI(TAG, "WEATHER_UI_UPDATE valid=1 stale=%d", data.stale || data.last_request_failed);
+}
+#endif
+
+#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+void LcdDisplay::NotifyBootContentChanged() {
+    // FNK0104B has no S-specific boot overlay, but the common display
+    // interface still requires this notification hook to be defined.
 }
 #endif
 

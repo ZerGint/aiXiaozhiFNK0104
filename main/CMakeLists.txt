@@ -64,7 +64,7 @@ set(SOURCES "audio/audio_codec.cc"
             "managers/resource_manager.cc"
             )
 
-if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S OR CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     list(APPEND SOURCES "weather/weather_service.cc")
     list(APPEND SOURCES "music/music_bridge_client.cc" "music/music_service.cc" "music/generated_music_storage.cc" "music/generated_music_job_storage.cc")
 endif()
@@ -860,6 +860,11 @@ elseif(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
     set(BUILTIN_TEXT_FONT font_noto_sans_basic_20_4)
     set(BUILTIN_ICON_FONT font_material_symbols_20_4)
     set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
+elseif(CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
+    set(BOARD_DIR "freenove-fnk0104b")
+    set(BUILTIN_TEXT_FONT font_noto_sans_basic_20_4)
+    set(BUILTIN_ICON_FONT font_material_symbols_20_4)
+    set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
 elseif(CONFIG_BOARD_TYPE_AI_VOX3)
     set(BOARD_DIR "nulllab-ai-vox-v3")
     set(BUILTIN_TEXT_FONT font_noto_sans_basic_20_4)
@@ -1096,7 +1101,7 @@ if(CONFIG_BOARD_TYPE_ESP32_P4_FUNCTION_EV_BOARD)
         sdmmc
     )
 endif()
-if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S OR CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     list(APPEND MAIN_PRIV_REQUIRES_EXTRA
         esp_http_server
         mdns

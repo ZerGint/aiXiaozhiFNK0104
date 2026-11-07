@@ -1,3 +1,8 @@
+param(
+    [ValidateSet('freenove-fnk0104s', 'freenove-fnk0104b')]
+    [string]$Board = 'freenove-fnk0104s'
+)
+
 $ErrorActionPreference = 'Stop'
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
 $project = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -34,13 +39,13 @@ if (Test-Path $cache) {
 }
 Push-Location $project
 $lock = Join-Path $project 'dependencies.lock'
-$lockBackup = Join-Path $env:TEMP 'fnk0104s-dependencies.lock.backup'
+$lockBackup = Join-Path $env:TEMP "$Board-dependencies.lock.backup"
 if (Test-Path $lock) { Copy-Item $lock $lockBackup -Force }
 try {
-    & $python 'scripts/build.py' 'freenove-fnk0104s' '--name' 'freenove-fnk0104s'
+    & $python 'scripts/build.py' $Board '--name' $Board
     if ($LASTEXITCODE -ne 0) { throw "FNK build failed with exit code $LASTEXITCODE" }
 } finally {
     Pop-Location
     if (Test-Path $lockBackup) { Copy-Item $lockBackup $lock -Force }
 }
-Write-Host "FNK build completed: $project\build\xiaozhi.bin"
+Write-Host "FNK build completed for $Board`: $project\build\xiaozhi.bin"

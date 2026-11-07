@@ -1,4 +1,4 @@
-# FNK0104S build guide
+# FNK0104S / FNK0104B build guide
 
 This guide records the confirmed original production workflow. It is isolated
 from the ESP32-P4 IDF 6.0.2 environment.
@@ -23,7 +23,7 @@ deliberately selects PlatformIO's 6.1.0 paths and refuses another IDF.
 
 ## Build
 
-From the repository root run:
+From the repository root run the default FNK0104S build:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build_fnk.ps1
@@ -38,6 +38,15 @@ Python, Xtensa compiler, target and board, and invokes:
 ```text
 python scripts/build.py freenove-fnk0104s --name freenove-fnk0104s
 ```
+
+For the separate FNK0104B board variant, pass its board name explicitly:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\build_fnk.ps1 -Board freenove-fnk0104b
+```
+
+This selects the ESP32-S3 FNK0104B configuration and emits the same
+`build\xiaozhi.bin` path without changing the default S build.
 
 It never flashes, erases, monitors, changes partition tables, or updates the
 ESP32-C6. Do not manually merge P4 and FNK PATH entries.
