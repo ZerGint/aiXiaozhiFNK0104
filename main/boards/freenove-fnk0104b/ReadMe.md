@@ -12,9 +12,11 @@ Current hardware configuration:
 - 1-bit SDMMC storage;
 - ESP32-S3 target.
 
-The UI is intentionally not scaled or redesigned in this initial board
-variant.  The next change will adapt the FNK0104S layout to 320x240 while
-preserving the existing element proportions and relative placement.
+The B display uses a separate `Fnk0104bLcdDisplay` implementation. It lays out
+the shared controls on a 480x320 logical canvas and scales the canvas uniformly
+to the 320x240 panel, retaining the original positions and proportions. Touch
+input uses the same transform through LVGL hit testing. Hardware rendering and
+touch orientation still need confirmation on a physical FNK0104B.
 
 Build with:
 

@@ -223,6 +223,11 @@ public:
     virtual void Unlock() override;
 
 protected:
+    // UI layout dimensions may differ from the physical panel when a board
+    // renders a logical reference canvas through a display transform.
+    virtual lv_coord_t GetLayoutWidth() const { return LV_HOR_RES; }
+    virtual lv_coord_t GetLayoutHeight() const { return LV_VER_RES; }
+
     // Add protected constructor
     LcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_handle_t panel, int width,
                int height);

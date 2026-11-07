@@ -1,0 +1,222 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1632" height="522" viewBox="0 0 1632 522">
+  <defs>
+    <clipPath id="physical-screen"><rect width="320" height="240" rx="5"/></clipPath>
+    <linearGradient id="bezel" x2="0" y2="1">
+      <stop stop-color="#27313b"/>
+      <stop offset="1" stop-color="#111820"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#000" flood-opacity=".35"/>
+    </filter>
+    <style>
+      .page { font: 16px 'Segoe UI', sans-serif; fill: #e9f2f4; }
+      .caption { font: 600 18px 'Segoe UI', sans-serif; fill: #f4fbfc; }
+      .subcaption { font: 13px 'Segoe UI', sans-serif; fill: #9cb8c2; }
+      .ui { font-family: 'Segoe UI', Arial, sans-serif; }
+      .text { fill: #f4fbfc; }
+      .muted { fill: #9cb8c2; }
+      .accent { fill: #16d99a; }
+      .logical { font-size: 14px; }
+      .small { font-size: 12px; }
+      .tiny { font-size: 10px; }
+    </style>
+    <g id="shell" class="ui">
+      <rect width="480" height="320" fill="#071923"/>
+      <rect width="480" height="34" fill="#0b2433"/>
+      <rect y="38" width="64" height="276" rx="14" fill="#0a202d" stroke="#163b4a"/>
+      <g fill="#0f2a37" stroke="#1b5363">
+        <rect x="4" y="42" width="56" height="56" rx="10"/>
+        <rect x="4" y="102" width="56" height="56" rx="10"/>
+        <rect x="4" y="162" width="56" height="56" rx="10"/>
+        <rect x="4" y="222" width="56" height="56" rx="10"/>
+      </g>
+      <g text-anchor="middle" class="text logical">
+        <text x="32" y="67" font-weight="600">AI</text>
+        <text x="32" y="265" font-weight="600">GEN</text>
+      </g>
+      <g fill="none" stroke="#f4fbfc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Radio receiver -->
+        <rect x="16" y="119" width="32" height="19" rx="4" fill="#102c39"/>
+        <path d="M21 118v-9 M21 132v7a4 4 0 0 1-8 0v-2 M31 132h10 M31 138h10"/>
+        <!-- Double music note -->
+        <path d="M25 171v23 M41 171v23 M25 171h19 M25 188a6 5 0 1 1-10 4 M41 188a6 5 0 1 1-10 4"/>
+      </g>
+      <text x="32" y="302" text-anchor="middle" class="muted tiny">v1.1.18</text>
+      <!-- Status row is drawn above each view, like the LVGL top bar. -->
+      <g class="text small">
+        <text x="240" y="22" text-anchor="middle" font-weight="600">11:08</text>
+        <path d="M15 22q8-9 16 0 M19 22q4-5 8 0" fill="none" stroke="#f4fbfc" stroke-width="1.8"/>
+        <circle cx="23" cy="24" r="1.3" fill="#f4fbfc"/>
+        <path d="M320 18v10 M320 18l8-3v16l-8-3 M332 20q6 3 0 6" fill="none" stroke="#f4fbfc" stroke-width="1.6" stroke-linejoin="round"/>
+        <text x="340" y="25" class="small">57%</text>
+        <path d="M390 15h20v13h-20z M411 19h3v5h-3z" fill="none" stroke="#f4fbfc" stroke-width="1.5"/>
+        <rect x="392" y="17" width="14" height="9" rx="1" fill="#16d99a"/>
+        <text x="419" y="25" class="small">86%</text>
+      </g>
+    </g>
+    <g id="active-ai"><rect x="4.5" y="42.5" width="55" height="55" rx="10" fill="none" stroke="#16d99a" stroke-width="2"/></g>
+    <g id="active-radio"><rect x="4.5" y="102.5" width="55" height="55" rx="10" fill="none" stroke="#16d99a" stroke-width="2"/></g>
+    <g id="active-player"><rect x="4.5" y="162.5" width="55" height="55" rx="10" fill="none" stroke="#16d99a" stroke-width="2"/></g>
+    <g id="weather-icons">
+      <circle cx="25" cy="21" r="10" fill="#ffd54f"/>
+      <path d="M24 31c-8 0-9-11-1-13 2-8 13-8 16 0 8 0 9 13 0 13z" fill="#d7e3ee"/>
+    </g>
+  </defs>
+
+  <rect width="1632" height="522" fill="#101820"/>
+  <text x="28" y="35" class="page" font-size="22" font-weight="650">FNK0104B · предпросмотр интерфейса</text>
+  <text x="28" y="58" class="subcaption">Логическая разметка 480×320 → панель 320×240 (66,4%). Экраны увеличены для просмотра; показаны примеры состояний.</text>
+
+  <!-- AI screen -->
+  <g transform="translate(28 82)" filter="url(#shadow)">
+    <rect width="500" height="402" rx="18" fill="url(#bezel)" stroke="#52606b" stroke-width="2"/>
+    <g transform="translate(10 10) scale(1.5)">
+      <rect width="320" height="240" rx="5" fill="#071923"/>
+      <g clip-path="url(#physical-screen)">
+        <g transform="translate(0 14) scale(.6640625)">
+          <use href="#shell"/>
+          <use href="#active-ai"/>
+          <rect x="66" y="38" width="258" height="276" rx="14" fill="#000" stroke="#0c2230" stroke-width="2"/>
+          <rect x="330" y="38" width="144" height="276" rx="14" fill="#0c2230"/>
+          <image href="../../anime_face_assets/preview/neutral.png" x="75" y="56" width="240" height="240" preserveAspectRatio="xMidYMid meet"/>
+          <g class="ui">
+            <text x="338" y="58" class="text logical" font-weight="600">Варшава</text>
+            <text x="338" y="78" class="muted small">Пятница · 7 ноября</text>
+            <circle cx="359" cy="119" r="15" fill="#ffd54f"/>
+            <path d="M358 140c-11 0-12-15-2-17 3-12 19-12 22 0 12 1 12 17 0 17z" fill="#d7e3ee"/>
+            <text x="400" y="130" class="text" font-size="34" font-weight="500">10°</text>
+            <text x="338" y="164" class="text small">Переменная облачность</text>
+            <text x="338" y="184" class="muted small">Ветер 3 м/с</text>
+            <rect x="335" y="187" width="65" height="85" rx="9" fill="#102c39"/>
+            <rect x="403" y="187" width="65" height="85" rx="9" fill="#102c39"/>
+            <use href="#weather-icons" x="350" y="190"/>
+            <use href="#weather-icons" x="418" y="190"/>
+            <text x="367" y="239" text-anchor="middle" class="text small">8° / 12°</text>
+            <text x="435" y="239" text-anchor="middle" class="text small">7° / 11°</text>
+            <text x="367" y="260" text-anchor="middle" class="muted tiny">20%</text>
+            <text x="435" y="260" text-anchor="middle" class="muted tiny">10%</text>
+            <text x="338" y="296" class="muted tiny">Обновлено недавно</text>
+            <circle cx="454" cy="290" r="12" fill="#153d4b"/>
+            <path d="M450 290a5 5 0 0 1 9-3 M459 287v-4 M459 287h-4 M458 290a5 5 0 0 1-9 3 M449 293v4 M449 293h4" fill="none" stroke="#16d99a" stroke-width="1.5"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="278" y="509" text-anchor="middle" class="caption">AI · главный экран и погода</text>
+
+  <!-- Radio screen -->
+  <g transform="translate(566 82)" filter="url(#shadow)">
+    <rect width="500" height="402" rx="18" fill="url(#bezel)" stroke="#52606b" stroke-width="2"/>
+    <g transform="translate(10 10) scale(1.5)">
+      <rect width="320" height="240" rx="5" fill="#071923"/>
+      <g clip-path="url(#physical-screen)">
+        <g transform="translate(0 14) scale(.6640625)">
+          <use href="#shell"/>
+          <use href="#active-radio"/>
+          <rect x="66" y="38" width="408" height="276" rx="14" fill="#071923"/>
+          <rect x="66" y="38" width="258" height="276" rx="14" fill="#0d2734"/>
+          <rect x="330" y="38" width="144" height="276" rx="14" fill="#0c2230"/>
+          <g class="ui" text-anchor="middle">
+            <text x="195" y="70" class="muted logical">Now Playing</text>
+            <text x="195" y="115" class="text" font-size="25" font-weight="600">Юмор FM</text>
+          </g>
+          <g class="ui" fill="#102c39">
+            <rect x="96" y="155" width="48" height="40" rx="10"/>
+            <rect x="167" y="149" width="54" height="52" rx="13" fill="#16d99a"/>
+            <rect x="244" y="155" width="48" height="40" rx="10"/>
+            <rect x="86" y="221" width="40" height="40" rx="10"/>
+            <rect x="146" y="221" width="40" height="40" rx="10"/>
+            <rect x="206" y="221" width="40" height="40" rx="10"/>
+            <rect x="266" y="221" width="40" height="40" rx="10"/>
+          </g>
+          <g fill="none" stroke="#f4fbfc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M126 167l-9 8 9 8 M120 175h20"/>
+            <path d="M266 167l9 8-9 8 M272 175h-20"/>
+            <path d="M185 165v20l17-10z" fill="#071923" stroke="#071923"/>
+            <path d="M102 232v18 M96 239h12 M154 234h13 M154 240h13 M214 231v20 M214 231h14 M214 231l-2 6"/>
+            <path d="M275 230a10 10 0 1 1-1 13 M274 228v5 M274 228h5"/>
+          </g>
+          <text x="74" y="247" class="muted small">VOL</text>
+          <rect x="120" y="287" width="112" height="6" rx="3" fill="#163b4a"/>
+          <rect x="120" y="287" width="69" height="6" rx="3" fill="#16d99a"/>
+          <text x="402" y="67" class="text logical" font-weight="600">Radio</text>
+          <g class="ui">
+            <rect x="338" y="78" width="128" height="42" rx="8" fill="#153d4b" stroke="#16d99a"/>
+            <rect x="338" y="124" width="128" height="42" rx="8" fill="#102c39"/>
+            <rect x="338" y="170" width="128" height="42" rx="8" fill="#102c39"/>
+            <rect x="338" y="216" width="128" height="42" rx="8" fill="#102c39"/>
+            <text x="347" y="105" class="accent small">★</text>
+            <text x="368" y="105" class="text small">Юмор FM</text>
+            <text x="358" y="151" class="text small">Европа Плюс</text>
+            <text x="358" y="197" class="text small">Радио Maximum</text>
+            <text x="358" y="243" class="text small">Душевное радио</text>
+          </g>
+          <rect x="338" y="276" width="32" height="32" rx="8" fill="#102c39"/>
+          <rect x="434" y="276" width="32" height="32" rx="8" fill="#102c39"/>
+          <text x="354" y="298" text-anchor="middle" class="text logical">‹</text>
+          <text x="450" y="298" text-anchor="middle" class="text logical">›</text>
+          <text x="402" y="298" text-anchor="middle" class="text small">1 / 3</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="816" y="509" text-anchor="middle" class="caption">Радио · текущая станция и каталог</text>
+
+  <!-- SD player screen -->
+  <g transform="translate(1104 82)" filter="url(#shadow)">
+    <rect width="500" height="402" rx="18" fill="url(#bezel)" stroke="#52606b" stroke-width="2"/>
+    <g transform="translate(10 10) scale(1.5)">
+      <rect width="320" height="240" rx="5" fill="#071923"/>
+      <g clip-path="url(#physical-screen)">
+        <g transform="translate(0 14) scale(.6640625)">
+          <use href="#shell"/>
+          <use href="#active-player"/>
+          <rect x="66" y="38" width="408" height="276" rx="14" fill="#071923"/>
+          <rect x="66" y="38" width="258" height="276" rx="14" fill="#0d2734"/>
+          <rect x="330" y="38" width="144" height="276" rx="14" fill="#0c2230"/>
+          <g class="ui" text-anchor="middle">
+            <text x="195" y="70" class="muted logical">Now Playing</text>
+            <text x="195" y="106" class="text" font-size="20" font-weight="600">Дима Билан —</text>
+            <text x="195" y="127" class="text" font-size="18">Я умираю без любви</text>
+          </g>
+          <g fill="#102c39">
+            <rect x="96" y="155" width="48" height="40" rx="10"/>
+            <rect x="167" y="149" width="54" height="52" rx="13" fill="#16d99a"/>
+            <rect x="244" y="155" width="48" height="40" rx="10"/>
+            <rect x="86" y="221" width="40" height="40" rx="10"/>
+            <rect x="206" y="221" width="40" height="40" rx="10"/>
+            <rect x="266" y="221" width="40" height="40" rx="10"/>
+          </g>
+          <g fill="none" stroke="#f4fbfc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M126 167l-9 8 9 8 M120 175h20"/>
+            <path d="M266 167l9 8-9 8 M272 175h-20"/>
+            <path d="M185 165v20l17-10z" fill="#071923" stroke="#071923"/>
+            <path d="M99 231l8 4v12l-8 4z M99 234h-5v10h5 M214 234h13 M214 240h13 M283 231v20 M283 231h14 M283 231l-2 6"/>
+          </g>
+          <path d="M80 282l6 3v9l-6 3z M80 285h-4v8h4 M89 285q5 4 0 8" fill="none" stroke="#9cb8c2" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="118" y="287" width="118" height="6" rx="3" fill="#163b4a"/>
+          <rect x="118" y="287" width="72" height="6" rx="3" fill="#16d99a"/>
+          <text x="402" y="67" class="text logical" font-weight="600">Player</text>
+          <g class="ui">
+            <rect x="338" y="78" width="128" height="42" rx="8" fill="#153d4b" stroke="#16d99a"/>
+            <rect x="338" y="124" width="128" height="42" rx="8" fill="#102c39"/>
+            <rect x="338" y="170" width="128" height="42" rx="8" fill="#102c39"/>
+            <rect x="338" y="216" width="128" height="42" rx="8" fill="#102c39"/>
+            <text x="348" y="105" class="accent small">▶</text>
+            <text x="369" y="105" class="text small">Дима Билан…</text>
+            <text x="350" y="151" class="text small">МакSим — Научусь…</text>
+            <text x="350" y="197" class="text small">Дима Билан — Облака</text>
+            <text x="350" y="243" class="text small">Ангел-А — Мой герой</text>
+          </g>
+          <rect x="338" y="276" width="32" height="32" rx="8" fill="#102c39"/>
+          <rect x="434" y="276" width="32" height="32" rx="8" fill="#102c39"/>
+          <text x="354" y="298" text-anchor="middle" class="text logical">‹</text>
+          <text x="450" y="298" text-anchor="middle" class="text logical">›</text>
+          <text x="402" y="298" text-anchor="middle" class="text small">1 / 3</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <text x="1354" y="509" text-anchor="middle" class="caption">Плеер · управление и список треков</text>
+</svg>

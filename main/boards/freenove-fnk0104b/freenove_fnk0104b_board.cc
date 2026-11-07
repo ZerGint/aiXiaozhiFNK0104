@@ -6,7 +6,7 @@
 #include <wifi_station.h>
 #include "wifi_board.h"
 #include "codecs/es8311_audio_codec.h"
-#include "display/lcd_display.h"
+#include "fnk0104b_lcd_display.h"
 #include "application.h"
 #include "button.h"
 #include "config.h"
@@ -23,8 +23,10 @@
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include <esp_timer.h>
 #include <esp_rom_sys.h>
+#include <lvgl.h>
+#include <algorithm>
+#include <atomic>
 
 #include "led/single_led.h"
 
@@ -47,28 +49,61 @@ public:
         return i2c_master_bus_add_device(bus, &cfg, &dev_) == ESP_OK;
     }
 
-    bool Read(bool& touched, uint16_t& x, uint16_t& y) {
+    bool StartPolling() {
+        return xTaskCreate(
+                   [](void* arg) {
+                       auto* self = static_cast<TouchDriver*>(arg);
+                       while (true) {
+                           bool touched = false;
+                           uint16_t x = 0;
+                           uint16_t y = 0;
+                           if (!self->ReadHardware(touched, x, y)) {
+                               touched = false;
+                           }
+                           const uint32_t packed = (touched ? 1U : 0U) |
+                                                   (static_cast<uint32_t>(x) << 1) |
+                                                   (static_cast<uint32_t>(y) << 10);
+                           self->latest_sample_.store(packed, std::memory_order_release);
+                           vTaskDelay(pdMS_TO_TICKS(20));
+                       }
+                   },
+                   "fnk0104b_touch", 3072, this, 5, nullptr) == pdPASS;
+    }
+
+    void ReadSample(bool& touched, uint16_t& x, uint16_t& y) const {
+        const uint32_t packed = latest_sample_.load(std::memory_order_acquire);
+        touched = (packed & 1U) != 0;
+        x = static_cast<uint16_t>((packed >> 1) & 0x1FFU);
+        y = static_cast<uint16_t>((packed >> 10) & 0x1FFU);
+    }
+
+private:
+    bool ReadHardware(bool& touched, uint16_t& x, uint16_t& y) {
         touched = false;
         x = y = 0;
-        if (!dev_) return false;
+        if (!dev_)
+            return false;
 
         uint8_t reg = 0x02;
         uint8_t buf[5] = {};
-        if (i2c_master_transmit_receive(dev_, &reg, 1, buf, 5, 50) != ESP_OK) return false;
+        if (i2c_master_transmit_receive(dev_, &reg, 1, buf, 5, 50) != ESP_OK)
+            return false;
 
         const uint8_t points = buf[0] & 0x0F;
-        if (points == 0) return true;
+        if (points == 0)
+            return true;
 
         x = static_cast<uint16_t>(((buf[1] & 0x0F) << 8) | buf[2]);
         y = static_cast<uint16_t>(((buf[3] & 0x0F) << 8) | buf[4]);
-        if (points > 2 || x > TOUCH_RAW_X_MAX || y > TOUCH_RAW_Y_MAX) return true;
+        if (points > 2 || x > TOUCH_RAW_X_MAX || y > TOUCH_RAW_Y_MAX)
+            return true;
 
         touched = true;
         return true;
     }
 
-private:
     i2c_master_dev_handle_t dev_;
+    std::atomic<uint32_t> latest_sample_{0};
 };
 
 class FreenoveFnk0104bBoard : public WifiBoard {
@@ -102,40 +137,88 @@ private:
             return;
         }
 
-        // This initial board layer keeps the existing simple wake/chat gesture.
-        // The next UI step will replace it with LVGL coordinate input for the
-        // 320x240 radio and SD-player controls.
-        xTaskCreatePinnedToCore([](void* arg) {
-            auto* self = static_cast<FreenoveFnk0104bBoard*>(arg);
-            auto& app = Application::GetInstance();
-            bool down = false;
-            uint32_t last_tap = 0;
-            uint32_t down_start = 0;
-            while (true) {
-                bool touched = false;
-                uint16_t raw_x = 0;
-                uint16_t raw_y = 0;
-                self->touch_.Read(touched, raw_x, raw_y);
-                const uint32_t now = static_cast<uint32_t>(esp_timer_get_time() / 1000);
-                if (touched && !down) {
-                    down = true;
-                    down_start = now;
-                } else if (!touched && down) {
-                    down = false;
-                    const uint32_t press_ms = now - down_start;
-                    if (press_ms > 3000) {
-                        self->EnterWifiConfigMode();
-                    } else if (now - last_tap < 250) {
-                        app.StartListening();
-                        last_tap = 0;
-                    } else {
-                        app.ToggleChatState();
-                        last_tap = now;
+        auto* indev = lv_indev_create();
+        lv_indev_set_type(indev, LV_INDEV_TYPE_POINTER);
+        lv_indev_set_read_cb(indev, [](lv_indev_t* input, lv_indev_data_t* data) {
+            auto* self = static_cast<FreenoveFnk0104bBoard*>(lv_indev_get_user_data(input));
+            bool touched = false;
+            uint16_t raw_x = 0;
+            uint16_t raw_y = 0;
+            self->touch_.ReadSample(touched, raw_x, raw_y);
+
+            static int16_t last_x = 0;
+            static int16_t last_y = 0;
+            static bool was_pressed = false;
+            static bool wake_only_gesture = false;
+            static bool wake_long_press_handled = false;
+            static TickType_t press_started_ticks = 0;
+            static uint8_t confirm_count = 0;
+            static uint16_t candidate_x = 0;
+            static uint16_t candidate_y = 0;
+
+            if (touched) {
+                if (!was_pressed) {
+                    const uint16_t dx =
+                        raw_x > candidate_x ? raw_x - candidate_x : candidate_x - raw_x;
+                    const uint16_t dy =
+                        raw_y > candidate_y ? raw_y - candidate_y : candidate_y - raw_y;
+                    if (confirm_count == 0 || dx > 12 || dy > 12) {
+                        candidate_x = raw_x;
+                        candidate_y = raw_y;
+                        confirm_count = 1;
+                        data->state = LV_INDEV_STATE_RELEASED;
+                        data->point.x = last_x;
+                        data->point.y = last_y;
+                        return;
+                    }
+                    if (++confirm_count < 2) {
+                        data->state = LV_INDEV_STATE_RELEASED;
+                        return;
                     }
                 }
-                vTaskDelay(pdMS_TO_TICKS(50));
+
+                last_x = std::min<uint16_t>(raw_y, DISPLAY_WIDTH - 1);
+                last_y = DISPLAY_HEIGHT - 1 - std::min<uint16_t>(raw_x, DISPLAY_HEIGHT - 1);
+                data->point.x = last_x;
+                data->point.y = last_y;
+                if (!was_pressed) {
+                    was_pressed = true;
+                    press_started_ticks = xTaskGetTickCount();
+                    wake_long_press_handled = false;
+                    auto* lcd = static_cast<LcdDisplay*>(self->GetDisplay());
+                    wake_only_gesture = lcd && lcd->WakeDisplayFromTouch();
+                }
+                data->state = wake_only_gesture ? LV_INDEV_STATE_RELEASED : LV_INDEV_STATE_PRESSED;
+                if (wake_only_gesture && !wake_long_press_handled &&
+                    xTaskGetTickCount() - press_started_ticks >= pdMS_TO_TICKS(3000)) {
+                    wake_long_press_handled = true;
+                    Application::GetInstance().Schedule(
+                        [self]() { self->EnterWifiConfigMode(); });
+                }
+            } else {
+                data->state = LV_INDEV_STATE_RELEASED;
+                data->point.x = last_x;
+                data->point.y = last_y;
+                if (was_pressed) {
+                    was_pressed = false;
+                    wake_only_gesture = false;
+                    wake_long_press_handled = false;
+                }
+                confirm_count = 0;
             }
-        }, "fnk0104b_touch", 4096, this, 5, nullptr, 0);
+        });
+        lv_indev_set_user_data(indev, this);
+        lv_indev_set_long_press_time(indev, 3000);
+        lv_indev_add_event_cb(
+            indev,
+            [](lv_event_t* event) {
+                auto* self = static_cast<FreenoveFnk0104bBoard*>(lv_event_get_user_data(event));
+                Application::GetInstance().Schedule([self]() { self->EnterWifiConfigMode(); });
+            },
+            LV_EVENT_LONG_PRESSED, this);
+        if (!touch_.StartPolling()) {
+            ESP_LOGE(TAG, "Failed to start FT6336 polling task");
+        }
     }
 
     void InitializeI2c() {
@@ -187,9 +270,9 @@ private:
         ESP_ERROR_CHECK(esp_lcd_panel_swap_xy(panel, DISPLAY_SWAP_XY));
         ESP_ERROR_CHECK(esp_lcd_panel_mirror(panel, DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y));
 
-        display_ = new SpiLcdDisplay(panel_io, panel, DISPLAY_WIDTH, DISPLAY_HEIGHT,
-                                      DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X,
-                                      DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
+        display_ = new Fnk0104bLcdDisplay(panel_io, panel, DISPLAY_WIDTH, DISPLAY_HEIGHT,
+                                          DISPLAY_OFFSET_X, DISPLAY_OFFSET_Y, DISPLAY_MIRROR_X,
+                                          DISPLAY_MIRROR_Y, DISPLAY_SWAP_XY);
     }
 
     void InitializeButtons() {
