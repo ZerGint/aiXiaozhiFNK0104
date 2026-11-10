@@ -1,7 +1,7 @@
 #include "application.h"
 #include "assets.h"
 #include "assets/lang_config.h"
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 #include "boards/freenove-fnk0104s/home_assistant_settings_server.h"
 #include "home_assistant.h"
 #endif
@@ -167,7 +167,7 @@ void Application::Initialize() {
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
                 WeatherService::GetInstance().SetNetworkConnected(false);
 #endif
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
                 HomeAssistant::GetInstance().MarkConnectionLost();
                 Schedule([]() { HomeAssistantSettingsServer::GetInstance().Stop(); });
 #endif

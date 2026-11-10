@@ -39,13 +39,122 @@
 #include "audio/audio_codec.h"
 #include "media/radio_browser.h"
 #include "media/sd_music_player.h"
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 #include <wifi_manager.h>
 #include "boards/freenove-fnk0104s/home_assistant_settings_server.h"
 #include "weather/weather_service.h"
 #endif
 
 #define TAG "LcdDisplay"
+
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+// FNK0104B runs the FNK0104S interface on a 320x240 panel. The layout code in
+// this file is written for the S 480x320 canvas; for B every coordinate is
+// converted to the panel when an object is configured, so LVGL renders
+// natively (no screen-wide transform layer) and touch hit-testing stays exact.
+// Width scales by 2/3 and height by 3/4; square sizes and radii use the width
+// factor so circles and square buttons keep their shape. Fonts are swapped for
+// the next smaller face at compile time.
+#define font_noto_sans_radio_16_4 font_noto_sans_radio_12_4
+#define font_noto_sans_basic_30_4 font_noto_sans_basic_20_4
+#define font_material_symbols_30_4 font_material_symbols_20_4
+#undef LV_FONT_DEFAULT
+#define LV_FONT_DEFAULT (&lv_font_montserrat_12)
+#define FNK_B_SMALL_FONT (&lv_font_montserrat_10)
+// Overlays sized from the screen resolution use the same logical canvas.
+#undef LV_HOR_RES
+#define LV_HOR_RES 480
+#undef LV_VER_RES
+#define LV_VER_RES 320
+
+namespace fnk_b_layout {
+constexpr int32_t kLogicalWidth = 480;
+constexpr int32_t kLogicalHeight = 320;
+constexpr int32_t kPanelWidth = 320;
+constexpr int32_t kPanelHeight = 240;
+
+inline bool IsSpecial(int32_t value) {
+    return LV_COORD_IS_SPEC(value) || value == LV_RADIUS_CIRCLE;
+}
+
+inline int32_t Scale(int32_t value, int32_t num, int32_t den) {
+    if (IsSpecial(value)) return value;
+    return value >= 0 ? (value * num + den / 2) / den : -((-value * num + den / 2) / den);
+}
+
+inline int32_t X(int32_t value) { return Scale(value, kPanelWidth, kLogicalWidth); }
+inline int32_t Y(int32_t value) { return Scale(value, kPanelHeight, kLogicalHeight); }
+inline int32_t Stroke(int32_t value) {
+    return value > 0 ? std::max<int32_t>(1, X(value)) : value;
+}
+
+inline void SetPos(lv_obj_t* obj, int32_t x, int32_t y) { lv_obj_set_pos(obj, X(x), Y(y)); }
+inline void SetSize(lv_obj_t* obj, int32_t w, int32_t h) {
+    if (w == h && !IsSpecial(w)) {
+        const int32_t side = X(w);
+        lv_obj_set_size(obj, side, side);
+        return;
+    }
+    lv_obj_set_size(obj, X(w), Y(h));
+}
+inline void SetWidth(lv_obj_t* obj, int32_t w) { lv_obj_set_width(obj, X(w)); }
+inline void SetHeight(lv_obj_t* obj, int32_t h) { lv_obj_set_height(obj, Y(h)); }
+inline void Align(lv_obj_t* obj, lv_align_t align, int32_t x, int32_t y) {
+    lv_obj_align(obj, align, X(x), Y(y));
+}
+inline void Radius(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_radius(obj, X(v), s);
+}
+inline void BorderWidth(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_border_width(obj, Stroke(v), s);
+}
+inline void ShadowWidth(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_shadow_width(obj, X(v), s);
+}
+inline void PadAll(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_all(obj, X(v), s);
+}
+inline void PadLeft(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_left(obj, X(v), s);
+}
+inline void PadRight(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_right(obj, X(v), s);
+}
+inline void PadTop(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_top(obj, Y(v), s);
+}
+inline void PadBottom(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_bottom(obj, Y(v), s);
+}
+inline void PadRow(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_pad_row(obj, Y(v), s);
+}
+inline void MarginLeft(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_margin_left(obj, X(v), s);
+}
+inline void MinWidth(lv_obj_t* obj, int32_t v, lv_style_selector_t s) {
+    lv_obj_set_style_min_width(obj, X(v), s);
+}
+inline int32_t PanelToLogicalHeight(int32_t h) { return Scale(h, kLogicalHeight, kPanelHeight); }
+}  // namespace fnk_b_layout
+
+#define lv_obj_set_pos(obj, x, y) fnk_b_layout::SetPos(obj, x, y)
+#define lv_obj_set_size(obj, w, h) fnk_b_layout::SetSize(obj, w, h)
+#define lv_obj_set_width(obj, w) fnk_b_layout::SetWidth(obj, w)
+#define lv_obj_set_height(obj, h) fnk_b_layout::SetHeight(obj, h)
+#define lv_obj_align(obj, align, x, y) fnk_b_layout::Align(obj, align, x, y)
+#define lv_obj_set_style_radius(obj, v, s) fnk_b_layout::Radius(obj, v, s)
+#define lv_obj_set_style_border_width(obj, v, s) fnk_b_layout::BorderWidth(obj, v, s)
+#define lv_obj_set_style_shadow_width(obj, v, s) fnk_b_layout::ShadowWidth(obj, v, s)
+#define lv_obj_set_style_pad_all(obj, v, s) fnk_b_layout::PadAll(obj, v, s)
+#define lv_obj_set_style_pad_left(obj, v, s) fnk_b_layout::PadLeft(obj, v, s)
+#define lv_obj_set_style_pad_right(obj, v, s) fnk_b_layout::PadRight(obj, v, s)
+#define lv_obj_set_style_pad_top(obj, v, s) fnk_b_layout::PadTop(obj, v, s)
+#define lv_obj_set_style_pad_bottom(obj, v, s) fnk_b_layout::PadBottom(obj, v, s)
+#define lv_obj_set_style_pad_row(obj, v, s) fnk_b_layout::PadRow(obj, v, s)
+#define lv_obj_set_style_margin_left(obj, v, s) fnk_b_layout::MarginLeft(obj, v, s)
+#define lv_obj_set_style_min_width(obj, v, s) fnk_b_layout::MinWidth(obj, v, s)
+#endif
 
 LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
 LV_FONT_DECLARE(BUILTIN_ICON_FONT);
@@ -58,7 +167,7 @@ LV_FONT_DECLARE(font_material_symbols_shuffle_20_4);
 
 namespace {
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 struct OtaPartitionInspectTaskData {
     std::function<void(const OtaPartitionSwitcher::Snapshot&, bool)> completion;
 };
@@ -200,7 +309,7 @@ constexpr uint32_t kAutoBrightnessTimeoutMs[] = {
 constexpr const char* kAutoBrightnessTimeoutLabels[] = {"30s", "60s", "3m", "5m", "10m"};
 constexpr uint8_t kDefaultAutoBrightnessTimeoutIndex = 2;
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 constexpr uint32_t kBootIntroDurationMs = 1400;
 constexpr uint32_t kBootMinimumDisplayMs = 1750;
 constexpr uint32_t kBootMaximumDisplayMs = 8000;
@@ -257,7 +366,7 @@ static lv_obj_t* MakeButton(lv_obj_t* parent,
     return b;
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 static lv_obj_t* WeatherShape(lv_obj_t* parent, int x, int y, int w, int h, lv_color_t color,
                               int radius = 0) {
     auto object = lv_obj_create(parent);
@@ -433,7 +542,7 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
     ESP_LOGI(TAG, "Initialize LVGL port");
     lvgl_port_cfg_t port_cfg = ESP_LVGL_PORT_INIT_CONFIG();
     port_cfg.task_priority = 1;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // The layered face uses LVGL's PNG image decoder for several persistent
     // image objects. Keep the 12 KiB stack required for image composition.
     // The LVGL task must remain in internal RAM: it can run while Wi-Fi/TLS
@@ -480,7 +589,7 @@ SpiLcdDisplay::SpiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_h
         ESP_LOGE(TAG, "Failed to add display");
         return;
     }
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_display_add_event_cb(display_, LcdDisplay::OnBootDisplayEvent, LV_EVENT_ALL, this);
 #endif
 
@@ -599,11 +708,11 @@ MipiLcdDisplay::MipiLcdDisplay(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel
 }
 
 LcdDisplay::~LcdDisplay() {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     DestroyBootAnimation();
 #endif
     if (service_timer_) lv_timer_delete(service_timer_);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (anime_face_timer_) {
         lv_timer_delete(anime_face_timer_);
         anime_face_timer_ = nullptr;
@@ -685,7 +794,7 @@ bool LcdDisplay::Lock(int timeout_ms) { return lvgl_port_lock(timeout_ms); }
 
 void LcdDisplay::Unlock() { lvgl_port_unlock(); }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::UpdateStatusBar(bool update_all) {
     LvglDisplay::UpdateStatusBar(update_all);
 
@@ -1262,7 +1371,7 @@ void LcdDisplay::SetupUI() {
 
     /* Bottom layer: emoji_box_ - centered display */
     emoji_box_ = lv_obj_create(screen);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_size(emoji_box_, 240, 240);
 #else
     lv_obj_set_size(emoji_box_, LV_SIZE_CONTENT, LV_SIZE_CONTENT);
@@ -1282,7 +1391,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_center(emoji_image_);
     lv_obj_add_flag(emoji_image_, LV_OBJ_FLAG_HIDDEN);
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     /* Production AnimeFace. All image sources are persistent embedded PNGs. */
     anime_face_root_ = emoji_box_;
     if (anime_face_.Initialize(anime_face_root_, width_, height_)) {
@@ -1293,6 +1402,13 @@ void LcdDisplay::SetupUI() {
         }, 33, this);
         lv_obj_add_flag(emoji_label_, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(emoji_image_, LV_OBJ_FLAG_HIDDEN);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+        // The face artwork is a fixed 240 px composition. Scale its root to
+        // the 160 px face box; the transform layer covers only the face.
+        lv_obj_set_style_transform_pivot_x(anime_face_root_, 120, 0);
+        lv_obj_set_style_transform_pivot_y(anime_face_root_, 120, 0);
+        lv_obj_set_style_transform_scale(anime_face_root_, 171, 0);
+#endif
     }
 #else
     /* RoboEyes Canvas Initialization */
@@ -1464,7 +1580,7 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);  // Hide until there is content
 #endif
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // AnimeFace uses a compact opaque subtitle strip over the lower face.
     lv_obj_set_size(bottom_bar_, 248, 34);
     lv_obj_set_style_bg_color(bottom_bar_, lv_color_black(), 0);
@@ -1574,13 +1690,16 @@ void LcdDisplay::SetupUI() {
     lv_obj_add_flag(top_time_label_, LV_OBJ_FLAG_CLICKABLE);
     lv_obj_add_event_cb(top_time_label_, fnk_top_bar_cb, LV_EVENT_ALL, this);
     lv_obj_set_layout(top_bar_, LV_LAYOUT_NONE);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_pos(network_label_, 12, 7);
     network_ip_label_ = lv_label_create(top_bar_);
     lv_label_set_text(network_ip_label_, "--.--.--.--");
     lv_obj_set_width(network_ip_label_, 120);
     lv_label_set_long_mode(network_ip_label_, LV_LABEL_LONG_DOT);
     lv_obj_set_style_text_font(network_ip_label_, LV_FONT_DEFAULT, 0);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    lv_obj_set_style_text_font(network_ip_label_, FNK_B_SMALL_FONT, 0);
+#endif
     lv_obj_set_style_text_color(network_ip_label_, kText, 0);
     lv_obj_set_pos(network_ip_label_, 40, 8);
     ha_status_label_ = label(top_bar_, "", 164, 8, 28, kAccent);
@@ -1679,17 +1798,17 @@ void LcdDisplay::SetupUI() {
     lv_obj_set_style_border_width(ai_center, 2, 0);
     lv_obj_set_style_border_color(ai_center, kPanel2, 0);
     lv_obj_set_parent(emoji_box_, ai_center);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_size(emoji_box_, 240, 240);
 #else
     lv_obj_set_size(emoji_box_, 240, 120);
 #endif
     lv_obj_center(emoji_box_);
-#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if !(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     robo_eyes_.adapter.setColors(lv_color_black(), lv_color_hex(0x00F0FF));
 #endif
     DisableScroll(emoji_box_);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // Use a dedicated transparent hit layer above the face. Child image
     // objects are not clickable, and parent bubbling is unreliable after the
     // avatar is reparented into ai_center.
@@ -1714,14 +1833,14 @@ void LcdDisplay::SetupUI() {
     }
 #endif
     lv_obj_set_parent(bottom_bar_, ai_center);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_size(bottom_bar_, 248, 34);
 #else
     lv_obj_set_size(bottom_bar_, 248, 64);
 #endif
     lv_obj_align(bottom_bar_, LV_ALIGN_BOTTOM_LEFT, 0, -4);
     lv_obj_set_style_pad_all(bottom_bar_, 4, 0);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_style_bg_color(bottom_bar_, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(bottom_bar_, LV_OPA_COVER, 0);
     lv_obj_set_style_border_width(bottom_bar_, 1, 0);
@@ -1731,20 +1850,20 @@ void LcdDisplay::SetupUI() {
 #endif
     DisableScroll(bottom_bar_);
     lv_obj_set_width(chat_message_label_, 238);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_height(chat_message_label_, 26);
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_SCROLL_CIRCULAR);
 #else
     lv_label_set_long_mode(chat_message_label_, LV_LABEL_LONG_WRAP);
 #endif
     lv_obj_set_style_text_font(chat_message_label_, &font_noto_sans_radio_16_4, 0);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_set_style_text_color(chat_message_label_, lv_color_white(), 0);
 #else
     lv_obj_set_style_text_color(chat_message_label_, kText, 0);
 #endif
     auto weather = panel(ai_view_, 264, 0, 144, 276, kPanel2);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     auto weather_label = [&](const char* text, int x, int y, int w, lv_color_t color) {
         auto object = label(weather, text, x, y, w, color);
         lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
@@ -1970,12 +2089,12 @@ void LcdDisplay::SetupUI() {
     service_timer_ = lv_timer_create([](lv_timer_t* timer) {
         auto self = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
         self->UpdateServiceIndicators();
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
         self->UpdateAnimeFaceRuntimeState();
 #else
         self->UpdateRoboEyesRuntimeState();
 #endif
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
         const auto state = Application::GetInstance().GetDeviceState();
         const bool location_update_pending =
             self->weather_location_update_pending_.load(std::memory_order_acquire);
@@ -1998,13 +2117,13 @@ void LcdDisplay::SetupUI() {
     LogUiMemory("UI_MEM_AFTER_SETUP_COMPLETE");
     lv_obj_move_foreground(top_bar_);
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     StartBootAnimation();
 #endif
 
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::NotifyBootContentChanged() {
     DisplayLockGuard lock(this);
     if (boot_overlay_ == nullptr) {
@@ -2101,7 +2220,7 @@ void LcdDisplay::UpdateWeatherUI() {
 }
 #endif
 
-#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if !(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
 void LcdDisplay::NotifyBootContentChanged() {
     // FNK0104B has no S-specific boot overlay, but the common display
     // interface still requires this notification hook to be defined.
@@ -2109,13 +2228,13 @@ void LcdDisplay::NotifyBootContentChanged() {
 #endif
 
 void LcdDisplay::OnServerConnected() {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     boot_server_connected_.store(true, std::memory_order_release);
     ESP_LOGI(TAG, "AI_READY_FOR_BOOT timestamp_ms=%lld", esp_timer_get_time() / 1000);
 #endif
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::StartBootAnimation() {
     auto screen = lv_screen_active();
     boot_overlay_ = lv_obj_create(screen);
@@ -2206,7 +2325,12 @@ void LcdDisplay::UpdateBootAnimation() {
         boot_exiting_ = true;
         boot_exit_started_ms_ = now;
         for (int i = 0; i < kBootBarCount; ++i) {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+            boot_exit_bar_heights_[i] =
+                fnk_b_layout::PanelToLogicalHeight(lv_obj_get_height(boot_bars_[i]));
+#else
             boot_exit_bar_heights_[i] = lv_obj_get_height(boot_bars_[i]);
+#endif
         }
         const char* exit_reason = local_frame_ready ? "local_frame_ready" : "timeout";
         ESP_LOGI(TAG, "BOOT_ANIM_EXIT reason=%s elapsed_ms=%lu", exit_reason,
@@ -2453,7 +2577,11 @@ void LcdDisplay::SetPreviewImage(std::unique_ptr<LvglImage> image) {
     lv_image_set_src(preview_image_, img_dsc);
     if (img_dsc->header.w > 0 && img_dsc->header.h > 0) {
         // zoom factor 0.5
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+        lv_image_set_scale(preview_image_, 128 * width_ / img_dsc->header.w);
+#else
         lv_image_set_scale(preview_image_, 128 * GetLayoutWidth() / img_dsc->header.w);
+#endif
     }
 
     // Hide emoji_box_
@@ -2484,7 +2612,7 @@ void LcdDisplay::SetChatMessage(const char* role, const char* content) {
     lv_anim_delete(chat_message_label_, nullptr);
     lv_label_set_text(chat_message_label_, content);
     // Show bottom_bar_ only when there is content (and subtitle is not globally hidden)
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (bottom_bar_ != nullptr) {
         if (content == nullptr || content[0] == '\0' || hide_subtitle_) {
             lv_obj_add_flag(bottom_bar_, LV_OBJ_FLAG_HIDDEN);
@@ -2528,7 +2656,7 @@ void LcdDisplay::SetEmotion(const char* emotion) {
         ESP_LOGW(TAG, "SetEmotion('%s') called before SetupUI() - emotion will not be displayed!",
                  emotion);
     }
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (anime_face_root_ != nullptr) {
         if (emotion == nullptr) {
             ESP_LOGI(TAG, "ANIME_EMOTION_EXTERNAL_IGNORED name=null");
@@ -2789,7 +2917,7 @@ void LcdDisplay::SetEmotion(const char* emotion) {
 #endif
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::UpdateAnimeFaceAnimation() {
     if (!anime_face_.IsInitialized()) return;
     const uint32_t now_ms = lv_tick_get();
@@ -2822,7 +2950,7 @@ void LcdDisplay::UpdateAnimeFaceAnimation() {
 #endif
 
 void LcdDisplay::PlayReaction(FaceReaction reaction, FaceReactionSource source) {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (!anime_face_.IsInitialized()) return;
     anime_face_.PlayReaction(reaction, source);
     return;
@@ -2832,7 +2960,7 @@ void LcdDisplay::PlayReaction(FaceReaction reaction, FaceReactionSource source) 
 #endif
 }
 
-#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if !(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
 void LcdDisplay::UpdateRoboEyesAnimation() {
     if (robo_eyes_canvas_ == nullptr || robo_eyes_buf_ == nullptr) return;
 
@@ -2976,7 +3104,7 @@ void LcdDisplay::SetTheme(Theme* theme) {
         lv_obj_set_style_text_color(emoji_label_, lvgl_theme->text_color(), 0);
     }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // Keep the AnimeFace subtitle strip opaque and black across theme changes.
     if (chat_message_label_ != nullptr) {
         lv_obj_set_style_text_color(chat_message_label_, lv_color_white(), 0);
@@ -3114,7 +3242,7 @@ void LcdDisplay::SetOtaUpdateAvailable(bool available, const char* version) {
     lv_label_set_text(ota_update_button_label_, "Обновить");
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::UpdateAnimeFaceRuntimeState() {
     if (!anime_face_.IsInitialized()) return;
     const auto state = Application::GetInstance().GetDeviceState();
@@ -3571,7 +3699,7 @@ void LcdDisplay::SwitchTab(int tab_index)
     lv_obj_move_foreground(top_bar_);
 }
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 void LcdDisplay::ToggleHomeAssistantSettingsServer() {
     auto& server = HomeAssistantSettingsServer::GetInstance();
     if (server.IsRunning()) {
@@ -3790,7 +3918,7 @@ void LcdDisplay::CloseOtaPartitionDialog(bool reset_operation) {
 
 void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     auto set_quick_settings_font = [](lv_obj_t* object) {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
         // The radio font contains the complete Cyrillic range, including Э.
         // Keep every Quick Settings label at its native 16 px size.
         lv_obj_set_style_text_font(object, &font_noto_sans_radio_16_4, 0);
@@ -3819,7 +3947,12 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }
 
     quick_settings_panel_ = lv_obj_create(parent);
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    // No OTA row on FNK0104B: the panel ends after the Web portal row.
+    lv_obj_set_size(quick_settings_panel_, 440, 262);
+#else
     lv_obj_set_size(quick_settings_panel_, 440, 310);
+#endif
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -4030,7 +4163,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }, LV_EVENT_CLICKED, this);
     UpdateAutoBrightnessControls();
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // Home Assistant settings server stays hidden until Quick Settings is opened.
     lv_obj_t* ha_row = lv_obj_create(quick_settings_panel_);
     lv_obj_set_size(ha_row, 416, 45);
@@ -4057,6 +4190,9 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
     }, LV_EVENT_CLICKED, this);
 
+#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    // FNK0104B has no update channel yet; OTA slot switching and update
+    // checks stay hidden until one exists.
     auto make_ota_partition_button = [ha_row, &set_quick_settings_font](lv_obj_t** target,
                                                                          const char* text, int x) {
         *target = lv_btn_create(ha_row);
@@ -4088,7 +4224,9 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }, LV_EVENT_CLICKED, this);
     StartOtaPartitionRefresh();
 #endif
+#endif
 
+#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // OTA actions are explicit. Opening Quick Settings never performs network work.
     ota_update_row_ = lv_obj_create(quick_settings_panel_);
     lv_obj_set_size(ota_update_row_, 416, 45);
@@ -4160,6 +4298,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
             lv_label_set_text(display->ota_update_button_label_, "Обновить");
         }
     }, LV_EVENT_CLICKED, this);
+#endif
 }
 
 bool LcdDisplay::IsStationFavorite(const std::string& uuid) {

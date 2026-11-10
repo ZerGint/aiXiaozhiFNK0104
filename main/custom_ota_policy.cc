@@ -295,7 +295,13 @@ bool IsStrictStableVersion(const char* version) {
 }
 
 bool ShouldCheckForUpdates(const char* current_version) {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    // FNK0104B has no published update channel yet.
+    (void)current_version;
+    return false;
+#else
     return IsStrictStableVersion(current_version);
+#endif
 }
 
 bool IsValidRemoteStableVersion(const char* version) {
@@ -780,6 +786,10 @@ const StableUpdateMetadata& GetStableUpdateMetadata() {
 }
 
 bool RequestFirmwareInstall() {
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=disabled_for_board");
+    return false;
+#endif
     if (!g_stable_update_metadata.update_available) {
         ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=no_update");
         return false;

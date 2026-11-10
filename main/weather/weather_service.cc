@@ -38,7 +38,7 @@ constexpr size_t kMaxSearchResults = 5;
 constexpr uint32_t kCandidateGenerationLimit = 1000000;
 constexpr time_t kMcpCacheTtlSeconds = 5 * 60;
 constexpr uint32_t kWeatherTaskStackBytes = 10240;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 constexpr UBaseType_t kWeatherTaskPriority = tskIDLE_PRIORITY + 1;
 constexpr bool kRequiresReadyGate = true;
 #else

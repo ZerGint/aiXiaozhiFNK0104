@@ -68,6 +68,12 @@ if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S OR CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     list(APPEND SOURCES "weather/weather_service.cc")
     list(APPEND SOURCES "music/music_bridge_client.cc" "music/music_service.cc" "music/generated_music_storage.cc" "music/generated_music_job_storage.cc")
 endif()
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
+    # FNK0104B shares the FNK0104S Home Assistant web portal and uses a
+    # smaller Cyrillic UI face for its 320x240 panel.
+    list(APPEND SOURCES "boards/freenove-fnk0104s/home_assistant_settings_server.cc")
+    list(APPEND SOURCES "fonts/font_noto_sans_radio_12_4.c")
+endif()
 
 set(INCLUDE_DIRS "." "display" "display/lvgl_display" "display/lvgl_display/jpg" "audio" "audio/demuxer" "protocols" "managers")
 
@@ -862,8 +868,8 @@ elseif(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
     set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
 elseif(CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     set(BOARD_DIR "freenove-fnk0104b")
-    set(BUILTIN_TEXT_FONT font_noto_sans_basic_20_4)
-    set(BUILTIN_ICON_FONT font_material_symbols_20_4)
+    set(BUILTIN_TEXT_FONT font_noto_sans_basic_16_4)
+    set(BUILTIN_ICON_FONT font_material_symbols_16_4)
     set(DEFAULT_EMOJI_COLLECTION noto-color-emoji_64)
 elseif(CONFIG_BOARD_TYPE_AI_VOX3)
     set(BOARD_DIR "nulllab-ai-vox-v3")
@@ -1137,7 +1143,7 @@ idf_component_register(SRCS ${SOURCES}
                         ${MAIN_PRIV_REQUIRES_EXTRA}
                     )
 
-if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S)
+if(CONFIG_BOARD_TYPE_FREENOVE_FNK0104S OR CONFIG_BOARD_TYPE_FREENOVE_FNK0104B)
     target_sources(${COMPONENT_LIB} PRIVATE "display/anime_face.cc")
     target_add_binary_data(${COMPONENT_LIB} "${PROJECT_DIR}/anime_face_assets/base_240.png" BINARY RENAME_TO anime_base_240_png)
     target_add_binary_data(${COMPONENT_LIB} "${PROJECT_DIR}/anime_face_assets/eyes/eye_white_left.png" BINARY RENAME_TO anime_eye_white_left_png)

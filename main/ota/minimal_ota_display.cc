@@ -3,18 +3,27 @@
 #include <esp_heap_caps.h>
 #include <esp_log.h>
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 
 #include <driver/gpio.h>
 #include <driver/spi_common.h>
 #include <esp_lcd_panel_io.h>
 #include <esp_lcd_panel_ops.h>
 #include <esp_lcd_panel_vendor.h>
-#include <esp_lcd_st7796.h>
 #include <esp_lvgl_port.h>
 #include <lvgl.h>
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+#include <esp_lcd_ili9341.h>
+#include "boards/freenove-fnk0104b/config.h"
+#define MINIMAL_OTA_NEW_PANEL esp_lcd_new_panel_ili9341
+#define MINIMAL_OTA_PANEL_NAME "ILI9341"
+#else
+#include <esp_lcd_st7796.h>
 #include "boards/freenove-fnk0104s/config.h"
+#define MINIMAL_OTA_NEW_PANEL esp_lcd_new_panel_st7796
+#define MINIMAL_OTA_PANEL_NAME "ST7796"
+#endif
 
 LV_FONT_DECLARE(BUILTIN_TEXT_FONT);
 
@@ -47,7 +56,7 @@ void LogMemory(const char* phase, const MemorySnapshot& memory) {
 
 }  // namespace
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 
 namespace {
 
@@ -87,8 +96,8 @@ bool InitializePanel() {
     panel_config.reset_gpio_num = DISPLAY_RST_PIN;
     panel_config.rgb_ele_order = DISPLAY_RGB_ORDER;
     panel_config.bits_per_pixel = 16;
-    if (esp_lcd_new_panel_st7796(s_panel_io, &panel_config, &s_panel) != ESP_OK) {
-        ESP_LOGE(kTag, "ST7796 panel initialization failed");
+    if (MINIMAL_OTA_NEW_PANEL(s_panel_io, &panel_config, &s_panel) != ESP_OK) {
+        ESP_LOGE(kTag, MINIMAL_OTA_PANEL_NAME " panel initialization failed");
         return false;
     }
 
@@ -96,7 +105,7 @@ bool InitializePanel() {
         esp_lcd_panel_invert_color(s_panel, DISPLAY_INVERT_COLOR) != ESP_OK ||
         esp_lcd_panel_swap_xy(s_panel, DISPLAY_SWAP_XY) != ESP_OK ||
         esp_lcd_panel_mirror(s_panel, DISPLAY_MIRROR_X, DISPLAY_MIRROR_Y) != ESP_OK) {
-        ESP_LOGE(kTag, "ST7796 panel setup failed");
+        ESP_LOGE(kTag, MINIMAL_OTA_PANEL_NAME " panel setup failed");
         return false;
     }
 
@@ -135,7 +144,7 @@ bool MinimalOtaDisplay::Init() {
     const MemorySnapshot before = SnapshotMemory();
     LogMemory("BEFORE", before);
 
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (!InitializePanel()) return false;
 
     lv_init();
@@ -195,7 +204,7 @@ bool MinimalOtaDisplay::Init() {
 }
 
 void MinimalOtaDisplay::ShowUpdating() {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     if (!s_initialized || s_display == nullptr) return;
     if (!lvgl_port_lock(1000)) {
         ESP_LOGW(kTag, "Unable to lock minimal LVGL display");

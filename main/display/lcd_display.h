@@ -3,7 +3,7 @@
 
 #include "gif/lvgl_gif.h"
 #include "lvgl_display.h"
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 #include "anime_face.h"
 #else
 #include "robo_eyes.h"
@@ -43,7 +43,7 @@ protected:
     lv_obj_t* preview_image_ = nullptr;
     lv_obj_t* emoji_label_ = nullptr;
     lv_obj_t* emoji_image_ = nullptr;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     AnimeFace anime_face_;
     lv_timer_t* anime_face_timer_ = nullptr;
     lv_obj_t* anime_face_root_ = nullptr;
@@ -100,7 +100,7 @@ protected:
     lv_obj_t* nav_status_[4] = {};
     lv_obj_t* nav_activity_[4] = {};
     lv_obj_t* top_time_label_ = nullptr;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_t* network_ip_label_ = nullptr;
     lv_obj_t* ha_status_label_ = nullptr;
     lv_obj_t* ha_settings_button_ = nullptr;
@@ -140,7 +140,7 @@ protected:
     bool favorite_station_is_favorite_ = false;
     std::function<void(int)> create_page_;
     lv_timer_t* service_timer_ = nullptr;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_t* weather_city_label_ = nullptr;
     lv_obj_t* weather_date_label_ = nullptr;
     lv_obj_t* weather_temperature_label_ = nullptr;
@@ -200,7 +200,7 @@ protected:
     void SwitchSettingsCategory(int cat_index);
     void UpdateWifiStatusLabel();
     void RefreshRadioCatalogPage(bool reload_radio_catalog = false);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     void ToggleHomeAssistantSettingsServer();
     void StartOtaPartitionRefresh();
     void ApplyOtaPartitionSnapshot(const OtaPartitionSwitcher::Snapshot& snapshot, bool success);
@@ -242,7 +242,7 @@ public:
     virtual void SetPreviewImage(std::unique_ptr<LvglImage> image) override;
     virtual void SetupUI() override;
     virtual void NotifyBootContentChanged() override;
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     virtual void UpdateStatusBar(bool update_all = false) override;
 #endif
     virtual void OnServerConnected() override;
