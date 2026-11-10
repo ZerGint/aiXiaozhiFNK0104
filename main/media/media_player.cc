@@ -5,6 +5,7 @@
 #include "radio_browser.h"
 #include "sd_music_player.h"
 #include "music/music_service.h"
+#include "mcp_server.h"
 #include "assets/lang_config.h"
 
 #include <esp_log.h>
@@ -16,6 +17,14 @@
 #include <utility>
 
 static const char* TAG = "MediaPlayer";
+
+namespace {
+// A voice interaction is starting or running; local media must stay silent.
+bool IsVoiceBusy() {
+    const auto state = Application::GetInstance().GetDeviceState();
+    return IsVoiceAudioState(state) || state == kDeviceStateConnecting;
+}
+}  // namespace
 
 MediaPlayer& MediaPlayer::GetInstance() {
     static MediaPlayer instance;
@@ -41,6 +50,7 @@ void MediaPlayer::EnsureControlTask() {
 bool MediaPlayer::EnqueueControlCommand(ControlCommand&& command,
                                         bool replace_pending_source) {
     constexpr size_t kMaxPendingCommands = 8;
+    TagRequest(command);
     EnsureControlTask();
     std::lock_guard<std::mutex> lock(control_mutex_);
     if (control_task_handle_ == nullptr) {
@@ -100,6 +110,26 @@ bool MediaPlayer::EnqueueControlCommand(ControlCommand&& command,
     return true;
 }
 
+void MediaPlayer::TagRequest(ControlCommand& command) const {
+    if (control_task_handle_ != nullptr && xTaskGetCurrentTaskHandle() == control_task_handle_) {
+        // Follow-up command queued while executing another one.
+        command.voice_epoch = processing_voice_epoch_;
+        command.from_assistant = processing_from_assistant_;
+        return;
+    }
+    command.voice_epoch = Application::GetInstance().GetVoiceSessionEpoch();
+    command.from_assistant = McpServer::GetInstance().IsCurrentTaskInToolCall();
+}
+
+bool MediaPlayer::HasPendingSourceCommandLocked() const {
+    return std::any_of(control_queue_.begin(), control_queue_.end(), [](const auto& pending) {
+        return pending.type == ControlCommandType::PlaySd ||
+               pending.type == ControlCommandType::PlayRadio ||
+               pending.type == ControlCommandType::PlayRadioByUuid ||
+               pending.type == ControlCommandType::Stop;
+    });
+}
+
 bool MediaPlayer::IsLatestSourceCommand(uint64_t sequence) const {
     return latest_source_sequence_.load(std::memory_order_acquire) == sequence;
 }
@@ -119,10 +149,12 @@ void MediaPlayer::ControlTaskFunction(void* arg) {
 }
 
 void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
+    processing_voice_epoch_ = command.voice_epoch;
+    processing_from_assistant_ = command.from_assistant;
     switch (command.type) {
         case ControlCommandType::PlaySd:
             if (IsLatestSourceCommand(command.sequence)) {
-                PlaySdNow(command.sd_index, command.sequence);
+                PlaySdNow(command);
             } else {
                 ESP_LOGI(TAG, "MEDIA_COMMAND_STALE type=sd sequence=%llu",
                          static_cast<unsigned long long>(command.sequence));
@@ -171,7 +203,7 @@ void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
     }
 }
 
-bool MediaPlayer::StopVoiceInteractionForMediaSynchronously() {
+bool MediaPlayer::HandOffVoiceSynchronously(uint32_t voice_epoch, bool preserve_speech) {
     struct Completion {
         std::mutex mutex;
         std::condition_variable cv;
@@ -180,7 +212,7 @@ bool MediaPlayer::StopVoiceInteractionForMediaSynchronously() {
     };
 
     auto completion = std::make_shared<Completion>();
-    Application::GetInstance().Schedule([completion]() {
+    Application::GetInstance().Schedule([completion, voice_epoch, preserve_speech]() {
         {
             std::lock_guard<std::mutex> lock(completion->mutex);
             if (completion->cancelled) {
@@ -189,7 +221,14 @@ bool MediaPlayer::StopVoiceInteractionForMediaSynchronously() {
                 return;
             }
         }
-        Application::GetInstance().StopVoiceInteractionForMedia();
+        auto& app = Application::GetInstance();
+        // Re-check on the main task: a conversation started after the media
+        // request was queued must never be closed by it.
+        if (app.GetVoiceSessionEpoch() == voice_epoch) {
+            app.HandOffVoiceForMedia(preserve_speech);
+        } else {
+            ESP_LOGI(TAG, "MEDIA_HANDOFF_SKIPPED reason=newer_voice_session");
+        }
         {
             std::lock_guard<std::mutex> lock(completion->mutex);
             completion->done = true;
@@ -206,6 +245,37 @@ bool MediaPlayer::StopVoiceInteractionForMediaSynchronously() {
         return false;
     }
     return true;
+}
+
+MediaPlayer::VoiceHandoff MediaPlayer::PrepareVoiceForMedia(const ControlCommand& command) {
+    if (command.voice_resume ||
+        Application::GetInstance().GetVoiceSessionEpoch() != command.voice_epoch) {
+        // Automatic resume, or the user started a new conversation after this
+        // request was made: never close that conversation.
+        return IsVoiceBusy() ? VoiceHandoff::Park : VoiceHandoff::Proceed;
+    }
+    return HandOffVoiceSynchronously(command.voice_epoch, command.from_assistant)
+               ? VoiceHandoff::Proceed
+               : VoiceHandoff::Abort;
+}
+
+void MediaPlayer::ParkRadioForVoice(const RadioStationInfo& station) {
+    SdMusicPlayer::GetInstance().Stop();
+    InternetRadioPlayer::GetInstance().Stop();
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        paused_by_user_ = false;
+        radio_station_for_manual_pause_ = {};
+        sd_paused_for_voice_ = false;
+        radio_station_for_voice_ = station;
+        paused_for_voice_ = true;
+    }
+    ESP_LOGI(TAG, "MEDIA_RADIO_PARKED_FOR_VOICE station=%s", station.name.c_str());
+    // The voice session may have ended while parking, after its Idle
+    // transition already queued PlayForVoice().
+    if (!IsVoiceBusy()) {
+        PlayForVoice();
+    }
 }
 
 void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
@@ -272,9 +342,13 @@ void MediaPlayer::PlaySd(int index) {
     }
 }
 
-void MediaPlayer::PlaySdNow(int index, uint64_t sequence) {
+void MediaPlayer::PlaySdNow(const ControlCommand& sd_command) {
+    const int index = sd_command.sd_index;
+    const uint64_t sequence = sd_command.sequence;
     ESP_LOGI(TAG, "MEDIA_COMMAND_EXECUTE type=sd index=%d task=%s", index, pcTaskGetName(nullptr));
-    if (!StopVoiceInteractionForMediaSynchronously()) {
+    // With Park the track starts parked: the SD loop and the playback queue
+    // keep music silent until the newer voice session returns to Idle.
+    if (PrepareVoiceForMedia(sd_command) == VoiceHandoff::Abort) {
         ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=sd reason=voice_stop_timeout");
         return;
     }
@@ -520,13 +594,20 @@ void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
         }
     };
 
-    // Stop the AI interaction before creating the radio task. The application
-    // mutation runs on the main task, while this control task waits for the
-    // completion so the two audio sources cannot overlap.
-    if (!StopVoiceInteractionForMediaSynchronously()) {
-        restore_pause_state();
-        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=radio reason=voice_stop_timeout");
-        return;
+    // Hand the audio path over before creating the radio task. The
+    // application mutation runs on the main task, while this control task
+    // waits for it. Assistant requests let the spoken answer finish; the radio
+    // stays silent meanwhile because every media gate checks the state.
+    switch (PrepareVoiceForMedia(command)) {
+        case VoiceHandoff::Abort:
+            restore_pause_state();
+            ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=radio reason=voice_stop_timeout");
+            return;
+        case VoiceHandoff::Park:
+            ParkRadioForVoice(command.station);
+            return;
+        case VoiceHandoff::Proceed:
+            break;
     }
 
     // Ensure the SD decoder task and audio pipeline are fully stopped before
@@ -575,12 +656,8 @@ void MediaPlayer::PlayRadioByUuidNow(ControlCommand&& command) {
 
     // Cancel the previous source before doing network resolution. This keeps
     // a reconnecting station from competing with the selected station while
-    // the UUID lookup is running, without blocking the LVGL task.
-    if (!StopVoiceInteractionForMediaSynchronously()) {
-        restore_pause_state();
-        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=radio_uuid reason=voice_stop_timeout");
-        return;
-    }
+    // the UUID lookup is running, without blocking the LVGL task. The voice
+    // handoff is decided after resolution, in PlayRadioNow().
     SdMusicPlayer::GetInstance().Stop();
     InternetRadioPlayer::GetInstance().Stop();
     if (!IsLatestSourceCommand(command.sequence)) {
@@ -737,6 +814,13 @@ void MediaPlayer::PauseForVoiceNow() {
     if (paused_by_user_.load()) {
         return;
     }
+    if (Application::GetInstance().IsMediaHandoffPending()) {
+        // The assistant just started this source inside its own turn. It is
+        // already silent until the answer ends; stopping it would only force
+        // a reconnect after the conversation.
+        ESP_LOGI(TAG, "[VOICE_PAUSE_SKIPPED] reason=media_handoff_pending");
+        return;
+    }
     if (radio.IsPlaying()) {
         RadioStationInfo station;
         {
@@ -789,35 +873,55 @@ void MediaPlayer::PlayForVoiceNow() {
         sd_paused_for_voice_ = false;
         return;
     }
-    if (paused_for_voice_.exchange(false)) {
-        RadioStationInfo station;
-        bool resume_sd = false;
+    if (!paused_for_voice_.load()) {
+        return;
+    }
+    if (IsVoiceBusy()) {
+        // A new conversation started before this resume ran; its own Idle
+        // transition will queue another PlayForVoice.
+        ESP_LOGI(TAG, "[VOICE_RESUME_DEFERRED] reason=voice_busy");
+        return;
+    }
+    RadioStationInfo station;
+    bool resume_sd = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        paused_for_voice_ = false;
+        station = std::move(radio_station_for_voice_);
+        radio_station_for_voice_ = {};
+        resume_sd = sd_paused_for_voice_.exchange(false);
+    }
+    if (!station.url_resolved.empty()) {
+        ControlCommand command;
         {
-            std::lock_guard<std::mutex> lock(voice_mutex_);
-            station = std::move(radio_station_for_voice_);
-            radio_station_for_voice_ = {};
-            resume_sd = sd_paused_for_voice_.exchange(false);
-        }
-        if (!station.url_resolved.empty()) {
-            ESP_LOGI(TAG, "[RADIO_VOICE_RESUME] station=%s", station.name.c_str());
-            ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
-                     station.name.c_str(), station.stationuuid.c_str(), station.codec.c_str(),
-                     station.url_resolved.c_str());
-            std::string err_msg;
-            auto restore_voice_pause = [this, station]() {
-                std::lock_guard<std::mutex> lock(voice_mutex_);
-                if (!paused_by_user_.load()) {
-                    radio_station_for_voice_ = station;
-                    paused_for_voice_ = true;
-                }
-            };
-            if (!PlayRadio(station, err_msg, {}, restore_voice_pause)) {
-                restore_voice_pause();
+            std::lock_guard<std::mutex> lock(control_mutex_);
+            if (HasPendingSourceCommandLocked()) {
+                ESP_LOGI(TAG, "[RADIO_VOICE_RESUME_SKIPPED] reason=newer_source_command");
+                return;
             }
-        } else if (resume_sd) {
-            ESP_LOGI(TAG, "[SD_VOICE_RESUME]");
-            SdMusicPlayer::GetInstance().ResumeFromVoice();
+            command.sequence = control_sequence_.fetch_add(1, std::memory_order_acq_rel) + 1;
+            latest_source_sequence_.store(command.sequence, std::memory_order_release);
         }
+        ESP_LOGI(TAG, "[RADIO_VOICE_RESUME] station=%s", station.name.c_str());
+        ESP_LOGI(TAG, "[RADIO_RESUME]\nname=%s\nuuid=%s\ncodec=%s\nurl=%s",
+                 station.name.c_str(), station.stationuuid.c_str(), station.codec.c_str(),
+                 station.url_resolved.c_str());
+        command.type = ControlCommandType::PlayRadio;
+        command.station = station;
+        command.voice_resume = true;
+        command.on_startup_failed = [this, station]() {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            if (!paused_by_user_.load()) {
+                radio_station_for_voice_ = station;
+                paused_for_voice_ = true;
+            }
+        };
+        // Start in place instead of re-queueing: a queued start could run
+        // after the PauseForVoice of a newer conversation and close it.
+        PlayRadioNow(std::move(command));
+    } else if (resume_sd) {
+        ESP_LOGI(TAG, "[SD_VOICE_RESUME]");
+        SdMusicPlayer::GetInstance().ResumeFromVoice();
     }
 }
 
@@ -976,10 +1080,8 @@ void MediaPlayer::Stop() {
 }
 
 void MediaPlayer::StopNow() {
-    if (!StopVoiceInteractionForMediaSynchronously()) {
-        ESP_LOGE(TAG, "MEDIA_COMMAND_ABORT type=stop reason=voice_stop_timeout");
-        return;
-    }
+    // Stopping media needs no voice handoff: the assistant can confirm the
+    // stop and the conversation continues normally.
     Application::GetInstance().GetAudioService().CheckHeapIntegrity("media_stop_begin");
     SdMusicPlayer::GetInstance().Stop();
     InternetRadioPlayer::GetInstance().Stop();

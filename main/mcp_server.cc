@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <cstring>
 #include <esp_pthread.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 #include "application.h"
 #include "display.h"
@@ -275,6 +277,36 @@ void McpServer::AddUserOnlyTools() {
                 settings.SetString("download_url", url);
                 return true;
             });
+}
+
+bool McpServer::IsCurrentTaskInToolCall() const {
+    void* current = xTaskGetCurrentTaskHandle();
+    for (const auto& slot : tool_call_tasks_) {
+        if (slot.load(std::memory_order_acquire) == current) {
+            return true;
+        }
+    }
+    return false;
+}
+
+McpServer::ScopedToolCall::ScopedToolCall() {
+    auto& server = McpServer::GetInstance();
+    void* current = xTaskGetCurrentTaskHandle();
+    for (int i = 0; i < kToolCallSlots; ++i) {
+        void* expected = nullptr;
+        if (server.tool_call_tasks_[i].compare_exchange_strong(expected, current,
+                                                                std::memory_order_acq_rel)) {
+            slot_ = i;
+            return;
+        }
+    }
+    ESP_LOGW(TAG, "No free tool-call slot; request origin will be treated as user");
+}
+
+McpServer::ScopedToolCall::~ScopedToolCall() {
+    if (slot_ >= 0) {
+        McpServer::GetInstance().tool_call_tasks_[slot_].store(nullptr, std::memory_order_release);
+    }
 }
 
 void McpServer::AddTool(McpTool* tool) {
@@ -553,6 +585,7 @@ void McpServer::DoToolCall(int id, const std::string& tool_name, const cJSON* to
     // Use main thread to call the tool
     auto& app = Application::GetInstance();
     app.Schedule([this, id, tool_iter, arguments = std::move(arguments)]() {
+        ScopedToolCall tool_call_scope;
         try {
             if ((*tool_iter)->is_async()) {
                 (*tool_iter)->CallAsync(arguments, [this, id](ReturnValue value) {

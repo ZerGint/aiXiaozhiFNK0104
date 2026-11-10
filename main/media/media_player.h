@@ -86,6 +86,17 @@ private:
         bool restore_manual_pause = false;
         RadioStationInfo voice_station;
         RadioStationInfo manual_station;
+        // Request origin, captured when the command is queued.
+        uint32_t voice_epoch = 0;
+        bool from_assistant = false;
+        // Automatic resume after a voice interaction; never closes voice.
+        bool voice_resume = false;
+    };
+
+    enum class VoiceHandoff {
+        Proceed,  // voice handed over (or idle); start the source now
+        Park,     // a newer voice session is active; keep the source parked
+        Abort,    // handoff timed out
     };
 
     static void ControlTaskFunction(void* arg);
@@ -93,9 +104,13 @@ private:
     bool EnqueueControlCommand(ControlCommand&& command, bool replace_pending_source);
     bool IsLatestSourceCommand(uint64_t sequence) const;
     void ProcessControlCommand(ControlCommand&& command);
-    bool StopVoiceInteractionForMediaSynchronously();
+    void TagRequest(ControlCommand& command) const;
+    bool HasPendingSourceCommandLocked() const;
+    VoiceHandoff PrepareVoiceForMedia(const ControlCommand& command);
+    bool HandOffVoiceSynchronously(uint32_t voice_epoch, bool preserve_speech);
+    void ParkRadioForVoice(const RadioStationInfo& station);
 
-    void PlaySdNow(int index, uint64_t sequence);
+    void PlaySdNow(const ControlCommand& sd_command);
     void PlayRadioNow(ControlCommand&& command);
     void PlayRadioByUuidNow(ControlCommand&& command);
     void StopNow();
@@ -123,6 +138,10 @@ private:
     TaskHandle_t control_task_handle_ = nullptr;
     std::atomic<uint64_t> control_sequence_{0};
     std::atomic<uint64_t> latest_source_sequence_{0};
+    // Origin of the command currently executed by the control task, so that
+    // commands it queues itself (e.g. a manual resume) keep that origin.
+    uint32_t processing_voice_epoch_ = 0;
+    bool processing_from_assistant_ = false;
 };
 
 #endif

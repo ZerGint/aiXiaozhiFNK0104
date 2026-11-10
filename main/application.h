@@ -12,6 +12,7 @@
 #include <memory>
 #include <functional>
 #include <cstdint>
+#include <atomic>
 #include <vector>
 
 #include "protocol.h"
@@ -110,6 +111,17 @@ public:
     void StopListening();
     void StopVoiceInteractionForMedia();
 
+    // Main task only. Hands the audio path over to local media. With
+    // preserve_speech (assistant-initiated media), the current answer is
+    // allowed to finish and the conversation then ends; otherwise the voice
+    // interaction is closed immediately.
+    void HandOffVoiceForMedia(bool preserve_speech);
+    // True while an assistant media request waits for its answer to finish.
+    bool IsMediaHandoffPending() const { return media_handoff_pending_.load(); }
+    // Advances whenever the user starts a new voice interaction. Media
+    // requests compare it to avoid closing a conversation started later.
+    uint32_t GetVoiceSessionEpoch() const { return voice_session_epoch_.load(); }
+
     // End the current server conversation after its final TTS response. This
     // is used by asynchronous actions such as music generation that must not
     // immediately reopen listening and continue the same request.
@@ -161,6 +173,9 @@ private:
     bool play_popup_on_listening_ = false;  // Flag to play popup sound after state changes to listening
     bool pending_listening_start_ = false;  // Waiting for playback to drain before starting listening (auto mode)
     bool end_conversation_after_speech_ = false;
+    std::atomic<bool> media_handoff_pending_{false};
+    int64_t media_handoff_deadline_ms_ = 0;
+    std::atomic<uint32_t> voice_session_epoch_{0};
     int clock_ticks_ = 0;
     TaskHandle_t activation_task_handle_ = nullptr;
 
@@ -178,6 +193,7 @@ private:
     void BeginWakeWordInvoke(const std::string& wake_word);
     void ContinueWakeWordInvoke(const std::string& wake_word);
     void StartListeningAudio();
+    void BeginUserVoiceSession();
     void ConfigureWakeWordForListening();
     void StartNotification(std::string audio_url, std::vector<NotifySubtitle> subtitles);
     void StopNotification();

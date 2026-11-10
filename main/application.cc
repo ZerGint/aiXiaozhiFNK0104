@@ -314,6 +314,14 @@ void Application::Run() {
             display->UpdateStatusBar();
             audio_service_.MaybeLogSpeechDiagnostics();
 
+            // An assistant media request waits for its spoken answer. If the
+            // server never starts speaking, do not keep the microphone open.
+            if (media_handoff_pending_ && GetDeviceState() == kDeviceStateListening &&
+                esp_timer_get_time() / 1000 > media_handoff_deadline_ms_) {
+                ESP_LOGW(TAG, "MEDIA_HANDOFF_TIMEOUT closing voice session");
+                StopVoiceInteractionForMedia();
+            }
+
             // Print debug info every 10 seconds
             if (clock_ticks_ % 10 == 0) {
                 SystemInfo::PrintHeapStats();
@@ -848,6 +856,10 @@ void Application::StopListening() { xEventGroupSetBits(event_group_, MAIN_EVENT_
 
 void Application::StopVoiceInteractionForMedia() {
     pending_listening_start_ = false;
+    media_handoff_pending_ = false;
+    if (GetDeviceState() == kDeviceStateNotifying) {
+        StopNotification();
+    }
     if (GetDeviceState() == kDeviceStateSpeaking) {
         AbortSpeaking(kAbortReasonNone);
     }
@@ -857,6 +869,33 @@ void Application::StopVoiceInteractionForMedia() {
         }
         SetDeviceState(kDeviceStateIdle);
     }
+}
+
+void Application::HandOffVoiceForMedia(bool preserve_speech) {
+    const auto state = GetDeviceState();
+    const bool channel_open = protocol_ && protocol_->IsAudioChannelOpened();
+    if (preserve_speech && channel_open &&
+        (state == kDeviceStateListening || state == kDeviceStateSpeaking)) {
+        // The assistant asked for media inside its own turn. Let the spoken
+        // acknowledgement play; the final TTS stop closes the conversation.
+        // Media sources stay silent meanwhile because every media gate checks
+        // IsVoiceAudioState(). The clock tick closes a turn that never speaks.
+        end_conversation_after_speech_ = true;
+        pending_listening_start_ = false;
+        media_handoff_deadline_ms_ = esp_timer_get_time() / 1000 + 8000;
+        media_handoff_pending_ = true;
+        ESP_LOGI(TAG, "MEDIA_HANDOFF_AFTER_SPEECH state=%s",
+                 DeviceStateMachine::GetStateName(state));
+        return;
+    }
+    StopVoiceInteractionForMedia();
+}
+
+void Application::BeginUserVoiceSession() {
+    // A new user interaction supersedes any pending assistant media handoff.
+    voice_session_epoch_.fetch_add(1);
+    media_handoff_pending_ = false;
+    MediaPlayer::GetInstance().PauseForVoice();
 }
 
 void Application::EndConversationAfterSpeech() {
@@ -908,7 +947,7 @@ void Application::HandleToggleChatEvent(bool play_popup_sound) {
             play_popup_on_listening_ = true;
             ESP_LOGI(TAG, "TOUCH_WAKE_POPUP_QUEUED");
         }
-        MediaPlayer::GetInstance().PauseForVoice();
+        BeginUserVoiceSession();
         if (!protocol_->IsAudioChannelOpened()) {
             SetDeviceState(kDeviceStateConnecting);
             // Schedule to let the state change be processed first (UI update)
@@ -973,7 +1012,7 @@ void Application::HandleStartListeningEvent() {
     }
 
     if (state == kDeviceStateIdle) {
-        MediaPlayer::GetInstance().PauseForVoice();
+        BeginUserVoiceSession();
         if (!protocol_->IsAudioChannelOpened()) {
             SetDeviceState(kDeviceStateConnecting);
             // Schedule to let the state change be processed first (UI update)
@@ -1029,6 +1068,8 @@ void Application::HandleWakeWordDetectedEvent() {
         // A new explicit interaction supersedes a pending end-of-conversation
         // request from an earlier assistant response.
         end_conversation_after_speech_ = false;
+        voice_session_epoch_.fetch_add(1);
+        media_handoff_pending_ = false;
         AbortSpeaking(kAbortReasonWakeWordDetected);
         // Clear send queue to avoid sending residues to server
         while (audio_service_.PopPacketFromSendQueue())
@@ -1053,7 +1094,7 @@ void Application::HandleWakeWordDetectedEvent() {
 
 void Application::BeginWakeWordInvoke(const std::string& wake_word) {
     // Must run in the main task with the device in idle state
-    MediaPlayer::GetInstance().PauseForVoice();
+    BeginUserVoiceSession();
     audio_service_.EncodeWakeWord();
 
     // Always pass through the connecting state, even if the audio channel is
@@ -1130,6 +1171,7 @@ void Application::HandleStateChangedEvent() {
     switch (new_state) {
         case kDeviceStateUnknown:
         case kDeviceStateIdle:
+            media_handoff_pending_ = false;
             display->SetStatus(Lang::Strings::STANDBY);
             display->ClearChatMessages();    // Clear messages first
             display->SetEmotion("neutral");  // Then set emotion (wechat mode checks child count)

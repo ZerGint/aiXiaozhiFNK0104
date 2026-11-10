@@ -1,6 +1,7 @@
 #ifndef MCP_SERVER_H
 #define MCP_SERVER_H
 
+#include <atomic>
 #include <string>
 #include <vector>
 #include <map>
@@ -362,6 +363,22 @@ public:
     void ParseMessage(const cJSON* json);
     void ParseMessage(const std::string& message);
 
+    // True when the calling FreeRTOS task is currently executing an MCP tool
+    // body, i.e. the request originates from the assistant, not the UI.
+    bool IsCurrentTaskInToolCall() const;
+
+    // Marks the calling task as executing a tool body for its lifetime.
+    class ScopedToolCall {
+    public:
+        ScopedToolCall();
+        ~ScopedToolCall();
+        ScopedToolCall(const ScopedToolCall&) = delete;
+        ScopedToolCall& operator=(const ScopedToolCall&) = delete;
+
+    private:
+        int slot_ = -1;
+    };
+
 private:
     McpServer();
     ~McpServer();
@@ -375,6 +392,8 @@ private:
     void DoToolCall(int id, const std::string& tool_name, const cJSON* tool_arguments);
 
     std::vector<McpTool*> tools_;
+    static constexpr int kToolCallSlots = 4;
+    std::atomic<void*> tool_call_tasks_[kToolCallSlots] = {};
 };
 
 #endif // MCP_SERVER_H
