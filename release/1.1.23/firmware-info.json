@@ -1,0 +1,74 @@
+{
+  "fnk0104s-external_amp": {
+    "version": "1.1.23",
+    "channel": "stable",
+    "branch": "FINAL",
+    "git_sha": "d90805cd5df029cc7b01e695d6e778e439629e57",
+    "dirty_worktree": false,
+    "file": "fnk0104s-firmware-external-i2s.bin",
+    "variant": "external_amp",
+    "size": 4102176,
+    "sha256": "3bd55defd4db81628753d7fec6e860041769c930b5969e7c7c56f50547b01288",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104s",
+    "build_time": "Nov 10 2026T21:52:18",
+    "idf_version": "6.1.0"
+  },
+  "fnk0104s-internal_amp": {
+    "version": "1.1.23",
+    "channel": "stable",
+    "branch": "FINAL",
+    "git_sha": "d90805cd5df029cc7b01e695d6e778e439629e57",
+    "dirty_worktree": true,
+    "file": "fnk0104s-firmware-internal.bin",
+    "variant": "internal_amp",
+    "size": 4099072,
+    "sha256": "ecb89f7c2d6384c6e77b84f1f6f77d9d62376807c19d0c19a5dfeba36326fc9c",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104s",
+    "build_time": "Nov 10 2026T21:53:55",
+    "idf_version": "6.1.0",
+    "merged_file": "fnk0104s-internal-merged-binary.bin",
+    "merged_sha256": "6cf633f551c9877c14deb5fa0b7b6c030886b0212fe6a8231a4c059ef6125dd8"
+  },
+  "fnk0104b": {
+    "version": "1.1.23",
+    "channel": "stable",
+    "branch": "FINAL",
+    "git_sha": "d90805cd5df029cc7b01e695d6e778e439629e57",
+    "dirty_worktree": false,
+    "file": "fnk0104b-firmware.bin",
+    "variant": "internal_amp",
+    "size": 3926944,
+    "sha256": "1b7f1288b9e2cfb36be46ebc7dd2c1321b6db4be3cb139082d3fbd4051495072",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104b",
+    "build_time": "Nov 10 2026T21:56:57",
+    "idf_version": "6.1.0",
+    "partition_table": "partitions/v2/16m_fnk0104s.csv",
+    "ota_updates": "disabled",
+    "flash_parts": {
+      "0x0": {
+        "file": "fnk0104b-bootloader.bin",
+        "sha256": "86118b57264115a8023b134598747ad0623af278bf0d66f997c4b7bcfef6be9f"
+      },
+      "0x8000": {
+        "file": "fnk0104b-partition-table.bin",
+        "sha256": "1b4d91cae89e99d0223bbf59d200c0689bdf05f8416e902df4f1dfed8cdbd5b1"
+      },
+      "0xd000": {
+        "file": "fnk0104b-ota-data-initial.bin",
+        "sha256": "7d2c7ac4888bfd75cd5f56e8d61f69595121183afc81556c876732fd3782c62f"
+      },
+      "0x20000": {
+        "file": "fnk0104b-firmware.bin",
+        "sha256": "1b7f1288b9e2cfb36be46ebc7dd2c1321b6db4be3cb139082d3fbd4051495072"
+      },
+      "0x920000": {
+        "file": "fnk0104b-assets.bin",
+        "sha256": "0b0e3d75e7166ae0dda9289febd43c5ce0580a52516e0ab6afb5428a87d979cd"
+      }
+    },
+    "merged_sha256": "d16b2a9a07989d5a00714fcd2da8b534ee622fca679f443a9e25eddf4ba73a50"
+  }
+}
