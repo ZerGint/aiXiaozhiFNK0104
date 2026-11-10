@@ -812,7 +812,8 @@ void AddWeatherJson(cJSON* result, const WeatherLocation& location, const Weathe
     cJSON_AddNumberToObject(result, "updated_at", static_cast<double>(data.last_successful_update));
     cJSON_AddNumberToObject(result, "temperature_c", data.current.temperature);
     cJSON_AddNumberToObject(result, "weather_code", data.current.weather_code);
-    cJSON_AddStringToObject(result, "condition", WeatherService::DescriptionForCode(data.current.weather_code));
+    cJSON_AddStringToObject(result, "condition",
+                            WeatherService::DescriptionForCode(data.current.weather_code, data.current.is_day));
     cJSON_AddNumberToObject(result, "wind_speed_mps", data.current.wind_speed);
     cJSON_AddNumberToObject(result, "wind_direction_deg", data.current.wind_direction);
     cJSON_AddBoolToObject(result, "is_day", data.current.is_day);
@@ -868,7 +869,10 @@ void WeatherService::RegisterMcpTools() {
         "search_city; it is persisted in NVS and becomes the Weather screen location. For get_city, "
         "return the persistent city. For get_weather, omit candidate_id for the persistent city or "
         "provide a verified candidate_id for a one-off forecast; forecast_days is 1..3. "
-        "The tool preserves ambiguous-city clarification and the existing Open-Meteo forecast flow.",
+        "The tool preserves ambiguous-city clarification. Forecasts come from Open-Meteo with MET Norway "
+        "as an automatic fallback; fields a source does not provide (feels_like_c, "
+        "precipitation_probability_percent) are omitted. is_day=false means night at the city. "
+        "Error weather_sources_unavailable means every weather source failed.",
         PropertyList({Property("action", kPropertyTypeString),
                       Property("query", kPropertyTypeString, ""),
                       Property("country", kPropertyTypeString, ""),
@@ -1234,7 +1238,8 @@ bool WeatherService::FetchWeather(const WeatherLocation& location, uint8_t forec
         ESP_LOGW(kTag, "WEATHER_PROVIDER_FAILED provider=%s error=%s",
                  order[i] == WeatherProvider::MetNo ? "met_no" : "open_meteo", attempt_error.c_str());
     }
-    error = first_error.empty() ? "weather_unavailable" : first_error;
+    ESP_LOGW(kTag, "WEATHER_ALL_PROVIDERS_FAILED first=%s", first_error.c_str());
+    error = "weather_sources_unavailable";
     return false;
 }
 
@@ -1730,9 +1735,9 @@ WeatherIcon WeatherService::IconForCode(int code) {
     return WeatherIcon::Rain;
 }
 
-const char* WeatherService::DescriptionForCode(int code) {
+const char* WeatherService::DescriptionForCode(int code, bool is_day) {
     switch (IconForCode(code)) {
-        case WeatherIcon::Clear: return "Солнечно";
+        case WeatherIcon::Clear: return is_day ? "Солнечно" : "Ясно";
         case WeatherIcon::PartlyCloudy: return "Малооблачно";
         case WeatherIcon::Cloudy: return "Облачно";
         case WeatherIcon::Fog: return "Туман";

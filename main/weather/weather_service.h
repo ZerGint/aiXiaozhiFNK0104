@@ -98,7 +98,8 @@ public:
     void RegisterMcpTools();
 
     static WeatherIcon IconForCode(int code);
-    static const char* DescriptionForCode(int code);
+    // is_day=false turns "clear" into night wording ("Ясно" instead of "Солнечно").
+    static const char* DescriptionForCode(int code, bool is_day = true);
     static void FormatWindDirection(uint16_t degrees, char* output, size_t output_size);
     static void FormatDate(time_t value, char* output, size_t output_size);
 

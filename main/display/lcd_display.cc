@@ -383,7 +383,7 @@ static lv_obj_t* WeatherShape(lv_obj_t* parent, int x, int y, int w, int h, lv_c
     return object;
 }
 
-static void DrawWeatherIcon(lv_obj_t* root, WeatherIcon icon, bool large) {
+static void DrawWeatherIcon(lv_obj_t* root, WeatherIcon icon, bool large, bool night = false) {
     lv_obj_clean(root);
     const int scale = large ? 2 : 1;
     const lv_color_t sun_color = lv_color_hex(0xFFD54F);
@@ -392,7 +392,14 @@ static void DrawWeatherIcon(lv_obj_t* root, WeatherIcon icon, bool large) {
     const lv_color_t storm_color = lv_color_hex(0xFFC107);
     const lv_color_t snow_color = lv_color_hex(0xEAF6FF);
     const lv_color_t fog_color = lv_color_hex(0x90A4AE);
-    if (icon == WeatherIcon::Clear || icon == WeatherIcon::PartlyCloudy) {
+    if ((icon == WeatherIcon::Clear || icon == WeatherIcon::PartlyCloudy) && night) {
+        // Crescent moon: a disc with a background-coloured disc cut out of its
+        // lower right, so the crescent shows at the upper left and still peeks
+        // out above the cloud for "partly cloudy".
+        WeatherShape(root, 4 * scale, 1 * scale, 13 * scale, 13 * scale, lv_color_hex(0xE6EEF8),
+                     LV_RADIUS_CIRCLE);
+        WeatherShape(root, 8 * scale, 3 * scale, 12 * scale, 12 * scale, kPanel2, LV_RADIUS_CIRCLE);
+    } else if (icon == WeatherIcon::Clear || icon == WeatherIcon::PartlyCloudy) {
         WeatherShape(root, 5 * scale, 3 * scale, 12 * scale, 12 * scale, sun_color,
                      LV_RADIUS_CIRCLE);
     }
@@ -2210,12 +2217,14 @@ void LcdDisplay::UpdateWeatherUI() {
     const bool servers_unavailable = !data.refresh_deferred && data.last_request_failed;
     lv_label_set_text(weather_description_label_,
                       servers_unavailable ? "Сервер недоступен"
-                                          : WeatherService::DescriptionForCode(data.current.weather_code));
+                                          : WeatherService::DescriptionForCode(data.current.weather_code,
+                                                                               data.current.is_day));
     char direction[8];
     WeatherService::FormatWindDirection(data.current.wind_direction, direction, sizeof(direction));
     snprintf(text, sizeof(text), "%.1f м/с %s", data.current.wind_speed, direction);
     lv_label_set_text(weather_wind_label_, text);
-    DrawWeatherIcon(weather_icon_, WeatherService::IconForCode(data.current.weather_code), true);
+    DrawWeatherIcon(weather_icon_, WeatherService::IconForCode(data.current.weather_code), true,
+                    !data.current.is_day);
     for (int i = 0; i < 2; ++i) {
         const auto& day = data.days[i + 1];
         DrawWeatherIcon(weather_forecast_icons_[i], WeatherService::IconForCode(day.weather_code),
