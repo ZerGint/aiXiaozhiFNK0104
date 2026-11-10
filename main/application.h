@@ -194,6 +194,7 @@ private:
     void ContinueWakeWordInvoke(const std::string& wake_word);
     void StartListeningAudio();
     void BeginUserVoiceSession();
+    void RejectVoiceDuringDownload(const char* source);
     void ConfigureWakeWordForListening();
     void StartNotification(std::string audio_url, std::vector<NotifySubtitle> subtitles);
     void StopNotification();

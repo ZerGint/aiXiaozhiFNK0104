@@ -891,6 +891,14 @@ void Application::HandOffVoiceForMedia(bool preserve_speech) {
     StopVoiceInteractionForMedia();
 }
 
+void Application::RejectVoiceDuringDownload(const char* source) {
+    ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=%s", source);
+    // Tell the user why nothing happens; the download dialog may be hidden
+    // behind another screen, and a wake word gives no visual cue at all.
+    Board::GetInstance().GetDisplay()->ShowNotification("Идёт загрузка музыки", 3000);
+    audio_service_.PlaySound(Lang::Sounds::OGG_EXCLAMATION);
+}
+
 void Application::BeginUserVoiceSession() {
     // A new user interaction supersedes any pending assistant media handoff.
     voice_session_epoch_.fetch_add(1);
@@ -914,7 +922,7 @@ void Application::EndConversationAfterSpeech() {
 
 void Application::HandleToggleChatEvent(bool play_popup_sound) {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
-        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=toggle");
+        RejectVoiceDuringDownload("toggle");
         return;
     }
     MusicService::GetInstance().BeginVoiceConversation();
@@ -991,7 +999,7 @@ void Application::ContinueOpenAudioChannel(ListeningMode mode) {
 
 void Application::HandleStartListeningEvent() {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
-        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=start");
+        RejectVoiceDuringDownload("start");
         return;
     }
     MusicService::GetInstance().BeginVoiceConversation();
@@ -1050,7 +1058,10 @@ void Application::HandleStopListeningEvent() {
 
 void Application::HandleWakeWordDetectedEvent() {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
-        ESP_LOGI(TAG, "AI_START_BLOCKED reason=generated_download_busy source=wake");
+        RejectVoiceDuringDownload("wake");
+        // The detection stopped the wake word engine; without re-enabling it
+        // the device stayed deaf to wake words until the next state change.
+        audio_service_.EnableWakeWordDetection(true);
         return;
     }
     MusicService::GetInstance().BeginVoiceConversation();
