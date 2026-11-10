@@ -5,6 +5,7 @@
         {
             "name": "freenove-fnk0104s",
             "sdkconfig_append": [
+                "CONFIG_LV_USE_CUSTOM_MALLOC=y",
                 "CONFIG_AUDIO_PROCESSOR_AGC=y",
                 "CONFIG_AUDIO_PROCESSOR_AGC_COMPRESSION_GAIN_DB=18",
                 "CONFIG_FNK_EXTERNAL_I2S_SPEAKER=y",
