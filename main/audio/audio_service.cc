@@ -386,6 +386,7 @@ void AudioService::Stop() {
     {
         std::lock_guard<std::mutex> lock(audio_queue_mutex_);
         ++playback_generation_;
+        ++media_generation_;
         DiscardAllEncodeTasksLocked("audio_stop");
         audio_decode_queue_.clear();
         DiscardPlaybackTasksLocked(false, false, "audio_stop");
@@ -663,6 +664,7 @@ void AudioService::AudioOutputTask() {
             TraceAudioTask("DISCARD", corrupt_task, queue_size_after_dequeue, false);
             task.release();
             output_in_flight_ = false;
+            media_output_in_flight_ = false;
             audio_queue_cv_.notify_all();
             continue;
         }
@@ -674,6 +676,7 @@ void AudioService::AudioOutputTask() {
                                               : 0;
         }
         output_in_flight_ = true;
+        media_output_in_flight_ = task->is_music;
         audio_queue_cv_.notify_all();
         lock.unlock();
 
@@ -687,6 +690,7 @@ void AudioService::AudioOutputTask() {
             TraceAudioTask("DESTROY", task.get(), audio_playback_queue_.size());
             UnregisterAudioTaskLocked(task.get());
             output_in_flight_ = false;
+            media_output_in_flight_ = false;
             if (task_is_radio) {
                 radio_started = false;
             }
@@ -808,6 +812,7 @@ void AudioService::AudioOutputTask() {
         TraceAudioTask("DESTROY", task.get(), audio_playback_queue_.size());
         UnregisterAudioTaskLocked(task.get());
         output_in_flight_ = false;
+        media_output_in_flight_ = false;
         if (task_is_radio) {
             bool has_radio = false;
             for (const auto& queued_task : audio_playback_queue_) {
@@ -1211,6 +1216,47 @@ uint32_t AudioService::GetPlaybackGeneration() {
     return playback_generation_;
 }
 
+uint32_t AudioService::GetMediaGeneration() {
+    std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+    return media_generation_;
+}
+
+void AudioService::DiscardMediaPlayback(const char* reason) {
+    bool notify_drained = false;
+    {
+        std::lock_guard<std::mutex> lock(audio_queue_mutex_);
+        // Reject PCM that a media producer is converting right now. Speech,
+        // the wake popup and other system sounds keep their own generation.
+        ++media_generation_;
+        DiscardPlaybackTasksLocked(false, true, reason);
+        radio_buffered_duration_ms_ = 0;
+        radio_prebuffer_ready_generation_ = 0;
+        notify_drained = MarkPlaybackDrainedLocked();
+        audio_queue_cv_.notify_all();
+    }
+    if (notify_drained && callbacks_.on_playback_drained) {
+        callbacks_.on_playback_drained();
+    }
+}
+
+bool AudioService::WaitForMediaDrained(std::chrono::milliseconds timeout) {
+    std::unique_lock<std::mutex> lock(audio_queue_mutex_);
+    return audio_queue_cv_.wait_for(lock, timeout, [this]() {
+        if (service_stopped_.load()) {
+            return true;
+        }
+        if (media_output_in_flight_) {
+            return false;
+        }
+        for (const auto& task : audio_playback_queue_) {
+            if (task->is_music) {
+                return false;
+            }
+        }
+        return true;
+    });
+}
+
 bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, bool is_radio,
                                     uint32_t duration_ms, bool stream_start,
                                     uint32_t expected_generation) {
@@ -1242,12 +1288,12 @@ bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
             }
         }
         std::unique_lock<std::mutex> lock(audio_queue_mutex_);
-        if (expected_generation != 0 && expected_generation != playback_generation_) {
+        if (expected_generation != 0 && expected_generation != media_generation_) {
             ESP_LOGW(TAG,
                      "AUDIO_MEDIA_STALE_DROP expected_generation=%lu current_generation=%lu "
                      "source=%s",
                      static_cast<unsigned long>(expected_generation),
-                     static_cast<unsigned long>(playback_generation_),
+                     static_cast<unsigned long>(media_generation_),
                      is_radio ? "radio" : "sd");
             return false;
         }
@@ -1301,9 +1347,9 @@ bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
             if (is_radio && RADIO_PREBUFFER_MS > 0 &&
                 radio_buffered_duration_ms_ >= RADIO_PREBUFFER_MS &&
                 radio_prebuffer_ready_generation_ == 0) {
-                radio_prebuffer_ready_generation_ = playback_generation_;
+                radio_prebuffer_ready_generation_ = media_generation_;
                 ESP_LOGI(TAG, "[RADIO_PREBUFFER_READY] generation=%lu buffer=%u ms",
-                         static_cast<unsigned long>(playback_generation_),
+                         static_cast<unsigned long>(media_generation_),
                          static_cast<unsigned>(radio_buffered_duration_ms_));
             }
             audio_queue_cv_.notify_all();
@@ -1583,6 +1629,7 @@ void AudioService::ResetDecoder() {
     {
         std::lock_guard<std::mutex> lock(audio_queue_mutex_);
         ++playback_generation_;
+        ++media_generation_;
         std::unique_lock<std::mutex> decoder_lock(decoder_mutex_);
         if (opus_decoder_ != nullptr) {
             esp_opus_dec_reset(opus_decoder_);
@@ -1699,7 +1746,7 @@ uint32_t AudioService::GetRadioBufferedMs() {
 bool AudioService::IsRadioPrebufferReady(uint32_t expected_generation) {
     std::lock_guard<std::mutex> lock(audio_queue_mutex_);
     if (RADIO_PREBUFFER_MS == 0) {
-        return expected_generation == 0 || expected_generation == playback_generation_;
+        return expected_generation == 0 || expected_generation == media_generation_;
     }
     return radio_prebuffer_ready_generation_ != 0 &&
            (expected_generation == 0 ||

@@ -446,7 +446,8 @@ bool SdMusicPlayer::PauseForUser(std::chrono::milliseconds timeout) {
     is_paused_.store(true, std::memory_order_release);
     // Discard PCM already queued for the media source. The file and decoder
     // remain open, so the next Play action continues from the saved position.
-    Application::GetInstance().GetAudioService().ResetDecoder();
+    // Speech and system sounds stay queued.
+    Application::GetInstance().GetAudioService().DiscardMediaPlayback("sd_user_pause");
     ESP_LOGI(TAG, "Playback PAUSED");
     return true;
 }
@@ -503,7 +504,7 @@ void SdMusicPlayer::Stop() {
         stop_requested_ = true;
         is_paused_ = false;
         ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=sd");
-        Application::GetInstance().GetAudioService().ResetDecoder();
+        Application::GetInstance().GetAudioService().DiscardMediaPlayback("sd_stop");
 
         std::unique_lock<std::mutex> lock(lifecycle_mutex_);
         const bool stopped = lifecycle_cv_.wait_for(lock, std::chrono::seconds(3), [this]() {
@@ -514,9 +515,9 @@ void SdMusicPlayer::Stop() {
         }
 
         lock.unlock();
-        if (!Application::GetInstance().GetAudioService().WaitForPlaybackDrained(
+        if (!Application::GetInstance().GetAudioService().WaitForMediaDrained(
                 std::chrono::seconds(3))) {
-            ESP_LOGE(TAG, "Stop timeout: audio playback task remains in flight");
+            ESP_LOGE(TAG, "Stop timeout: media playback task remains in flight");
         }
         ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_COMPLETE source=sd drained=%d",
                  Application::GetInstance().GetAudioService().IsPlaybackIdle() ? 1 : 0);
@@ -713,13 +714,13 @@ void SdMusicPlayer::PlayerLoop() {
                     if (out_frame.decoded_size > 0 &&
                         (out_frame.decoded_size & 1U) == 0 &&
                         out_frame.decoded_size <= out_buf_size) {
-                        // Voice startup resets the shared playback queues and
-                        // advances their generation. The SD decoder remains
-                        // open across that reset, so bind this live stream to
-                        // the new generation instead of dropping every frame
-                        // after the voice interaction.
+                        // A voice pause or decoder reset discards queued media
+                        // and advances the media generation. The SD decoder
+                        // remains open across that reset, so bind this live
+                        // stream to the new generation instead of dropping
+                        // every frame after the voice interaction.
                         auto& audio_service = Application::GetInstance().GetAudioService();
-                        if (audio_service.GetPlaybackGeneration() != stream_generation) {
+                        if (audio_service.GetMediaGeneration() != stream_generation) {
                             stream_generation = BeginMediaPcmStream();
                             if (stop_requested_ || skip_requested_)
                                 break;

@@ -219,6 +219,15 @@ public:
                           bool is_radio = false, uint32_t duration_ms = 0,
                           bool stream_start = false, uint32_t expected_generation = 0);
     uint32_t GetPlaybackGeneration();
+    // Generation used by local/radio media producers. It advances on a full
+    // decoder reset and on DiscardMediaPlayback(), but not when only speech or
+    // system sounds are affected.
+    uint32_t GetMediaGeneration();
+    // Removes queued SD/radio PCM and rejects in-flight media pushes while
+    // keeping queued TTS and system sounds (wake popup, alerts) intact.
+    void DiscardMediaPlayback(const char* reason);
+    // Waits until no media PCM is queued or being written to the codec.
+    bool WaitForMediaDrained(std::chrono::milliseconds timeout);
     uint32_t GetRadioBufferedMs();
     // Returns true once the radio queue has reached the prebuffer threshold
     // for the requested playback generation. The result is latched until the
@@ -308,6 +317,9 @@ private:
     // Zero is reserved for callers that do not participate in media-stream
     // generation validation. Start real media generations at one.
     uint32_t playback_generation_ = 1;
+    // Protected by audio_queue_mutex_. Starts at one for the same reason.
+    uint32_t media_generation_ = 1;
+    bool media_output_in_flight_ = false;
     // For server AEC
     std::deque<uint32_t> timestamp_queue_;
 

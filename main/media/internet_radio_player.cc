@@ -257,9 +257,11 @@ void InternetRadioPlayer::Stop() {
         ESP_LOGI(TAG, "AUDIO_SOURCE_STOP_REQUEST source=radio generation=%llu",
                  static_cast<unsigned long long>(wait_generation));
     }
-    Application::GetInstance().GetAudioService().ResetDecoder();
+    // Remove only radio/SD PCM. A full decoder reset would also drop the wake
+    // popup or the beginning of TTS when Stop() runs for a voice interaction.
+    Application::GetInstance().GetAudioService().DiscardMediaPlayback("radio_stop");
     const bool playback_drained =
-        Application::GetInstance().GetAudioService().WaitForPlaybackDrained(std::chrono::seconds(3));
+        Application::GetInstance().GetAudioService().WaitForMediaDrained(std::chrono::seconds(3));
     if (!playback_drained) {
         ESP_LOGE(TAG, "Radio stop timed out waiting for playback drain");
     }
@@ -749,7 +751,11 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             }
         }
     }
-    if (active_generation_.load() == attempt->generation) {
-        Application::GetInstance().GetAudioService().ResetDecoder();
+    // Stop() already discarded queued media. A natural stream end may let the
+    // remaining buffer play out; an aborted startup drops its partial buffer.
+    // Never reset the shared decoder here: this worker can exit up to one HTTP
+    // read timeout after Stop(), when a voice turn may already be playing.
+    if (stop_requested_ && active_generation_.load() == attempt->generation) {
+        Application::GetInstance().GetAudioService().DiscardRadioPrebuffer();
     }
 }

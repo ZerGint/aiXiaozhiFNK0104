@@ -147,7 +147,7 @@ void InitializeMediaRateConverterEarly(uint32_t source_rate, uint32_t target_rat
 uint32_t BeginMediaPcmStream() {
     GetMediaRateConverter().ResetStream();
     stream_start_pending = true;
-    return Application::GetInstance().GetAudioService().GetPlaybackGeneration();
+    return Application::GetInstance().GetAudioService().GetMediaGeneration();
 }
 
 void EnsureMp3DecoderRegistered() {
@@ -190,7 +190,7 @@ void PushMediaPcm(AudioCodec* codec, const int16_t* pcm_data, size_t num_samples
 
     auto& audio_service = Application::GetInstance().GetAudioService();
     if (stream_generation != 0 &&
-        audio_service.GetPlaybackGeneration() != stream_generation) {
+        audio_service.GetMediaGeneration() != stream_generation) {
         return;
     }
 

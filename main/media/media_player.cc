@@ -763,7 +763,8 @@ void MediaPlayer::PauseForVoiceNow() {
         // Drop already decoded media PCM, but keep the SD file and decoder
         // position alive. This prevents old music frames from competing with
         // the voice path while preserving resume from the current position.
-        Application::GetInstance().GetAudioService().ResetDecoder();
+        // Speech and the wake popup queued meanwhile are kept.
+        Application::GetInstance().GetAudioService().DiscardMediaPlayback("sd_voice_pause");
         {
             std::lock_guard<std::mutex> lock(voice_mutex_);
             radio_station_for_voice_ = {};
