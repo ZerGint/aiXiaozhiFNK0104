@@ -35,6 +35,11 @@ transform. Fonts are replaced at compile time with smaller faces:
 The 240 px anime face artwork is scaled to 160 px with one LVGL transform on
 the face root only.
 
+## Partitions
+
+B uses the S table `partitions/v2/16m_fnk0104s.csv`: two 4.5 MiB app slots
+and a 7 MiB assets partition at `0x920000`.
+
 ## Updates
 
 The custom stable-update channel is disabled for B until an update source for
