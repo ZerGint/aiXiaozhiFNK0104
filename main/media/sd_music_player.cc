@@ -537,6 +537,25 @@ void SdMusicPlayer::PlayerLoop() {
     if (target_rate == 0)
         target_rate = 24000;
 
+    // Unreadable or undecodable files are skipped, but a playlist of only
+    // bad files must not loop forever.
+    static constexpr int kMaxConsecutiveFailures = 5;
+    int consecutive_failures = 0;
+    auto skip_failed_track = [this, &consecutive_failures](const std::string& path) {
+        ++consecutive_failures;
+        std::lock_guard<std::mutex> lock(mutex_);
+        const int limit = std::min<int>(kMaxConsecutiveFailures,
+                                        std::max<int>(1, playback_playlist_.size()));
+        if (consecutive_failures >= limit || playback_playlist_.size() <= 1) {
+            ESP_LOGE(TAG, "Stopping after %d consecutive unplayable tracks (last: %s)",
+                     consecutive_failures, path.c_str());
+            return false;
+        }
+        playback_index_ = (playback_index_ + 1) % playback_playlist_.size();
+        active_track_path_ = playback_playlist_[playback_index_];
+        return true;
+    };
+
     while (!stop_requested_) {
         if (voice_pause_requested_.load(std::memory_order_acquire)) {
             {
@@ -554,6 +573,10 @@ void SdMusicPlayer::PlayerLoop() {
         std::string filepath;
         {
             std::lock_guard<std::mutex> lock(mutex_);
+            // Consume a pending skip together with the path it refers to.
+            // Clearing it later (after the decoder opened) lost a track
+            // change requested in between.
+            skip_requested_ = false;
             if (!active_track_path_.empty()) {
                 filepath = active_track_path_;
             } else if (playback_index_ >= 0 &&
@@ -572,8 +595,9 @@ void SdMusicPlayer::PlayerLoop() {
         FILE* f = fopen(filepath.c_str(), "rb");
         if (!f) {
             ESP_LOGE(TAG, "Failed to open file: %s", filepath.c_str());
-            vTaskDelay(pdMS_TO_TICKS(1000));
-            break;
+            vTaskDelay(pdMS_TO_TICKS(500));
+            if (!skip_failed_track(filepath)) break;
+            continue;
         }
         LogMusicRuntime("AFTER_FILE_OPEN");
 
@@ -587,19 +611,20 @@ void SdMusicPlayer::PlayerLoop() {
         esp_audio_simple_dec_handle_t dec_handle = nullptr;
 
         esp_err_t err = esp_audio_simple_dec_open(&dec_cfg, &dec_handle);
-        skip_requested_ = false;
 
         if (err == ESP_AUDIO_ERR_OK && dec_handle != nullptr) {
             if (stop_requested_ || skip_requested_) {
                 esp_audio_simple_dec_close(dec_handle);
                 fclose(f);
-                break;
+                if (stop_requested_) break;
+                continue;  // a newer track was selected meanwhile
             }
             uint32_t stream_generation = BeginMediaPcmStream();
             if (stop_requested_ || skip_requested_) {
                 esp_audio_simple_dec_close(dec_handle);
                 fclose(f);
-                break;
+                if (stop_requested_) break;
+                continue;
             }
             ESP_LOGI(TAG, "esp_audio_simple_dec opened successfully for %s", filepath.c_str());
             LogMusicRuntime("AFTER_DECODER_OPEN");
@@ -744,6 +769,7 @@ void SdMusicPlayer::PlayerLoop() {
                             PushMediaPcm(codec, reinterpret_cast<const int16_t*>(out_pcm_buf_ptr),
                                          num_samples, info.channel, info.sample_rate, target_rate,
                                          false, stream_generation);
+                            consecutive_failures = 0;
                         }
                     } else if (out_frame.decoded_size > 0) {
                         ESP_LOGW(TAG, "Dropping invalid decoded PCM size=%d buffer=%u",
@@ -773,11 +799,7 @@ void SdMusicPlayer::PlayerLoop() {
                      filepath.c_str());
             fclose(f);
             vTaskDelay(pdMS_TO_TICKS(500));
-            std::lock_guard<std::mutex> lock(mutex_);
-            if (!playback_playlist_.empty()) {
-                playback_index_ = (playback_index_ + 1) % playback_playlist_.size();
-                active_track_path_ = playback_playlist_[playback_index_];
-            }
+            if (!skip_failed_track(filepath)) break;
             continue;
         }
 
