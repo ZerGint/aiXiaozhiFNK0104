@@ -2,11 +2,13 @@
 #include "time_offset.h"
 
 #include "board.h"
+#include "ota.h"
 #include "mcp_server.h"
 #include "media/internet_radio_player.h"
 #include "settings.h"
 
 #include <cJSON.h>
+#include <esp_app_desc.h>
 #include <esp_heap_caps.h>
 #include <esp_log.h>
 #include <esp_timer.h>
@@ -14,7 +16,9 @@
 #include <freertos/task.h>
 
 #include <algorithm>
+#include <atomic>
 #include <cerrno>
+#include <functional>
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
@@ -356,6 +360,440 @@ bool ReadHttpJson(const char* operation, const std::string& url, std::string& bo
     return true;
 }
 
+// ---------------------------------------------------------------------------
+// MET Norway locationforecast (fallback provider, no API key).
+//
+// The compact response is tens of kilobytes (hourly for ~2.5 days, then
+// 6-hourly up to 10 days). It is parsed while streaming with a small
+// fixed-size tokenizer: no body buffer and no cJSON tree, so memory use does
+// not depend on the response size.
+// ---------------------------------------------------------------------------
+constexpr uint8_t kUnknownPrecipitationProbability = 255;
+constexpr size_t kMaxMetNoBytes = 512 * 1024;
+
+int64_t DaysFromCivil(int64_t y, unsigned m, unsigned d) {
+    y -= m <= 2;
+    const int64_t era = (y >= 0 ? y : y - 399) / 400;
+    const unsigned yoe = static_cast<unsigned>(y - era * 400);
+    const unsigned doy = (153 * (m + (m > 2 ? -3 : 9)) + 2) / 5 + d - 1;
+    const unsigned doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    return era * 146097 + static_cast<int64_t>(doe) - 719468;
+}
+
+// "2026-11-10T19:00:00Z" -> seconds since epoch (UTC).
+bool ParseIsoUtc(const char* text, int64_t& out) {
+    int y = 0, mo = 0, d = 0, h = 0, mi = 0, s = 0;
+    if (sscanf(text, "%4d-%2d-%2dT%2d:%2d:%2d", &y, &mo, &d, &h, &mi, &s) != 6) return false;
+    if (mo < 1 || mo > 12 || d < 1 || d > 31 || h > 23 || mi > 59 || s > 60) return false;
+    out = DaysFromCivil(y, static_cast<unsigned>(mo), static_cast<unsigned>(d)) * 86400 + h * 3600 +
+          mi * 60 + s;
+    return true;
+}
+
+int64_t FloorDiv(int64_t a, int64_t b) { return a >= 0 ? a / b : -((-a + b - 1) / b); }
+
+// Maps a met.no symbol_code to the internal (WeatherAPI-style) condition code.
+uint16_t MapMetNoSymbol(const char* symbol, bool& has_day, bool& is_day) {
+    std::string base(symbol);
+    has_day = false;
+    const char* suffixes[] = {"_day", "_night", "_polartwilight"};
+    for (const char* suffix : suffixes) {
+        const size_t len = strlen(suffix);
+        if (base.size() > len && base.compare(base.size() - len, len, suffix) == 0) {
+            has_day = true;
+            is_day = strcmp(suffix, "_day") == 0;
+            base.resize(base.size() - len);
+            break;
+        }
+    }
+    if (base == "clearsky") return 1000;
+    if (base == "fair" || base == "partlycloudy") return 1003;
+    if (base == "cloudy") return 1009;
+    if (base == "fog") return 1030;
+    if (base.find("thunder") != std::string::npos) return 1087;
+    if (base.find("sleet") != std::string::npos) return 1069;
+    if (base.find("snow") != std::string::npos) return 1066;
+    if (base.find("heavyrain") != std::string::npos) return 1195;
+    if (base.find("rain") != std::string::npos) return 1183;
+    return 1009;
+}
+
+class MetNoForecastParser {
+public:
+    // now_utc: current UTC time; local_offset_s: offset that turns UTC into the
+    // device's displayed local time (days are split on that local midnight).
+    MetNoForecastParser(int64_t now_utc, int64_t local_offset_s)
+        : now_utc_(now_utc), local_offset_s_(local_offset_s),
+          today_(FloorDiv(now_utc + local_offset_s, 86400)) {
+        for (auto& day : days_) day = DayAccumulator{};
+    }
+
+    void Feed(const char* data, size_t size) {
+        for (size_t i = 0; i < size; ++i) Step(data[i]);
+    }
+
+    bool Finish(WeatherData& out) {
+        if (in_scalar_) {
+            in_scalar_ = false;
+            OnScalar();
+        }
+        FlushEntry();
+        if (!have_current_ || entries_ == 0) return false;
+        out.current = current_;
+        for (int i = 0; i < 3; ++i) {
+            const auto& acc = days_[i];
+            if (!acc.has_temp) return false;
+            out.days[i].temp_min = acc.temp_min;
+            out.days[i].temp_max = acc.temp_max;
+            out.days[i].weather_code = acc.has_symbol ? acc.code : 1009;
+            out.days[i].precipitation_probability = kUnknownPrecipitationProbability;
+            out.days[i].precipitation_mm = acc.precipitation_mm;
+            out.days[i].has_precipitation = acc.has_precipitation;
+        }
+        return true;
+    }
+
+    bool syntax_overflow() const { return overflow_; }
+    int entries() const { return entries_; }
+
+private:
+    static constexpr int kMaxDepth = 12;
+    static constexpr size_t kTokenSize = 48;
+
+    struct Level {
+        bool is_object = false;
+        bool expect_key = false;
+        char key[kTokenSize] = {};
+    };
+    struct Entry {
+        int64_t time = 0;
+        bool valid = false;
+        float temperature = 0, wind_speed = 0, wind_direction = 0, humidity = 0;
+        bool has_temperature = false, has_wind = false, has_direction = false, has_humidity = false;
+        char symbol1[kTokenSize] = {}, symbol6[kTokenSize] = {}, symbol12[kTokenSize] = {};
+        float precip1 = 0, precip6 = 0;
+        bool has_precip1 = false, has_precip6 = false;
+    };
+    struct DayAccumulator {
+        float temp_min = 0, temp_max = 0;
+        bool has_temp = false;
+        float precipitation_mm = 0;
+        bool has_precipitation = false;
+        uint16_t code = 1009;
+        bool has_symbol = false;
+        int symbol_distance = 99;  // hours from local noon of the chosen symbol
+    };
+
+    void Step(char c) {
+        if (in_string_) {
+            if (escape_) {
+                escape_ = false;
+                Append(c);
+            } else if (c == '\\') {
+                escape_ = true;
+            } else if (c == '"') {
+                in_string_ = false;
+                OnString();
+            } else {
+                Append(c);
+            }
+            return;
+        }
+        if (in_scalar_) {
+            if ((c >= '0' && c <= '9') || c == '-' || c == '+' || c == '.' || c == 'e' ||
+                c == 'E' || (c >= 'a' && c <= 'z')) {
+                if (scalar_len_ + 1 < sizeof(scalar_)) scalar_[scalar_len_++] = c;
+                return;
+            }
+            in_scalar_ = false;
+            OnScalar();
+        }
+        switch (c) {
+            case '{':
+                Push(true);
+                break;
+            case '[':
+                Push(false);
+                break;
+            case '}':
+            case ']':
+                if (depth_ > 0) --depth_;
+                break;
+            case '"':
+                in_string_ = true;
+                token_len_ = 0;
+                break;
+            case ':':
+                if (Top() && Top()->is_object) Top()->expect_key = false;
+                break;
+            case ',':
+                if (Top() && Top()->is_object) Top()->expect_key = true;
+                break;
+            case ' ':
+            case '\n':
+            case '\r':
+            case '\t':
+                break;
+            default:
+                in_scalar_ = true;
+                scalar_len_ = 0;
+                scalar_[scalar_len_++] = c;
+                break;
+        }
+    }
+
+    Level* Top() { return depth_ > 0 && depth_ <= kMaxDepth ? &stack_[depth_ - 1] : nullptr; }
+    const char* KeyAt(int level) const {
+        return level >= 0 && level < depth_ && level < kMaxDepth ? stack_[level].key : "";
+    }
+
+    void Push(bool is_object) {
+        ++depth_;
+        if (depth_ > kMaxDepth) {
+            overflow_ = true;
+            return;
+        }
+        Level& level = stack_[depth_ - 1];
+        level.is_object = is_object;
+        level.expect_key = is_object;
+        level.key[0] = '\0';
+    }
+
+    void Append(char c) {
+        if (token_len_ + 1 < kTokenSize) token_[token_len_++] = c;
+    }
+
+    void OnString() {
+        token_[token_len_] = '\0';
+        Level* top = Top();
+        if (top && top->is_object && top->expect_key) {
+            memcpy(top->key, token_, token_len_ + 1);
+            return;
+        }
+        OnValue(token_, true);
+    }
+
+    void OnScalar() {
+        scalar_[scalar_len_] = '\0';
+        OnValue(scalar_, false);
+    }
+
+    void OnValue(const char* value, bool is_string) {
+        Level* top = Top();
+        if (!top || !top->is_object) return;
+        const char* key = top->key;
+        const char* parent = KeyAt(depth_ - 2);
+        const char* grand = KeyAt(depth_ - 3);
+        if (is_string) {
+            if (strcmp(key, "time") == 0) {
+                FlushEntry();
+                entry_ = Entry{};
+                entry_.valid = ParseIsoUtc(value, entry_.time);
+            } else if (strcmp(key, "symbol_code") == 0 && strcmp(parent, "summary") == 0) {
+                char* target = strcmp(grand, "next_1_hours") == 0   ? entry_.symbol1
+                               : strcmp(grand, "next_6_hours") == 0 ? entry_.symbol6
+                               : strcmp(grand, "next_12_hours") == 0 ? entry_.symbol12
+                                                                      : nullptr;
+                if (target) {
+                    strncpy(target, value, kTokenSize - 1);
+                    target[kTokenSize - 1] = '\0';
+                }
+            }
+            return;
+        }
+        if (strcmp(parent, "details") != 0) return;
+        char* end = nullptr;
+        const float number = strtof(value, &end);
+        if (end == value || !std::isfinite(number)) return;
+        if (strcmp(grand, "instant") == 0) {
+            if (strcmp(key, "air_temperature") == 0) {
+                entry_.temperature = number;
+                entry_.has_temperature = true;
+            } else if (strcmp(key, "wind_speed") == 0) {
+                entry_.wind_speed = number;
+                entry_.has_wind = true;
+            } else if (strcmp(key, "wind_from_direction") == 0) {
+                entry_.wind_direction = number;
+                entry_.has_direction = true;
+            } else if (strcmp(key, "relative_humidity") == 0) {
+                entry_.humidity = number;
+                entry_.has_humidity = true;
+            }
+        } else if (strcmp(key, "precipitation_amount") == 0) {
+            if (strcmp(grand, "next_1_hours") == 0) {
+                entry_.precip1 = number;
+                entry_.has_precip1 = true;
+            } else if (strcmp(grand, "next_6_hours") == 0) {
+                entry_.precip6 = number;
+                entry_.has_precip6 = true;
+            }
+        }
+    }
+
+    void FlushEntry() {
+        if (!entry_.valid || !entry_.has_temperature) {
+            entry_.valid = false;
+            return;
+        }
+        ++entries_;
+        const int64_t local = entry_.time + local_offset_s_;
+        const int day = static_cast<int>(FloorDiv(local, 86400) - today_);
+        const int local_hour = static_cast<int>((local - FloorDiv(local, 86400) * 86400) / 3600);
+        const char* symbol = entry_.symbol1[0] ? entry_.symbol1
+                             : entry_.symbol6[0] ? entry_.symbol6
+                                                 : entry_.symbol12;
+
+        if (!have_current_ && entry_.time + 3600 > now_utc_) {
+            have_current_ = true;
+            current_.temperature = entry_.temperature;
+            current_.wind_speed = entry_.has_wind ? entry_.wind_speed : 0.0f;
+            current_.wind_direction =
+                entry_.has_direction ? static_cast<uint16_t>(std::lround(entry_.wind_direction)) % 360 : 0;
+            if (entry_.has_humidity && entry_.humidity >= 0 && entry_.humidity <= 100) {
+                current_.humidity = static_cast<uint8_t>(std::lround(entry_.humidity));
+                current_.has_humidity = true;
+            }
+            if (entry_.has_precip1) {
+                current_.precipitation_mm = entry_.precip1;
+                current_.has_precipitation = true;
+            }
+            bool has_day = false, is_day = false;
+            current_.weather_code = symbol[0] ? MapMetNoSymbol(symbol, has_day, is_day) : 1009;
+            current_.is_day = has_day ? is_day : (local_hour >= 7 && local_hour < 19);
+            current_.has_apparent_temperature = false;
+        }
+
+        if (day >= 0 && day < 3) {
+            DayAccumulator& acc = days_[day];
+            if (!acc.has_temp) {
+                acc.temp_min = acc.temp_max = entry_.temperature;
+                acc.has_temp = true;
+            } else {
+                acc.temp_min = std::min(acc.temp_min, entry_.temperature);
+                acc.temp_max = std::max(acc.temp_max, entry_.temperature);
+            }
+            // Hourly section: 1 h amounts; 6-hourly section: 6 h amounts.
+            if (entry_.has_precip1) {
+                acc.precipitation_mm += entry_.precip1;
+                acc.has_precipitation = true;
+            } else if (entry_.has_precip6) {
+                acc.precipitation_mm += entry_.precip6;
+                acc.has_precipitation = true;
+            }
+            const char* day_symbol = entry_.symbol6[0] ? entry_.symbol6 : symbol;
+            const int distance = std::abs(local_hour - 12);
+            if (day_symbol[0] && distance < acc.symbol_distance) {
+                bool has_day = false, is_day = false;
+                acc.code = MapMetNoSymbol(day_symbol, has_day, is_day);
+                acc.has_symbol = true;
+                acc.symbol_distance = distance;
+            }
+        }
+        entry_.valid = false;
+    }
+
+    const int64_t now_utc_;
+    const int64_t local_offset_s_;
+    const int64_t today_;
+    Level stack_[kMaxDepth];
+    int depth_ = 0;
+    bool overflow_ = false;
+    bool in_string_ = false;
+    bool escape_ = false;
+    char token_[kTokenSize] = {};
+    size_t token_len_ = 0;
+    bool in_scalar_ = false;
+    char scalar_[24] = {};
+    size_t scalar_len_ = 0;
+    Entry entry_{};
+    int entries_ = 0;
+    bool have_current_ = false;
+    WeatherCurrent current_{};
+    DayAccumulator days_[3];
+};
+
+// Streams an HTTPS GET body into `sink` in small chunks.
+bool StreamHttp(const char* operation, const std::string& url, const char* user_agent,
+                size_t max_bytes, const std::function<void(const char*, size_t)>& sink,
+                std::string& error) {
+    const int64_t start_us = esp_timer_get_time();
+    ESP_LOGI(kTag, "WEATHER_HTTP_START op=%s", operation);
+    LogMemory("http_before_open");
+    auto network = Board::GetInstance().GetNetwork();
+    auto http = network ? network->CreateHttp(0) : nullptr;
+    if (!http) {
+        error = "network_unavailable";
+        return false;
+    }
+    http->SetTimeout(10000);
+    http->SetHeader("Accept", "application/json");
+    if (user_agent) http->SetHeader("User-Agent", user_agent);
+    if (!http->Open("GET", url)) {
+        error = "http_open_failed";
+        http.reset();
+        ESP_LOGW(kTag, "WEATHER_HTTP_END op=%s ok=0 error=%s elapsed_ms=%u", operation,
+                 error.c_str(), static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
+        return false;
+    }
+    const int status = http->GetStatusCode();
+    ESP_LOGI(kTag, "WEATHER_HTTP_HEADERS op=%s status=%d content_length=%u", operation, status,
+             static_cast<unsigned>(http->GetBodyLength()));
+    if (status != 200) {
+        error = "http_status";
+        http->Close();
+        http.reset();
+        return false;
+    }
+    char chunk[2048];
+    size_t total = 0;
+    int bytes_read = 0;
+    while ((bytes_read = http->Read(chunk, sizeof(chunk))) > 0) {
+        total += static_cast<size_t>(bytes_read);
+        if (total > max_bytes) {
+            error = "response_too_large";
+            break;
+        }
+        sink(chunk, static_cast<size_t>(bytes_read));
+    }
+    http->Close();
+    http.reset();
+    LogMemory("http_after_release");
+    if (error.empty() && bytes_read < 0) error = "http_read_failed";
+    ESP_LOGI(kTag, "WEATHER_HTTP_END op=%s ok=%d bytes=%u elapsed_ms=%u", operation,
+             error.empty() ? 1 : 0, static_cast<unsigned>(total),
+             static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
+    return error.empty();
+}
+
+// Provider that answered last; tried first on the next refresh (also after a
+// reboot) so a blocked provider does not cost a connection timeout every time.
+// Persisted in NVS namespace "weather", key "provider" (0 Open-Meteo, 1 met.no).
+enum class WeatherProvider : int { OpenMeteo = 0, MetNo = 1 };
+constexpr int kProviderNotLoaded = -1;
+std::atomic<int> g_preferred_provider{kProviderNotLoaded};
+
+WeatherProvider LoadPreferredProvider() {
+    int value = g_preferred_provider.load();
+    if (value == kProviderNotLoaded) {
+        Settings settings("weather", false);
+        value = settings.GetInt("provider", static_cast<int>(WeatherProvider::OpenMeteo));
+        if (value != static_cast<int>(WeatherProvider::MetNo)) {
+            value = static_cast<int>(WeatherProvider::OpenMeteo);
+        }
+        g_preferred_provider.store(value);
+        ESP_LOGI(kTag, "WEATHER_PROVIDER_LOADED provider=%s",
+                 value == static_cast<int>(WeatherProvider::MetNo) ? "met_no" : "open_meteo");
+    }
+    return static_cast<WeatherProvider>(value);
+}
+
+void SavePreferredProvider(WeatherProvider provider) {
+    const int value = static_cast<int>(provider);
+    if (g_preferred_provider.exchange(value) == value) return;
+    Settings settings("weather", true);
+    settings.SetInt("provider", value);
+}
+
 void AddLocationJson(cJSON* result, const WeatherLocation& location) {
     cJSON_AddStringToObject(result, "name", location.name.c_str());
     cJSON_AddStringToObject(result, "country", location.country.c_str());
@@ -392,7 +830,8 @@ void AddWeatherJson(cJSON* result, const WeatherLocation& location, const Weathe
         cJSON_AddNumberToObject(item, "temperature_max_c", day.temp_max);
         cJSON_AddNumberToObject(item, "weather_code", day.weather_code);
         cJSON_AddStringToObject(item, "condition", WeatherService::DescriptionForCode(day.weather_code));
-        cJSON_AddNumberToObject(item, "precipitation_probability_percent", day.precipitation_probability);
+        if (day.precipitation_probability != kUnknownPrecipitationProbability)
+            cJSON_AddNumberToObject(item, "precipitation_probability_percent", day.precipitation_probability);
         if (day.has_precipitation) cJSON_AddNumberToObject(item, "precipitation_mm", day.precipitation_mm);
         cJSON_AddItemToArray(forecast, item);
     }
@@ -769,6 +1208,75 @@ void WeatherService::CompletePersistentRefresh(const WeatherData& parsed, const 
 
 bool WeatherService::FetchWeather(const WeatherLocation& location, uint8_t forecast_days,
                                   WeatherData& parsed, std::string& error) {
+    const WeatherProvider preferred = LoadPreferredProvider();
+    const WeatherProvider order[2] = {
+        preferred, preferred == WeatherProvider::OpenMeteo ? WeatherProvider::MetNo
+                                                           : WeatherProvider::OpenMeteo};
+    std::string first_error;
+    for (int i = 0; i < 2; ++i) {
+        std::string attempt_error;
+        WeatherData attempt = parsed;
+        const bool ok = order[i] == WeatherProvider::OpenMeteo
+                            ? FetchOpenMeteo(location, forecast_days, attempt, attempt_error)
+                            : FetchMetNo(location, attempt, attempt_error);
+        if (ok) {
+            parsed = attempt;
+            if (order[i] != preferred) {
+                ESP_LOGW(kTag, "WEATHER_PROVIDER_SWITCH to=%s after=%s",
+                         order[i] == WeatherProvider::MetNo ? "met_no" : "open_meteo",
+                         first_error.c_str());
+            }
+            SavePreferredProvider(order[i]);
+            return true;
+        }
+        if (i == 0) first_error = attempt_error;
+        ESP_LOGW(kTag, "WEATHER_PROVIDER_FAILED provider=%s error=%s",
+                 order[i] == WeatherProvider::MetNo ? "met_no" : "open_meteo", attempt_error.c_str());
+    }
+    error = first_error.empty() ? "weather_unavailable" : first_error;
+    return false;
+}
+
+bool WeatherService::FetchMetNo(const WeatherLocation& location, WeatherData& parsed,
+                                std::string& error) {
+    // met.no rejects coordinates with more than four decimals and requires an
+    // identifying User-Agent.
+    char url[160];
+    snprintf(url, sizeof(url),
+             "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=%.4f&lon=%.4f",
+             location.latitude, location.longitude);
+    char user_agent[128];
+    snprintf(user_agent, sizeof(user_agent),
+             "FNK0104-xiaozhi/%s github.com/ZerGint/FNK0104s_xiaozhi_update",
+             esp_app_get_description()->version);
+    // Device time is the server's local time; recover UTC for met.no and
+    // split days on the same local midnight as the on-screen clock.
+    const int64_t server_offset_s = static_cast<int64_t>(Ota::ServerTimezoneOffsetMinutes()) * 60;
+    const int64_t now_utc = static_cast<int64_t>(time(nullptr)) - server_offset_s;
+    const int64_t local_offset_s =
+        server_offset_s + static_cast<int64_t>(TimeOffset::GetHours()) * 3600;
+    auto parser = std::make_unique<MetNoForecastParser>(now_utc, local_offset_s);
+    ESP_LOGI(kTag, "WEATHER_HTTP_START provider=met_no city=%s lat=%.4f lon=%.4f",
+             location.name.c_str(), location.latitude, location.longitude);
+    const int64_t start_us = esp_timer_get_time();
+    if (!StreamHttp("forecast_met_no", url, user_agent, kMaxMetNoBytes,
+                    [&parser](const char* data, size_t size) { parser->Feed(data, size); }, error)) {
+        return false;
+    }
+    if (parser->syntax_overflow() || !parser->Finish(parsed)) {
+        error = "invalid_weather_response";
+        ESP_LOGW(kTag, "WEATHER_PARSE_FAILED provider=met_no entries=%d overflow=%d",
+                 parser->entries(), parser->syntax_overflow() ? 1 : 0);
+        return false;
+    }
+    ESP_LOGI(kTag, "WEATHER_PARSE_OK provider=met_no city=%s temp=%.1f code=%u entries=%d elapsed_ms=%u",
+             location.name.c_str(), parsed.current.temperature, parsed.current.weather_code,
+             parser->entries(), static_cast<unsigned>((esp_timer_get_time() - start_us) / 1000));
+    return true;
+}
+
+bool WeatherService::FetchOpenMeteo(const WeatherLocation& location, uint8_t forecast_days,
+                                    WeatherData& parsed, std::string& error) {
     forecast_days = std::max<uint8_t>(1, std::min<uint8_t>(forecast_days, 3));
     char url[768];
     snprintf(url, sizeof(url),

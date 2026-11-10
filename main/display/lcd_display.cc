@@ -1883,6 +1883,7 @@ void LcdDisplay::SetupUI() {
     weather_temperature_label_ = weather_label("--°", 66, 55, 72, kText);
     lv_obj_set_style_text_font(weather_temperature_label_, &font_noto_sans_basic_30_4, 0);
     weather_description_label_ = weather_label("Получение погоды...", 8, 105, 128, kText);
+    lv_label_set_long_mode(weather_description_label_, LV_LABEL_LONG_SCROLL_CIRCULAR);
     weather_wind_label_ = weather_label("", 8, 125, 128, kMuted);
     for (int i = 0; i < 2; ++i) {
         const int x = 5 + i * 68;
@@ -2193,7 +2194,7 @@ void LcdDisplay::UpdateWeatherUI() {
         lv_label_set_text(weather_description_label_,
                           data.request_active ? "Получение погоды..." : "Нет данных");
         lv_label_set_text(weather_wind_label_,
-                          data.last_request_failed ? "Нет соединения" : "");
+                          data.last_request_failed ? "Сервер недоступен" : "");
         lv_label_set_text(weather_updated_label_,
                           data.request_active ? "Обновление..." : "Не обновлено");
         ESP_LOGI(TAG, "WEATHER_UI_UPDATE valid=0 stale=0");
@@ -2204,8 +2205,12 @@ void LcdDisplay::UpdateWeatherUI() {
     lv_label_set_text(weather_date_label_, text);
     snprintf(text, sizeof(text), "%.0f°", data.current.temperature);
     lv_label_set_text(weather_temperature_label_, text);
+    // Every weather provider failed on the last refresh: keep the cached values
+    // but say so instead of the condition text.
+    const bool servers_unavailable = !data.refresh_deferred && data.last_request_failed;
     lv_label_set_text(weather_description_label_,
-                      WeatherService::DescriptionForCode(data.current.weather_code));
+                      servers_unavailable ? "Сервер недоступен"
+                                          : WeatherService::DescriptionForCode(data.current.weather_code));
     char direction[8];
     WeatherService::FormatWindDirection(data.current.wind_direction, direction, sizeof(direction));
     snprintf(text, sizeof(text), "%.1f м/с %s", data.current.wind_speed, direction);
@@ -2217,7 +2222,14 @@ void LcdDisplay::UpdateWeatherUI() {
                         false);
         snprintf(text, sizeof(text), "%.0f° / %.0f°", day.temp_min, day.temp_max);
         lv_label_set_text(weather_forecast_temp_labels_[i], text);
-        snprintf(text, sizeof(text), "%u%%", day.precipitation_probability);
+        if (day.precipitation_probability <= 100) {
+            snprintf(text, sizeof(text), "%u%%", day.precipitation_probability);
+        } else if (day.has_precipitation) {
+            // Provider without a probability (met.no): show the expected amount.
+            snprintf(text, sizeof(text), "%.1fmm", day.precipitation_mm);
+        } else {
+            snprintf(text, sizeof(text), "--");
+        }
         lv_label_set_text(weather_forecast_rain_labels_[i], text);
     }
     struct tm updated{};

@@ -8,6 +8,7 @@
 #include <freertos/task.h>
 #include <cJSON.h>
 #include <esp_log.h>
+#include <atomic>
 #include <esp_partition.h>
 #include <esp_ota_ops.h>
 #include <esp_app_format.h>
@@ -25,6 +26,12 @@
 
 #define TAG "Ota"
 
+
+namespace {
+std::atomic<int> g_server_timezone_offset_minutes{0};
+}  // namespace
+
+int Ota::ServerTimezoneOffsetMinutes() { return g_server_timezone_offset_minutes.load(); }
 
 Ota::Ota() {
 #ifdef ESP_EFUSE_BLOCK_USR_DATA
@@ -202,6 +209,8 @@ esp_err_t Ota::CheckVersion() {
             if (cJSON_IsNumber(timezone_offset)) {
                 ts += (timezone_offset->valueint * 60 * 1000); // 转换分钟为毫秒
             }
+            g_server_timezone_offset_minutes.store(
+                cJSON_IsNumber(timezone_offset) ? timezone_offset->valueint : 0);
             
             tv.tv_sec = (time_t)(ts / 1000);  // 转换毫秒为秒
             tv.tv_usec = (suseconds_t)((long long)ts % 1000) * 1000;  // 剩余的毫秒转换为微秒

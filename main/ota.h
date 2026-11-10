@@ -23,6 +23,9 @@ public:
     bool IsForceUpdate() const { return force_update_; }
     bool StartUpgrade(std::function<void(int progress, size_t speed)> callback);
     static bool Upgrade(const std::string& firmware_url, std::function<void(int progress, size_t speed)> callback);
+    // Time-zone offset (minutes) that the server applied to the system clock;
+    // 0 until server time has been received.
+    static int ServerTimezoneOffsetMinutes();
     void MarkCurrentVersionValid();
 
     const std::string& GetFirmwareVersion() const { return firmware_version_; }

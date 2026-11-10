@@ -113,6 +113,10 @@ private:
     void RunRefresh();
     void RunSearch(const std::shared_ptr<Request>& request);
     void RunOneOffWeather(const std::shared_ptr<Request>& request);
+    // Tries the last working provider first, then the other one.
+    bool FetchOpenMeteo(const WeatherLocation& location, uint8_t forecast_days,
+                        WeatherData& parsed, std::string& error);
+    bool FetchMetNo(const WeatherLocation& location, WeatherData& parsed, std::string& error);
     bool FetchWeather(const WeatherLocation& location, uint8_t forecast_days,
                       WeatherData& parsed, std::string& error);
     bool FetchGeocoding(const std::string& query, const std::string& country,
