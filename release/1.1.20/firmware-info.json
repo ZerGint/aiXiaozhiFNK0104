@@ -31,16 +31,40 @@
   "fnk0104b": {
     "version": "1.1.20",
     "channel": "stable",
-    "branch": "feature/fnk0104b",
-    "git_sha": "b4fdf88f1b134e401cb75c19fc369cc03905369e",
-    "size": 3575872,
-    "sha256": "dc82de38159e9e3ffe6392fcff10a4549939bcd573ac0c48c6632231e7f8b33a",
-    "merged_sha256": "191fc9d926ef20d6631e83cae1cfbe272d4f417fa191b29a28a5a6b352b25376",
+    "branch": "FINAL",
+    "git_sha": "ad75743266512c829d99abcf66f4984ac442c273",
+    "file": "fnk0104b-firmware.bin",
+    "variant": "internal_amp",
+    "size": 3918032,
+    "sha256": "0f569fc70ff047b2684d8e8052900833cd1add7a6c635a09dddfe6639882938a",
     "chip": "esp32s3",
     "board": "freenove-fnk0104b",
-    "build_time": "Nov 10 2026T16:51:19",
+    "build_time": "Nov 10 2026T19:10:45",
     "idf_version": "6.1.0",
-    "file": "fnk0104b-firmware.bin",
-    "variant": "internal_amp"
+    "partition_table": "partitions/v2/16m_fnk0104s.csv",
+    "ota_updates": "disabled",
+    "flash_parts": {
+      "0x0": {
+        "file": "fnk0104b-bootloader.bin",
+        "sha256": "86118b57264115a8023b134598747ad0623af278bf0d66f997c4b7bcfef6be9f"
+      },
+      "0x8000": {
+        "file": "fnk0104b-partition-table.bin",
+        "sha256": "1b4d91cae89e99d0223bbf59d200c0689bdf05f8416e902df4f1dfed8cdbd5b1"
+      },
+      "0xd000": {
+        "file": "fnk0104b-ota-data-initial.bin",
+        "sha256": "7d2c7ac4888bfd75cd5f56e8d61f69595121183afc81556c876732fd3782c62f"
+      },
+      "0x20000": {
+        "file": "fnk0104b-firmware.bin",
+        "sha256": "0f569fc70ff047b2684d8e8052900833cd1add7a6c635a09dddfe6639882938a"
+      },
+      "0x920000": {
+        "file": "fnk0104b-assets.bin",
+        "sha256": "0b0e3d75e7166ae0dda9289febd43c5ce0580a52516e0ab6afb5428a87d979cd"
+      }
+    },
+    "merged_sha256": "1109085bb1470160b54984458dde496c496d3b25fff1d09a335720dbda0cc514"
   }
 }
