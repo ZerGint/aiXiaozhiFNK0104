@@ -1,15 +1,31 @@
 {
-  "fnk0104s": {
+  "fnk0104s-external_amp": {
     "version": "1.1.20",
     "channel": "stable",
-    "branch": "feature/fnk0104b",
-    "git_sha": "b4fdf88f1b134e401cb75c19fc369cc03905369e",
+    "branch": "FINAL",
+    "git_sha": "f673cd15a7170a3dc6c51ca5516935f7fb13e239",
+    "file": "fnk0104s-firmware-external-i2s.bin",
+    "variant": "external_amp",
     "size": 4092880,
     "sha256": "4d26fb69ceca7b79be33a75f1a1a774bed79b3757aa30f6e364263e64cb2ea44",
-    "merged_sha256": "fc4ccdff5982c98b407611ffa3669b061eed9adc9642376ab7d507e8fc2d2bab",
     "chip": "esp32s3",
     "board": "freenove-fnk0104s",
     "build_time": "Nov 10 2026T16:54:35",
+    "idf_version": "6.1.0",
+    "merged_sha256": "fc4ccdff5982c98b407611ffa3669b061eed9adc9642376ab7d507e8fc2d2bab"
+  },
+  "fnk0104s-internal_amp": {
+    "version": "1.1.20",
+    "channel": "stable",
+    "branch": "FINAL",
+    "git_sha": "f673cd15a7170a3dc6c51ca5516935f7fb13e239",
+    "file": "fnk0104s-firmware-internal.bin",
+    "variant": "internal_amp",
+    "size": 4089808,
+    "sha256": "b40468cc3e8d0e455717c36529829c7b1012dbaa07ce54a62e9bfc1edf34a6cf",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104s",
+    "build_time": "Nov 10 2026T18:26:24",
     "idf_version": "6.1.0"
   },
   "fnk0104b": {
@@ -23,6 +39,8 @@
     "chip": "esp32s3",
     "board": "freenove-fnk0104b",
     "build_time": "Nov 10 2026T16:51:19",
-    "idf_version": "6.1.0"
+    "idf_version": "6.1.0",
+    "file": "fnk0104b-firmware.bin",
+    "variant": "internal_amp"
   }
 }

@@ -1,18 +1,24 @@
 # FNK0104 custom firmware release 1.1.20
 
-Built from branch `feature/fnk0104b` with `build_fnk.ps1` (PlatformIO ESP-IDF 6.1.0,
+Built from branch `FINAL` with `build_fnk.ps1` (PlatformIO ESP-IDF 6.1.0,
 Xtensa GCC 15.2.0, target `esp32s3`). Checksums and build metadata are in
 `firmware-info.json`.
 
 | File | Board | Flash |
 |---|---|---|
-| `fnk0104s-firmware.bin` | `freenove-fnk0104s` | application image (OTA / app partition) |
-| `fnk0104s-merged-binary.bin` | `freenove-fnk0104s` | full image at `0x0` |
+| `fnk0104s-firmware-external-i2s.bin` | `freenove-fnk0104s`, external I2S amplifier (`external_amp`) | application image (OTA / app partition) |
+| `fnk0104s-firmware-internal.bin` | `freenove-fnk0104s`, onboard amplifier (`internal_amp`) | application image (OTA / app partition) |
+| `fnk0104s-merged-binary.bin` | `freenove-fnk0104s`, `external_amp` | full image at `0x0` |
 | `fnk0104b-firmware.bin` | `freenove-fnk0104b` | application image (OTA / app partition) |
 | `fnk0104b-merged-binary.bin` | `freenove-fnk0104b` | full image at `0x0` |
 
 Board identity differs between S and B; flash only the image built for the
-connected board.
+connected board. The S OTA updater also checks the amplifier variant, so an
+S device only accepts the image of its own variant.
+
+Bootloader, partition table and the `assets` partition are unchanged since
+1.1.18 (the bootloader differs only in its embedded build date), so an
+application-image update is sufficient for S devices already on 1.1.18.
 
 ## Changes since 1.1.18 (radio, player and assistant interaction)
 
