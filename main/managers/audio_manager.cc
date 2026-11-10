@@ -4,24 +4,27 @@
 #define TAG "AudioManager"
 
 bool AudioManager::RequestAudioFocus(AudioSource source) {
-    if (current_source_ == source) return true;
+    std::lock_guard<std::mutex> lock(mutex_);
+    const AudioSource current = current_source_.load();
+    if (current == source) return true;
 
-    ESP_LOGI(TAG, "Audio focus requested by source %d (current %d)", static_cast<int>(source), static_cast<int>(current_source_));
+    ESP_LOGI(TAG, "Audio focus requested by source %d (current %d)", static_cast<int>(source), static_cast<int>(current));
 
     // Priority: XiaoZhi TTS > MP3/Radio/Emulator
-    if (source == kAudioSourceXiaoZhiTts && current_source_ != kAudioSourceNone) {
-        paused_source_ = current_source_;
+    if (source == kAudioSourceXiaoZhiTts && current != kAudioSourceNone) {
+        paused_source_ = current;
         ESP_LOGI(TAG, "Pausing current audio source %d for TTS", static_cast<int>(paused_source_));
     }
 
-    current_source_ = source;
+    current_source_.store(source);
     return true;
 }
 
 void AudioManager::ReleaseAudioFocus(AudioSource source) {
-    if (current_source_ == source) {
+    std::lock_guard<std::mutex> lock(mutex_);
+    if (current_source_.load() == source) {
         ESP_LOGI(TAG, "Releasing audio focus from source %d", static_cast<int>(source));
-        current_source_ = paused_source_;
+        current_source_.store(paused_source_);
         paused_source_ = kAudioSourceNone;
     }
 }

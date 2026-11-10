@@ -92,11 +92,25 @@ bool EqualsInsensitive(const std::string& a, const std::string& b) {
                       });
 }
 
+// Radio Browser answers are a few KB; a hostile or broken mirror must not be
+// able to exhaust the heap.
+constexpr size_t kMaxResponseBytes = 64 * 1024;
+
+struct HttpResponseBuffer {
+    std::string body;
+    bool overflow = false;
+};
+
 esp_err_t HttpEventHandler(esp_http_client_event_t* event) {
     if (event->event_id == HTTP_EVENT_ON_DATA && event->user_data != nullptr &&
         event->data != nullptr && event->data_len > 0) {
-        static_cast<std::string*>(event->user_data)->append(
-            static_cast<const char*>(event->data), event->data_len);
+        auto* response = static_cast<HttpResponseBuffer*>(event->user_data);
+        if (response->overflow ||
+            response->body.size() + static_cast<size_t>(event->data_len) > kMaxResponseBytes) {
+            response->overflow = true;
+            return ESP_OK;
+        }
+        response->body.append(static_cast<const char*>(event->data), event->data_len);
     }
     return ESP_OK;
 }
@@ -142,24 +156,22 @@ std::string RadioBrowser::UrlEncode(const std::string& value) const {
 }
 
 std::string RadioBrowser::PerformRequest(const std::string& path) {
-    if (mirrors_.empty()) {
-        mirrors_ = {
-            "http://de1.api.radio-browser.info",
-            "http://nl1.api.radio-browser.info",
-            "http://at1.api.radio-browser.info",
-            "http://fi1.api.radio-browser.info"
-        };
+    // mirrors_ is immutable after construction; only the preferred index and
+    // the last server change, under state_mutex_.
+    size_t start_index = 0;
+    {
+        std::lock_guard<std::mutex> lock(state_mutex_);
+        start_index = current_mirror_index_;
     }
-
     const size_t total_attempts = mirrors_.size();
     for (size_t attempt = 0; attempt < total_attempts; ++attempt) {
-        size_t index = (current_mirror_index_ + attempt) % mirrors_.size();
+        size_t index = (start_index + attempt) % mirrors_.size();
         const std::string& server = mirrors_[index];
 
         ESP_LOGI(TAG, "[RADIO_MIRROR] trying %s", server.c_str());
 
         const std::string url = server + path;
-        std::string response;
+        HttpResponseBuffer response;
         esp_http_client_config_t config = {};
         config.url = url.c_str();
         config.method = HTTP_METHOD_GET;
@@ -180,13 +192,20 @@ std::string RadioBrowser::PerformRequest(const std::string& path) {
         int status = esp_http_client_get_status_code(client);
         esp_http_client_cleanup(client);
 
+        if (err == ESP_OK && status >= 200 && status < 300 && response.overflow) {
+            ESP_LOGW(TAG, "[RADIO_MIRROR] response from %s exceeds %u bytes", server.c_str(),
+                     static_cast<unsigned>(kMaxResponseBytes));
+            return "{\"error\":\"Radio Browser response too large\"}";
+        }
         if (err == ESP_OK && status >= 200 && status < 300) {
             ESP_LOGI(TAG, "[RADIO_MIRROR] success %s", server.c_str());
-            current_mirror_index_ = index;
-            server_url_ = server;
+            {
+                std::lock_guard<std::mutex> lock(state_mutex_);
+                current_mirror_index_ = index;
+            }
             ESP_LOGI(TAG, "Search request succeeded: status=%d response_len=%d",
-                     status, (int)response.size());
-            return response;
+                     status, (int)response.body.size());
+            return std::move(response.body);
         }
 
         ESP_LOGW(TAG, "[RADIO_MIRROR] failed %s reason=err:%s status:%d",
@@ -473,14 +492,18 @@ bool RadioBrowser::GetFirstCatalogStation(RadioStationInfo& station) const {
 
 
 void RadioBrowser::SetSelectedStationUuid(const std::string& station_uuid) {
+    std::lock_guard<std::mutex> lock(state_mutex_);
     selected_station_uuid_ = station_uuid;
 }
 
-std::string RadioBrowser::GetSelectedStationUuid() const { return selected_station_uuid_; }
+std::string RadioBrowser::GetSelectedStationUuid() const {
+    std::lock_guard<std::mutex> lock(state_mutex_);
+    return selected_station_uuid_;
+}
 
 bool RadioBrowser::GetSelectedStation(RadioStationInfo& station) const {
-    return !selected_station_uuid_.empty() &&
-           RadioStorage::GetInstance().GetCatalogStationByUuid(selected_station_uuid_, station);
+    const std::string uuid = GetSelectedStationUuid();
+    return !uuid.empty() && RadioStorage::GetInstance().GetCatalogStationByUuid(uuid, station);
 }
 
 std::string RadioBrowser::AddFavoriteStation(const std::string& station_uuid) {
@@ -493,10 +516,11 @@ std::string RadioBrowser::AddFavoriteStation(const std::string& station_uuid) {
 bool RadioBrowser::MoveSelectedStation(int delta) {
     std::vector<RadioStationInfo> stations;
     if (!RadioStorage::GetInstance().GetCatalog(stations) || stations.empty()) return false;
+    const std::string selected = GetSelectedStationUuid();
     size_t index = 0;
-    for (size_t i = 0; i < stations.size(); ++i) if (stations[i].stationuuid == selected_station_uuid_) { index = i; break; }
+    for (size_t i = 0; i < stations.size(); ++i) if (stations[i].stationuuid == selected) { index = i; break; }
     index = (index + stations.size() + delta) % stations.size();
-    selected_station_uuid_ = stations[index].stationuuid;
+    SetSelectedStationUuid(stations[index].stationuuid);
     return true;
 }
 

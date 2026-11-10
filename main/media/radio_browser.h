@@ -1,6 +1,7 @@
 #ifndef RADIO_BROWSER_H
 #define RADIO_BROWSER_H
 
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -49,15 +50,16 @@ private:
                                     const std::string& tag,
                                     int limit);
     std::string UrlEncode(const std::string& value) const;
-    std::string server_url_ = "http://de1.api.radio-browser.info";
-    std::vector<std::string> mirrors_ = {
+    const std::vector<std::string> mirrors_ = {
         "http://de1.api.radio-browser.info",
         "http://nl1.api.radio-browser.info",
         "http://at1.api.radio-browser.info",
         "http://fi1.api.radio-browser.info"
     };
-    size_t current_mirror_index_ = 0;
-    std::string selected_station_uuid_;
+    // Accessed from the LVGL task, the media control task and the MCP worker.
+    mutable std::mutex state_mutex_;
+    size_t current_mirror_index_ = 0;   // guarded by state_mutex_
+    std::string selected_station_uuid_;  // guarded by state_mutex_
 };
 
 #endif
