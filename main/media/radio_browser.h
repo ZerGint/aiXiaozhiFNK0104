@@ -31,6 +31,9 @@ public:
     bool GetSelectedStation(RadioStationInfo& station) const;
     bool MoveSelectedStation(int delta);
     bool MoveActiveStation(int delta);
+    // Catalog neighbour of station_uuid (wrapping). Does not start playback.
+    bool GetAdjacentCatalogStation(const std::string& station_uuid, int delta,
+                                   RadioStationInfo& station) const;
     std::string AddFavoriteStation(const std::string& station_uuid);
     std::string AddFavorite();
     std::string ListFavorites() const;

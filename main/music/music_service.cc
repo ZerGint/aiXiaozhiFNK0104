@@ -1610,7 +1610,20 @@ void MusicService::RegisterMcpTools() {
             cJSON_AddBoolToObject(result, "success", true);
             cJSON_AddStringToObject(result, "source", "generated");
             cJSON_AddStringToObject(result, "query", query.c_str());
-            cJSON_AddStringToObject(result, "title", MediaPlayer::GetInstance().GetTitle().c_str());
+            // Playback starts asynchronously; GetTitle() would still report
+            // the previous source (e.g. the radio station).
+            std::string title = query;
+            {
+                auto& sd = SdMusicPlayer::GetInstance();
+                const auto tracks = sd.GetPlaylistSnapshot();
+                const int index = sd.GetSelectedTrackIndex();
+                if (index >= 0 && index < static_cast<int>(tracks.size())) {
+                    title = tracks[index];
+                    const size_t slash = title.find_last_of('/');
+                    if (slash != std::string::npos) title.erase(0, slash + 1);
+                }
+            }
+            cJSON_AddStringToObject(result, "title", title.c_str());
             return result;
         });
 

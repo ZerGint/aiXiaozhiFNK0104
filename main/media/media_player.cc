@@ -182,6 +182,12 @@ void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
         case ControlCommandType::TogglePlayPause:
             TogglePlayPauseNow();
             break;
+        case ControlCommandType::Pause:
+            PauseNow();
+            break;
+        case ControlCommandType::Resume:
+            ResumeNow();
+            break;
         case ControlCommandType::PauseForVoice:
             PauseForVoiceNow();
             break;
@@ -716,36 +722,23 @@ void MediaPlayer::TogglePlayPause() {
 void MediaPlayer::TogglePlayPauseNow() {
     auto& radio = InternetRadioPlayer::GetInstance();
 
-    // A user action during a voice-interrupted Radio session cancels the
-    // pending automatic resume. Keep the station as a manual pause target so
-    // a later explicit Play can reconnect it, but never restart it implicitly.
+    // The UI shows a voice-paused station as paused, so the toggle means
+    // "play now". A voice-paused SD track is shown as playing, so the toggle
+    // means "pause": it must stay paused after the conversation.
     if (paused_for_voice_.load()) {
-        RadioStationInfo station;
-        bool converted_to_manual_pause = false;
-        bool resume_sd = false;
+        bool radio_parked = false;
+        bool sd_parked = false;
         {
             std::lock_guard<std::mutex> lock(voice_mutex_);
-            station = radio_station_for_voice_;
-            if (!station.url_resolved.empty()) {
-                radio_station_for_manual_pause_ = station;
-                paused_by_user_ = true;
-                radio_station_for_voice_ = {};
-                paused_for_voice_ = false;
-                converted_to_manual_pause = true;
-            } else if (sd_paused_for_voice_.load()) {
-                sd_paused_for_voice_ = false;
-                paused_for_voice_ = false;
-                resume_sd = true;
-            }
+            radio_parked = !radio_station_for_voice_.url_resolved.empty();
+            sd_parked = sd_paused_for_voice_.load();
         }
-        if (converted_to_manual_pause) {
-            ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE] station=%s active_before=0 voice_pending=1",
-                     station.name.c_str());
+        if (radio_parked) {
+            ResumeNow();
             return;
         }
-        if (resume_sd) {
-            ESP_LOGI(TAG, "[SD_VOICE_MANUAL_RESUME]");
-            SdMusicPlayer::GetInstance().ResumeFromVoice();
+        if (sd_parked) {
+            PauseNow();
             return;
         }
         paused_for_voice_ = false;
@@ -799,6 +792,123 @@ void MediaPlayer::TogglePlayPauseNow() {
         return;
     }
     SdMusicPlayer::GetInstance().TogglePlayPause();
+}
+
+void MediaPlayer::Pause() {
+    ControlCommand command;
+    command.type = ControlCommandType::Pause;
+    if (!EnqueueControlCommand(std::move(command), false)) {
+        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=pause");
+    }
+}
+
+void MediaPlayer::Resume() {
+    if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
+        ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=resume");
+        return;
+    }
+    ControlCommand command;
+    command.type = ControlCommandType::Resume;
+    if (!EnqueueControlCommand(std::move(command), false)) {
+        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=resume");
+    }
+}
+
+void MediaPlayer::PauseNow() {
+    auto& radio = InternetRadioPlayer::GetInstance();
+    auto& sd = SdMusicPlayer::GetInstance();
+    RadioStationInfo station;
+    bool radio_voice_parked = false;
+    bool sd_voice_parked = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (paused_for_voice_.load()) {
+            radio_voice_parked = !radio_station_for_voice_.url_resolved.empty();
+            sd_voice_parked = sd_paused_for_voice_.load();
+            if (radio_voice_parked) {
+                // Convert the automatic voice pause into a user pause, so the
+                // station is not restarted when the conversation ends.
+                station = radio_station_for_voice_;
+                radio_station_for_manual_pause_ = station;
+                paused_by_user_ = true;
+            }
+            radio_station_for_voice_ = {};
+            paused_for_voice_ = false;
+            sd_paused_for_voice_ = false;
+        }
+    }
+    if (radio_voice_parked) {
+        ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE] station=%s active_before=0 voice_pending=1",
+                 station.name.c_str());
+        return;
+    }
+    if (sd_voice_parked) {
+        ESP_LOGI(TAG, "[SD_MANUAL_PAUSE] voice_pending=1");
+        sd.PauseForUser();
+        return;
+    }
+    if (radio.IsPlaying()) {
+        station = radio.GetCurrentStation();
+        {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+        }
+        ESP_LOGI(TAG, "[RADIO_MANUAL_PAUSE] station=%s active_before=1", station.name.c_str());
+        radio.Stop();
+        return;
+    }
+    if (sd.IsPlaying()) {
+        sd.PauseForUser();
+    }
+}
+
+void MediaPlayer::ResumeNow() {
+    auto& radio = InternetRadioPlayer::GetInstance();
+    auto& sd = SdMusicPlayer::GetInstance();
+    RadioStationInfo station;
+    bool resume_sd_voice = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (!radio_station_for_voice_.url_resolved.empty()) {
+            station = radio_station_for_voice_;
+        } else if (paused_by_user_.load()) {
+            station = radio_station_for_manual_pause_;
+        }
+        resume_sd_voice = station.url_resolved.empty() && sd_paused_for_voice_.load();
+        if (!station.url_resolved.empty() || resume_sd_voice) {
+            paused_for_voice_ = false;
+            sd_paused_for_voice_ = false;
+            radio_station_for_voice_ = {};
+            paused_by_user_ = false;
+            radio_station_for_manual_pause_ = {};
+        }
+    }
+    if (!station.url_resolved.empty()) {
+        if (radio.IsActive()) return;
+        ESP_LOGI(TAG, "[RADIO_MANUAL_RESUME] station=%s", station.name.c_str());
+        std::string err_msg;
+        const bool success = PlayRadio(station, err_msg, {}, [this, station]() {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+        });
+        if (!success) {
+            std::lock_guard<std::mutex> lock(voice_mutex_);
+            radio_station_for_manual_pause_ = station;
+            paused_by_user_ = true;
+        }
+        return;
+    }
+    if (resume_sd_voice) {
+        // Still silent while a conversation runs: the SD loop and the
+        // playback queue gate music on the voice state.
+        sd.ResumeFromVoice();
+        return;
+    }
+    if (sd.IsPaused()) {
+        sd.ResumeFromUser();
+    }
 }
 
 void MediaPlayer::PauseForVoice() {
@@ -1015,17 +1125,54 @@ void MediaPlayer::Next() {
     }
 }
 
+bool MediaPlayer::MoveParkedRadioStation(int delta) {
+    RadioStationInfo current;
+    bool voice_parked = false;
+    {
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        if (paused_for_voice_.load() && !radio_station_for_voice_.url_resolved.empty()) {
+            current = radio_station_for_voice_;
+            voice_parked = true;
+        } else if (paused_by_user_.load() && !radio_station_for_manual_pause_.url_resolved.empty()) {
+            current = radio_station_for_manual_pause_;
+        } else {
+            return false;
+        }
+    }
+    RadioStationInfo next;
+    if (!RadioBrowser::GetInstance().GetAdjacentCatalogStation(current.stationuuid, delta, next) ||
+        next.url_resolved.empty()) {
+        ESP_LOGW(TAG, "[RADIO_PARKED_MOVE] no catalog neighbour for %s", current.name.c_str());
+        return true;  // radio is the current source; never fall through to SD
+    }
+    RadioBrowser::GetInstance().SetSelectedStationUuid(next.stationuuid);
+    if (voice_parked) {
+        // Keep it parked: it starts when the conversation ends.
+        std::lock_guard<std::mutex> lock(voice_mutex_);
+        radio_station_for_voice_ = next;
+        ESP_LOGI(TAG, "[RADIO_PARKED_MOVE] station=%s", next.name.c_str());
+        return true;
+    }
+    // An explicit skip on a manually paused station plays the new station.
+    std::string err_msg;
+    if (!PlayRadio(next, err_msg)) {
+        ESP_LOGW(TAG, "[RADIO_PARKED_MOVE] start failed: %s", err_msg.c_str());
+    }
+    return true;
+}
+
 void MediaPlayer::NextNow() {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=next");
         return;
     }
+    if (MoveParkedRadioStation(1)) {
+        return;
+    }
+    // SD skip during a conversation: Play() of the new track stays silent
+    // until Idle because music is gated on the voice state.
     paused_for_voice_ = false;
     sd_paused_for_voice_ = false;
-    {
-        std::lock_guard<std::mutex> lock(voice_mutex_);
-        radio_station_for_voice_ = {};
-    }
     if (InternetRadioPlayer::GetInstance().IsActive()) {
         RadioBrowser::GetInstance().MoveActiveStation(1);
         return;
@@ -1050,12 +1197,11 @@ void MediaPlayer::PrevNow() {
         ESP_LOGI(TAG, "MEDIA_START_BLOCKED reason=generated_download_busy type=previous");
         return;
     }
+    if (MoveParkedRadioStation(-1)) {
+        return;
+    }
     paused_for_voice_ = false;
     sd_paused_for_voice_ = false;
-    {
-        std::lock_guard<std::mutex> lock(voice_mutex_);
-        radio_station_for_voice_ = {};
-    }
     if (InternetRadioPlayer::GetInstance().IsActive()) {
         RadioBrowser::GetInstance().MoveActiveStation(-1);
         return;

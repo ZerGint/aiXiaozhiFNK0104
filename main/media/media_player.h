@@ -36,6 +36,10 @@ public:
     bool PlayRadio(const std::string& url, const std::string& title, std::string& err_msg);
     bool PlayRadio(const std::string& url, const std::string& title = {});
     void TogglePlayPause();
+    // Explicit, idempotent controls (MCP). Pause never resumes anything and
+    // Resume never pauses, unlike the UI toggle.
+    void Pause();
+    void Resume();
     void PauseForVoice();
     void PlayForVoice();
     // Pause the currently active local source for a generated-music download.
@@ -65,6 +69,8 @@ private:
         PlayRadioByUuid,
         Stop,
         TogglePlayPause,
+        Pause,
+        Resume,
         PauseForVoice,
         PlayForVoice,
         PauseForGeneratedDownload,
@@ -115,6 +121,9 @@ private:
     void PlayRadioByUuidNow(ControlCommand&& command);
     void StopNow();
     void TogglePlayPauseNow();
+    void PauseNow();
+    void ResumeNow();
+    bool MoveParkedRadioStation(int delta);
     void PauseForVoiceNow();
     void PlayForVoiceNow();
     void PauseForGeneratedDownloadNow();

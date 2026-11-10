@@ -500,18 +500,29 @@ bool RadioBrowser::MoveSelectedStation(int delta) {
     return true;
 }
 
-bool RadioBrowser::MoveActiveStation(int delta) {
-    RadioStationInfo current = InternetRadioPlayer::GetInstance().GetCurrentStation();
-    if (current.stationuuid.empty()) return false;
+bool RadioBrowser::GetAdjacentCatalogStation(const std::string& station_uuid, int delta,
+                                             RadioStationInfo& station) const {
+    if (station_uuid.empty()) return false;
     std::vector<RadioStationInfo> stations;
     if (!RadioStorage::GetInstance().GetCatalog(stations) || stations.empty()) return false;
-    size_t index = 0;
-    bool found = false;
-    for (size_t i = 0; i < stations.size(); ++i) if (stations[i].stationuuid == current.stationuuid) { index = i; found = true; break; }
-    if (!found) return false;
-    index = (index + stations.size() + delta) % stations.size();
-    selected_station_uuid_ = stations[index].stationuuid;
-    PlayStation("", "", selected_station_uuid_);
+    for (size_t i = 0; i < stations.size(); ++i) {
+        if (stations[i].stationuuid != station_uuid) continue;
+        const size_t index = (i + stations.size() + delta) % stations.size();
+        station = stations[index];
+        return true;
+    }
+    return false;
+}
+
+bool RadioBrowser::MoveActiveStation(int delta) {
+    RadioStationInfo current = InternetRadioPlayer::GetInstance().GetCurrentStation();
+    RadioStationInfo next;
+    if (!GetAdjacentCatalogStation(current.stationuuid, delta, next)) {
+        ESP_LOGW(TAG, "MoveActiveStation: current station is not in the catalog");
+        return false;
+    }
+    SetSelectedStationUuid(next.stationuuid);
+    PlayStation("", "", next.stationuuid);
     return true;
 }
 std::string RadioBrowser::AddFavorite() {
@@ -633,15 +644,24 @@ void RadioBrowser::RegisterMcpTools() {
         PropertyList(),
         [](const PropertyList&) -> ReturnValue {
             auto& radio = InternetRadioPlayer::GetInstance();
-            const RadioStationInfo station = radio.GetCurrentStation();
+            auto& media = MediaPlayer::GetInstance();
+            RadioStationInfo station = radio.GetCurrentStation();
             const bool active = radio.IsActive();
             const bool playing = radio.IsPlaying();
-            const bool paused = radio.IsPaused();
+            // During a conversation the station is stopped and parked; it
+            // resumes when the conversation ends.
+            RadioStationInfo parked;
+            const bool paused_for_voice = !active && media.GetRadioStationPausedForVoice(parked);
+            const bool paused_by_user =
+                !active && !paused_for_voice && media.GetRadioStationPausedByUser(parked);
+            if (paused_for_voice || paused_by_user) station = parked;
+            const bool paused = radio.IsPaused() || paused_by_user;
 
             cJSON* root = cJSON_CreateObject();
             cJSON_AddBoolToObject(root, "active", active);
-            cJSON_AddBoolToObject(root, "playing", playing);
+            cJSON_AddBoolToObject(root, "playing", playing || paused_for_voice);
             cJSON_AddBoolToObject(root, "paused", paused);
+            cJSON_AddBoolToObject(root, "paused_for_conversation", paused_for_voice);
 
             if (station.name.empty() && station.url_resolved.empty()) {
                 cJSON_AddNullToObject(root, "station");
@@ -769,8 +789,17 @@ void RadioBrowser::RegisterMcpTools() {
            const std::string query = properties["query"].value<std::string>();
            int index = properties["index"].value<int>();
            if (index > 0) --index;
-           if (!query.empty()) index = MediaPlayer::GetInstance().FindSdTrack(query);
-           if (index < 0) return "No matching SD music track found";
+           if (!query.empty()) {
+               index = MediaPlayer::GetInstance().FindSdTrack(query);
+               if (index < 0) return "No matching SD music track found";
+           } else if (index < 0) {
+               // No arguments: continue the current track, or start the first.
+               auto& sd = SdMusicPlayer::GetInstance();
+               const auto tracks = sd.GetPlaylistSnapshot();
+               if (tracks.empty()) return "No music tracks found on the SD card";
+               index = sd.GetCurrentTrackIndex();
+               if (index < 0 || index >= static_cast<int>(tracks.size())) index = 0;
+           }
            MediaPlayer::GetInstance().PlaySd(index);
            return "Playing music from the SD card";
         });
@@ -799,16 +828,27 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "media.pause",
-        "Pause or resume the currently playing SD music or internet radio. "
-        "Use this when the user asks to pause, continue, or resume music or radio.",
+        "Pause the SD music or internet radio. Use this only when the user asks to pause or "
+        "stop listening for a while; use media.resume to continue. Music is already muted "
+        "automatically while you speak, so never call this just to talk.",
         PropertyList(),
         [](const PropertyList&) -> ReturnValue {
-           MediaPlayer::GetInstance().TogglePlayPause();
-           return "Media playback toggled";
+           MediaPlayer::GetInstance().Pause();
+           return "Media playback paused";
+        });
+    McpServer::GetInstance().AddTool(
+        "media.resume",
+        "Resume paused SD music or internet radio. Use this when the user asks to continue or "
+        "resume. Playback becomes audible after your answer finishes.",
+        PropertyList(),
+        [](const PropertyList&) -> ReturnValue {
+           MediaPlayer::GetInstance().Resume();
+           return "Media playback will resume";
         });
     McpServer::GetInstance().AddTool(
         "media.next",
-        "Play the next SD music track.",
+        "Switch to the next SD music track, or to the next catalog station when radio is the "
+        "current source.",
         PropertyList(),
         [](const PropertyList&) -> ReturnValue {
            MediaPlayer::GetInstance().Next();
@@ -816,7 +856,8 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddTool(
         "media.previous",
-        "Play the previous SD music track.",
+        "Switch to the previous SD music track, or to the previous catalog station when radio "
+        "is the current source.",
         PropertyList(),
         [](const PropertyList&) -> ReturnValue {
            MediaPlayer::GetInstance().Prev();
