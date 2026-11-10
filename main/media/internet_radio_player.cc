@@ -31,10 +31,24 @@
 namespace {
 constexpr EventBits_t kStartupBitReady = (1 << 0);
 constexpr EventBits_t kStartupBitFailed = (1 << 1);
-constexpr int kMaxReconnectAttempts = 3;
-constexpr int kReconnectConnectDelayMs = 2000;
-constexpr int kReconnectStreamDelayMs = 500;
+constexpr int kMaxReconnectAttempts = 5;
 constexpr int kReconnectDelayStepMs = 50;
+// A connected stream must deliver its first bytes within this time.
+constexpr int64_t kStartupDataTimeoutMs = 10000;
+// Wi-Fi outages do not consume reconnect attempts for up to this long.
+constexpr int kNetworkWaitMaxMs = 60000;
+
+// 1 s, 2 s, 4 s, 8 s, 8 s ...
+int ReconnectDelayMs(int attempt) {
+    if (attempt <= 1) return 1000;
+    if (attempt >= 4) return 8000;
+    return 1000 << (attempt - 1);
+}
+
+bool IsWifiLinkUp() {
+    wifi_ap_record_t ap_info = {};
+    return esp_wifi_sta_get_ap_info(&ap_info) == ESP_OK;
+}
 std::string ResolveRedirectUrl(const std::string& current_url, const std::string& location) {
     if (location.empty())
         return "";
@@ -339,6 +353,23 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
     if (target_rate == 0)
         target_rate = 24000;
 
+    // Waits for the access point to come back after a Wi-Fi drop without
+    // spending reconnect attempts. Returns false when stopping or timed out.
+    auto wait_for_network = [this]() {
+        int waited_ms = 0;
+        while (!stop_requested_ && !IsWifiLinkUp() && waited_ms < kNetworkWaitMaxMs) {
+            if (waited_ms == 0) {
+                ESP_LOGW(TAG, "[RADIO_RECONNECT_WAIT_NETWORK] Wi-Fi link is down");
+            }
+            vTaskDelay(pdMS_TO_TICKS(250));
+            waited_ms += 250;
+        }
+        if (waited_ms > 0 && IsWifiLinkUp()) {
+            ESP_LOGI(TAG, "[RADIO_RECONNECT_NETWORK_BACK] waited=%d ms", waited_ms);
+        }
+        return !stop_requested_.load() && IsWifiLinkUp();
+    };
+
     int reconnect_attempts = 0;
 
     while (!stop_requested_) {
@@ -351,6 +382,13 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         }
 
         if (initial_ready_) {
+            if (!wait_for_network()) {
+                if (!stop_requested_) {
+                    reconnect_exhausted_ = true;
+                    ESP_LOGE(TAG, "[RADIO_RECONNECT_EXHAUSTED] reason=network_unavailable");
+                }
+                break;
+            }
             ++reconnect_attempts;
             ESP_LOGW(TAG, "[RADIO_RECONNECT_ATTEMPT] attempt=%d/%d uuid=%s url=%s",
                      reconnect_attempts, kMaxReconnectAttempts, current_uuid.c_str(),
@@ -463,7 +501,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                          reconnect_attempts, kMaxReconnectAttempts);
                 break;
             }
-            if (!wait_for_retry(kReconnectConnectDelayMs)) {
+            if (!wait_for_retry(ReconnectDelayMs(reconnect_attempts))) {
                 ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
                          reconnect_attempts);
                 break;
@@ -549,17 +587,21 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                          reconnect_attempts, kMaxReconnectAttempts);
                 break;
             }
-            if (!wait_for_retry(kReconnectStreamDelayMs)) {
+            if (!wait_for_retry(ReconnectDelayMs(reconnect_attempts))) {
                 ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
                          reconnect_attempts);
             }
             continue;
         }
         const uint32_t stream_generation = BeginMediaPcmStream();
+        // Scratch buffers live in PSRAM; internal RAM is reserved for DMA,
+        // Wi-Fi and the voice path.
         std::vector<uint8_t, PsramAllocator<uint8_t>> in(2048);
         constexpr size_t kMaxDecodedFrameBytes = 256 * 1024;
-        std::vector<uint8_t> out(16384);
-        std::vector<uint8_t> pending(in.size() * 4);
+        std::vector<uint8_t, PsramAllocator<uint8_t>> out(16384);
+        std::vector<uint8_t, PsramAllocator<uint8_t>> pending(in.size() * 4);
+        const int64_t stream_open_ms = esp_timer_get_time() / 1000;
+        bool startup_failed = false;
         LogRadioMemory(TAG, "RADIO_AFTER_BUFFERS");
         size_t pending_len = 0;
         bool first_read_logged = false;
@@ -595,6 +637,25 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
             }
             if (read <= 0) {
                 if (!initial_ready_) {
+                    // read < 0 is a socket error; read == 0 with a finished
+                    // body means the server closed the stream. Otherwise wait,
+                    // but never longer than the startup timeout.
+                    const bool closed = read < 0 || esp_http_client_is_complete_data_received(client);
+                    const bool timed_out =
+                        esp_timer_get_time() / 1000 - stream_open_ms > kStartupDataTimeoutMs;
+                    if (closed || timed_out) {
+                        ESP_LOGW(TAG, "[RADIO_STARTUP_FAILED] reason=%s read=%d",
+                                 closed ? "stream_closed" : "no_data_timeout", read);
+                        {
+                            std::lock_guard<std::mutex> lock(mutex_);
+                            startup_err_msg_ = closed ? "Stream closed" : "No stream data";
+                        }
+                        if (startup_event_group_ != nullptr) {
+                            xEventGroupSetBits(startup_event_group_, kStartupBitFailed);
+                        }
+                        startup_failed = true;
+                        break;
+                    }
                     ESP_LOGD(TAG, "Waiting for initial stream data... (read=%d)", read);
                     vTaskDelay(pdMS_TO_TICKS(50));
                     continue;
@@ -732,6 +793,11 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         if (!attempt->startup_ready_notified && !stop_requested_) {
             Application::GetInstance().GetAudioService().DiscardRadioPrebuffer();
         }
+        if (startup_failed) {
+            // Startup never produced audio: report failure instead of
+            // reconnecting forever (initial failures do not count attempts).
+            break;
+        }
         if (reconnect_requested_) {
             reconnect_count_++;
         }
@@ -743,7 +809,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
                          reconnect_attempts, kMaxReconnectAttempts);
                 break;
             }
-            if (!wait_for_retry(kReconnectStreamDelayMs)) {
+            if (!wait_for_retry(ReconnectDelayMs(reconnect_attempts))) {
                 ESP_LOGI(TAG, "[RADIO_RECONNECT_ABORTED] reason=stop_requested attempts=%d",
                          reconnect_attempts);
                 break;
