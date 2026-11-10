@@ -5,6 +5,7 @@
 #include <web_socket.h>
 #include <mqtt.h>
 #include <udp.h>
+#include <atomic>
 #include <string>
 #include <functional>
 #include <network_interface.h>
@@ -55,6 +56,9 @@ private:
     Board(const Board&) = delete; // 禁用拷贝构造函数
     Board& operator=(const Board&) = delete; // 禁用赋值操作
 
+private:
+    static inline std::atomic<bool> media_streaming_hold_{false};
+
 protected:
     Board();
     std::string GenerateUuid();
@@ -85,6 +89,12 @@ public:
     virtual std::string GetAudioOutputVariant();
     virtual std::string GetSystemInfoJson();
     virtual void SetPowerSaveLevel(PowerSaveLevel level) = 0;
+    // Held while a long-lived media stream (internet radio) needs a low
+    // latency link. Network boards keep PERFORMANCE and ignore LOW_POWER
+    // requests while it is held. Process-wide, so composite boards that
+    // delegate to an inner board see the same value.
+    static void SetMediaStreamingHold(bool hold) { media_streaming_hold_.store(hold); }
+    static bool IsMediaStreamingHeld() { return media_streaming_hold_.load(); }
     virtual std::string GetBoardJson() = 0;
     virtual std::string GetDeviceStatusJson() = 0;
 };

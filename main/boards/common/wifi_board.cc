@@ -17,7 +17,6 @@
 #include <wifi_manager.h>
 #include <wifi_station.h>
 #include <ssid_manager.h>
-#include "media/internet_radio_player.h"
 #ifdef CONFIG_USE_ESP_BLUFI_WIFI_PROVISIONING
 #include "blufi.h"
 #endif
@@ -281,7 +280,7 @@ std::string WifiBoard::GetBoardJson() {
 }
 
 void WifiBoard::SetPowerSaveLevel(PowerSaveLevel level) {
-    if (level == PowerSaveLevel::LOW_POWER && InternetRadioPlayer::GetInstance().IsActive()) {
+    if (level == PowerSaveLevel::LOW_POWER && Board::IsMediaStreamingHeld()) {
         return;
     }
     WifiPowerSaveLevel wifi_level;

@@ -239,6 +239,9 @@ bool InternetRadioPlayer::Play(const RadioStationInfo& station, std::string& err
             return false;
         }
         task_handle_.store(new_task_handle);
+        // Mirrors IsActive(): Wi-Fi stays in PERFORMANCE until the worker
+        // of this generation has exited.
+        Board::SetMediaStreamingHold(true);
         return true;
     }
 }
@@ -318,6 +321,7 @@ void InternetRadioPlayer::TaskFunction(void* arg) {
             player->playing_ = false;
             player->paused_ = false;
             player->task_handle_.store(nullptr);
+            Board::SetMediaStreamingHold(false);
             // Restore low-power Wi-Fi only after Radio is no longer active. The
             // lifecycle lock prevents a new generation from starting here.
             if (Application::GetInstance().GetDeviceState() == kDeviceStateIdle) {
