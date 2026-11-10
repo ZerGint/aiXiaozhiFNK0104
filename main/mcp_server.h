@@ -2,6 +2,9 @@
 #define MCP_SERVER_H
 
 #include <atomic>
+#include <condition_variable>
+#include <deque>
+#include <mutex>
 #include <string>
 #include <vector>
 #include <map>
@@ -359,6 +362,10 @@ public:
     void AddTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
     void AddAsyncTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<void(const PropertyList&, AsyncMcpCompletion)> callback);
     void AddUserOnlyTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
+    // Registers a tool whose body may block (HTTP, SD card scans). The body
+    // runs on a bounded background worker instead of the main event loop and
+    // replies when it finishes. It must not touch main-task-only state.
+    void AddBackgroundTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback);
     void LogToolSummary() const;
     void ParseMessage(const cJSON* json);
     void ParseMessage(const std::string& message);
@@ -390,10 +397,17 @@ private:
 
     void GetToolsList(int id, const std::string& cursor, bool list_user_only_tools);
     void DoToolCall(int id, const std::string& tool_name, const cJSON* tool_arguments);
+    bool PostBackgroundJob(std::function<void()> job);
+    static void BackgroundWorkerTask(void* arg);
 
     std::vector<McpTool*> tools_;
     static constexpr int kToolCallSlots = 4;
     std::atomic<void*> tool_call_tasks_[kToolCallSlots] = {};
+
+    std::mutex background_mutex_;
+    std::condition_variable background_cv_;
+    std::deque<std::function<void()>> background_jobs_;
+    void* background_task_ = nullptr;
 };
 
 #endif // MCP_SERVER_H

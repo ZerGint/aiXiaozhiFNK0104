@@ -11,6 +11,7 @@
 #include <esp_pthread.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <esp_heap_caps.h>
 
 #include "application.h"
 #include "display.h"
@@ -328,6 +329,71 @@ void McpServer::AddAsyncTool(const std::string& name, const std::string& descrip
                              const PropertyList& properties,
                              std::function<void(const PropertyList&, AsyncMcpCompletion)> callback) {
     AddTool(new McpTool(name, description, properties, std::move(callback)));
+}
+
+void McpServer::AddBackgroundTool(const std::string& name, const std::string& description,
+                                  const PropertyList& properties,
+                                  std::function<ReturnValue(const PropertyList&)> callback) {
+    AddAsyncTool(name, description, properties,
+                 [this, name, callback = std::move(callback)](const PropertyList& arguments,
+                                                              AsyncMcpCompletion completion) {
+                     auto job = [name, callback, arguments, completion]() mutable {
+                         ReturnValue value;
+                         {
+                             ScopedToolCall tool_call_scope;
+                             try {
+                                 value = callback(arguments);
+                             } catch (const std::exception& e) {
+                                 ESP_LOGE(TAG, "tools/call %s: %s", name.c_str(), e.what());
+                                 value = std::string("{\"success\":false,\"error\":\"tool_failed\"}");
+                             }
+                         }
+                         completion(std::move(value));
+                     };
+                     if (!PostBackgroundJob(std::move(job))) {
+                         ESP_LOGW(TAG, "MCP_BACKGROUND_REJECTED tool=%s", name.c_str());
+                         completion(std::string("{\"success\":false,\"error\":\"device_busy\"}"));
+                     }
+                 });
+}
+
+bool McpServer::PostBackgroundJob(std::function<void()> job) {
+    constexpr size_t kMaxPendingJobs = 4;
+#if CONFIG_SPIRAM
+    constexpr UBaseType_t kStackCaps = MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT;
+#else
+    constexpr UBaseType_t kStackCaps = MALLOC_CAP_INTERNAL | MALLOC_CAP_8BIT;
+#endif
+    std::lock_guard<std::mutex> lock(background_mutex_);
+    if (background_task_ == nullptr) {
+        TaskHandle_t task = nullptr;
+        if (xTaskCreateWithCaps(BackgroundWorkerTask, "mcp_worker", 10240, this, 3, &task,
+                                kStackCaps) != pdPASS) {
+            ESP_LOGE(TAG, "Failed to create MCP background worker");
+            return false;
+        }
+        background_task_ = task;
+    }
+    if (background_jobs_.size() >= kMaxPendingJobs) {
+        return false;
+    }
+    background_jobs_.push_back(std::move(job));
+    background_cv_.notify_one();
+    return true;
+}
+
+void McpServer::BackgroundWorkerTask(void* arg) {
+    auto* server = static_cast<McpServer*>(arg);
+    while (true) {
+        std::function<void()> job;
+        {
+            std::unique_lock<std::mutex> lock(server->background_mutex_);
+            server->background_cv_.wait(lock, [server]() { return !server->background_jobs_.empty(); });
+            job = std::move(server->background_jobs_.front());
+            server->background_jobs_.pop_front();
+        }
+        job();
+    }
 }
 
 void McpServer::AddUserOnlyTool(const std::string& name, const std::string& description, const PropertyList& properties, std::function<ReturnValue(const PropertyList&)> callback) {

@@ -902,9 +902,14 @@ void Application::EndConversationAfterSpeech() {
     // Keep the current conversation open until the final TTS stop event so
     // every sentence in the acknowledgement can be played. The stop event
     // then closes the channel and returns the device to idle.
-    end_conversation_after_speech_ = true;
-    pending_listening_start_ = false;
-    ESP_LOGI(TAG, "CONVERSATION_END_AFTER_SPEECH requested");
+    // Tool bodies may run on the MCP background worker; the flags belong to
+    // the main task. The tool reply is scheduled after this, so the flag is
+    // set before the server can finish its answer.
+    Schedule([this]() {
+        end_conversation_after_speech_ = true;
+        pending_listening_start_ = false;
+        ESP_LOGI(TAG, "CONVERSATION_END_AFTER_SPEECH requested");
+    });
 }
 
 void Application::HandleToggleChatEvent(bool play_popup_sound) {

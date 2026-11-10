@@ -395,7 +395,7 @@ std::string HomeAssistant::GetStates(const std::string& entity_id) {
 void HomeAssistant::RegisterMcpTools() {
     auto& mcp = McpServer::GetInstance();
 
-    mcp.AddTool("homeassistant.call_service",
+    mcp.AddBackgroundTool("homeassistant.call_service",
         "Call any Home Assistant service to control smart home devices, run scripts, or pour drinks from Smart Naliwator Dispenser.\n"
         "NEVER use Home Assistant to search for or play generated music. Generated songs use the local generated-music/Music Bridge flow; if dedicated generated playback is unavailable, report that instead of calling media_player.\n"
         "IMPORTANT: If a device is physically turned off or unavailable, CallService will return an UNAVAILABLE error. If you receive an UNAVAILABLE error, DO NOT attempt to pour or control! Tell the user: 'Устройство (или наливатор) сейчас отключено или не в сети'!\n"
@@ -425,7 +425,7 @@ void HomeAssistant::RegisterMcpTools() {
             return CallService(domain, service, entity_id, data_json);
         });
 
-    mcp.AddTool("homeassistant.get_states",
+    mcp.AddBackgroundTool("homeassistant.get_states",
         "Get current real-time sensor data, smart watch metrics (steps count, heart rate, sleep), temperatures, battery levels, or device states from Home Assistant.\n"
         "To get all devices or entities list in Home Assistant, pass empty entity_id string '' or 'all' or 'devices'.\n"
         "IMPORTANT WHEN ANSWERING USER: Group and summarize main physical devices by their friendly names (e.g., 'Наливатор, Светильник, Умные часы, Датчики'). Do NOT read out every technical sub-entity, sensor parameter, or glass number one by one!\n"

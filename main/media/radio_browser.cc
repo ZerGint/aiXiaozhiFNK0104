@@ -615,7 +615,7 @@ std::string RadioBrowser::RemoveFavorite(const std::string& station_uuid) {
 }
 
 void RadioBrowser::RegisterMcpTools() {
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.add_favorite",
         "Add the currently playing radio station to favorites. No arguments are required.",
         PropertyList(),
@@ -664,14 +664,14 @@ void RadioBrowser::RegisterMcpTools() {
             cJSON_Delete(root);
             return response;
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.list_favorites",
         "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name � state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
         PropertyList(),
         [this](const PropertyList&) -> ReturnValue {
             return ListFavorites();
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.play_favorite",
         "Play a hidden favorite station by its stationuuid from radio.list_favorites.",
         PropertyList({
@@ -687,7 +687,7 @@ void RadioBrowser::RegisterMcpTools() {
             }
             return PlayFavorite(uuid);
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.remove_favorite",
         "Remove a hidden favorite radio station by stationuuid.",
         PropertyList({
@@ -697,7 +697,7 @@ void RadioBrowser::RegisterMcpTools() {
             if (!properties.HasProperty("stationuuid")) return "Favorite station UUID is required";
             return RemoveFavorite(properties["stationuuid"].value<std::string>());
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.search_stations",
         "Search radio stations and return candidate discovery results.\n"
         "Present each candidate as name — state when state is non-empty, otherwise name.\n"
@@ -734,7 +734,7 @@ void RadioBrowser::RegisterMcpTools() {
             const bool force_online = properties.HasProperty("force_online") ? properties["force_online"].value<bool>() : false;
             return SearchStations(query, countrycode, language, tag, limit, force_online);
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "radio.play_station",
         "Play a selected Radio Browser station. Prefer stationuuid from radio.search_stations because it uniquely identifies the chosen station; do not guess by name when the UUID is known. A direct URL may be used when no stationuuid is available.",
         PropertyList({
@@ -756,7 +756,7 @@ void RadioBrowser::RegisterMcpTools() {
            MediaPlayer::GetInstance().Stop();
            return "Internet radio stopped";
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "media.play_sd",
         "Play a music track from the regular SD music library. Use query to match artist or title in the filename. "
         "If using index, it is one-based: 1 means the first track. This tool does not search or play generated music under /sdcard/generated_music; never fall back to Home Assistant for generated songs. Generated-music playback has no dedicated tool yet.",
@@ -774,7 +774,7 @@ void RadioBrowser::RegisterMcpTools() {
            MediaPlayer::GetInstance().PlaySd(index);
            return "Playing music from the SD card";
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "media.list_sd",
         "List music tracks available on the SD card by filename.",
         PropertyList(),
@@ -782,7 +782,7 @@ void RadioBrowser::RegisterMcpTools() {
            SdMusicPlayer::GetInstance().EnsurePlaylist(SdMusicPlayer::PlaylistSource::Normal);
            return MediaPlayer::GetInstance().ListSdTracks();
         });
-    McpServer::GetInstance().AddTool(
+    McpServer::GetInstance().AddBackgroundTool(
         "media.search_sd",
         "Search SD card tracks by text in the filename. No internet metadata lookup is used.",
         PropertyList({

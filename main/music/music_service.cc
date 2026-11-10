@@ -1427,7 +1427,7 @@ void MusicService::RegisterMcpTools() {
         Property("provider", kPropertyTypeString, std::string("default")),
         Property("duration_seconds", kPropertyTypeInteger, 320, 0, 600),
     });
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.generate",
         "Start one asynchronous song generation. The device automatically discovers and checks the local music service; do not ask the user for network details. Write the title, concise style, and complete lyrics yourself, call this once, then tell the user that generation has started and they should wait. Formatting rule: write the style description in English. In lyrics, use English section labels such as [Verse], [Chorus], [Bridge], [Intro], and [Outro]. Keep the title and lyric text in the user's requested language and do not translate them. This completes the current request: after a successful call, do not call music.generation_status, music.play_generated, media tools, or any other music tool in the same turn, and do not start another generation. Wait for the user to ask later whether it is ready. duration_seconds defaults to 320 seconds when omitted; set it only when the user explicitly requests another duration. Leave provider as default unless the user explicitly names a configured provider; the Music Bridge selects its active provider. Generated music must stay in the local generated-music/Music Bridge flow and must never be routed to Home Assistant for playback or search.",
         generate_properties,
@@ -1492,7 +1492,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList status_properties({Property("job_id", kPropertyTypeString, std::string(""))});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.generation_status",
         "Report the status of the single current generation and reconcile any pending local status with the Music Bridge before answering. Call this once when the user asks for status, using the optional job_id from music.generate. Do not poll repeatedly in the same conversation and do not say almost ready, converting, or wait if the bridge already reports ready. If status is generating, report that it is still generating and stop. If status is ready with download_status not_downloaded, report that the track is ready and that the device asks for download confirmation. If status is local, report that it is available locally. Do not regenerate a song because it is still generating. Generated music must not be searched or played through Home Assistant.",
         status_properties,
@@ -1512,7 +1512,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList download_ready_properties({Property("job_id", kPropertyTypeString, std::string(""))});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.download_ready",
         "Start one download of a generated song that is already ready on the Music Bridge but is not local. Use this once when the user explicitly asks to download or retry the ready track; an omitted job_id means the current generation. The tool returns immediately, ends the voice turn, and the device continues the normal background download with its progress dialog. Do not poll or call another music tool in the same turn.",
         download_ready_properties,
@@ -1535,7 +1535,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList search_library_properties({Property("query", kPropertyTypeString, std::string(""))});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.search_library",
         "Search the Music Bridge generated library on the computer for tracks previously created by a provider. Use this for an older generated track by title or filename. This is separate from the user music library and the device SD index; return matching track_id values and ask which one to download if there are multiple matches.",
         search_library_properties,
@@ -1548,7 +1548,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList download_library_properties({Property("track_id", kPropertyTypeString)});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.download_library",
         "Download one existing generated track from the Music Bridge generated library to /sdcard/generated_music. Call music.search_library first when the user names a track but does not provide its track_id. This starts the same background transaction and progress dialog as a generated-track download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
         download_library_properties,
@@ -1565,7 +1565,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList search_user_library_properties({Property("query", kPropertyTypeString, std::string(""))});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.search_user_library",
         "Search MP3 files placed by the user in the Music Bridge data/music_library folder. This is separate from the generated library. Return matching track_id values; user-library tracks are ordinary music and will be copied to /sdcard/music for the regular player.",
         search_user_library_properties,
@@ -1578,7 +1578,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList download_user_library_properties({Property("track_id", kPropertyTypeString)});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.download_user_library",
         "Download one MP3 from the Music Bridge user music library to /sdcard/music, where it becomes available to the ordinary player. Call music.search_user_library first when the user gives a title without track_id. This starts the background download, returns immediately, and ends the voice turn; do not poll or call another music tool in the same turn.",
         download_user_library_properties,
@@ -1596,7 +1596,7 @@ void MusicService::RegisterMcpTools() {
         });
 
     PropertyList play_generated_properties({Property("query", kPropertyTypeString)});
-    mcp.AddTool(
+    mcp.AddBackgroundTool(
         "music.play_generated",
         "Play one final generated MP3 from the local /sdcard/generated_music directory. Search is local and deterministic: an exact filename match wins; otherwise a unique case-insensitive contains match is used. If zero or multiple files match, return an error. Never use media.play_sd or Home Assistant for generated music.",
         play_generated_properties,
