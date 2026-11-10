@@ -20,6 +20,10 @@ private:
     esp_codec_dev_handle_t dev_ = nullptr;
     gpio_num_t pa_pin_ = GPIO_NUM_NC;
     bool pa_inverted_ = false;
+    // ES8311 REG17 ADC digital volume: 0xBF is 0 dB, 0.5 dB per step.
+    static constexpr uint8_t kAdcVolume0Db = 0xBF;
+    uint8_t adc_volume_reg_ = kAdcVolume0Db;
+    void ApplyAdcVolume();
     void CreateDuplexChannels(gpio_num_t mclk, gpio_num_t bclk, gpio_num_t ws, gpio_num_t dout, gpio_num_t din);
     void ResetCodec();
     void UpdateDeviceState();
@@ -38,6 +42,10 @@ public:
     virtual ~Es8311AudioCodec();
 
     virtual void SetOutputVolume(int volume) override;
+    // Extra ADC digital volume (REG17) on top of the input gain, 0..+32 dB in
+    // 0.5 dB steps. 0 keeps the driver default. Applied whenever the input
+    // device is opened.
+    void SetInputDigitalBoost(float db);
     virtual void EnableInput(bool enable) override;
     virtual void EnableOutput(bool enable) override;
 };

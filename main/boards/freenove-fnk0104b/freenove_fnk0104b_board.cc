@@ -317,6 +317,15 @@ public:
             AUDIO_OUTPUT_SAMPLE_RATE, AUDIO_I2S_GPIO_MCLK, AUDIO_I2S_GPIO_BCLK,
             AUDIO_I2S_GPIO_WS, AUDIO_I2S_GPIO_DOUT, AUDIO_I2S_GPIO_DIN,
             AUDIO_CODEC_PA_PIN, AUDIO_CODEC_ES8311_ADDR, true, true);
+        // Measured on FNK0104S: speech at 1.5 m arrived near -60 dBFS with the
+        // default 30 dB. The analog PGA is already at its 30 dB maximum, so
+        // raise the digital ADC gain and leave headroom for close speech.
+        static const bool mic_tuned = [](Es8311AudioCodec& codec) {
+            codec.SetInputGain(FNK_MIC_INPUT_GAIN_DB);
+            codec.SetInputDigitalBoost(FNK_MIC_DIGITAL_BOOST_DB);
+            return true;
+        }(audio_codec);
+        (void)mic_tuned;
         return &audio_codec;
     }
 

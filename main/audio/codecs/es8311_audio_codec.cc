@@ -1,6 +1,8 @@
 #include "es8311_audio_codec.h"
 
 #include <esp_log.h>
+#include <algorithm>
+#include <cmath>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 
@@ -65,6 +67,26 @@ Es8311AudioCodec::Es8311AudioCodec(void* i2c_master_handle, i2c_port_t i2c_port,
     }
 }
 
+void Es8311AudioCodec::SetInputDigitalBoost(float db) {
+    const int steps = static_cast<int>(std::lround(std::clamp(db, 0.0f, 32.0f) * 2.0f));
+    adc_volume_reg_ = static_cast<uint8_t>(kAdcVolume0Db + steps);
+    ESP_LOGI(TAG, "Set input digital boost to %.1f dB (REG17=0x%02X)", steps / 2.0f,
+             adc_volume_reg_);
+    if (dev_ != nullptr) {
+        ApplyAdcVolume();
+    }
+}
+
+void Es8311AudioCodec::ApplyAdcVolume() {
+    if (adc_volume_reg_ == kAdcVolume0Db) {
+        return;
+    }
+    uint8_t value = adc_volume_reg_;
+    if (ctrl_if_->write_reg(ctrl_if_, 0x17, 1, &value, 1) != 0) {
+        ESP_LOGW(TAG, "Failed to write ADC volume REG17=0x%02X", value);
+    }
+}
+
 void Es8311AudioCodec::ResetCodec() {
     // Hold the ES8311 digital blocks in reset for several milliseconds, as
     // recommended by the initialization guide. Normal codec initialization
@@ -105,6 +127,7 @@ void Es8311AudioCodec::UpdateDeviceState() {
         };
         ESP_ERROR_CHECK(esp_codec_dev_open(dev_, &fs));
         ESP_ERROR_CHECK(esp_codec_dev_set_in_gain(dev_, input_gain_));
+        ApplyAdcVolume();
         if (codec_output_enabled) {
             ESP_ERROR_CHECK(esp_codec_dev_set_out_vol(dev_, output_volume_));
         }

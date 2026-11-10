@@ -19,6 +19,11 @@ static constexpr bool kUseAfeForVoiceProcessing = true;
 #else
 static constexpr bool kUseAfeForVoiceProcessing = false;
 #endif
+#if CONFIG_AUDIO_PROCESSOR_AGC
+static constexpr bool kAgcEnabled = true;
+#else
+static constexpr bool kAgcEnabled = false;
+#endif
 
 AfeAudioEngine::AfeAudioEngine() {
     event_group_ = xEventGroupCreate();
@@ -146,7 +151,14 @@ bool AfeAudioEngine::Initialize(AudioCodec* codec, int frame_duration_ms, srmode
     afe_config->wakenet_model_name = wake_detector_ == WakeDetector::kWakeNet
         ? wakenet_model_name
         : nullptr;
+#if CONFIG_AUDIO_PROCESSOR_AGC
+    afe_config->agc_init = true;
+    afe_config->agc_mode = AFE_AGC_MODE_WEBRTC;
+    afe_config->agc_compression_gain_db = CONFIG_AUDIO_PROCESSOR_AGC_COMPRESSION_GAIN_DB;
+    afe_config->agc_target_level_dbfs = CONFIG_AUDIO_PROCESSOR_AGC_TARGET_LEVEL_DBFS;
+#else
     afe_config->agc_init = false;
+#endif
     afe_config->memory_alloc_mode = AFE_MEMORY_ALLOC_MORE_PSRAM;
 
     afe_iface_ = esp_afe_handle_from_config(afe_config);
@@ -186,8 +198,9 @@ bool AfeAudioEngine::Initialize(AudioCodec* codec, int frame_duration_ms, srmode
     const char* detector = wake_detector_ == WakeDetector::kWakeNet
         ? "WakeNet"
         : (wake_detector_ == WakeDetector::kMultiNet ? "MultiNet" : "none");
-    ESP_LOGI(TAG, "Initialized FD AFE, detector: %s, NS: off, feed: %d, fetch: %d",
-        detector, afe_iface_->get_feed_chunksize(afe_data_), afe_iface_->get_fetch_chunksize(afe_data_));
+    ESP_LOGI(TAG, "Initialized FD AFE, detector: %s, NS: off, AGC: %s, feed: %d, fetch: %d",
+        detector, kAgcEnabled ? "on" : "off",
+        afe_iface_->get_feed_chunksize(afe_data_), afe_iface_->get_fetch_chunksize(afe_data_));
     return true;
 }
 

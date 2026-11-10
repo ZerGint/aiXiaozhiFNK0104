@@ -21,6 +21,10 @@
 #define AUDIO_CODEC_I2C_SDA_PIN  GPIO_NUM_16
 #define AUDIO_CODEC_ES8311_ADDR  ES8311_CODEC_DEFAULT_ADDR
 
+// Microphone: ES8311 digital ADC gain (6 dB steps) plus REG17 fine boost.
+#define FNK_MIC_INPUT_GAIN_DB     36
+#define FNK_MIC_DIGITAL_BOOST_DB  3.0f
+
 // Optional external I2S speaker (MAX98357A-compatible)
 #define EXTERNAL_I2S_PORT         1
 #define EXTERNAL_I2S_BCLK_PIN     GPIO_NUM_2

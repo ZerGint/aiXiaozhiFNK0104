@@ -1007,6 +1007,28 @@ config USE_AUDIO_PROCESSOR
         is not enabled because this project does not provide an NSNet model.
         Requires ESP32-S3, ESP32-P4, or ESP32-S31 with PSRAM.
 
+config AUDIO_PROCESSOR_AGC
+    bool "Enable AGC on the AFE uplink"
+    default n
+    depends on USE_AUDIO_PROCESSOR
+    help
+        Enable WebRTC automatic gain control on the audio sent to the server.
+        Quiet or distant speech is raised up to the configured gain and loud
+        speech is limited near the target level. Wake-word detection is not
+        affected; it uses the codec input level.
+
+config AUDIO_PROCESSOR_AGC_COMPRESSION_GAIN_DB
+    int "AGC maximum gain (dB)"
+    default 9
+    range 0 90
+    depends on AUDIO_PROCESSOR_AGC
+
+config AUDIO_PROCESSOR_AGC_TARGET_LEVEL_DBFS
+    int "AGC target level (-dBFS)"
+    default 3
+    range 0 31
+    depends on AUDIO_PROCESSOR_AGC
+
 config USE_DEVICE_AEC
     bool "Enable Device-Side AEC"
     default n
