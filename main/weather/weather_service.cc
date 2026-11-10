@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <memory>
+#include <new>
 #include <utility>
 
 #include <sys/stat.h>
@@ -1255,7 +1256,21 @@ bool WeatherService::FetchMetNo(const WeatherLocation& location, WeatherData& pa
     const int64_t now_utc = static_cast<int64_t>(time(nullptr)) - server_offset_s;
     const int64_t local_offset_s =
         server_offset_s + static_cast<int64_t>(TimeOffset::GetHours()) * 3600;
-    auto parser = std::make_unique<MetNoForecastParser>(now_utc, local_offset_s);
+    // Keep the parser state out of internal RAM; TLS already needs it.
+    void* parser_memory = heap_caps_malloc(sizeof(MetNoForecastParser), kWeatherTaskMemoryCaps);
+    if (parser_memory == nullptr) parser_memory = malloc(sizeof(MetNoForecastParser));
+    if (parser_memory == nullptr) {
+        error = "out_of_memory";
+        return false;
+    }
+    struct ParserDeleter {
+        void operator()(MetNoForecastParser* p) const {
+            p->~MetNoForecastParser();
+            free(p);
+        }
+    };
+    std::unique_ptr<MetNoForecastParser, ParserDeleter> parser(
+        new (parser_memory) MetNoForecastParser(now_utc, local_offset_s));
     ESP_LOGI(kTag, "WEATHER_HTTP_START provider=met_no city=%s lat=%.4f lon=%.4f",
              location.name.c_str(), location.latitude, location.longitude);
     const int64_t start_us = esp_timer_get_time();
