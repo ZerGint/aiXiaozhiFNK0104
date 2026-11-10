@@ -2170,9 +2170,18 @@ void LcdDisplay::UpdateWeatherUI() {
     const auto data = weather_service.GetSnapshot();
     const time_t now = time(nullptr);
     const bool time_valid = now >= 1704067200;
-    if (data.generation == weather_generation_ && time_valid == weather_time_valid_) return;
+    // Also refresh when the local day changes, so the date follows midnight
+    // without waiting for the next weather update (at most once a day).
+    struct tm local_now{};
+    TimeOffset::ToLocalTime(now, &local_now);
+    const int day_key = local_now.tm_year * 366 + local_now.tm_yday;
+    if (data.generation == weather_generation_ && time_valid == weather_time_valid_ &&
+        day_key == weather_date_day_key_) {
+        return;
+    }
     weather_generation_ = data.generation;
     weather_time_valid_ = time_valid;
+    weather_date_day_key_ = day_key;
     if (weather_refresh_button_) {
         if (data.request_active)
             lv_obj_add_state(weather_refresh_button_, LV_STATE_DISABLED);
@@ -3407,6 +3416,7 @@ void LcdDisplay::AdjustTimeOffset(int delta) {
     if (next == current) return;
     UpdateTimeOffsetLabel();
     RegisterDisplayActivity("TIME_OFFSET");
+    top_clock_minute_key_ = -1;
     // Redraw the clock and the weather date/update time with the new offset.
     UpdateServiceIndicators();
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
@@ -3646,9 +3656,15 @@ void LcdDisplay::UpdateServiceIndicators() {
         struct tm tm_now;
         TimeOffset::ToLocalTime(now, &tm_now);
         if (tm_now.tm_year >= 2025 - 1900) {
-            char time_text[8];
-            strftime(time_text, sizeof(time_text), "%H:%M", &tm_now);
-            lv_label_set_text(top_time_label_, time_text);
+            // This runs every 250 ms; redraw only when the shown minute changes.
+            const int minute_key =
+                ((tm_now.tm_year * 366 + tm_now.tm_yday) * 24 + tm_now.tm_hour) * 60 + tm_now.tm_min;
+            if (minute_key != top_clock_minute_key_) {
+                top_clock_minute_key_ = minute_key;
+                char time_text[8];
+                strftime(time_text, sizeof(time_text), "%H:%M", &tm_now);
+                lv_label_set_text(top_time_label_, time_text);
+            }
         }
     }
 }

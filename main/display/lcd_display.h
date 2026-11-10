@@ -101,6 +101,7 @@ protected:
     lv_obj_t* nav_activity_[4] = {};
     lv_obj_t* top_time_label_ = nullptr;
     lv_obj_t* time_offset_label_ = nullptr;
+    int top_clock_minute_key_ = -1;  // last minute shown in top_time_label_
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_t* network_ip_label_ = nullptr;
     lv_obj_t* ha_status_label_ = nullptr;
@@ -154,6 +155,7 @@ protected:
     lv_obj_t* weather_updated_label_ = nullptr;
     lv_obj_t* weather_refresh_button_ = nullptr;
     uint32_t weather_generation_ = UINT32_MAX;
+    int weather_date_day_key_ = -1;  // local day shown in weather_date_label_
     bool weather_time_valid_ = false;
     std::atomic<bool> weather_location_update_pending_{false};
     void UpdateWeatherUI();
