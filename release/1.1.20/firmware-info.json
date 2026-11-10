@@ -1,0 +1,28 @@
+{
+  "fnk0104s": {
+    "version": "1.1.20",
+    "channel": "stable",
+    "branch": "feature/fnk0104b",
+    "git_sha": "b4fdf88f1b134e401cb75c19fc369cc03905369e",
+    "size": 4092880,
+    "sha256": "4d26fb69ceca7b79be33a75f1a1a774bed79b3757aa30f6e364263e64cb2ea44",
+    "merged_sha256": "fc4ccdff5982c98b407611ffa3669b061eed9adc9642376ab7d507e8fc2d2bab",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104s",
+    "build_time": "Nov 10 2026T16:54:35",
+    "idf_version": "6.1.0"
+  },
+  "fnk0104b": {
+    "version": "1.1.20",
+    "channel": "stable",
+    "branch": "feature/fnk0104b",
+    "git_sha": "b4fdf88f1b134e401cb75c19fc369cc03905369e",
+    "size": 3575872,
+    "sha256": "dc82de38159e9e3ffe6392fcff10a4549939bcd573ac0c48c6632231e7f8b33a",
+    "merged_sha256": "191fc9d926ef20d6631e83cae1cfbe272d4f417fa191b29a28a5a6b352b25376",
+    "chip": "esp32s3",
+    "board": "freenove-fnk0104b",
+    "build_time": "Nov 10 2026T16:51:19",
+    "idf_version": "6.1.0"
+  }
+}
