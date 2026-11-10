@@ -36,13 +36,20 @@ int CompareStableVersions(const char* left, const char* right);
 namespace {
 
 constexpr char kTag[] = "CustomOta";
+// Each board has its own schema-2 manifest in the update repository, so an
+// image can only be offered to the board it was built for. FNK0104S keeps
+// ota/stable.json, which devices already in the field read.
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
 constexpr char kCompiledBoardType[] = "freenove-fnk0104b";
+constexpr char kManifestUrl[] =
+    "https://api.github.com/repos/ZerGint/FNK0104s_xiaozhi_update/contents/ota/stable-fnk0104b.json?ref=main";
+constexpr char kUserAgent[] = "FNK0104B-OTA";
 #else
 constexpr char kCompiledBoardType[] = "freenove-fnk0104s";
-#endif
 constexpr char kManifestUrl[] =
     "https://api.github.com/repos/ZerGint/FNK0104s_xiaozhi_update/contents/ota/stable.json?ref=main";
+constexpr char kUserAgent[] = "FNK0104S-OTA";
+#endif
 constexpr char kUpdateDir[] = "/sdcard/update";
 constexpr char kManifestTmp[] = "/sdcard/update/manifest.tmp";
 constexpr char kManifestPath[] = "/sdcard/update/manifest.json";
@@ -189,7 +196,7 @@ bool FetchGithubManifest(NetworkInterface* network, std::string* manifest) {
     auto http = network->CreateHttp(0);
     http->SetTimeout(15000);
     http->SetHeader("Accept", "application/vnd.github+json");
-    http->SetHeader("User-Agent", "FNK0104S-OTA");
+    http->SetHeader("User-Agent", kUserAgent);
     http->SetHeader("X-GitHub-Api-Version", "2022-11-28");
     if (!http->Open("GET", kManifestUrl) || http->GetStatusCode() != 200) {
         ESP_LOGW(kTag, "OTA_MANIFEST_REJECTED reason=http");
@@ -295,14 +302,10 @@ bool IsStrictStableVersion(const char* version) {
 }
 
 bool ShouldCheckForUpdates(const char* current_version) {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
-    // FNK0104B has no published update channel yet.
-    (void)current_version;
-    return false;
-#else
     return IsStrictStableVersion(current_version);
-#endif
 }
+
+const char* CompiledBoardType() { return kCompiledBoardType; }
 
 bool IsValidRemoteStableVersion(const char* version) {
     return IsStrictStableVersion(version);
@@ -786,10 +789,6 @@ const StableUpdateMetadata& GetStableUpdateMetadata() {
 }
 
 bool RequestFirmwareInstall() {
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
-    ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=disabled_for_board");
-    return false;
-#endif
     if (!g_stable_update_metadata.update_available) {
         ESP_LOGW(kTag, "OTA_UPDATE_REQUEST_REJECTED reason=no_update");
         return false;

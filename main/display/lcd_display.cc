@@ -4009,12 +4009,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }
 
     quick_settings_panel_ = lv_obj_create(parent);
-#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
-    // No OTA row on FNK0104B: the panel ends after the Web portal row.
-    lv_obj_set_size(quick_settings_panel_, 440, 262);
-#else
     lv_obj_set_size(quick_settings_panel_, 440, 310);
-#endif
     lv_obj_align(quick_settings_panel_, LV_ALIGN_TOP_MID, 0, 10);
     lv_obj_set_style_bg_color(quick_settings_panel_, lv_color_hex(0x102432), 0);
     lv_obj_set_style_bg_opa(quick_settings_panel_, LV_OPA_COVER, 0);
@@ -4284,9 +4279,6 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
         if (display != nullptr) display->ToggleHomeAssistantSettingsServer();
     }, LV_EVENT_CLICKED, this);
 
-#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
-    // FNK0104B has no update channel yet; OTA slot switching and update
-    // checks stay hidden until one exists.
     auto make_ota_partition_button = [ha_row, &set_quick_settings_font](lv_obj_t** target,
                                                                          const char* text, int x) {
         *target = lv_btn_create(ha_row);
@@ -4318,9 +4310,7 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     }, LV_EVENT_CLICKED, this);
     StartOtaPartitionRefresh();
 #endif
-#endif
 
-#if !CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     // OTA actions are explicit. Opening Quick Settings never performs network work.
     ota_update_row_ = lv_obj_create(quick_settings_panel_);
     lv_obj_set_size(ota_update_row_, 416, 45);
@@ -4392,7 +4382,6 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
             lv_label_set_text(display->ota_update_button_label_, "Обновить");
         }
     }, LV_EVENT_CLICKED, this);
-#endif
 }
 
 bool LcdDisplay::IsStationFavorite(const std::string& uuid) {

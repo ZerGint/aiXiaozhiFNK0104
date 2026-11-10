@@ -192,6 +192,7 @@ bool WriteUpdateRequest(const CustomOtaPolicy::StableUpdateMetadata& metadata) {
     if (!metadata.update_available || !CustomOtaPolicy::IsStrictStableVersion(metadata.version) ||
         metadata.size == 0 || !metadata.url[0] || !metadata.sha256[0] || !metadata.board[0] ||
         !metadata.chip[0] || !metadata.variant[0] ||
+        strcmp(metadata.board, CustomOtaPolicy::CompiledBoardType()) != 0 ||
         strcmp(metadata.variant, GetCompiledAudioOutputVariant()) != 0) return false;
     nvs_handle_t handle = 0;
     if (nvs_open(kNamespace, NVS_READWRITE, &handle) != ESP_OK) return false;

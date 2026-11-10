@@ -42,10 +42,14 @@ and a 7 MiB assets partition at `0x920000`.
 
 ## Updates
 
-The custom stable-update channel is disabled for B until an update source for
-this board exists: Quick Settings has no update or OTA-slot buttons, and
-`CustomOtaPolicy` neither checks nor requests an install. Flash new images over
-USB.
+B has its own stable channel in the update repository:
+`ota/stable-fnk0104b.json` (manifest schema 2, a single `internal_amp`
+entry with `board: freenove-fnk0104b`). FNK0104S keeps `ota/stable.json`.
+The device accepts an image only when the manifest entry, the staged
+metadata and the install request all carry `freenove-fnk0104b` and
+`internal_amp`. Quick Settings has the same "Проверить" / "Обновить" and
+OTA 0 / OTA 1 controls as S. A B board running firmware older than the first
+release with this channel must be updated once over USB.
 
 Build with:
 

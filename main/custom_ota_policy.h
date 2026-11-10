@@ -21,6 +21,8 @@ struct StableUpdateMetadata {
 
 bool IsStrictStableVersion(const char* version);
 bool ShouldCheckForUpdates(const char* current_version);
+// Board identity the update channel and staged images must match.
+const char* CompiledBoardType();
 bool IsValidRemoteStableVersion(const char* version);
 int CompareStableVersions(const char* left, const char* right);
 
