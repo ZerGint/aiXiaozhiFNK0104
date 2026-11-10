@@ -57,7 +57,6 @@ struct RadioSearchResult {
     std::string name;
     std::string state;
 };
-int FavoriteScore(const RadioStationInfo& station, const std::string& query);
 
 #define LogHeapDiag(point) LogRadioMemory(TAG, point)
 
@@ -82,14 +81,6 @@ bool ContainsInsensitive(const std::string& value, const std::string& query) {
         if (match) return true;
     }
     return false;
-}
-
-bool EqualsInsensitive(const std::string& a, const std::string& b) {
-    if (a.size() != b.size()) return false;
-    return std::equal(a.begin(), a.end(), b.begin(), b.end(),
-                      [](unsigned char ca, unsigned char cb) {
-                          return std::tolower(ca) == std::tolower(cb);
-                      });
 }
 
 // Radio Browser answers are a few KB; a hostile or broken mirror must not be
@@ -459,7 +450,8 @@ std::string RadioBrowser::PlayStation(const std::string& url, const std::string&
             if (!MediaPlayer::GetInstance().PlayRadio(cached_station, play_err, {},
                                                        std::move(retry), false)) {
                 return "Radio station is unavailable: " + (play_err.empty() ? "stream connection failed" : play_err);
-            }return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
+            }
+            return "Playing internet radio: " + (cached_station.name.empty() ? title : cached_station.name);
         }
         auto admission = [](const RadioStationInfo& station) {
             ScheduleCatalogAdmission(station);
@@ -630,21 +622,6 @@ std::string RadioBrowser::PlayFavorite(const std::string& station_uuid) {
     return "Favorite station has no valid URL";
 }
 
-namespace {
-int FavoriteScore(const RadioStationInfo& station, const std::string& query) {
-    std::istringstream stream(query);
-    std::string token;
-    int score = 0;
-    while (stream >> token) {
-        if (ContainsInsensitive(station.name, token)) score += RadioSearchRanking::NameWeight;
-        else if (ContainsInsensitive(station.state, token)) score += RadioSearchRanking::StateWeight;
-        else if (ContainsInsensitive(station.tags, token) || ContainsInsensitive(station.country, token)) score += RadioSearchRanking::MetadataWeight;
-    }
-    if (!query.empty() && ContainsInsensitive(station.name, query)) score += RadioSearchRanking::FullNameBonus;
-    return score;
-}
-} // namespace
-
 std::string RadioBrowser::RemoveFavorite(const std::string& station_uuid) {
     return RadioStorage::GetInstance().RemoveFavoriteUuid(station_uuid);
 }
@@ -710,7 +687,7 @@ void RadioBrowser::RegisterMcpTools() {
         });
     McpServer::GetInstance().AddBackgroundTool(
         "radio.list_favorites",
-        "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name � state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
+        "Return hidden favorite radio stations for internal selection. Present each returned entry exactly once and preserve order. Use concise name — state format; if state is empty use only name, and if name is empty use stationuuid. Do not invent or add genre, description, tags, style, country, or other metadata. Do not merge or duplicate entries. If a requested station matches a favorite, use radio.play_favorite before searching online.",
         PropertyList(),
         [this](const PropertyList&) -> ReturnValue {
             return ListFavorites();
