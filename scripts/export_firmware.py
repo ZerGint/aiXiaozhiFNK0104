@@ -16,7 +16,9 @@ from firmware_version import format_version, load_version
 ROOT = Path(__file__).resolve().parent.parent
 BIN = ROOT / "build" / "xiaozhi.bin"
 OUTPUT = ROOT / "release" / "latest"
-OTA_SLOT = 0x3F0000
+# App slot size of partitions/v2/16m_fnk0104s.csv (ota_0/ota_1), used by
+# FNK0104S and FNK0104B. The firmware checks the real partition size on update.
+OTA_SLOT = 0x480000
 
 
 def app_descriptor(data: bytes) -> dict[str, str]:
