@@ -1,4 +1,5 @@
 #include <esp_err.h>
+#include "time_offset.h"
 #include <esp_log.h>
 #include <material_symbols.h>
 #include <cstdlib>
@@ -328,7 +329,9 @@ void LvglDisplay::UpdateStatusBar(bool update_all) {
     // transitions (update_all=true) and on every minute change thereafter.
     if (app.GetDeviceState() == kDeviceStateIdle) {
         time_t now = time(NULL);
-        struct tm* tm_now = localtime(&now);
+        struct tm local_now{};
+        TimeOffset::ToLocalTime(now, &local_now);
+        struct tm* tm_now = &local_now;
         if (tm_now->tm_year >= 2025 - 1900) {
             int cur_min = tm_now->tm_hour * 60 + tm_now->tm_min;
             if (update_all || cur_min != last_displayed_clock_min_) {

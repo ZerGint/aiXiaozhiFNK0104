@@ -1,4 +1,5 @@
 #include "weather_service.h"
+#include "time_offset.h"
 
 #include "board.h"
 #include "mcp_server.h"
@@ -1226,6 +1227,6 @@ void WeatherService::FormatWindDirection(uint16_t degrees, char* output, size_t 
 
 void WeatherService::FormatDate(time_t value, char* output, size_t output_size) {
     struct tm local{};
-    localtime_r(&value, &local);
+    TimeOffset::ToLocalTime(value, &local);
     strftime(output, output_size, "%d.%m.%Y", &local);
 }

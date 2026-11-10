@@ -10,6 +10,7 @@
 #include "settings.h"
 
 #include "home_assistant.h"
+#include "time_offset.h"
 #include <esp_err.h>
 #include <esp_app_desc.h>
 #include <esp_log.h>
@@ -2211,7 +2212,7 @@ void LcdDisplay::UpdateWeatherUI() {
         lv_label_set_text(weather_forecast_rain_labels_[i], text);
     }
     struct tm updated{};
-    localtime_r(&data.last_successful_update, &updated);
+    TimeOffset::ToLocalTime(data.last_successful_update, &updated);
     snprintf(text, sizeof(text), "%s%02d:%02d",
              !data.refresh_deferred && (data.last_request_failed || data.stale) ? "! " : "",
              updated.tm_hour, updated.tm_min);
@@ -3390,6 +3391,30 @@ void LcdDisplay::SetAutoBrightnessEnabled(bool enabled) {
     UpdateAutoBrightnessControls();
 }
 
+void LcdDisplay::UpdateTimeOffsetLabel() {
+    if (time_offset_label_ == nullptr) return;
+    const int hours = TimeOffset::GetHours();
+    if (hours == 0) {
+        lv_label_set_text(time_offset_label_, "Время 0 ч");
+    } else {
+        lv_label_set_text_fmt(time_offset_label_, "Время %+d ч", hours);
+    }
+}
+
+void LcdDisplay::AdjustTimeOffset(int delta) {
+    const int current = TimeOffset::GetHours();
+    const int next = TimeOffset::SetHours(current + delta);
+    if (next == current) return;
+    UpdateTimeOffsetLabel();
+    RegisterDisplayActivity("TIME_OFFSET");
+    // Redraw the clock and the weather date/update time with the new offset.
+    UpdateServiceIndicators();
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    weather_generation_ = UINT32_MAX;
+    UpdateWeatherUI();
+#endif
+}
+
 void LcdDisplay::AdjustAutoBrightnessTimeout(int delta) {
     const int next = std::clamp(static_cast<int>(auto_brightness_timeout_index_) + delta,
                                 0, static_cast<int>(sizeof(kAutoBrightnessTimeoutMs) /
@@ -3619,7 +3644,7 @@ void LcdDisplay::UpdateServiceIndicators() {
     if (top_time_label_) {
         time_t now = time(nullptr);
         struct tm tm_now;
-        localtime_r(&now, &tm_now);
+        TimeOffset::ToLocalTime(now, &tm_now);
         if (tm_now.tm_year >= 2025 - 1900) {
             char time_text[8];
             strftime(time_text, sizeof(time_text), "%H:%M", &tm_now);
@@ -3989,6 +4014,38 @@ void LcdDisplay::SetupQuickSettingsOverlay(lv_obj_t* parent) {
     set_quick_settings_font(close_label);
     lv_obj_set_style_text_color(close_label, lv_color_hex(0xFFFFFF), 0);
     lv_obj_center(close_label);
+
+    // Clock correction for a server time zone that differs from the user's:
+    // [-]  "Время +1 ч"  [+], stored in NVS.
+    auto make_offset_button = [this, header, &set_quick_settings_font](const char* text, int x,
+                                                                        int delta) {
+        lv_obj_t* button = lv_btn_create(header);
+        lv_obj_set_size(button, 36, 36);
+        lv_obj_align(button, LV_ALIGN_LEFT_MID, x, 0);
+        lv_obj_set_style_radius(button, 18, 0);
+        lv_obj_set_style_bg_color(button, lv_color_hex(0x173B4D), 0);
+        lv_obj_t* caption = lv_label_create(button);
+        lv_label_set_text(caption, text);
+        set_quick_settings_font(caption);
+        lv_obj_set_style_text_color(caption, lv_color_hex(0xFFFFFF), 0);
+        lv_obj_center(caption);
+        lv_obj_set_user_data(button, reinterpret_cast<void*>(static_cast<intptr_t>(delta)));
+        lv_obj_add_event_cb(button, [](lv_event_t* e) {
+            auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
+            auto target = static_cast<lv_obj_t*>(lv_event_get_current_target(e));
+            const int step = static_cast<int>(reinterpret_cast<intptr_t>(lv_obj_get_user_data(target)));
+            if (display) display->AdjustTimeOffset(step);
+        }, LV_EVENT_CLICKED, this);
+    };
+    make_offset_button("-", 150, -1);
+    time_offset_label_ = lv_label_create(header);
+    lv_obj_set_width(time_offset_label_, 112);
+    lv_obj_set_style_text_align(time_offset_label_, LV_TEXT_ALIGN_CENTER, 0);
+    set_quick_settings_font(time_offset_label_);
+    lv_obj_set_style_text_color(time_offset_label_, lv_color_hex(0xFFFFFF), 0);
+    lv_obj_align(time_offset_label_, LV_ALIGN_LEFT_MID, 190, 0);
+    make_offset_button("+", 306, 1);
+    UpdateTimeOffsetLabel();
 
     lv_obj_add_event_cb(close_btn, [](lv_event_t* e) {
         auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));

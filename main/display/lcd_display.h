@@ -100,6 +100,7 @@ protected:
     lv_obj_t* nav_status_[4] = {};
     lv_obj_t* nav_activity_[4] = {};
     lv_obj_t* top_time_label_ = nullptr;
+    lv_obj_t* time_offset_label_ = nullptr;
 #if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
     lv_obj_t* network_ip_label_ = nullptr;
     lv_obj_t* ha_status_label_ = nullptr;
@@ -183,6 +184,8 @@ protected:
     void SetAutoBrightnessEnabled(bool enabled);
     void SetAutoBrightnessZeroEnabled(bool enabled);
     void AdjustAutoBrightnessTimeout(int delta);
+    void AdjustTimeOffset(int delta);
+    void UpdateTimeOffsetLabel();
     void RestoreSystemBrightness();
 
     // Tabs (AI RoboEyes, Player, Sega Emulator)
