@@ -16,7 +16,11 @@ class MediaPlayer {
 public:
     static MediaPlayer& GetInstance();
 
+    // Synchronous SD directory scan; must not run on the LVGL task.
     void ScanSd();
+    // Runs a short media action on the media control task, keeping storage
+    // and catalog access (and their locks) out of the LVGL task.
+    void RunOnMediaTask(std::function<void()> action);
     bool PrepareGeneratedPlaylist(std::string& err_msg);
     bool PrepareSdPlaylist(std::string& err_msg);
     void PlaySd(int index = -1);
@@ -77,6 +81,7 @@ private:
         ResumeAfterGeneratedDownload,
         Next,
         Prev,
+        Run,
     };
 
     struct ControlCommand {
@@ -85,6 +90,7 @@ private:
         int sd_index = -1;
         RadioStationInfo station;
         std::function<void(const RadioStationInfo&)> on_station_resolved;
+        std::function<void()> action;
         std::function<void()> on_startup_ready;
         std::function<void()> on_startup_failed;
         bool emit_failure_bip = true;

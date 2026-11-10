@@ -1875,7 +1875,7 @@ void LcdDisplay::SetupUI() {
     auto media_next = button(media_center, MATERIAL_SYMBOLS_SKIP_NEXT, 178, 117, 48, 40);
     lv_obj_add_event_cb(media_prev, [](lv_event_t* e) {
         auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (d && d->active_media_source_ == ActiveMediaSource::Radio) RadioBrowser::GetInstance().MoveActiveStation(-1);
+        if (d && d->active_media_source_ == ActiveMediaSource::Radio) MediaPlayer::GetInstance().Prev();
         else if (d && d->active_media_source_ == ActiveMediaSource::None && d->media_browser_mode_ == MediaBrowserMode::Radio) RadioBrowser::GetInstance().MoveSelectedStation(-1);
         else if (d && d->active_media_source_ == ActiveMediaSource::None && d->media_browser_mode_ == MediaBrowserMode::Player) { SdMusicPlayer::GetInstance().NavigatePrev(); if (d) d->UpdateServiceIndicators(); }
         else MediaPlayer::GetInstance().Prev();
@@ -1903,7 +1903,7 @@ void LcdDisplay::SetupUI() {
                     browser.SetSelectedStationUuid(uuid);
                 }
             }
-            if (!uuid.empty()) browser.PlayStation("", "", uuid);
+            if (!uuid.empty()) MediaPlayer::GetInstance().RunOnMediaTask([uuid]() { RadioBrowser::GetInstance().PlayStation("", "", uuid); });
             return;
         }
         if (!radio.IsPlaying() && !radio.IsPaused() && !sd.IsPlaying() && !sd.IsPaused() &&
@@ -1921,7 +1921,7 @@ void LcdDisplay::SetupUI() {
     }, LV_EVENT_CLICKED, this);
     lv_obj_add_event_cb(media_next, [](lv_event_t* e) {
         auto* d = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        if (d && d->active_media_source_ == ActiveMediaSource::Radio) RadioBrowser::GetInstance().MoveActiveStation(1);
+        if (d && d->active_media_source_ == ActiveMediaSource::Radio) MediaPlayer::GetInstance().Next();
         else if (d && d->active_media_source_ == ActiveMediaSource::None && d->media_browser_mode_ == MediaBrowserMode::Radio) RadioBrowser::GetInstance().MoveSelectedStation(1);
         else if (d && d->active_media_source_ == ActiveMediaSource::None && d->media_browser_mode_ == MediaBrowserMode::Player) { SdMusicPlayer::GetInstance().NavigateNext(); if (d) d->UpdateServiceIndicators(); }
         else MediaPlayer::GetInstance().Next();
@@ -2425,7 +2425,7 @@ void LcdDisplay::RefreshRadioCatalogPage(bool reload_radio_catalog) {
         lv_obj_set_height(name, 20);
         lv_label_set_long_mode(name, LV_LABEL_LONG_DOT);
         lv_obj_align(name, LV_ALIGN_LEFT_MID, 20, 0);
-        auto* uuid = new std::string(stations[i].stationuuid); lv_obj_add_event_cb(card, [](lv_event_t* e) { auto* u = static_cast<std::string*>(lv_event_get_user_data(e)); if (lv_event_get_code(e) == LV_EVENT_DELETE) delete u; else if (lv_event_get_code(e) == LV_EVENT_CLICKED) { auto& browser = RadioBrowser::GetInstance(); browser.SetSelectedStationUuid(*u); browser.PlayStation("", "", *u); } }, LV_EVENT_ALL, uuid);
+        auto* uuid = new std::string(stations[i].stationuuid); lv_obj_add_event_cb(card, [](lv_event_t* e) { auto* u = static_cast<std::string*>(lv_event_get_user_data(e)); if (lv_event_get_code(e) == LV_EVENT_DELETE) delete u; else if (lv_event_get_code(e) == LV_EVENT_CLICKED) { RadioBrowser::GetInstance().SetSelectedStationUuid(*u); const std::string station_uuid = *u; MediaPlayer::GetInstance().RunOnMediaTask([station_uuid]() { RadioBrowser::GetInstance().PlayStation("", "", station_uuid); }); } }, LV_EVENT_ALL, uuid);
     }
     if (radio_page_label_) lv_label_set_text_fmt(radio_page_label_, "%d / %d", radio_page_ + 1, pages);
 }
@@ -4293,9 +4293,17 @@ void LcdDisplay::SetupMediaPlayerTab(lv_obj_t* parent) {
     lv_obj_center(scan_lbl);
     lv_obj_add_event_cb(scan_btn, [](lv_event_t* e) {
         auto display = static_cast<LcdDisplay*>(lv_event_get_user_data(e));
-        MediaPlayer::GetInstance().ScanSd();
+        // The directory scan can take seconds on a large card; never run it
+        // on the LVGL task. Refresh the label once the scan had time to run.
+        MediaPlayer::GetInstance().RunOnMediaTask([]() { MediaPlayer::GetInstance().ScanSd(); });
         if (display && display->player_track_label_) {
-            lv_label_set_text(display->player_track_label_, MediaPlayer::GetInstance().GetTitle().c_str());
+            lv_timer_t* refresh = lv_timer_create([](lv_timer_t* timer) {
+                auto* owner = static_cast<LcdDisplay*>(lv_timer_get_user_data(timer));
+                if (owner && owner->player_track_label_) {
+                    lv_label_set_text(owner->player_track_label_, MediaPlayer::GetInstance().GetTitle().c_str());
+                }
+            }, 1500, display);
+            lv_timer_set_repeat_count(refresh, 1);
         }
     }, LV_EVENT_CLICKED, this);
 }

@@ -206,6 +206,9 @@ void MediaPlayer::ProcessControlCommand(ControlCommand&& command) {
         case ControlCommandType::Prev:
             PrevNow();
             break;
+        case ControlCommandType::Run:
+            if (command.action) command.action();
+            break;
     }
 }
 
@@ -285,6 +288,15 @@ void MediaPlayer::ParkRadioForVoice(const RadioStationInfo& station) {
 }
 
 void MediaPlayer::ScanSd() { SdMusicPlayer::GetInstance().ScanPlaylist(); }
+
+void MediaPlayer::RunOnMediaTask(std::function<void()> action) {
+    ControlCommand command;
+    command.type = ControlCommandType::Run;
+    command.action = std::move(action);
+    if (!EnqueueControlCommand(std::move(command), false)) {
+        ESP_LOGE(TAG, "MEDIA_COMMAND_REJECTED type=run");
+    }
+}
 
 bool MediaPlayer::PrepareGeneratedPlaylist(std::string& err_msg) {
     if (MusicService::GetInstance().IsGeneratedDownloadBusy()) {
