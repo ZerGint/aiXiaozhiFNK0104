@@ -569,8 +569,7 @@ void InternetRadioPlayer::StreamLoop(AttemptContext* attempt) {
         int64_t last_radio_log_time = 0;
         while (!stop_requested_) {
             if (initial_ready_ &&
-                (paused_ || Application::GetInstance().GetDeviceState() == kDeviceStateListening ||
-                 Application::GetInstance().GetDeviceState() == kDeviceStateSpeaking)) {
+                (paused_ || IsVoiceAudioState(Application::GetInstance().GetDeviceState()))) {
                 vTaskDelay(pdMS_TO_TICKS(100));
                 continue;
             }

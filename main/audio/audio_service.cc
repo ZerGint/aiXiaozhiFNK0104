@@ -597,7 +597,7 @@ void AudioService::AudioOutputTask() {
             speech_prebuffering_ = false;
             speech_prebuffer_started_us_ = 0;
         }
-        if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
+        if (IsVoiceAudioState(device_state)) {
             DiscardPlaybackTasksLocked(false, true, "voice_state_cleanup");
             radio_buffered_duration_ms_ = 0;
             radio_prebuffer_ready_generation_ = 0;
@@ -681,7 +681,7 @@ void AudioService::AudioOutputTask() {
         lock.unlock();
 
         if (task->is_music &&
-            (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking ||
+            (IsVoiceAudioState(device_state) ||
              (AudioManager::GetInstance().GetCurrentAudioSource() != kAudioSourceMp3Player &&
               AudioManager::GetInstance().GetCurrentAudioSource() != kAudioSourceInternetRadio))) {
             const bool task_is_radio = task->is_radio;
@@ -1275,7 +1275,7 @@ bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
 
     if (is_music) {
         const auto device_state = Application::GetInstance().GetDeviceState();
-        if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
+        if (IsVoiceAudioState(device_state)) {
             return false;
         }
     }
@@ -1283,7 +1283,7 @@ bool AudioService::PushPlaybackTask(std::vector<int16_t>&& pcm, bool is_music, b
     while (!service_stopped_.load()) {
         if (is_music) {
             const auto device_state = Application::GetInstance().GetDeviceState();
-            if (device_state == kDeviceStateListening || device_state == kDeviceStateSpeaking) {
+            if (IsVoiceAudioState(device_state)) {
                 return false;
             }
         }

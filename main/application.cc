@@ -1170,6 +1170,9 @@ void Application::HandleStateChangedEvent() {
             }
             break;
         case kDeviceStateSpeaking:
+            // Idle -> Speaking is legal (server-initiated speech), so the
+            // Listening handler is not guaranteed to have paused media.
+            MediaPlayer::GetInstance().PauseForVoice();
             display->SetStatus(Lang::Strings::SPEAKING);
 
             if (listening_mode_ != kListeningModeRealtime) {
@@ -1180,6 +1183,9 @@ void Application::HandleStateChangedEvent() {
             audio_service_.ResetDecoder();
             break;
         case kDeviceStateNotifying:
+            // Notification audio shares the playback queue with media; pause
+            // radio/SD so the two streams are never interleaved. Idle resumes.
+            MediaPlayer::GetInstance().PauseForVoice();
             display->SetStatus(Lang::Strings::SPEAKING);
             audio_service_.EnableVoiceProcessing(false);
             audio_service_.EnableWakeWordDetection(audio_service_.IsAfeWakeWord());

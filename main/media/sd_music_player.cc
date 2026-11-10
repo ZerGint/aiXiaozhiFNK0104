@@ -644,7 +644,7 @@ void SdMusicPlayer::PlayerLoop() {
                 }
 
                 auto state = Application::GetInstance().GetDeviceState();
-                if (is_paused_ || state == kDeviceStateListening || state == kDeviceStateSpeaking) {
+                if (is_paused_ || IsVoiceAudioState(state)) {
                     ESP_LOGD(TAG, "Player waiting: is_paused=%d, state=%d", (int)is_paused_,
                              (int)state);
                     vTaskDelay(pdMS_TO_TICKS(100));
