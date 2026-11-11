@@ -1,6 +1,7 @@
 #include "weather_service.h"
 #include "time_offset.h"
 
+#include "application.h"
 #include "board.h"
 #include "ota.h"
 #include "mcp_server.h"
@@ -773,7 +774,11 @@ enum class WeatherProvider : int { OpenMeteo = 0, MetNo = 1 };
 constexpr int kProviderNotLoaded = -1;
 std::atomic<int> g_preferred_provider{kProviderNotLoaded};
 
-WeatherProvider LoadPreferredProvider() {
+// Reads the stored provider. Must run on a task with an internal-RAM stack:
+// NVS reads go through the flash driver, which asserts on a PSRAM stack.
+// Called from WeatherService::Initialize (main task); the weather worker only
+// reads the cached value.
+WeatherProvider LoadPreferredProviderFromNvs() {
     int value = g_preferred_provider.load();
     if (value == kProviderNotLoaded) {
         Settings settings("weather", false);
@@ -788,11 +793,24 @@ WeatherProvider LoadPreferredProvider() {
     return static_cast<WeatherProvider>(value);
 }
 
+WeatherProvider PreferredProvider() {
+    const int value = g_preferred_provider.load();
+    return value == static_cast<int>(WeatherProvider::MetNo) ? WeatherProvider::MetNo
+                                                              : WeatherProvider::OpenMeteo;
+}
+
 void SavePreferredProvider(WeatherProvider provider) {
     const int value = static_cast<int>(provider);
     if (g_preferred_provider.exchange(value) == value) return;
-    Settings settings("weather", true);
-    settings.SetInt("provider", value);
+    // The weather worker runs on a PSRAM stack, and a task with a PSRAM stack
+    // must not start a flash operation (ESP-IDF asserts in cache_utils.c).
+    // Persist from the main task, whose stack is in internal RAM.
+    Application::GetInstance().Schedule([value]() {
+        Settings settings("weather", true);
+        settings.SetInt("provider", value);
+        ESP_LOGI(kTag, "WEATHER_PROVIDER_SAVED provider=%s",
+                 value == static_cast<int>(WeatherProvider::MetNo) ? "met_no" : "open_meteo");
+    });
 }
 
 void AddLocationJson(cJSON* result, const WeatherLocation& location) {
@@ -961,6 +979,7 @@ void WeatherService::Initialize() {
     portEXIT_CRITICAL(&lock_);
     LoadLocation();
     LoadCache();
+    LoadPreferredProviderFromNvs();
     if (xTaskCreateWithCaps(WeatherWorkerTask, "weather_worker", kWeatherTaskStackBytes, this,
                             kWeatherTaskPriority, &worker_task_,
                             kWeatherTaskMemoryCaps) != pdPASS) {
@@ -1213,7 +1232,7 @@ void WeatherService::CompletePersistentRefresh(const WeatherData& parsed, const 
 
 bool WeatherService::FetchWeather(const WeatherLocation& location, uint8_t forecast_days,
                                   WeatherData& parsed, std::string& error) {
-    const WeatherProvider preferred = LoadPreferredProvider();
+    const WeatherProvider preferred = PreferredProvider();
     const WeatherProvider order[2] = {
         preferred, preferred == WeatherProvider::OpenMeteo ? WeatherProvider::MetNo
                                                            : WeatherProvider::OpenMeteo};
