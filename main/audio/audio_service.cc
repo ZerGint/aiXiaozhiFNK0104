@@ -326,28 +326,6 @@ void AudioService::Start() {
 
 #if CONFIG_USE_AUDIO_PROCESSOR
     /* Start the audio input task */
-#if CONFIG_SPIRAM
-    // These tasks never write flash or NVS, so their stacks can live in PSRAM
-    // and leave internal RAM to DMA buffers and tasks that do.
-    xTaskCreatePinnedToCoreWithCaps(
-        [](void* arg) {
-            AudioService* audio_service = (AudioService*)arg;
-            audio_service->AudioInputTask();
-            vTaskDeleteWithCaps(NULL);
-        },
-        "audio_input", 2048 * 3, this, 8, &audio_input_task_handle_, 0,
-        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-
-    /* Start the audio output task */
-    xTaskCreatePinnedToCoreWithCaps(
-        [](void* arg) {
-            AudioService* audio_service = (AudioService*)arg;
-            audio_service->AudioOutputTask();
-            vTaskDeleteWithCaps(NULL);
-        },
-        "audio_output", 2048 * 2, this, 4, &audio_output_task_handle_, tskNO_AFFINITY,
-        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-#else
     xTaskCreatePinnedToCore(
         [](void* arg) {
             AudioService* audio_service = (AudioService*)arg;
@@ -364,7 +342,6 @@ void AudioService::Start() {
             vTaskDelete(NULL);
         },
         "audio_output", 2048 * 2, this, 4, &audio_output_task_handle_);
-#endif
 #else
     /* Start the audio input task */
     xTaskCreate(

@@ -8,7 +8,6 @@
 #include "mcp_server.h"
 #include "assets/lang_config.h"
 
-#include <esp_heap_caps.h>
 #include <esp_log.h>
 #include <cJSON.h>
 #include <algorithm>
@@ -39,17 +38,8 @@ void MediaPlayer::EnsureControlTask() {
     }
 
     TaskHandle_t task = nullptr;
-#if CONFIG_SPIRAM
-    // MediaControl never writes flash or NVS (radio and SD lists are on the
-    // SD card), so its stack can live in PSRAM. A task with a PSRAM stack must
-    // not start flash operations (ESP-IDF asserts in cache_utils.c).
-    const BaseType_t result = xTaskCreatePinnedToCoreWithCaps(
-        ControlTaskFunction, "MediaControl", 8192, this, 4, &task, 0,
-        MALLOC_CAP_SPIRAM | MALLOC_CAP_8BIT);
-#else
     const BaseType_t result = xTaskCreatePinnedToCore(
         ControlTaskFunction, "MediaControl", 8192, this, 4, &task, 0);
-#endif
     if (result != pdPASS) {
         ESP_LOGE(TAG, "Failed to create media control task");
         return;
