@@ -6,6 +6,9 @@
 #include "sd_music_player.h"
 #include "music/music_service.h"
 #include "mcp_server.h"
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+#include "weather/weather_service.h"
+#endif
 #include "assets/lang_config.h"
 
 #include <esp_log.h>
@@ -263,7 +266,11 @@ MediaPlayer::VoiceHandoff MediaPlayer::PrepareVoiceForMedia(const ControlCommand
         // request was made: never close that conversation.
         return IsVoiceBusy() ? VoiceHandoff::Park : VoiceHandoff::Proceed;
     }
-    return HandOffVoiceSynchronously(command.voice_epoch, command.from_assistant)
+    // Close the conversation before the media source starts, as before
+    // 1.1.20. Keeping it open until the assistant's spoken acknowledgement
+    // ended relied on a final TTS stop the server does not always send, and a
+    // starting radio stream drops the assistant's speech packets.
+    return HandOffVoiceSynchronously(command.voice_epoch, /*preserve_speech=*/false)
                ? VoiceHandoff::Proceed
                : VoiceHandoff::Abort;
 }
@@ -637,6 +644,14 @@ void MediaPlayer::PlayRadioNow(ControlCommand&& command) {
         return;
     }
 
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    // One network user at a time: let a running weather request finish.
+    for (int waited = 0; WeatherService::GetInstance().IsRequestActive() && waited < 12000;
+         waited += 50) {
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+#endif
+
     std::string err_msg;
     const auto startup_failed = command.on_startup_failed;
     const bool success = InternetRadioPlayer::GetInstance().Play(
@@ -936,14 +951,9 @@ void MediaPlayer::PauseForVoiceNow() {
     if (paused_by_user_.load()) {
         return;
     }
-    if (Application::GetInstance().IsMediaHandoffPending()) {
-        // The assistant just started this source inside its own turn. It is
-        // already silent until the answer ends; stopping it would only force
-        // a reconnect after the conversation.
-        ESP_LOGI(TAG, "[VOICE_PAUSE_SKIPPED] reason=media_handoff_pending");
-        return;
-    }
-    if (radio.IsPlaying()) {
+    if (radio.IsActive()) {
+        // Stop the stream in any active state (playing, connecting or
+        // reconnecting): the radio and the AI never share the network.
         RadioStationInfo station;
         {
             std::lock_guard<std::mutex> lock(voice_mutex_);

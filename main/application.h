@@ -197,6 +197,9 @@ private:
     void ContinueWakeWordInvoke(const std::string& wake_word);
     void StartListeningAudio();
     void BeginUserVoiceSession();
+    // Blocks until the radio stream and weather requests have released the
+    // network (bounded), so they never overlap with the AI connection.
+    void WaitForExclusiveNetwork();
     void RejectVoiceDuringDownload(const char* source);
     void ConfigureWakeWordForListening();
     void StartNotification(std::string audio_url, std::vector<NotifySubtitle> subtitles);

@@ -84,6 +84,8 @@ public:
     void Tick();
     bool Refresh(const char* reason);
     WeatherData GetSnapshot() const;
+    // True while a widget refresh HTTP request is in flight.
+    bool IsRequestActive() const;
     WeatherLocation GetLocation() const;
     void SetLocationChangedCallback(std::function<void()> callback);
 

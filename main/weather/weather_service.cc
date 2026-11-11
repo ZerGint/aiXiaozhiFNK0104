@@ -1925,6 +1925,13 @@ bool WeatherService::SaveCache(const WeatherData& data) const {
     return true;
 }
 
+bool WeatherService::IsRequestActive() const {
+    portENTER_CRITICAL(&lock_);
+    const bool active = data_.request_active;
+    portEXIT_CRITICAL(&lock_);
+    return active;
+}
+
 WeatherData WeatherService::GetSnapshot() const {
     portENTER_CRITICAL(&lock_);
     WeatherData copy = data_;

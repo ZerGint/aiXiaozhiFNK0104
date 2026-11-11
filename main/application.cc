@@ -16,6 +16,7 @@
 #include "music/music_service.h"
 #include "media/media_audio_output.h"
 #include "media/media_player.h"
+#include "media/internet_radio_player.h"
 #include "mqtt_protocol.h"
 #include "settings.h"
 #include "system_info.h"
@@ -915,6 +916,27 @@ void Application::RejectVoiceDuringDownload(const char* source) {
     audio_service_.PlaySound(Lang::Sounds::OGG_EXCLAMATION);
 }
 
+void Application::WaitForExclusiveNetwork() {
+    // One network user at a time: the radio stream and a weather request
+    // must be finished before the AI channel opens. The voice pause queued by
+    // BeginUserVoiceSession() stops the radio on the media task.
+    const int64_t start_ms = esp_timer_get_time() / 1000;
+    auto elapsed = [start_ms]() { return esp_timer_get_time() / 1000 - start_ms; };
+    while (InternetRadioPlayer::GetInstance().IsActive() && elapsed() < 3000) {
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+    const bool radio_active = InternetRadioPlayer::GetInstance().IsActive();
+    bool weather_active = false;
+#if CONFIG_BOARD_TYPE_FREENOVE_FNK0104S || CONFIG_BOARD_TYPE_FREENOVE_FNK0104B
+    while (WeatherService::GetInstance().IsRequestActive() && elapsed() < 7000) {
+        vTaskDelay(pdMS_TO_TICKS(50));
+    }
+    weather_active = WeatherService::GetInstance().IsRequestActive();
+#endif
+    ESP_LOGI(TAG, "NET_EXCLUSIVE ai_channel wait_ms=%lld radio_active=%d weather_active=%d",
+             static_cast<long long>(elapsed()), radio_active ? 1 : 0, weather_active ? 1 : 0);
+}
+
 void Application::BeginUserVoiceSession() {
     // A new user interaction supersedes any pending assistant media handoff.
     voice_session_epoch_.fetch_add(1);
@@ -1002,6 +1024,7 @@ void Application::ContinueOpenAudioChannel(ListeningMode mode) {
     board.SetPowerSaveLevel(PowerSaveLevel::PERFORMANCE);
 
     if (!protocol_->IsAudioChannelOpened()) {
+        WaitForExclusiveNetwork();
         if (!protocol_->OpenAudioChannel()) {
             // Return to idle so the device is not stuck in the connecting
             // state (not every failure path reports a network error)
@@ -1160,6 +1183,7 @@ void Application::ContinueWakeWordInvoke(const std::string& wake_word) {
     board.SetPowerSaveLevel(PowerSaveLevel::PERFORMANCE);
 
     if (!protocol_->IsAudioChannelOpened()) {
+        WaitForExclusiveNetwork();
         if (!protocol_->OpenAudioChannel()) {
             // Return to idle so the device is not stuck in the connecting
             // state (not every failure path reports a network error), and
