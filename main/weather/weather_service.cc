@@ -18,6 +18,7 @@
 
 #include <algorithm>
 #include <atomic>
+#include <cctype>
 #include <cerrno>
 #include <functional>
 #include <cmath>
@@ -284,7 +285,7 @@ std::string LanguageForQuery(const std::string& query) {
 }
 
 bool ReadHttpJson(const char* operation, const std::string& url, std::string& body,
-                  std::string& error) {
+                  std::string& error, const char* user_agent = nullptr) {
     const int64_t start_us = esp_timer_get_time();
     ESP_LOGI(kTag, "WEATHER_HTTP_START op=%s", operation);
     LogMemory("http_before_open");
@@ -298,6 +299,7 @@ bool ReadHttpJson(const char* operation, const std::string& url, std::string& bo
     }
     http->SetTimeout(10000);
     http->SetHeader("Accept", "application/json");
+    if (user_agent != nullptr) http->SetHeader("User-Agent", user_agent);
     if (!http->Open("GET", url)) {
         error = "http_open_failed";
         http.reset();
@@ -881,7 +883,8 @@ void WeatherService::RegisterMcpTools() {
     auto& mcp = McpServer::GetInstance();
     mcp.AddAsyncTool(
         "self.weather",
-        "Weather operations. Set action to one of: search_city, get_city, set_city, get_weather. "
+        "Weather operations. Set action to one of: search_city, get_city, set_city, get_weather, "
+        "manual_city. "
         "For search_city, query is required and the result contains verified candidate_id values; "
         "never invent coordinates or IDs. For set_city, use a recent candidate_id returned by "
         "search_city; it is persisted in NVS and becomes the Weather screen location. For get_city, "
@@ -890,12 +893,17 @@ void WeatherService::RegisterMcpTools() {
         "The tool preserves ambiguous-city clarification. Forecasts come from Open-Meteo with MET Norway "
         "as an automatic fallback; fields a source does not provide (feels_like_c, "
         "precipitation_probability_percent) are omitted. is_day=false means night at the city. "
-        "Error weather_sources_unavailable means every weather source failed.",
+        "Error weather_sources_unavailable means every weather source failed: say the weather service is "
+        "unavailable and do not guess values. manual_city is allowed only after search_city returned "
+        "geocoding_unavailable: pass query (city name) and the city's latitude/longitude as decimal "
+        "strings; it returns a candidate_id for get_weather or set_city.",
         PropertyList({Property("action", kPropertyTypeString),
                       Property("query", kPropertyTypeString, ""),
                       Property("country", kPropertyTypeString, ""),
                       Property("region", kPropertyTypeString, ""),
                       Property("candidate_id", kPropertyTypeString, ""),
+                      Property("latitude", kPropertyTypeString, ""),
+                      Property("longitude", kPropertyTypeString, ""),
                       Property("forecast_days", kPropertyTypeInteger, 3, 1, 3)}),
         [this](const PropertyList& properties, AsyncMcpCompletion completion) mutable {
             const std::string action = properties["action"].value<std::string>();
@@ -934,6 +942,29 @@ void WeatherService::RegisterMcpTools() {
                     properties["candidate_id"].value<std::string>(),
                     static_cast<uint8_t>(properties["forecast_days"].value<int>()),
                     std::move(complete_async));
+                return;
+            }
+            if (action == "manual_city") {
+                std::string error;
+                WeatherCityCandidate candidate;
+                const bool ok = AddManualCandidate(properties["query"].value<std::string>(),
+                                                   properties["latitude"].value<std::string>(),
+                                                   properties["longitude"].value<std::string>(),
+                                                   candidate, error);
+                cJSON* result = cJSON_CreateObject();
+                cJSON_AddBoolToObject(result, "ok", ok);
+                if (ok) {
+                    cJSON_AddStringToObject(result, "candidate_id", candidate.candidate_id.c_str());
+                    cJSON_AddStringToObject(result, "name", candidate.name.c_str());
+                    cJSON_AddNumberToObject(result, "latitude", candidate.latitude);
+                    cJSON_AddNumberToObject(result, "longitude", candidate.longitude);
+                    cJSON_AddStringToObject(result, "source", "assistant_coordinates");
+                } else {
+                    cJSON_AddStringToObject(result, "error", error.c_str());
+                }
+                completion(result);
+                ESP_LOGI(kTag, "WEATHER_MCP_RESULT_RETURNED call=%u action=%s ok=%d",
+                         static_cast<unsigned>(call_id), action.c_str(), ok ? 1 : 0);
                 return;
             }
             if (action == "get_city") {
@@ -1345,6 +1376,11 @@ bool WeatherService::FetchOpenMeteo(const WeatherLocation& location, uint8_t for
     return true;
 }
 
+// Geocoder that answered last; tried first on the next search. Kept in RAM
+// only: the search runs on the PSRAM-stack weather worker, which must not
+// touch NVS.
+static std::atomic<int> g_preferred_geocoder{0};  // 0 Open-Meteo, 1 Nominatim
+
 bool WeatherService::FetchGeocoding(const std::string& query, const std::string& country,
                                     const std::string& region,
                                     std::vector<WeatherCityCandidate>& results, std::string& error) {
@@ -1352,6 +1388,108 @@ bool WeatherService::FetchGeocoding(const std::string& query, const std::string&
         error = "invalid_query";
         return false;
     }
+    const int first = g_preferred_geocoder.load();
+    std::string first_error;
+    for (int i = 0; i < 2; ++i) {
+        const int geocoder = i == 0 ? first : 1 - first;
+        std::string attempt_error;
+        std::vector<WeatherCityCandidate> attempt;
+        const bool ok = geocoder == 0
+                            ? FetchGeocodingOpenMeteo(query, country, region, attempt, attempt_error)
+                            : FetchGeocodingNominatim(query, country, region, attempt, attempt_error);
+        if (ok) {
+            if (geocoder != first) {
+                ESP_LOGW(kTag, "WEATHER_GEOCODER_SWITCH to=%s after=%s",
+                         geocoder == 1 ? "nominatim" : "open_meteo", first_error.c_str());
+            }
+            g_preferred_geocoder.store(geocoder);
+            results = std::move(attempt);
+            return true;
+        }
+        if (i == 0) first_error = attempt_error;
+        ESP_LOGW(kTag, "WEATHER_GEOCODER_FAILED geocoder=%s error=%s",
+                 geocoder == 1 ? "nominatim" : "open_meteo", attempt_error.c_str());
+    }
+    error = "geocoding_unavailable";
+    portENTER_CRITICAL(&lock_);
+    geocoding_unavailable_ms_ = static_cast<uint32_t>(esp_timer_get_time() / 1000);
+    geocoding_unavailable_ = true;
+    portEXIT_CRITICAL(&lock_);
+    return false;
+}
+
+bool WeatherService::FetchGeocodingNominatim(const std::string& query, const std::string& country,
+                                             const std::string& region,
+                                             std::vector<WeatherCityCandidate>& results,
+                                             std::string& error) {
+    std::string q = query;
+    if (!region.empty()) q += ", " + region;
+    else if (!country.empty() && country.size() != 2) q += ", " + country;
+    std::string url = "https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=5"
+                      "&featureType=settlement&q=" + UrlEncode(q) +
+                      "&accept-language=" + UrlEncode(LanguageForQuery(query));
+    if (country.size() == 2) url += "&countrycodes=" + UrlEncode(country);
+    char user_agent[128];
+    snprintf(user_agent, sizeof(user_agent),
+             "FNK0104-xiaozhi/%s github.com/ZerGint/FNK0104s_xiaozhi_update",
+             esp_app_get_description()->version);
+    std::string body;
+    if (!ReadHttpJson("geocoding_nominatim", url, body, error, user_agent)) return false;
+    std::unique_ptr<cJSON, decltype(&cJSON_Delete)> json(
+        cJSON_ParseWithLength(body.data(), body.size()), &cJSON_Delete);
+    if (!json || !cJSON_IsArray(json.get())) {
+        error = "invalid_geocoding_response";
+        return false;
+    }
+    auto text = [](cJSON* object, const char* key) {
+        auto value = object ? cJSON_GetObjectItemCaseSensitive(object, key) : nullptr;
+        return cJSON_IsString(value) ? std::string(value->valuestring) : std::string();
+    };
+    const int count = std::min(cJSON_GetArraySize(json.get()), static_cast<int>(kMaxSearchResults));
+    for (int i = 0; i < count; ++i) {
+        cJSON* item = cJSON_GetArrayItem(json.get(), i);
+        double osm_id = 0;
+        const std::string lat_text = text(item, "lat");
+        const std::string lon_text = text(item, "lon");
+        if (!JsonNumber(item, "osm_id", osm_id) || lat_text.empty() || lon_text.empty()) continue;
+        char* end = nullptr;
+        const double latitude = strtod(lat_text.c_str(), &end);
+        if (end == lat_text.c_str()) continue;
+        const double longitude = strtod(lon_text.c_str(), &end);
+        if (end == lon_text.c_str() || latitude < -90 || latitude > 90 || longitude < -180 ||
+            longitude > 180) {
+            continue;
+        }
+        cJSON* address = cJSON_GetObjectItemCaseSensitive(item, "address");
+        WeatherCityCandidate candidate;
+        const std::string osm_type = text(item, "osm_type");
+        char id_buffer[40];
+        snprintf(id_buffer, sizeof(id_buffer), "osm:%c%lld",
+                 osm_type.empty() ? 'X' : static_cast<char>(toupper(osm_type[0])),
+                 static_cast<long long>(osm_id));
+        candidate.candidate_id = id_buffer;
+        candidate.name = text(item, "name");
+        if (candidate.name.empty()) candidate.name = text(address, "city");
+        if (candidate.name.empty()) candidate.name = text(address, "town");
+        if (candidate.name.empty()) candidate.name = text(address, "village");
+        if (candidate.name.empty()) continue;
+        candidate.country = text(address, "country");
+        candidate.country_code = text(address, "country_code");
+        for (auto& c : candidate.country_code) c = static_cast<char>(toupper(c));
+        candidate.region = text(address, "state");
+        candidate.latitude = latitude;
+        candidate.longitude = longitude;
+        results.push_back(std::move(candidate));
+    }
+    ESP_LOGI(kTag, "WEATHER_GEOCODING_OK geocoder=nominatim results=%u",
+             static_cast<unsigned>(results.size()));
+    return true;
+}
+
+bool WeatherService::FetchGeocodingOpenMeteo(const std::string& query, const std::string& country,
+                                             const std::string& region,
+                                             std::vector<WeatherCityCandidate>& results,
+                                             std::string& error) {
     std::string name = query;
     if (!region.empty()) name += ", " + region;
     else if (!country.empty() && country.size() != 2) name += ", " + country;
@@ -1449,6 +1587,13 @@ void WeatherService::RunSearch(const std::shared_ptr<Request>& request) {
         cJSON_AddNumberToObject(result, "search_generation", static_cast<double>(candidate_generation_));
     }
     if (!ok) cJSON_AddStringToObject(result, "error", error.c_str());
+    if (!ok && error == "geocoding_unavailable") {
+        cJSON_AddStringToObject(
+            result, "hint",
+            "City search services are unreachable. If you reliably know this city's coordinates, "
+            "call action manual_city with query (city name), latitude and longitude as decimal "
+            "strings, then use the returned candidate_id with get_weather or set_city.");
+    }
     cJSON* array = cJSON_AddArrayToObject(result, "candidates");
     for (const auto& candidate : candidates) {
         cJSON* item = cJSON_CreateObject();
@@ -1463,6 +1608,51 @@ void WeatherService::RunSearch(const std::shared_ptr<Request>& request) {
         cJSON_AddItemToArray(array, item);
     }
     if (request->callback) request->callback(JsonText(result));
+}
+
+bool WeatherService::AddManualCandidate(const std::string& name, const std::string& latitude_text,
+                                        const std::string& longitude_text,
+                                        WeatherCityCandidate& candidate, std::string& error) {
+    const uint32_t now = static_cast<uint32_t>(esp_timer_get_time() / 1000);
+    bool allowed = false;
+    portENTER_CRITICAL(&lock_);
+    allowed = geocoding_unavailable_ && now - geocoding_unavailable_ms_ <= kCandidateLifetimeMs;
+    portEXIT_CRITICAL(&lock_);
+    if (!allowed) {
+        error = "search_city_first";
+        return false;
+    }
+    if (name.empty() || name.size() > 80) {
+        error = "invalid_query";
+        return false;
+    }
+    char* end = nullptr;
+    const double latitude = strtod(latitude_text.c_str(), &end);
+    const bool lat_ok = end != latitude_text.c_str() && *end == '\0';
+    const double longitude = strtod(longitude_text.c_str(), &end);
+    const bool lon_ok = end != longitude_text.c_str() && *end == '\0';
+    if (!lat_ok || !lon_ok || !std::isfinite(latitude) || !std::isfinite(longitude) ||
+        latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180 ||
+        (latitude == 0 && longitude == 0)) {
+        error = "invalid_coordinates";
+        return false;
+    }
+    char id_buffer[48];
+    snprintf(id_buffer, sizeof(id_buffer), "ai:%.4f,%.4f", latitude, longitude);
+    candidate = WeatherCityCandidate{};
+    candidate.candidate_id = id_buffer;
+    candidate.name = name;
+    candidate.latitude = latitude;
+    candidate.longitude = longitude;
+    {
+        std::lock_guard<std::mutex> lock(location_mutex_);
+        recent_candidates_.clear();
+        recent_candidates_.push_back(candidate);
+        candidate_updated_ms_ = now;
+        candidate_generation_ = (candidate_generation_ + 1) % kCandidateGenerationLimit;
+    }
+    ESP_LOGW(kTag, "WEATHER_MANUAL_CITY name=%s lat=%.4f lon=%.4f", name.c_str(), latitude, longitude);
+    return true;
 }
 
 bool WeatherService::ResolveCandidate(const std::string& candidate_id, WeatherLocation& location,

@@ -120,6 +120,17 @@ private:
     bool FetchMetNo(const WeatherLocation& location, WeatherData& parsed, std::string& error);
     bool FetchWeather(const WeatherLocation& location, uint8_t forecast_days,
                       WeatherData& parsed, std::string& error);
+    bool FetchGeocodingOpenMeteo(const std::string& query, const std::string& country,
+                                 const std::string& region, std::vector<WeatherCityCandidate>& results,
+                                 std::string& error);
+    bool FetchGeocodingNominatim(const std::string& query, const std::string& country,
+                                 const std::string& region, std::vector<WeatherCityCandidate>& results,
+                                 std::string& error);
+    // Assistant-supplied coordinates; accepted only shortly after every
+    // geocoder failed (search_city returned geocoding_unavailable).
+    bool AddManualCandidate(const std::string& name, const std::string& latitude_text,
+                            const std::string& longitude_text, WeatherCityCandidate& candidate,
+                            std::string& error);
     bool FetchGeocoding(const std::string& query, const std::string& country,
                         const std::string& region, std::vector<WeatherCityCandidate>& results,
                         std::string& error);
@@ -153,6 +164,8 @@ private:
     std::vector<WeatherCityCandidate> recent_candidates_;
     uint32_t candidate_generation_ = 0;
     uint32_t candidate_updated_ms_ = 0;
+    uint32_t geocoding_unavailable_ms_ = 0;
+    bool geocoding_unavailable_ = false;
     uint32_t location_revision_ = 0;
     std::function<void()> location_changed_callback_;
 };
