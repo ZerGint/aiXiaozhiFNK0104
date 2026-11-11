@@ -257,6 +257,20 @@ bool MqttProtocol::OpenAudioChannel() {
     EventBits_t bits = xEventGroupWaitBits(event_group_handle_, MQTT_PROTOCOL_SERVER_HELLO_EVENT,
                                            pdTRUE, pdFALSE, pdMS_TO_TICKS(10000));
     if (!(bits & MQTT_PROTOCOL_SERVER_HELLO_EVENT)) {
+        // The MQTT link can stay "connected" for up to the keepalive interval
+        // after it stopped delivering messages, and a fresh connection also
+        // resets a server session that stopped answering. Reconnect once and
+        // send hello again before reporting a timeout.
+        ESP_LOGW(TAG, "MQTT_HELLO_TIMEOUT reconnecting and retrying once");
+        if (StartMqttClient(false)) {
+            xEventGroupClearBits(event_group_handle_, MQTT_PROTOCOL_SERVER_HELLO_EVENT);
+            if (SendText(message)) {
+                bits = xEventGroupWaitBits(event_group_handle_, MQTT_PROTOCOL_SERVER_HELLO_EVENT,
+                                           pdTRUE, pdFALSE, pdMS_TO_TICKS(10000));
+            }
+        }
+    }
+    if (!(bits & MQTT_PROTOCOL_SERVER_HELLO_EVENT)) {
         ESP_LOGE(TAG, "Failed to receive server hello");
         SetError(Lang::Strings::SERVER_TIMEOUT);
         return false;
