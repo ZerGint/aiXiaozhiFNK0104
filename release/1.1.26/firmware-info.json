@@ -3,45 +3,49 @@
     "version": "1.1.26",
     "channel": "stable",
     "branch": "FINAL",
-    "git_sha": "a6eb43062050155f529f9c308ed2bbca8d8efeb8",
+    "git_sha": "58a774992760001afd2a524c0f927640a02103ff",
     "dirty_worktree": false,
     "file": "fnk0104s-firmware-external-i2s.bin",
     "variant": "external_amp",
-    "size": 4102768,
-    "sha256": "065d5989295a9128aa52903f2cecdff8ac1d80b7e39435e068b59955ae97421d",
+    "size": 4108848,
+    "sha256": "595aba758cc71b972ef21932024b28898f47cf0239887759720e7aeb95fe9ae4",
     "chip": "esp32s3",
     "board": "freenove-fnk0104s",
-    "build_time": "Nov 11 2026T00:28:43",
-    "idf_version": "6.1.0"
+    "build_time": "Nov 11 2026T12:00:51",
+    "idf_version": "6.1.0",
+    "merged_file": "fnk0104s-external-merged-binary.bin",
+    "merged_sha256": "ffd654c9ff84f87d43fc7d75fc88d416095fa0b0155ec337d8ee606ab9ef0804"
   },
   "fnk0104s-internal_amp": {
     "version": "1.1.26",
     "channel": "stable",
     "branch": "FINAL",
-    "git_sha": "a6eb43062050155f529f9c308ed2bbca8d8efeb8",
+    "git_sha": "58a774992760001afd2a524c0f927640a02103ff",
     "dirty_worktree": true,
     "file": "fnk0104s-firmware-internal.bin",
     "variant": "internal_amp",
-    "size": 4099648,
-    "sha256": "8b7f7041332c5adc4f1347771bafbf4a02588f27e3246d24958590ee324c8f1d",
+    "size": 4105872,
+    "sha256": "61b117c39c2c84bb81234db4bdb55e5cd41e795af4af8c63f175dda216ef593c",
     "chip": "esp32s3",
     "board": "freenove-fnk0104s",
-    "build_time": "Nov 11 2026T00:30:50",
-    "idf_version": "6.1.0"
+    "build_time": "Nov 11 2026T12:03:57",
+    "idf_version": "6.1.0",
+    "merged_file": "fnk0104s-internal-merged-binary.bin",
+    "merged_sha256": "a3727d726bad6e2938cb123521ec454fe910ac42f0ec51a8252b11328b8f3d61"
   },
   "fnk0104b": {
     "version": "1.1.26",
     "channel": "stable",
     "branch": "FINAL",
-    "git_sha": "a6eb43062050155f529f9c308ed2bbca8d8efeb8",
+    "git_sha": "58a774992760001afd2a524c0f927640a02103ff",
     "dirty_worktree": false,
     "file": "fnk0104b-firmware.bin",
     "variant": "internal_amp",
-    "size": 3939792,
-    "sha256": "fa7924a37a1f1d9b5dde0a21aec665cfb7424fca767249e1a4158fafb546e056",
+    "size": 3945920,
+    "sha256": "011dec82da57fd91e75e225ae23e91fa7f1752d831e29112b2948c9031907aee",
     "chip": "esp32s3",
     "board": "freenove-fnk0104b",
-    "build_time": "Nov 11 2026T00:34:02",
+    "build_time": "Nov 11 2026T11:57:23",
     "idf_version": "6.1.0",
     "partition_table": "partitions/v2/16m_fnk0104s.csv",
     "ota_updates": "ota/stable-fnk0104b.json",
@@ -60,13 +64,13 @@
       },
       "0x20000": {
         "file": "fnk0104b-firmware.bin",
-        "sha256": "fa7924a37a1f1d9b5dde0a21aec665cfb7424fca767249e1a4158fafb546e056"
+        "sha256": "011dec82da57fd91e75e225ae23e91fa7f1752d831e29112b2948c9031907aee"
       },
       "0x920000": {
         "file": "fnk0104b-assets.bin",
         "sha256": "0b0e3d75e7166ae0dda9289febd43c5ce0580a52516e0ab6afb5428a87d979cd"
       }
     },
-    "merged_sha256": "5764ec33f42814357ffd8a70615a51fa3d5344a36dc886c9a47362fa9571f627"
+    "merged_sha256": "1f8e29b8db258d4453d675a0a99ad5e12d5ffaa8359e69197dc5ec1788e4bbc2"
   }
 }
