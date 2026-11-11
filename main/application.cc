@@ -315,11 +315,26 @@ void Application::Run() {
             audio_service_.MaybeLogSpeechDiagnostics();
 
             // An assistant media request waits for its spoken answer. If the
-            // server never starts speaking, do not keep the microphone open.
-            if (media_handoff_pending_ && GetDeviceState() == kDeviceStateListening &&
-                esp_timer_get_time() / 1000 > media_handoff_deadline_ms_) {
-                ESP_LOGW(TAG, "MEDIA_HANDOFF_TIMEOUT closing voice session");
-                StopVoiceInteractionForMedia();
+            // server never starts speaking, or stops sending speech without the
+            // final TTS stop, do not keep the session (and the muted media)
+            // open: close once nothing has played for a few seconds.
+            const int64_t now_ms = esp_timer_get_time() / 1000;
+            if (media_handoff_pending_ && now_ms > media_handoff_deadline_ms_) {
+                const auto state = GetDeviceState();
+                if (state == kDeviceStateListening) {
+                    ESP_LOGW(TAG, "MEDIA_HANDOFF_TIMEOUT closing voice session state=listening");
+                    StopVoiceInteractionForMedia();
+                } else if (state == kDeviceStateSpeaking) {
+                    if (!audio_service_.IsPlaybackIdle()) {
+                        media_handoff_idle_since_ms_ = 0;
+                    } else if (media_handoff_idle_since_ms_ == 0) {
+                        media_handoff_idle_since_ms_ = now_ms;
+                    } else if (now_ms - media_handoff_idle_since_ms_ >= 3000) {
+                        ESP_LOGW(TAG, "MEDIA_HANDOFF_TIMEOUT closing voice session state=speaking "
+                                      "reason=no_tts_stop");
+                        StopVoiceInteractionForMedia();
+                    }
+                }
             }
 
             // Print debug info every 10 seconds
@@ -883,6 +898,7 @@ void Application::HandOffVoiceForMedia(bool preserve_speech) {
         end_conversation_after_speech_ = true;
         pending_listening_start_ = false;
         media_handoff_deadline_ms_ = esp_timer_get_time() / 1000 + 8000;
+        media_handoff_idle_since_ms_ = 0;
         media_handoff_pending_ = true;
         ESP_LOGI(TAG, "MEDIA_HANDOFF_AFTER_SPEECH state=%s",
                  DeviceStateMachine::GetStateName(state));

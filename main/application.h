@@ -175,6 +175,9 @@ private:
     bool end_conversation_after_speech_ = false;
     std::atomic<bool> media_handoff_pending_{false};
     int64_t media_handoff_deadline_ms_ = 0;
+    // Start of the current silent period while a media handoff waits in the
+    // Speaking state (0 while assistant audio is still playing).
+    int64_t media_handoff_idle_since_ms_ = 0;
     std::atomic<uint32_t> voice_session_epoch_{0};
     int clock_ticks_ = 0;
     TaskHandle_t activation_task_handle_ = nullptr;

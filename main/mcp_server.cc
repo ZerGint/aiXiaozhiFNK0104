@@ -528,6 +528,7 @@ void McpServer::ParseMessage(const cJSON* json) {
 }
 
 void McpServer::ReplyResult(int id, const std::string& result) {
+    ESP_LOGI(TAG, "MCP_REPLY id=%d bytes=%u", id, static_cast<unsigned>(result.size()));
     std::string payload = "{\"jsonrpc\":\"2.0\",\"id\":";
     payload += std::to_string(id) + ",\"result\":";
     payload += result;
@@ -536,6 +537,7 @@ void McpServer::ReplyResult(int id, const std::string& result) {
 }
 
 void McpServer::ReplyError(int id, const std::string& message) {
+    ESP_LOGW(TAG, "MCP_REPLY_ERROR id=%d message=%s", id, message.c_str());
     std::string payload = "{\"jsonrpc\":\"2.0\",\"id\":";
     payload += std::to_string(id);
     payload += ",\"error\":{\"message\":\"";
@@ -607,6 +609,7 @@ void McpServer::GetToolsList(int id, const std::string& cursor, bool list_user_o
 }
 
 void McpServer::DoToolCall(int id, const std::string& tool_name, const cJSON* tool_arguments) {
+    ESP_LOGI(TAG, "MCP_CALL id=%d tool=%s", id, tool_name.c_str());
     auto tool_iter = std::find_if(tools_.begin(), tools_.end(), 
                                  [&tool_name](const McpTool* tool) { 
                                      return tool->name() == tool_name; 
